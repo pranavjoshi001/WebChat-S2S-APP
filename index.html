@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <title>Web Chat: DirectLine Integration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script crossorigin="anonymous" src="https://unpkg.com/@babel/standalone@7.8.7/babel.min.js"></script>
+    <script crossorigin="anonymous" src="https://unpkg.com/react@16.8.6/umd/react.development.js"></script>
+    <script crossorigin="anonymous" src="https://unpkg.com/react-dom@16.8.6/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://cdn.jsdelivr.net/gh/pranavjoshi001/BotFramework-WebChat@preview/__dist__/webchat-es5.js"></script>
+    <script crossorigin src="https://cdn.jsdelivr.net/gh/pranavjoshi001/BotFramework-WebChat@preview/__dist__/botframework-webchat-fluent-theme.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <style>
+      html, body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        background: linear-gradient(to right, #6a11cb, #2575fc);
+      }
+      .container {
+        font-family: 'Arial', sans-serif;
+        color: white;
+        text-align: left;
+        max-width: 800px;
+        margin: auto;
+        padding: 50px 20px;
+      }
+      h1 {
+        font-size: 2.5rem;
+        font-weight: bold;
+      }
+      p {
+        font-size: 1.2rem;
+      }
+      #webchat {
+        height: auto;
+        width: auto;
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+      }
+      .chatBot.webchat__surface {
+        height: 500px;
+        max-height: calc(100vh - 50px);
+        width: 350px;
+        border: 1px solid black;
+      }
+      .error-bar {
+        display: none;
+        background-color: red;
+        color: white;
+        text-align: center;
+        padding: 10px;
+        font-weight: bold;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>S2S Demo Website</h1>
+      <div class="mb-3">
+        <div class="form-check d-inline-block me-4">
+          <input disabled class="form-check-input" type="checkbox" id="mcsTestPane" onchange="toggleMCSTestPane()">
+          <label class="form-check-label" for="mcsTestPane">
+            MCS test pane skin
+          </label>
+        </div>
+        <div class="form-check d-inline-block">
+          <input class="form-check-input" type="checkbox" id="enableS2S" onchange="toggleS2SMode()">
+          <label class="form-check-label" for="enableS2S">
+            Enable S2S mode
+          </label>
+        </div>
+      </div>
+    </div>
+    <div></div>
+    <div id="webchat" role="main"></div>
+    <div id="errorContainer" class="error-bar">
+      <span id="errorMessage"></span>
+      <button class="btn btn-light btn-sm" onclick="retryFetch()">Retry</button>
+    </div>
+    <div class="modal fade" id="configModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="configModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="configModalLabel">Enter DirectLine Configuration</h5>
+            <button type="button" class="btn-close" id="modalCloseButton" disabled></button>
+          </div>
+          <div class="modal-body">
+            <form id="configForm">
+              <div class="mb-3">
+                <label for="secret" class="form-label">DirectLine Secret <span class="text-danger">*</span></label>
+                <input type="password" class="form-control" id="secret" required>
+                <div class="form-text">Your DirectLine channel secret from Azure Bot Service</div>
+              </div>
+              <div class="mb-3">
+                <label for="botSchema" class="form-label">Bot Schema Name(Optional)</label>
+                <input type="text" class="form-control" id="botSchema" placeholder="e.g., cr924_localAgent">
+                <div class="form-text">It will connect to given env and bot</div>
+              </div>
+              <div class="mb-3">
+                <label for="environmentId" class="form-label">Environment ID (Optional)</label>
+                <input type="text" class="form-control" id="environmentId" placeholder="e.g., defaultc2983f0e34ee4b438abcc2f460fd26b.e.environment.api.preprod.powerplatform.com">
+                <div class="form-text">It will connect to given env and bot</div>
+              </div>
+              <button type="submit" class="btn btn-primary">Connect</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/babel" data-presets="es2015,react,stage-3">
+      let modal = new bootstrap.Modal(document.getElementById('configModal'));
+      let currentDirectLine = null;
+      let currentWebChatProps = null;
+
+      async function renderWebChat() {
+        let secret = localStorage.getItem('directline_secret');
+        let botSchema = localStorage.getItem('bot_schema');
+        let environmentId = localStorage.getItem('environment_id');
+        
+        // Clear existing webchat before re-rendering
+        const webChatContainer = document.getElementById('webchat');
+        if (webChatContainer.firstChild) {
+          window.ReactDOM.unmountComponentAtNode(webChatContainer);
+        }
+        
+        try {
+          // Only create new DirectLine if we don't have one yet
+          if (!currentDirectLine) {
+            // Step 1: Generate DirectLine token
+            const res = await fetch(
+              `https://directline.scratch.botframework.com/v3/directline/tokens/generate`,
+              { 
+                method: 'POST',
+                headers: {
+                  'Authorization': `Bearer ${secret}`
+                }
+              }
+            );
+            
+            if (!res.ok) {
+              throw new Error(`Failed to generate token: ${res.status} ${res.statusText}`);
+            }
+            
+            const { token } = await res.json();
+            
+            // Step 2: Create DirectLine conversation
+            const conRes = await fetch(
+              `https://directline.scratch.botframework.com/v3/directline/conversations`,
+              { 
+                method: 'POST',
+                headers: {
+                  'Authorization': `Bearer ${token}`
+                }
+              }
+            );
+            
+            if (!conRes.ok) {
+              throw new Error(`Failed to create conversation: ${conRes.status} ${conRes.statusText}`);
+            }
+            
+            const { conversationId, streamUrl } = await conRes.json();
+            
+            // Step 3: Create DirectLine instance for WebChat
+            const domain = "https://directline.scratch.botframework.com/v3/directline";
+            currentDirectLine = window.WebChat.createDirectLine({ 
+              streamUrl, 
+              token, 
+              domain, 
+              conversationId 
+            });
+          }
+          
+          const { ReactWebChat, FluentThemeProvider } = window.WebChat;
+          
+          const isMCSTestPane = localStorage.getItem('mcs_test_pane') === 'true';
+          const isS2SEnabled = localStorage.getItem('enable_s2s') === 'true';
+          
+          const styleOptions = {
+            ...(isMCSTestPane && {
+              disableFileUpload: true,
+              hideTelephoneKeypadButton: false,
+              showMicrophoneButton: true,
+            }),
+            enableSpeech2SpeechMode: isS2SEnabled
+          };
+          
+          currentWebChatProps = {
+            directLine: currentDirectLine,
+            className: 'chatBot',
+            styleOptions: styleOptions,
+          };
+
+          const webChatElement = isMCSTestPane ? (
+            <FluentThemeProvider variant="fluent">
+              <ReactWebChat {...currentWebChatProps} />
+            </FluentThemeProvider>
+          ) : (
+            <ReactWebChat {...currentWebChatProps} />
+          );
+
+          window.ReactDOM.render(
+            webChatElement,
+            document.getElementById('webchat')
+          );
+          
+          document.querySelector('#webchat > *').focus();
+          
+        } catch (error) {
+          localStorage.removeItem('directline_secret');
+          localStorage.removeItem('bot_schema');
+          localStorage.removeItem('environment_id');
+          const errContainer = document.getElementById('errorContainer');
+          const errorMessage = document.getElementById('errorMessage');
+          errorMessage.innerText = `Connection failed: ${error.message}. Please check your DirectLine secret and try again.`;
+          errContainer.style.display = 'block';
+          console.error(error);
+        }
+      }
+
+      function toggleMCSTestPane() {
+        const checkbox = document.getElementById('mcsTestPane');
+        localStorage.setItem('mcs_test_pane', checkbox.checked);
+        
+        // Only re-render if webchat is already initialized
+        const webChatContainer = document.getElementById('webchat');
+        if (webChatContainer.firstChild && currentDirectLine) {
+          renderWebChat();
+        }
+      }
+
+      function toggleS2SMode() {
+        const checkbox = document.getElementById('enableS2S');
+        localStorage.setItem('enable_s2s', checkbox.checked);
+        
+        // Reset DirectLine connection when S2S mode is toggled
+        currentDirectLine = null;
+        
+        // Only re-render if webchat is already initialized
+        const webChatContainer = document.getElementById('webchat');
+        if (webChatContainer.firstChild) {
+          renderWebChat();
+        }
+      }
+
+      (async function () {
+        let secret = localStorage.getItem('directline_secret');
+        let botSchema = localStorage.getItem('bot_schema');
+        let environmentId = localStorage.getItem('environment_id');
+
+        // Initialize checkbox states
+        const mcsTestPane = localStorage.getItem('mcs_test_pane') === 'true';
+        const enableS2S = localStorage.getItem('enable_s2s') === 'true';
+        document.getElementById('mcsTestPane').checked = mcsTestPane;
+        document.getElementById('enableS2S').checked = enableS2S;
+
+        if (!secret) {
+          modal.show();
+          
+          function validateForm() {
+            const secretValue = document.getElementById('secret').value.trim();
+            const isValid = secretValue.length > 0;
+            document.getElementById('modalCloseButton').disabled = !isValid;
+          }
+
+          document.getElementById('secret').addEventListener('input', validateForm);
+          
+          document.getElementById('configForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            secret = document.getElementById('secret').value;
+            botSchema = document.getElementById('botSchema').value;
+            environmentId = document.getElementById('environmentId').value;
+
+            localStorage.setItem('directline_secret', secret);
+            if (botSchema) localStorage.setItem('bot_schema', botSchema);
+            if (environmentId) localStorage.setItem('environment_id', environmentId);
+            
+            modal.hide();
+            renderWebChat();
+          });
+          return;
+        }
+
+        renderWebChat();
+      })();
+
+      function retryFetch() {
+        const errContainer = document.getElementById('errorContainer');
+        const errorMessage = document.getElementById('errorMessage');
+        errorMessage.innerText = '';
+        errContainer.style.display = 'none';
+        modal.show();
+      }
+    </script>
+  </body>
+</html>
