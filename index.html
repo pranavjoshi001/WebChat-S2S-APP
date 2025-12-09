@@ -66,13 +66,19 @@
       <h1>S2S Demo Website</h1>
       <div class="mb-3">
         <div class="form-check d-inline-block me-4">
-          <input disabled class="form-check-input" type="checkbox" id="mcsTestPane" onchange="toggleMCSTestPane()">
+          <input class="form-check-input" type="radio" name="chatMode" id="defaultMode" value="default" onchange="toggleChatMode()" checked>
+          <label class="form-check-label" for="defaultMode">
+            Default mode
+          </label>
+        </div>
+        <div class="form-check d-inline-block me-4">
+          <input class="form-check-input" type="radio" name="chatMode" id="mcsTestPane" value="mcs" onchange="toggleChatMode()">
           <label class="form-check-label" for="mcsTestPane">
             MCS test pane skin
           </label>
         </div>
         <div class="form-check d-inline-block">
-          <input class="form-check-input" type="checkbox" id="enableS2S" onchange="toggleS2SMode()">
+          <input class="form-check-input" type="radio" name="chatMode" id="enableS2S" value="s2s" onchange="toggleChatMode()">
           <label class="form-check-label" for="enableS2S">
             Enable S2S mode
           </label>
@@ -203,11 +209,15 @@
           };
 
           const webChatElement = isMCSTestPane ? (
-            <FluentThemeProvider variant="fluent">
-              <ReactWebChat {...currentWebChatProps} />
-            </FluentThemeProvider>
+            <div style={{backgroundColor: 'white', height: '100%', width: '100%'}}>
+              <FluentThemeProvider variant="fluent">
+                <ReactWebChat {...currentWebChatProps} />
+              </FluentThemeProvider>
+            </div>
           ) : (
-            <ReactWebChat {...currentWebChatProps} />
+            <div style={{backgroundColor: 'white', height: '100%', width: '100%'}}>
+              <ReactWebChat {...currentWebChatProps} />
+            </div>
           );
 
           window.ReactDOM.render(
@@ -215,7 +225,17 @@
             document.getElementById('webchat')
           );
           
-          document.querySelector('#webchat > *').focus();
+          // Small delay to ensure proper initialization when MCS test pane is enabled
+          if (isMCSTestPane) {
+            setTimeout(() => {
+              const webChatElement = document.querySelector('#webchat > *');
+              if (webChatElement) {
+                webChatElement.focus();
+              }
+            }, 100);
+          } else {
+            document.querySelector('#webchat > *').focus();
+          }
           
         } catch (error) {
           localStorage.removeItem('directline_secret');
@@ -229,22 +249,22 @@
         }
       }
 
-      function toggleMCSTestPane() {
-        const checkbox = document.getElementById('mcsTestPane');
-        localStorage.setItem('mcs_test_pane', checkbox.checked);
+      function toggleChatMode() {
+        const selectedMode = document.querySelector('input[name="chatMode"]:checked').value;
         
-        // Only re-render if webchat is already initialized
-        const webChatContainer = document.getElementById('webchat');
-        if (webChatContainer.firstChild && currentDirectLine) {
-          renderWebChat();
+        // Clear previous settings
+        localStorage.removeItem('mcs_test_pane');
+        localStorage.removeItem('enable_s2s');
+        
+        // Set new mode
+        if (selectedMode === 'mcs') {
+          localStorage.setItem('mcs_test_pane', 'true');
+        } else if (selectedMode === 's2s') {
+          localStorage.setItem('enable_s2s', 'true');
         }
-      }
-
-      function toggleS2SMode() {
-        const checkbox = document.getElementById('enableS2S');
-        localStorage.setItem('enable_s2s', checkbox.checked);
+        // Default mode doesn't need any localStorage values
         
-        // Reset DirectLine connection when S2S mode is toggled
+        // Reset DirectLine connection to ensure proper reinitialization
         currentDirectLine = null;
         
         // Only re-render if webchat is already initialized
@@ -259,11 +279,17 @@
         let botSchema = localStorage.getItem('bot_schema');
         let environmentId = localStorage.getItem('environment_id');
 
-        // Initialize checkbox states
+        // Initialize radio button states
         const mcsTestPane = localStorage.getItem('mcs_test_pane') === 'true';
         const enableS2S = localStorage.getItem('enable_s2s') === 'true';
-        document.getElementById('mcsTestPane').checked = mcsTestPane;
-        document.getElementById('enableS2S').checked = enableS2S;
+        
+        if (mcsTestPane) {
+          document.getElementById('mcsTestPane').checked = true;
+        } else if (enableS2S) {
+          document.getElementById('enableS2S').checked = true;
+        } else {
+          document.getElementById('defaultMode').checked = true;
+        }
 
         if (!secret) {
           modal.show();
