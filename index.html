@@ -173,7 +173,12 @@
               throw new Error(`Failed to create conversation: ${conRes.status} ${conRes.statusText}`);
             }
             
-            const { conversationId, streamUrl } = await conRes.json();
+            const { conversationId, streamUrl: originalStreamUrl } = await conRes.json();
+
+            let streamUrl = originalStreamUrl;
+            if (botSchema && environmentId) {
+              streamUrl = `${streamUrl}&ppFqdn=${environmentId}&botSchemaName=${botSchema}`;
+            }
             
             // Step 3: Create DirectLine instance for WebChat
             const domain = "https://directline.scratch.botframework.com/v3/directline";
