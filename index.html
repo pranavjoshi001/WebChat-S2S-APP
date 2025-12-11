@@ -102,7 +102,7 @@
             <form id="configForm">
               <div class="mb-3">
                 <label for="secret" class="form-label">DirectLine Secret <span class="text-danger">*</span></label>
-                <input type="password" class="form-control" id="secret" required>
+                <input class="form-control" id="secret" required>
                 <div class="form-text">Your DirectLine channel secret from Azure Bot Service</div>
               </div>
               <div class="mb-3">
@@ -289,6 +289,9 @@
         }
 
         if (!secret) {
+          const defaultSecret = "FiZmWzeLCL4Q6JqsrP09MA07KofMTu8ce5b0X5kG0l7MO2TqPkt6JQQJ99BJAC5RqLJAArohAAABAZBS1itA.10cHBsk7isAOcR7oiMoY9dAWiXWYB3J7sqPB4bKHapZviYLC0KaPJQQJ99BJAC5RqLJAArohAAABAZBS1a5L";
+          document.getElementById('secret').value = defaultSecret;
+          
           modal.show();
           
           function validateForm() {
