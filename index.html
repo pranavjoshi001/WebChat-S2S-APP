@@ -62,22 +62,28 @@
     <div class="container">
       <h1>S2S Demo Website</h1>
       <div class="mb-3">
-        <div class="form-check d-inline-block me-4">
+        <div class="form-check">
           <input class="form-check-input" type="radio" name="chatMode" id="defaultMode" value="default" onchange="toggleChatMode()" checked>
           <label class="form-check-label" for="defaultMode">
             Default mode
           </label>
         </div>
-        <div class="form-check d-inline-block me-4">
+        <div class="form-check">
           <input class="form-check-input" type="radio" name="chatMode" id="mcsTestPane" value="mcs" onchange="toggleChatMode()">
           <label class="form-check-label" for="mcsTestPane">
             MCS test pane skin
           </label>
         </div>
-        <div class="form-check d-inline-block">
+        <div class="form-check">
           <input class="form-check-input" type="radio" name="chatMode" id="enableS2S" value="s2s" onchange="toggleChatMode()">
           <label class="form-check-label" for="enableS2S">
             S2S mode (standalone)
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="chatMode" id="mcsCcv2" value="ccv2" onchange="toggleChatMode()">
+          <label class="form-check-label" for="mcsCcv2">
+            MCS-CCV2
           </label>
         </div>
       </div>
@@ -107,13 +113,18 @@
               </div>
               <div class="mb-3">
                 <label for="botSchema" class="form-label">Bot Schema Name(Optional)</label>
-                <input type="text" class="form-control" id="botSchema" placeholder="e.g., cr924_localAgent">
+                <input type="text" class="form-control" id="botSchema" placeholder="cr924_copilotWeatherBot">
                 <div class="form-text">It will connect to given env and bot</div>
               </div>
               <div class="mb-3">
                 <label for="environmentId" class="form-label">Environment ID (Optional)</label>
-                <input type="text" class="form-control" id="environmentId" placeholder="e.g., defaultc2983f0e34ee4b438abcc2f460fd26b.e.environment.api.preprod.powerplatform.com">
+                <input type="text" class="form-control" id="environmentId" placeholder="defaultc2983f0e34ee4b438abcc2f460fd26b.e.environment.api.preprod.powerplatform.com">
                 <div class="form-text">It will connect to given env and bot</div>
+              </div>
+              <div class="mb-3">
+                <label for="ccv2SocketUrl" class="form-label">CCV2 Web Socket URL (Optional)</label>
+                <input type="text" class="form-control" id="ccv2SocketUrl" placeholder="e.g., wss://...">
+                <div class="form-text">Provide the CCV2 Web Socket URL if you are using MCS-CCV2 mode.</div>
               </div>
               <button type="submit" class="btn btn-primary">Connect</button>
             </form>
@@ -128,66 +139,80 @@
       let currentWebChatProps = null;
 
       async function renderWebChat() {
-        let secret = localStorage.getItem('directline_secret');
-        let botSchema = localStorage.getItem('bot_schema');
-        let environmentId = localStorage.getItem('environment_id');
-        
-        // Clear existing webchat before re-rendering
+        // Always clear the existing webchat before re-rendering
         const webChatContainer = document.getElementById('webchat');
         if (webChatContainer.firstChild) {
           window.ReactDOM.unmountComponentAtNode(webChatContainer);
+        }
+
+        let secret = localStorage.getItem('directline_secret');
+        let botSchema = localStorage.getItem('bot_schema');
+        let environmentId = localStorage.getItem('environment_id');
+        let ccv2SocketUrl = localStorage.getItem('ccv2_socket_url');
+        const isCcv2Enabled = localStorage.getItem('mcs_ccv2') === 'true';
+
+        if (isCcv2Enabled && !ccv2SocketUrl) {
+          modal.show();
+          return;
         }
         
         try {
           // Only create new DirectLine if we don't have one yet
           if (!currentDirectLine) {
-            // Step 1: Generate DirectLine token
-            const res = await fetch(
-              `https://directline.scratch.botframework.com/v3/directline/tokens/generate`,
-              { 
-                method: 'POST',
-                headers: {
-                  'Authorization': `Bearer ${secret}`
+            if (isCcv2Enabled && ccv2SocketUrl) {
+              currentDirectLine = window.WebChat.createCcv2Adapter({ streamUrl: ccv2SocketUrl });
+            } else if (!isCcv2Enabled && secret) {
+              // Step 1: Generate DirectLine token
+              const res = await fetch(
+                `https://directline.scratch.botframework.com/v3/directline/tokens/generate`,
+                { 
+                  method: 'POST',
+                  headers: {
+                    'Authorization': `Bearer ${secret}`
+                  }
                 }
+              );
+              
+              if (!res.ok) {
+                throw new Error(`Failed to generate token: ${res.status} ${res.statusText}`);
               }
-            );
-            
-            if (!res.ok) {
-              throw new Error(`Failed to generate token: ${res.status} ${res.statusText}`);
-            }
-            
-            const { token } = await res.json();
-            
-            // Step 2: Create DirectLine conversation
-            const conRes = await fetch(
-              `https://directline.scratch.botframework.com/v3/directline/conversations`,
-              { 
-                method: 'POST',
-                headers: {
-                  'Authorization': `Bearer ${token}`
+              
+              const { token } = await res.json();
+              
+              // Step 2: Create DirectLine conversation
+              const conRes = await fetch(
+                `https://directline.scratch.botframework.com/v3/directline/conversations`,
+                { 
+                  method: 'POST',
+                  headers: {
+                    'Authorization': `Bearer ${token}`
+                  }
                 }
+              );
+              
+              if (!conRes.ok) {
+                throw new Error(`Failed to create conversation: ${conRes.status} ${conRes.statusText}`);
               }
-            );
-            
-            if (!conRes.ok) {
-              throw new Error(`Failed to create conversation: ${conRes.status} ${conRes.statusText}`);
-            }
-            
-            const { conversationId, streamUrl: originalStreamUrl } = await conRes.json();
+              
+              const { conversationId, streamUrl: originalStreamUrl } = await conRes.json();
 
-            let streamUrl = originalStreamUrl;
-            if (botSchema && environmentId) {
-              streamUrl = `${streamUrl}&ppFqdn=${environmentId}&botSchemaName=${botSchema}`;
+              let streamUrl = originalStreamUrl;
+              if (botSchema && environmentId) {
+                streamUrl = `${streamUrl}&ppFqdn=${environmentId}&botSchemaName=${botSchema}`;
+              }
+              
+              // Step 3: Create DirectLine instance for WebChat
+              const domain = "https://directline.scratch.botframework.com/v3/directline";
+              currentDirectLine = window.WebChat.createDirectLine({ 
+                streamUrl, 
+                token, 
+                domain, 
+                conversationId 
+              });
+            } else {
+              // If credentials are not available for the selected mode, do nothing.
+              return;
             }
-            
-            // Step 3: Create DirectLine instance for WebChat
-            const domain = "https://directline.scratch.botframework.com/v3/directline";
-            currentDirectLine = window.WebChat.createDirectLine({ 
-              streamUrl, 
-              token, 
-              domain, 
-              conversationId 
-            });
           }
           
           const { ReactWebChat, FluentThemeProvider } = window.WebChat;
@@ -196,7 +221,7 @@
           const isS2SEnabled = localStorage.getItem('enable_s2s') === 'true';
           
           const styleOptions = {
-            ...(isMCSTestPane && {
+            ...((isMCSTestPane || isCcv2Enabled) && {
               disableFileUpload: true,
               hideTelephoneKeypadButton: false,
               showMicrophoneButton: true,
@@ -210,7 +235,7 @@
             styleOptions: styleOptions,
           };
 
-          const webChatElement = isMCSTestPane ? (
+          const webChatElement = (isMCSTestPane || isCcv2Enabled) ? (
             <div style={{backgroundColor: 'white', height: '100%', width: '100%'}}>
               <FluentThemeProvider variant="fluent">
                 <ReactWebChat {...currentWebChatProps} />
@@ -228,7 +253,7 @@
           );
           
           // Small delay to ensure proper initialization when MCS test pane is enabled
-          if (isMCSTestPane) {
+          if (isMCSTestPane || isCcv2Enabled) {
             setTimeout(() => {
               const webChatElement = document.querySelector('#webchat > *');
               if (webChatElement) {
@@ -243,6 +268,7 @@
           localStorage.removeItem('directline_secret');
           localStorage.removeItem('bot_schema');
           localStorage.removeItem('environment_id');
+          localStorage.removeItem('ccv2_socket_url');
           const errContainer = document.getElementById('errorContainer');
           const errorMessage = document.getElementById('errorMessage');
           errorMessage.innerText = `Connection failed: ${error.message}. Please check your DirectLine secret and try again.`;
@@ -257,65 +283,83 @@
         // Clear previous settings
         localStorage.removeItem('mcs_test_pane');
         localStorage.removeItem('enable_s2s');
+        localStorage.removeItem('mcs_ccv2');
         
         // Set new mode
         if (selectedMode === 'mcs') {
           localStorage.setItem('mcs_test_pane', 'true');
         } else if (selectedMode === 's2s') {
           localStorage.setItem('enable_s2s', 'true');
+        } else if (selectedMode === 'ccv2') {
+          localStorage.setItem('mcs_ccv2', 'true');
         }
         // Default mode doesn't need any localStorage values
         
         // Reset DirectLine connection to ensure proper reinitialization
         currentDirectLine = null;
         
-        // Only re-render if webchat is already initialized
-        const webChatContainer = document.getElementById('webchat');
-        if (webChatContainer.firstChild) {
-          renderWebChat();
-        }
+        renderWebChat();
       }
 
       (async function () {
         let secret = localStorage.getItem('directline_secret');
         let botSchema = localStorage.getItem('bot_schema');
         let environmentId = localStorage.getItem('environment_id');
+        let ccv2SocketUrl = localStorage.getItem('ccv2_socket_url');
 
         // Initialize radio button states
         const mcsTestPane = localStorage.getItem('mcs_test_pane') === 'true';
         const enableS2S = localStorage.getItem('enable_s2s') === 'true';
+        const enableCcv2 = localStorage.getItem('mcs_ccv2') === 'true';
         
         if (mcsTestPane) {
           document.getElementById('mcsTestPane').checked = true;
         } else if (enableS2S) {
           document.getElementById('enableS2S').checked = true;
+        } else if (enableCcv2) {
+          document.getElementById('mcsCcv2').checked = true;
         } else {
           document.getElementById('defaultMode').checked = true;
         }
 
-        if (!secret) {
+        if ((enableCcv2 && !ccv2SocketUrl) || (!enableCcv2 && !secret)) {
           const defaultSecret = "FiZmWzeLCL4Q6JqsrP09MA07KofMTu8ce5b0X5kG0l7MO2TqPkt6JQQJ99BJAC5RqLJAArohAAABAZBS1itA.10cHBsk7isAOcR7oiMoY9dAWiXWYB3J7sqPB4bKHapZviYLC0KaPJQQJ99BJAC5RqLJAArohAAABAZBS1a5L";
-          document.getElementById('secret').value = defaultSecret;
+          document.getElementById('secret').value = secret || defaultSecret;
+          document.getElementById('botSchema').value = botSchema || "cr924_copilotWeatherBot";
+          document.getElementById('environmentId').value = environmentId || "defaultc2983f0e34ee4b438abcc2f460fd26b.e.environment.api.preprod.powerplatform.com";
+          if(ccv2SocketUrl) document.getElementById('ccv2SocketUrl').value = ccv2SocketUrl;
           
           modal.show();
+
+          if (enableCcv2 && !ccv2SocketUrl) {
+            document.getElementById('ccv2SocketUrl').focus();
+          }
           
           function validateForm() {
             const secretValue = document.getElementById('secret').value.trim();
-            const isValid = secretValue.length > 0;
+            const ccv2UrlValue = document.getElementById('ccv2SocketUrl').value.trim();
+            const isCcv2Enabled = document.getElementById('mcsCcv2').checked;
+            let isValid = secretValue.length > 0;
+            if(isCcv2Enabled){
+              isValid = ccv2UrlValue.length > 0;
+            }
             document.getElementById('modalCloseButton').disabled = !isValid;
           }
 
           document.getElementById('secret').addEventListener('input', validateForm);
+          document.getElementById('ccv2SocketUrl').addEventListener('input', validateForm);
           
           document.getElementById('configForm').addEventListener('submit', function (event) {
             event.preventDefault();
             secret = document.getElementById('secret').value;
             botSchema = document.getElementById('botSchema').value;
             environmentId = document.getElementById('environmentId').value;
+            ccv2SocketUrl = document.getElementById('ccv2SocketUrl').value;
 
             localStorage.setItem('directline_secret', secret);
             if (botSchema) localStorage.setItem('bot_schema', botSchema);
             if (environmentId) localStorage.setItem('environment_id', environmentId);
+            if (ccv2SocketUrl) localStorage.setItem('ccv2_socket_url', ccv2SocketUrl);
             
             modal.hide();
             renderWebChat();
@@ -335,8 +379,14 @@
       }
 
       function startOver() {
-        // Clear all localStorage data
-        localStorage.clear();
+        // Preserve chat mode selection
+        const selectedMode = document.querySelector('input[name="chatMode"]:checked').value;
+
+        // Clear connection-related localStorage data
+        localStorage.removeItem('directline_secret');
+        localStorage.removeItem('bot_schema');
+        localStorage.removeItem('environment_id');
+        localStorage.removeItem('ccv2_socket_url');
         
         // Refresh the page
         window.location.reload();
