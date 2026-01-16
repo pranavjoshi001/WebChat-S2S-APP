@@ -8988,15 +8988,15 @@
       (function() {
         "use strict";
         var hasOwn = {}.hasOwnProperty;
-        function classNames49() {
-          var classes15 = "";
+        function classNames31() {
+          var classes30 = "";
           for (var i3 = 0; i3 < arguments.length; i3++) {
             var arg = arguments[i3];
             if (arg) {
-              classes15 = appendClass(classes15, parseValue(arg));
+              classes30 = appendClass(classes30, parseValue(arg));
             }
           }
-          return classes15;
+          return classes30;
         }
         function parseValue(arg) {
           if (typeof arg === "string" || typeof arg === "number") {
@@ -9006,18 +9006,18 @@
             return "";
           }
           if (Array.isArray(arg)) {
-            return classNames49.apply(null, arg);
+            return classNames31.apply(null, arg);
           }
           if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes("[native code]")) {
             return arg.toString();
           }
-          var classes15 = "";
+          var classes30 = "";
           for (var key2 in arg) {
             if (hasOwn.call(arg, key2) && arg[key2]) {
-              classes15 = appendClass(classes15, key2);
+              classes30 = appendClass(classes30, key2);
             }
           }
-          return classes15;
+          return classes30;
         }
         function appendClass(value, newClass) {
           if (!newClass) {
@@ -9029,14 +9029,14 @@
           return value + newClass;
         }
         if (typeof module !== "undefined" && module.exports) {
-          classNames49.default = classNames49;
-          module.exports = classNames49;
+          classNames31.default = classNames31;
+          module.exports = classNames31;
         } else if (false) {
           (void 0)("classnames", [], function() {
-            return classNames49;
+            return classNames31;
           });
         } else {
-          window.classNames = classNames49;
+          window.classNames = classNames31;
         }
       })();
     }
@@ -28784,44 +28784,44 @@
       (function() {
         "use strict";
         var hasOwn = {}.hasOwnProperty;
-        function classNames49() {
-          var classes15 = [];
+        function classNames31() {
+          var classes30 = [];
           for (var i3 = 0; i3 < arguments.length; i3++) {
             var arg = arguments[i3];
             if (!arg) continue;
             var argType = typeof arg;
             if (argType === "string" || argType === "number") {
-              classes15.push(arg);
+              classes30.push(arg);
             } else if (Array.isArray(arg)) {
               if (arg.length) {
-                var inner2 = classNames49.apply(null, arg);
+                var inner2 = classNames31.apply(null, arg);
                 if (inner2) {
-                  classes15.push(inner2);
+                  classes30.push(inner2);
                 }
               }
             } else if (argType === "object") {
               if (arg.toString === Object.prototype.toString) {
                 for (var key2 in arg) {
                   if (hasOwn.call(arg, key2) && arg[key2]) {
-                    classes15.push(key2);
+                    classes30.push(key2);
                   }
                 }
               } else {
-                classes15.push(arg.toString());
+                classes30.push(arg.toString());
               }
             }
           }
-          return classes15.join(" ");
+          return classes30.join(" ");
         }
         if (typeof module !== "undefined" && module.exports) {
-          classNames49.default = classNames49;
-          module.exports = classNames49;
+          classNames31.default = classNames31;
+          module.exports = classNames31;
         } else if (false) {
           (void 0)("classnames", [], function() {
-            return classNames49;
+            return classNames31;
           });
         } else {
-          window.classNames = classNames49;
+          window.classNames = classNames31;
         }
       })();
     }
@@ -50981,14 +50981,13 @@
           type: "event",
           name: "session.init",
           value: {
-            voice: {
-              session: {
-                config: {
-                  sampleRate: 16e3,
-                  chunkIntervalMs: 20
-                }
+            session: {
+              config: {
+                sampleRate: 16e3,
+                chunkIntervalMs: 20
               }
-            }
+            },
+            voice: {}
           }
         });
         var postActivity3 = function postActivity4(activity) {
@@ -59492,19 +59491,19 @@ and ensure you are accounting for this risk.
         const allowedClassesMap = {};
         const allowedClassesGlobMap = {};
         const allowedClassesRegexMap = {};
-        each(options.allowedClasses, function(classes15, tag) {
+        each(options.allowedClasses, function(classes30, tag) {
           if (allowedAttributesMap) {
             if (!has(allowedAttributesMap, tag)) {
               allowedAttributesMap[tag] = [];
             }
             allowedAttributesMap[tag].push("class");
           }
-          allowedClassesMap[tag] = classes15;
-          if (Array.isArray(classes15)) {
+          allowedClassesMap[tag] = classes30;
+          if (Array.isArray(classes30)) {
             const globRegex = [];
             allowedClassesMap[tag] = [];
             allowedClassesRegexMap[tag] = [];
-            classes15.forEach(function(obj) {
+            classes30.forEach(function(obj) {
               if (typeof obj === "string" && obj.indexOf("*") >= 0) {
                 globRegex.push(escapeStringRegexp(obj).replace(/\\\*/g, ".*"));
               } else if (obj instanceof RegExp) {
@@ -60006,12 +60005,12 @@ and ensure you are accounting for this risk.
             return allowedDeclarationsList;
           };
         }
-        function filterClasses(classes15, allowed, allowedGlobs) {
+        function filterClasses(classes30, allowed, allowedGlobs) {
           if (!allowed) {
-            return classes15;
+            return classes30;
           }
-          classes15 = classes15.split(/\s+/);
-          return classes15.filter(function(clss) {
+          classes30 = classes30.split(/\s+/);
+          return classes30.filter(function(clss) {
             return allowed.indexOf(clss) !== -1 || allowedGlobs.some(function(glob) {
               return glob.test(clss);
             });
@@ -100082,12 +100081,10 @@ and ensure you are accounting for this risk.
     }
   }
 
-  // ../component/dist/chunk-CBERKMDV.mjs
+  // ../component/dist/chunk-7PDCZKKO.mjs
+  var import_classnames = __toESM(require_classnames(), 1);
   var import_react95 = __toESM(require_react(), 1);
   var import_react96 = __toESM(require_react(), 1);
-  var import_classnames = __toESM(require_classnames(), 1);
-  var import_react97 = __toESM(require_react(), 1);
-  var import_react98 = __toESM(require_react(), 1);
 
   // ../../node_modules/use-ref-from/lib/esmodules/useRefFrom.js
   var import_create = __toESM(require_create3());
@@ -100107,9 +100104,9 @@ and ensure you are accounting for this risk.
     return readOnlyRef;
   }
 
-  // ../component/dist/chunk-CBERKMDV.mjs
-  var import_react99 = __toESM(require_react(), 1);
-  var import_react100 = __toESM(require_react(), 1);
+  // ../component/dist/chunk-7PDCZKKO.mjs
+  var import_react97 = __toESM(require_react(), 1);
+  var import_react98 = __toESM(require_react(), 1);
 
   // ../api/dist/chunk-F4JS55XW.mjs
   var __create4 = Object.create;
@@ -102622,7 +102619,7 @@ and ensure you are accounting for this risk.
   }
   var templateMiddleware_default = templateMiddleware;
 
-  // ../api/dist/chunk-Z2QVMDKF.mjs
+  // ../api/dist/chunk-Y2LN4TKO.mjs
   var import_react6 = __toESM(require_react(), 1);
   var import_react7 = __toESM(require_react(), 1);
   var __create5 = Object.create;
@@ -107240,7 +107237,9 @@ and ensure you are accounting for this risk.
               for (const node3 of nodes) {
                 const id = node3["@id"];
                 if (upsertedNodes.has(id)) {
-                  throw new Error(`Cannot upsert a node multiple times in a single transaction (@id = "${id}")`);
+                  console.warn(
+                    `botframework-webchat: Should NOT upsert a node multiple times in a single transaction (@id = "${id}")`
+                  );
                 }
                 upsertedNodes.set(id, node3);
               }
@@ -107634,7 +107633,7 @@ and ensure you are accounting for this risk.
     return useGraphContext().orderedActivitiesState;
   }
 
-  // ../api/dist/chunk-6OICJPP5.mjs
+  // ../api/dist/chunk-CNVAJMCD.mjs
   var import_simple_update_in = __toESM(require_simple_update_in_production_min(), 1);
   var import_react8 = __toESM(require_react(), 1);
   var import_react9 = __toESM(require_react(), 1);
@@ -107924,16 +107923,7 @@ and ensure you are accounting for this risk.
     // Send box attachment bar
     sendBoxAttachmentBarMaxHeight: 114,
     sendBoxAttachmentBarMaxThumbnail: 3,
-    // Speech-to-speech experience (S2S) button styling
-    speechToSpeechButtonBackgroundColor: "#007bff",
-    speechToSpeechButtonRecordingBackgroundColor: "#dc3545",
-    speechToSpeechButtonTextColor: "#FFFFFF",
-    speechToSpeechButtonBorderRadius: 6,
-    speechToSpeechButtonPaddingBlock: 12,
-    speechToSpeechButtonPaddingInline: 24,
-    speechToSpeechButtonGap: 8,
-    // s2s mode
-    enableSpeech2SpeechMode: false,
+    // S2S options
     showMicrophoneButton: false
   };
   var defaultStyleOptions_default = DEFAULT_OPTIONS;
@@ -108144,7 +108134,7 @@ and ensure you are accounting for this risk.
     return context22;
   }
 
-  // ../api/dist/chunk-QKUCTUJX.mjs
+  // ../api/dist/chunk-3ONYOU2Y.mjs
   var import_react12 = __toESM(require_react(), 1);
   var import_react13 = __toESM(require_react(), 1);
   var import_react14 = __toESM(require_react(), 1);
@@ -108325,7 +108315,7 @@ and ensure you are accounting for this risk.
   }
   var createChainOfResponsibilityAsRenderCallback_default = createChainOfResponsibility2;
 
-  // ../api/dist/chunk-QKUCTUJX.mjs
+  // ../api/dist/chunk-3ONYOU2Y.mjs
   var import_react17 = __toESM(require_react(), 1);
   var import_react18 = __toESM(require_react(), 1);
   var import_react19 = __toESM(require_react(), 1);
@@ -110972,7 +110962,7 @@ and ensure you are accounting for this risk.
     mod
   ));
 
-  // ../api/dist/chunk-Y4DTW4BM.mjs
+  // ../api/dist/chunk-JWOMQTME.mjs
   var import_react32 = __toESM(require_react(), 1);
   var import_react33 = __toESM(require_react(), 1);
   var import_react34 = __toESM(require_react(), 1);
@@ -111333,7 +111323,7 @@ and ensure you are accounting for this risk.
   // ../../node_modules/react-redux/es/index.js
   setBatch(import_react_dom.unstable_batchedUpdates);
 
-  // ../api/dist/chunk-Y4DTW4BM.mjs
+  // ../api/dist/chunk-JWOMQTME.mjs
   var import_react41 = __toESM(require_react(), 1);
   var import_react42 = __toESM(require_react(), 1);
   var import_react43 = __toESM(require_react(), 1);
@@ -111480,7 +111470,7 @@ and ensure you are accounting for this risk.
     return (0, import_find2.default)(iterator4, predicate3);
   }
 
-  // ../core/dist/chunk-OKNYHTJ5.mjs
+  // ../core/dist/chunk-ZHRVF2AH.mjs
   var ReceivedAtSchema2 = number();
   var ActivityWithReceivedAtSchema2 = object({
     channelData: object({
@@ -117599,6 +117589,7 @@ and ensure you are accounting for this risk.
     const nextHowToGroupingMap = new Map(state.howToGroupingMap);
     const nextLivestreamSessionMap = new Map(state.livestreamSessionMap);
     let nextSortedChatHistoryList = Array.from(state.sortedChatHistoryList);
+    const nextVoiceActivities = Array.from(state.voiceActivities);
     if (!nextActivityMap.delete(localId)) {
       throw new Error(`botframework-webchat: Cannot find activity with local ID "${localId}" to delete`);
     }
@@ -117722,7 +117713,8 @@ and ensure you are accounting for this risk.
       howToGroupingMap: Object.freeze(nextHowToGroupingMap),
       livestreamSessionMap: Object.freeze(nextLivestreamSessionMap),
       sortedActivities: Object.freeze(nextSortedActivities),
-      sortedChatHistoryList: Object.freeze(nextSortedChatHistoryList)
+      sortedChatHistoryList: Object.freeze(nextSortedChatHistoryList),
+      voiceActivities: Object.freeze(nextVoiceActivities)
     });
   }
   function queryLocalIdAByActivityId(state, activityId) {
@@ -118057,7 +118049,7 @@ and ensure you are accounting for this risk.
     const indexToInsert = sortedArray.findIndex((i3) => compareFn(i3, item) > 0);
     return toSpliced(sortedArray, ~indexToInsert ? indexToInsert : sortedArray.length, 0, item);
   }
-  var isVoiceActivity = (activity) => activity.type === "event" && !!activity.name && !!activity.value && typeof activity.value === "object" && "voice" in activity.value;
+  var isVoiceActivity = (activity) => activity.type === "event" && !!activity.name && !!activity.value && typeof activity.value === "object" && ("voice" in activity.value || "dtmf" in activity.value);
   var isVoiceActivity_default = isVoiceActivity;
   var isVoiceTranscriptActivity = (activity) => {
     var _a29, _b4;
@@ -118297,7 +118289,6 @@ and ensure you are accounting for this risk.
             payload: { activity }
           } = action2;
           if (isVoiceActivity_default(activity) && !isVoiceTranscriptActivity_default(activity)) {
-            state = upsert_default(ponyfill2, state, activity);
             break;
           }
           activity = patchActivity(activity, ponyfill2);
@@ -119950,7 +119941,7 @@ and ensure you are accounting for this risk.
   var Constants = { ActivityClientState: ActivityClientState_exports, DictateState: DictateState_exports };
   var { object: buildInfoObject, version } = buildInfo_default2;
 
-  // ../api/dist/chunk-Y4DTW4BM.mjs
+  // ../api/dist/chunk-JWOMQTME.mjs
   var import_react51 = __toESM(require_react(), 1);
   var import_react52 = __toESM(require_react(), 1);
   var import_react53 = __toESM(require_react(), 1);
@@ -119967,9 +119958,9 @@ and ensure you are accounting for this risk.
   var import_react64 = __toESM(require_react(), 1);
   var import_react65 = __toESM(require_react(), 1);
   var import_react66 = __toESM(require_react(), 1);
-  var import_math_random2 = __toESM(require_browser(), 1);
   var import_react67 = __toESM(require_react(), 1);
   var import_react68 = __toESM(require_react(), 1);
+  var import_math_random2 = __toESM(require_browser(), 1);
   var import_react69 = __toESM(require_react(), 1);
   var import_react70 = __toESM(require_react(), 1);
   var hook_exports = {};
@@ -120599,6 +120590,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "\u0627\u0644\u0633\u0627\u0628\u0642",
     CITATION_MODEL_DIALOG_ALT: "\u0627\u0644\u0627\u0642\u062A\u0628\u0627\u0633",
     CLOSE_BUTTON_ALT: "\u0625\u063A\u0644\u0627\u0642",
+    COLLAPSIBLE_GROUPING_TITLE: "\u062C\u0627\u0631\u064D \u0627\u0644\u062A\u0641\u0643\u064A\u0631...",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "\u064A\u0638\u0647\u0631 \u0647\u0630\u0627 \u0639\u0646\u062F\u0645\u0627 \u064A\u0642\u0648\u0645 \u0627\u0644\u0631\u0648\u0628\u0648\u062A \u0628\u0625\u0646\u0634\u0627\u0621 \u0631\u0633\u0627\u0626\u0644 \u0627\u0633\u062A\u062C\u0627\u0628\u0629 \u0641\u064A \u0645\u062C\u0645\u0648\u0639\u0629 \u0625\u0630\u0627 \u0644\u0645 \u064A\u062A\u0645 \u062A\u0648\u0641\u064A\u0631 \u0623\u064A \u0645\u0644\u062E\u0635.",
+    COLLAPSE_BUTTON_LESS: "\u0639\u0631\u0636 \u0623\u0642\u0644",
+    "COLLAPSE_BUTTON_LESS.comment": "\u0647\u0630\u0627 \u0646\u0635 \u0632\u0631 \u0634\u0627\u0631\u0629 \u0644\u0637\u064A \u0645\u062C\u0645\u0648\u0639\u0629 \u0645\u0646 \u0627\u0644\u0631\u0633\u0627\u0626\u0644. \u0639\u0646\u062F\u0645\u0627 \u064A\u0646\u0642\u0631 \u0627\u0644\u0645\u0633\u062A\u062E\u062F\u0645 \u0627\u0644\u0646\u0647\u0627\u0626\u064A \u0641\u0648\u0642 \u0627\u0644\u0632\u0631\u060C \u062A\u064F\u0637\u0648\u0649 \u0645\u062C\u0645\u0648\u0639\u0629 \u0627\u0644\u0631\u0633\u0627\u0626\u0644.",
+    COLLAPSE_BUTTON_MORE: "\u0639\u0631\u0636 \u0627\u0644\u0645\u0632\u064A\u062F",
+    "COLLAPSE_BUTTON_MORE.comment": "\u0647\u0630\u0627 \u0646\u0635 \u0632\u0631 \u0634\u0627\u0631\u0629 \u0644\u062A\u0648\u0633\u064A\u0639 \u0645\u062C\u0645\u0648\u0639\u0629 \u0645\u0646 \u0627\u0644\u0631\u0633\u0627\u0626\u0644. \u0639\u0646\u062F\u0645\u0627 \u064A\u0646\u0642\u0631 \u0627\u0644\u0645\u0633\u062A\u062E\u062F\u0645 \u0627\u0644\u0646\u0647\u0627\u0626\u064A \u0641\u0648\u0642 \u0627\u0644\u0632\u0631\u060C \u062A\u062A\u0648\u0633\u0639 \u0645\u062C\u0645\u0648\u0639\u0629 \u0627\u0644\u0631\u0633\u0627\u0626\u0644.",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "\u0645\u062A\u0635\u0644",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "\u062C\u0627\u0631\u064D \u0627\u0644\u0627\u062A\u0635\u0627\u0644\u2026",
     CONNECTIVITY_STATUS_ALT_FATAL: "\u064A\u062A\u0639\u0630\u0631 \u0627\u0644\u0627\u062A\u0635\u0627\u0644.",
@@ -120723,6 +120720,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "\u041F\u0440\u0435\u0434\u0438\u0448\u043D\u043E",
     CITATION_MODEL_DIALOG_ALT: "\u0426\u0438\u0442\u0430\u0442",
     CLOSE_BUTTON_ALT: "\u0417\u0430\u0442\u0432\u0430\u0440\u044F\u043D\u0435",
+    COLLAPSIBLE_GROUPING_TITLE: "\u041C\u0438\u0441\u043B\u0435\u043D\u0435\u2026",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "\u0422\u043E\u0432\u0430 \u0441\u0435 \u043F\u043E\u043A\u0430\u0437\u0432\u0430, \u043A\u043E\u0433\u0430\u0442\u043E \u0431\u043E\u0442\u044A\u0442 \u0441\u044A\u0441\u0442\u0430\u0432\u044F \u0441\u044A\u043E\u0431\u0449\u0435\u043D\u0438\u044F \u0437\u0430 \u043E\u0442\u0433\u043E\u0432\u043E\u0440 \u0432 \u0433\u0440\u0443\u043F\u0430, \u0430\u043A\u043E \u043D\u0435 \u0435 \u043F\u0440\u0435\u0434\u043E\u0441\u0442\u0430\u0432\u0435\u043D\u043E \u0440\u0435\u0437\u044E\u043C\u0435.",
+    COLLAPSE_BUTTON_LESS: "\u041F\u043E\u043A\u0430\u0437\u0432\u0430\u043D\u0435 \u043D\u0430 \u043F\u043E-\u043C\u0430\u043B\u043A\u043E",
+    "COLLAPSE_BUTTON_LESS.comment": "\u0422\u043E\u0432\u0430 \u0435 \u0442\u0435\u043A\u0441\u0442\u044A\u0442 \u043D\u0430 \u0431\u0443\u0442\u043E\u043D \u0441\u044A\u0441 \u0441\u0442\u0440\u0435\u043B\u043A\u0430 \u0437\u0430 \u0441\u0433\u044A\u0432\u0430\u043D\u0435 \u043D\u0430 \u0433\u0440\u0443\u043F\u0430 \u0441\u044A\u043E\u0431\u0449\u0435\u043D\u0438\u044F. \u041A\u043E\u0433\u0430\u0442\u043E \u043A\u0440\u0430\u0439\u043D\u0438\u044F\u0442 \u043F\u043E\u0442\u0440\u0435\u0431\u0438\u0442\u0435\u043B \u0449\u0440\u0430\u043A\u043D\u0435 \u0432\u044A\u0440\u0445\u0443 \u0431\u0443\u0442\u043E\u043D\u0430, \u0433\u0440\u0443\u043F\u0430\u0442\u0430 \u0441\u044A\u043E\u0431\u0449\u0435\u043D\u0438\u044F \u0441\u0435 \u0441\u0433\u044A\u0432\u0430.",
+    COLLAPSE_BUTTON_MORE: "\u041F\u043E\u043A\u0430\u0437\u0432\u0430\u043D\u0435 \u043D\u0430 \u043F\u043E\u0432\u0435\u0447\u0435",
+    "COLLAPSE_BUTTON_MORE.comment": "\u0422\u043E\u0432\u0430 \u0435 \u0442\u0435\u043A\u0441\u0442\u044A\u0442 \u043D\u0430 \u0431\u0443\u0442\u043E\u043D \u0441\u044A\u0441 \u0441\u0442\u0440\u0435\u043B\u043A\u0430 \u0437\u0430 \u0440\u0430\u0437\u0433\u0440\u044A\u0449\u0430\u043D\u0435 \u043D\u0430 \u0433\u0440\u0443\u043F\u0430 \u0441\u044A\u043E\u0431\u0449\u0435\u043D\u0438\u044F. \u041A\u043E\u0433\u0430\u0442\u043E \u043A\u0440\u0430\u0439\u043D\u0438\u044F\u0442 \u043F\u043E\u0442\u0440\u0435\u0431\u0438\u0442\u0435\u043B \u0449\u0440\u0430\u043A\u043D\u0435 \u0432\u044A\u0440\u0445\u0443 \u0431\u0443\u0442\u043E\u043D\u0430, \u0433\u0440\u0443\u043F\u0430\u0442\u0430 \u0441\u044A\u043E\u0431\u0449\u0435\u043D\u0438\u044F \u0441\u0435 \u0440\u0430\u0437\u0448\u0438\u0440\u044F\u0432\u0430.",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "\u0423\u0441\u0442\u0430\u043D\u043E\u0432\u0435\u043D\u0430 \u0432\u0440\u044A\u0437\u043A\u0430",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "\u0421\u0432\u044A\u0440\u0437\u0432\u0430\u043D\u0435...",
     CONNECTIVITY_STATUS_ALT_FATAL: "\u0421\u0432\u044A\u0440\u0437\u0432\u0430\u043D\u0435\u0442\u043E \u043D\u0435 \u0435 \u0432\u044A\u0437\u043C\u043E\u0436\u043D\u043E.",
@@ -120847,6 +120850,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "Anterior",
     CITATION_MODEL_DIALOG_ALT: "Cita",
     CLOSE_BUTTON_ALT: "Tanca",
+    COLLAPSIBLE_GROUPING_TITLE: "Pensant\u2026",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "Aix\xF2 es mostra quan el bot est\xE0 escrivint missatges de resposta en un grup si no s'ha proporcionat cap resum.",
+    COLLAPSE_BUTTON_LESS: "Mostra'n menys",
+    "COLLAPSE_BUTTON_LESS.comment": "Aquest \xE9s el text d'un bot\xF3 de gal\xF3 per reduir el grup de missatges. Quan l'usuari final fa clic al bot\xF3, el grup de missatges es plega.",
+    COLLAPSE_BUTTON_MORE: "Mostra\u2019n m\xE9s",
+    "COLLAPSE_BUTTON_MORE.comment": "Aquest \xE9s el text d'un bot\xF3 de gal\xF3 per expandir el grup de missatges. Quan l'usuari final fa clic al bot\xF3, el grup de missatges s'expandeix.",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "Connectat",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "S'est\xE0 connectant\u2026",
     CONNECTIVITY_STATUS_ALT_FATAL: "No es pot connectar.",
@@ -120971,6 +120980,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "P\u0159edchoz\xED",
     CITATION_MODEL_DIALOG_ALT: "Citace",
     CLOSE_BUTTON_ALT: "Zav\u0159\xEDt",
+    COLLAPSIBLE_GROUPING_TITLE: "P\u0159em\xFD\u0161l\xEDm\u2026",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "To se zobraz\xED, kdy\u017E bot vytv\xE1\u0159\xED zpr\xE1vy odpov\u011Bd\xED ve skupin\u011B, pokud nen\xED k dispozici \u017E\xE1dn\xFD abstrakt.",
+    COLLAPSE_BUTTON_LESS: "Zobrazit m\xE9n\u011B",
+    "COLLAPSE_BUTTON_LESS.comment": "Toto je text tla\u010D\xEDtka se \u0161ipkou pro sbalen\xED skupiny zpr\xE1v. Kdy\u017E koncov\xFD u\u017Eivatel klikne na tla\u010D\xEDtko, skupina zpr\xE1v se sbal\xED.",
+    COLLAPSE_BUTTON_MORE: "Zobrazit v\xEDce",
+    "COLLAPSE_BUTTON_MORE.comment": "Toto je text tla\u010D\xEDtka se \u0161ipkou pro rozbalen\xED skupiny zpr\xE1v. Kdy\u017E koncov\xFD u\u017Eivatel klikne na tla\u010D\xEDtko, skupina zpr\xE1v se rozbal\xED.",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "P\u0159ipojeno",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "P\u0159ipojov\xE1n\xED\u2026",
     CONNECTIVITY_STATUS_ALT_FATAL: "Nelze nav\xE1zat p\u0159ipojen\xED.",
@@ -121095,6 +121110,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "Forrige",
     CITATION_MODEL_DIALOG_ALT: "Citat",
     CLOSE_BUTTON_ALT: "Luk",
+    COLLAPSIBLE_GROUPING_TITLE: "T\xE6nker\u2026",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "Dette vises, n\xE5r botten skriver svarbeskeder i en gruppe, hvis der ikke er angivet et resum\xE9.",
+    COLLAPSE_BUTTON_LESS: "Vis mindre",
+    "COLLAPSE_BUTTON_LESS.comment": "Dette er teksten i en vinkelknap til at skjule gruppen af meddelelser. N\xE5r slutbrugeren klikker p\xE5 knappen, foldes gruppen af meddelelser sammen.",
+    COLLAPSE_BUTTON_MORE: "Vis mere",
+    "COLLAPSE_BUTTON_MORE.comment": "Dette er teksten p\xE5 en vinkelknap til at udvide gruppen af meddelelser. N\xE5r slutbrugeren klikker p\xE5 knappen, udvides gruppen af meddelelser.",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "Forbundet",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "Opretter forbindelse ...",
     CONNECTIVITY_STATUS_ALT_FATAL: "Det var ikke muligt at oprette forbindelse.",
@@ -121219,6 +121240,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "Zur\xFCck",
     CITATION_MODEL_DIALOG_ALT: "Zitat",
     CLOSE_BUTTON_ALT: "Schlie\xDFen",
+    COLLAPSIBLE_GROUPING_TITLE: "Denken\u2026",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "Dies wird angezeigt, wenn der Bot Antwortnachrichten in einer Gruppe verfasst, sofern keine Zusammenfassung bereitgestellt wird.",
+    COLLAPSE_BUTTON_LESS: "Weniger anzeigen",
+    "COLLAPSE_BUTTON_LESS.comment": "Dies ist der Text einer Chevron-Schaltfl\xE4che zum Reduzieren einer Gruppe von Nachrichten. Wenn Endbenutzer auf die Schaltfl\xE4che klicken, wird die Gruppe von Nachrichten reduziert.",
+    COLLAPSE_BUTTON_MORE: "Mehr anzeigen",
+    "COLLAPSE_BUTTON_MORE.comment": "Dies ist der Text einer Chevron-Schaltfl\xE4che zum Erweitern einer Gruppe von Nachrichten. Wenn Endbenutzer auf die Schaltfl\xE4che klicken, wird die Gruppe von Nachrichten erweitert.",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "Verbunden",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "Verbindung wird hergestellt\xA0...",
     CONNECTIVITY_STATUS_ALT_FATAL: "Verbindung konnte nicht aufgebaut werden.",
@@ -121343,6 +121370,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "\u03A0\u03C1\u03BF\u03B7\u03B3\u03BF\u03CD\u03BC\u03B5\u03BD\u03BF",
     CITATION_MODEL_DIALOG_ALT: "\u03A0\u03B1\u03C1\u03B1\u03C0\u03BF\u03BC\u03C0\u03AE",
     CLOSE_BUTTON_ALT: "\u039A\u03BB\u03B5\u03AF\u03C3\u03B9\u03BC\u03BF",
+    COLLAPSIBLE_GROUPING_TITLE: "\u03A3\u03BA\u03AD\u03C6\u03C4\u03BF\u03BC\u03B1\u03B9\u2026",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "\u0391\u03C5\u03C4\u03CC \u03B5\u03BC\u03C6\u03B1\u03BD\u03AF\u03B6\u03B5\u03C4\u03B1\u03B9 \u03CC\u03C4\u03B1\u03BD \u03C4\u03BF bot \u03C3\u03C5\u03BD\u03B8\u03AD\u03C4\u03B5\u03B9 \u03BC\u03B7\u03BD\u03CD\u03BC\u03B1\u03C4\u03B1 \u03B1\u03C0\u03AC\u03BD\u03C4\u03B7\u03C3\u03B7\u03C2 \u03C3\u03B5 \u03BC\u03B9\u03B1 \u03BF\u03BC\u03AC\u03B4\u03B1, \u03B5\u03AC\u03BD \u03B4\u03B5\u03BD \u03AD\u03C7\u03B5\u03B9 \u03B4\u03BF\u03B8\u03B5\u03AF \u03C0\u03B5\u03C1\u03AF\u03BB\u03B7\u03C8\u03B7.",
+    COLLAPSE_BUTTON_LESS: "\u0395\u03BC\u03C6\u03AC\u03BD\u03B9\u03C3\u03B7 \u03BB\u03B9\u03B3\u03CC\u03C4\u03B5\u03C1\u03C9\u03BD",
+    "COLLAPSE_BUTTON_LESS.comment": "\u0391\u03C5\u03C4\u03CC \u03B5\u03AF\u03BD\u03B1\u03B9 \u03C4\u03BF \u03BA\u03B5\u03AF\u03BC\u03B5\u03BD\u03BF \u03B5\u03BD\u03CC\u03C2 \u03BA\u03BF\u03C5\u03BC\u03C0\u03B9\u03BF\u03CD \u03B4\u03B9\u03B1\u03C3\u03AE\u03BC\u03BF\u03C5 \u03B3\u03B9\u03B1 \u03C4\u03B7\u03BD \u03C3\u03CD\u03BC\u03C0\u03C4\u03C5\u03BE\u03B7 \u03C4\u03B7\u03C2 \u03BF\u03BC\u03AC\u03B4\u03B1\u03C2 \u03BC\u03B7\u03BD\u03C5\u03BC\u03AC\u03C4\u03C9\u03BD. \u038C\u03C4\u03B1\u03BD \u03BF \u03C4\u03B5\u03BB\u03B9\u03BA\u03CC\u03C2 \u03C7\u03C1\u03AE\u03C3\u03C4\u03B7\u03C2 \u03BA\u03AC\u03BD\u03B5\u03B9 \u03BA\u03BB\u03B9\u03BA \u03C3\u03C4\u03BF \u03BA\u03BF\u03C5\u03BC\u03C0\u03AF, \u03B7 \u03BF\u03BC\u03AC\u03B4\u03B1 \u03BC\u03B7\u03BD\u03C5\u03BC\u03AC\u03C4\u03C9\u03BD \u03C3\u03C5\u03BC\u03C0\u03C4\u03CD\u03C3\u03C3\u03B5\u03C4\u03B1\u03B9.",
+    COLLAPSE_BUTTON_MORE: "\u0395\u03BC\u03C6\u03AC\u03BD\u03B9\u03C3\u03B7 \u03C0\u03B5\u03C1\u03B9\u03C3\u03C3\u03CC\u03C4\u03B5\u03C1\u03C9\u03BD",
+    "COLLAPSE_BUTTON_MORE.comment": "\u0391\u03C5\u03C4\u03CC \u03B5\u03AF\u03BD\u03B1\u03B9 \u03C4\u03BF \u03BA\u03B5\u03AF\u03BC\u03B5\u03BD\u03BF \u03B5\u03BD\u03CC\u03C2 \u03BA\u03BF\u03C5\u03BC\u03C0\u03B9\u03BF\u03CD \u03B4\u03B9\u03B1\u03C3\u03AE\u03BC\u03BF\u03C5 \u03B3\u03B9\u03B1 \u03C4\u03B7\u03BD \u03B1\u03BD\u03AC\u03C0\u03C4\u03C5\u03BE\u03B7 \u03C4\u03B7\u03C2 \u03BF\u03BC\u03AC\u03B4\u03B1\u03C2 \u03BC\u03B7\u03BD\u03C5\u03BC\u03AC\u03C4\u03C9\u03BD. \u038C\u03C4\u03B1\u03BD \u03BF \u03C4\u03B5\u03BB\u03B9\u03BA\u03CC\u03C2 \u03C7\u03C1\u03AE\u03C3\u03C4\u03B7\u03C2 \u03BA\u03AC\u03BD\u03B5\u03B9 \u03BA\u03BB\u03B9\u03BA \u03C3\u03C4\u03BF \u03BA\u03BF\u03C5\u03BC\u03C0\u03AF, \u03B7 \u03BF\u03BC\u03AC\u03B4\u03B1 \u03BC\u03B7\u03BD\u03C5\u03BC\u03AC\u03C4\u03C9\u03BD \u03B1\u03BD\u03B1\u03C0\u03C4\u03CD\u03C3\u03C3\u03B5\u03C4\u03B1\u03B9.",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "\u03A3\u03C5\u03BD\u03B4\u03AD\u03B8\u03B7\u03BA\u03B5",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "\u03A3\u03CD\u03BD\u03B4\u03B5\u03C3\u03B7\u2026",
     CONNECTIVITY_STATUS_ALT_FATAL: "\u0391\u03B4\u03C5\u03BD\u03B1\u03BC\u03AF\u03B1 \u03C3\u03CD\u03BD\u03B4\u03B5\u03C3\u03B7\u03C2.",
@@ -121558,6 +121591,14 @@ and ensure you are accounting for this risk.
     TEXT_INPUT_ALT: "Message input box",
     "_TEXT_INPUT_ALT.comment": "This is for screen reader for the label of the message input box.",
     TEXT_INPUT_PLACEHOLDER: "Type your message",
+    TEXT_INPUT_SPEECH_IDLE_PLACEHOLDER: "Start talking...",
+    "_TEXT_INPUT_SPEECH_IDLE_PLACEHOLDER.comment": "This is the placeholder text shown in the message input box when speech-to-speech is enabled and in idle state.",
+    TEXT_INPUT_SPEECH_LISTENING_PLACEHOLDER: "Listening...",
+    "_TEXT_INPUT_SPEECH_LISTENING_PLACEHOLDER.comment": "This is the placeholder text shown in the message input box when speech-to-speech is enabled and actively listening to user speech.",
+    TEXT_INPUT_SPEECH_PROCESSING_PLACEHOLDER: "Processing...",
+    "_TEXT_INPUT_SPEECH_PROCESSING_PLACEHOLDER.comment": "This is the placeholder text shown in the message input box when speech-to-speech is enabled and processing the user's speech input.",
+    TEXT_INPUT_SPEECH_BOT_SPEAKING_PLACEHOLDER: "Talk to interrupt...",
+    "_TEXT_INPUT_SPEECH_BOT_SPEAKING_PLACEHOLDER.comment": "This is the placeholder text shown in the message input box when speech-to-speech is enabled and the bot is speaking.",
     TEXT_INPUT_SEND_BUTTON_ALT: "Send",
     TEXT_INPUT_SPEAK_BUTTON_ALT: "Speak",
     TEXT_INPUT_UPLOAD_BUTTON_ALT: "Upload file",
@@ -121666,6 +121707,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "Anterior",
     CITATION_MODEL_DIALOG_ALT: "Cita",
     CLOSE_BUTTON_ALT: "Cerrar",
+    COLLAPSIBLE_GROUPING_TITLE: "Pensando\u2026",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "Esto se muestra cuando el bot redacta mensajes de respuesta en un grupo si no se proporciona ning\xFAn resumen.",
+    COLLAPSE_BUTTON_LESS: "Mostrar menos",
+    "COLLAPSE_BUTTON_LESS.comment": "Este es el texto de un bot\xF3n de contenido adicional para contraer el grupo de mensajes. Cuando el usuario final hace clic en el bot\xF3n, el grupo de mensajes se pliega.",
+    COLLAPSE_BUTTON_MORE: "Mostrar m\xE1s",
+    "COLLAPSE_BUTTON_MORE.comment": "Este es el texto de un bot\xF3n de contenido adicional para expandir el grupo de mensajes. Cuando el usuario final hace clic en el bot\xF3n, se expande el grupo de mensajes.",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "Conectado",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "Conectando\u2026",
     CONNECTIVITY_STATUS_ALT_FATAL: "No se puede conectar.",
@@ -121790,6 +121837,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "Eelmine",
     CITATION_MODEL_DIALOG_ALT: "Tsitaat",
     CLOSE_BUTTON_ALT: "Sule",
+    COLLAPSIBLE_GROUPING_TITLE: "M\xF5tlen\u2026",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "See kuvatakse, kui bot koostab r\xFChmas vastuss\xF5numeid, kui kokkuv\xF5tet pole esitatud.",
+    COLLAPSE_BUTTON_LESS: "Kuva v\xE4hem",
+    "COLLAPSE_BUTTON_LESS.comment": "See on r\xF6\xF6pnoolenupu tekst s\xF5numir\xFChma ahendamiseks. Kui l\xF5ppkasutaja kl\xF5psab nuppu, ahendatakse s\xF5numir\xFChm.",
+    COLLAPSE_BUTTON_MORE: "Kuva rohkem",
+    "COLLAPSE_BUTTON_MORE.comment": "See on r\xF6\xF6pnoolenupu tekst s\xF5numir\xFChma laiendamiseks. Kui l\xF5ppkasutaja kl\xF5psab nuppu, laiendatakse s\xF5numir\xFChm.",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "\xDChendatud",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "\xDChenduse loomine\u2026",
     CONNECTIVITY_STATUS_ALT_FATAL: "\xDChendamine nurjus.",
@@ -121914,6 +121967,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "Aurrekoa",
     CITATION_MODEL_DIALOG_ALT: "Aipua",
     CLOSE_BUTTON_ALT: "Itxi",
+    COLLAPSIBLE_GROUPING_TITLE: "Pentsatzen\u2026",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "Botak talde batean erantzun-mezuak idazten ari denean erakusten dira, abstrakziorik ematen ez bada.",
+    COLLAPSE_BUTTON_LESS: "Erakutsi gutxiago",
+    "COLLAPSE_BUTTON_LESS.comment": "Hau da gezi-botoi baten testua mezu-multzo bat tolesteko. Azken erabiltzaileak botoian klik egiten duenean, mezu-taldea tolesten da.",
+    COLLAPSE_BUTTON_MORE: "Erakutsi gehiago",
+    "COLLAPSE_BUTTON_MORE.comment": "Hau da gezi-botoi baten testua mezu-multzo bat zabaltzeko. Azken erabiltzaileak botoian klik egiten duenean, mezu-taldea zabaltzen da.",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "Konektatu da",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "Konektatzen\u2026",
     CONNECTIVITY_STATUS_ALT_FATAL: "Ezin da konektatu.",
@@ -121976,17 +122035,17 @@ and ensure you are accounting for this risk.
     TOAST_ALT_WARN: "Abisua",
     TOAST_DISMISS_BUTTON: "Baztertu",
     TOAST_TITLE_ALT: "Jakinarazpena",
-    TRANSCRIPT_ARIA_LABEL_ALT: "Berriketa-historia. Nabigatzeko, erabili Gora eta Behera geziak.",
-    TRANSCRIPT_ARIA_ROLE_ALT: "berriketa-historia",
-    TRANSCRIPT_LIVE_REGION_INTERACTIVE_LABEL_ALT: "Mezua interaktiboa da. Sakatu Maius + tabulazio-tekla 2 edo 3 aldiz berriketa-historiara aldatzeko. Ondoren, sakatu mezua harekin elkarrekintzan jarduteko.",
-    TRANSCRIPT_LIVE_REGION_INTERACTIVE_WITH_LINKS_LABEL_ALT: "Esteka bat edo gehiago daude mezuan. Sakatu Maius + tabulazio-tekla 2 edo 3 aldiz berriketa-historiara aldatzeko. Ondoren, sakatu mezua harekin elkarrekintzan jarduteko.",
+    TRANSCRIPT_ARIA_LABEL_ALT: "Txat-historia. Nabigatzeko, erabili Gora eta Behera geziak.",
+    TRANSCRIPT_ARIA_ROLE_ALT: "txat-historia",
+    TRANSCRIPT_LIVE_REGION_INTERACTIVE_LABEL_ALT: "Mezua interaktiboa da. Sakatu Maius + tabulazio-tekla 2 edo 3 aldiz txat-historiara aldatzeko. Ondoren, sakatu mezua harekin elkarrekintzan jarduteko.",
+    TRANSCRIPT_LIVE_REGION_INTERACTIVE_WITH_LINKS_LABEL_ALT: "Esteka bat edo gehiago daude mezuan. Sakatu Maius + tabulazio-tekla 2 edo 3 aldiz txat-historiara aldatzeko. Ondoren, sakatu mezua harekin elkarrekintzan jarduteko.",
     TRANSCRIPT_LIVE_REGION_SUGGESTED_ACTIONS_LABEL_ALT: "Mezuarekin lotutako ekintza iradokiak daude. Haiek hautatzeko, sakatu Maius fitxa 2 edo 3 aldiz.",
     TRANSCRIPT_LIVE_REGION_SUGGESTED_ACTIONS_WITH_ACCESS_KEY_LABEL_ALT: "Mezuarekin lotutako ekintza iradokiak daude. Haiek hautatzeko, sakatu $1.",
     TRANSCRIPT_LIVE_REGION_SEND_FAILED_ALT: "Ezin izan da bidali mezua.",
     TRANSCRIPT_LIVE_REGION_NEW_MESSAGES_ALT: 'Mezu berriak daude. Sakatu $1 "$2" botoia fokuratzeko.',
     TRANSCRIPT_MORE_MESSAGES: "Mezu gehiago",
     TRANSCRIPT_NEW_MESSAGES: "Mezu berriak",
-    TRANSCRIPT_TERMINATOR_TEXT: "Berriketa-historiaren amaiera",
+    TRANSCRIPT_TERMINATOR_TEXT: "Txat-historiaren amaiera",
     TYPING_INDICATOR_ALT: "Idazketa-adierazlea ikusgai dago",
     TYPING_INDICATOR_SINGLE_TEXT: "$1 idazten ari da.",
     TYPING_INDICATOR_MULTIPLE_TEXT: "$1 eta beste batzuk idazten ari dira.",
@@ -122038,6 +122097,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "Edellinen",
     CITATION_MODEL_DIALOG_ALT: "Lainaus",
     CLOSE_BUTTON_ALT: "Sulje",
+    COLLAPSIBLE_GROUPING_TITLE: "K\xE4sitell\xE4\xE4n\u2026",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "T\xE4m\xE4 n\xE4kyy, kun botti kirjoittaa vastausviestej\xE4 ryhm\xE4ss\xE4, eik\xE4 tiivistelm\xE4\xE4 ole annettu.",
+    COLLAPSE_BUTTON_LESS: "N\xE4yt\xE4 v\xE4hemm\xE4n",
+    "COLLAPSE_BUTTON_LESS.comment": "T\xE4m\xE4 on nuolipainikkeen teksti viestiryhm\xE4n kutistamiseksi. Kun loppuk\xE4ytt\xE4j\xE4 napsauttaa painiketta, viestiryhm\xE4 taittuu.",
+    COLLAPSE_BUTTON_MORE: "N\xE4yt\xE4 lis\xE4\xE4",
+    "COLLAPSE_BUTTON_MORE.comment": "T\xE4m\xE4 on nuolipainikkeen teksti, jolla laajennetaan viestiryhm\xE4\xE4. Kun loppuk\xE4ytt\xE4j\xE4 napsauttaa painiketta, viestiryhm\xE4 laajenee.",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "Yhdistetty",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "Muodostetaan yhteytt\xE4\u2026",
     CONNECTIVITY_STATUS_ALT_FATAL: "Yhdist\xE4minen ei onnistu.",
@@ -122162,6 +122227,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "Pr\xE9c\xE9dent",
     CITATION_MODEL_DIALOG_ALT: "Citation",
     CLOSE_BUTTON_ALT: "Fermer",
+    COLLAPSIBLE_GROUPING_TITLE: "Je r\xE9fl\xE9chis...",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "Cela s\u2019affiche lorsque le bot r\xE9dige des messages de r\xE9ponse dans un groupe si aucun r\xE9sum\xE9 n\u2019est fourni.",
+    COLLAPSE_BUTTON_LESS: "Afficher moins",
+    "COLLAPSE_BUTTON_LESS.comment": "Il s\u2019agit du texte d\u2019un bouton chevron permettant de r\xE9duire le groupe de messages. Lorsque l\u2019utilisateur final clique sur le bouton, le groupe de messages se replie.",
+    COLLAPSE_BUTTON_MORE: "Afficher plus",
+    "COLLAPSE_BUTTON_MORE.comment": "Il s\u2019agit du texte d\u2019un bouton chevron pour d\xE9velopper le groupe de messages. Lorsque l\u2019utilisateur final clique sur le bouton, le groupe de messages se d\xE9veloppe.",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "Connect\xE9",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "Connexion en cours...",
     CONNECTIVITY_STATUS_ALT_FATAL: "Impossible de se connecter.",
@@ -122286,6 +122357,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "Anterior",
     CITATION_MODEL_DIALOG_ALT: "Cita",
     CLOSE_BUTTON_ALT: "Pechar",
+    COLLAPSIBLE_GROUPING_TITLE: "Pensando\u2026",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "Isto m\xF3strase cando o bot comp\xF3n mensaxes de resposta nun grupo se non se proporciona ning\xFAn resumo.",
+    COLLAPSE_BUTTON_LESS: "Mostrar menos",
+    "COLLAPSE_BUTTON_LESS.comment": "Este \xE9 o texto dun bot\xF3n de comi\xF1as angulares para contraer o grupo de mensaxes. Cando o usuario final fai clic no bot\xF3n, o grupo de mensaxes contr\xE1ese.",
+    COLLAPSE_BUTTON_MORE: "Mostrar m\xE1is",
+    "COLLAPSE_BUTTON_MORE.comment": "Este \xE9 o texto dun bot\xF3n de comi\xF1as angulares para ampliar o grupo de mensaxes. Cando o usuario final fai clic no bot\xF3n, o grupo de mensaxes ampl\xEDase.",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "Conectado",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "Conectando\u2026",
     CONNECTIVITY_STATUS_ALT_FATAL: "Non \xE9 posible conectarse.",
@@ -122410,6 +122487,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "\u05D4\u05E7\u05D5\u05D3\u05DD",
     CITATION_MODEL_DIALOG_ALT: "\u05E6\u05D9\u05D8\u05D5\u05D8",
     CLOSE_BUTTON_ALT: "\u05DC\u05E1\u05D2\u05D5\u05E8",
+    COLLAPSIBLE_GROUPING_TITLE: "\u05D7\u05D5\u05E9\u05D1\u2026",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "\u05D6\u05D4 \u05DE\u05D5\u05E6\u05D2 \u05DB\u05D0\u05E9\u05E8 \u05D4\u05D1\u05D5\u05D8 \u05DE\u05E8\u05DB\u05D9\u05D1 \u05D4\u05D5\u05D3\u05E2\u05D5\u05EA \u05EA\u05D2\u05D5\u05D1\u05D4 \u05D1\u05E7\u05D1\u05D5\u05E6\u05D4 \u05D0\u05DD \u05DC\u05D0 \u05E1\u05D5\u05E4\u05E7 \u05EA\u05E7\u05E6\u05D9\u05E8.",
+    COLLAPSE_BUTTON_LESS: "\u05D4\u05E6\u05D2 \u05E4\u05D7\u05D5\u05EA",
+    "COLLAPSE_BUTTON_LESS.comment": "\u05D6\u05D4\u05D5 \u05D4\u05D8\u05E7\u05E1\u05D8 \u05E9\u05DC \u05DC\u05D7\u05E6\u05DF \u05E1\u05D5\u05D2\u05E8 \u05D6\u05D5\u05D5\u05D9\u05EA\u05D9 \u05DB\u05D3\u05D9 \u05DC\u05DB\u05D5\u05D5\u05E5 \u05E7\u05D1\u05D5\u05E6\u05EA \u05D4\u05D5\u05D3\u05E2\u05D5\u05EA. \u05DB\u05D0\u05E9\u05E8 \u05DE\u05E9\u05EA\u05DE\u05E9 \u05D4\u05E7\u05E6\u05D4 \u05DC\u05D5\u05D7\u05E5 \u05E2\u05DC \u05D4\u05DB\u05E4\u05EA\u05D5\u05E8, \u05E7\u05D1\u05D5\u05E6\u05EA \u05D4\u05D4\u05D5\u05D3\u05E2\u05D5\u05EA \u05DE\u05EA\u05E7\u05E4\u05DC\u05EA.",
+    COLLAPSE_BUTTON_MORE: "\u05D4\u05E6\u05D2 \u05E2\u05D5\u05D3",
+    "COLLAPSE_BUTTON_MORE.comment": "\u05D6\u05D4\u05D5 \u05D4\u05D8\u05E7\u05E1\u05D8 \u05E9\u05DC \u05DC\u05D7\u05E6\u05DF \u05D6\u05D5\u05D5\u05D9\u05EA\u05D9 \u05DC\u05D4\u05E8\u05D7\u05D1\u05EA \u05E7\u05D1\u05D5\u05E6\u05EA \u05D4\u05D5\u05D3\u05E2\u05D5\u05EA. \u05DB\u05D0\u05E9\u05E8 \u05DE\u05E9\u05EA\u05DE\u05E9 \u05D4\u05E7\u05E6\u05D4 \u05DC\u05D5\u05D7\u05E5 \u05E2\u05DC \u05D4\u05DB\u05E4\u05EA\u05D5\u05E8, \u05E7\u05D1\u05D5\u05E6\u05EA \u05D4\u05D4\u05D5\u05D3\u05E2\u05D5\u05EA \u05DE\u05EA\u05E8\u05D7\u05D1\u05EA.",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "\u05DE\u05D7\u05D5\u05D1\u05E8",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "\u05DE\u05EA\u05D7\u05D1\u05E8...",
     CONNECTIVITY_STATUS_ALT_FATAL: "\u05DC\u05D0 \u05E0\u05D9\u05EA\u05DF \u05DC\u05D4\u05EA\u05D7\u05D1\u05E8.",
@@ -122534,6 +122617,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "\u092A\u093F\u091B\u0932\u093E",
     CITATION_MODEL_DIALOG_ALT: "\u0909\u0926\u094D\u0927\u0930\u0923",
     CLOSE_BUTTON_ALT: "\u092C\u0902\u0926 \u0915\u0930\u0947\u0902",
+    COLLAPSIBLE_GROUPING_TITLE: "\u0935\u093F\u091A\u093E\u0930 \u0915\u093F\u092F\u093E \u091C\u093E \u0930\u0939\u093E \u0939\u0948...",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "\u092F\u0939 \u0924\u092C \u0926\u093F\u0916\u093E\u092F\u093E \u091C\u093E\u0924\u093E \u0939\u0948 \u091C\u092C \u0915\u094B\u0908 \u0938\u093E\u0930 \u092A\u094D\u0930\u0926\u093E\u0928 \u0928\u0939\u0940\u0902 \u0915\u093F\u090F \u091C\u093E\u0928\u0947 \u092A\u0930 \u092C\u0949\u091F \u0915\u093F\u0938\u0940 \u0938\u092E\u0942\u0939 \u092E\u0947\u0902 \u092A\u094D\u0930\u0924\u093F\u0938\u093E\u0926 \u0938\u0902\u0926\u0947\u0936 \u0932\u093F\u0916 \u0930\u0939\u093E \u0939\u094B.",
+    COLLAPSE_BUTTON_LESS: "\u0915\u092E \u0926\u093F\u0916\u093E\u090F\u0901",
+    "COLLAPSE_BUTTON_LESS.comment": "\u092F\u0939 \u0938\u0902\u0926\u0947\u0936\u094B\u0902 \u0915\u0947 \u0938\u092E\u0942\u0939 \u0915\u094B \u0938\u0902\u0915\u094D\u0937\u093F\u092A\u094D\u0924 \u0915\u0930\u0928\u0947 \u0915\u0947 \u0932\u093F\u090F \u0936\u0947\u0935\u0930\u0949\u0928 \u092C\u091F\u0928 \u0915\u093E \u091F\u0947\u0915\u094D\u0938\u094D\u091F \u0939\u0948. \u091C\u092C \u0905\u0902\u0924\u093F\u092E \u0909\u092A\u092F\u094B\u0917\u0915\u0930\u094D\u0924\u093E \u092C\u091F\u0928 \u092A\u0930 \u0915\u094D\u0932\u093F\u0915 \u0915\u0930\u0924\u093E \u0939\u0948 \u0924\u094B \u0938\u0902\u0926\u0947\u0936 \u0938\u092E\u0942\u0939 \u095E\u094B\u0932\u094D\u0921 \u0939\u094B \u091C\u093E\u0924\u093E \u0939\u0948.",
+    COLLAPSE_BUTTON_MORE: "\u0905\u0927\u093F\u0915 \u0926\u093F\u0916\u093E\u090F\u0901",
+    "COLLAPSE_BUTTON_MORE.comment": "\u092F\u0939 \u0938\u0902\u0926\u0947\u0936\u094B\u0902 \u0915\u0947 \u0938\u092E\u0942\u0939 \u0915\u094B \u0935\u093F\u0938\u094D\u0924\u0943\u0924 \u0915\u0930\u0928\u0947 \u0915\u0947 \u0932\u093F\u090F \u0936\u0947\u0935\u0930\u0949\u0928 \u092C\u091F\u0928 \u0915\u093E \u091F\u0947\u0915\u094D\u0938\u094D\u091F \u0939\u0948. \u091C\u092C \u0905\u0902\u0924\u093F\u092E \u0909\u092A\u092F\u094B\u0917\u0915\u0930\u094D\u0924\u093E \u092C\u091F\u0928 \u092A\u0930 \u0915\u094D\u0932\u093F\u0915 \u0915\u0930\u0924\u093E \u0939\u0948 \u0924\u094B \u0938\u0902\u0926\u0947\u0936 \u0938\u092E\u0942\u0939 \u0935\u093F\u0938\u094D\u0924\u0943\u0924 \u0939\u094B \u091C\u093E\u0924\u093E \u0939\u0948.",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "\u0915\u0928\u0947\u0915\u094D\u091F \u0915\u093F\u092F\u093E \u0917\u092F\u093E",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "\u0915\u0928\u0947\u0915\u094D\u091F \u0915\u093F\u092F\u093E \u091C\u093E \u0930\u0939\u093E \u0939\u0948...",
     CONNECTIVITY_STATUS_ALT_FATAL: "\u0915\u0928\u0947\u0915\u094D\u091F \u0915\u0930\u0928\u0947 \u092E\u0947\u0902 \u0905\u0938\u092E\u0930\u094D\u0925.",
@@ -122658,6 +122747,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "Prethodno",
     CITATION_MODEL_DIALOG_ALT: "Citat",
     CLOSE_BUTTON_ALT: "Zatvori",
+    COLLAPSIBLE_GROUPING_TITLE: "Razmi\u0161ljam\u2026",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "To se prikazuje kada bot sastavlja odgovor u grupi, a apstrakt nije dostavljen.",
+    COLLAPSE_BUTTON_LESS: "Prika\u017Ei manje",
+    "COLLAPSE_BUTTON_LESS.comment": "Ovo je tekst gumba sa \u0161evronom za sa\u017Eimanje grupe poruka. Kada krajnji korisnik klikne na gumb, grupa poruka se smanjuje.",
+    COLLAPSE_BUTTON_MORE: "Prika\u017Ei vi\u0161e",
+    "COLLAPSE_BUTTON_MORE.comment": "Ovo je tekst gumba sa \u0161evronom za pro\u0161irenje grupe poruka. Kada krajnji korisnik klikne na gumb, grupa poruka se pro\u0161iruje.",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "Povezano",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "Povezivanje u tijeku...",
     CONNECTIVITY_STATUS_ALT_FATAL: "Povezivanje nije mogu\u0107e.",
@@ -122782,6 +122877,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "El\u0151z\u0151",
     CITATION_MODEL_DIALOG_ALT: "Id\xE9zet",
     CLOSE_BUTTON_ALT: "Bez\xE1r\xE1s",
+    COLLAPSIBLE_GROUPING_TITLE: "Gondolkodom\u2026",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "Ez akkor jelenik meg, amikor a cseveg\u0151robot v\xE1lasz\xFCzeneteket \xE1ll\xEDt \xF6ssze egy csoportban, ha nincs megadva \xF6sszefoglal\xF3.",
+    COLLAPSE_BUTTON_LESS: "Kevesebb megjelen\xEDt\xE9se",
+    "COLLAPSE_BUTTON_LESS.comment": "Ez az \xFCzenetek csoportj\xE1nak \xF6sszecsuk\xE1s\xE1ra szolg\xE1l\xF3 s\xE1vny\xEDlgomb sz\xF6vege. Amikor a v\xE9gfelhaszn\xE1l\xF3 r\xE1kattint a gombra, az \xFCzenetcsoport \xF6sszecsuk\xF3dik.",
+    COLLAPSE_BUTTON_MORE: "T\xF6bb megjelen\xEDt\xE9se",
+    "COLLAPSE_BUTTON_MORE.comment": "Ez az \xFCzenetek csoportj\xE1nak kibont\xE1s\xE1ra szolg\xE1l\xF3 s\xE1vny\xEDlgomb sz\xF6vege. Amikor a v\xE9gfelhaszn\xE1l\xF3 r\xE1kattint a gombra, az \xFCzenetcsoport kibomlik.",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "Csatlakoztatva",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "Csatlakoz\xE1s...",
     CONNECTIVITY_STATUS_ALT_FATAL: "Nem lehet csatlakozni.",
@@ -122906,6 +123007,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "Sebelumnya",
     CITATION_MODEL_DIALOG_ALT: "Kutipan",
     CLOSE_BUTTON_ALT: "Tutup",
+    COLLAPSIBLE_GROUPING_TITLE: "Berpikir\u2026",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "Hal ini ditampilkan saat bot sedang menyusun pesan respons dalam grup jika tidak ada ringkasan yang disediakan.",
+    COLLAPSE_BUTTON_LESS: "Tampilkan lebih sedikit",
+    "COLLAPSE_BUTTON_LESS.comment": "Ini adalah teks tombol chevron untuk menciutkan grup pesan. Saat pengguna akhir mengeklik tombol, grup pesan akan ditutup.",
+    COLLAPSE_BUTTON_MORE: "Tampilkan lebih banyak",
+    "COLLAPSE_BUTTON_MORE.comment": "Ini adalah teks tombol chevron untuk memperluas grup pesan. Saat pengguna akhir mengeklik tombol, grup pesan akan diperluas.",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "Tersambung",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "Menyambungkan\u2026",
     CONNECTIVITY_STATUS_ALT_FATAL: "Tidak dapat menyambungkan.",
@@ -123030,6 +123137,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "Indietro",
     CITATION_MODEL_DIALOG_ALT: "Citazione",
     CLOSE_BUTTON_ALT: "Chiudi",
+    COLLAPSIBLE_GROUPING_TITLE: "Sto pensando...",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "Queste parole vengono visualizzate quando il bot sta componendo messaggi di risposta in un gruppo se non viene fornito alcun riassunto.",
+    COLLAPSE_BUTTON_LESS: "Mostra meno",
+    "COLLAPSE_BUTTON_LESS.comment": "Questo \xE8 il testo di un pulsante per comprimere il gruppo di messaggi. Quando l'utente finale fa clic sul pulsante, il gruppo di messaggi viene compresso.",
+    COLLAPSE_BUTTON_MORE: "Mostra altro",
+    "COLLAPSE_BUTTON_MORE.comment": "Questo \xE8 il testo di un pulsante per espandere il gruppo di messaggi. Quando l'utente finale fa clic sul pulsante, il gruppo di messaggi viene espanso.",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "Connesso",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "Connessione in corso\u2026",
     CONNECTIVITY_STATUS_ALT_FATAL: "Impossibile connettersi.",
@@ -123154,6 +123267,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "\u524D\u3078",
     CITATION_MODEL_DIALOG_ALT: "\u5F15\u7528",
     CLOSE_BUTTON_ALT: "\u9589\u3058\u308B",
+    COLLAPSIBLE_GROUPING_TITLE: "\u8003\u3048\u4E2D\u2026",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "\u3053\u308C\u306F\u3001\u8981\u7D04\u304C\u63D0\u4F9B\u3055\u308C\u3066\u3044\u306A\u3044\u5834\u5408\u306B\u30DC\u30C3\u30C8\u304C\u30B0\u30EB\u30FC\u30D7\u5185\u306E\u5FDC\u7B54\u30E1\u30C3\u30BB\u30FC\u30B8\u3092\u4F5C\u6210\u3057\u3066\u3044\u308B\u3068\u304D\u306B\u8868\u793A\u3055\u308C\u307E\u3059\u3002",
+    COLLAPSE_BUTTON_LESS: "\u7C21\u6613\u8868\u793A",
+    "COLLAPSE_BUTTON_LESS.comment": "\u3053\u308C\u306F\u3001\u30E1\u30C3\u30BB\u30FC\u30B8\u306E\u30B0\u30EB\u30FC\u30D7\u3092\u6298\u308A\u305F\u305F\u3080\u4E8C\u91CD\u5C71\u304B\u3063\u3053 \u30DC\u30BF\u30F3\u306E\u30C6\u30AD\u30B9\u30C8\u3067\u3059\u3002\u30A8\u30F3\u30C9\u30E6\u30FC\u30B6\u30FC\u304C\u30DC\u30BF\u30F3\u3092\u30AF\u30EA\u30C3\u30AF\u3059\u308B\u3068\u3001\u30E1\u30C3\u30BB\u30FC\u30B8 \u30B0\u30EB\u30FC\u30D7\u304C\u6298\u308A\u305F\u305F\u307E\u308C\u307E\u3059\u3002",
+    COLLAPSE_BUTTON_MORE: "\u8A73\u7D30\u8868\u793A",
+    "COLLAPSE_BUTTON_MORE.comment": "\u3053\u308C\u306F\u3001\u30E1\u30C3\u30BB\u30FC\u30B8\u306E\u30B0\u30EB\u30FC\u30D7\u3092\u5C55\u958B\u3059\u308B\u4E8C\u91CD\u5C71\u304B\u3063\u3053 \u30DC\u30BF\u30F3\u306E\u30C6\u30AD\u30B9\u30C8\u3067\u3059\u3002\u30A8\u30F3\u30C9\u30E6\u30FC\u30B6\u30FC\u304C\u30DC\u30BF\u30F3\u3092\u30AF\u30EA\u30C3\u30AF\u3059\u308B\u3068\u3001\u30E1\u30C3\u30BB\u30FC\u30B8 \u30B0\u30EB\u30FC\u30D7\u304C\u5C55\u958B\u3055\u308C\u307E\u3059\u3002",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "\u63A5\u7D9A\u6E08\u307F",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "\u63A5\u7D9A\u4E2D\u2026",
     CONNECTIVITY_STATUS_ALT_FATAL: "\u63A5\u7D9A\u3067\u304D\u307E\u305B\u3093\u3002",
@@ -123278,6 +123397,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "\u0410\u043B\u0434\u044B\u04A3\u0493\u044B",
     CITATION_MODEL_DIALOG_ALT: "\u0414\u04D9\u0439\u0435\u043A\u0441\u04E9\u0437",
     CLOSE_BUTTON_ALT: "\u0416\u0430\u0431\u0443",
+    COLLAPSIBLE_GROUPING_TITLE: "\u041E\u0439\u043B\u0430\u043D\u044B\u043F \u0436\u0430\u0442\u044B\u0440\u2026",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "\u0411\u04B1\u043B \u0431\u043E\u0442 \u0442\u043E\u043F\u0442\u0430 \u0436\u0430\u0443\u0430\u043F \u0445\u0430\u0431\u0430\u0440\u043B\u0430\u0440\u044B\u043D \u0436\u0430\u0437\u044B\u043F \u0436\u0430\u0442\u049B\u0430\u043D\u0434\u0430, \u0435\u0433\u0435\u0440 \u0430\u043D\u043D\u043E\u0442\u0430\u0446\u0438\u044F \u0431\u0435\u0440\u0456\u043B\u043C\u0435\u0441\u0435, \u043A\u04E9\u0440\u0441\u0435\u0442\u0456\u043B\u0435\u0434\u0456.",
+    COLLAPSE_BUTTON_LESS: "\u0410\u0437\u044B\u0440\u0430\u049B \u043A\u04E9\u0440\u0441\u0435\u0442\u0443",
+    "COLLAPSE_BUTTON_LESS.comment": "\u0411\u04B1\u043B \u0445\u0430\u0431\u0430\u0440\u043B\u0430\u0440 \u0442\u043E\u0431\u044B\u043D \u0442\u0430\u0441\u0430\u043B\u0430\u0439\u0442\u044B\u043D \u0448\u0435\u0432\u0440\u043E\u043D \u0442\u04AF\u0439\u043C\u0435\u043D\u0456\u04A3 \u043C\u04D9\u0442\u0456\u043D\u0456. \u0421\u043E\u04A3\u0493\u044B \u043F\u0430\u0439\u0434\u0430\u043B\u0430\u043D\u0443\u0448\u044B \u043E\u0441\u044B \u0442\u04AF\u0439\u043C\u0435\u043D\u0456 \u0431\u0430\u0441\u049B\u0430\u043D\u0434\u0430 \u0445\u0430\u0431\u0430\u0440\u043B\u0430\u0440 \u0442\u043E\u0431\u044B \u0436\u0438\u043D\u0430\u043B\u0430\u0434\u044B.",
+    COLLAPSE_BUTTON_MORE: "\u041A\u04E9\u0431\u0456\u0440\u0435\u043A \u043A\u04E9\u0440\u0441\u0435\u0442\u0443",
+    "COLLAPSE_BUTTON_MORE.comment": "\u0411\u04B1\u043B \u0445\u0430\u0431\u0430\u0440\u043B\u0430\u0440 \u0442\u043E\u0431\u044B\u043D \u043A\u0435\u04A3\u0435\u0439\u0442\u0435\u0442\u0456\u043D \u0448\u0435\u0432\u0440\u043E\u043D \u0442\u04AF\u0439\u043C\u0435\u043D\u0456\u04A3 \u043C\u04D9\u0442\u0456\u043D\u0456. \u0421\u043E\u04A3\u0493\u044B \u043F\u0430\u0439\u0434\u0430\u043B\u0430\u043D\u0443\u0448\u044B \u043E\u0441\u044B \u0442\u04AF\u0439\u043C\u0435\u043D\u0456 \u0431\u0430\u0441\u049B\u0430\u043D\u0434\u0430 \u0445\u0430\u0431\u0430\u0440\u043B\u0430\u0440 \u0442\u043E\u0431\u044B \u043A\u0435\u04A3\u0435\u0439\u0435\u0434\u0456.",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "\u049A\u043E\u0441\u044B\u043B\u0493\u0430\u043D",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "\u049A\u043E\u0441\u044B\u043B\u0443\u0434\u0430...",
     CONNECTIVITY_STATUS_ALT_FATAL: "\u049A\u043E\u0441\u0443 \u043C\u04AF\u043C\u043A\u0456\u043D \u0435\u043C\u0435\u0441.",
@@ -123402,6 +123527,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "\uC774\uC804",
     CITATION_MODEL_DIALOG_ALT: "\uC778\uC6A9",
     CLOSE_BUTTON_ALT: "\uB2EB\uAE30",
+    COLLAPSIBLE_GROUPING_TITLE: "\uC0DD\uAC01 \uC911...",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "\uC774 \uBA54\uC2DC\uC9C0\uB294 \uBD07\uC774 \uADF8\uB8F9\uC5D0\uC11C \uC751\uB2F5 \uBA54\uC2DC\uC9C0\uB97C \uC791\uC131\uD560 \uB54C \uC694\uC57D\uBB38\uC774 \uC81C\uACF5\uB418\uC9C0 \uC54A\uC744 \uACBD\uC6B0 \uD45C\uC2DC\uB429\uB2C8\uB2E4.",
+    COLLAPSE_BUTTON_LESS: "\uAC04\uB2E8\uD788 \uBCF4\uAE30",
+    "COLLAPSE_BUTTON_LESS.comment": "\uBA54\uC2DC\uC9C0 \uADF8\uB8F9\uC744 \uCD95\uC18C\uD558\uB294 \uD654\uC0B4\uD45C \uBC84\uD2BC\uC758 \uD14D\uC2A4\uD2B8\uC785\uB2C8\uB2E4. \uCD5C\uC885 \uC0AC\uC6A9\uC790\uAC00 \uB2E8\uCD94\uB97C \uD074\uB9AD\uD558\uBA74 \uBA54\uC2DC\uC9C0 \uADF8\uB8F9\uC774 \uC811\uD799\uB2C8\uB2E4.",
+    COLLAPSE_BUTTON_MORE: "\uB354 \uBCF4\uAE30",
+    "COLLAPSE_BUTTON_MORE.comment": "\uBA54\uC2DC\uC9C0 \uADF8\uB8F9\uC744 \uD655\uC7A5\uD558\uB294 \uD654\uC0B4\uD45C \uBC84\uD2BC\uC758 \uD14D\uC2A4\uD2B8\uC785\uB2C8\uB2E4. \uCD5C\uC885 \uC0AC\uC6A9\uC790\uAC00 \uB2E8\uCD94\uB97C \uD074\uB9AD\uD558\uBA74 \uBA54\uC2DC\uC9C0 \uADF8\uB8F9\uC774 \uD655\uC7A5\uB429\uB2C8\uB2E4.",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "\uC5F0\uACB0\uB428",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "\uC5F0\uACB0 \uC911\u2026",
     CONNECTIVITY_STATUS_ALT_FATAL: "\uC5F0\uACB0\uD560 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4.",
@@ -123526,6 +123657,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "Atgal",
     CITATION_MODEL_DIALOG_ALT: "Citata",
     CLOSE_BUTTON_ALT: "U\u017Edaryti",
+    COLLAPSIBLE_GROUPING_TITLE: "Galvoju\u2026",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "Taip rodoma, kai robotas kuria atsakymus grup\u0117je, jei nepateikta santrauka.",
+    COLLAPSE_BUTTON_LESS: "Rodyti ma\u017Eiau",
+    "COLLAPSE_BUTTON_LESS.comment": "Tai \u0161evrono mygtuko tekstas, skirtas sutraukti prane\u0161im\u0173 grup\u0119. Kai galutinis vartotojas spustel\u0117ja mygtuk\u0105, prane\u0161im\u0173 grup\u0117 sutraukiama.",
+    COLLAPSE_BUTTON_MORE: "Rodyti daugiau",
+    "COLLAPSE_BUTTON_MORE.comment": "Tai \u0161evrono mygtuko tekstas, skirtas i\u0161pl\u0117sti prane\u0161im\u0173 grup\u0119. Kai galutinis vartotojas spustel\u0117ja mygtuk\u0105, prane\u0161im\u0173 grup\u0117 i\u0161ple\u010Diama.",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "Prijungta",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "Jungiamasi\u2026",
     CONNECTIVITY_STATUS_ALT_FATAL: "Nepavyko prijungti.",
@@ -123650,6 +123787,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "Atpaka\u013C",
     CITATION_MODEL_DIALOG_ALT: "Cit\u0101ts",
     CLOSE_BUTTON_ALT: "Aizv\u0113rt",
+    COLLAPSIBLE_GROUPING_TITLE: "Dom\u0101\u2026",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "Tas tiek r\u0101d\u012Bts, kad bots sast\u0101da atbildes zi\u0146ojumus grup\u0101, ja nav sniegts rezum\u0113jums.",
+    COLLAPSE_BUTTON_LESS: "R\u0101d\u012Bt maz\u0101k",
+    "COLLAPSE_BUTTON_LESS.comment": "\u0160is ir skuji\u0146as pogas teksts, lai sak\u013Cautu zi\u0146ojumu grupu. Kad galalietot\u0101js noklik\u0161\u0137ina uz pogas, zi\u0146ojumu grupa tiek sak\u013Cauta.",
+    COLLAPSE_BUTTON_MORE: "R\u0101d\u012Bt vair\u0101k",
+    "COLLAPSE_BUTTON_MORE.comment": "\u0160is ir skuji\u0146as pogas teksts, lai izv\u0113rstu zi\u0146ojumu grupu. Kad galalietot\u0101js noklik\u0161\u0137ina uz pogas, zi\u0146ojumu grupa tiek izv\u0113rsta.",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "Izveidots savienojums",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "Notiek savienojuma izveide\u2026",
     CONNECTIVITY_STATUS_ALT_FATAL: "Nevar izveidot savienojumu.",
@@ -123774,6 +123917,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "Sebelumnya",
     CITATION_MODEL_DIALOG_ALT: "Petikan",
     CLOSE_BUTTON_ALT: "Tutup",
+    COLLAPSIBLE_GROUPING_TITLE: "Berfikir\u2026",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "Perkara ini dipaparkan apabila bot sedang menyusun mesej respons dalam kumpulan jika tiada abstrak disediakan.",
+    COLLAPSE_BUTTON_LESS: "Tunjukkan kurang",
+    "COLLAPSE_BUTTON_LESS.comment": "Ini ialah teks butang chevron untuk meruntuhkan kumpulan mesej. Apabila pengguna akhir mengklik butang tersebut, kumpulan mesej akan dilipat.",
+    COLLAPSE_BUTTON_MORE: "Tunjukkan lagi",
+    "COLLAPSE_BUTTON_MORE.comment": "Ini ialah teks butang chevron untuk mengembangkan kumpulan mesej. Apabila anda akhir mengklik butang tersebut, kumpulan mesej akan berkembang.",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "Disambungkan",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "Bersambung\u2026",
     CONNECTIVITY_STATUS_ALT_FATAL: "Tidak dapat bersambung.",
@@ -123898,6 +124047,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "Forrige",
     CITATION_MODEL_DIALOG_ALT: "Referanse",
     CLOSE_BUTTON_ALT: "Lukk",
+    COLLAPSIBLE_GROUPING_TITLE: "Tenker\xA0...",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "Dette vises n\xE5r boten skriver svarmeldinger i en gruppe, hvis det ikke er oppgitt noe sammendrag.",
+    COLLAPSE_BUTTON_LESS: "Vis mindre",
+    "COLLAPSE_BUTTON_LESS.comment": "Dette er teksten p\xE5 en vinkeltegnknapp for \xE5 skjule en gruppe meldinger. N\xE5r sluttbrukeren klikker p\xE5 knappen, lukkes meldingsgruppen.",
+    COLLAPSE_BUTTON_MORE: "Vis mer",
+    "COLLAPSE_BUTTON_MORE.comment": "Dette er teksten p\xE5 en vinkeltegnknapp for \xE5 utvide en gruppe meldinger. N\xE5r sluttbrukeren klikker p\xE5 knappen, utvides meldingsgruppen.",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "Tilkoblet",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "Kobler til ...",
     CONNECTIVITY_STATUS_ALT_FATAL: "Kan ikke koble til.",
@@ -124022,6 +124177,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "Vorige",
     CITATION_MODEL_DIALOG_ALT: "Citaat",
     CLOSE_BUTTON_ALT: "Sluiten",
+    COLLAPSIBLE_GROUPING_TITLE: "Aan het denken\u2026",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "Dit wordt getoond wanneer de bot antwoordberichten in een groep opstelt als er geen samenvatting is opgegeven.",
+    COLLAPSE_BUTTON_LESS: "Minder weergeven",
+    "COLLAPSE_BUTTON_LESS.comment": "Dit is de tekst van een punthaakknop om een groep berichten samen te vouwen. Wanneer een eindgebruiker op de knop klikt, wordt de berichtengroep samengevouwen.",
+    COLLAPSE_BUTTON_MORE: "Meer weergeven",
+    "COLLAPSE_BUTTON_MORE.comment": "Dit is de tekst van een punthaakknop om een groep berichten uit te vouwen. Wanneer een eindgebruiker op de knop klikt, wordt de berichtengroep uitgevouwen.",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "Verbonden",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "Verbinding maken...",
     CONNECTIVITY_STATUS_ALT_FATAL: "Kan geen verbinding maken.",
@@ -124146,6 +124307,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "Wstecz",
     CITATION_MODEL_DIALOG_ALT: "Cytat",
     CLOSE_BUTTON_ALT: "Zamknij",
+    COLLAPSIBLE_GROUPING_TITLE: "My\u015Blenie\u2026",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "Jest to widoczne, gdy bot tworzy wiadomo\u015Bci odpowiedzi w grupie, je\u015Bli nie podano streszczenia.",
+    COLLAPSE_BUTTON_LESS: "Poka\u017C mniej",
+    "COLLAPSE_BUTTON_LESS.comment": "To jest tekst przycisku strza\u0142ki s\u0142u\u017C\u0105cego do zwijania grupy wiadomo\u015Bci. Gdy u\u017Cytkownik ko\u0144cowy kliknie ten przycisk, grupa wiadomo\u015Bci zostanie zwini\u0119ta.",
+    COLLAPSE_BUTTON_MORE: "Poka\u017C wi\u0119cej",
+    "COLLAPSE_BUTTON_MORE.comment": "To jest tekst przycisku strza\u0142ki s\u0142u\u017C\u0105cego do rozwijania grupy wiadomo\u015Bci. Gdy u\u017Cytkownik ko\u0144cowy kliknie ten przycisk, grupa wiadomo\u015Bci zostanie rozwini\u0119ta.",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "Po\u0142\u0105czono",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "Trwa nawi\u0105zywanie po\u0142\u0105czenia...",
     CONNECTIVITY_STATUS_ALT_FATAL: "Nie mo\u017Cna nawi\u0105za\u0107 po\u0142\u0105czenia.",
@@ -124270,6 +124437,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "Voltar",
     CITATION_MODEL_DIALOG_ALT: "Cita\xE7\xE3o",
     CLOSE_BUTTON_ALT: "Fechar",
+    COLLAPSIBLE_GROUPING_TITLE: "Pensativo...",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "Isso ser\xE1 mostrado quando o\xA0bot est\xE1 compondo mensagens de resposta em um grupo, se nenhum resumo for fornecido.",
+    COLLAPSE_BUTTON_LESS: "Mostrar menos",
+    "COLLAPSE_BUTTON_LESS.comment": "Esse \xE9 o texto de um bot\xE3o com chevron para recolher o grupo de mensagens. Quando o usu\xE1rio final clica no bot\xE3o, o grupo de mensagens se recolhe.",
+    COLLAPSE_BUTTON_MORE: "Mostrar mais",
+    "COLLAPSE_BUTTON_MORE.comment": "Esse \xE9 o texto de um bot\xE3o com chevron para expandir o grupo de mensagens. Quando o usu\xE1rio clica no bot\xE3o, o grupo de mensagens se expande.",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "Conectado",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "Conectando\u2026",
     CONNECTIVITY_STATUS_ALT_FATAL: "N\xE3o \xE9 poss\xEDvel conectar.",
@@ -124394,6 +124567,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "Anterior",
     CITATION_MODEL_DIALOG_ALT: "Cita\xE7\xE3o",
     CLOSE_BUTTON_ALT: "Fechar",
+    COLLAPSIBLE_GROUPING_TITLE: "A pensar\u2026",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "Isto \xE9 mostrado quando o bot est\xE1 a compor mensagens de resposta num grupo, caso n\xE3o seja fornecido um resumo.",
+    COLLAPSE_BUTTON_LESS: "Mostrar menos",
+    "COLLAPSE_BUTTON_LESS.comment": "Este \xE9 o texto de um bot\xE3o de divisa para fechar o grupo de mensagens. Quando o utilizador final clica no bot\xE3o, o grupo de mensagens \xE9 fechado.",
+    COLLAPSE_BUTTON_MORE: "Mostrar mais",
+    "COLLAPSE_BUTTON_MORE.comment": "Este \xE9 o texto de um bot\xE3o de divisa para expandir o grupo de mensagens. Quando o utilizador final clica no bot\xE3o, o grupo de mensagens \xE9 expandido.",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "Ligado",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "A ligar\u2026",
     CONNECTIVITY_STATUS_ALT_FATAL: "N\xE3o \xE9 poss\xEDvel ligar.",
@@ -124518,6 +124697,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "\xCEnapoi",
     CITATION_MODEL_DIALOG_ALT: "Men\u021Biune",
     CLOSE_BUTTON_ALT: "\xCEnchide\u021Bi",
+    COLLAPSIBLE_GROUPING_TITLE: "\xCEn curs de ra\u021Bionare\u2026",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "Acest mesaj este afi\u0219at c\xE2nd robotul compune mesaje de r\u0103spuns \xEEntr-un grup, dac\u0103 nu este furnizat un rezumat.",
+    COLLAPSE_BUTTON_LESS: "Afi\u0219a\u021Bi mai pu\u021Bin",
+    "COLLAPSE_BUTTON_LESS.comment": "Acesta este textul unui buton tip ghilimele unghiulare pentru a restr\xE2nge grupul de mesaje. Atunci c\xE2nd utilizatorul final face clic pe buton, grupul de mesaje se pliaz\u0103.",
+    COLLAPSE_BUTTON_MORE: "Afi\u0219a\u021Bi mai mult",
+    "COLLAPSE_BUTTON_MORE.comment": "Acesta este textul unui buton tip ghilimele unghiulare pentru a extinde grupul de mesaje. Atunci c\xE2nd utilizatorul final face clic pe buton, grupul de mesaje se extinde.",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "Conectat",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "Se conecteaz\u0103\u2026",
     CONNECTIVITY_STATUS_ALT_FATAL: "Imposibil de conectat.",
@@ -124642,6 +124827,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "\u041D\u0430\u0437\u0430\u0434",
     CITATION_MODEL_DIALOG_ALT: "\u0426\u0438\u0442\u0430\u0442\u0430",
     CLOSE_BUTTON_ALT: "\u0417\u0430\u043A\u0440\u044B\u0442\u044C",
+    COLLAPSIBLE_GROUPING_TITLE: "\u0414\u0443\u043C\u0430\u044E\u2026",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "\u042D\u0442\u043E \u0441\u043E\u043E\u0431\u0449\u0435\u043D\u0438\u0435 \u043E\u0442\u043E\u0431\u0440\u0430\u0436\u0430\u0435\u0442\u0441\u044F, \u043A\u043E\u0433\u0434\u0430 \u0431\u043E\u0442 \u0441\u043E\u0437\u0434\u0430\u0435\u0442 \u043E\u0442\u0432\u0435\u0442\u043D\u044B\u0435 \u0441\u043E\u043E\u0431\u0449\u0435\u043D\u0438\u044F \u0432 \u0433\u0440\u0443\u043F\u043F\u0435, \u0435\u0441\u043B\u0438 \u043D\u0435 \u043F\u0440\u0435\u0434\u043E\u0441\u0442\u0430\u0432\u043B\u0435\u043D\u043E \u043A\u0440\u0430\u0442\u043A\u043E\u0435 \u0441\u043E\u0434\u0435\u0440\u0436\u0430\u043D\u0438\u0435.",
+    COLLAPSE_BUTTON_LESS: "\u041F\u043E\u043A\u0430\u0437\u0430\u0442\u044C \u043C\u0435\u043D\u044C\u0448\u0435",
+    "COLLAPSE_BUTTON_LESS.comment": "\u042D\u0442\u043E \u0442\u0435\u043A\u0441\u0442 \u043A\u043D\u043E\u043F\u043A\u0438 \u0448\u0435\u0432\u0440\u043E\u043D\u0430 \u0434\u043B\u044F \u0441\u0432\u0435\u0440\u0442\u044B\u0432\u0430\u043D\u0438\u044F \u0433\u0440\u0443\u043F\u043F\u044B \u0441\u043E\u043E\u0431\u0449\u0435\u043D\u0438\u0439. \u041A\u043E\u0433\u0434\u0430 \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C \u043D\u0430\u0436\u0438\u043C\u0430\u0435\u0442 \u043A\u043D\u043E\u043F\u043A\u0443, \u0433\u0440\u0443\u043F\u043F\u0430 \u0441\u043E\u043E\u0431\u0449\u0435\u043D\u0438\u0439 \u0441\u0432\u0435\u0440\u0442\u044B\u0432\u0430\u0435\u0442\u0441\u044F.",
+    COLLAPSE_BUTTON_MORE: "\u041F\u043E\u043A\u0430\u0437\u0430\u0442\u044C \u0431\u043E\u043B\u044C\u0448\u0435",
+    "COLLAPSE_BUTTON_MORE.comment": "\u042D\u0442\u043E \u0442\u0435\u043A\u0441\u0442 \u043A\u043D\u043E\u043F\u043A\u0438 \u0448\u0435\u0432\u0440\u043E\u043D\u0430 \u0434\u043B\u044F \u0440\u0430\u0437\u0432\u0435\u0440\u0442\u044B\u0432\u0430\u043D\u0438\u044F \u0433\u0440\u0443\u043F\u043F\u044B \u0441\u043E\u043E\u0431\u0449\u0435\u043D\u0438\u0439. \u041A\u043E\u0433\u0434\u0430 \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C \u043D\u0430\u0436\u0438\u043C\u0430\u0435\u0442 \u043A\u043D\u043E\u043F\u043A\u0443, \u0433\u0440\u0443\u043F\u043F\u0430 \u0441\u043E\u043E\u0431\u0449\u0435\u043D\u0438\u0439 \u0440\u0430\u0437\u0432\u0435\u0440\u0442\u044B\u0432\u0430\u0435\u0442\u0441\u044F.",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "\u041F\u043E\u0434\u043A\u043B\u044E\u0447\u0435\u043D\u043E",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "\u041F\u043E\u0434\u043A\u043B\u044E\u0447\u0435\u043D\u0438\u0435\u2026",
     CONNECTIVITY_STATUS_ALT_FATAL: "\u041D\u0435 \u0443\u0434\u0430\u0435\u0442\u0441\u044F \u043F\u043E\u0434\u043A\u043B\u044E\u0447\u0438\u0442\u044C\u0441\u044F.",
@@ -124766,6 +124957,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "Predch\xE1dzaj\xFAce",
     CITATION_MODEL_DIALOG_ALT: "Cit\xE1cia",
     CLOSE_BUTTON_ALT: "Zavrie\u0165",
+    COLLAPSIBLE_GROUPING_TITLE: "Rozm\xFD\u0161\u013Eam...",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "Toto hl\xE1senie sa zobrazuje, ke\u010F bot vytv\xE1ra odpovede v skupine, ak nie je poskytnut\xE9 zhrnutie.",
+    COLLAPSE_BUTTON_LESS: "Zobrazi\u0165 menej",
+    "COLLAPSE_BUTTON_LESS.comment": "Toto je text tla\u010Didla \u0161\xEDpky na zbalenie skupiny spr\xE1v. Ke\u010F koncov\xFD pou\u017E\xEDvate\u013E klikne na tla\u010Didlo, skupina spr\xE1v sa zbal\xED.",
+    COLLAPSE_BUTTON_MORE: "Zobrazi\u0165 viac",
+    "COLLAPSE_BUTTON_MORE.comment": "Toto je text tla\u010Didla \u0161\xEDpky na rozbalenie skupiny spr\xE1v. Ke\u010F koncov\xFD pou\u017E\xEDvate\u013E klikne na tla\u010Didlo, skupina spr\xE1v sa rozbal\xED.",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "Pripojen\xE9",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "Prip\xE1ja sa...",
     CONNECTIVITY_STATUS_ALT_FATAL: "Pripojenie sa nepodarilo.",
@@ -124828,17 +125025,17 @@ and ensure you are accounting for this risk.
     TOAST_ALT_WARN: "Upozornenie",
     TOAST_DISMISS_BUTTON: "Zru\u0161i\u0165",
     TOAST_TITLE_ALT: "Ozn\xE1menie",
-    TRANSCRIPT_ARIA_LABEL_ALT: "Hist\xF3ria konverz\xE1cie \u2013 na navig\xE1ciu stla\u010Dte kl\xE1vesy so \u0161\xEDpkami.",
-    TRANSCRIPT_ARIA_ROLE_ALT: "hist\xF3ria konverz\xE1cie",
-    TRANSCRIPT_LIVE_REGION_INTERACTIVE_LABEL_ALT: "Spr\xE1va je interakt\xEDvna. Stla\u010Den\xEDm kl\xE1vesov Shift a\xA0Tab 2- a\u017E 3-kr\xE1t prepnete do hist\xF3rie konverz\xE1cie. Potom m\xF4\u017Eete interagova\u0165 kliknut\xEDm na spr\xE1vu.",
-    TRANSCRIPT_LIVE_REGION_INTERACTIVE_WITH_LINKS_LABEL_ALT: "Najmenej jedno prepojenie v\xA0spr\xE1ve. Stla\u010Den\xEDm kl\xE1vesov Shift a\xA0Tab 2- a\u017E 3-kr\xE1t prepnete do hist\xF3rie konverz\xE1cie. Potom m\xF4\u017Eete interagova\u0165 kliknut\xEDm na spr\xE1vu.",
+    TRANSCRIPT_ARIA_LABEL_ALT: "Hist\xF3ria chatu \u2013 na navig\xE1ciu stla\u010Dte kl\xE1vesy so \u0161\xEDpkami.",
+    TRANSCRIPT_ARIA_ROLE_ALT: "hist\xF3ria chatu",
+    TRANSCRIPT_LIVE_REGION_INTERACTIVE_LABEL_ALT: "Spr\xE1va je interakt\xEDvna. Stla\u010Den\xEDm kl\xE1vesov Shift a\xA0Tab 2- a\u017E 3-kr\xE1t prepnete do hist\xF3rie chatu. Potom m\xF4\u017Eete interagova\u0165 kliknut\xEDm na spr\xE1vu.",
+    TRANSCRIPT_LIVE_REGION_INTERACTIVE_WITH_LINKS_LABEL_ALT: "Spr\xE1va obsahuje odkazy. Stla\u010Den\xEDm kl\xE1vesov Shift a\xA0Tab 2- a\u017E 3-kr\xE1t prepnete do hist\xF3rie chatu. Potom m\xF4\u017Eete interagova\u0165 kliknut\xEDm na spr\xE1vu.",
     TRANSCRIPT_LIVE_REGION_SUGGESTED_ACTIONS_LABEL_ALT: "Spr\xE1va obsahuje navrhovan\xE9 akcie. Vyberte ich stla\u010Den\xEDm kl\xE1vesov Shift + Tab 2 a\u017E 3-kr\xE1t.",
     TRANSCRIPT_LIVE_REGION_SUGGESTED_ACTIONS_WITH_ACCESS_KEY_LABEL_ALT: "Spr\xE1va obsahuje navrhovan\xE9 akcie. Vyberte ich stla\u010Den\xEDm kl\xE1vesu $1.",
     TRANSCRIPT_LIVE_REGION_SEND_FAILED_ALT: "Nepodarilo sa odosla\u0165 spr\xE1vu.",
     TRANSCRIPT_LIVE_REGION_NEW_MESSAGES_ALT: "K dispoz\xEDcii s\xFA nov\xE9 spr\xE1vy. Stla\u010Den\xEDm kl\xE1vesu $1 zv\xFDraznite tla\u010Didlo $2.",
     TRANSCRIPT_MORE_MESSAGES: "\u010Eal\u0161ie spr\xE1vy",
     TRANSCRIPT_NEW_MESSAGES: "Nov\xE9 spr\xE1vy",
-    TRANSCRIPT_TERMINATOR_TEXT: "Koniec hist\xF3rie konverz\xE1cie",
+    TRANSCRIPT_TERMINATOR_TEXT: "Koniec hist\xF3rie chatu",
     TYPING_INDICATOR_ALT: "Zobrazuje sa indik\xE1tor p\xEDsania",
     TYPING_INDICATOR_SINGLE_TEXT: "$1\xA0p\xED\u0161e.",
     TYPING_INDICATOR_MULTIPLE_TEXT: "$1\xA0a\xA0\u010Fal\u0161\xED p\xED\u0161u.",
@@ -124890,6 +125087,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "Nazaj",
     CITATION_MODEL_DIALOG_ALT: "Citat",
     CLOSE_BUTTON_ALT: "Zapri",
+    COLLAPSIBLE_GROUPING_TITLE: "Razmi\u0161ljanje \u2026",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "To je prikazano, ko bot sestavlja sporo\u010Dila z odgovori v skupini, \u010De povzetek ni naveden.",
+    COLLAPSE_BUTTON_LESS: "Poka\u017Ei manj",
+    "COLLAPSE_BUTTON_LESS.comment": "To je besedilo gumba \u0161karnic za strnitev skupine sporo\u010Dil. Ko kon\u010Dni uporabnik klikne gumb, se skupina sporo\u010Dil zlo\u017Ei.",
+    COLLAPSE_BUTTON_MORE: "Poka\u017Ei ve\u010D",
+    "COLLAPSE_BUTTON_MORE.comment": "To je besedilo gumba \u0161karnic za raz\u0161iritev skupine sporo\u010Dil. Ko kon\u010Dni uporabnik klikne gumb, se skupina sporo\u010Dil raz\u0161iri.",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "Povezava je vzpostavljena.",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "Povezovanje \u2026",
     CONNECTIVITY_STATUS_ALT_FATAL: "Povezave ni mogo\u010De vzpostaviti.",
@@ -125014,6 +125217,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "\u041F\u0440\u0435\u0442\u0445\u043E\u0434\u043D\u043E",
     CITATION_MODEL_DIALOG_ALT: "\u0426\u0438\u0442\u0430\u0442",
     CLOSE_BUTTON_ALT: "\u0417\u0430\u0442\u0432\u043E\u0440\u0438",
+    COLLAPSIBLE_GROUPING_TITLE: "\u0420\u0430\u0437\u043C\u0438\u0448\u0459\u0430\u045A\u0435 \u0458\u0435 \u0443 \u0442\u043E\u043A\u0443\u2026",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "\u041E\u0432\u043E \u0441\u0435 \u043F\u0440\u0438\u043A\u0430\u0437\u0443\u0458\u0435 \u043A\u0430\u0434\u0430 \u0431\u043E\u0442 \u0441\u0430\u0441\u0442\u0430\u0432\u0459\u0430 \u043F\u043E\u0440\u0443\u043A\u0435 \u043E\u0434\u0433\u043E\u0432\u043E\u0440\u0430 \u0443 \u0433\u0440\u0443\u043F\u0438 \u0430\u043A\u043E \u043D\u0438\u0458\u0435 \u043D\u0430\u0432\u0435\u0434\u0435\u043D \u0441\u0430\u0436\u0435\u0442\u0430\u043A.",
+    COLLAPSE_BUTTON_LESS: "\u041F\u0440\u0438\u043A\u0430\u0436\u0438 \u043C\u0430\u045A\u0435",
+    "COLLAPSE_BUTTON_LESS.comment": "\u041E\u0432\u043E \u0458\u0435 \u0442\u0435\u043A\u0441\u0442 \u0434\u0443\u0433\u043C\u0435\u0442\u0430 \u201E\u0448\u0435\u0432\u0440\u043E\u043D\u201C \u0437\u0430 \u0441\u043A\u0443\u043F\u0459\u0430\u045A\u0435 \u0433\u0440\u0443\u043F\u0435 \u043F\u043E\u0440\u0443\u043A\u0430. \u041A\u0430\u0434\u0430 \u043A\u0440\u0430\u0458\u045A\u0438 \u043A\u043E\u0440\u0438\u0441\u043D\u0438\u043A \u043A\u043B\u0438\u043A\u043D\u0435 \u043D\u0430 \u0434\u0443\u0433\u043C\u0435, \u0433\u0440\u0443\u043F\u0430 \u043F\u043E\u0440\u0443\u043A\u0430 \u0441\u0435 \u0441\u0430\u0432\u0438\u0458\u0430.",
+    COLLAPSE_BUTTON_MORE: "\u041F\u0440\u0438\u043A\u0430\u0436\u0438 \u0432\u0438\u0448\u0435",
+    "COLLAPSE_BUTTON_MORE.comment": "\u041E\u0432\u043E \u0458\u0435 \u0442\u0435\u043A\u0441\u0442 \u0434\u0443\u0433\u043C\u0435\u0442\u0430 \u201E\u0448\u0435\u0432\u0440\u043E\u043D\u201C \u0437\u0430 \u043F\u0440\u043E\u0448\u0438\u0440\u0435\u045A\u0435 \u0433\u0440\u0443\u043F\u0435 \u043F\u043E\u0440\u0443\u043A\u0430. \u041A\u0430\u0434\u0430 \u043A\u0440\u0430\u0458\u045A\u0438 \u043A\u043E\u0440\u0438\u0441\u043D\u0438\u043A \u043A\u043B\u0438\u043A\u043D\u0435 \u043D\u0430 \u0434\u0443\u0433\u043C\u0435, \u0433\u0440\u0443\u043F\u0430 \u043F\u043E\u0440\u0443\u043A\u0430 \u0441\u0435 \u043F\u0440\u043E\u0448\u0438\u0440\u0443\u0458\u0435.",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "\u041F\u043E\u0432\u0435\u0437\u0430\u043D\u043E",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "\u041F\u043E\u0432\u0435\u0437\u0438\u0432\u0430\u045A\u0435\u2026",
     CONNECTIVITY_STATUS_ALT_FATAL: "\u041F\u043E\u0432\u0435\u0437\u0438\u0432\u0430\u045A\u0435 \u043D\u0438\u0458\u0435 \u043C\u043E\u0433\u0443\u045B\u0435.",
@@ -125138,6 +125347,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "Prethodno",
     CITATION_MODEL_DIALOG_ALT: "Citat",
     CLOSE_BUTTON_ALT: "Zatvori",
+    COLLAPSIBLE_GROUPING_TITLE: "Razmi\u0161ljanje je u toku\u2026",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "Ovo se prikazuje kada bot sastavlja poruke odgovora u grupi ako nije naveden sa\u017Eetak.",
+    COLLAPSE_BUTTON_LESS: "Prika\u017Ei manje",
+    "COLLAPSE_BUTTON_LESS.comment": "Ovo je tekst dugmeta \u201E\u0161evron\u201C za skupljanje grupe poruka. Kada krajnji korisnik klikne na dugme, grupa poruka se savije.",
+    COLLAPSE_BUTTON_MORE: "Prika\u017Ei vi\u0161e",
+    "COLLAPSE_BUTTON_MORE.comment": "Ovo je tekst dugmeta \u201E\u0161evron\u201C za pro\u0161irenje grupe poruka. Kada krajnji korisnik klikne na dugme, grupa poruka se \u0161iri.",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "Povezano",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "Povezivanje\u2026",
     CONNECTIVITY_STATUS_ALT_FATAL: "Povezivanje nije mogu\u0107e.",
@@ -125262,6 +125477,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "F\xF6reg\xE5ende",
     CITATION_MODEL_DIALOG_ALT: "H\xE4nvisning",
     CLOSE_BUTTON_ALT: "St\xE4ng",
+    COLLAPSIBLE_GROUPING_TITLE: "T\xE4nker...",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "Detta visas n\xE4r roboten skriver svarsmeddelanden i en grupp om inget abstrakt anges.",
+    COLLAPSE_BUTTON_LESS: "Visa mindre",
+    "COLLAPSE_BUTTON_LESS.comment": "Det h\xE4r \xE4r texten p\xE5 en sparrknapp f\xF6r att d\xF6lja en grupp meddelanden. N\xE4r slutanv\xE4ndaren klickar p\xE5 knappen viks meddelandegruppen.",
+    COLLAPSE_BUTTON_MORE: "Visa mer",
+    "COLLAPSE_BUTTON_MORE.comment": "Det h\xE4r \xE4r texten i en sparrknapp f\xF6r att expandera gruppen med meddelanden. N\xE4r slutanv\xE4ndaren klickar p\xE5 knappen expanderas meddelandegruppen.",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "Ansluten",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "Ansluter ...",
     CONNECTIVITY_STATUS_ALT_FATAL: "Det gick inte att ansluta.",
@@ -125386,6 +125607,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "\u0E01\u0E48\u0E2D\u0E19\u0E2B\u0E19\u0E49\u0E32",
     CITATION_MODEL_DIALOG_ALT: "\u0E01\u0E32\u0E23\u0E2D\u0E49\u0E32\u0E07\u0E2D\u0E34\u0E07\u0E16\u0E36\u0E07\u0E41\u0E2B\u0E25\u0E48\u0E07\u0E17\u0E35\u0E48\u0E21\u0E32",
     CLOSE_BUTTON_ALT: "\u0E1B\u0E34\u0E14",
+    COLLAPSIBLE_GROUPING_TITLE: "\u0E01\u0E33\u0E25\u0E31\u0E07\u0E04\u0E34\u0E14\u2026",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "\u0E2A\u0E34\u0E48\u0E07\u0E19\u0E35\u0E49\u0E08\u0E30\u0E41\u0E2A\u0E14\u0E07\u0E02\u0E36\u0E49\u0E19\u0E40\u0E21\u0E37\u0E48\u0E2D\u0E1A\u0E2D\u0E17\u0E01\u0E33\u0E25\u0E31\u0E07\u0E40\u0E02\u0E35\u0E22\u0E19\u0E02\u0E49\u0E2D\u0E04\u0E27\u0E32\u0E21\u0E15\u0E2D\u0E1A\u0E01\u0E25\u0E31\u0E1A\u0E43\u0E19\u0E01\u0E25\u0E38\u0E48\u0E21 \u0E2B\u0E32\u0E01\u0E44\u0E21\u0E48\u0E21\u0E35\u0E1A\u0E17\u0E04\u0E31\u0E14\u0E22\u0E48\u0E2D",
+    COLLAPSE_BUTTON_LESS: "\u0E41\u0E2A\u0E14\u0E07\u0E19\u0E49\u0E2D\u0E22\u0E25\u0E07",
+    "COLLAPSE_BUTTON_LESS.comment": "\u0E19\u0E35\u0E48\u0E04\u0E37\u0E2D\u0E02\u0E49\u0E2D\u0E04\u0E27\u0E32\u0E21\u0E02\u0E2D\u0E07\u0E1B\u0E38\u0E48\u0E21\u0E40\u0E04\u0E23\u0E37\u0E48\u0E2D\u0E07\u0E2B\u0E21\u0E32\u0E22\u0E1A\u0E31\u0E49\u0E07\u0E40\u0E1E\u0E37\u0E48\u0E2D\u0E22\u0E38\u0E1A\u0E01\u0E25\u0E38\u0E48\u0E21\u0E02\u0E49\u0E2D\u0E04\u0E27\u0E32\u0E21 \u0E40\u0E21\u0E37\u0E48\u0E2D\u0E1C\u0E39\u0E49\u0E43\u0E0A\u0E49\u0E04\u0E25\u0E34\u0E01\u0E17\u0E35\u0E48\u0E1B\u0E38\u0E48\u0E21 \u0E01\u0E25\u0E38\u0E48\u0E21\u0E02\u0E49\u0E2D\u0E04\u0E27\u0E32\u0E21\u0E08\u0E30\u0E1E\u0E31\u0E1A",
+    COLLAPSE_BUTTON_MORE: "\u0E41\u0E2A\u0E14\u0E07\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E40\u0E15\u0E34\u0E21",
+    "COLLAPSE_BUTTON_MORE.comment": "\u0E19\u0E35\u0E48\u0E04\u0E37\u0E2D\u0E02\u0E49\u0E2D\u0E04\u0E27\u0E32\u0E21\u0E02\u0E2D\u0E07\u0E1B\u0E38\u0E48\u0E21\u0E40\u0E04\u0E23\u0E37\u0E48\u0E2D\u0E07\u0E2B\u0E21\u0E32\u0E22\u0E1A\u0E31\u0E49\u0E07\u0E40\u0E1E\u0E37\u0E48\u0E2D\u0E02\u0E22\u0E32\u0E22\u0E01\u0E25\u0E38\u0E48\u0E21\u0E02\u0E49\u0E2D\u0E04\u0E27\u0E32\u0E21 \u0E40\u0E21\u0E37\u0E48\u0E2D\u0E1C\u0E39\u0E49\u0E43\u0E0A\u0E49\u0E04\u0E25\u0E34\u0E01\u0E17\u0E35\u0E48\u0E1B\u0E38\u0E48\u0E21 \u0E01\u0E25\u0E38\u0E48\u0E21\u0E02\u0E49\u0E2D\u0E04\u0E27\u0E32\u0E21\u0E08\u0E30\u0E02\u0E22\u0E32\u0E22",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E21\u0E15\u0E48\u0E2D\u0E41\u0E25\u0E49\u0E27",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "\u0E01\u0E33\u0E25\u0E31\u0E07\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E21\u0E15\u0E48\u0E2D...",
     CONNECTIVITY_STATUS_ALT_FATAL: "\u0E44\u0E21\u0E48\u0E2A\u0E32\u0E21\u0E32\u0E23\u0E16\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E21\u0E15\u0E48\u0E2D\u0E44\u0E14\u0E49",
@@ -125510,6 +125737,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "\xD6nceki",
     CITATION_MODEL_DIALOG_ALT: "Al\u0131nt\u0131",
     CLOSE_BUTTON_ALT: "Kapat",
+    COLLAPSIBLE_GROUPING_TITLE: "D\xFC\u015F\xFCn\xFCyorum\u2026",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "Bot bir grupta yan\u0131t iletileri olu\u015Ftururken bir \xF6zet sunulmad\u0131\u011F\u0131nda bu metin g\xF6sterilir.",
+    COLLAPSE_BUTTON_LESS: "Daha az g\xF6ster",
+    "COLLAPSE_BUTTON_LESS.comment": "Bu, ileti grubunu daraltmak i\xE7in kullan\u0131lan k\xF6\u015Feli \xE7ift ayra\xE7 d\xFC\u011Fmesinin metnidir. Son kullan\u0131c\u0131 d\xFC\u011Fmeye t\u0131klad\u0131\u011F\u0131nda ileti grubu daral\u0131r.",
+    COLLAPSE_BUTTON_MORE: "Daha fazla g\xF6ster",
+    "COLLAPSE_BUTTON_MORE.comment": "Bu, ileti grubunu geni\u015Fletmek i\xE7in kullan\u0131lan k\xF6\u015Feli \xE7ift ayra\xE7 d\xFC\u011Fmesinin metnidir. Son kullan\u0131c\u0131 d\xFC\u011Fmeye t\u0131klad\u0131\u011F\u0131nda ileti grubu geni\u015Fler.",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "Ba\u011Fl\u0131",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "Ba\u011Flant\u0131 kuruluyor...",
     CONNECTIVITY_STATUS_ALT_FATAL: "Ba\u011Flant\u0131 kurulamad\u0131.",
@@ -125634,6 +125867,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "\u041D\u0430\u0437\u0430\u0434",
     CITATION_MODEL_DIALOG_ALT: "\u0426\u0438\u0442\u0443\u0432\u0430\u043D\u043D\u044F",
     CLOSE_BUTTON_ALT: "\u0417\u0430\u043A\u0440\u0438\u0442\u0438",
+    COLLAPSIBLE_GROUPING_TITLE: "\u041E\u0431\u0440\u043E\u0431\u043A\u0430\u2026",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "\u0426\u0435 \u0432\u0456\u0434\u043E\u0431\u0440\u0430\u0436\u0430\u0454\u0442\u044C\u0441\u044F, \u043A\u043E\u043B\u0438 \u0431\u043E\u0442 \u0441\u043A\u043B\u0430\u0434\u0430\u0454 \u0432\u0456\u0434\u043F\u043E\u0432\u0456\u0434\u0456 \u0443 \u0433\u0440\u0443\u043F\u0456, \u044F\u043A\u0449\u043E \u0430\u043D\u043E\u0442\u0430\u0446\u0456\u044F \u043D\u0435 \u043D\u0430\u0434\u0430\u043D\u0430.",
+    COLLAPSE_BUTTON_LESS: "\u041F\u043E\u043A\u0430\u0437\u0430\u0442\u0438 \u043C\u0435\u043D\u0448\u0435",
+    "COLLAPSE_BUTTON_LESS.comment": "\u0426\u0435 \u0442\u0435\u043A\u0441\u0442 \u0448\u0435\u0432\u0440\u043E\u043D\u043D\u043E\u0457 \u043A\u043D\u043E\u043F\u043A\u0438 \u0434\u043B\u044F \u0437\u0433\u043E\u0440\u0442\u0430\u043D\u043D\u044F \u0433\u0440\u0443\u043F\u0438 \u043F\u043E\u0432\u0456\u0434\u043E\u043C\u043B\u0435\u043D\u044C. \u041A\u043E\u043B\u0438 \u043A\u043E\u0440\u0438\u0441\u0442\u0443\u0432\u0430\u0447 \u043D\u0430\u0442\u0438\u0441\u043A\u0430\u0454 \u043A\u043D\u043E\u043F\u043A\u0443, \u0433\u0440\u0443\u043F\u0430 \u043F\u043E\u0432\u0456\u0434\u043E\u043C\u043B\u0435\u043D\u044C \u0437\u0433\u043E\u0440\u0442\u0430\u0454\u0442\u044C\u0441\u044F.",
+    COLLAPSE_BUTTON_MORE: "\u041F\u043E\u043A\u0430\u0437\u0430\u0442\u0438 \u0431\u0456\u043B\u044C\u0448\u0435",
+    "COLLAPSE_BUTTON_MORE.comment": "\u0426\u0435 \u0442\u0435\u043A\u0441\u0442 \u0448\u0435\u0432\u0440\u043E\u043D\u043D\u043E\u0457 \u043A\u043D\u043E\u043F\u043A\u0438 \u0434\u043B\u044F \u0440\u043E\u0437\u0448\u0438\u0440\u0435\u043D\u043D\u044F \u0433\u0440\u0443\u043F\u0438 \u043F\u043E\u0432\u0456\u0434\u043E\u043C\u043B\u0435\u043D\u044C. \u041A\u043E\u043B\u0438 \u043A\u043E\u0440\u0438\u0441\u0442\u0443\u0432\u0430\u0447 \u043D\u0430\u0442\u0438\u0441\u043A\u0430\u0454 \u043A\u043D\u043E\u043F\u043A\u0443, \u0433\u0440\u0443\u043F\u0430 \u043F\u043E\u0432\u0456\u0434\u043E\u043C\u043B\u0435\u043D\u044C \u0440\u043E\u0437\u0448\u0438\u0440\u044E\u0454\u0442\u044C\u0441\u044F.",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "\u041F\u0456\u0434\u043A\u043B\u044E\u0447\u0435\u043D\u043E",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "\u041F\u0456\u0434\u043A\u043B\u044E\u0447\u0435\u043D\u043D\u044F\u2026",
     CONNECTIVITY_STATUS_ALT_FATAL: "\u041D\u0435 \u0432\u0434\u0430\u043B\u043E\u0441\u044F \u043F\u0456\u0434\u043A\u043B\u044E\u0447\u0438\u0442\u0438.",
@@ -125758,6 +125997,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "Tr\u01B0\u1EDBc",
     CITATION_MODEL_DIALOG_ALT: "Tr\xEDch d\u1EABn",
     CLOSE_BUTTON_ALT: "\u0110\xF3ng",
+    COLLAPSIBLE_GROUPING_TITLE: "\u0110ang suy nghi\u0303\u2026",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "N\u1ED9i dung n\xE0y \u0111\u01B0\u1EE3c hi\u1EC3n th\u1ECB khi bot \u0111ang so\u1EA1n tin nh\u1EAFn ph\u1EA3n h\u1ED3i trong nh\xF3m n\u1EBFu kh\xF4ng c\xF3 b\u1EA3n t\xF3m t\u1EAFt n\xE0o \u0111\u01B0\u1EE3c cung c\u1EA5p.",
+    COLLAPSE_BUTTON_LESS: "\u1EA8n b\u1EDBt",
+    "COLLAPSE_BUTTON_LESS.comment": "\u0110\xE2y l\xE0 v\u0103n b\u1EA3n c\u1EE7a n\xFAt chevron \u0111\u1EC3 thu g\u1ECDn nh\xF3m tin nh\u1EAFn. Khi ng\u01B0\u1EDDi d\xF9ng cu\u1ED1i nh\u1EA5p v\xE0o n\xFAt n\xE0y, nh\xF3m tin nh\u1EAFn s\u1EBD \u0111\u01B0\u1EE3c thu g\u1ECDn.",
+    COLLAPSE_BUTTON_MORE: "Hi\u1EC7n th\xEAm",
+    "COLLAPSE_BUTTON_MORE.comment": "\u0110\xE2y l\xE0 v\u0103n b\u1EA3n c\u1EE7a n\xFAt chevron \u0111\u1EC3 m\u1EDF r\u1ED9ng nh\xF3m tin nh\u1EAFn. Khi ng\u01B0\u1EDDi d\xF9ng cu\u1ED1i nh\u1EA5p v\xE0o n\xFAt n\xE0y, nh\xF3m tin nh\u1EAFn s\u1EBD \u0111\u01B0\u1EE3c m\u1EDF r\u1ED9ng.",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "\u0110\xE3 k\u1EBFt n\u1ED1i",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "\u0110ang k\u1EBFt n\u1ED1i...",
     CONNECTIVITY_STATUS_ALT_FATAL: "Kh\xF4ng th\u1EC3 k\u1EBFt n\u1ED1i.",
@@ -125986,6 +126231,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "\u4E0A\u4E00\u4E2A",
     CITATION_MODEL_DIALOG_ALT: "\u5F15\u6587",
     CLOSE_BUTTON_ALT: "\u5173\u95ED",
+    COLLAPSIBLE_GROUPING_TITLE: "\u6B63\u5728\u601D\u8003...",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "\u5982\u679C\u672A\u63D0\u4F9B\u6458\u8981\uFF0C\u5219\u5F53\u673A\u5668\u4EBA\u5728\u7EC4\u4E2D\u64B0\u5199\u54CD\u5E94\u6D88\u606F\u65F6\uFF0C\u4F1A\u663E\u793A\u6B64\u4FE1\u606F\u3002",
+    COLLAPSE_BUTTON_LESS: "\u663E\u793A\u66F4\u5C11",
+    "COLLAPSE_BUTTON_LESS.comment": "\u8FD9\u662F\u7528\u4E8E\u6298\u53E0\u6D88\u606F\u7EC4\u7684 V \u5F62\u6309\u94AE\u7684\u6587\u672C\u3002\u5F53\u6700\u7EC8\u7528\u6237\u5355\u51FB\u6309\u94AE\u65F6\uFF0C\u6D88\u606F\u7EC4\u4F1A\u6298\u53E0\u3002",
+    COLLAPSE_BUTTON_MORE: "\u663E\u793A\u66F4\u591A",
+    "COLLAPSE_BUTTON_MORE.comment": "\u8FD9\u662F\u7528\u4E8E\u5C55\u5F00\u6D88\u606F\u7EC4\u7684 V \u5F62\u6309\u94AE\u7684\u6587\u672C\u3002\u5F53\u6700\u7EC8\u7528\u6237\u5355\u51FB\u6309\u94AE\u65F6\uFF0C\u6D88\u606F\u7EC4\u4F1A\u5C55\u5F00\u3002",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "\u5DF2\u8FDE\u63A5",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "\u6B63\u5728\u8FDE\u63A5...",
     CONNECTIVITY_STATUS_ALT_FATAL: "\u65E0\u6CD5\u8FDE\u63A5\u3002",
@@ -126110,6 +126361,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "\u4E0A\u4E00\u500B",
     CITATION_MODEL_DIALOG_ALT: "\u5F15\u7528",
     CLOSE_BUTTON_ALT: "\u95DC\u9589",
+    COLLAPSIBLE_GROUPING_TITLE: "\u601D\u8003\u4E2D...",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "\u7576\u6A5F\u5668\u4EBA\u5728\u7FA4\u7D44\u4E2D\u64B0\u5BEB\u56DE\u8986\u8A0A\u606F\u6642\uFF0C\u82E5\u672A\u63D0\u4F9B\u6458\u8981\uFF0C\u5247\u6703\u986F\u793A\u6B64\u8A0A\u606F\u3002",
+    COLLAPSE_BUTTON_LESS: "\u986F\u793A\u8F03\u5C11",
+    "COLLAPSE_BUTTON_LESS.comment": "\u9019\u662F\u7528\u65BC\u647A\u758A\u8A0A\u606F\u7FA4\u7D44\u7684\uFF1E\u5F62\u7BAD\u865F\u6309\u9215\u7684\u6587\u5B57\u3002\u7576\u7D42\u7AEF\u4F7F\u7528\u8005\u6309\u4E00\u4E0B\u8A72\u6309\u9215\u6642\uFF0C\u8A0A\u606F\u7FA4\u7D44\u6703\u647A\u758A\u3002",
+    COLLAPSE_BUTTON_MORE: "\u986F\u793A\u66F4\u591A",
+    "COLLAPSE_BUTTON_MORE.comment": "\u9019\u662F\u7528\u65BC\u5C55\u958B\u8A0A\u606F\u7FA4\u7D44\u7684\uFF1E\u5F62\u7BAD\u865F\u6309\u9215\u7684\u6587\u5B57\u3002\u7576\u7D42\u7AEF\u4F7F\u7528\u8005\u6309\u4E00\u4E0B\u8A72\u6309\u9215\u6642\uFF0C\u8A0A\u606F\u7FA4\u7D44\u6703\u5C55\u958B\u3002",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "\u5DF2\u9023\u7DDA",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "\u6B63\u5728\u9023\u7DDA\u2026",
     CONNECTIVITY_STATUS_ALT_FATAL: "\u7121\u6CD5\u9023\u7DDA\u3002",
@@ -126234,6 +126491,12 @@ and ensure you are accounting for this risk.
     CAROUSEL_FLIPPER_PREVIOUS_ALT: "\u4E0A\u4E00\u500B",
     CITATION_MODEL_DIALOG_ALT: "\u5F15\u7528",
     CLOSE_BUTTON_ALT: "\u95DC\u9589",
+    COLLAPSIBLE_GROUPING_TITLE: "\u601D\u8003\u4E2D...",
+    "COLLAPSIBLE_GROUPING_TITLE.comment": "\u7576\u6A5F\u5668\u4EBA\u5728\u7FA4\u7D44\u4E2D\u64B0\u5BEB\u56DE\u8986\u8A0A\u606F\u6642\uFF0C\u82E5\u672A\u63D0\u4F9B\u6458\u8981\uFF0C\u5247\u6703\u986F\u793A\u6B64\u8A0A\u606F\u3002",
+    COLLAPSE_BUTTON_LESS: "\u986F\u793A\u8F03\u5C11",
+    "COLLAPSE_BUTTON_LESS.comment": "\u9019\u662F\u7528\u65BC\u647A\u758A\u8A0A\u606F\u7FA4\u7D44\u7684\uFF1E\u5F62\u7BAD\u865F\u6309\u9215\u7684\u6587\u5B57\u3002\u7576\u7D42\u7AEF\u4F7F\u7528\u8005\u6309\u4E00\u4E0B\u8A72\u6309\u9215\u6642\uFF0C\u8A0A\u606F\u7FA4\u7D44\u6703\u647A\u758A\u3002",
+    COLLAPSE_BUTTON_MORE: "\u986F\u793A\u66F4\u591A",
+    "COLLAPSE_BUTTON_MORE.comment": "\u9019\u662F\u7528\u65BC\u5C55\u958B\u8A0A\u606F\u7FA4\u7D44\u7684\uFF1E\u5F62\u7BAD\u865F\u6309\u9215\u7684\u6587\u5B57\u3002\u7576\u7D42\u7AEF\u4F7F\u7528\u8005\u6309\u4E00\u4E0B\u8A72\u6309\u9215\u6642\uFF0C\u8A0A\u606F\u7FA4\u7D44\u6703\u5C55\u958B\u3002",
     CONNECTIVITY_STATUS_ALT_CONNECTED: "\u5DF2\u9023\u7DDA",
     CONNECTIVITY_STATUS_ALT_CONNECTING: "\u6B63\u5728\u9023\u7DDA\u2026",
     CONNECTIVITY_STATUS_ALT_FATAL: "\u7121\u6CD5\u9023\u7DDA\u3002",
@@ -126899,6 +127162,19 @@ and ensure you are accounting for this risk.
       )
     ];
   }
+  var SpeechToSpeechContext = (0, import_react61.createContext)(void 0);
+  var Context_default32 = SpeechToSpeechContext;
+  function useSpeechToSpeechContext(thrownOnUndefined = true) {
+    const contextValue = (0, import_react60.useContext)(Context_default32);
+    if (thrownOnUndefined && !contextValue) {
+      throw new Error("botframework-webchat internal: This hook can only be used under <SpeechToSpeechContext>.");
+    }
+    return contextValue;
+  }
+  function useSpeechToSpeech() {
+    return [useSpeechToSpeechContext()];
+  }
+  var useSpeechToSpeech_default = useSpeechToSpeech;
   function useStartDictate() {
     return useWebChatAPIContext().startDictate;
   }
@@ -126910,7 +127186,7 @@ and ensure you are accounting for this risk.
     const { submitSendBox: submitSendBox3 } = useWebChatAPIContext();
     const trackEvent = useTrackEvent();
     const sendBoxAttachmentsRef = useRefFrom(sendBoxAttachments3);
-    return (0, import_react60.useCallback)(
+    return (0, import_react62.useCallback)(
       (method, { channelData } = {}) => {
         const { current: sendBoxAttachments22 } = sendBoxAttachmentsRef;
         trackEvent("submitSendBox", {
@@ -126962,7 +127238,7 @@ and ensure you are accounting for this risk.
     ).success
   );
   var reduxStoreSchema_default = reduxStoreSchema;
-  var SuggestedActionsContext = (0, import_react63.createContext)(
+  var SuggestedActionsContext = (0, import_react65.createContext)(
     new Proxy({}, {
       get() {
         throw new Error("botframework-webchat: This hook can only be used under <SuggestedActionsContext>");
@@ -126983,16 +127259,16 @@ and ensure you are accounting for this risk.
       children,
       store: { dispatch }
     } = validateProps5(suggestedActionsComposerPropsSchema, props);
-    const [originActivity, setOriginActivity] = (0, import_react62.useState)();
-    const [suggestedActions2, setSuggestedActionsRaw] = (0, import_react62.useState)(EMPTY_ARRAY5);
-    const setSuggestedActions2 = (0, import_react62.useCallback)(
+    const [originActivity, setOriginActivity] = (0, import_react64.useState)();
+    const [suggestedActions2, setSuggestedActionsRaw] = (0, import_react64.useState)(EMPTY_ARRAY5);
+    const setSuggestedActions2 = (0, import_react64.useCallback)(
       (suggestedActions22) => {
         setOriginActivity(void 0);
         setSuggestedActionsRaw(suggestedActions22);
       },
       [setSuggestedActionsRaw]
     );
-    const handleAction = (0, import_react62.useCallback)(
+    const handleAction = (0, import_react64.useCallback)(
       (action2) => {
         if (action2.type === CLEAR_SUGGESTED_ACTIONS) {
           setOriginActivity(void 0);
@@ -127010,25 +127286,25 @@ and ensure you are accounting for this risk.
       },
       [setOriginActivity, setSuggestedActionsRaw]
     );
-    (0, import_react62.useMemo)(() => dispatch(setRawState("suggestedActions", suggestedActions2)), [dispatch, suggestedActions2]);
-    (0, import_react62.useMemo)(
+    (0, import_react64.useMemo)(() => dispatch(setRawState("suggestedActions", suggestedActions2)), [dispatch, suggestedActions2]);
+    (0, import_react64.useMemo)(
       () => dispatch(setRawState("suggestedActionsOriginActivity", { activity: originActivity })),
       [dispatch, originActivity]
     );
-    (0, import_react62.useEffect)(() => {
+    (0, import_react64.useEffect)(() => {
       dispatch({ payload: { sink: handleAction }, type: "WEB_CHAT_INTERNAL/REGISTER_ACTION_SINK" });
       return () => {
         dispatch({ payload: { sink: handleAction }, type: "WEB_CHAT_INTERNAL/UNREGISTER_ACTION_SINK" });
       };
     }, [dispatch, handleAction]);
-    const useSuggestedActions2 = (0, import_react62.useCallback)(
+    const useSuggestedActions2 = (0, import_react64.useCallback)(
       () => Object.freeze([suggestedActions2, setSuggestedActions2, Object.freeze({ activity: originActivity })]),
       [originActivity, setSuggestedActions2, suggestedActions2]
     );
-    const context22 = (0, import_react62.useMemo)(() => ({ useSuggestedActions: useSuggestedActions2 }), [useSuggestedActions2]);
-    return /* @__PURE__ */ import_react62.default.createElement(SuggestedActionsContext_default.Provider, { value: context22 }, children);
+    const context22 = (0, import_react64.useMemo)(() => ({ useSuggestedActions: useSuggestedActions2 }), [useSuggestedActions2]);
+    return /* @__PURE__ */ import_react64.default.createElement(SuggestedActionsContext_default.Provider, { value: context22 }, children);
   }
-  var SuggestedActionsComposer_default = (0, import_react62.memo)(SuggestedActionsComposer);
+  var SuggestedActionsComposer_default = (0, import_react64.memo)(SuggestedActionsComposer);
   var reduxStoreComposerPropsSchema = pipe(
     object({
       children: optional(reactNode_default4()),
@@ -127038,11 +127314,11 @@ and ensure you are accounting for this risk.
   );
   function ReduxStoreComposer(props) {
     const { children, store } = validateProps5(reduxStoreComposerPropsSchema, props);
-    return /* @__PURE__ */ import_react61.default.createElement(SuggestedActionsComposer_default, { store }, children);
+    return /* @__PURE__ */ import_react63.default.createElement(SuggestedActionsComposer_default, { store }, children);
   }
-  var ReduxStoreComposer_default = (0, import_react61.memo)(ReduxStoreComposer);
+  var ReduxStoreComposer_default = (0, import_react63.memo)(ReduxStoreComposer);
   function useSuggestedActionsHooks() {
-    return (0, import_react64.useContext)(SuggestedActionsContext_default);
+    return (0, import_react66.useContext)(SuggestedActionsContext_default);
   }
   function useSuggestedActions() {
     return useSuggestedActionsHooks().useSuggestedActions();
@@ -127058,7 +127334,7 @@ and ensure you are accounting for this risk.
   function useTrackException() {
     const { onTelemetry } = useWebChatAPIContext();
     const readTelemetryDimensions = useReadTelemetryDimensions();
-    return (0, import_react65.useCallback)(
+    return (0, import_react67.useCallback)(
       (error2, fatal = true) => {
         if (!(error2 instanceof Error)) {
           return console.warn(
@@ -127084,7 +127360,7 @@ and ensure you are accounting for this risk.
     const { onTelemetry } = useWebChatAPIContext();
     const readTelemetryDimensions = useReadTelemetryDimensions();
     const trackException = useTrackException();
-    return (0, import_react66.useCallback)(
+    return (0, import_react68.useCallback)(
       async (name, functionOrPromise) => {
         if (!name || typeof name !== "string") {
           console.warn(
@@ -127128,7 +127404,7 @@ and ensure you are accounting for this risk.
   }
   function useUIState() {
     const { uiState } = useWebChatAPIContext();
-    return (0, import_react67.useMemo)(() => Object.freeze([uiState]), [uiState]);
+    return (0, import_react69.useMemo)(() => Object.freeze([uiState]), [uiState]);
   }
   function useUserID() {
     return [useWebChatAPIContext().userID];
@@ -127138,24 +127414,11 @@ and ensure you are accounting for this risk.
   }
   function useVoiceSelector(activity) {
     const context22 = useWebChatAPIContext();
-    return (0, import_react68.useCallback)((voices) => context22.selectVoice(voices, activity), [activity, context22]);
+    return (0, import_react70.useCallback)((voices) => context22.selectVoice(voices, activity), [activity, context22]);
   }
   function useVoiceActivities() {
     return [useSelector2(({ voiceActivities }) => voiceActivities)];
   }
-  var SpeechToSpeechContext = (0, import_react70.createContext)(void 0);
-  var Context_default32 = SpeechToSpeechContext;
-  function useSpeechToSpeechContext(thrownOnUndefined = true) {
-    const contextValue = (0, import_react69.useContext)(Context_default32);
-    if (thrownOnUndefined && !contextValue) {
-      throw new Error("botframework-webchat internal: This hook can only be used under <SpeechToSpeechContext>.");
-    }
-    return contextValue;
-  }
-  function useSpeechToSpeech() {
-    return [useSpeechToSpeechContext()];
-  }
-  var useSpeechToSpeech_default = useSpeechToSpeech;
 
   // ../api/dist/chunk-BTEUCLI7.mjs
   function reactNode5(message) {
@@ -127186,7 +127449,7 @@ and ensure you are accounting for this risk.
     }
   }
 
-  // ../api/dist/chunk-HKLBXDMP.mjs
+  // ../api/dist/chunk-Q3R74DDG.mjs
   var import_react71 = __toESM(require_react(), 1);
   var styleOptionsComposerPropsSchema = pipe(
     object({
@@ -127231,7 +127494,7 @@ and ensure you are accounting for this risk.
   }
   var { Provider: LegacyActivityContextProvider } = LegacyActivityContext;
 
-  // ../api/dist/chunk-BT3ZDE4D.mjs
+  // ../api/dist/chunk-J4A72QTW.mjs
   var import_react73 = __toESM(require_react(), 1);
   function composeEnhancer3(...enhancers) {
     return (fallbackHandler) => enhancers.reduceRight((chain, enhancer) => enhancer(chain), fallbackHandler);
@@ -138726,6 +138989,340 @@ and ensure you are accounting for this risk.
     ponyfill: import_prop_types5.default.any
   };
   var PonyfillComposer_default = PonyfillComposer;
+  var DEFAULT_SAMPLE_RATE = 24e3;
+  var INT16_SCALE = 32768;
+  function useAudioPlayer(config) {
+    const audioCtxRef = (0, import_react90.useRef)(null);
+    const nextPlayTimeRef = (0, import_react90.useRef)(0);
+    const { sampleRate = DEFAULT_SAMPLE_RATE } = config || {};
+    const initAudio = (0, import_react90.useCallback)(() => {
+      if (!audioCtxRef.current) {
+        audioCtxRef.current = new AudioContext({ sampleRate });
+      }
+      return audioCtxRef.current;
+    }, [sampleRate]);
+    const playAudio = (0, import_react90.useCallback)(
+      (base64) => {
+        var _a29;
+        const audioCtx = initAudio();
+        (_a29 = audioCtx.resume) == null ? void 0 : _a29.call(audioCtx);
+        try {
+          const bytes = Uint8Array.from(atob(base64), (c) => c.charCodeAt(0));
+          const int16 = new Int16Array(bytes.buffer);
+          const float32 = new Float32Array(int16.length);
+          for (let i3 = 0; i3 < int16.length; i3++) {
+            float32[i3] = int16[i3] / INT16_SCALE;
+          }
+          const buffer = audioCtx.createBuffer(1, float32.length, audioCtx.sampleRate);
+          buffer.getChannelData(0).set(float32);
+          const src = audioCtx.createBufferSource();
+          src.buffer = buffer;
+          src.connect(audioCtx.destination);
+          src.onended = () => {
+            src.disconnect();
+            src.buffer = null;
+          };
+          nextPlayTimeRef.current = Math.max(nextPlayTimeRef.current, audioCtx.currentTime);
+          src.start(nextPlayTimeRef.current);
+          nextPlayTimeRef.current += buffer.duration;
+        } catch (error2) {
+          console.warn("botframework-webchat: Error during audio playback in useAudioPlayer:", error2);
+        }
+      },
+      [initAudio]
+    );
+    const stopAudio = (0, import_react90.useCallback)(() => {
+      nextPlayTimeRef.current = 0;
+      if (audioCtxRef.current) {
+        audioCtxRef.current.close();
+        audioCtxRef.current = null;
+      }
+    }, []);
+    return {
+      playAudio,
+      stopAudio,
+      isPlaying: audioCtxRef.current ? audioCtxRef.current.currentTime < nextPlayTimeRef.current : false
+    };
+  }
+  var audioProcessorCode = `
+  class AudioRecorderProcessor extends AudioWorkletProcessor {
+    constructor(options) {
+      super()
+      this.recording = false
+      this.buffer = []
+      this.bufferSize = options.processorOptions.bufferSize
+      this.port.onmessage = e => {
+        if (e.data.command === 'START') this.recording = true
+        else if (e.data.command === 'STOP') {
+          this.recording = false
+          this.buffer = []
+        }
+      }
+    }
+    sendBuffer() {
+      while (this.buffer.length >= this.bufferSize) {
+        const chunk = this.buffer.splice(0, this.bufferSize)
+        this.port.postMessage({
+          eventType: 'audio',
+          audioData: new Float32Array(chunk)
+        })
+      }
+    }
+    process(inputs) {
+      if (inputs[0]?.length && this.recording) {
+        this.buffer.push(...inputs[0][0])
+        if (this.buffer.length >= this.bufferSize) this.sendBuffer()
+      }
+      return true
+    }
+  }
+  registerProcessor('audio-recorder', AudioRecorderProcessor)`;
+  var INT16_MIN = -32768;
+  var INT16_MAX = 32767;
+  var INT16_SCALE2 = 32767;
+  var DEFAULT_SAMPLE_RATE2 = 24e3;
+  var DEFAULT_CHUNK_SIZE_IN_MS = 100;
+  var MS_IN_SECOND = 1e3;
+  function useRecorder(onAudioChunk, config) {
+    const [recording, setRecordingInternal] = (0, import_react91.useState)(false);
+    const audioCtxRef = (0, import_react91.useRef)(null);
+    const workletRef = (0, import_react91.useRef)(null);
+    const streamRef = (0, import_react91.useRef)(null);
+    const [{ Date: Date2 }] = usePonyfill();
+    const { sampleRate = DEFAULT_SAMPLE_RATE2, chunkIntervalMs = DEFAULT_CHUNK_SIZE_IN_MS } = config || {};
+    const initAudio = (0, import_react91.useCallback)(async () => {
+      if (audioCtxRef.current) {
+        return;
+      }
+      const audioCtx = new AudioContext({ sampleRate });
+      const blob = new Blob([audioProcessorCode], {
+        type: "application/javascript"
+      });
+      const url2 = URL.createObjectURL(blob);
+      await audioCtx.audioWorklet.addModule(url2);
+      URL.revokeObjectURL(url2);
+      audioCtxRef.current = audioCtx;
+    }, [sampleRate]);
+    const startRecording = (0, import_react91.useCallback)(async () => {
+      await initAudio();
+      const audioCtx = audioCtxRef.current;
+      if (audioCtx.state === "suspended") {
+        await audioCtx.resume();
+      }
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          channelCount: 1,
+          sampleRate,
+          echoCancellation: true
+        }
+      });
+      streamRef.current = stream;
+      const source = audioCtx.createMediaStreamSource(stream);
+      const worklet = new AudioWorkletNode(audioCtx, "audio-recorder", {
+        processorOptions: {
+          bufferSize: sampleRate * chunkIntervalMs / MS_IN_SECOND
+        }
+      });
+      worklet.port.onmessage = (e3) => {
+        if (e3.data.eventType === "audio") {
+          const timestamp = new Date2().toISOString();
+          const float32 = e3.data.audioData;
+          const int16 = new Int16Array(float32.length);
+          for (let i3 = 0; i3 < float32.length; i3++) {
+            int16[i3] = Math.max(INT16_MIN, Math.min(INT16_MAX, float32[i3] * INT16_SCALE2));
+          }
+          const base64 = btoa(String.fromCharCode(...new Uint8Array(int16.buffer)));
+          onAudioChunk(base64, timestamp);
+        }
+      };
+      source.connect(worklet);
+      worklet.connect(audioCtx.destination);
+      worklet.port.postMessage({ command: "START" });
+      workletRef.current = worklet;
+      setRecordingInternal(true);
+    }, [Date2, chunkIntervalMs, initAudio, onAudioChunk, sampleRate]);
+    const stopRecording = (0, import_react91.useCallback)(() => {
+      if (workletRef.current) {
+        workletRef.current.port.postMessage({ command: "STOP" });
+        workletRef.current.disconnect();
+        workletRef.current = null;
+      }
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach((track) => track.stop());
+        streamRef.current = null;
+      }
+      setRecordingInternal(false);
+    }, []);
+    const setRecording = (0, import_react91.useCallback)(
+      async (shouldRecord) => {
+        if (!shouldRecord && recording) {
+          stopRecording();
+        } else if (shouldRecord && !recording) {
+          await startRecording();
+        }
+      },
+      [recording, startRecording, stopRecording]
+    );
+    return {
+      recording,
+      setRecording
+    };
+  }
+  function useStateRef(initialValue) {
+    const [_2, forceRender] = (0, import_react92.useState)();
+    const valueRef = (0, import_react92.useRef)(initialValue);
+    const setter = (0, import_react92.useCallback)(
+      (value) => {
+        const { current: current2 } = valueRef;
+        value = value instanceof Function ? value(current2) : value;
+        if (current2 !== value) {
+          valueRef.current = value;
+          forceRender({});
+        }
+      },
+      [forceRender, valueRef]
+    );
+    return Object.freeze([valueRef.current, setter, valueRef]);
+  }
+  var session = {
+    instructions: "You are a helpful AI assistant responding in natural, engaging language.",
+    turn_detection: {
+      type: "azure_semantic_vad",
+      threshold: 0.3,
+      prefix_padding_ms: 200,
+      silence_duration_ms: 200,
+      remove_filler_words: false,
+      end_of_utterance_detection: {
+        model: "semantic_detection_v1",
+        threshold: 0.01,
+        timeout: 2
+      }
+    },
+    input_audio_noise_reduction: {
+      type: "azure_deep_noise_suppression"
+    },
+    input_audio_echo_cancellation: {
+      type: "server_echo_cancellation"
+    },
+    voice: {
+      name: "en-US-Ava:DragonHDLatestNeural",
+      type: "azure-standard",
+      temperature: 0.8
+    }
+  };
+  var SpeechToSpeechComposer = ({ children }) => {
+    const [voiceActivities] = useVoiceActivities();
+    const postActivity22 = usePostActivity();
+    const [{ connectivitystatus }] = useDebouncedNotifications_default();
+    const lastProcessedIndexRef = (0, import_react89.useRef)(0);
+    const [speechState, setSpeechState] = useStateRef("idle");
+    const [serverConfig, setServerConfig] = useStateRef(null);
+    const { playAudio, stopAudio, isPlaying } = useAudioPlayer(serverConfig);
+    const isConnected = (0, import_react89.useMemo)(() => (connectivitystatus == null ? void 0 : connectivitystatus.message) === "connected", [connectivitystatus]);
+    const sendAudioChunk = (0, import_react89.useCallback)(
+      (base64, timestamp) => {
+        postActivity22({
+          type: "event",
+          name: "stream.chunk",
+          value: { voice: { contentUrl: base64, timestamp } }
+        });
+      },
+      [postActivity22]
+    );
+    const { recording, setRecording: baseSetRecording } = useRecorder(sendAudioChunk, serverConfig);
+    const handleVoiceActivity = (0, import_react89.useCallback)(
+      (activity) => {
+        var _a29;
+        if (!isVoiceActivity_default(activity)) {
+          return;
+        }
+        const { name, value } = activity;
+        const { voice } = value;
+        switch (name) {
+          // TODO - this will be commandResult activity and not event, need to think on handling of command and commandResult activities.
+          case "session.init": {
+            setServerConfig((_a29 = value.session) == null ? void 0 : _a29.config);
+            break;
+          }
+          case "session.update": {
+            switch (voice.bot_state) {
+              case "voice.request.detected":
+                stopAudio();
+                setSpeechState("user_speaking");
+                break;
+              case "voice.request.processing":
+                setSpeechState("processing");
+                break;
+              default:
+                break;
+            }
+            break;
+          }
+          case "stream.chunk": {
+            if (voice.contentUrl) {
+              playAudio(voice.contentUrl);
+            }
+            break;
+          }
+          default:
+            break;
+        }
+      },
+      [playAudio, setServerConfig, setSpeechState, stopAudio]
+    );
+    (0, import_react89.useEffect)(() => {
+      var _a29;
+      const startIndex = lastProcessedIndexRef.current;
+      if (!voiceActivities.length || startIndex >= voiceActivities.length) {
+        return;
+      }
+      for (let i3 = startIndex; i3 < voiceActivities.length; i3++) {
+        const activity = voiceActivities[i3];
+        if (((_a29 = activity.from) == null ? void 0 : _a29.role) === "user" || !recording && isVoiceActivity_default(activity) && activity.name !== "session.init") {
+          continue;
+        }
+        handleVoiceActivity(activity);
+      }
+      if (isPlaying && speechState !== "bot_speaking" && speechState !== "user_speaking") {
+        setSpeechState("bot_speaking");
+      } else if (!isPlaying && speechState === "bot_speaking") {
+        setSpeechState("listening");
+      }
+      lastProcessedIndexRef.current = voiceActivities.length;
+    }, [handleVoiceActivity, isPlaying, recording, setSpeechState, speechState, voiceActivities]);
+    const updateSession = (0, import_react89.useCallback)(() => {
+      postActivity22({
+        type: "event",
+        name: "stream.chunk",
+        value: { voiceLiveEvent: { type: "session.update", session } }
+      });
+    }, [postActivity22]);
+    const setRecording = (0, import_react89.useCallback)(
+      async (shouldRecord) => {
+        if (!isConnected) {
+          return;
+        }
+        if (shouldRecord) {
+          setSpeechState("listening");
+          // updateSession();
+        } else {
+          stopAudio();
+          setSpeechState("idle");
+        }
+        await baseSetRecording(shouldRecord);
+      },
+      [isConnected, baseSetRecording, setSpeechState, stopAudio]
+    );
+    const contextValue = (0, import_react89.useMemo)(
+      () => ({
+        recording,
+        setRecording,
+        speechState
+      }),
+      [recording, setRecording, speechState]
+    );
+    return /* @__PURE__ */ import_react89.default.createElement(Context_default32.Provider, { value: contextValue }, children);
+  };
   function mapMap(map3, mapper) {
     return Object.entries(map3).reduce((result, [key2, value]) => {
       if (!isForbiddenPropertyName(key2)) {
@@ -138844,10 +139441,10 @@ and ensure you are accounting for this risk.
     const [language2] = useLanguage();
     const trackDimension = useTrackDimension();
     const trackEvent = useTrackEvent();
-    (0, import_react89.useEffect)(() => {
+    (0, import_react93.useEffect)(() => {
       trackDimension("prop:locale", language2);
     }, [language2, trackDimension]);
-    (0, import_react89.useEffect)(() => {
+    (0, import_react93.useEffect)(() => {
       trackEvent("init");
     }, [trackEvent]);
   }
@@ -138863,7 +139460,7 @@ and ensure you are accounting for this risk.
       null
     ) || voices[0];
   }
-  var NoActivityToRenderComponent = (0, import_react90.memo)(function NoActivityToRenderComponent2({
+  var NoActivityToRenderComponent = (0, import_react94.memo)(function NoActivityToRenderComponent2({
     activity
   }) {
     throw new Error(`No renderer for activity of type "${activity.type}"`);
@@ -138918,340 +139515,6 @@ and ensure you are accounting for this risk.
   function parseUIState(input, disabled) {
     return parse(fallback(union([literal("blueprint"), literal("disabled")]), disabled ? "disabled" : void 0), input);
   }
-  var DEFAULT_SAMPLE_RATE = 24e3;
-  var INT16_SCALE = 32768;
-  function useAudioPlayer(config) {
-    const audioCtxRef = (0, import_react92.useRef)(null);
-    const nextPlayTimeRef = (0, import_react92.useRef)(0);
-    const { sampleRate = DEFAULT_SAMPLE_RATE } = config || {};
-    const initAudio = (0, import_react92.useCallback)(() => {
-      if (!audioCtxRef.current) {
-        audioCtxRef.current = new AudioContext({ sampleRate });
-      }
-      return audioCtxRef.current;
-    }, [sampleRate]);
-    const playAudio = (0, import_react92.useCallback)(
-      (base64) => {
-        var _a29;
-        const audioCtx = initAudio();
-        (_a29 = audioCtx.resume) == null ? void 0 : _a29.call(audioCtx);
-        try {
-          const bytes = Uint8Array.from(atob(base64), (c) => c.charCodeAt(0));
-          const int16 = new Int16Array(bytes.buffer);
-          const float32 = new Float32Array(int16.length);
-          for (let i3 = 0; i3 < int16.length; i3++) {
-            float32[i3] = int16[i3] / INT16_SCALE;
-          }
-          const buffer = audioCtx.createBuffer(1, float32.length, audioCtx.sampleRate);
-          buffer.getChannelData(0).set(float32);
-          const src = audioCtx.createBufferSource();
-          src.buffer = buffer;
-          src.connect(audioCtx.destination);
-          src.onended = () => {
-            src.disconnect();
-            src.buffer = null;
-          };
-          nextPlayTimeRef.current = Math.max(nextPlayTimeRef.current, audioCtx.currentTime);
-          src.start(nextPlayTimeRef.current);
-          nextPlayTimeRef.current += buffer.duration;
-        } catch (error2) {
-          console.warn("botframework-webchat: Error during audio playback in useAudioPlayer:", error2);
-        }
-      },
-      [initAudio]
-    );
-    const stopAudio = (0, import_react92.useCallback)(() => {
-      nextPlayTimeRef.current = 0;
-      if (audioCtxRef.current) {
-        audioCtxRef.current.close();
-        audioCtxRef.current = null;
-      }
-    }, []);
-    return {
-      playAudio,
-      stopAudio,
-      isPlaying: audioCtxRef.current ? audioCtxRef.current.currentTime < nextPlayTimeRef.current : false
-    };
-  }
-  var audioProcessorCode = `
-  class AudioRecorderProcessor extends AudioWorkletProcessor {
-    constructor(options) {
-      super()
-      this.recording = false
-      this.buffer = []
-      this.bufferSize = options.processorOptions.bufferSize
-      this.port.onmessage = e => {
-        if (e.data.command === 'START') this.recording = true
-        else if (e.data.command === 'STOP') {
-          this.recording = false
-          this.buffer = []
-        }
-      }
-    }
-    sendBuffer() {
-      while (this.buffer.length >= this.bufferSize) {
-        const chunk = this.buffer.splice(0, this.bufferSize)
-        this.port.postMessage({
-          eventType: 'audio',
-          audioData: new Float32Array(chunk)
-        })
-      }
-    }
-    process(inputs) {
-      if (inputs[0]?.length && this.recording) {
-        this.buffer.push(...inputs[0][0])
-        if (this.buffer.length >= this.bufferSize) this.sendBuffer()
-      }
-      return true
-    }
-  }
-  registerProcessor('audio-recorder', AudioRecorderProcessor)`;
-  var INT16_MIN = -32768;
-  var INT16_MAX = 32767;
-  var INT16_SCALE2 = 32767;
-  var DEFAULT_SAMPLE_RATE2 = 24e3;
-  var DEFAULT_CHUNK_SIZE_IN_MS = 100;
-  var MS_IN_SECOND = 1e3;
-  function useRecorder(onAudioChunk, config) {
-    const [recording, setRecordingInternal] = (0, import_react93.useState)(false);
-    const audioCtxRef = (0, import_react93.useRef)(null);
-    const workletRef = (0, import_react93.useRef)(null);
-    const streamRef = (0, import_react93.useRef)(null);
-    const [{ Date: Date2 }] = usePonyfill();
-    const { sampleRate = DEFAULT_SAMPLE_RATE2, chunkIntervalMs = DEFAULT_CHUNK_SIZE_IN_MS } = config || {};
-    const initAudio = (0, import_react93.useCallback)(async () => {
-      if (audioCtxRef.current) {
-        return;
-      }
-      const audioCtx = new AudioContext({ sampleRate });
-      const blob = new Blob([audioProcessorCode], {
-        type: "application/javascript"
-      });
-      const url2 = URL.createObjectURL(blob);
-      await audioCtx.audioWorklet.addModule(url2);
-      URL.revokeObjectURL(url2);
-      audioCtxRef.current = audioCtx;
-    }, [sampleRate]);
-    const startRecording = (0, import_react93.useCallback)(async () => {
-      await initAudio();
-      const audioCtx = audioCtxRef.current;
-      if (audioCtx.state === "suspended") {
-        await audioCtx.resume();
-      }
-      const stream = await navigator.mediaDevices.getUserMedia({
-        audio: {
-          channelCount: 1,
-          sampleRate,
-          echoCancellation: true
-        }
-      });
-      streamRef.current = stream;
-      const source = audioCtx.createMediaStreamSource(stream);
-      const worklet = new AudioWorkletNode(audioCtx, "audio-recorder", {
-        processorOptions: {
-          bufferSize: sampleRate * chunkIntervalMs / MS_IN_SECOND
-        }
-      });
-      worklet.port.onmessage = (e3) => {
-        if (e3.data.eventType === "audio") {
-          const timestamp = new Date2().toISOString();
-          const float32 = e3.data.audioData;
-          const int16 = new Int16Array(float32.length);
-          for (let i3 = 0; i3 < float32.length; i3++) {
-            int16[i3] = Math.max(INT16_MIN, Math.min(INT16_MAX, float32[i3] * INT16_SCALE2));
-          }
-          const base64 = btoa(String.fromCharCode(...new Uint8Array(int16.buffer)));
-          onAudioChunk(base64, timestamp);
-        }
-      };
-      source.connect(worklet);
-      worklet.connect(audioCtx.destination);
-      worklet.port.postMessage({ command: "START" });
-      workletRef.current = worklet;
-      setRecordingInternal(true);
-    }, [Date2, chunkIntervalMs, initAudio, onAudioChunk, sampleRate]);
-    const stopRecording = (0, import_react93.useCallback)(() => {
-      if (workletRef.current) {
-        workletRef.current.port.postMessage({ command: "STOP" });
-        workletRef.current.disconnect();
-        workletRef.current = null;
-      }
-      if (streamRef.current) {
-        streamRef.current.getTracks().forEach((track) => track.stop());
-        streamRef.current = null;
-      }
-      setRecordingInternal(false);
-    }, []);
-    const setRecording = (0, import_react93.useCallback)(
-      async (shouldRecord) => {
-        if (!shouldRecord && recording) {
-          stopRecording();
-        } else if (shouldRecord && !recording) {
-          await startRecording();
-        }
-      },
-      [recording, startRecording, stopRecording]
-    );
-    return {
-      recording,
-      setRecording
-    };
-  }
-  function useStateRef(initialValue) {
-    const [_2, forceRender] = (0, import_react94.useState)();
-    const valueRef = (0, import_react94.useRef)(initialValue);
-    const setter = (0, import_react94.useCallback)(
-      (value) => {
-        const { current: current2 } = valueRef;
-        value = value instanceof Function ? value(current2) : value;
-        if (current2 !== value) {
-          valueRef.current = value;
-          forceRender({});
-        }
-      },
-      [forceRender, valueRef]
-    );
-    return Object.freeze([valueRef.current, setter, valueRef]);
-  }
-  var session = {
-    instructions: "You are a helpful AI assistant responding in natural, engaging language.",
-    turn_detection: {
-      type: "azure_semantic_vad",
-      threshold: 0.3,
-      prefix_padding_ms: 200,
-      silence_duration_ms: 200,
-      remove_filler_words: false,
-      end_of_utterance_detection: {
-        model: "semantic_detection_v1",
-        threshold: 0.01,
-        timeout: 2
-      }
-    },
-    input_audio_noise_reduction: {
-      type: "azure_deep_noise_suppression"
-    },
-    input_audio_echo_cancellation: {
-      type: "server_echo_cancellation"
-    },
-    voice: {
-      name: "en-US-Ava:DragonHDLatestNeural",
-      type: "azure-standard",
-      temperature: 0.8
-    }
-  };
-  var SpeechToSpeechComposer = ({ children }) => {
-    const [voiceActivities] = useVoiceActivities();
-    const postActivity22 = usePostActivity();
-    const [{ connectivitystatus }] = useDebouncedNotifications_default();
-    const lastProcessedIndexRef = (0, import_react91.useRef)(0);
-    const [speechState, setSpeechState] = useStateRef("idle");
-    const [serverConfig, setServerConfig] = useStateRef(null);
-    const { playAudio, stopAudio, isPlaying } = useAudioPlayer(serverConfig);
-    const isConnected = (0, import_react91.useMemo)(() => (connectivitystatus == null ? void 0 : connectivitystatus.message) === "connected", [connectivitystatus]);
-    const sendAudioChunk = (0, import_react91.useCallback)(
-      (base64, timestamp) => {
-        postActivity22({
-          type: "event",
-          name: "stream.chunk",
-          value: { voice: { contentUrl: base64, timestamp } }
-        });
-      },
-      [postActivity22]
-    );
-    const { recording, setRecording: baseSetRecording } = useRecorder(sendAudioChunk, serverConfig);
-    const handleVoiceActivity = (0, import_react91.useCallback)(
-      (activity) => {
-        var _a29;
-        if (!isVoiceActivity_default(activity)) {
-          return;
-        }
-        const { name, value } = activity;
-        const { voice } = value;
-        switch (name) {
-          // TODO - this will be commandResult activity and not event, need to think on handling of command and commandResult activities.
-          case "session.init": {
-            setServerConfig((_a29 = voice.session) == null ? void 0 : _a29.config);
-            break;
-          }
-          case "session.update": {
-            switch (voice.bot_state) {
-              case "voice.request.detected":
-                stopAudio();
-                setSpeechState("listening");
-                break;
-              case "voice.request.processing":
-                setSpeechState("processing");
-                break;
-              default:
-                break;
-            }
-            break;
-          }
-          case "stream.chunk": {
-            if (voice.contentUrl) {
-              playAudio(voice.contentUrl);
-            }
-            break;
-          }
-          default:
-            break;
-        }
-      },
-      [playAudio, setServerConfig, setSpeechState, stopAudio]
-    );
-    (0, import_react91.useEffect)(() => {
-      var _a29;
-      const startIndex = lastProcessedIndexRef.current;
-      if (!voiceActivities.length || startIndex >= voiceActivities.length) {
-        return;
-      }
-      for (let i3 = startIndex; i3 < voiceActivities.length; i3++) {
-        const activity = voiceActivities[i3];
-        if (((_a29 = activity.from) == null ? void 0 : _a29.role) === "user" || !recording && isVoiceActivity_default(activity) && activity.name !== "session.init") {
-          continue;
-        }
-        handleVoiceActivity(activity);
-      }
-      if (isPlaying && speechState !== "bot_speaking") {
-        setSpeechState("bot_speaking");
-      } else if (!isPlaying && speechState === "bot_speaking") {
-        setSpeechState("listening");
-      }
-      lastProcessedIndexRef.current = voiceActivities.length;
-    }, [handleVoiceActivity, isPlaying, recording, setSpeechState, speechState, voiceActivities]);
-    const updateSession = (0, import_react91.useCallback)(() => {
-      postActivity22({
-        type: "event",
-        name: "stream.chunk",
-        value: { voiceLiveEvent: { type: "session.update", session } }
-      });
-    }, [postActivity22]);
-    const setRecording = (0, import_react91.useCallback)(
-      async (shouldRecord) => {
-        if (!isConnected) {
-          return;
-        }
-        if (shouldRecord) {
-          setSpeechState("listening");
-          // updateSession();
-        } else {
-          stopAudio();
-          setSpeechState("idle");
-        }
-        await baseSetRecording(shouldRecord);
-      },
-      [isConnected, baseSetRecording, setSpeechState, stopAudio]
-    );
-    const contextValue = (0, import_react91.useMemo)(
-      () => ({
-        recording,
-        setRecording,
-        speechState
-      }),
-      [recording, setRecording, speechState]
-    );
-    return /* @__PURE__ */ import_react91.default.createElement(Context_default32.Provider, { value: contextValue }, children);
-  };
   var DISPATCHERS = {
     clearSuggestedActions: clearSuggestedActions2,
     dismissNotification: dismissNotification_default,
@@ -139725,12 +139988,12 @@ and ensure you are accounting for this risk.
   var buildInfo_default3 = buildInfo3;
   var { object: buildInfoObject2, version: version2 } = buildInfo_default3;
 
-  // ../component/dist/chunk-CBERKMDV.mjs
+  // ../component/dist/chunk-7PDCZKKO.mjs
+  var import_react99 = __toESM(require_react(), 1);
+  var import_react100 = __toESM(require_react(), 1);
   var import_react101 = __toESM(require_react(), 1);
   var import_react102 = __toESM(require_react(), 1);
   var import_react103 = __toESM(require_react(), 1);
-  var import_react104 = __toESM(require_react(), 1);
-  var import_react105 = __toESM(require_react(), 1);
 
   // ../../node_modules/@emotion/sheet/dist/emotion-sheet.esm.js
   var isDevelopment = false;
@@ -140797,9 +141060,9 @@ and ensure you are accounting for this risk.
 
   // ../../node_modules/@emotion/utils/dist/emotion-utils.browser.esm.js
   var isBrowser = true;
-  function getRegisteredStyles(registered, registeredStyles, classNames49) {
+  function getRegisteredStyles(registered, registeredStyles, classNames31) {
     var rawClassName = "";
-    classNames49.split(" ").forEach(function(className) {
+    classNames31.split(" ").forEach(function(className) {
       if (registered[className] !== void 0) {
         registeredStyles.push(registered[className] + ";");
       } else if (className) {
@@ -140884,7 +141147,7 @@ and ensure you are accounting for this risk.
       var serialized = serializeStyles(args, cache2.registered);
       insertWithoutScoping(cache2, serialized);
     };
-    var cx25 = function cx26() {
+    var cx27 = function cx28() {
       for (var _len4 = arguments.length, args = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
         args[_key4] = arguments[_key4];
       }
@@ -140892,7 +141155,7 @@ and ensure you are accounting for this risk.
     };
     return {
       css: css2,
-      cx: cx25,
+      cx: cx27,
       injectGlobal: injectGlobal2,
       keyframes: keyframes2,
       hydrate: function hydrate2(ids) {
@@ -140946,23 +141209,11 @@ and ensure you are accounting for this risk.
     return cls;
   };
 
-  // ../component/dist/chunk-CBERKMDV.mjs
-  var import_react106 = __toESM(require_react(), 1);
+  // ../component/dist/chunk-7PDCZKKO.mjs
+  var import_react104 = __toESM(require_react(), 1);
   var import_math_random4 = __toESM(require_browser(), 1);
   var import_classnames2 = __toESM(require_classnames(), 1);
-  var import_react107 = __toESM(require_react(), 1);
-  var context3 = (0, import_react95.createContext)(void 0);
-  var WebChatUIContext_default = context3;
-  function useWebChatUIContext() {
-    const context22 = (0, import_react96.useContext)(WebChatUIContext_default);
-    if (!context22) {
-      throw new Error("This hook can only be used on a component that is a descendant of <Composer>");
-    }
-    return context22;
-  }
-  function useStyleSet() {
-    return Object.freeze([useWebChatUIContext().styleSet]);
-  }
+  var import_react105 = __toESM(require_react(), 1);
   function createPropsSchema(styles2, modifiers) {
     const props = Object.keys(styles2).reduce((acc, key2) => {
       const [rawBase, modifier] = key2.split("--");
@@ -140999,9 +141250,9 @@ and ensure you are accounting for this risk.
     const component = ((props) => {
       const { className, ...rest } = props;
       const validatedProps = validateProps2(modifierPropsSchema, props);
-      const classNames49 = useStyles_default(styles2);
-      const classes26 = Object.entries(validatedProps).map(([key2, value]) => classNames49[`${key2}--${value}`]);
-      return /* @__PURE__ */ import_react97.default.createElement(BaseIcon, { className: (0, import_classnames.default)(className, classes26), ...rest });
+      const classNames31 = useStyles_default(styles2);
+      const classes210 = Object.entries(validatedProps).map(([key2, value]) => classNames31[`${key2}--${value}`]);
+      return /* @__PURE__ */ import_react95.default.createElement(BaseIcon, { className: (0, import_classnames.default)(className, classes210), ...rest });
     });
     return { component, modifierPropsSchema };
   }
@@ -141017,7 +141268,7 @@ and ensure you are accounting for this risk.
   }
   function useMarkAllAsRenderedEffect() {
     const { markAllAsRendered } = useLiveRegionTwinContext();
-    (0, import_react103.useEffect)(markAllAsRendered);
+    (0, import_react101.useEffect)(markAllAsRendered);
   }
   function useStaticElementEntries() {
     return useLiveRegionTwinContext().staticElementEntriesState;
@@ -141044,7 +141295,7 @@ and ensure you are accounting for this risk.
     } = validateProps2(liveRegionTwinContainerPropsSchema, props);
     const [staticElementEntries] = useStaticElementEntries();
     useMarkAllAsRenderedEffect();
-    return /* @__PURE__ */ import_react102.default.createElement(
+    return /* @__PURE__ */ import_react100.default.createElement(
       "div",
       {
         "aria-label": ariaLabel,
@@ -141055,9 +141306,9 @@ and ensure you are accounting for this risk.
       },
       staticElementEntries.map(({ element: element3, key: key2 }) => {
         if (typeof element3 === "string") {
-          return /* @__PURE__ */ import_react102.default.createElement("div", { "aria-atomic": true, className: textElementClassName, key: key2 }, element3);
+          return /* @__PURE__ */ import_react100.default.createElement("div", { "aria-atomic": true, className: textElementClassName, key: key2 }, element3);
         }
-        return /* @__PURE__ */ import_react102.default.createElement(import_react102.Fragment, { key: key2 }, element3);
+        return /* @__PURE__ */ import_react100.default.createElement(import_react100.Fragment, { key: key2 }, element3);
       })
     );
   }
@@ -141077,12 +141328,12 @@ and ensure you are accounting for this risk.
       textElementClassName
     }) => {
       const [{ clearTimeout: clearTimeout2, setTimeout: setTimeout2 }] = usePonyfill2();
-      const [staticElementEntries, setStaticElementEntries] = (0, import_react101.useState)([]);
+      const [staticElementEntries, setStaticElementEntries] = (0, import_react99.useState)([]);
       const fadeAfterRef = useRefFrom(fadeAfter);
-      const markAllAsRenderedTimeoutIdRef = (0, import_react101.useRef)();
-      const nextKeyRef = (0, import_react101.useRef)(1);
+      const markAllAsRenderedTimeoutIdRef = (0, import_react99.useRef)();
+      const nextKeyRef = (0, import_react99.useRef)(1);
       const staticElementEntriesRef = useRefFrom(staticElementEntries);
-      const markAllAsRendered = (0, import_react101.useCallback)(() => {
+      const markAllAsRendered = (0, import_react99.useCallback)(() => {
         if (!staticElementEntriesRef.current.length) {
           return;
         }
@@ -141098,11 +141349,11 @@ and ensure you are accounting for this risk.
         setTimeout2,
         staticElementEntriesRef
       ]);
-      (0, import_react101.useEffect)(
+      (0, import_react99.useEffect)(
         () => () => markAllAsRenderedTimeoutIdRef.current && clearTimeout2(markAllAsRenderedTimeoutIdRef.current),
         [clearTimeout2, markAllAsRenderedTimeoutIdRef]
       );
-      const queueStaticElement = (0, import_react101.useCallback)(
+      const queueStaticElement = (0, import_react99.useCallback)(
         (element3) => {
           const key2 = nextKeyRef.current;
           nextKeyRef.current = nextKeyRef.current + 1;
@@ -141110,11 +141361,11 @@ and ensure you are accounting for this risk.
         },
         [nextKeyRef, setStaticElementEntries]
       );
-      const staticElementEntriesState = (0, import_react101.useMemo)(
+      const staticElementEntriesState = (0, import_react99.useMemo)(
         () => Object.freeze([Object.freeze(staticElementEntries)]),
         [staticElementEntries]
       );
-      const context22 = (0, import_react101.useMemo)(
+      const context9 = (0, import_react99.useMemo)(
         () => ({
           markAllAsRendered,
           queueStaticElement,
@@ -141122,7 +141373,7 @@ and ensure you are accounting for this risk.
         }),
         [markAllAsRendered, queueStaticElement, staticElementEntriesState]
       );
-      return /* @__PURE__ */ import_react101.default.createElement(Provider3, { value: context22 }, /* @__PURE__ */ import_react101.default.createElement(
+      return /* @__PURE__ */ import_react99.default.createElement(Provider3, { value: context9 }, /* @__PURE__ */ import_react99.default.createElement(
         LiveRegionTwinContainer_default,
         {
           "aria-label": ariaLabel,
@@ -141135,10 +141386,10 @@ and ensure you are accounting for this risk.
       ), children);
     };
     LiveRegionTwinComposer2.displayName = "LiveRegionTwinComposer";
-    return (0, import_react101.memo)(LiveRegionTwinComposer2);
+    return (0, import_react99.memo)(LiveRegionTwinComposer2);
   };
   var createLiveRegionTwinComposer_default = createLiveRegionTwinComposer;
-  var LiveRegionTwinContext = (0, import_react100.createContext)(
+  var LiveRegionTwinContext = (0, import_react98.createContext)(
     new Proxy(
       {},
       {
@@ -141153,7 +141404,7 @@ and ensure you are accounting for this risk.
   var LiveRegionTwinComposer = createLiveRegionTwinComposer_default(LiveRegionTwinContext);
   var LiveRegionTwinComposer_default = LiveRegionTwinComposer;
   function useLiveRegionTwinContext() {
-    const contextValue = (0, import_react99.useContext)(LiveRegionTwinContext);
+    const contextValue = (0, import_react97.useContext)(LiveRegionTwinContext);
     return contextValue;
   }
   function useQueueStaticElement() {
@@ -141162,7 +141413,7 @@ and ensure you are accounting for this risk.
   function useLiveRegion(createNode, deps) {
     const createNodeRef = useRefFrom(createNode);
     const queueStaticElement = useQueueStaticElement();
-    (0, import_react98.useMemo)(() => {
+    (0, import_react96.useMemo)(() => {
       const node3 = createNodeRef == null ? void 0 : createNodeRef.current();
       node3 && queueStaticElement(node3);
     }, [...deps, createNodeRef, queueStaticElement]);
@@ -141172,7 +141423,7 @@ and ensure you are accounting for this risk.
   }
   var sharedEmotionInstances = [];
   function useEmotion(nonce, container) {
-    const emotion = (0, import_react106.useMemo)(() => {
+    const emotion = (0, import_react104.useMemo)(() => {
       const sharedEmotion = sharedEmotionInstances.find(
         ({ sheet: sheet2 }) => sheet2.nonce === nonce && sheet2.container === container
       );
@@ -141180,7 +141431,7 @@ and ensure you are accounting for this risk.
       sharedEmotionInstances.push(emotion2);
       return emotion2;
     }, [container, nonce]);
-    (0, import_react106.useEffect)(
+    (0, import_react104.useEffect)(
       () => () => {
         var _a29;
         const index2 = sharedEmotionInstances.lastIndexOf(emotion);
@@ -141199,48 +141450,46 @@ and ensure you are accounting for this risk.
   var createStyleToEmotionObjectComposer = ({ Provider: Provider3 }) => ({ children, nonce }) => {
     const [{ stylesRoot }] = useStyleOptions2();
     const emotion = useEmotion(nonce, stylesRoot);
-    const styleToEmotionObject = (0, import_react105.useCallback)((style) => emotion.css(style), [emotion]);
+    const styleToEmotionObject = (0, import_react103.useCallback)((style) => emotion.css(style), [emotion]);
     const styleToEmotionObjectRef = useRefFrom(styleToEmotionObject);
-    return /* @__PURE__ */ import_react105.default.createElement(Provider3, { value: styleToEmotionObjectRef }, styleToEmotionObject && children);
+    return /* @__PURE__ */ import_react103.default.createElement(Provider3, { value: styleToEmotionObjectRef }, styleToEmotionObject && children);
   };
   var createStyleToEmotionObjectComposer_default = createStyleToEmotionObjectComposer;
-  var styleToEmotionObjectContext = (0, import_react104.createContext)(
-    new Proxy((0, import_react104.createRef)(), {
+  var styleToEmotionObjectContext = (0, import_react102.createContext)(
+    new Proxy((0, import_react102.createRef)(), {
       get() {
         throw new Error("StyleToEmotionObjectContext was used without StyleToEmotionObjectComposer");
       }
     })
   );
   function useStyleToEmotionObject() {
-    return (0, import_react104.useContext)(styleToEmotionObjectContext).current;
+    return (0, import_react102.useContext)(styleToEmotionObjectContext).current;
   }
-  var StyleToEmotionObjectComposer = (0, import_react104.memo)(createStyleToEmotionObjectComposer_default(styleToEmotionObjectContext));
+  var StyleToEmotionObjectComposer = (0, import_react102.memo)(createStyleToEmotionObjectComposer_default(styleToEmotionObjectContext));
   StyleToEmotionObjectComposer.displayName = "StyleToEmotionObjectComposer";
-  var classes = { "appearance--text": "w1GPAoW_appearance--text", "icon--copy-code-checkmark": "w1GPAoW_icon--copy-code-checkmark", "icon--copy-code": "w1GPAoW_icon--copy-code", "icon--unchecked-circle": "w1GPAoW_icon--unchecked-circle", "icon--microphone-gradient": "w1GPAoW_icon--microphone-gradient", "icon--bot-speaking": "w1GPAoW_icon--bot-speaking", "icon--send": "w1GPAoW_icon--send", "icon--view-code": "w1GPAoW_icon--view-code", "icon--thumb-down-filled": "w1GPAoW_icon--thumb-down-filled", "icon--dismiss": "w1GPAoW_icon--dismiss", "icon--chevron": "w1GPAoW_icon--chevron", "icon--thumb-up": "w1GPAoW_icon--thumb-up", "icon--attachment": "w1GPAoW_icon--attachment", "icon--microphone": "w1GPAoW_icon--microphone", "icon--checkmark-circle": "w1GPAoW_icon--checkmark-circle", "direction--rtl": "w1GPAoW_direction--rtl", "icon--download": "w1GPAoW_icon--download", "icon--thumb-down": "w1GPAoW_icon--thumb-down", "component-icon": "w1GPAoW_component-icon", "icon--attachment-checkmark": "w1GPAoW_icon--attachment-checkmark", "direction--follow": "w1GPAoW_direction--follow", "icon--copy": "w1GPAoW_icon--copy", "icon--thumb-up-filled": "w1GPAoW_icon--thumb-up-filled" };
+  var classes = { "icon--view-code": "w1GPAoW_icon--view-code", "icon--thumb-down-filled": "w1GPAoW_icon--thumb-down-filled", "direction--rtl": "w1GPAoW_direction--rtl", "icon--attachment": "w1GPAoW_icon--attachment", "icon--checkmark-circle": "w1GPAoW_icon--checkmark-circle", "icon--copy": "w1GPAoW_icon--copy", "icon--dismiss": "w1GPAoW_icon--dismiss", "appearance--text": "w1GPAoW_appearance--text", "icon--send": "w1GPAoW_icon--send", "direction--follow": "w1GPAoW_direction--follow", "icon--download": "w1GPAoW_icon--download", "icon--unchecked-circle": "w1GPAoW_icon--unchecked-circle", "icon--microphone": "w1GPAoW_icon--microphone", "icon--copy-code": "w1GPAoW_icon--copy-code", "icon--thumb-up-filled": "w1GPAoW_icon--thumb-up-filled", "icon--thumb-up": "w1GPAoW_icon--thumb-up", "icon--chevron": "w1GPAoW_icon--chevron", "icon--copy-code-checkmark": "w1GPAoW_icon--copy-code-checkmark", "icon--thumb-down": "w1GPAoW_icon--thumb-down", "icon--attachment-checkmark": "w1GPAoW_icon--attachment-checkmark", "component-icon": "w1GPAoW_component-icon" };
   var ComponentIcon_module_default = classes;
-  var _appearance__text0 = classes["appearance--text"];
-  var _icon__copy_code_checkmark0 = classes["icon--copy-code-checkmark"];
-  var _icon__copy_code0 = classes["icon--copy-code"];
-  var _icon__unchecked_circle0 = classes["icon--unchecked-circle"];
-  var _icon__microphone_gradient0 = classes["icon--microphone-gradient"];
-  var _icon__bot_speaking0 = classes["icon--bot-speaking"];
-  var _icon__send0 = classes["icon--send"];
   var _icon__view_code0 = classes["icon--view-code"];
   var _icon__thumb_down_filled0 = classes["icon--thumb-down-filled"];
-  var _icon__dismiss0 = classes["icon--dismiss"];
-  var _icon__chevron0 = classes["icon--chevron"];
-  var _icon__thumb_up0 = classes["icon--thumb-up"];
-  var _icon__attachment0 = classes["icon--attachment"];
-  var _icon__microphone0 = classes["icon--microphone"];
-  var _icon__checkmark_circle0 = classes["icon--checkmark-circle"];
   var _direction__rtl0 = classes["direction--rtl"];
-  var _icon__download0 = classes["icon--download"];
-  var _icon__thumb_down0 = classes["icon--thumb-down"];
-  var _component_icon0 = classes["component-icon"];
-  var _icon__attachment_checkmark0 = classes["icon--attachment-checkmark"];
-  var _direction__follow0 = classes["direction--follow"];
+  var _icon__attachment0 = classes["icon--attachment"];
+  var _icon__checkmark_circle0 = classes["icon--checkmark-circle"];
   var _icon__copy0 = classes["icon--copy"];
+  var _icon__dismiss0 = classes["icon--dismiss"];
+  var _appearance__text0 = classes["appearance--text"];
+  var _icon__send0 = classes["icon--send"];
+  var _direction__follow0 = classes["direction--follow"];
+  var _icon__download0 = classes["icon--download"];
+  var _icon__unchecked_circle0 = classes["icon--unchecked-circle"];
+  var _icon__microphone0 = classes["icon--microphone"];
+  var _icon__copy_code0 = classes["icon--copy-code"];
   var _icon__thumb_up_filled0 = classes["icon--thumb-up-filled"];
+  var _icon__thumb_up0 = classes["icon--thumb-up"];
+  var _icon__chevron0 = classes["icon--chevron"];
+  var _icon__copy_code_checkmark0 = classes["icon--copy-code-checkmark"];
+  var _icon__thumb_down0 = classes["icon--thumb-down"];
+  var _icon__attachment_checkmark0 = classes["icon--attachment-checkmark"];
+  var _component_icon0 = classes["component-icon"];
   var baseComponentIconPropsSchema = pipe(
     object({
       "aria-hidden": optional(literal("true")),
@@ -141257,13 +141506,13 @@ and ensure you are accounting for this risk.
       "aria-label": ariaLabel,
       role
     } = validateProps2(baseComponentIconPropsSchema, props);
-    const classNames49 = useStyles_default(ComponentIcon_module_default);
-    return /* @__PURE__ */ import_react107.default.createElement(
+    const classNames31 = useStyles_default(ComponentIcon_module_default);
+    return /* @__PURE__ */ import_react105.default.createElement(
       "div",
       {
         "aria-hidden": ariaHidden,
         "aria-label": ariaLabel,
-        className: (0, import_classnames2.default)(classNames49["component-icon"], className),
+        className: (0, import_classnames2.default)(classNames31["component-icon"], className),
         role
       }
     );
@@ -141281,7 +141530,7 @@ and ensure you are accounting for this risk.
     }),
     readonly()
   );
-  var ComponentIcon_default = (0, import_react107.memo)(ComponentIcon);
+  var ComponentIcon_default = (0, import_react105.memo)(ComponentIcon);
   var { userAgent } = navigator;
   var android = /Linux; Android/u.test(userAgent);
   var chromium = !/Edge\//u.test(userAgent) && /Chrome\//u.test(userAgent);
@@ -141290,7 +141539,9 @@ and ensure you are accounting for this risk.
   var firefox = /Firefox\//u.test(userAgent);
   var ie11 = /Trident\/7.0/u.test(userAgent);
 
-  // ../component/dist/chunk-Y63YVSPH.mjs
+  // ../component/dist/chunk-QDBFCDG3.mjs
+  var import_react134 = __toESM(require_react(), 1);
+  var import_react135 = __toESM(require_react(), 1);
   var import_react136 = __toESM(require_react(), 1);
   var import_react137 = __toESM(require_react(), 1);
   var import_react138 = __toESM(require_react(), 1);
@@ -141313,13 +141564,13 @@ and ensure you are accounting for this risk.
   var sheet = _createEmotion.sheet;
   var cache = _createEmotion.cache;
 
-  // ../component/dist/chunk-Y63YVSPH.mjs
+  // ../component/dist/chunk-QDBFCDG3.mjs
   var import_react142 = __toESM(require_react(), 1);
   var import_react143 = __toESM(require_react(), 1);
   var import_react144 = __toESM(require_react(), 1);
 
   // ../../node_modules/use-propagate/dist/use-propagate.mjs
-  var import_react108 = __toESM(require_react(), 1);
+  var import_react106 = __toESM(require_react(), 1);
   function createPropagationContextValue() {
     const listeners = /* @__PURE__ */ new Set();
     return {
@@ -141336,31 +141587,31 @@ and ensure you are accounting for this risk.
   }
   function createPropagation(init = {}) {
     const { allowPropagateDuringRender } = init;
-    const context9 = (0, import_react108.createContext)(createPropagationContextValue());
+    const context9 = (0, import_react106.createContext)(createPropagationContextValue());
     let rendering = false;
     function PropagationScope({ children }) {
-      const value = (0, import_react108.useMemo)(createPropagationContextValue, []);
-      return /* @__PURE__ */ import_react108.default.createElement(context9.Provider, { value }, children);
+      const value = (0, import_react106.useMemo)(createPropagationContextValue, []);
+      return /* @__PURE__ */ import_react106.default.createElement(context9.Provider, { value }, children);
     }
     return {
-      PropagationScope: (0, import_react108.memo)(PropagationScope),
+      PropagationScope: (0, import_react106.memo)(PropagationScope),
       useListen: (listener) => {
         const listenerRef = useRefFrom(listener);
-        const { addListener: addListener2, removeListener: removeListener2 } = (0, import_react108.useContext)(context9);
-        const wrappingListener = (0, import_react108.useMemo)(() => {
+        const { addListener: addListener2, removeListener: removeListener2 } = (0, import_react106.useContext)(context9);
+        const wrappingListener = (0, import_react106.useMemo)(() => {
           const wrappingListener2 = (value) => listenerRef.current(value);
           addListener2(wrappingListener2);
           return wrappingListener2;
         }, [listenerRef]);
-        (0, import_react108.useEffect)(() => () => removeListener2(wrappingListener), [wrappingListener]);
+        (0, import_react106.useEffect)(() => () => removeListener2(wrappingListener), [wrappingListener]);
       },
       usePropagate: () => {
         rendering = true;
-        const { runListeners } = (0, import_react108.useContext)(context9);
-        (0, import_react108.useLayoutEffect)(() => {
+        const { runListeners } = (0, import_react106.useContext)(context9);
+        (0, import_react106.useLayoutEffect)(() => {
           rendering = false;
         });
-        return (0, import_react108.useCallback)(
+        return (0, import_react106.useCallback)(
           (value) => {
             if (rendering && !allowPropagateDuringRender) {
               return console.warn(
@@ -141375,7 +141626,7 @@ and ensure you are accounting for this risk.
     };
   }
 
-  // ../component/dist/chunk-Y63YVSPH.mjs
+  // ../component/dist/chunk-QDBFCDG3.mjs
   var import_react145 = __toESM(require_react(), 1);
   var import_react146 = __toESM(require_react(), 1);
   var import_react147 = __toESM(require_react(), 1);
@@ -141450,7 +141701,7 @@ and ensure you are accounting for this risk.
     return memoized;
   }
 
-  // ../component/dist/chunk-Y63YVSPH.mjs
+  // ../component/dist/chunk-QDBFCDG3.mjs
   var import_react162 = __toESM(require_react(), 1);
   var import_classnames10 = __toESM(require_classnames(), 1);
   var import_react163 = __toESM(require_react(), 1);
@@ -141467,39 +141718,39 @@ and ensure you are accounting for this risk.
   // ../../node_modules/react-film/dist/react-film.mjs
   var import_classnames3 = __toESM(require_classnames(), 1);
   var import_prop_types6 = __toESM(require_prop_types(), 1);
+  var import_react107 = __toESM(require_react(), 1);
+  var import_react108 = __toESM(require_react(), 1);
+  var import_prop_types7 = __toESM(require_prop_types(), 1);
   var import_react109 = __toESM(require_react(), 1);
   var import_react110 = __toESM(require_react(), 1);
-  var import_prop_types7 = __toESM(require_prop_types(), 1);
   var import_react111 = __toESM(require_react(), 1);
   var import_react112 = __toESM(require_react(), 1);
   var import_react113 = __toESM(require_react(), 1);
   var import_react114 = __toESM(require_react(), 1);
   var import_react115 = __toESM(require_react(), 1);
+  var import_prop_types8 = __toESM(require_prop_types(), 1);
   var import_react116 = __toESM(require_react(), 1);
   var import_react117 = __toESM(require_react(), 1);
-  var import_prop_types8 = __toESM(require_prop_types(), 1);
   var import_react118 = __toESM(require_react(), 1);
   var import_react119 = __toESM(require_react(), 1);
   var import_react120 = __toESM(require_react(), 1);
-  var import_react121 = __toESM(require_react(), 1);
-  var import_react122 = __toESM(require_react(), 1);
   var import_classnames4 = __toESM(require_classnames(), 1);
   var import_prop_types9 = __toESM(require_prop_types(), 1);
+  var import_react121 = __toESM(require_react(), 1);
+  var import_react122 = __toESM(require_react(), 1);
+  var import_prop_types10 = __toESM(require_prop_types(), 1);
   var import_react123 = __toESM(require_react(), 1);
   var import_react124 = __toESM(require_react(), 1);
-  var import_prop_types10 = __toESM(require_prop_types(), 1);
   var import_react125 = __toESM(require_react(), 1);
   var import_react126 = __toESM(require_react(), 1);
   var import_react127 = __toESM(require_react(), 1);
   var import_react128 = __toESM(require_react(), 1);
   var import_react129 = __toESM(require_react(), 1);
+  var import_math_random5 = __toESM(require_browser(), 1);
   var import_react130 = __toESM(require_react(), 1);
   var import_react131 = __toESM(require_react(), 1);
-  var import_math_random5 = __toESM(require_browser(), 1);
-  var import_react132 = __toESM(require_react(), 1);
-  var import_react133 = __toESM(require_react(), 1);
   var import_prop_types11 = __toESM(require_prop_types(), 1);
-  var import_react134 = __toESM(require_react(), 1);
+  var import_react132 = __toESM(require_react(), 1);
 
   // ../../node_modules/html-react-parser/esm/index.mjs
   var import_lib = __toESM(require_lib4(), 1);
@@ -141507,19 +141758,19 @@ and ensure you are accounting for this risk.
   var esm_default = import_lib.default.default || import_lib.default;
 
   // ../../node_modules/react-film/dist/react-film.mjs
-  var import_react135 = __toESM(require_react(), 1);
+  var import_react133 = __toESM(require_react(), 1);
   var import_react_dom2 = __toESM(require_react_dom(), 1);
-  var ViewContext_default = (0, import_react113.createContext)();
+  var ViewContext_default = (0, import_react111.createContext)();
   function useViewContext() {
-    return (0, import_react112.useContext)(ViewContext_default);
+    return (0, import_react110.useContext)(ViewContext_default);
   }
   function useIndex() {
     const { index: index2 } = useViewContext();
     return [index2];
   }
-  var FunctionContext_default = (0, import_react115.createContext)();
+  var FunctionContext_default = (0, import_react113.createContext)();
   function useFunctionContext() {
-    const context9 = (0, import_react114.useContext)(FunctionContext_default);
+    const context9 = (0, import_react112.useContext)(FunctionContext_default);
     if (!context9) {
       throw new Error("react-film: Hooks can only be used inside the component.");
     }
@@ -141533,8 +141784,8 @@ and ensure you are accounting for this risk.
     const [index2] = useIndex();
     const scrollTo2 = useScrollTo();
     const checked = index2 === itemIndex;
-    const handleChange = (0, import_react111.useCallback)(() => scrollTo2(() => itemIndex), [itemIndex, scrollTo2]);
-    const handleKeyPress = (0, import_react111.useCallback)(
+    const handleChange = (0, import_react109.useCallback)(() => scrollTo2(() => itemIndex), [itemIndex, scrollTo2]);
+    const handleKeyPress = (0, import_react109.useCallback)(
       (event2) => {
         const { keyCode } = event2;
         if (keyCode === 13 || keyCode === 32) {
@@ -141545,7 +141796,7 @@ and ensure you are accounting for this risk.
       },
       [handleChange]
     );
-    return /* @__PURE__ */ import_react111.default.createElement("li", { className: "react-film__dot" }, /* @__PURE__ */ import_react111.default.createElement(
+    return /* @__PURE__ */ import_react109.default.createElement("li", { className: "react-film__dot" }, /* @__PURE__ */ import_react109.default.createElement(
       "input",
       {
         "aria-label": ariaLabel,
@@ -141557,7 +141808,7 @@ and ensure you are accounting for this risk.
         role: "button",
         type: "checkbox"
       }
-    ), /* @__PURE__ */ import_react111.default.createElement("div", { className: "react-film__dot__handle" }));
+    ), /* @__PURE__ */ import_react109.default.createElement("div", { className: "react-film__dot__handle" }));
   };
   Dot.defaultProps = {
     "aria-label": void 0
@@ -141567,9 +141818,9 @@ and ensure you are accounting for this risk.
     itemIndex: import_prop_types7.default.number.isRequired
   };
   var Dot_default = Dot;
-  var PropsContext_default = (0, import_react117.createContext)();
+  var PropsContext_default = (0, import_react115.createContext)();
   function usePropsContext() {
-    const context9 = (0, import_react116.useContext)(PropsContext_default);
+    const context9 = (0, import_react114.useContext)(PropsContext_default);
     if (!context9) {
       throw new Error("react-film: Hooks can only be used inside the component.");
     }
@@ -141581,15 +141832,15 @@ and ensure you are accounting for this risk.
   }
   var Dots = () => {
     const [numItems] = useNumItems();
-    return /* @__PURE__ */ import_react110.default.createElement("ul", { className: "react-film__dots" }, new Array(numItems).fill().map((_2, itemIndex) => (
+    return /* @__PURE__ */ import_react108.default.createElement("ul", { className: "react-film__dots" }, new Array(numItems).fill().map((_2, itemIndex) => (
       /* eslint-disable-next-line react/no-array-index-key */
-      /* @__PURE__ */ import_react110.default.createElement(Dot_default, { "aria-label": itemIndex + 1 + "", itemIndex, key: itemIndex })
+      /* @__PURE__ */ import_react108.default.createElement(Dot_default, { "aria-label": itemIndex + 1 + "", itemIndex, key: itemIndex })
     )));
   };
   var Dots_default = Dots;
-  var InternalContext_default = (0, import_react121.createContext)();
+  var InternalContext_default = (0, import_react119.createContext)();
   function useInternalContext() {
-    const context9 = (0, import_react120.useContext)(InternalContext_default);
+    const context9 = (0, import_react118.useContext)(InternalContext_default);
     if (!context9) {
       throw new Error("react-film: Hooks can only be used inside the component.");
     }
@@ -141597,19 +141848,19 @@ and ensure you are accounting for this risk.
   }
   function useItemContainerCallbackRef() {
     const { itemContainerCallbackRefWithSubscribe } = useInternalContext();
-    return (0, import_react119.useCallback)(
+    return (0, import_react117.useCallback)(
       (element3) => itemContainerCallbackRefWithSubscribe(element3),
       [itemContainerCallbackRefWithSubscribe]
     );
   }
   function useScrollableCallbackRef() {
     const { scrollableCallbackRefWithSubscribe } = useInternalContext();
-    return (0, import_react122.useCallback)((element3) => scrollableCallbackRefWithSubscribe(element3), [scrollableCallbackRefWithSubscribe]);
+    return (0, import_react120.useCallback)((element3) => scrollableCallbackRefWithSubscribe(element3), [scrollableCallbackRefWithSubscribe]);
   }
   var Filmstrip = ({ children }) => {
     const itemContainerCallbackRef = useItemContainerCallbackRef();
     const scrollableCallbackRef = useScrollableCallbackRef();
-    return /* @__PURE__ */ import_react118.default.createElement("div", { className: "react-film__filmstrip", ref: scrollableCallbackRef }, /* @__PURE__ */ import_react118.default.createElement("ul", { className: "react-film__filmstrip__list", ref: itemContainerCallbackRef }, import_react118.Children.map(children, (child) => /* @__PURE__ */ import_react118.default.createElement("li", { className: "react-film__filmstrip__item" }, child))));
+    return /* @__PURE__ */ import_react116.default.createElement("div", { className: "react-film__filmstrip", ref: scrollableCallbackRef }, /* @__PURE__ */ import_react116.default.createElement("ul", { className: "react-film__filmstrip__list", ref: itemContainerCallbackRef }, import_react116.Children.map(children, (child) => /* @__PURE__ */ import_react116.default.createElement("li", { className: "react-film__filmstrip__item" }, child))));
   };
   Filmstrip.defaultProps = {
     children: void 0
@@ -141637,15 +141888,15 @@ and ensure you are accounting for this risk.
   var Flipper = ({ "aria-label": ariaLabel, blurFocusOnClick, children, mode }) => {
     const [dir] = useDir();
     const [scrollBarPercentage] = useScrollBarPercentage();
-    const buttonRef = (0, import_react123.useRef)();
+    const buttonRef = (0, import_react121.useRef)();
     const left = mode === "left";
     const scrollOneLeft = useScrollOneLeft();
     const scrollOneRight = useScrollOneRight();
-    const handleClick = (0, import_react123.useCallback)(() => {
+    const handleClick = (0, import_react121.useCallback)(() => {
       left ? scrollOneLeft() : scrollOneRight();
       blurFocusOnClick && buttonRef.current && buttonRef.current.blur();
     }, [blurFocusOnClick, buttonRef, left, scrollOneLeft, scrollOneRight]);
-    const handleKeyDown = (0, import_react123.useCallback)(
+    const handleKeyDown = (0, import_react121.useCallback)(
       (event2) => {
         const { key: key2 } = event2;
         if (key2 === "Enter" || key2 === " ") {
@@ -141669,7 +141920,7 @@ and ensure you are accounting for this risk.
         hide = scrollBarPercentage === "100%";
       }
     }
-    return /* @__PURE__ */ import_react123.default.createElement(
+    return /* @__PURE__ */ import_react121.default.createElement(
       "button",
       {
         "aria-label": ariaLabel || (left ? "left" : "right"),
@@ -141682,7 +141933,7 @@ and ensure you are accounting for this risk.
         ref: buttonRef,
         type: "button"
       },
-      /* @__PURE__ */ import_react123.default.createElement(
+      /* @__PURE__ */ import_react121.default.createElement(
         "div",
         {
           className: (0, import_classnames4.default)("react-film__flipper__slider", "react-film__main__slider", {
@@ -141691,7 +141942,7 @@ and ensure you are accounting for this risk.
             "react-film__main__slider--right": !left
           })
         },
-        /* @__PURE__ */ import_react123.default.createElement("div", { className: "react-film__flipper__body" }, children)
+        /* @__PURE__ */ import_react121.default.createElement("div", { className: "react-film__flipper__body" }, children)
       )
     );
   };
@@ -141722,7 +141973,7 @@ and ensure you are accounting for this risk.
     const [dir] = useDir();
     const [scrollBarPercentage] = useScrollBarPercentage();
     const [scrollBarWidth] = useScrollBarWidth();
-    return /* @__PURE__ */ import_react124.default.createElement("div", { className: "react-film__scroll-bar react-film__main__slider react-film__main__slider--bottom" }, /* @__PURE__ */ import_react124.default.createElement(
+    return /* @__PURE__ */ import_react122.default.createElement("div", { className: "react-film__scroll-bar react-film__main__slider react-film__main__slider--bottom" }, /* @__PURE__ */ import_react122.default.createElement(
       "div",
       {
         className: "react-film__scroll-bar__handle",
@@ -141775,18 +142026,18 @@ and ensure you are accounting for this risk.
         showScrollBar
       }
     ] = useStyleOptions3();
-    const contentStyle = (0, import_react109.useMemo)(() => ({ height }), [height]);
-    return /* @__PURE__ */ import_react109.default.createElement("div", { className: (0, import_classnames3.default)(rootClassName, (className || "") + ""), dir }, /* @__PURE__ */ import_react109.default.createElement(
+    const contentStyle = (0, import_react107.useMemo)(() => ({ height }), [height]);
+    return /* @__PURE__ */ import_react107.default.createElement("div", { className: (0, import_classnames3.default)(rootClassName, (className || "") + ""), dir }, /* @__PURE__ */ import_react107.default.createElement(
       "div",
       {
         className: (0, import_classnames3.default)("react-film__main", { "react-film__main--scrolling": scrolling }),
         style: contentStyle
       },
-      !!numItems && scrollBarWidth !== "100%" && !!showFlipper && /* @__PURE__ */ import_react109.default.createElement(Flipper_default, { "aria-label": leftFlipperAriaLabel, blurFocusOnClick: flipperBlurFocusOnClick, mode: "left" }, leftFlipperText),
-      /* @__PURE__ */ import_react109.default.createElement(Filmstrip_default, null, children),
-      !!numItems && scrollBarWidth !== "100%" && !!showFlipper && /* @__PURE__ */ import_react109.default.createElement(Flipper_default, { "aria-label": rightFlipperAriaLabel, blurFocusOnClick: flipperBlurFocusOnClick, mode: "right" }, rightFlipperText),
-      !!numItems && scrollBarWidth !== "100%" && !!showScrollBar && /* @__PURE__ */ import_react109.default.createElement(ScrollBar_default, null)
-    ), !!numItems && scrollBarWidth !== "100%" && !!showDots && /* @__PURE__ */ import_react109.default.createElement(Dots_default, null));
+      !!numItems && scrollBarWidth !== "100%" && !!showFlipper && /* @__PURE__ */ import_react107.default.createElement(Flipper_default, { "aria-label": leftFlipperAriaLabel, blurFocusOnClick: flipperBlurFocusOnClick, mode: "left" }, leftFlipperText),
+      /* @__PURE__ */ import_react107.default.createElement(Filmstrip_default, null, children),
+      !!numItems && scrollBarWidth !== "100%" && !!showFlipper && /* @__PURE__ */ import_react107.default.createElement(Flipper_default, { "aria-label": rightFlipperAriaLabel, blurFocusOnClick: flipperBlurFocusOnClick, mode: "right" }, rightFlipperText),
+      !!numItems && scrollBarWidth !== "100%" && !!showScrollBar && /* @__PURE__ */ import_react107.default.createElement(ScrollBar_default, null)
+    ), !!numItems && scrollBarWidth !== "100%" && !!showDots && /* @__PURE__ */ import_react107.default.createElement(Dots_default, null));
   };
   BasicFilm.defaultProps = {
     children: void 0,
@@ -141798,7 +142049,7 @@ and ensure you are accounting for this risk.
   };
   var BasicFilm_default = BasicFilm;
   function useTimeout(onTrigger, duration) {
-    (0, import_react127.useEffect)(() => {
+    (0, import_react125.useEffect)(() => {
       if (onTrigger) {
         const timeout = setTimeout(onTrigger, duration);
         return () => clearTimeout(timeout);
@@ -141809,7 +142060,7 @@ and ensure you are accounting for this risk.
     const [{ autoCenter }] = useStyleOptions3();
     const [scrolling] = useScrolling();
     const scrollTo2 = useScrollTo();
-    const handleTrigger = (0, import_react126.useCallback)(() => scrollTo2(({ index: index2 }) => index2), [scrollTo2]);
+    const handleTrigger = (0, import_react124.useCallback)(() => scrollTo2(({ index: index2 }) => index2), [scrollTo2]);
     useTimeout(!autoCenter || scrolling ? void 0 : handleTrigger, 0);
   }
   var AutoCenter = () => {
@@ -142146,7 +142397,7 @@ and ensure you are accounting for this risk.
       }
     }
   }
-  var LegacyContext_default = (0, import_react128.createContext)();
+  var LegacyContext_default = (0, import_react126.createContext)();
   function step(from2, to, stepper, index2) {
     let next2 = from2;
     for (let i3 = 0; i3 < index2; i3++) {
@@ -142164,7 +142415,7 @@ and ensure you are accounting for this risk.
     return Math.max(to, next2);
   }
   function useAnimateScrollLeft(element3, to, onEnd) {
-    (0, import_react129.useEffect)(() => {
+    (0, import_react127.useEffect)(() => {
       if (element3) {
         const start = Date.now();
         let animator;
@@ -142189,7 +142440,7 @@ and ensure you are accounting for this risk.
   }
   var SUBSCRIBER_LIMIT = 10;
   function useCallbackRefWithSubscribe() {
-    return (0, import_react130.useMemo)(() => {
+    return (0, import_react128.useMemo)(() => {
       const subscriptions = [];
       const callbackRef = (current2) => {
         callbackRef.current = current2;
@@ -142221,7 +142472,7 @@ and ensure you are accounting for this risk.
   }
   var sharedEmotionInstances2 = [];
   function useEmotion2(nonce, container) {
-    const emotion = (0, import_react131.useMemo)(() => {
+    const emotion = (0, import_react129.useMemo)(() => {
       const sharedEmotion = sharedEmotionInstances2.find(
         ({ sheet: sheet2 }) => sheet2.nonce === nonce && sheet2.container === container
       );
@@ -142229,7 +142480,7 @@ and ensure you are accounting for this risk.
       sharedEmotionInstances2.push(emotion2);
       return emotion2;
     }, [container, nonce]);
-    (0, import_react131.useEffect)(
+    (0, import_react129.useEffect)(
       () => () => {
         var _a29;
         const index2 = sharedEmotionInstances2.lastIndexOf(emotion);
@@ -142268,7 +142519,7 @@ and ensure you are accounting for this risk.
     return new Promise((resolve) => setTimeout(() => resolve()));
   }
   function useObserveScrollLeft(callbackRefWithSubscribe, observer) {
-    (0, import_react132.useEffect)(
+    (0, import_react130.useEffect)(
       () => callbackRefWithSubscribe.subscribe((current2) => {
         if (!current2) {
           return;
@@ -142306,23 +142557,23 @@ and ensure you are accounting for this risk.
   }
   var Composer2 = ({ children, dir, height, nonce, numItems, styleOptions, styleSet }) => {
     dir = dir === "ltr" || dir === "rtl" ? dir : void 0;
-    const patchedStyleOptions = (0, import_react125.useMemo)(() => normalizeStyleOptions2(styleOptions), [styleOptions]);
-    const patchedStyleSet = (0, import_react125.useMemo)(
+    const patchedStyleOptions = (0, import_react123.useMemo)(() => normalizeStyleOptions2(styleOptions), [styleOptions]);
+    const patchedStyleSet = (0, import_react123.useMemo)(
       () => styleSet || createBasicStyleSet(patchedStyleOptions),
       [patchedStyleOptions, styleSet]
     );
     const emotion = useEmotion2(nonce, styleOptions.stylesRoot);
-    const styleSetClassNames = (0, import_react125.useMemo)(
+    const styleSetClassNames = (0, import_react123.useMemo)(
       () => Object.fromEntries(Object.entries(patchedStyleSet).map(([name, style]) => [name, emotion.css(style) + ""])),
       [emotion, patchedStyleSet]
     );
-    const [_2, forceRender] = (0, import_react125.useState)();
+    const [_2, forceRender] = (0, import_react123.useState)();
     const itemContainerCallbackRefWithSubscribe = useCallbackRefWithSubscribe();
     const scrollableCallbackRefWithSubscribe = useCallbackRefWithSubscribe();
-    const scrollLeftRef = (0, import_react125.useRef)(null);
-    const scrollTimeoutRef = (0, import_react125.useRef)();
-    (0, import_react125.useEffect)(() => () => clearTimeout(scrollTimeoutRef.current), [scrollTimeoutRef]);
-    const scrollTo2 = (0, import_react125.useCallback)(
+    const scrollLeftRef = (0, import_react123.useRef)(null);
+    const scrollTimeoutRef = (0, import_react123.useRef)();
+    (0, import_react123.useEffect)(() => () => clearTimeout(scrollTimeoutRef.current), [scrollTimeoutRef]);
+    const scrollTo2 = (0, import_react123.useCallback)(
       (scrollFn) => {
         const view = getView(
           dir,
@@ -142346,13 +142597,13 @@ and ensure you are accounting for this risk.
       },
       [dir, forceRender, itemContainerCallbackRefWithSubscribe, scrollableCallbackRefWithSubscribe, scrollLeftRef]
     );
-    const scrollOneLeft = (0, import_react125.useCallback)(() => {
+    const scrollOneLeft = (0, import_react123.useCallback)(() => {
       scrollTo2(({ indexFraction }) => dir === "rtl" ? Math.floor(indexFraction) + 1 : Math.ceil(indexFraction) - 1);
     }, [dir, scrollTo2]);
-    const scrollOneRight = (0, import_react125.useCallback)(() => {
+    const scrollOneRight = (0, import_react123.useCallback)(() => {
       scrollTo2(({ indexFraction }) => dir === "rtl" ? Math.ceil(indexFraction) - 1 : Math.floor(indexFraction) + 1);
     }, [dir, scrollTo2]);
-    const functionContext = (0, import_react125.useMemo)(
+    const functionContext = (0, import_react123.useMemo)(
       () => ({
         scrollTo: scrollTo2,
         scrollOneLeft,
@@ -142360,25 +142611,25 @@ and ensure you are accounting for this risk.
       }),
       [scrollTo2, scrollOneLeft, scrollOneRight]
     );
-    const internalContext = (0, import_react125.useMemo)(
+    const internalContext = (0, import_react123.useMemo)(
       () => ({
         itemContainerCallbackRefWithSubscribe,
         scrollableCallbackRefWithSubscribe
       }),
       [itemContainerCallbackRefWithSubscribe, scrollableCallbackRefWithSubscribe]
     );
-    const propsContext = (0, import_react125.useMemo)(
+    const propsContext = (0, import_react123.useMemo)(
       () => ({ dir, height, nonce, numItems, styleOptions: patchedStyleOptions, styleSetClassNames }),
       [dir, height, nonce, numItems, patchedStyleOptions, styleSetClassNames]
     );
-    const [viewContext, setViewContext] = (0, import_react125.useState)({
+    const [viewContext, setViewContext] = (0, import_react123.useState)({
       index: 0,
       indexFraction: 0,
       scrollBarPercentage: "0%",
       scrollBarWidth: "0%",
       scrolling: false
     });
-    const setViewContext2 = (0, import_react125.useCallback)(
+    const setViewContext2 = (0, import_react123.useCallback)(
       (nextViewContext) => {
         setViewContext(nextViewContext);
         clearTimeout(scrollTimeoutRef.current);
@@ -142395,7 +142646,7 @@ and ensure you are accounting for this risk.
       },
       [scrollTimeoutRef, setViewContext]
     );
-    const handleScroll = (0, import_react125.useCallback)(
+    const handleScroll = (0, import_react123.useCallback)(
       ({ fraction: scrollBarPercentage, initial, width: scrollBarWidth }) => {
         const view = getView(
           dir,
@@ -142416,11 +142667,11 @@ and ensure you are accounting for this risk.
       },
       [dir, itemContainerCallbackRefWithSubscribe, scrollableCallbackRefWithSubscribe, scrollLeftRef, setViewContext2]
     );
-    const handleScrollToEnd = (0, import_react125.useCallback)(() => {
+    const handleScrollToEnd = (0, import_react123.useCallback)(() => {
       scrollLeftRef.current = null;
       forceRender({});
     }, [forceRender, scrollLeftRef]);
-    const legacyContext = (0, import_react125.useMemo)(
+    const legacyContext = (0, import_react123.useMemo)(
       () => ({
         ...functionContext,
         ...internalContext,
@@ -142434,7 +142685,7 @@ and ensure you are accounting for this risk.
       scrollLeftRef.current,
       handleScrollToEnd
     );
-    (0, import_react125.useEffect)(
+    (0, import_react123.useEffect)(
       () => scrollableCallbackRefWithSubscribe.subscribe((current2) => {
         if (current2) {
           current2.addEventListener("pointerdown", handleScrollToEnd, { passive: true });
@@ -142444,7 +142695,7 @@ and ensure you are accounting for this risk.
       [handleScrollToEnd, scrollableCallbackRefWithSubscribe]
     );
     useObserveScrollLeft(scrollableCallbackRefWithSubscribe, handleScroll);
-    return /* @__PURE__ */ import_react125.default.createElement(PropsContext_default.Provider, { value: propsContext }, /* @__PURE__ */ import_react125.default.createElement(InternalContext_default.Provider, { value: internalContext }, /* @__PURE__ */ import_react125.default.createElement(FunctionContext_default.Provider, { value: functionContext }, /* @__PURE__ */ import_react125.default.createElement(ViewContext_default.Provider, { value: viewContext }, /* @__PURE__ */ import_react125.default.createElement(LegacyContext_default.Provider, { value: legacyContext }, children, patchedStyleOptions.autoCenter && /* @__PURE__ */ import_react125.default.createElement(AutoCenter_default, null))))));
+    return /* @__PURE__ */ import_react123.default.createElement(PropsContext_default.Provider, { value: propsContext }, /* @__PURE__ */ import_react123.default.createElement(InternalContext_default.Provider, { value: internalContext }, /* @__PURE__ */ import_react123.default.createElement(FunctionContext_default.Provider, { value: functionContext }, /* @__PURE__ */ import_react123.default.createElement(ViewContext_default.Provider, { value: viewContext }, /* @__PURE__ */ import_react123.default.createElement(LegacyContext_default.Provider, { value: legacyContext }, children, patchedStyleOptions.autoCenter && /* @__PURE__ */ import_react123.default.createElement(AutoCenter_default, null))))));
   };
   Composer2.defaultProps = {
     children: void 0,
@@ -142470,7 +142721,7 @@ and ensure you are accounting for this risk.
       console.warn("react-film: <FilmStrip> is being renamed to <Filmstrip>.");
       deprecationNotesShown = true;
     }
-    return /* @__PURE__ */ import_react133.default.createElement(Filmstrip_default, { ...props });
+    return /* @__PURE__ */ import_react131.default.createElement(Filmstrip_default, { ...props });
   };
   DeprecatedFilmStrip.defaultProps = Filmstrip_default.defaultProps;
   DeprecatedFilmStrip.propTypes = Filmstrip_default.propTypes;
@@ -142494,7 +142745,7 @@ and ensure you are accounting for this risk.
     styleSet,
     stylesRoot
   }) => {
-    const styleOptions = (0, import_react134.useMemo)(
+    const styleOptions = (0, import_react132.useMemo)(
       () => ({
         autoCenter,
         autoHide,
@@ -142526,17 +142777,17 @@ and ensure you are accounting for this risk.
         stylesRoot
       ]
     );
-    return /* @__PURE__ */ import_react134.default.createElement(
+    return /* @__PURE__ */ import_react132.default.createElement(
       Composer_default2,
       {
         dir,
         height,
         nonce,
-        numItems: children ? import_react134.Children.count(children) : 0,
+        numItems: children ? import_react132.Children.count(children) : 0,
         styleOptions,
         styleSet
       },
-      /* @__PURE__ */ import_react134.default.createElement(BasicFilm_default, { className }, children)
+      /* @__PURE__ */ import_react132.default.createElement(BasicFilm_default, { className }, children)
     );
   };
   ReactFilm.defaultProps = {
@@ -142588,7 +142839,7 @@ and ensure you are accounting for this risk.
     document.head.appendChild(meta2);
   }
 
-  // ../component/dist/chunk-Y63YVSPH.mjs
+  // ../component/dist/chunk-QDBFCDG3.mjs
   var import_react170 = __toESM(require_react(), 1);
   var import_react171 = __toESM(require_react(), 1);
   var import_react172 = __toESM(require_react(), 1);
@@ -142629,7 +142880,7 @@ and ensure you are accounting for this risk.
     };
   }
 
-  // ../component/dist/chunk-Y63YVSPH.mjs
+  // ../component/dist/chunk-QDBFCDG3.mjs
   var import_react184 = __toESM(require_react(), 1);
   var import_react185 = __toESM(require_react(), 1);
   var import_classnames15 = __toESM(require_classnames(), 1);
@@ -142641,6 +142892,18 @@ and ensure you are accounting for this risk.
   var import_classnames16 = __toESM(require_classnames(), 1);
   var import_react190 = __toESM(require_react(), 1);
   var import_react191 = __toESM(require_react(), 1);
+  var context3 = (0, import_react134.createContext)(void 0);
+  var WebChatUIContext_default = context3;
+  function useWebChatUIContext() {
+    const context22 = (0, import_react135.useContext)(WebChatUIContext_default);
+    if (!context22) {
+      throw new Error("This hook can only be used on a component that is a descendant of <Composer>");
+    }
+    return context22;
+  }
+  function useStyleSet() {
+    return Object.freeze([useWebChatUIContext().styleSet]);
+  }
   var CustomElementsContext = (0, import_react139.createContext)(
     new Proxy({}, {
       get() {
@@ -142845,25 +143108,26 @@ and ensure you are accounting for this risk.
       [codeBlockTagName, externalLinkAlt2, transform3]
     );
   }
+  var classes2 = { "render-markdown--message-activity": "wOO68XW_render-markdown--message-activity", "render-markdown": "wOO68XW_render-markdown", "render-markdown--adaptive-cards": "wOO68XW_render-markdown--adaptive-cards" };
+  var RenderMarkdown_module_default = classes2;
+  var _render_markdown__message_activity0 = classes2["render-markdown--message-activity"];
+  var _render_markdown0 = classes2["render-markdown"];
+  var _render_markdown__adaptive_cards0 = classes2["render-markdown--adaptive-cards"];
   var { useLocalizer: useLocalizer22, useStyleOptions: useStyleOptions4 } = hook_exports;
   function useRenderMarkdownAsHTML(mode = "message activity") {
     const { renderMarkdown } = useWebChatUIContext();
     const [styleOptions] = useStyleOptions4();
-    const [{ renderMarkdown: renderMarkdownStyleSet }] = useStyleSet();
     const localize2 = useLocalizer22();
     const transformHTMLContent = useTransformHTMLContent();
+    const classNames103 = useStyles_default(RenderMarkdown_module_default);
     const externalLinkAlt2 = localize2("MARKDOWN_EXTERNAL_LINK_ALT");
     const containerClassName = (0, import_react142.useMemo)(
-      () => cx3(
-        "webchat__render-markdown",
-        {
-          "webchat__render-markdown--adaptive-cards": mode === "adaptive cards",
-          "webchat__render-markdown--citation": mode === "citation modal",
-          "webchat__render-markdown--message-activity": mode !== "accessible name" && mode !== "adaptive cards" && mode !== "citation modal"
-        },
-        renderMarkdownStyleSet + ""
-      ),
-      [mode, renderMarkdownStyleSet]
+      () => cx3(classNames103["render-markdown"], {
+        [classNames103["render-markdown--adaptive-cards"]]: mode === "adaptive cards",
+        [classNames103["render-markdown--citation"]]: mode === "citation modal",
+        [classNames103["render-markdown--message-activity"]]: mode !== "accessible name" && mode !== "adaptive cards" && mode !== "citation modal"
+      }),
+      [classNames103, mode]
     );
     return (0, import_react142.useMemo)(
       () => renderMarkdown && ((markdown) => {
@@ -142888,11 +143152,11 @@ and ensure you are accounting for this risk.
   var Context = (0, import_react144.createContext)(Object.create({}, defaultContextValue));
   Context.displayName = "ReducedMotionComposer";
   var Context_default4 = Context;
-  function useContext36() {
+  function useContext44() {
     return (0, import_react143.useContext)(Context_default4);
   }
   function useShouldReduceMotion() {
-    return useContext36().shouldReduceMotionState;
+    return useContext44().shouldReduceMotionState;
   }
   function useSettableDictateAbortable() {
     const { dictateAbortable, setDictateAbortable } = useWebChatUIContext();
@@ -142985,11 +143249,11 @@ and ensure you are accounting for this risk.
     const image = await loadImageFromBlob(blob);
     const { height, width } = keepAspectRatio(image.width, image.height, maxWidth, maxHeight);
     const canvas = createCanvas(width, height);
-    const context9 = canvas.getContext("2d");
-    if (!context9) {
+    const context22 = canvas.getContext("2d");
+    if (!context22) {
       throw new Error("botframework-webchat: Failed to get 2D context.");
     }
-    context9.drawImage(image, 0, 0, width, height);
+    context22.drawImage(image, 0, 0, width, height);
     return new URL(canvas.toDataURL(type2, quality));
   }
   function downscaleImageToDataURLUsingWorker_worker_default() {
@@ -143039,8 +143303,8 @@ and ensure you are accounting for this risk.
         const height = dimension.height;
         const width = dimension.width;
         const offscreenCanvas = new OffscreenCanvas(width, height);
-        const context9 = offscreenCanvas.getContext("2d");
-        context9.drawImage(imageBitmap, 0, 0, width, height);
+        const context22 = offscreenCanvas.getContext("2d");
+        context22.drawImage(imageBitmap, 0, 0, width, height);
         const convertToBlob = (offscreenCanvas.convertToBlob || offscreenCanvas.toBlob).bind(offscreenCanvas);
         return convertToBlob({ type: type2, quality });
       }).then(function(blob) {
@@ -143337,20 +143601,20 @@ and ensure you are accounting for this risk.
     viewCodeButton: "view code button"
   };
   var testIds_default = testIds;
-  var classes2 = { "send-box-attachment-bar": "w7l006a_send-box-attachment-bar", "send-box-attachment-bar--as-list-item": "w7l006a_send-box-attachment-bar--as-list-item", "send-box-attachment-bar--as-thumbnail": "w7l006a_send-box-attachment-bar--as-thumbnail", "send-box-attachment-bar__box": "w7l006a_send-box-attachment-bar__box" };
-  var AttachmentBar_module_default = classes2;
-  var _send_box_attachment_bar0 = classes2["send-box-attachment-bar"];
-  var _send_box_attachment_bar__as_list_item0 = classes2["send-box-attachment-bar--as-list-item"];
-  var _send_box_attachment_bar__as_thumbnail0 = classes2["send-box-attachment-bar--as-thumbnail"];
-  var _send_box_attachment_bar__box0 = classes2["send-box-attachment-bar__box"];
+  var classes22 = { "send-box-attachment-bar": "w7l006a_send-box-attachment-bar", "send-box-attachment-bar--as-list-item": "w7l006a_send-box-attachment-bar--as-list-item", "send-box-attachment-bar--as-thumbnail": "w7l006a_send-box-attachment-bar--as-thumbnail", "send-box-attachment-bar__box": "w7l006a_send-box-attachment-bar__box" };
+  var AttachmentBar_module_default = classes22;
+  var _send_box_attachment_bar0 = classes22["send-box-attachment-bar"];
+  var _send_box_attachment_bar__as_list_item0 = classes22["send-box-attachment-bar--as-list-item"];
+  var _send_box_attachment_bar__as_thumbnail0 = classes22["send-box-attachment-bar--as-thumbnail"];
+  var _send_box_attachment_bar__box0 = classes22["send-box-attachment-bar__box"];
   var SendBoxContext = (0, import_react160.createContext)(void 0);
   var Context_default23 = SendBoxContext;
   function useSendBoxContext() {
-    const context9 = (0, import_react159.useContext)(Context_default23);
-    if (!context9) {
+    const context22 = (0, import_react159.useContext)(Context_default23);
+    if (!context22) {
       throw new Error("botframework-webchat internal: This hook can only be used under <SendBoxComposer>.");
     }
-    return context9;
+    return context22;
   }
   function useSubmitErrorMessageId() {
     return useSendBoxContext().submitErrorMessageIdState;
@@ -144115,14 +144379,14 @@ and ensure you are accounting for this risk.
     } else if (!ref || !("current" in ref)) {
       throw new Error('useFocusAccessKeyEffect: "ref" must be defined and has "current" property.');
     }
-    const context9 = useAccessKeySinkContext();
+    const context22 = useAccessKeySinkContext();
     (0, import_react178.useEffect)(() => {
       if (key2) {
         const entry = { keys: key2.split(/\s+/gu), ref };
-        context9.focii.push(entry);
-        return () => removeInline(context9.focii, entry);
+        context22.focii.push(entry);
+        return () => removeInline(context22.focii, entry);
       }
-    }, [context9, key2, ref]);
+    }, [context22, key2, ref]);
   }
   var { useDirection: useDirection22, usePerformCardAction: usePerformCardAction2, useStyleOptions: useStyleOptions42, useSuggestedActionsHooks: useSuggestedActionsHooks2, useUIState: useUIState3 } = hook_exports;
   var ROOT_STYLE3 = {
@@ -145033,14 +145297,14 @@ and ensure you are accounting for this risk.
     );
   }
   var BasicSendBox_default = (0, import_react158.memo)(BasicSendBox);
-  var classes22 = { "send-box-attachment-bar-item--as-list-item": "wI2ZoOW_send-box-attachment-bar-item--as-list-item", "send-box-attachment-bar-item--as-thumbnail": "wI2ZoOW_send-box-attachment-bar-item--as-thumbnail", "send-box-attachment-bar-item": "wI2ZoOW_send-box-attachment-bar-item", "send-box-attachment-bar-item__preview": "wI2ZoOW_send-box-attachment-bar-item__preview", "send-box-attachment-bar-item__delete-button": "wI2ZoOW_send-box-attachment-bar-item__delete-button", "send-box-attachment-bar-item__dismiss-icon": "wI2ZoOW_send-box-attachment-bar-item__dismiss-icon" };
-  var AttachmentBarItem_module_default = classes22;
-  var _send_box_attachment_bar_item__as_list_item0 = classes22["send-box-attachment-bar-item--as-list-item"];
-  var _send_box_attachment_bar_item__as_thumbnail0 = classes22["send-box-attachment-bar-item--as-thumbnail"];
-  var _send_box_attachment_bar_item0 = classes22["send-box-attachment-bar-item"];
-  var _send_box_attachment_bar_item__preview0 = classes22["send-box-attachment-bar-item__preview"];
-  var _send_box_attachment_bar_item__delete_button0 = classes22["send-box-attachment-bar-item__delete-button"];
-  var _send_box_attachment_bar_item__dismiss_icon0 = classes22["send-box-attachment-bar-item__dismiss-icon"];
+  var classes3 = { "send-box-attachment-bar-item__delete-button": "wI2ZoOW_send-box-attachment-bar-item__delete-button", "send-box-attachment-bar-item": "wI2ZoOW_send-box-attachment-bar-item", "send-box-attachment-bar-item--as-list-item": "wI2ZoOW_send-box-attachment-bar-item--as-list-item", "send-box-attachment-bar-item__dismiss-icon": "wI2ZoOW_send-box-attachment-bar-item__dismiss-icon", "send-box-attachment-bar-item__preview": "wI2ZoOW_send-box-attachment-bar-item__preview", "send-box-attachment-bar-item--as-thumbnail": "wI2ZoOW_send-box-attachment-bar-item--as-thumbnail" };
+  var AttachmentBarItem_module_default = classes3;
+  var _send_box_attachment_bar_item__delete_button0 = classes3["send-box-attachment-bar-item__delete-button"];
+  var _send_box_attachment_bar_item0 = classes3["send-box-attachment-bar-item"];
+  var _send_box_attachment_bar_item__as_list_item0 = classes3["send-box-attachment-bar-item--as-list-item"];
+  var _send_box_attachment_bar_item__dismiss_icon0 = classes3["send-box-attachment-bar-item__dismiss-icon"];
+  var _send_box_attachment_bar_item__preview0 = classes3["send-box-attachment-bar-item__preview"];
+  var _send_box_attachment_bar_item__as_thumbnail0 = classes3["send-box-attachment-bar-item--as-thumbnail"];
   var { useLocalizer: useLocalizer9 } = hook_exports;
   var attachmentDeleteButtonPropsSchema = pipe(
     object({
@@ -145092,14 +145356,14 @@ and ensure you are accounting for this risk.
     }),
     readonly()
   );
-  var classes3 = { "send-box-attachment-bar-item-file-preview--as-thumbnail": "w9ttrMa_send-box-attachment-bar-item-file-preview--as-thumbnail", "send-box-attachment-bar-item-file-preview--as-list-item": "w9ttrMa_send-box-attachment-bar-item-file-preview--as-list-item", "send-box-attachment-bar-item-file-preview--is-image": "w9ttrMa_send-box-attachment-bar-item-file-preview--is-image", "send-box-attachment-bar-item-file-preview__text": "w9ttrMa_send-box-attachment-bar-item-file-preview__text", "send-box-attachment-bar-item-file-preview": "w9ttrMa_send-box-attachment-bar-item-file-preview", "send-box-attachment-bar-item-file-preview--is-file": "w9ttrMa_send-box-attachment-bar-item-file-preview--is-file" };
-  var FilePreview_module_default = classes3;
-  var _send_box_attachment_bar_item_file_preview__as_thumbnail0 = classes3["send-box-attachment-bar-item-file-preview--as-thumbnail"];
-  var _send_box_attachment_bar_item_file_preview__as_list_item0 = classes3["send-box-attachment-bar-item-file-preview--as-list-item"];
-  var _send_box_attachment_bar_item_file_preview__is_image0 = classes3["send-box-attachment-bar-item-file-preview--is-image"];
-  var _send_box_attachment_bar_item_file_preview__text0 = classes3["send-box-attachment-bar-item-file-preview__text"];
-  var _send_box_attachment_bar_item_file_preview0 = classes3["send-box-attachment-bar-item-file-preview"];
-  var _send_box_attachment_bar_item_file_preview__is_file0 = classes3["send-box-attachment-bar-item-file-preview--is-file"];
+  var classes4 = { "send-box-attachment-bar-item-file-preview__text": "w9ttrMa_send-box-attachment-bar-item-file-preview__text", "send-box-attachment-bar-item-file-preview": "w9ttrMa_send-box-attachment-bar-item-file-preview", "send-box-attachment-bar-item-file-preview--is-image": "w9ttrMa_send-box-attachment-bar-item-file-preview--is-image", "send-box-attachment-bar-item-file-preview--as-list-item": "w9ttrMa_send-box-attachment-bar-item-file-preview--as-list-item", "send-box-attachment-bar-item-file-preview--is-file": "w9ttrMa_send-box-attachment-bar-item-file-preview--is-file", "send-box-attachment-bar-item-file-preview--as-thumbnail": "w9ttrMa_send-box-attachment-bar-item-file-preview--as-thumbnail" };
+  var FilePreview_module_default = classes4;
+  var _send_box_attachment_bar_item_file_preview__text0 = classes4["send-box-attachment-bar-item-file-preview__text"];
+  var _send_box_attachment_bar_item_file_preview0 = classes4["send-box-attachment-bar-item-file-preview"];
+  var _send_box_attachment_bar_item_file_preview__is_image0 = classes4["send-box-attachment-bar-item-file-preview--is-image"];
+  var _send_box_attachment_bar_item_file_preview__as_list_item0 = classes4["send-box-attachment-bar-item-file-preview--as-list-item"];
+  var _send_box_attachment_bar_item_file_preview__is_file0 = classes4["send-box-attachment-bar-item-file-preview--is-file"];
+  var _send_box_attachment_bar_item_file_preview__as_thumbnail0 = classes4["send-box-attachment-bar-item-file-preview--as-thumbnail"];
   var sendBoxAttachmentBarItemFileAttachmentPreviewPropsSchema = pipe(
     object({
       attachment: sendBoxAttachmentSchema,
@@ -145141,9 +145405,9 @@ and ensure you are accounting for this risk.
     );
   }
   var FilePreview_default = (0, import_react190.memo)(SendBoxAttachmentBarItemFileAttachmentPreview);
-  var classes4 = { "send-box-attachment-bar-item-image-preview": "wcrkJHq_send-box-attachment-bar-item-image-preview" };
-  var ImagePreview_module_default = classes4;
-  var _send_box_attachment_bar_item_image_preview0 = classes4["send-box-attachment-bar-item-image-preview"];
+  var classes5 = { "send-box-attachment-bar-item-image-preview": "wcrkJHq_send-box-attachment-bar-item-image-preview" };
+  var ImagePreview_module_default = classes5;
+  var _send_box_attachment_bar_item_image_preview0 = classes5["send-box-attachment-bar-item-image-preview"];
   var sendBoxAttachmentBarItemImageAttachmentPreviewPropsSchema = pipe(
     object({
       attachment: sendBoxAttachmentSchema,
@@ -145306,7 +145570,7 @@ and ensure you are accounting for this risk.
   }
   var AttachmentBar_default = (0, import_react156.memo)(SendBoxAttachmentBar);
 
-  // ../component/dist/chunk-EEWE2M2G.mjs
+  // ../component/dist/chunk-QUWDO2PR.mjs
   var import_react193 = __toESM(require_react(), 1);
   var import_react194 = __toESM(require_react(), 1);
   var import_react195 = __toESM(require_react(), 1);
@@ -145435,7 +145699,7 @@ and ensure you are accounting for this risk.
     return (0, import_freeze.default)([value, setter, useRefFrom(value)]);
   }
 
-  // ../component/dist/chunk-EEWE2M2G.mjs
+  // ../component/dist/chunk-QUWDO2PR.mjs
   var import_react226 = __toESM(require_react(), 1);
   var import_react227 = __toESM(require_react(), 1);
   var import_react228 = __toESM(require_react(), 1);
@@ -145474,39 +145738,39 @@ and ensure you are accounting for this risk.
     return /* @__PURE__ */ import_react193.default.createElement("div", { "aria-hidden": ariaHidden, className: rootClassName, id, ref }, text6);
   });
   var ScreenReaderText_default = (0, import_react193.memo)(ScreenReaderText);
-  var classes5 = { "stacked-layout__alignment-pad": "wX4Ui5a_stacked-layout__alignment-pad", "stacked-layout__attachment-list": "wX4Ui5a_stacked-layout__attachment-list", "stacked-layout--group": "wX4Ui5a_stacked-layout--group", "stacked-layout__title": "wX4Ui5a_stacked-layout__title", "stacked-layout__message-status-complete-icon": "wX4Ui5a_stacked-layout__message-status-complete-icon", "stacked-layout__attachment-row": "wX4Ui5a_stacked-layout__attachment-row", "stacked-layout__status": "wX4Ui5a_stacked-layout__status", "stacked-layout--show-avatar": "wX4Ui5a_stacked-layout--show-avatar", "stacked-layout__main": "wX4Ui5a_stacked-layout__main", "stacked-layout--extra-trailing": "wX4Ui5a_stacked-layout--extra-trailing", "stacked-layout--no-message": "wX4Ui5a_stacked-layout--no-message", "stacked-layout--hide-nub": "wX4Ui5a_stacked-layout--hide-nub", "stacked-layout__avatar-gutter": "wX4Ui5a_stacked-layout__avatar-gutter", "stacked-layout__message-status--published": "wX4Ui5a_stacked-layout__message-status--published", "stacked-layout--show-nub": "wX4Ui5a_stacked-layout--show-nub", "stacked-layout--from-user": "wX4Ui5a_stacked-layout--from-user", "stacked-layout__content": "wX4Ui5a_stacked-layout__content", "stacked-layout__message-status--incomplete": "wX4Ui5a_stacked-layout__message-status--incomplete", "stacked-layout__message-row": "wX4Ui5a_stacked-layout__message-row", "stacked-layout__bubble": "wX4Ui5a_stacked-layout__bubble", "stacked-layout__message-status--unset": "wX4Ui5a_stacked-layout__message-status--unset", "stacked-layout__nub-pad": "wX4Ui5a_stacked-layout__nub-pad", "stacked-layout--hide-avatar": "wX4Ui5a_stacked-layout--hide-avatar", "stacked-layout--top-callout": "wX4Ui5a_stacked-layout--top-callout", "stacked-layout__message": "wX4Ui5a_stacked-layout__message", "stacked-layout__attachment": "wX4Ui5a_stacked-layout__attachment", "stacked-layout__message-status": "wX4Ui5a_stacked-layout__message-status", "stacked-layout__message-status-unset-icon": "wX4Ui5a_stacked-layout__message-status-unset-icon", "stacked-layout__message-status-loader": "wX4Ui5a_stacked-layout__message-status-loader", "stacked-layout": "wX4Ui5a_stacked-layout", "stacked-layout--activity": "wX4Ui5a_stacked-layout--activity" };
-  var StackedLayout_module_default = classes5;
-  var _stacked_layout__alignment_pad0 = classes5["stacked-layout__alignment-pad"];
-  var _stacked_layout__attachment_list0 = classes5["stacked-layout__attachment-list"];
-  var _stacked_layout__group0 = classes5["stacked-layout--group"];
-  var _stacked_layout__title0 = classes5["stacked-layout__title"];
-  var _stacked_layout__message_status_complete_icon0 = classes5["stacked-layout__message-status-complete-icon"];
-  var _stacked_layout__attachment_row0 = classes5["stacked-layout__attachment-row"];
-  var _stacked_layout__status0 = classes5["stacked-layout__status"];
-  var _stacked_layout__show_avatar0 = classes5["stacked-layout--show-avatar"];
-  var _stacked_layout__main0 = classes5["stacked-layout__main"];
-  var _stacked_layout__extra_trailing0 = classes5["stacked-layout--extra-trailing"];
-  var _stacked_layout__no_message0 = classes5["stacked-layout--no-message"];
-  var _stacked_layout__hide_nub0 = classes5["stacked-layout--hide-nub"];
-  var _stacked_layout__avatar_gutter0 = classes5["stacked-layout__avatar-gutter"];
-  var _stacked_layout__message_status__published0 = classes5["stacked-layout__message-status--published"];
-  var _stacked_layout__show_nub0 = classes5["stacked-layout--show-nub"];
-  var _stacked_layout__from_user0 = classes5["stacked-layout--from-user"];
-  var _stacked_layout__content0 = classes5["stacked-layout__content"];
-  var _stacked_layout__message_status__incomplete0 = classes5["stacked-layout__message-status--incomplete"];
-  var _stacked_layout__message_row0 = classes5["stacked-layout__message-row"];
-  var _stacked_layout__bubble0 = classes5["stacked-layout__bubble"];
-  var _stacked_layout__message_status__unset0 = classes5["stacked-layout__message-status--unset"];
-  var _stacked_layout__nub_pad0 = classes5["stacked-layout__nub-pad"];
-  var _stacked_layout__hide_avatar0 = classes5["stacked-layout--hide-avatar"];
-  var _stacked_layout__top_callout0 = classes5["stacked-layout--top-callout"];
-  var _stacked_layout__message0 = classes5["stacked-layout__message"];
-  var _stacked_layout__attachment0 = classes5["stacked-layout__attachment"];
-  var _stacked_layout__message_status0 = classes5["stacked-layout__message-status"];
-  var _stacked_layout__message_status_unset_icon0 = classes5["stacked-layout__message-status-unset-icon"];
-  var _stacked_layout__message_status_loader0 = classes5["stacked-layout__message-status-loader"];
-  var _stacked_layout0 = classes5["stacked-layout"];
-  var _stacked_layout__activity0 = classes5["stacked-layout--activity"];
+  var classes6 = { "stacked-layout--show-avatar": "wX4Ui5a_stacked-layout--show-avatar", "stacked-layout__attachment-list": "wX4Ui5a_stacked-layout__attachment-list", "stacked-layout__message-status--published": "wX4Ui5a_stacked-layout__message-status--published", "stacked-layout": "wX4Ui5a_stacked-layout", "stacked-layout__content": "wX4Ui5a_stacked-layout__content", "stacked-layout--hide-nub": "wX4Ui5a_stacked-layout--hide-nub", "stacked-layout__message-status--unset": "wX4Ui5a_stacked-layout__message-status--unset", "stacked-layout--top-callout": "wX4Ui5a_stacked-layout--top-callout", "stacked-layout__attachment-row": "wX4Ui5a_stacked-layout__attachment-row", "stacked-layout__attachment": "wX4Ui5a_stacked-layout__attachment", "stacked-layout--hide-avatar": "wX4Ui5a_stacked-layout--hide-avatar", "stacked-layout--group": "wX4Ui5a_stacked-layout--group", "stacked-layout--no-message": "wX4Ui5a_stacked-layout--no-message", "stacked-layout__main": "wX4Ui5a_stacked-layout__main", "stacked-layout__alignment-pad": "wX4Ui5a_stacked-layout__alignment-pad", "stacked-layout__message-status": "wX4Ui5a_stacked-layout__message-status", "stacked-layout__bubble": "wX4Ui5a_stacked-layout__bubble", "stacked-layout__avatar-gutter": "wX4Ui5a_stacked-layout__avatar-gutter", "stacked-layout--extra-trailing": "wX4Ui5a_stacked-layout--extra-trailing", "stacked-layout__nub-pad": "wX4Ui5a_stacked-layout__nub-pad", "stacked-layout--from-user": "wX4Ui5a_stacked-layout--from-user", "stacked-layout--show-nub": "wX4Ui5a_stacked-layout--show-nub", "stacked-layout__message": "wX4Ui5a_stacked-layout__message", "stacked-layout__status": "wX4Ui5a_stacked-layout__status", "stacked-layout__message-row": "wX4Ui5a_stacked-layout__message-row", "stacked-layout__message-status-unset-icon": "wX4Ui5a_stacked-layout__message-status-unset-icon", "stacked-layout--activity": "wX4Ui5a_stacked-layout--activity", "stacked-layout__title": "wX4Ui5a_stacked-layout__title", "stacked-layout__message-status--incomplete": "wX4Ui5a_stacked-layout__message-status--incomplete", "stacked-layout__message-status-complete-icon": "wX4Ui5a_stacked-layout__message-status-complete-icon", "stacked-layout__message-status-loader": "wX4Ui5a_stacked-layout__message-status-loader" };
+  var StackedLayout_module_default = classes6;
+  var _stacked_layout__show_avatar0 = classes6["stacked-layout--show-avatar"];
+  var _stacked_layout__attachment_list0 = classes6["stacked-layout__attachment-list"];
+  var _stacked_layout__message_status__published0 = classes6["stacked-layout__message-status--published"];
+  var _stacked_layout0 = classes6["stacked-layout"];
+  var _stacked_layout__content0 = classes6["stacked-layout__content"];
+  var _stacked_layout__hide_nub0 = classes6["stacked-layout--hide-nub"];
+  var _stacked_layout__message_status__unset0 = classes6["stacked-layout__message-status--unset"];
+  var _stacked_layout__top_callout0 = classes6["stacked-layout--top-callout"];
+  var _stacked_layout__attachment_row0 = classes6["stacked-layout__attachment-row"];
+  var _stacked_layout__attachment0 = classes6["stacked-layout__attachment"];
+  var _stacked_layout__hide_avatar0 = classes6["stacked-layout--hide-avatar"];
+  var _stacked_layout__group0 = classes6["stacked-layout--group"];
+  var _stacked_layout__no_message0 = classes6["stacked-layout--no-message"];
+  var _stacked_layout__main0 = classes6["stacked-layout__main"];
+  var _stacked_layout__alignment_pad0 = classes6["stacked-layout__alignment-pad"];
+  var _stacked_layout__message_status0 = classes6["stacked-layout__message-status"];
+  var _stacked_layout__bubble0 = classes6["stacked-layout__bubble"];
+  var _stacked_layout__avatar_gutter0 = classes6["stacked-layout__avatar-gutter"];
+  var _stacked_layout__extra_trailing0 = classes6["stacked-layout--extra-trailing"];
+  var _stacked_layout__nub_pad0 = classes6["stacked-layout__nub-pad"];
+  var _stacked_layout__from_user0 = classes6["stacked-layout--from-user"];
+  var _stacked_layout__show_nub0 = classes6["stacked-layout--show-nub"];
+  var _stacked_layout__message0 = classes6["stacked-layout__message"];
+  var _stacked_layout__status0 = classes6["stacked-layout__status"];
+  var _stacked_layout__message_row0 = classes6["stacked-layout__message-row"];
+  var _stacked_layout__message_status_unset_icon0 = classes6["stacked-layout__message-status-unset-icon"];
+  var _stacked_layout__activity0 = classes6["stacked-layout--activity"];
+  var _stacked_layout__title0 = classes6["stacked-layout__title"];
+  var _stacked_layout__message_status__incomplete0 = classes6["stacked-layout__message-status--incomplete"];
+  var _stacked_layout__message_status_complete_icon0 = classes6["stacked-layout__message-status-complete-icon"];
+  var _stacked_layout__message_status_loader0 = classes6["stacked-layout__message-status-loader"];
   var stackedLayoutMainPropsSchema = pipe(
     object({
       avatar: optional(reactNode_default()),
@@ -145516,8 +145780,8 @@ and ensure you are accounting for this risk.
   );
   var StackedLayoutMain = (0, import_react196.memo)((props) => {
     const { avatar, children } = validateProps2(stackedLayoutMainPropsSchema, props);
-    const classNames210 = useStyles_default(StackedLayout_module_default);
-    return /* @__PURE__ */ import_react196.default.createElement("div", { className: classNames210["stacked-layout__main"] }, /* @__PURE__ */ import_react196.default.createElement("div", { className: (0, import_classnames18.default)(classNames210["stacked-layout__avatar-gutter"]) }, avatar), /* @__PURE__ */ import_react196.default.createElement("div", { className: (0, import_classnames18.default)(classNames210["stacked-layout__content"]) }, children), /* @__PURE__ */ import_react196.default.createElement("div", { className: classNames210["stacked-layout__alignment-pad"] }));
+    const classNames31 = useStyles_default(StackedLayout_module_default);
+    return /* @__PURE__ */ import_react196.default.createElement("div", { className: classNames31["stacked-layout__main"] }, /* @__PURE__ */ import_react196.default.createElement("div", { className: (0, import_classnames18.default)(classNames31["stacked-layout__avatar-gutter"]) }, avatar), /* @__PURE__ */ import_react196.default.createElement("div", { className: (0, import_classnames18.default)(classNames31["stacked-layout__content"]) }, children), /* @__PURE__ */ import_react196.default.createElement("div", { className: classNames31["stacked-layout__alignment-pad"] }));
   });
   StackedLayoutMain.displayName = "StackedLayoutMain";
   var StackedLayoutMain_default = StackedLayoutMain;
@@ -145532,8 +145796,8 @@ and ensure you are accounting for this risk.
   );
   function MessageStatusLoader(props) {
     const { className } = validateProps2(messageStatusLoaderPropsSchema, props);
-    const classNames210 = useStyles_default(MessageStatusLoader_module_default);
-    return /* @__PURE__ */ import_react198.default.createElement(ComponentIcon_default, { appearance: "text", className: (0, import_classnames20.default)(classNames210["message-status-loader"], className) });
+    const classNames31 = useStyles_default(MessageStatusLoader_module_default);
+    return /* @__PURE__ */ import_react198.default.createElement(ComponentIcon_default, { appearance: "text", className: (0, import_classnames20.default)(classNames31["message-status-loader"], className) });
   }
   var MessageStatusLoader_default = (0, import_react198.memo)(MessageStatusLoader);
   var stackedLayoutMessageStatusPropsSchema = pipe(
@@ -145545,16 +145809,16 @@ and ensure you are accounting for this risk.
   );
   var StackedLayoutMessageStatus = (props) => {
     const { className, creativeWorkStatus } = validateProps2(stackedLayoutMessageStatusPropsSchema, props);
-    const classNames210 = useStyles_default(StackedLayout_module_default);
+    const classNames31 = useStyles_default(StackedLayout_module_default);
     return /* @__PURE__ */ import_react197.default.createElement(
       "div",
       {
         className: (0, import_classnames19.default)(
-          classNames210["stacked-layout__message-status"],
+          classNames31["stacked-layout__message-status"],
           {
-            [classNames210["stacked-layout__message-status--incomplete"]]: creativeWorkStatus === "Incomplete",
-            [classNames210["stacked-layout__message-status--published"]]: creativeWorkStatus === "Published",
-            [classNames210["stacked-layout__message-status--unset"]]: !creativeWorkStatus
+            [classNames31["stacked-layout__message-status--incomplete"]]: creativeWorkStatus === "Incomplete",
+            [classNames31["stacked-layout__message-status--published"]]: creativeWorkStatus === "Published",
+            [classNames31["stacked-layout__message-status--unset"]]: !creativeWorkStatus
           },
           className
         )
@@ -145563,7 +145827,7 @@ and ensure you are accounting for this risk.
         ComponentIcon_default,
         {
           appearance: "text",
-          className: classNames210["stacked-layout__message-status-unset-icon"],
+          className: classNames31["stacked-layout__message-status-unset-icon"],
           icon: "unchecked-circle"
         }
       ),
@@ -145571,11 +145835,11 @@ and ensure you are accounting for this risk.
         ComponentIcon_default,
         {
           appearance: "text",
-          className: classNames210["stacked-layout__message-status-complete-icon"],
+          className: classNames31["stacked-layout__message-status-complete-icon"],
           icon: "checkmark-circle"
         }
       ),
-      /* @__PURE__ */ import_react197.default.createElement(MessageStatusLoader_default, { className: classNames210["stacked-layout__message-status-loader"] })
+      /* @__PURE__ */ import_react197.default.createElement(MessageStatusLoader_default, { className: classNames31["stacked-layout__message-status-loader"] })
     );
   };
   StackedLayoutMessageStatus.displayName = "StackedLayoutMessageStatus";
@@ -145612,22 +145876,22 @@ and ensure you are accounting for this risk.
       showNub,
       topCallout
     } = validateProps2(stackedLayoutRootPropsSchema, props);
-    const classNames210 = useStyles_default(StackedLayout_module_default);
+    const classNames31 = useStyles_default(StackedLayout_module_default);
     return /* @__PURE__ */ import_react199.default.createElement(
       "div",
       {
         "aria-labelledby": ariaLabelId,
-        className: (0, import_classnames21.default)("webchat__stacked-layout", classNames210["stacked-layout"], {
-          [classNames210["stacked-layout--from-user"]]: fromUser,
-          [classNames210["stacked-layout--extra-trailing"]]: extraTrailing,
-          [classNames210["stacked-layout--hide-avatar"]]: hideAvatar,
-          [classNames210["stacked-layout--hide-nub"]]: hideNub,
-          [classNames210["stacked-layout--activity"]]: isActivity,
-          [classNames210["stacked-layout--group"]]: isGroup,
-          [classNames210["stacked-layout--no-message"]]: noMessage,
-          [classNames210["stacked-layout--show-avatar"]]: showAvatar,
-          [classNames210["stacked-layout--show-nub"]]: showNub,
-          [classNames210["stacked-layout--top-callout"]]: topCallout
+        className: (0, import_classnames21.default)(classNames31["stacked-layout"], {
+          [classNames31["stacked-layout--from-user"]]: fromUser,
+          [classNames31["stacked-layout--extra-trailing"]]: extraTrailing,
+          [classNames31["stacked-layout--hide-avatar"]]: hideAvatar,
+          [classNames31["stacked-layout--hide-nub"]]: hideNub,
+          [classNames31["stacked-layout--activity"]]: isActivity,
+          [classNames31["stacked-layout--group"]]: isGroup,
+          [classNames31["stacked-layout--no-message"]]: noMessage,
+          [classNames31["stacked-layout--show-avatar"]]: showAvatar,
+          [classNames31["stacked-layout--show-nub"]]: showNub,
+          [classNames31["stacked-layout--top-callout"]]: topCallout
         })
       },
       children
@@ -145643,8 +145907,8 @@ and ensure you are accounting for this risk.
   );
   var StackedLayoutStatus = (0, import_react200.memo)((props) => {
     const { children } = validateProps2(stackedLayoutStatusPropsSchema, props);
-    const classNames210 = useStyles_default(StackedLayout_module_default);
-    return /* @__PURE__ */ import_react200.default.createElement("div", { className: (0, import_classnames22.default)(classNames210["stacked-layout__status"]) }, /* @__PURE__ */ import_react200.default.createElement("div", { className: (0, import_classnames22.default)(classNames210["stacked-layout__avatar-gutter"]) }), /* @__PURE__ */ import_react200.default.createElement("div", { className: (0, import_classnames22.default)(classNames210["stacked-layout__nub-pad"]) }), children, /* @__PURE__ */ import_react200.default.createElement("div", { className: (0, import_classnames22.default)(classNames210["stacked-layout__alignment-pad"]) }));
+    const classNames31 = useStyles_default(StackedLayout_module_default);
+    return /* @__PURE__ */ import_react200.default.createElement("div", { className: (0, import_classnames22.default)(classNames31["stacked-layout__status"]) }, /* @__PURE__ */ import_react200.default.createElement("div", { className: (0, import_classnames22.default)(classNames31["stacked-layout__avatar-gutter"]) }), /* @__PURE__ */ import_react200.default.createElement("div", { className: (0, import_classnames22.default)(classNames31["stacked-layout__nub-pad"]) }), children, /* @__PURE__ */ import_react200.default.createElement("div", { className: (0, import_classnames22.default)(classNames31["stacked-layout__alignment-pad"]) }));
   });
   StackedLayoutStatus.displayName = "StackedLayoutStatus";
   var StackedLayoutStatus_default = StackedLayoutStatus;
@@ -145881,33 +146145,33 @@ and ensure you are accounting for this risk.
     };
   };
   var useRenderActivityProps_default = useRenderActivityProps;
-  var classes32 = { "transcript-focus-area__content": "ws7yAGq_transcript-focus-area__content", "transcript-focus-area__transcript-indicator": "ws7yAGq_transcript-focus-area__transcript-indicator", "transcript-focus-area": "ws7yAGq_transcript-focus-area", "transcript-focus-area__content-active-descendant": "ws7yAGq_transcript-focus-area__content-active-descendant", "transcript-focus-area__terminator-body": "ws7yAGq_transcript-focus-area__terminator-body", "transcript-focus-area__terminator-text": "ws7yAGq_transcript-focus-area__terminator-text", "transcript-focus-area__content--focused": "ws7yAGq_transcript-focus-area__content--focused", "transcript-focus-area__terminator": "ws7yAGq_transcript-focus-area__terminator", "transcript-focus-area__indicator": "ws7yAGq_transcript-focus-area__indicator", "transcript-focus-area__content-root": "ws7yAGq_transcript-focus-area__content-root", "transcript-focus-area__activity-list": "ws7yAGq_transcript-focus-area__activity-list", "transcript-focus-area__content-overlay": "ws7yAGq_transcript-focus-area__content-overlay", "transcript-focus-area__root": "ws7yAGq_transcript-focus-area__root" };
+  var classes32 = { "transcript-focus-area__activity-list": "ws7yAGq_transcript-focus-area__activity-list", "transcript-focus-area__root": "ws7yAGq_transcript-focus-area__root", "transcript-focus-area__content": "ws7yAGq_transcript-focus-area__content", "transcript-focus-area__transcript-indicator": "ws7yAGq_transcript-focus-area__transcript-indicator", "transcript-focus-area__terminator-body": "ws7yAGq_transcript-focus-area__terminator-body", "transcript-focus-area__terminator": "ws7yAGq_transcript-focus-area__terminator", "transcript-focus-area__terminator-text": "ws7yAGq_transcript-focus-area__terminator-text", "transcript-focus-area__content-active-descendant": "ws7yAGq_transcript-focus-area__content-active-descendant", "transcript-focus-area__content-root": "ws7yAGq_transcript-focus-area__content-root", "transcript-focus-area__content--focused": "ws7yAGq_transcript-focus-area__content--focused", "transcript-focus-area": "ws7yAGq_transcript-focus-area", "transcript-focus-area__indicator": "ws7yAGq_transcript-focus-area__indicator", "transcript-focus-area__content-overlay": "ws7yAGq_transcript-focus-area__content-overlay" };
   var TranscriptFocus_module_default = classes32;
+  var _transcript_focus_area__activity_list0 = classes32["transcript-focus-area__activity-list"];
+  var _transcript_focus_area__root0 = classes32["transcript-focus-area__root"];
   var _transcript_focus_area__content0 = classes32["transcript-focus-area__content"];
   var _transcript_focus_area__transcript_indicator0 = classes32["transcript-focus-area__transcript-indicator"];
-  var _transcript_focus_area0 = classes32["transcript-focus-area"];
-  var _transcript_focus_area__content_active_descendant0 = classes32["transcript-focus-area__content-active-descendant"];
   var _transcript_focus_area__terminator_body0 = classes32["transcript-focus-area__terminator-body"];
-  var _transcript_focus_area__terminator_text0 = classes32["transcript-focus-area__terminator-text"];
-  var _transcript_focus_area__content__focused0 = classes32["transcript-focus-area__content--focused"];
   var _transcript_focus_area__terminator0 = classes32["transcript-focus-area__terminator"];
-  var _transcript_focus_area__indicator0 = classes32["transcript-focus-area__indicator"];
+  var _transcript_focus_area__terminator_text0 = classes32["transcript-focus-area__terminator-text"];
+  var _transcript_focus_area__content_active_descendant0 = classes32["transcript-focus-area__content-active-descendant"];
   var _transcript_focus_area__content_root0 = classes32["transcript-focus-area__content-root"];
-  var _transcript_focus_area__activity_list0 = classes32["transcript-focus-area__activity-list"];
+  var _transcript_focus_area__content__focused0 = classes32["transcript-focus-area__content--focused"];
+  var _transcript_focus_area0 = classes32["transcript-focus-area"];
+  var _transcript_focus_area__indicator0 = classes32["transcript-focus-area__indicator"];
   var _transcript_focus_area__content_overlay0 = classes32["transcript-focus-area__content-overlay"];
-  var _transcript_focus_area__root0 = classes32["transcript-focus-area__root"];
   var TranscriptActivityList = (0, import_react210.forwardRef)(
     ({ className, ...props }, ref) => {
-      const classNames210 = useStyles_default(TranscriptFocus_module_default);
-      return /* @__PURE__ */ import_react210.default.createElement("section", { ...props, className: (0, import_classnames23.default)(classNames210["transcript-focus-area__activity-list"], className), ref });
+      const classNames31 = useStyles_default(TranscriptFocus_module_default);
+      return /* @__PURE__ */ import_react210.default.createElement("section", { ...props, className: (0, import_classnames23.default)(classNames31["transcript-focus-area__activity-list"], className), ref });
     }
   );
   TranscriptActivityList.displayName = "TranscriptActivityList";
   var TranscriptActivityList_default = (0, import_react210.memo)(TranscriptActivityList);
   var TranscriptFocusIndicator = (0, import_react212.forwardRef)(
     ({ className, type: type2 = "content", ...props }, ref) => {
-      const classNames210 = useStyles_default(TranscriptFocus_module_default);
-      const indicatorClass = type2 === "content" ? classNames210["transcript-focus-area__indicator"] : classNames210["transcript-focus-area__transcript-indicator"];
+      const classNames31 = useStyles_default(TranscriptFocus_module_default);
+      const indicatorClass = type2 === "content" ? classNames31["transcript-focus-area__indicator"] : classNames31["transcript-focus-area__transcript-indicator"];
       return /* @__PURE__ */ import_react212.default.createElement("div", { ...props, className: (0, import_classnames25.default)(indicatorClass, className), ref });
     }
   );
@@ -145915,22 +146179,22 @@ and ensure you are accounting for this risk.
   var TranscriptFocusIndicator_default = TranscriptFocusIndicator;
   var TranscriptFocusArea = (0, import_react211.forwardRef)(
     ({ className, children, ...props }, ref) => {
-      const classNames210 = useStyles_default(TranscriptFocus_module_default);
-      return /* @__PURE__ */ import_react211.default.createElement("div", { ...props, className: (0, import_classnames24.default)(classNames210["transcript-focus-area"], className), ref }, /* @__PURE__ */ import_react211.default.createElement("div", { className: classNames210["transcript-focus-area__root"] }, children), /* @__PURE__ */ import_react211.default.createElement(TranscriptFocusIndicator_default, { type: "transcript" }));
+      const classNames31 = useStyles_default(TranscriptFocus_module_default);
+      return /* @__PURE__ */ import_react211.default.createElement("div", { ...props, className: (0, import_classnames24.default)(classNames31["transcript-focus-area"], className), ref }, /* @__PURE__ */ import_react211.default.createElement("div", { className: classNames31["transcript-focus-area__root"] }, children), /* @__PURE__ */ import_react211.default.createElement(TranscriptFocusIndicator_default, { type: "transcript" }));
     }
   );
   TranscriptFocusArea.displayName = "TranscriptFocusArea";
   var TranscriptFocusArea_default = TranscriptFocusArea;
   var TranscriptFocusContent = (0, import_react213.forwardRef)(
     ({ className, focused, tag: Tag = "div", ...props }, ref) => {
-      const classNames210 = useStyles_default(TranscriptFocus_module_default);
+      const classNames31 = useStyles_default(TranscriptFocus_module_default);
       return /* @__PURE__ */ import_react213.default.createElement(
         Tag,
         {
           ...props,
           className: (0, import_classnames26.default)(
-            classNames210["transcript-focus-area__content"],
-            { [classNames210["transcript-focus-area__content--focused"]]: focused },
+            classNames31["transcript-focus-area__content"],
+            { [classNames31["transcript-focus-area__content--focused"]]: focused },
             className
           ),
           ref
@@ -145942,20 +146206,20 @@ and ensure you are accounting for this risk.
   var TranscriptFocusContent_default = TranscriptFocusContent;
   var TranscriptFocusContentOverlay = (0, import_react214.forwardRef)(
     ({ className, ...props }, ref) => {
-      const classNames210 = useStyles_default(TranscriptFocus_module_default);
-      return /* @__PURE__ */ import_react214.default.createElement("div", { ...props, className: (0, import_classnames27.default)(classNames210["transcript-focus-area__content-overlay"], className), ref });
+      const classNames31 = useStyles_default(TranscriptFocus_module_default);
+      return /* @__PURE__ */ import_react214.default.createElement("div", { ...props, className: (0, import_classnames27.default)(classNames31["transcript-focus-area__content-overlay"], className), ref });
     }
   );
   TranscriptFocusContentOverlay.displayName = "TranscriptFocusContentOverlay";
   var TranscriptFocusContentOverlay_default = TranscriptFocusContentOverlay;
   var TranscriptFocusContentActiveDescendant = (0, import_react215.forwardRef)(
     ({ className, ...props }, ref) => {
-      const classNames210 = useStyles_default(TranscriptFocus_module_default);
+      const classNames31 = useStyles_default(TranscriptFocus_module_default);
       return /* @__PURE__ */ import_react215.default.createElement(
         "div",
         {
           ...props,
-          className: (0, import_classnames28.default)(classNames210["transcript-focus-area__content-active-descendant"], className),
+          className: (0, import_classnames28.default)(classNames31["transcript-focus-area__content-active-descendant"], className),
           ref
         }
       );
@@ -145965,8 +146229,8 @@ and ensure you are accounting for this risk.
   var TranscriptFocusContentActiveDescendant_default = TranscriptFocusContentActiveDescendant;
   var TranscriptFocusContentBody = (0, import_react216.forwardRef)(
     ({ className, ...props }, ref) => {
-      const classNames210 = useStyles_default(TranscriptFocus_module_default);
-      return /* @__PURE__ */ import_react216.default.createElement("div", { ...props, className: (0, import_classnames29.default)(classNames210["transcript-focus-area__content-body"], className), ref });
+      const classNames31 = useStyles_default(TranscriptFocus_module_default);
+      return /* @__PURE__ */ import_react216.default.createElement("div", { ...props, className: (0, import_classnames29.default)(classNames31["transcript-focus-area__content-body"], className), ref });
     }
   );
   TranscriptFocusContentBody.displayName = "TranscriptFocusContentBody";
@@ -145978,7 +146242,7 @@ and ensure you are accounting for this risk.
   var { useLocalizer: useLocalizer11 } = hook_exports;
   var TranscriptFocusTerminator = (0, import_react217.forwardRef)(
     ({ className, ...props }, ref) => {
-      const classNames210 = useStyles_default(TranscriptFocus_module_default);
+      const classNames31 = useStyles_default(TranscriptFocus_module_default);
       const localize2 = useLocalizer11();
       const terminatorText = localize2("TRANSCRIPT_TERMINATOR_TEXT");
       const terminatorLabelId = useUniqueId("webchat__basic-transcript__terminator-label");
@@ -145987,10 +146251,10 @@ and ensure you are accounting for this risk.
         {
           ...props,
           "aria-labelledby": terminatorLabelId,
-          className: (0, import_classnames30.default)(classNames210["transcript-focus-area__terminator"], className),
+          className: (0, import_classnames30.default)(classNames31["transcript-focus-area__terminator"], className),
           ref
         },
-        /* @__PURE__ */ import_react217.default.createElement("div", { className: (0, import_classnames30.default)(classNames210["transcript-focus-area__terminator-body"]) }, /* @__PURE__ */ import_react217.default.createElement("div", { className: (0, import_classnames30.default)(classNames210["transcript-focus-area__terminator-text"]), id: terminatorLabelId }, terminatorText))
+        /* @__PURE__ */ import_react217.default.createElement("div", { className: (0, import_classnames30.default)(classNames31["transcript-focus-area__terminator-body"]) }, /* @__PURE__ */ import_react217.default.createElement("div", { className: (0, import_classnames30.default)(classNames31["transcript-focus-area__terminator-text"]), id: terminatorLabelId }, terminatorText))
       );
     }
   );
@@ -145998,18 +146262,22 @@ and ensure you are accounting for this risk.
   var TranscriptFocusTerminator_default = TranscriptFocusTerminator;
   var TranscriptFocusTerminatorBody = (0, import_react219.forwardRef)(
     ({ className, ...props }, ref) => {
-      const classNames210 = useStyles_default(TranscriptFocus_module_default);
-      return /* @__PURE__ */ import_react219.default.createElement("div", { ...props, className: (0, import_classnames31.default)(classNames210["transcript-focus-area__terminator-body"], className), ref });
+      const classNames31 = useStyles_default(TranscriptFocus_module_default);
+      return /* @__PURE__ */ import_react219.default.createElement("div", { ...props, className: (0, import_classnames31.default)(classNames31["transcript-focus-area__terminator-body"], className), ref });
     }
   );
   TranscriptFocusTerminatorBody.displayName = "TranscriptFocusTerminatorBody";
   var TranscriptFocusTerminatorText = (0, import_react220.forwardRef)(
     ({ className, ...props }, ref) => {
-      const classNames210 = useStyles_default(TranscriptFocus_module_default);
-      return /* @__PURE__ */ import_react220.default.createElement("div", { ...props, className: (0, import_classnames32.default)(classNames210["transcript-focus-area__terminator-text"], className), ref });
+      const classNames31 = useStyles_default(TranscriptFocus_module_default);
+      return /* @__PURE__ */ import_react220.default.createElement("div", { ...props, className: (0, import_classnames32.default)(classNames31["transcript-focus-area__terminator-text"], className), ref });
     }
   );
   TranscriptFocusTerminatorText.displayName = "TranscriptFocusTerminatorText";
+  var classes42 = { "activity-button__icon": "wakyRHW_activity-button__icon", "activity-button": "wakyRHW_activity-button" };
+  var ActivityButton_module_default = classes42;
+  var _activity_button__icon0 = classes42["activity-button__icon"];
+  var _activity_button0 = classes42["activity-button"];
   var activityButtonPropsSchema = pipe(
     object({
       "aria-controls": optional(string()),
@@ -146038,7 +146306,7 @@ and ensure you are accounting for this risk.
       onClick: onClick2,
       text: text6
     } = validateProps2(activityButtonPropsSchema, props);
-    const [{ activityButton }] = useStyleSet();
+    const classNames31 = useStyles_default(ActivityButton_module_default);
     const onClickRef = useRefFrom(onClick2);
     const handleClick = (0, import_react222.useCallback)(() => {
       var _a29;
@@ -146051,30 +146319,30 @@ and ensure you are accounting for this risk.
         "aria-disabled": disabled ? "true" : void 0,
         "aria-expanded": ariaExpanded,
         "aria-pressed": ariaPressed,
-        className: (0, import_classnames34.default)(activityButton, "webchat__activity-button", className),
+        className: (0, import_classnames34.default)(classNames31["activity-button"], className),
         "data-testid": dataTestId,
         onClick: disabled ? void 0 : handleClick,
         ref,
         tabIndex: disabled ? -1 : void 0,
         type: "button"
       },
-      icon && /* @__PURE__ */ import_react222.default.createElement(ComponentIcon_default, { appearance: "text", className: "webchat__activity-button__icon", icon }),
-      text6 && /* @__PURE__ */ import_react222.default.createElement("span", { className: "webchat__activity-button__text" }, text6),
+      icon && /* @__PURE__ */ import_react222.default.createElement(ComponentIcon_default, { appearance: "text", className: classNames31["activity-button__icon"], icon }),
+      text6 && /* @__PURE__ */ import_react222.default.createElement("span", { className: "activity-button__text" }, text6),
       children
     );
   });
   var ActivityButton_default = (0, import_react222.memo)(ActivityButton);
-  var classes42 = { "collapsible-grouping__chevron": "w30owfW_collapsible-grouping__chevron", "collapsible-grouping__header": "w30owfW_collapsible-grouping__header", "collapsible-grouping--open": "w30owfW_collapsible-grouping--open", "collapsible-grouping__list": "w30owfW_collapsible-grouping__list", "collapsible-grouping__title": "w30owfW_collapsible-grouping__title", "collapsible-grouping__content": "w30owfW_collapsible-grouping__content", "collapsible-grouping__toggle": "w30owfW_collapsible-grouping__toggle", "collapsible-grouping": "w30owfW_collapsible-grouping", "collapsible-grouping__content--open": "w30owfW_collapsible-grouping__content--open" };
-  var CollapsibleGrouping_module_default = classes42;
-  var _collapsible_grouping__chevron0 = classes42["collapsible-grouping__chevron"];
-  var _collapsible_grouping__header0 = classes42["collapsible-grouping__header"];
-  var _collapsible_grouping__open0 = classes42["collapsible-grouping--open"];
-  var _collapsible_grouping__list0 = classes42["collapsible-grouping__list"];
-  var _collapsible_grouping__title0 = classes42["collapsible-grouping__title"];
-  var _collapsible_grouping__content0 = classes42["collapsible-grouping__content"];
-  var _collapsible_grouping__toggle0 = classes42["collapsible-grouping__toggle"];
-  var _collapsible_grouping0 = classes42["collapsible-grouping"];
-  var _collapsible_grouping__content__open0 = classes42["collapsible-grouping__content--open"];
+  var classes52 = { "collapsible-grouping__header": "w30owfW_collapsible-grouping__header", "collapsible-grouping__list": "w30owfW_collapsible-grouping__list", "collapsible-grouping": "w30owfW_collapsible-grouping", "collapsible-grouping__content--open": "w30owfW_collapsible-grouping__content--open", "collapsible-grouping__chevron": "w30owfW_collapsible-grouping__chevron", "collapsible-grouping__title": "w30owfW_collapsible-grouping__title", "collapsible-grouping__content": "w30owfW_collapsible-grouping__content", "collapsible-grouping--open": "w30owfW_collapsible-grouping--open", "collapsible-grouping__toggle": "w30owfW_collapsible-grouping__toggle" };
+  var CollapsibleGrouping_module_default = classes52;
+  var _collapsible_grouping__header0 = classes52["collapsible-grouping__header"];
+  var _collapsible_grouping__list0 = classes52["collapsible-grouping__list"];
+  var _collapsible_grouping0 = classes52["collapsible-grouping"];
+  var _collapsible_grouping__content__open0 = classes52["collapsible-grouping__content--open"];
+  var _collapsible_grouping__chevron0 = classes52["collapsible-grouping__chevron"];
+  var _collapsible_grouping__title0 = classes52["collapsible-grouping__title"];
+  var _collapsible_grouping__content0 = classes52["collapsible-grouping__content"];
+  var _collapsible_grouping__open0 = classes52["collapsible-grouping--open"];
+  var _collapsible_grouping__toggle0 = classes52["collapsible-grouping__toggle"];
   var { useLocalizer: useLocalizer23 } = hook_exports;
   var collapsibleGroupingPropsSchema = pipe(
     object({
@@ -146092,7 +146360,7 @@ and ensure you are accounting for this risk.
   function CollapsibleGrouping(props) {
     const { children, className, header, isOpen = true, onToggle } = validateProps2(collapsibleGroupingPropsSchema, props);
     const [id] = (0, import_react221.useState)(() => `webchat-collapsible-grouping-${uniqueId2()}`);
-    const classNames210 = useStyles_default(CollapsibleGrouping_module_default);
+    const classNames31 = useStyles_default(CollapsibleGrouping_module_default);
     const buttonRef = (0, import_react221.useRef)(null);
     const isOpenRef = useRefFrom(isOpen);
     const onToggleRef = useRefFrom(onToggle);
@@ -146112,29 +146380,29 @@ and ensure you are accounting for this risk.
       "div",
       {
         className: (0, import_classnames33.default)(
-          classNames210["collapsible-grouping"],
-          { [classNames210["collapsible-grouping--open"]]: isOpen },
+          classNames31["collapsible-grouping"],
+          { [classNames31["collapsible-grouping--open"]]: isOpen },
           className
         )
       },
-      /* @__PURE__ */ import_react221.default.createElement("div", { className: (0, import_classnames33.default)(classNames210["collapsible-grouping__header"]) }, header, /* @__PURE__ */ import_react221.default.createElement(
+      /* @__PURE__ */ import_react221.default.createElement("div", { className: (0, import_classnames33.default)(classNames31["collapsible-grouping__header"]) }, header, /* @__PURE__ */ import_react221.default.createElement(
         ActivityButton_default,
         {
           "aria-controls": id,
           "aria-expanded": isOpen,
           "aria-pressed": isOpen,
-          className: (0, import_classnames33.default)(classNames210["collapsible-grouping__toggle"]),
+          className: (0, import_classnames33.default)(classNames31["collapsible-grouping__toggle"]),
           onClick: handleToggle,
           ref: buttonRef,
           text: text6
         },
-        /* @__PURE__ */ import_react221.default.createElement(ComponentIcon_default, { appearance: "text", className: classNames210["collapsible-grouping__chevron"], icon: "chevron" })
+        /* @__PURE__ */ import_react221.default.createElement(ComponentIcon_default, { appearance: "text", className: classNames31["collapsible-grouping__chevron"], icon: "chevron" })
       )),
       /* @__PURE__ */ import_react221.default.createElement(
         "div",
         {
-          className: (0, import_classnames33.default)(classNames210["collapsible-grouping__content"], {
-            [classNames210["collapsible-grouping__content--open"]]: isOpen
+          className: (0, import_classnames33.default)(classNames31["collapsible-grouping__content"], {
+            [classNames31["collapsible-grouping__content--open"]]: isOpen
           }),
           id
         },
@@ -146153,8 +146421,8 @@ and ensure you are accounting for this risk.
   );
   var CollapsibleGroupingList = (props) => {
     const { className, children, tag: Tag = "div" } = validateProps2(collapsibleGroupingListPropsSchema, props);
-    const classNames210 = useStyles_default(CollapsibleGrouping_module_default);
-    return /* @__PURE__ */ import_react223.default.createElement(Tag, { className: (0, import_classnames35.default)(classNames210["collapsible-grouping__list"], className) }, children);
+    const classNames31 = useStyles_default(CollapsibleGrouping_module_default);
+    return /* @__PURE__ */ import_react223.default.createElement(Tag, { className: (0, import_classnames35.default)(classNames31["collapsible-grouping__list"], className) }, children);
   };
   CollapsibleGroupingList.displayName = "CollapsibleGroupingList";
   var CollapsibleGroupingList_default = (0, import_react223.memo)(CollapsibleGroupingList);
@@ -146167,8 +146435,8 @@ and ensure you are accounting for this risk.
   );
   var CollapsibleGroupingTitle = (props) => {
     const { className, children } = validateProps2(collapsibleGroupingTitlePropsSchema, props);
-    const classNames210 = useStyles_default(CollapsibleGrouping_module_default);
-    return /* @__PURE__ */ import_react224.default.createElement("div", { className: (0, import_classnames36.default)(classNames210["collapsible-grouping__title"], className) }, children);
+    const classNames31 = useStyles_default(CollapsibleGrouping_module_default);
+    return /* @__PURE__ */ import_react224.default.createElement("div", { className: (0, import_classnames36.default)(classNames31["collapsible-grouping__title"], className) }, children);
   };
   CollapsibleGroupingTitle.displayName = "CollapsibleGroupingTitle";
   var CollapsibleGroupingTitle_default = (0, import_react224.memo)(CollapsibleGroupingTitle);
@@ -146287,13 +146555,13 @@ and ensure you are accounting for this risk.
     return partGroupKey;
   }
   var usePartGroupingLogicalGroup_default = usePartGroupingLogicalGroup;
-  var classes52 = { "part-grouping-activity__collapsible": "wKyGLuG_part-grouping-activity__collapsible", "part-grouping-activity__activities": "wKyGLuG_part-grouping-activity__activities", "part-grouping-activity__collapsible--open": "wKyGLuG_part-grouping-activity__collapsible--open", "part-grouping-activity__message-status": "wKyGLuG_part-grouping-activity__message-status", "part-grouping-activity": "wKyGLuG_part-grouping-activity" };
-  var PartGroupingActivity_module_default = classes52;
-  var _part_grouping_activity__collapsible0 = classes52["part-grouping-activity__collapsible"];
-  var _part_grouping_activity__activities0 = classes52["part-grouping-activity__activities"];
-  var _part_grouping_activity__collapsible__open0 = classes52["part-grouping-activity__collapsible--open"];
-  var _part_grouping_activity__message_status0 = classes52["part-grouping-activity__message-status"];
-  var _part_grouping_activity0 = classes52["part-grouping-activity"];
+  var classes62 = { "part-grouping-activity__message-status": "wKyGLuG_part-grouping-activity__message-status", "part-grouping-activity__collapsible--open": "wKyGLuG_part-grouping-activity__collapsible--open", "part-grouping-activity__activities": "wKyGLuG_part-grouping-activity__activities", "part-grouping-activity": "wKyGLuG_part-grouping-activity", "part-grouping-activity__collapsible": "wKyGLuG_part-grouping-activity__collapsible" };
+  var PartGroupingActivity_module_default = classes62;
+  var _part_grouping_activity__message_status0 = classes62["part-grouping-activity__message-status"];
+  var _part_grouping_activity__collapsible__open0 = classes62["part-grouping-activity__collapsible--open"];
+  var _part_grouping_activity__activities0 = classes62["part-grouping-activity__activities"];
+  var _part_grouping_activity0 = classes62["part-grouping-activity"];
+  var _part_grouping_activity__collapsible0 = classes62["part-grouping-activity__collapsible"];
   var { useAvatarForBot: useAvatarForBot2, useGetKeyByActivity: useGetKeyByActivity2, useLocalizer: useLocalizer32, useStyleOptions: useStyleOptions23 } = hook_exports;
   var partGroupingActivityPropsSchema = pipe(
     object({
@@ -146361,7 +146629,7 @@ and ensure you are accounting for this risk.
   function PartGroupingActivity(props) {
     const localize2 = useLocalizer32();
     const { activities: activities2, children } = validateProps2(partGroupingActivityPropsSchema, props);
-    const classNames210 = useStyles_default(PartGroupingActivity_module_default);
+    const classNames31 = useStyles_default(PartGroupingActivity_module_default);
     const getKeyByActivity = useGetKeyByActivity2();
     const [isGroupOpen, setIsGroupOpen] = (0, import_react195.useState)(true);
     const messages = (0, import_react195.useMemo)(
@@ -146399,17 +146667,17 @@ and ensure you are accounting for this risk.
       () => /* @__PURE__ */ import_react195.default.createElement(import_react195.Fragment, null, defaultWorkStatus && /* @__PURE__ */ import_react195.default.createElement(
         StackedLayoutMessageStatus_default,
         {
-          className: classNames210["part-grouping-activity__message-status"],
+          className: classNames31["part-grouping-activity__message-status"],
           creativeWorkStatus: currentGroupStatus
         }
       ), /* @__PURE__ */ import_react195.default.createElement(CollapsibleGroupingTitle_default, null, currentGroupStatus === "Incomplete" ? (currentMessage == null ? void 0 : currentMessage.abstract) || localize2("COLLAPSIBLE_GROUPING_TITLE") : localize2("COLLAPSIBLE_GROUPING_TITLE"))),
-      [classNames210, currentGroupStatus, currentMessage == null ? void 0 : currentMessage.abstract, defaultWorkStatus, localize2]
+      [classNames31, currentGroupStatus, currentMessage == null ? void 0 : currentMessage.abstract, defaultWorkStatus, localize2]
     );
     return /* @__PURE__ */ import_react195.default.createElement(
       FocusablePartGroupingActivity,
       {
         activity: firstActivity,
-        className: classNames210["part-grouping-activity"],
+        className: classNames31["part-grouping-activity"],
         groupKey
       },
       /* @__PURE__ */ import_react195.default.createElement(
@@ -146423,8 +146691,8 @@ and ensure you are accounting for this risk.
         /* @__PURE__ */ import_react195.default.createElement(StackedLayoutMain_default, { avatar: showAvatar && renderAvatar && renderAvatar() }, /* @__PURE__ */ import_react195.default.createElement(
           CollapsibleGrouping_default,
           {
-            className: (0, import_classnames17.default)(classNames210["part-grouping-activity__collapsible"], {
-              [classNames210["part-grouping-activity__collapsible--open"]]: isGroupOpen
+            className: (0, import_classnames17.default)(classNames31["part-grouping-activity__collapsible"], {
+              [classNames31["part-grouping-activity__collapsible--open"]]: isGroupOpen
             }),
             header: groupHeader,
             isOpen: isGroupOpen,
@@ -146433,7 +146701,7 @@ and ensure you are accounting for this risk.
           /* @__PURE__ */ import_react195.default.createElement(
             CollapsibleGroupingList_default,
             {
-              className: classNames210["part-grouping-activity__activities"],
+              className: classNames31["part-grouping-activity__activities"],
               tag: TranscriptActivityList_default
             },
             children
@@ -146702,7 +146970,7 @@ and ensure you are accounting for this risk.
   }
   var ActivityGroupingDecorator_default = (0, import_react238.memo)(ActivityGroupingDecorator);
 
-  // ../component/dist/chunk-JANTO5JD.mjs
+  // ../component/dist/chunk-NNKGCOL2.mjs
   var import_classnames40 = __toESM(require_classnames(), 1);
   var import_markdown_it = __toESM(require_markdown_it(), 1);
   var import_prop_types23 = __toESM(require_prop_types(), 1);
@@ -147163,7 +147431,7 @@ and ensure you are accounting for this risk.
   var Composer_default3 = Composer3;
   var src_default2 = Say_default;
 
-  // ../component/dist/chunk-JANTO5JD.mjs
+  // ../component/dist/chunk-NNKGCOL2.mjs
   var import_react274 = __toESM(require_react(), 1);
   var import_prop_types24 = __toESM(require_prop_types(), 1);
   var import_react275 = __toESM(require_react(), 1);
@@ -147178,9 +147446,8 @@ and ensure you are accounting for this risk.
   var import_classnames42 = __toESM(require_classnames(), 1);
   var import_react281 = __toESM(require_react(), 1);
   var import_react282 = __toESM(require_react(), 1);
-  var import_classnames43 = __toESM(require_classnames(), 1);
   var import_react283 = __toESM(require_react(), 1);
-  var import_classnames44 = __toESM(require_classnames(), 1);
+  var import_classnames43 = __toESM(require_classnames(), 1);
 
   // ../../node_modules/mdast-util-to-string/lib/index.js
   var emptyOptions = {};
@@ -152606,7 +152873,7 @@ and ensure you are accounting for this risk.
     }
   }
 
-  // ../component/dist/chunk-JANTO5JD.mjs
+  // ../component/dist/chunk-NNKGCOL2.mjs
   var import_react284 = __toESM(require_react(), 1);
   var import_react285 = __toESM(require_react(), 1);
 
@@ -152803,23 +153070,24 @@ and ensure you are accounting for this risk.
   // ../../node_modules/react-wrap-with/lib/esmodules/wrapWith.js
   var wrapWith_default = wrapWith;
 
-  // ../component/dist/chunk-JANTO5JD.mjs
+  // ../component/dist/chunk-NNKGCOL2.mjs
   var import_react286 = __toESM(require_react(), 1);
   var import_react287 = __toESM(require_react(), 1);
-  var import_classnames45 = __toESM(require_classnames(), 1);
+  var import_classnames44 = __toESM(require_classnames(), 1);
   var import_react288 = __toESM(require_react(), 1);
   var import_react289 = __toESM(require_react(), 1);
   var import_react290 = __toESM(require_react(), 1);
   var import_react291 = __toESM(require_react(), 1);
   var import_react292 = __toESM(require_react(), 1);
-  var import_classnames46 = __toESM(require_classnames(), 1);
+  var import_classnames45 = __toESM(require_classnames(), 1);
   var import_react293 = __toESM(require_react(), 1);
-  var import_classnames47 = __toESM(require_classnames(), 1);
+  var import_classnames46 = __toESM(require_classnames(), 1);
   var import_react294 = __toESM(require_react(), 1);
   var import_react295 = __toESM(require_react(), 1);
   var import_math_random10 = __toESM(require_browser(), 1);
   var import_react296 = __toESM(require_react(), 1);
   var import_deep_freeze_strict = __toESM(require_deep_freeze_strict(), 1);
+  var import_classnames47 = __toESM(require_classnames(), 1);
   var import_react297 = __toESM(require_react(), 1);
   var import_react298 = __toESM(require_react(), 1);
   var import_react299 = __toESM(require_react(), 1);
@@ -152833,22 +153101,21 @@ and ensure you are accounting for this risk.
   var import_react304 = __toESM(require_react(), 1);
   var import_classnames50 = __toESM(require_classnames(), 1);
   var import_react305 = __toESM(require_react(), 1);
-  var import_classnames51 = __toESM(require_classnames(), 1);
   var import_react306 = __toESM(require_react(), 1);
   var import_markdown_it2 = __toESM(require_markdown_it(), 1);
   var import_react307 = __toESM(require_react(), 1);
   var import_markdown_it3 = __toESM(require_markdown_it(), 1);
-  var import_classnames52 = __toESM(require_classnames(), 1);
+  var import_classnames51 = __toESM(require_classnames(), 1);
   var import_react308 = __toESM(require_react(), 1);
-  var import_classnames53 = __toESM(require_classnames(), 1);
+  var import_classnames52 = __toESM(require_classnames(), 1);
   var import_react309 = __toESM(require_react(), 1);
-  var import_classnames54 = __toESM(require_classnames(), 1);
+  var import_classnames53 = __toESM(require_classnames(), 1);
   var import_react310 = __toESM(require_react(), 1);
-  var import_classnames55 = __toESM(require_classnames(), 1);
+  var import_classnames54 = __toESM(require_classnames(), 1);
   var import_react311 = __toESM(require_react(), 1);
-  var import_classnames56 = __toESM(require_classnames(), 1);
+  var import_classnames55 = __toESM(require_classnames(), 1);
   var import_react312 = __toESM(require_react(), 1);
-  var import_classnames57 = __toESM(require_classnames(), 1);
+  var import_classnames56 = __toESM(require_classnames(), 1);
   var import_prop_types26 = __toESM(require_prop_types(), 1);
   var import_react313 = __toESM(require_react(), 1);
   var import_react314 = __toESM(require_react(), 1);
@@ -152866,11 +153133,11 @@ and ensure you are accounting for this risk.
     return useWebChatAPIContext().setDictateState;
   }
 
-  // ../component/dist/chunk-JANTO5JD.mjs
+  // ../component/dist/chunk-NNKGCOL2.mjs
   var import_react318 = __toESM(require_react(), 1);
   var import_react319 = __toESM(require_react(), 1);
   var import_react320 = __toESM(require_react(), 1);
-  var import_classnames58 = __toESM(require_classnames(), 1);
+  var import_classnames57 = __toESM(require_classnames(), 1);
   var import_prop_types27 = __toESM(require_prop_types(), 1);
   var import_react321 = __toESM(require_react(), 1);
   var import_react322 = __toESM(require_react(), 1);
@@ -153209,31 +153476,30 @@ and ensure you are accounting for this risk.
   };
   var Composer_default4 = Composer4;
 
-  // ../component/dist/chunk-JANTO5JD.mjs
+  // ../component/dist/chunk-NNKGCOL2.mjs
   var import_react329 = __toESM(require_react(), 1);
   var import_react330 = __toESM(require_react(), 1);
-  var import_classnames59 = __toESM(require_classnames(), 1);
+  var import_classnames58 = __toESM(require_classnames(), 1);
   var import_prop_types29 = __toESM(require_prop_types(), 1);
   var import_react331 = __toESM(require_react(), 1);
-  var import_classnames60 = __toESM(require_classnames(), 1);
+  var import_classnames59 = __toESM(require_classnames(), 1);
   var import_prop_types30 = __toESM(require_prop_types(), 1);
   var import_react332 = __toESM(require_react(), 1);
-  var import_classnames61 = __toESM(require_classnames(), 1);
+  var import_classnames60 = __toESM(require_classnames(), 1);
   var import_react333 = __toESM(require_react(), 1);
-  var import_classnames62 = __toESM(require_classnames(), 1);
+  var import_classnames61 = __toESM(require_classnames(), 1);
   var import_prop_types31 = __toESM(require_prop_types(), 1);
   var import_react334 = __toESM(require_react(), 1);
-  var import_classnames63 = __toESM(require_classnames(), 1);
+  var import_classnames62 = __toESM(require_classnames(), 1);
   var import_react335 = __toESM(require_react(), 1);
-  var import_classnames64 = __toESM(require_classnames(), 1);
+  var import_classnames63 = __toESM(require_classnames(), 1);
   var import_react336 = __toESM(require_react(), 1);
-  var import_classnames65 = __toESM(require_classnames(), 1);
+  var import_classnames64 = __toESM(require_classnames(), 1);
   var import_react337 = __toESM(require_react(), 1);
-  var import_classnames66 = __toESM(require_classnames(), 1);
+  var import_classnames65 = __toESM(require_classnames(), 1);
   var import_math_random12 = __toESM(require_browser(), 1);
   var import_react338 = __toESM(require_react(), 1);
   var import_react339 = __toESM(require_react(), 1);
-  var import_classnames67 = __toESM(require_classnames(), 1);
   var import_react340 = __toESM(require_react(), 1);
   var import_prop_types32 = __toESM(require_prop_types(), 1);
   var import_react341 = __toESM(require_react(), 1);
@@ -153243,17 +153509,18 @@ and ensure you are accounting for this risk.
   var import_math_random13 = __toESM(require_browser(), 1);
   var import_react343 = __toESM(require_react(), 1);
   var import_react344 = __toESM(require_react(), 1);
-  var import_classnames68 = __toESM(require_classnames(), 1);
+  var import_classnames66 = __toESM(require_classnames(), 1);
   var import_react345 = __toESM(require_react(), 1);
+  var import_classnames67 = __toESM(require_classnames(), 1);
   var import_react346 = __toESM(require_react(), 1);
   var import_react347 = __toESM(require_react(), 1);
-  var import_classnames69 = __toESM(require_classnames(), 1);
+  var import_classnames68 = __toESM(require_classnames(), 1);
   var import_react348 = __toESM(require_react(), 1);
   var import_react349 = __toESM(require_react(), 1);
   var import_math_random14 = __toESM(require_browser(), 1);
   var import_react350 = __toESM(require_react(), 1);
   var import_react351 = __toESM(require_react(), 1);
-  var import_classnames70 = __toESM(require_classnames(), 1);
+  var import_classnames69 = __toESM(require_classnames(), 1);
   var import_react352 = __toESM(require_react(), 1);
   var import_react353 = __toESM(require_react(), 1);
   var import_react354 = __toESM(require_react(), 1);
@@ -153263,16 +153530,16 @@ and ensure you are accounting for this risk.
   var import_prop_types35 = __toESM(require_prop_types(), 1);
   var import_react357 = __toESM(require_react(), 1);
   var import_react358 = __toESM(require_react(), 1);
-  var import_classnames71 = __toESM(require_classnames(), 1);
+  var import_classnames70 = __toESM(require_classnames(), 1);
   var import_react359 = __toESM(require_react(), 1);
-  var import_classnames72 = __toESM(require_classnames(), 1);
+  var import_classnames71 = __toESM(require_classnames(), 1);
   var import_react360 = __toESM(require_react(), 1);
-  var import_classnames73 = __toESM(require_classnames(), 1);
+  var import_classnames72 = __toESM(require_classnames(), 1);
   var import_react361 = __toESM(require_react(), 1);
-  var import_classnames74 = __toESM(require_classnames(), 1);
+  var import_classnames73 = __toESM(require_classnames(), 1);
   var import_react362 = __toESM(require_react(), 1);
   var import_react363 = __toESM(require_react(), 1);
-  var import_classnames75 = __toESM(require_classnames(), 1);
+  var import_classnames74 = __toESM(require_classnames(), 1);
   var import_prop_types36 = __toESM(require_prop_types(), 1);
   var import_react364 = __toESM(require_react(), 1);
   var import_prop_types37 = __toESM(require_prop_types(), 1);
@@ -153283,68 +153550,68 @@ and ensure you are accounting for this risk.
   var import_react367 = __toESM(require_react(), 1);
   var import_prop_types40 = __toESM(require_prop_types(), 1);
   var import_react368 = __toESM(require_react(), 1);
-  var import_classnames76 = __toESM(require_classnames(), 1);
+  var import_classnames75 = __toESM(require_classnames(), 1);
   var import_react369 = __toESM(require_react(), 1);
-  var import_classnames77 = __toESM(require_classnames(), 1);
+  var import_classnames76 = __toESM(require_classnames(), 1);
   var import_react370 = __toESM(require_react(), 1);
   var import_math_random15 = __toESM(require_browser(), 1);
   var import_react371 = __toESM(require_react(), 1);
   var import_react372 = __toESM(require_react(), 1);
-  var import_classnames78 = __toESM(require_classnames(), 1);
+  var import_classnames77 = __toESM(require_classnames(), 1);
   var import_react373 = __toESM(require_react(), 1);
   var import_react374 = __toESM(require_react(), 1);
   var import_react_dom3 = __toESM(require_react_dom(), 1);
   var import_react375 = __toESM(require_react(), 1);
-  var import_classnames79 = __toESM(require_classnames(), 1);
+  var import_classnames78 = __toESM(require_classnames(), 1);
   var import_react376 = __toESM(require_react(), 1);
   var import_react377 = __toESM(require_react(), 1);
-  var import_classnames80 = __toESM(require_classnames(), 1);
+  var import_classnames79 = __toESM(require_classnames(), 1);
   var import_react378 = __toESM(require_react(), 1);
   var import_react379 = __toESM(require_react(), 1);
   var import_react380 = __toESM(require_react(), 1);
   var import_react381 = __toESM(require_react(), 1);
   var import_react382 = __toESM(require_react(), 1);
   var import_react383 = __toESM(require_react(), 1);
-  var import_classnames81 = __toESM(require_classnames(), 1);
+  var import_classnames80 = __toESM(require_classnames(), 1);
   var import_math_random16 = __toESM(require_browser(), 1);
   var import_react384 = __toESM(require_react(), 1);
-  var import_classnames82 = __toESM(require_classnames(), 1);
+  var import_classnames81 = __toESM(require_classnames(), 1);
   var import_react385 = __toESM(require_react(), 1);
   var import_base64_js2 = __toESM(require_base64_js(), 1);
   var import_base64_js3 = __toESM(require_base64_js(), 1);
-  var import_classnames83 = __toESM(require_classnames(), 1);
+  var import_classnames82 = __toESM(require_classnames(), 1);
   var import_math_random17 = __toESM(require_browser(), 1);
   var import_react386 = __toESM(require_react(), 1);
   var import_react387 = __toESM(require_react(), 1);
   var import_simple_update_in10 = __toESM(require_simple_update_in_production_min(), 1);
   var import_prop_types41 = __toESM(require_prop_types(), 1);
   var import_react388 = __toESM(require_react(), 1);
-  var import_classnames84 = __toESM(require_classnames(), 1);
+  var import_classnames83 = __toESM(require_classnames(), 1);
   var import_react389 = __toESM(require_react(), 1);
   var import_react390 = __toESM(require_react(), 1);
   var import_react391 = __toESM(require_react(), 1);
-  var import_classnames85 = __toESM(require_classnames(), 1);
+  var import_classnames84 = __toESM(require_classnames(), 1);
   var import_react392 = __toESM(require_react(), 1);
   var import_react393 = __toESM(require_react(), 1);
-  var import_classnames86 = __toESM(require_classnames(), 1);
+  var import_classnames85 = __toESM(require_classnames(), 1);
   var import_react394 = __toESM(require_react(), 1);
-  var import_classnames87 = __toESM(require_classnames(), 1);
+  var import_classnames86 = __toESM(require_classnames(), 1);
   var import_prop_types42 = __toESM(require_prop_types(), 1);
   var import_react395 = __toESM(require_react(), 1);
-  var import_classnames88 = __toESM(require_classnames(), 1);
+  var import_classnames87 = __toESM(require_classnames(), 1);
   var import_react396 = __toESM(require_react(), 1);
-  var import_classnames89 = __toESM(require_classnames(), 1);
+  var import_classnames88 = __toESM(require_classnames(), 1);
   var import_prop_types43 = __toESM(require_prop_types(), 1);
   var import_react397 = __toESM(require_react(), 1);
-  var import_classnames90 = __toESM(require_classnames(), 1);
+  var import_classnames89 = __toESM(require_classnames(), 1);
   var import_react398 = __toESM(require_react(), 1);
-  var import_classnames91 = __toESM(require_classnames(), 1);
+  var import_classnames90 = __toESM(require_classnames(), 1);
   var import_react399 = __toESM(require_react(), 1);
   var import_prop_types44 = __toESM(require_prop_types(), 1);
   var import_react400 = __toESM(require_react(), 1);
   var import_prop_types45 = __toESM(require_prop_types(), 1);
   var import_react401 = __toESM(require_react(), 1);
-  var import_classnames92 = __toESM(require_classnames(), 1);
+  var import_classnames91 = __toESM(require_classnames(), 1);
   var import_react402 = __toESM(require_react(), 1);
 
   // ../../node_modules/react-scroll-to-bottom/lib/esm/addVersionToMetaTag.js
@@ -153944,7 +154211,7 @@ and ensure you are accounting for this risk.
       var serialized = serializeStyles(args, cache2.registered);
       insertWithoutScoping2(cache2, serialized);
     };
-    var cx25 = function cx26() {
+    var cx27 = function cx28() {
       for (var _len4 = arguments.length, args = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
         args[_key4] = arguments[_key4];
       }
@@ -153952,7 +154219,7 @@ and ensure you are accounting for this risk.
     };
     return {
       css: css2,
-      cx: cx25,
+      cx: cx27,
       injectGlobal: injectGlobal2,
       keyframes: keyframes2,
       hydrate: function hydrate2(ids) {
@@ -154766,15 +155033,15 @@ and ensure you are accounting for this risk.
   // ../../node_modules/react-scroll-to-bottom/lib/esm/index.js
   addVersionToMetaTag();
 
-  // ../component/dist/chunk-JANTO5JD.mjs
-  var import_classnames93 = __toESM(require_classnames(), 1);
+  // ../component/dist/chunk-NNKGCOL2.mjs
+  var import_classnames92 = __toESM(require_classnames(), 1);
   var import_react403 = __toESM(require_react(), 1);
-  var import_classnames94 = __toESM(require_classnames(), 1);
+  var import_classnames93 = __toESM(require_classnames(), 1);
   var import_react404 = __toESM(require_react(), 1);
   var import_react405 = __toESM(require_react(), 1);
   var import_react406 = __toESM(require_react(), 1);
   var import_react407 = __toESM(require_react(), 1);
-  var import_classnames95 = __toESM(require_classnames(), 1);
+  var import_classnames94 = __toESM(require_classnames(), 1);
   var import_react408 = __toESM(require_react(), 1);
   var import_react409 = __toESM(require_react(), 1);
   var import_react410 = __toESM(require_react(), 1);
@@ -154837,7 +155104,7 @@ and ensure you are accounting for this risk.
   }
   var useReduceMemo_default = useReduceMemo;
 
-  // ../component/dist/chunk-JANTO5JD.mjs
+  // ../component/dist/chunk-NNKGCOL2.mjs
   var import_math_random18 = __toESM(require_browser(), 1);
   var import_prop_types46 = __toESM(require_prop_types(), 1);
   var import_react421 = __toESM(require_react(), 1);
@@ -154897,13 +155164,11 @@ and ensure you are accounting for this risk.
     return T3;
   };
 
-  // ../component/dist/chunk-JANTO5JD.mjs
+  // ../component/dist/chunk-NNKGCOL2.mjs
   var import_react423 = __toESM(require_react(), 1);
   var import_react424 = __toESM(require_react(), 1);
-  var import_classnames96 = __toESM(require_classnames(), 1);
   var import_react425 = __toESM(require_react(), 1);
   var import_react426 = __toESM(require_react(), 1);
-  var import_react427 = __toESM(require_react(), 1);
   var component_exports = {};
   __export2(component_exports, {
     AccessKeySinkSurface: () => Surface_default,
@@ -155107,29 +155372,54 @@ and ensure you are accounting for this risk.
   var CustomPropertyNames = Object.freeze({
     // Make sure key names does not have JavaScript forbidden names.
     BackgroundCardPushButton: "--webchat__background--card-push-button",
+    BackgroundBubble: "--webchat__background--bubble",
+    BackgroundBubbleUser: "--webchat__background--bubble-user",
     BackgroundCodeBlock: "--webchat__background--code-block",
+    BackgroundImageSpinnerAnimation: "--webchat__background-image--spinner-animation",
+    BackgroundImageTypingAnimation: "--webchat__background-image--typing-animation",
+    BackgroundToastError: "--webchat__background--toast-error",
+    BackgroundToastInfo: "--webchat__background--toast-info",
+    BackgroundToastSuccess: "--webchat__background--toast-success",
+    BackgroundToastWarn: "--webchat__background--toast-warn",
+    BackgroundTranscriptOverlayButton: "--webchat__background--transcript-overlay-button",
+    BackgroundTranscriptOverlayButtonDisabled: "--webchat__background--transcript-overlay-button-disabled",
+    BackgroundTranscriptOverlayButtonFocus: "--webchat__background--transcript-overlay-button-focus",
+    BackgroundTranscriptOverlayButtonHover: "--webchat__background--transcript-overlay-button-hover",
     BackgroundTranscriptTerminator: "--webchat__background--transcript-terminator",
     BorderAnimationColor1: "--webchat__border-animation--color-1",
     BorderAnimationColor2: "--webchat__border-animation--color-2",
     BorderAnimationColor3: "--webchat__border-animation--color-3",
     BorderColorBubble: "--webchat__border-color--bubble",
+    BorderColorBubbleUser: "--webchat__border-color--bubble-user",
+    BorderRadiusAvatar: "--webchat__border-radius--avatar",
     BorderRadiusBubble: "--webchat__border-radius--bubble",
+    BorderRadiusBubbleUser: "--webchat__border-radius--bubble-user",
     BorderStyleBubble: "--webchat__border-style--bubble",
+    BorderStyleBubbleUser: "--webchat__border-style--bubble-user",
     BorderStyleTranscriptActivityVisualKeyboardIndicator: "--webchat__border-style--transcript-activity-visual-keyboard-indicator",
     BorderStyleTranscriptVisualKeyboardIndicator: "--webchat__border-style--transcript-visual-keyboard-indicator",
     BorderWidthBubble: "--webchat__border-width--bubble",
+    BorderWidthBubbleUser: "--webchat__border-width--bubble-user",
     BorderWidthTranscriptActivityVisualKeyboardIndicator: "--webchat__border-width--transcript-activity-visual-keyboard-indicator",
     BorderRadiusTranscriptTerminator: "--webchat__border-radius--transcript-terminator",
     BorderWidthTranscriptVisualKeyboardIndicator: "--webchat__border-width--transcript-visual-keyboard-indicator",
     ColorAccent: "--webchat__color--accent",
+    ColorBubble: "--webchat__color--bubble",
+    ColorBubbleUser: "--webchat__color--bubble-user",
     ColorCardPushButton: "--webchat__color--card-push-button",
     ColorCodeBlock: "--webchat__color--code-block",
+    ColorConnectivityFailed: "--webchat__color--connectivity-failed",
     ColorSubtle: "--webchat__color--subtle",
     ColorTimestamp: "--webchat__color--timestamp",
     ColorTranscriptActivityVisualKeyboardIndicator: "--webchat__color--transcript-activity-visual-keyboard-indicator",
+    ColorTranscriptOverlayButton: "--webchat__color--transcript-overlay-button",
+    ColorTranscriptOverlayButtonDisabled: "--webchat__color--transcript-overlay-button-disabled",
+    ColorTranscriptOverlayButtonFocus: "--webchat__color--transcript-overlay-button-focus",
+    ColorTranscriptOverlayButtonHover: "--webchat__color--transcript-overlay-button-hover",
     ColorTranscriptTerminator: "--webchat__color--transcript-terminator",
     ColorTranscriptVisualKeyboardIndicator: "--webchat__color--transcript-visual-keyboard-indicator",
     FontPrimary: "--webchat__font--primary",
+    FontMonospace: "--webchat__font--monospace",
     FontSizeSmall: "--webchat__font-size--small",
     FontSizeTranscriptTerminator: "--webchat__font-size--transcript-terminator",
     IconURLExternalLink: "--webchat__icon-url--external-link",
@@ -155141,10 +155431,16 @@ and ensure you are accounting for this risk.
     MinHeightImageBubble: "--webchat__min-height--image-bubble",
     MinWidthAttachmentBubble: "--webchat__min-width--attachment-bubble",
     MinWidthMessageBubble: "--webchat__min-width--message-bubble",
+    PaddingConnectivityIcon: "--webchat__padding--connectivity-icon",
     PaddingRegular: "--webchat__padding--regular",
     SizeAvatar: "--webchat__size--avatar",
+    SizeBubbleNub: "--webchat__size--bubble-nub",
+    SizeBubbleNubUser: "--webchat__size--bubble-nub-user",
+    SpaceBubbleNub: "--webchat__space--bubble-nub",
+    SpaceBubbleNubUser: "--webchat__space--bubble-nub-user",
     TransitionDuration: "--webchat__transition-duration",
-    TransitionEasing: "--webchat__transition-easing"
+    TransitionEasing: "--webchat__transition-easing",
+    WordBreakMessageActivity: "--webchat__word-break--message-activity"
   });
   var CustomPropertyNames_default = CustomPropertyNames;
   var CSSTokens = new Proxy(
@@ -155270,20 +155566,20 @@ and ensure you are accounting for this risk.
     );
   }
   var Markdownable_default = (0, import_react287.memo)(Markdownable);
-  var classes6 = { "text-area-shared": "wh0cFaa_text-area-shared", "text-area--scroll": "wh0cFaa_text-area--scroll", "text-area-input": "wh0cFaa_text-area-input", "text-area--hidden": "wh0cFaa_text-area--hidden", "text-area": "wh0cFaa_text-area", "text-area--in-completion": "wh0cFaa_text-area--in-completion", "text-area-doppelganger": "wh0cFaa_text-area-doppelganger" };
-  var TextArea_module_default = classes6;
-  var _text_area_shared0 = classes6["text-area-shared"];
-  var _text_area__scroll0 = classes6["text-area--scroll"];
-  var _text_area_input0 = classes6["text-area-input"];
-  var _text_area__hidden0 = classes6["text-area--hidden"];
-  var _text_area0 = classes6["text-area"];
-  var _text_area__in_completion0 = classes6["text-area--in-completion"];
-  var _text_area_doppelganger0 = classes6["text-area-doppelganger"];
+  var classes7 = { "text-area--in-completion": "wh0cFaa_text-area--in-completion", "text-area": "wh0cFaa_text-area", "text-area-doppelganger": "wh0cFaa_text-area-doppelganger", "text-area-input": "wh0cFaa_text-area-input", "text-area--scroll": "wh0cFaa_text-area--scroll", "text-area--hidden": "wh0cFaa_text-area--hidden", "text-area-shared": "wh0cFaa_text-area-shared" };
+  var TextArea_module_default = classes7;
+  var _text_area__in_completion0 = classes7["text-area--in-completion"];
+  var _text_area0 = classes7["text-area"];
+  var _text_area_doppelganger0 = classes7["text-area-doppelganger"];
+  var _text_area_input0 = classes7["text-area-input"];
+  var _text_area__scroll0 = classes7["text-area--scroll"];
+  var _text_area__hidden0 = classes7["text-area--hidden"];
+  var _text_area_shared0 = classes7["text-area-shared"];
   var { useUIState: useUIState5 } = hook_exports;
   var TextArea = (0, import_react288.forwardRef)((props, ref) => {
     var _a29;
     const [uiState] = useUIState5();
-    const classNames49 = useStyles_default(TextArea_module_default);
+    const classNames31 = useStyles_default(TextArea_module_default);
     const isInCompositionRef = (0, import_react288.useRef)(false);
     const disabled = uiState === "disabled" || props.readOnly;
     const handleCompositionEnd = (0, import_react288.useCallback)(() => {
@@ -155304,23 +155600,23 @@ and ensure you are accounting for this risk.
     return /* @__PURE__ */ import_react288.default.createElement(
       "div",
       {
-        className: (0, import_classnames45.default)(
-          classNames49["text-area"],
-          classNames49["text-area--scroll"],
-          { [classNames49["text-area--hidden"]]: props.hidden },
-          { [classNames49["text-area--in-completion"]]: props.completion },
+        className: (0, import_classnames44.default)(
+          classNames31["text-area"],
+          classNames31["text-area--scroll"],
+          { [classNames31["text-area--hidden"]]: props.hidden },
+          { [classNames31["text-area--in-completion"]]: props.completion },
           props.className
         ),
         role: props.hidden ? "hidden" : void 0
       },
-      uiState === "blueprint" ? /* @__PURE__ */ import_react288.default.createElement("div", { className: (0, import_classnames45.default)(classNames49["text-area-doppelganger"], classNames49["text-area-shared"]) }, " ") : /* @__PURE__ */ import_react288.default.createElement(import_react288.Fragment, null, /* @__PURE__ */ import_react288.default.createElement("div", { className: (0, import_classnames45.default)(classNames49["text-area-doppelganger"], classNames49["text-area-shared"]) }, props.completion ? props.completion : props.value, " "), /* @__PURE__ */ import_react288.default.createElement(
+      uiState === "blueprint" ? /* @__PURE__ */ import_react288.default.createElement("div", { className: (0, import_classnames44.default)(classNames31["text-area-doppelganger"], classNames31["text-area-shared"]) }, " ") : /* @__PURE__ */ import_react288.default.createElement(import_react288.Fragment, null, /* @__PURE__ */ import_react288.default.createElement("div", { className: (0, import_classnames44.default)(classNames31["text-area-doppelganger"], classNames31["text-area-shared"]) }, props.completion ? props.completion : props.value, " "), /* @__PURE__ */ import_react288.default.createElement(
         "textarea",
         {
           "aria-describedby": props["aria-describedby"],
           "aria-disabled": disabled,
           "aria-labelledby": props["aria-labelledby"],
           "aria-placeholder": props.placeholder,
-          className: (0, import_classnames45.default)(classNames49["text-area-input"], classNames49["text-area-shared"]),
+          className: (0, import_classnames44.default)(classNames31["text-area-input"], classNames31["text-area-shared"]),
           "data-testid": props["data-testid"],
           onCompositionEnd: handleCompositionEnd,
           onCompositionStart: handleCompositionStart,
@@ -155355,21 +155651,21 @@ and ensure you are accounting for this risk.
   function getDisclaimerFromActivity(action2) {
     return isUserReview(action2.result) ? action2.result.reviewAspect : void 0;
   }
-  var classes24 = { "feedback-form__form-footer": "wBqmrRG_feedback-form__form-footer", "feedback-form": "wBqmrRG_feedback-form", "feedback-form__text-area": "wBqmrRG_feedback-form__text-area", "feedback-form__form": "wBqmrRG_feedback-form__form", "feedback-form__text-box": "wBqmrRG_feedback-form__text-box", "feedback-form__vote-button-bar": "wBqmrRG_feedback-form__vote-button-bar", "feedback-form__form-header": "wBqmrRG_feedback-form__form-header", "feedback-form__submit-button": "wBqmrRG_feedback-form__submit-button", "feedback-form__cancel-button": "wBqmrRG_feedback-form__cancel-button", "feedback-form__submission-button-bar": "wBqmrRG_feedback-form__submission-button-bar" };
+  var classes24 = { "feedback-form": "wBqmrRG_feedback-form", "feedback-form__form-header": "wBqmrRG_feedback-form__form-header", "feedback-form__form-footer": "wBqmrRG_feedback-form__form-footer", "feedback-form__cancel-button": "wBqmrRG_feedback-form__cancel-button", "feedback-form__submit-button": "wBqmrRG_feedback-form__submit-button", "feedback-form__submission-button-bar": "wBqmrRG_feedback-form__submission-button-bar", "feedback-form__form": "wBqmrRG_feedback-form__form", "feedback-form__text-box": "wBqmrRG_feedback-form__text-box", "feedback-form__vote-button-bar": "wBqmrRG_feedback-form__vote-button-bar", "feedback-form__text-area": "wBqmrRG_feedback-form__text-area" };
   var FeedbackForm_module_default = classes24;
-  var _feedback_form__form_footer0 = classes24["feedback-form__form-footer"];
   var _feedback_form0 = classes24["feedback-form"];
-  var _feedback_form__text_area0 = classes24["feedback-form__text-area"];
+  var _feedback_form__form_header0 = classes24["feedback-form__form-header"];
+  var _feedback_form__form_footer0 = classes24["feedback-form__form-footer"];
+  var _feedback_form__cancel_button0 = classes24["feedback-form__cancel-button"];
+  var _feedback_form__submit_button0 = classes24["feedback-form__submit-button"];
+  var _feedback_form__submission_button_bar0 = classes24["feedback-form__submission-button-bar"];
   var _feedback_form__form0 = classes24["feedback-form__form"];
   var _feedback_form__text_box0 = classes24["feedback-form__text-box"];
   var _feedback_form__vote_button_bar0 = classes24["feedback-form__vote-button-bar"];
-  var _feedback_form__form_header0 = classes24["feedback-form__form-header"];
-  var _feedback_form__submit_button0 = classes24["feedback-form__submit-button"];
-  var _feedback_form__cancel_button0 = classes24["feedback-form__cancel-button"];
-  var _feedback_form__submission_button_bar0 = classes24["feedback-form__submission-button-bar"];
+  var _feedback_form__text_area0 = classes24["feedback-form__text-area"];
   var { useLocalizer: useLocalizer24 } = hook_exports;
   function FeedbackForm() {
-    const classNames49 = useStyles_default(FeedbackForm_module_default);
+    const classNames31 = useStyles_default(FeedbackForm_module_default);
     const { useFeedbackText, useSelectedAction } = useActivityFeedbackHooks();
     const feedbackFormHeaderId = useUniqueId("feedback-form__form-header__id");
     const disclaimerId = useUniqueId("feedback-form__form-footer__id");
@@ -155389,19 +155685,19 @@ and ensure you are accounting for this risk.
         feedbackTextAreaRef.current.focus();
       }
     }, [feedbackTextAreaRef, hasFocus, setHasFocus]);
-    return /* @__PURE__ */ import_react286.default.createElement("div", { className: classNames49["feedback-form__form"] }, /* @__PURE__ */ import_react286.default.createElement(
+    return /* @__PURE__ */ import_react286.default.createElement("div", { className: classNames31["feedback-form__form"] }, /* @__PURE__ */ import_react286.default.createElement(
       "span",
       {
-        className: classNames49["feedback-form__form-header"],
+        className: classNames31["feedback-form__form-header"],
         id: feedbackFormHeaderId
       },
       localize2("FEEDBACK_FORM_TITLE")
-    ), /* @__PURE__ */ import_react286.default.createElement("div", { className: classNames49["feedback-form__text-box"] }, /* @__PURE__ */ import_react286.default.createElement(
+    ), /* @__PURE__ */ import_react286.default.createElement("div", { className: classNames31["feedback-form__text-box"] }, /* @__PURE__ */ import_react286.default.createElement(
       TextArea_default,
       {
         "aria-describedby": disclaimer ? disclaimerId : void 0,
         "aria-labelledby": feedbackFormHeaderId,
-        className: classNames49["feedback-form__text-area"],
+        className: classNames31["feedback-form__text-area"],
         "data-testid": testIds_default.feedbackSendBox,
         onInput: handleMessageChange,
         placeholder: localize2("FEEDBACK_FORM_PLACEHOLDER"),
@@ -155409,7 +155705,7 @@ and ensure you are accounting for this risk.
         startRows: 3,
         value: userFeedback
       }
-    )), disclaimer && /* @__PURE__ */ import_react286.default.createElement(Markdownable_default, { className: classNames49["feedback-form__form-footer"], id: disclaimerId, text: disclaimer }), /* @__PURE__ */ import_react286.default.createElement("div", { className: classNames49["feedback-form__submission-button-bar"] }, /* @__PURE__ */ import_react286.default.createElement("button", { className: classNames49["feedback-form__submit-button"], type: "submit" }, localize2("FEEDBACK_FORM_SUBMIT_BUTTON_LABEL")), /* @__PURE__ */ import_react286.default.createElement("button", { className: classNames49["feedback-form__cancel-button"], type: "reset" }, localize2("FEEDBACK_FORM_CANCEL_BUTTON_LABEL"))));
+    )), disclaimer && /* @__PURE__ */ import_react286.default.createElement(Markdownable_default, { className: classNames31["feedback-form__form-footer"], id: disclaimerId, text: disclaimer }), /* @__PURE__ */ import_react286.default.createElement("div", { className: classNames31["feedback-form__submission-button-bar"] }, /* @__PURE__ */ import_react286.default.createElement("button", { className: classNames31["feedback-form__submit-button"], type: "submit" }, localize2("FEEDBACK_FORM_SUBMIT_BUTTON_LABEL")), /* @__PURE__ */ import_react286.default.createElement("button", { className: classNames31["feedback-form__cancel-button"], type: "reset" }, localize2("FEEDBACK_FORM_CANCEL_BUTTON_LABEL"))));
   }
   var FeedbackForm_default = (0, import_react286.memo)(FeedbackForm);
   var {
@@ -155422,7 +155718,7 @@ and ensure you are accounting for this risk.
     return /* @__PURE__ */ import_react294.default.createElement(
       "span",
       {
-        className: (0, import_classnames47.default)("webchat__tooltip", className, tooltipClassName, `webchat__tooltip--${position3}`),
+        className: (0, import_classnames46.default)("webchat__tooltip", className, tooltipClassName, `webchat__tooltip--${position3}`),
         inert: "true",
         role: "tooltip"
       },
@@ -155451,6 +155747,16 @@ and ensure you are accounting for this risk.
   });
   ThumbButtonImage.displayName = "ThumbButtonImage";
   var ThumbButton_Image_default = ThumbButtonImage;
+  var classes33 = { "thumb-button": "wIExi9q_thumb-button", "thumb-button__image--is-stroked": "wIExi9q_thumb-button__image--is-stroked", "thumb-button--large": "wIExi9q_thumb-button--large", "thumb-button__image": "wIExi9q_thumb-button__image", "thumb-button__input": "wIExi9q_thumb-button__input", "thumb-button--has-submitted": "wIExi9q_thumb-button--has-submitted", "thumb-button__tooltip": "wIExi9q_thumb-button__tooltip", "thumb-button__image--is-filled": "wIExi9q_thumb-button__image--is-filled" };
+  var ThumbButton_module_default = classes33;
+  var _thumb_button0 = classes33["thumb-button"];
+  var _thumb_button__image__is_stroked0 = classes33["thumb-button__image--is-stroked"];
+  var _thumb_button__large0 = classes33["thumb-button--large"];
+  var _thumb_button__image0 = classes33["thumb-button__image"];
+  var _thumb_button__input0 = classes33["thumb-button__input"];
+  var _thumb_button__has_submitted0 = classes33["thumb-button--has-submitted"];
+  var _thumb_button__tooltip0 = classes33["thumb-button__tooltip"];
+  var _thumb_button__image__is_filled0 = classes33["thumb-button__image--is-filled"];
   var { useLocalizer: useLocalizer33 } = hook_exports;
   var thumbButtonPropsSchema = pipe(
     object({
@@ -155472,9 +155778,9 @@ and ensure you are accounting for this risk.
       thumbButtonPropsSchema,
       props
     );
-    const [{ thumbButton }] = useStyleSet();
     const localize2 = useLocalizer33();
     const onClickRef = useRefFrom(onClick2);
+    const classNames31 = useStyles_default(ThumbButton_module_default);
     const buttonTitle = (0, import_react293.useMemo)(
       () => title != null ? title : localize2(direction === "down" ? "VOTE_DISLIKE_ALT" : "VOTE_LIKE_ALT"),
       [direction, localize2, title]
@@ -155489,14 +155795,13 @@ and ensure you are accounting for this risk.
     return /* @__PURE__ */ import_react293.default.createElement(
       "div",
       {
-        className: (0, import_classnames46.default)(
-          "webchat__thumb-button",
+        className: (0, import_classnames45.default)(
+          classNames31["thumb-button"],
           {
-            "webchat__thumb-button--large": size === "large",
-            "webchat__thumb-button--has-submitted": submitted
+            [classNames31["thumb-button--large"]]: size === "large",
+            [classNames31["thumb-button--has-submitted"]]: submitted
           },
-          className,
-          thumbButton + ""
+          className
         )
       },
       /* @__PURE__ */ import_react293.default.createElement(
@@ -155504,12 +155809,7 @@ and ensure you are accounting for this risk.
         {
           "aria-disabled": disabled ? "true" : void 0,
           "aria-label": buttonTitle,
-          className: (0, import_classnames46.default)(
-            "webchat__thumb-button__input",
-            { "webchat__thumb-button__input--is-pressed": pressed },
-            className,
-            thumbButton + ""
-          ),
+          className: (0, import_classnames45.default)(classNames31["thumb-button__input"], className),
           "data-testid": testIds_default.feedbackButton,
           name,
           onKeyDown: handleKeyDown,
@@ -155528,23 +155828,19 @@ and ensure you are accounting for this risk.
       /* @__PURE__ */ import_react293.default.createElement(
         ThumbButton_Image_default,
         {
-          className: (0, import_classnames46.default)("webchat__thumb-button__image", "webchat__thumb-button__image--is-stroked", {
-            "webchat__thumb-button__image--is-down": direction === "down"
-          }),
+          className: (0, import_classnames45.default)(classNames31["thumb-button__image"], classNames31["thumb-button__image--is-stroked"]),
           direction
         }
       ),
       /* @__PURE__ */ import_react293.default.createElement(
         ThumbButton_Image_default,
         {
-          className: (0, import_classnames46.default)("webchat__thumb-button__image", "webchat__thumb-button__image--is-filled", {
-            "webchat__thumb-button__image--is-down": direction === "down"
-          }),
+          className: (0, import_classnames45.default)(classNames31["thumb-button__image"], classNames31["thumb-button__image--is-filled"]),
           direction,
           filled: true
         }
       ),
-      /* @__PURE__ */ import_react293.default.createElement(Tooltip_default, { className: "webchat__thumb-button__tooltip" }, buttonTitle)
+      /* @__PURE__ */ import_react293.default.createElement(Tooltip_default, { className: classNames31["thumb-button__tooltip"] }, buttonTitle)
     );
   }
   var ThumbButton_default = (0, import_react293.memo)((0, import_react293.forwardRef)(ThumbButton));
@@ -155629,17 +155925,17 @@ and ensure you are accounting for this risk.
     readonly()
   );
   function FeedbackVoteButtonBar(props) {
-    const classNames49 = useStyles_default(FeedbackForm_module_default);
+    const classNames31 = useStyles_default(FeedbackForm_module_default);
     const { buttonAs } = validateProps2(feedbackVoteButtonBarPropsSchema, props);
     const { useActions } = useActivityFeedbackHooks();
     const [actions] = useActions();
     const name = useUniqueId("webchat__feedback-form__vote-button-bar");
-    return /* @__PURE__ */ import_react291.default.createElement("div", { className: classNames49["feedback-form__vote-button-bar"] }, actions.map((action2, index2) => /* @__PURE__ */ import_react291.default.createElement(FeedbackVoteButton_default, { action: action2, as: buttonAs, key: action2["@id"] || index2, name })));
+    return /* @__PURE__ */ import_react291.default.createElement("div", { className: classNames31["feedback-form__vote-button-bar"] }, actions.map((action2, index2) => /* @__PURE__ */ import_react291.default.createElement(FeedbackVoteButton_default, { action: action2, as: buttonAs, key: action2["@id"] || index2, name })));
   }
   var FeedbackVoteButtonBar_default = (0, import_react291.memo)(FeedbackVoteButtonBar);
   var DANGEROUS_PROPERTY_NAMES = ["__proto__", "constructor", "prototype"];
-  function getSafeOwnPropertyNames(object62) {
-    return Object.getOwnPropertyNames(object62).filter((name) => !DANGEROUS_PROPERTY_NAMES.includes(name));
+  function getSafeOwnPropertyNames(object61) {
+    return Object.getOwnPropertyNames(object61).filter((name) => !DANGEROUS_PROPERTY_NAMES.includes(name));
   }
   function isBlankNode(node3) {
     if (node3) {
@@ -155648,8 +155944,8 @@ and ensure you are accounting for this risk.
     }
     return false;
   }
-  function isUnconnectedBlankNode(object62) {
-    return isBlankNode(object62) && Object.getOwnPropertyNames(object62).every((name) => name.startsWith("@"));
+  function isUnconnectedBlankNode(object61) {
+    return isBlankNode(object61) && Object.getOwnPropertyNames(object61).every((name) => name.startsWith("@"));
   }
   function visitOnce() {
     const visited = /* @__PURE__ */ new Set();
@@ -155666,13 +155962,13 @@ and ensure you are accounting for this risk.
     const objectsToVisit1 = [objects];
     const shouldVisit1 = visitOnce();
     while (objectsToVisit1.length) {
-      const object62 = objectsToVisit1.shift();
-      if (!object62) {
+      const object61 = objectsToVisit1.shift();
+      if (!object61) {
         continue;
       }
-      const indices = getSafeOwnPropertyNames(object62);
+      const indices = getSafeOwnPropertyNames(object61);
       for (const index2 of indices) {
-        const value = object62[index2];
+        const value = object61[index2];
         if (isBlankNode(value) && !isUnconnectedBlankNode(value)) {
           blankNodeIdMap.set(value["@id"], value);
         }
@@ -155682,17 +155978,17 @@ and ensure you are accounting for this risk.
     const objectsToVisit2 = [objects];
     const shouldVisit2 = visitOnce();
     while (objectsToVisit2.length) {
-      const object62 = objectsToVisit2.shift();
-      if (!object62) {
+      const object61 = objectsToVisit2.shift();
+      if (!object61) {
         continue;
       }
-      const indices = getSafeOwnPropertyNames(object62);
+      const indices = getSafeOwnPropertyNames(object61);
       for (const index2 of indices) {
-        const value = object62[index2];
+        const value = object61[index2];
         if (isBlankNode(value) && isUnconnectedBlankNode(value)) {
           const blankNode = blankNodeIdMap.get(value["@id"]);
           if (blankNode) {
-            object62[index2] = blankNode;
+            object61[index2] = blankNode;
           }
         } else {
           shouldVisit2(value) && objectsToVisit2.push(value);
@@ -155984,7 +156280,7 @@ and ensure you are accounting for this risk.
   }
   var ActivityFeedbackComposer_default = (0, import_react296.memo)(wrapWith_default(ActivityFeedbackFocusPropagationScope)(ActivityFeedbackComposer));
   function InternalActivityFeedback() {
-    const classNames49 = useStyles_default(FeedbackForm_module_default);
+    const classNames31 = useStyles_default(FeedbackForm_module_default);
     const { useActions, useFeedbackText, useFocusFeedbackButton, useHasSubmitted, useSelectedAction, useSubmit: useSubmit2 } = useActivityFeedbackHooks();
     const [_2, setFeedbackText] = useFeedbackText();
     const [actions] = useActions();
@@ -156025,7 +156321,7 @@ and ensure you are accounting for this risk.
     return !!actions.length && /* @__PURE__ */ import_react285.default.createElement(
       "form",
       {
-        className: classNames49["feedback-form"],
+        className: classNames31["feedback-form"],
         onKeyDown: handleKeyDown,
         onReset: handleReset,
         onSubmit: handleSubmit
@@ -156042,26 +156338,67 @@ and ensure you are accounting for this risk.
   var ActivityFeedback = wrapWith_default(ActivityFeedbackComposer_default, { activity: Extract_default })(InternalActivityFeedback);
   ActivityFeedback.displayName = "ActivityFeedback";
   var ActivityFeedback_default = (0, import_react285.memo)(ActivityFeedback);
-  var Badge = (0, import_react299.memo)(({ value }) => /* @__PURE__ */ import_react299.default.createElement("div", { className: "webchat__link-definitions__badge", title: value }, value));
+  var classes43 = { "link-definitions__list-item-badge": "wIcA0ta_link-definitions__list-item-badge", "link-definitions__list-item-text": "wIcA0ta_link-definitions__list-item-text", "link-definitions__header": "wIcA0ta_link-definitions__header", "link-definitions__badge": "wIcA0ta_link-definitions__badge", "link-definitions__list-item": "wIcA0ta_link-definitions__list-item", "link-definitions__list-item-body-main": "wIcA0ta_link-definitions__list-item-body-main", "link-definitions__message-sensitivity-label": "wIcA0ta_link-definitions__message-sensitivity-label", "link-definitions": "wIcA0ta_link-definitions", "link-definitions__header-section--left": "wIcA0ta_link-definitions__header-section--left", "link-definitions__header-text": "wIcA0ta_link-definitions__header-text", "link-definitions__header-section": "wIcA0ta_link-definitions__header-section", "link-definitions__list-item-box--as-link": "wIcA0ta_link-definitions__list-item-box--as-link", "link-definitions__list-item-main-text": "wIcA0ta_link-definitions__list-item-main-text", "link-definitions__open-in-new-window-icon": "wIcA0ta_link-definitions__open-in-new-window-icon", "link-definitions__header-chevron": "wIcA0ta_link-definitions__header-chevron", "link-definitions__message-sensitivity-label-text": "wIcA0ta_link-definitions__message-sensitivity-label-text", "link-definitions__list": "wIcA0ta_link-definitions__list", "link-definitions__list-item-box": "wIcA0ta_link-definitions__list-item-box", "link-definitions__list-item-body": "wIcA0ta_link-definitions__list-item-body", "link-definitions__header-accessory": "wIcA0ta_link-definitions__header-accessory", "link-definitions__list-item-box--as-button": "wIcA0ta_link-definitions__list-item-box--as-button", "link-definitions__message-sensitivity-label-icon": "wIcA0ta_link-definitions__message-sensitivity-label-icon" };
+  var LinkDefinitions_module_default = classes43;
+  var _link_definitions__list_item_badge0 = classes43["link-definitions__list-item-badge"];
+  var _link_definitions__list_item_text0 = classes43["link-definitions__list-item-text"];
+  var _link_definitions__header0 = classes43["link-definitions__header"];
+  var _link_definitions__badge0 = classes43["link-definitions__badge"];
+  var _link_definitions__list_item0 = classes43["link-definitions__list-item"];
+  var _link_definitions__list_item_body_main0 = classes43["link-definitions__list-item-body-main"];
+  var _link_definitions__message_sensitivity_label0 = classes43["link-definitions__message-sensitivity-label"];
+  var _link_definitions0 = classes43["link-definitions"];
+  var _link_definitions__header_section__left0 = classes43["link-definitions__header-section--left"];
+  var _link_definitions__header_text0 = classes43["link-definitions__header-text"];
+  var _link_definitions__header_section0 = classes43["link-definitions__header-section"];
+  var _link_definitions__list_item_box__as_link0 = classes43["link-definitions__list-item-box--as-link"];
+  var _link_definitions__list_item_main_text0 = classes43["link-definitions__list-item-main-text"];
+  var _link_definitions__open_in_new_window_icon0 = classes43["link-definitions__open-in-new-window-icon"];
+  var _link_definitions__header_chevron0 = classes43["link-definitions__header-chevron"];
+  var _link_definitions__message_sensitivity_label_text0 = classes43["link-definitions__message-sensitivity-label-text"];
+  var _link_definitions__list0 = classes43["link-definitions__list"];
+  var _link_definitions__list_item_box0 = classes43["link-definitions__list-item-box"];
+  var _link_definitions__list_item_body0 = classes43["link-definitions__list-item-body"];
+  var _link_definitions__header_accessory0 = classes43["link-definitions__header-accessory"];
+  var _link_definitions__list_item_box__as_button0 = classes43["link-definitions__list-item-box--as-button"];
+  var _link_definitions__message_sensitivity_label_icon0 = classes43["link-definitions__message-sensitivity-label-icon"];
+  var Badge = (0, import_react299.memo)(({ value }) => {
+    const classNames31 = useStyles_default(LinkDefinitions_module_default);
+    return /* @__PURE__ */ import_react299.default.createElement("div", { className: classNames31["link-definitions__badge"], title: value }, value);
+  });
   Badge.displayName = "Badge";
   var Badge_default = Badge;
-  var OpenInNewWindowIcon = ({ className }) => /* @__PURE__ */ import_react300.default.createElement(
-    "svg",
-    {
-      className: (0, import_classnames48.default)("webchat__text-content__open-in-new-window-icon", className),
-      viewBox: "3 3 18 18",
-      xmlns: "http://www.w3.org/2000/svg"
-    },
-    /* @__PURE__ */ import_react300.default.createElement(
-      "path",
+  var classes53 = { "text-content__generated-badge": "wukSAJG_text-content__generated-badge", "text-content__open-in-new-window-icon": "wukSAJG_text-content__open-in-new-window-icon", "text-content__markdown": "wukSAJG_text-content__markdown", "text-content__activity-actions": "wukSAJG_text-content__activity-actions", "text-content--is-markdown": "wukSAJG_text-content--is-markdown", "text-content": "wukSAJG_text-content" };
+  var TextContent_module_default = classes53;
+  var _text_content__generated_badge0 = classes53["text-content__generated-badge"];
+  var _text_content__open_in_new_window_icon0 = classes53["text-content__open-in-new-window-icon"];
+  var _text_content__markdown0 = classes53["text-content__markdown"];
+  var _text_content__activity_actions0 = classes53["text-content__activity-actions"];
+  var _text_content__is_markdown0 = classes53["text-content--is-markdown"];
+  var _text_content0 = classes53["text-content"];
+  var OpenInNewWindowIcon = ({ className }) => {
+    const classNames31 = useStyles_default(TextContent_module_default);
+    return /* @__PURE__ */ import_react300.default.createElement(
+      "svg",
       {
-        d: "M7.2501 4.50017H10.7495C11.1637 4.50017 11.4995 4.83596 11.4995 5.25017C11.4995 5.62986 11.2173 5.94366 10.8513 5.99332L10.7495 6.00017H7.24974C6.07079 5.99961 5.10349 6.90656 5.00786 8.06112L5.00028 8.22003L5.00312 16.7507C5.00343 17.9415 5.92885 18.9161 7.09966 18.9949L7.25371 19.0001L15.7518 18.9884C16.9415 18.9868 17.9145 18.062 17.9935 16.8923L17.9987 16.7384V13.2321C17.9987 12.8179 18.3345 12.4821 18.7487 12.4821C19.1284 12.4821 19.4422 12.7643 19.4918 13.1303L19.4987 13.2321V16.7384C19.4987 18.7407 17.9293 20.3769 15.9528 20.4829L15.7538 20.4884L7.25827 20.5001L7.05495 20.4949C5.14239 20.3954 3.60895 18.8627 3.50837 16.9502L3.50312 16.7511L3.50089 8.2527L3.50529 8.0502C3.60539 6.13749 5.13867 4.60449 7.05096 4.50527L7.2501 4.50017H10.7495H7.2501ZM13.7481 3.00146L20.3018 3.00197L20.4014 3.01575L20.5022 3.04393L20.559 3.06803C20.6122 3.09122 20.6634 3.12163 20.7111 3.15885L20.7804 3.22156L20.8641 3.32014L20.9183 3.41025L20.957 3.50057L20.9762 3.56476L20.9898 3.62862L20.9992 3.72282L20.9997 10.2554C20.9997 10.6696 20.6639 11.0054 20.2497 11.0054C19.87 11.0054 19.5562 10.7232 19.5065 10.3571L19.4997 10.2554L19.4989 5.56147L12.2797 12.7847C12.0134 13.051 11.5968 13.0753 11.3031 12.8575L11.219 12.7849C10.9527 12.5187 10.9284 12.1021 11.1462 11.8084L11.2188 11.7243L18.4369 4.50146H13.7481C13.3684 4.50146 13.0546 4.21931 13.005 3.85324L12.9981 3.75146C12.9981 3.37177 13.2803 3.05797 13.6464 3.00831L13.7481 3.00146Z",
-        fill: "currentcolor"
-      }
-    )
-  );
+        className: (0, import_classnames48.default)(classNames31["text-content__open-in-new-window-icon"], className),
+        viewBox: "3 3 18 18",
+        xmlns: "http://www.w3.org/2000/svg"
+      },
+      /* @__PURE__ */ import_react300.default.createElement(
+        "path",
+        {
+          d: "M7.2501 4.50017H10.7495C11.1637 4.50017 11.4995 4.83596 11.4995 5.25017C11.4995 5.62986 11.2173 5.94366 10.8513 5.99332L10.7495 6.00017H7.24974C6.07079 5.99961 5.10349 6.90656 5.00786 8.06112L5.00028 8.22003L5.00312 16.7507C5.00343 17.9415 5.92885 18.9161 7.09966 18.9949L7.25371 19.0001L15.7518 18.9884C16.9415 18.9868 17.9145 18.062 17.9935 16.8923L17.9987 16.7384V13.2321C17.9987 12.8179 18.3345 12.4821 18.7487 12.4821C19.1284 12.4821 19.4422 12.7643 19.4918 13.1303L19.4987 13.2321V16.7384C19.4987 18.7407 17.9293 20.3769 15.9528 20.4829L15.7538 20.4884L7.25827 20.5001L7.05495 20.4949C5.14239 20.3954 3.60895 18.8627 3.50837 16.9502L3.50312 16.7511L3.50089 8.2527L3.50529 8.0502C3.60539 6.13749 5.13867 4.60449 7.05096 4.50527L7.2501 4.50017H10.7495H7.2501ZM13.7481 3.00146L20.3018 3.00197L20.4014 3.01575L20.5022 3.04393L20.559 3.06803C20.6122 3.09122 20.6634 3.12163 20.7111 3.15885L20.7804 3.22156L20.8641 3.32014L20.9183 3.41025L20.957 3.50057L20.9762 3.56476L20.9898 3.62862L20.9992 3.72282L20.9997 10.2554C20.9997 10.6696 20.6639 11.0054 20.2497 11.0054C19.87 11.0054 19.5562 10.7232 19.5065 10.3571L19.4997 10.2554L19.4989 5.56147L12.2797 12.7847C12.0134 13.051 11.5968 13.0753 11.3031 12.8575L11.219 12.7849C10.9527 12.5187 10.9284 12.1021 11.1462 11.8084L11.2188 11.7243L18.4369 4.50146H13.7481C13.3684 4.50146 13.0546 4.21931 13.005 3.85324L12.9981 3.75146C12.9981 3.37177 13.2803 3.05797 13.6464 3.00831L13.7481 3.00146Z",
+          fill: "currentcolor"
+        }
+      )
+    );
+  };
   var OpenInNewWindowIcon_default = OpenInNewWindowIcon;
-  var ItemBody = (0, import_react298.memo)(({ badgeName, badgeTitle, identifier: identifier2, isExternal, text: text6 }) => /* @__PURE__ */ import_react298.default.createElement("div", { className: "webchat__link-definitions__list-item-body" }, identifier2 ? /* @__PURE__ */ import_react298.default.createElement(Badge_default, { value: identifier2 }) : null, /* @__PURE__ */ import_react298.default.createElement("div", { className: "webchat__link-definitions__list-item-body-main" }, /* @__PURE__ */ import_react298.default.createElement("div", { className: "webchat__link-definitions__list-item-main-text" }, /* @__PURE__ */ import_react298.default.createElement("div", { className: "webchat__link-definitions__list-item-text", title: text6 }, text6), isExternal ? /* @__PURE__ */ import_react298.default.createElement(OpenInNewWindowIcon_default, { className: "webchat__link-definitions__open-in-new-window-icon" }) : null), badgeName && /* @__PURE__ */ import_react298.default.createElement("div", { className: "webchat__link-definitions__list-item-badge", title: badgeTitle }, badgeName))));
+  var ItemBody = (0, import_react298.memo)(({ badgeName, badgeTitle, identifier: identifier2, isExternal, text: text6 }) => {
+    const classNames31 = useStyles_default(LinkDefinitions_module_default);
+    return /* @__PURE__ */ import_react298.default.createElement("div", { className: classNames31["link-definitions__list-item-body"] }, identifier2 ? /* @__PURE__ */ import_react298.default.createElement(Badge_default, { value: identifier2 }) : null, /* @__PURE__ */ import_react298.default.createElement("div", { className: classNames31["link-definitions__list-item-body-main"] }, /* @__PURE__ */ import_react298.default.createElement("div", { className: classNames31["link-definitions__list-item-main-text"] }, /* @__PURE__ */ import_react298.default.createElement("div", { className: classNames31["link-definitions__list-item-text"], title: text6 }, text6), isExternal ? /* @__PURE__ */ import_react298.default.createElement(OpenInNewWindowIcon_default, { className: classNames31["link-definitions__open-in-new-window-icon"] }) : null), badgeName && /* @__PURE__ */ import_react298.default.createElement("div", { className: classNames31["link-definitions__list-item-badge"], title: badgeTitle }, badgeName)));
+  });
   ItemBody.displayName = "ItemBody";
   var ItemBody_default = ItemBody;
   function extractHostnameWithSubdomain(urlString) {
@@ -156102,6 +156439,7 @@ and ensure you are accounting for this risk.
       linkDefinitionItemPropsSchema,
       props
     );
+    const classNames31 = useStyles_default(LinkDefinitions_module_default);
     const onClickRef = useRefFrom(onClick2);
     const handleClick = (0, import_react297.useCallback)(
       (event2) => {
@@ -156120,7 +156458,10 @@ and ensure you are accounting for this risk.
       /* @__PURE__ */ import_react297.default.createElement(
         "a",
         {
-          className: "webchat__link-definitions__list-item-box webchat__link-definitions__list-item-box--as-link",
+          className: (0, import_classnames47.default)(
+            classNames31["link-definitions__list-item-box"],
+            classNames31["link-definitions__list-item-box--as-link"]
+          ),
           href: sanitizedHref,
           onClick: handleClick,
           rel: "noopener noreferrer",
@@ -156140,7 +156481,10 @@ and ensure you are accounting for this risk.
     ) : /* @__PURE__ */ import_react297.default.createElement(
       "button",
       {
-        className: "webchat__link-definitions__list-item-box webchat__link-definitions__list-item-box--as-button",
+        className: (0, import_classnames47.default)(
+          classNames31["link-definitions__list-item-box"],
+          classNames31["link-definitions__list-item-box--as-button"]
+        ),
         onClick: handleClick,
         type: "button"
       },
@@ -156166,9 +156510,9 @@ and ensure you are accounting for this risk.
     children
   }) => {
     const [id] = (0, import_react301.useState)(() => `webchat-link-definitions-${uniqueId3()}`);
-    const [{ linkDefinitions: linkDefinitions2 }] = useStyleSet();
     const localizeWithPlural = useLocalizer52({ plural: true });
     const summaryRef = (0, import_react301.useRef)(null);
+    const classNames31 = useStyles_default(LinkDefinitions_module_default);
     const headerText = localizeWithPlural(REFERENCE_LIST_HEADER_IDS, childrenCount(children));
     const handleToggle = (0, import_react301.useCallback)((event2) => {
       const summary = summaryRef.current;
@@ -156182,7 +156526,7 @@ and ensure you are accounting for this risk.
     return /* @__PURE__ */ import_react301.default.createElement(
       "details",
       {
-        className: (0, import_classnames49.default)(linkDefinitions2, "webchat__link-definitions"),
+        className: classNames31["link-definitions"],
         id,
         onToggle: handleToggle,
         open: true
@@ -156193,14 +156537,33 @@ and ensure you are accounting for this risk.
           "aria-controls": id,
           "aria-expanded": "true",
           "aria-pressed": "true",
-          className: "webchat__link-definitions__header",
+          className: classNames31["link-definitions__header"],
           ref: summaryRef,
           role: "button"
         },
-        /* @__PURE__ */ import_react301.default.createElement("div", { className: "webchat__link-definitions__header-section webchat__link-definitions__header-section--left" }, /* @__PURE__ */ import_react301.default.createElement("div", { className: "webchat__link-definitions__header-text" }, headerText), /* @__PURE__ */ import_react301.default.createElement(ComponentIcon_default, { appearance: "text", className: "webchat__link-definitions__header-chevron", icon: "chevron" })),
-        /* @__PURE__ */ import_react301.default.createElement("div", { className: "webchat__link-definitions__header-section webchat__link-definitions__header-section--right" }, accessoryComponentType && /* @__PURE__ */ import_react301.default.createElement("div", { className: "webchat__link-definitions__header-accessory" }, import_react301.default.createElement(accessoryComponentType, accessoryProps)))
+        /* @__PURE__ */ import_react301.default.createElement(
+          "div",
+          {
+            className: (0, import_classnames49.default)(
+              classNames31["link-definitions__header-section"],
+              classNames31["link-definitions__header-section--left"]
+            )
+          },
+          /* @__PURE__ */ import_react301.default.createElement("div", { className: classNames31["link-definitions__header-text"] }, headerText),
+          /* @__PURE__ */ import_react301.default.createElement(ComponentIcon_default, { appearance: "text", className: classNames31["link-definitions__header-chevron"], icon: "chevron" })
+        ),
+        /* @__PURE__ */ import_react301.default.createElement(
+          "div",
+          {
+            className: (0, import_classnames49.default)(
+              classNames31["link-definitions__header-section"],
+              classNames31["link-definitions__header-section--right"]
+            )
+          },
+          accessoryComponentType && /* @__PURE__ */ import_react301.default.createElement("div", { className: classNames31["link-definitions__header-accessory"] }, import_react301.default.createElement(accessoryComponentType, accessoryProps))
+        )
       ),
-      /* @__PURE__ */ import_react301.default.createElement("div", { className: "webchat__link-definitions__list", role: "list" }, childrenMap(children, (child) => /* @__PURE__ */ import_react301.default.createElement("div", { className: "webchat__link-definitions__list-item", role: "listitem" }, child)))
+      /* @__PURE__ */ import_react301.default.createElement("div", { className: classNames31["link-definitions__list"], role: "list" }, childrenMap(children, (child) => /* @__PURE__ */ import_react301.default.createElement("div", { className: classNames31["link-definitions__list-item"], role: "listitem" }, child)))
     );
   };
   LinkDefinitions.displayName = "LinkDefinitions";
@@ -156252,6 +156615,14 @@ and ensure you are accounting for this risk.
     );
   }
   var refObject_default = refObject;
+  var classes63 = { "activity-copy-button": "wYnoyiq_activity-copy-button", "activity-copy-button--copied": "wYnoyiq_activity-copy-button--copied", "activity-copy-button__copied-text": "wYnoyiq_activity-copy-button__copied-text", "activity-button__icon": "wYnoyiq_activity-button__icon", "activity-button__text": "wYnoyiq_activity-button__text", "activity-copy-button__copy-announcement": "wYnoyiq_activity-copy-button__copy-announcement" };
+  var ActivityCopyButton_module_default = classes63;
+  var _activity_copy_button0 = classes63["activity-copy-button"];
+  var _activity_copy_button__copied0 = classes63["activity-copy-button--copied"];
+  var _activity_copy_button__copied_text0 = classes63["activity-copy-button__copied-text"];
+  var _activity_button__icon02 = classes63["activity-button__icon"];
+  var _activity_button__text0 = classes63["activity-button__text"];
+  var _activity_copy_button__copy_announcement0 = classes63["activity-copy-button__copy-announcement"];
   var { useLocalizer: useLocalizer62, useUIState: useUIState23 } = hook_exports;
   var activityCopyButtonPropsSchema = pipe(
     object({
@@ -156262,7 +156633,7 @@ and ensure you are accounting for this risk.
   );
   var ActivityCopyButton = (props) => {
     const { className, targetRef } = validateProps2(activityCopyButtonPropsSchema, props);
-    const [{ activityButton, activityCopyButton }] = useStyleSet();
+    const classNames31 = useStyles_default(ActivityCopyButton_module_default);
     const [permissionGranted, setPermissionGranted] = (0, import_react305.useState)(false);
     const [uiState] = useUIState23();
     const buttonRef = (0, import_react305.useRef)(null);
@@ -156274,11 +156645,11 @@ and ensure you are accounting for this risk.
     (0, import_react305.useEffect)(() => {
       const { current: current2 } = buttonRef;
       if (current2) {
-        const handleAnimationEnd = () => current2.classList.remove("webchat__activity-copy-button--copied");
+        const handleAnimationEnd = () => current2.classList.remove(...classNames31["activity-copy-button--copied"].split(/\s+/gu));
         current2.addEventListener("animationend", handleAnimationEnd);
         return () => current2.removeEventListener("animationend", handleAnimationEnd);
       }
-    }, [buttonRef]);
+    }, [buttonRef, classNames31]);
     const handleClick = (0, import_react305.useCallback)(() => {
       var _a29, _b4, _c3, _d2, _e3, _f;
       const htmlText2 = (_a29 = targetRef.current) == null ? void 0 : _a29.outerHTML;
@@ -156289,11 +156660,11 @@ and ensure you are accounting for this risk.
           ...plainText ? { "text/plain": new Blob([plainText], { type: "text/plain" }) } : {}
         })
       ]).catch((error2) => console.error(`botframework-webchat-fluent-theme: Failed to copy to clipboard.`, error2));
-      (_d2 = buttonRef.current) == null ? void 0 : _d2.classList.remove("webchat__activity-copy-button--copied");
+      (_d2 = buttonRef.current) == null ? void 0 : _d2.classList.remove(...classNames31["activity-copy-button--copied"].split(/\s+/gu));
       (_e3 = buttonRef.current) == null ? void 0 : _e3.offsetWidth;
-      (_f = buttonRef.current) == null ? void 0 : _f.classList.add("webchat__activity-copy-button--copied");
-      queueStaticElement(/* @__PURE__ */ import_react305.default.createElement("div", { className: "webchat__activity-copy-button__copy-announcement" }, copiedText));
-    }, [buttonRef, copiedText, queueStaticElement, targetRef]);
+      (_f = buttonRef.current) == null ? void 0 : _f.classList.add(...classNames31["activity-copy-button--copied"].split(/\s+/gu));
+      queueStaticElement(/* @__PURE__ */ import_react305.default.createElement("div", { className: classNames31["activity-copy-button__copy-announcement"] }, copiedText));
+    }, [classNames31, copiedText, queueStaticElement, targetRef]);
     (0, import_react305.useEffect)(() => {
       let unmounted = false;
       (async function() {
@@ -156308,13 +156679,7 @@ and ensure you are accounting for this risk.
     return /* @__PURE__ */ import_react305.default.createElement(
       ActivityButton_default,
       {
-        className: (0, import_classnames50.default)(
-          activityButton,
-          activityCopyButton,
-          "webchat__activity-button",
-          "webchat__activity-copy-button",
-          className
-        ),
+        className: (0, import_classnames50.default)(classNames31["activity-copy-button"], className),
         "data-testid": "copy button",
         disabled,
         icon: "copy",
@@ -156322,7 +156687,7 @@ and ensure you are accounting for this risk.
         ref: buttonRef,
         text: copyText
       },
-      /* @__PURE__ */ import_react305.default.createElement("span", { className: "webchat__activity-copy-button__copied-text" }, copiedText)
+      /* @__PURE__ */ import_react305.default.createElement("span", { className: classNames31["activity-copy-button__copied-text"] }, copiedText)
     );
   };
   ActivityCopyButton.displayName = "ActivityCopyButton";
@@ -156424,29 +156789,29 @@ and ensure you are accounting for this risk.
       ...linkOptions
     };
     const ariaLabelSegments = [textContent];
-    const classes82 = /* @__PURE__ */ new Set();
+    const classes192 = /* @__PURE__ */ new Set();
     const linkDefinition = linkDefinitions.find(({ url: url2 }) => url2 === href);
     const protocol = onErrorResumeNext(() => new URL(href).protocol);
     if (linkDefinition) {
       ariaLabelSegments.push(
         linkDefinition.title || onErrorResumeNext(() => new URL(linkDefinition.url).host) || linkDefinition.url
       );
-      linkDefinition.label === textContent && classes82.add("webchat__render-markdown__pure-identifier");
+      linkDefinition.label === textContent && classes192.add("render-markdown__pure-identifier");
     }
     if (!allowedSchemes.map((scheme) => `${scheme}:`).includes(protocol)) {
       (_a29 = decoration.asButton) != null ? _a29 : decoration.asButton = true;
-      classes82.add("webchat__render-markdown__citation");
+      classes192.add("render-markdown__citation");
     } else if (protocol === "http:" || protocol === "https:") {
-      decoration.iconClassName = [decoration.iconClassName, "webchat__render-markdown__external-link-icon"].filter((className) => className).join(" ");
+      decoration.iconClassName = [decoration.iconClassName, "render-markdown__external-link-icon"].filter((className) => className).join(" ");
       ariaLabelSegments.push(externalLinkAlt);
     }
     if (ariaLabelSegments.length > 1) {
       (_b4 = decoration.ariaLabel) != null ? _b4 : decoration.ariaLabel = (value) => value || ariaLabelSegments.join(" ");
     }
     if (typeof (linkOptions == null ? void 0 : linkOptions.className) === "string") {
-      classes82.add(linkOptions.className);
+      classes192.add(linkOptions.className);
     }
-    const classNamesString = Array.from(classes82).join(" ");
+    const classNamesString = Array.from(classes192).join(" ");
     if ((linkOptions == null ? void 0 : linkOptions.className) && (linkOptions == null ? void 0 : linkOptions.className) instanceof Function) {
       decoration.className = linkOptions.className(classNamesString);
     } else {
@@ -156481,13 +156846,13 @@ and ensure you are accounting for this risk.
     return /* @__PURE__ */ import_react307.default.createElement("span", { className, dangerouslySetInnerHTML: html5 });
   };
   var LocalizedString_default = (0, import_react307.memo)(LocalizedString);
-  var classes33 = { "view-code-dialog": "wzmzsZW_view-code-dialog", "view-code-dialog__header": "wzmzsZW_view-code-dialog__header", "view-code-dialog__title": "wzmzsZW_view-code-dialog__title", "view-code-dialog__body": "wzmzsZW_view-code-dialog__body", "view-code-dialog__footer": "wzmzsZW_view-code-dialog__footer" };
-  var ViewCodeDialog_module_default = classes33;
-  var _view_code_dialog0 = classes33["view-code-dialog"];
-  var _view_code_dialog__header0 = classes33["view-code-dialog__header"];
-  var _view_code_dialog__title0 = classes33["view-code-dialog__title"];
-  var _view_code_dialog__body0 = classes33["view-code-dialog__body"];
-  var _view_code_dialog__footer0 = classes33["view-code-dialog__footer"];
+  var classes72 = { "view-code-dialog__footer": "wzmzsZW_view-code-dialog__footer", "view-code-dialog__title": "wzmzsZW_view-code-dialog__title", "view-code-dialog__header": "wzmzsZW_view-code-dialog__header", "view-code-dialog__body": "wzmzsZW_view-code-dialog__body", "view-code-dialog": "wzmzsZW_view-code-dialog" };
+  var ViewCodeDialog_module_default = classes72;
+  var _view_code_dialog__footer0 = classes72["view-code-dialog__footer"];
+  var _view_code_dialog__title0 = classes72["view-code-dialog__title"];
+  var _view_code_dialog__header0 = classes72["view-code-dialog__header"];
+  var _view_code_dialog__body0 = classes72["view-code-dialog__body"];
+  var _view_code_dialog0 = classes72["view-code-dialog"];
   var codeContentPropsSchema = pipe(
     object({
       children: optional(reactNode_default()),
@@ -156501,8 +156866,8 @@ and ensure you are accounting for this risk.
   function CodeContent(props) {
     const { children, className, code: code2, language: language2, title } = validateProps2(codeContentPropsSchema, props);
     const [, CodeBlock2] = useCodeBlockTag();
-    const classNames49 = useStyles_default(ViewCodeDialog_module_default);
-    return /* @__PURE__ */ import_react308.default.createElement(import_react308.Fragment, null, /* @__PURE__ */ import_react308.default.createElement("div", { className: classNames49["view-code-dialog__header"] }, /* @__PURE__ */ import_react308.default.createElement("h2", { className: classNames49["view-code-dialog__title"] }, title)), /* @__PURE__ */ import_react308.default.createElement(CodeBlock2, { className: (0, import_classnames52.default)(classNames49["view-code-dialog__body"], className), language: language2 }, /* @__PURE__ */ import_react308.default.createElement("code", null, code2)), children);
+    const classNames31 = useStyles_default(ViewCodeDialog_module_default);
+    return /* @__PURE__ */ import_react308.default.createElement(import_react308.Fragment, null, /* @__PURE__ */ import_react308.default.createElement("div", { className: classNames31["view-code-dialog__header"] }, /* @__PURE__ */ import_react308.default.createElement("h2", { className: classNames31["view-code-dialog__title"] }, title)), /* @__PURE__ */ import_react308.default.createElement(CodeBlock2, { className: (0, import_classnames51.default)(classNames31["view-code-dialog__body"], className), language: language2 }, /* @__PURE__ */ import_react308.default.createElement("code", null, code2)), children);
   }
   var CodeContent_default = (0, import_react308.memo)(CodeContent);
   var { useLocalizer: useLocalizer82 } = hook_exports;
@@ -156518,23 +156883,22 @@ and ensure you are accounting for this risk.
   );
   var ActivityViewCodeButton = (props) => {
     const { className, code: code2, language: language2, title, isAIGenerated } = validateProps2(activityViewCodeButtonPropsSchema, props);
-    const classNames49 = useStyles_default(ViewCodeDialog_module_default);
-    const [{ activityButton }] = useStyleSet();
+    const classNames31 = useStyles_default(ViewCodeDialog_module_default);
     const showModal = useShowModal();
     const localize2 = useLocalizer82();
     const showCodeModal = (0, import_react306.useCallback)(() => {
       showModal(
-        () => /* @__PURE__ */ import_react306.default.createElement(CodeContent_default, { code: code2, language: language2, title }, isAIGenerated && /* @__PURE__ */ import_react306.default.createElement("div", { className: classNames49["view-code-dialog__footer"] }, /* @__PURE__ */ import_react306.default.createElement(LocalizedString_default, { linkClassName: "webchat__view-code-dialog__link", stringIds: "ACTIVITY_CODE_CAUTION" }))),
+        () => /* @__PURE__ */ import_react306.default.createElement(CodeContent_default, { code: code2, language: language2, title }, isAIGenerated && /* @__PURE__ */ import_react306.default.createElement("div", { className: classNames31["view-code-dialog__footer"] }, /* @__PURE__ */ import_react306.default.createElement(LocalizedString_default, { linkClassName: "view-code-dialog__link", stringIds: "ACTIVITY_CODE_CAUTION" }))),
         {
-          className: (0, import_classnames51.default)("webchat__view-code-dialog", classNames49["view-code-dialog"]),
+          className: classNames31["view-code-dialog"],
           "aria-label": localize2("ACTIVITY_CODE_ALT", title != null ? title : "")
         }
       );
-    }, [code2, isAIGenerated, language2, localize2, showModal, title, classNames49]);
+    }, [code2, isAIGenerated, language2, localize2, showModal, title, classNames31]);
     return /* @__PURE__ */ import_react306.default.createElement(
       ActivityButton_default,
       {
-        className: (0, import_classnames51.default)(activityButton, "webchat__activity-button", className),
+        className,
         "data-testid": "view code button",
         icon: "view-code",
         onClick: showCodeModal,
@@ -156543,6 +156907,11 @@ and ensure you are accounting for this risk.
     );
   };
   var ActivityViewCodeButton_default = (0, import_react306.memo)(ActivityViewCodeButton);
+  var classes8 = { "citation-modal-dialog": "wjSs5NG_citation-modal-dialog", "citation-modal-dialog__body": "wjSs5NG_citation-modal-dialog__body", "citation-modal-dialog__header": "wjSs5NG_citation-modal-dialog__header" };
+  var CitationModal_module_default = classes8;
+  var _citation_modal_dialog0 = classes8["citation-modal-dialog"];
+  var _citation_modal_dialog__body0 = classes8["citation-modal-dialog__body"];
+  var _citation_modal_dialog__header0 = classes8["citation-modal-dialog__header"];
   var citationModalContentPropsSchema = pipe(
     object({
       headerText: optional(string()),
@@ -156552,20 +156921,16 @@ and ensure you are accounting for this risk.
   );
   function CitationModalContent(props) {
     const { headerText, markdown } = validateProps2(citationModalContentPropsSchema, props);
-    const [{ renderMarkdown: renderMarkdownStyleSet }] = useStyleSet();
+    const classNames31 = useStyles_default(CitationModal_module_default);
     const renderMarkdownAsHTML = useRenderMarkdownAsHTML("citation modal");
     const html5 = (0, import_react309.useMemo)(() => ({ __html: renderMarkdownAsHTML(markdown) }), [markdown, renderMarkdownAsHTML]);
-    return /* @__PURE__ */ import_react309.default.createElement(import_react309.Fragment, null, headerText && /* @__PURE__ */ import_react309.default.createElement("h2", { className: "webchat__citation-modal-dialog__header" }, headerText), renderMarkdownAsHTML ? /* @__PURE__ */ import_react309.default.createElement(
+    return /* @__PURE__ */ import_react309.default.createElement(import_react309.Fragment, null, headerText && /* @__PURE__ */ import_react309.default.createElement("h2", { className: classNames31["citation-modal-dialog__header"] }, headerText), renderMarkdownAsHTML ? /* @__PURE__ */ import_react309.default.createElement(
       "div",
       {
-        className: (0, import_classnames53.default)(
-          "webchat__citation-modal-dialog__body",
-          "webchat__render-markdown",
-          renderMarkdownStyleSet + ""
-        ),
+        className: (0, import_classnames52.default)(classNames31["citation-modal-dialog__body"], "render-markdown"),
         dangerouslySetInnerHTML: html5
       }
-    ) : /* @__PURE__ */ import_react309.default.createElement("div", { className: (0, import_classnames53.default)("webchat__render-markdown", renderMarkdownStyleSet + "") }, markdown));
+    ) : /* @__PURE__ */ import_react309.default.createElement("div", { className: "render-markdown" }, markdown));
   }
   var CitationModalContent_default = (0, import_react309.memo)(CitationModalContent);
   var shieldIconPropsSchema = pipe(
@@ -156581,7 +156946,7 @@ and ensure you are accounting for this risk.
     return /* @__PURE__ */ import_react311.default.createElement(
       "svg",
       {
-        className: (0, import_classnames55.default)(className),
+        className: (0, import_classnames54.default)(className),
         height: "16",
         viewBox: "0 0 16 16",
         width: "16",
@@ -156627,13 +156992,14 @@ and ensure you are accounting for this risk.
   );
   function MessageSensitivityLabel(props) {
     const { className, color: color2, isEncrypted, name, title } = validateProps2(messageSensitivityLabelPropsSchema, props);
+    const classNames31 = useStyles_default(LinkDefinitions_module_default);
     return /* @__PURE__ */ import_react310.default.createElement(
       "div",
       {
-        className: (0, import_classnames54.default)(
-          "webchat__link-definitions__message-sensitivity-label",
+        className: (0, import_classnames53.default)(
+          classNames31["link-definitions__message-sensitivity-label"],
           {
-            "webchat__link-definitions__message-sensitivity-label--is-encrypted": isEncrypted
+            "link-definitions__message-sensitivity-label--is-encrypted": isEncrypted
           },
           className
         ),
@@ -156642,12 +157008,12 @@ and ensure you are accounting for this risk.
       /* @__PURE__ */ import_react310.default.createElement(
         ShieldIcon_default,
         {
-          className: "webchat__link-definitions__message-sensitivity-label-icon",
+          className: classNames31["link-definitions__message-sensitivity-label-icon"],
           fillColor: color2,
           hasLock: isEncrypted
         }
       ),
-      /* @__PURE__ */ import_react310.default.createElement("span", { className: "webchat__link-definitions__message-sensitivity-label-text" }, name)
+      /* @__PURE__ */ import_react310.default.createElement("span", { className: classNames31["link-definitions__message-sensitivity-label-text"] }, name)
     );
   }
   var MessageSensitivityLabel_default = (0, import_react310.memo)(MessageSensitivityLabel);
@@ -156677,14 +157043,9 @@ and ensure you are accounting for this risk.
   function MarkdownTextContent(props) {
     var _a29, _b4, _c3;
     const { activity, children, markdown } = validateProps2(markdownTextContentPropsSchema, props);
+    const citationModalClassNames = useStyles_default(CitationModal_module_default);
+    const textContentClassNames = useStyles_default(TextContent_module_default);
     const [{ feedbackActionsPlacement }] = useStyleOptions24();
-    const [
-      {
-        citationModalDialog: citationModalDialogStyleSet,
-        renderMarkdown: renderMarkdownStyleSet,
-        textContent: textContentStyleSet
-      }
-    ] = useStyleSet();
     const contentRef = (0, import_react284.useRef)(null);
     const localize2 = useLocalizer92();
     const graph = (0, import_react284.useMemo)(() => dereferenceBlankNodes(activity.entities || []), [activity.entities]);
@@ -156707,10 +157068,10 @@ and ensure you are accounting for this risk.
       (title, text6, altText) => {
         showModal(() => /* @__PURE__ */ import_react284.default.createElement(CitationModalContent_default, { headerText: title, markdown: text6 }), {
           "aria-label": altText || title || citationModalDialogLabel,
-          className: (0, import_classnames44.default)("webchat__citation-modal-dialog", citationModalDialogStyleSet)
+          className: citationModalClassNames["citation-modal-dialog"]
         });
       },
-      [citationModalDialogStyleSet, citationModalDialogLabel, showModal]
+      [citationModalClassNames, citationModalDialogLabel, showModal]
     );
     const sanitizeHref = useSanitizeHrefCallback();
     const entries = (0, import_react284.useMemo)(
@@ -156835,56 +157196,47 @@ and ensure you are accounting for this risk.
       var _a30, _b5, _c4;
       return (_c4 = (_b5 = (_a30 = entry.claim) == null ? void 0 : _a30.appearance) == null ? void 0 : _b5.usageInfo) == null ? void 0 : _c4.description;
     };
-    return /* @__PURE__ */ import_react284.default.createElement(
+    return /* @__PURE__ */ import_react284.default.createElement("div", { className: (0, import_classnames43.default)(textContentClassNames["text-content"], textContentClassNames["text-content--is-markdown"]) }, /* @__PURE__ */ import_react284.default.createElement(
       "div",
       {
-        className: (0, import_classnames44.default)("webchat__text-content", "webchat__text-content--is-markdown", textContentStyleSet + "")
+        className: (0, import_classnames43.default)(textContentClassNames["text-content__markdown"]),
+        dangerouslySetInnerHTML,
+        onClick: handleClick,
+        ref: contentRef
+      }
+    ), children, !!entries.length && /* @__PURE__ */ import_react284.default.createElement(
+      LinkDefinitions_default,
+      {
+        accessoryComponentType: messageSensitivityLabelProps && MessageSensitivityLabel_default,
+        accessoryProps: messageSensitivityLabelProps
       },
-      /* @__PURE__ */ import_react284.default.createElement(
-        "div",
-        {
-          className: (0, import_classnames44.default)("webchat__text-content__markdown", renderMarkdownStyleSet + ""),
-          dangerouslySetInnerHTML,
-          onClick: handleClick,
-          ref: contentRef
-        }
-      ),
-      children,
-      !!entries.length && /* @__PURE__ */ import_react284.default.createElement(
-        LinkDefinitions_default,
-        {
-          accessoryComponentType: messageSensitivityLabelProps && MessageSensitivityLabel_default,
-          accessoryProps: messageSensitivityLabelProps
-        },
-        entries.map((entry) => {
-          var _a30, _b5;
-          return /* @__PURE__ */ import_react284.default.createElement(
-            LinkDefinitionItem_default,
-            {
-              badgeName: getEntryBadgeName(entry),
-              badgeTitle: `${(_a30 = getEntryBadgeName(entry)) != null ? _a30 : ""}
+      entries.map((entry) => {
+        var _a30, _b5;
+        return /* @__PURE__ */ import_react284.default.createElement(
+          LinkDefinitionItem_default,
+          {
+            badgeName: getEntryBadgeName(entry),
+            badgeTitle: `${(_a30 = getEntryBadgeName(entry)) != null ? _a30 : ""}
 
 ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
-              identifier: entry.markdownDefinition.label,
-              key: entry.key,
-              onClick: entry.handleClick,
-              sanitizedHref: entry.sanitizedHref,
-              text: getEntryMainText(entry)
-            }
-          );
-        })
-      ),
-      /* @__PURE__ */ import_react284.default.createElement("div", { className: "webchat__text-content__activity-actions" }, activity.type === "message" && isBasedOnSoftwareSourceCode(messageThing) && messageThing.isBasedOn.text && !((_b4 = (_a29 = messageThing.keywords) == null ? void 0 : _a29.includes) == null ? void 0 : _b4.call(_a29, "Collapsible")) ? /* @__PURE__ */ import_react284.default.createElement(
-        ActivityViewCodeButton_default,
-        {
-          className: "webchat__text-content__activity-view-code-button",
-          code: messageThing.isBasedOn.text,
-          isAIGenerated: isAIGeneratedActivity(activity),
-          language: messageThing.isBasedOn.programmingLanguage,
-          title: messageThing.isBasedOn.programmingLanguage
-        }
-      ) : null, activity.type === "message" && activity.text && ((_c3 = messageThing == null ? void 0 : messageThing.keywords) == null ? void 0 : _c3.includes("AllowCopy")) ? /* @__PURE__ */ import_react284.default.createElement(ActivityCopyButton_default, { className: "webchat__text-content__activity-copy-button", targetRef: contentRef }) : null, activity.type === "message" && feedbackActionsPlacement === "activity-actions" && /* @__PURE__ */ import_react284.default.createElement(ActivityFeedback_default, { activity }))
-    );
+            identifier: entry.markdownDefinition.label,
+            key: entry.key,
+            onClick: entry.handleClick,
+            sanitizedHref: entry.sanitizedHref,
+            text: getEntryMainText(entry)
+          }
+        );
+      })
+    ), /* @__PURE__ */ import_react284.default.createElement("div", { className: textContentClassNames["text-content__activity-actions"] }, activity.type === "message" && isBasedOnSoftwareSourceCode(messageThing) && messageThing.isBasedOn.text && !((_b4 = (_a29 = messageThing.keywords) == null ? void 0 : _a29.includes) == null ? void 0 : _b4.call(_a29, "Collapsible")) ? /* @__PURE__ */ import_react284.default.createElement(
+      ActivityViewCodeButton_default,
+      {
+        className: "text-content__activity-view-code-button",
+        code: messageThing.isBasedOn.text,
+        isAIGenerated: isAIGeneratedActivity(activity),
+        language: messageThing.isBasedOn.programmingLanguage,
+        title: messageThing.isBasedOn.programmingLanguage
+      }
+    ) : null, activity.type === "message" && activity.text && ((_c3 = messageThing == null ? void 0 : messageThing.keywords) == null ? void 0 : _c3.includes("AllowCopy")) ? /* @__PURE__ */ import_react284.default.createElement(ActivityCopyButton_default, { className: "text-content__activity-copy-button", targetRef: contentRef }) : null, activity.type === "message" && feedbackActionsPlacement === "activity-actions" && /* @__PURE__ */ import_react284.default.createElement(ActivityFeedback_default, { activity })));
   }
   var MarkdownTextContent_default = (0, import_react284.memo)(MarkdownTextContent);
   var plainTextContentPropsSchema = pipe(
@@ -156896,21 +157248,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   );
   function PlainTextContent(props) {
     const { children, text: text6 } = validateProps2(plainTextContentPropsSchema, props);
-    const [{ textContent: textContentStyleSet }] = useStyleSet();
-    return /* @__PURE__ */ import_react312.default.createElement(import_react312.Fragment, null, (text6 || "").split("\n").map((line2) => /* @__PURE__ */ import_react312.default.createElement(
-      "p",
-      {
-        className: (0, import_classnames56.default)("webchat__text-content", "webchat__text-content--is-plain", textContentStyleSet + ""),
-        key: line2
-      },
-      line2.trim()
-    )), children && /* @__PURE__ */ import_react312.default.createElement(
-      "div",
-      {
-        className: (0, import_classnames56.default)("webchat__text-content", "webchat__text-content--children", textContentStyleSet + "")
-      },
-      children
-    ));
+    const classNames31 = useStyles_default(TextContent_module_default);
+    return /* @__PURE__ */ import_react312.default.createElement(import_react312.Fragment, null, (text6 || "").split("\n").map((line2) => /* @__PURE__ */ import_react312.default.createElement("p", { className: (0, import_classnames55.default)(classNames31["text-content"]), key: line2 }, line2.trim())), children && /* @__PURE__ */ import_react312.default.createElement("div", { className: classNames31["text-content"] }, children));
   }
   var PlainTextContent_default = (0, import_react312.memo)(PlainTextContent);
   var { useLocalizer: useLocalizer102 } = hook_exports;
@@ -156922,20 +157261,14 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     }),
     readonly()
   );
-  var generatedBadgeStyle = {
-    "&.webchat__text-content__generated-badge": {
-      color: `var(${CustomPropertyNames_default.ColorSubtle})`,
-      fontSize: `var(${CustomPropertyNames_default.FontSizeSmall})`
-    }
-  };
   function TextContent(props) {
     const { activity, contentType = "text/plain", text: text6 } = validateProps2(textContentPropsSchema, props);
+    const classNames31 = useStyles_default(TextContent_module_default);
     const supportMarkdown = !!useRenderMarkdownAsHTML("message activity");
     const localize2 = useLocalizer102();
-    const generatedBadgeClassName = useStyleToEmotionObject()(generatedBadgeStyle) + "";
     const generatedBadge = (0, import_react283.useMemo)(
-      () => isAIGeneratedActivity(activity) && /* @__PURE__ */ import_react283.default.createElement("div", { className: (0, import_classnames43.default)("webchat__text-content__generated-badge", generatedBadgeClassName) }, localize2("ACTIVITY_CONTENT_CAUTION")),
-      [activity, generatedBadgeClassName, localize2]
+      () => isAIGeneratedActivity(activity) && /* @__PURE__ */ import_react283.default.createElement("div", { className: classNames31["text-content__generated-badge"] }, localize2("ACTIVITY_CONTENT_CAUTION")),
+      [activity, classNames31, localize2]
     );
     return text6 ? contentType === "text/markdown" && supportMarkdown ? /* @__PURE__ */ import_react283.default.createElement(MarkdownTextContent_default, { activity, markdown: text6 }, generatedBadge) : /* @__PURE__ */ import_react283.default.createElement(PlainTextContent_default, { text: text6 }, generatedBadge) : null;
   }
@@ -157124,7 +157457,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   var VideoAttachment = ({ attachment }) => {
     const [{ videoAttachment: videoAttachmentStyleSet }] = useStyleSet();
     const rootClassName = useStyleToEmotionObject()(ROOT_STYLE32) + "";
-    return /* @__PURE__ */ import_react313.default.createElement("div", { className: (0, import_classnames57.default)(rootClassName, videoAttachmentStyleSet + "") }, /* @__PURE__ */ import_react313.default.createElement(VideoContent_default, { alt: attachment.name, src: attachment.contentUrl }));
+    return /* @__PURE__ */ import_react313.default.createElement("div", { className: (0, import_classnames56.default)(rootClassName, videoAttachmentStyleSet + "") }, /* @__PURE__ */ import_react313.default.createElement(VideoContent_default, { alt: attachment.name, src: attachment.contentUrl }));
   };
   VideoAttachment.propTypes = {
     attachment: import_prop_types26.default.shape({
@@ -157157,10 +157490,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function useActivityRendererMap() {
     return useContext46().activityRendererMapState;
   }
-  var ROOT_STYLE42 = {
-    color: "Red",
-    margin: 0
-  };
+  var classes9 = { "say-alt": "wKfNakG_say-alt" };
+  var SayAlt_module_default = classes9;
+  var _say_alt0 = classes9["say-alt"];
   var sayAltPropsSchema = pipe(
     object({
       speak: union([literal(false), string()])
@@ -157169,8 +157501,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   );
   var SayAlt = (props) => {
     const { speak } = validateProps2(sayAltPropsSchema, props);
-    const rootClassName = useStyleToEmotionObject()(ROOT_STYLE42) + "";
-    return !!speak && /* @__PURE__ */ import_react323.default.createElement("pre", { className: rootClassName }, speak);
+    const classNames31 = useStyles_default(SayAlt_module_default);
+    return !!speak && /* @__PURE__ */ import_react323.default.createElement("pre", { className: classNames31["say-alt"] }, speak);
   };
   var SayAlt_default = (0, import_react323.memo)(SayAlt);
   var { useMarkActivityAsSpoken: useMarkActivityAsSpoken2, useStyleOptions: useStyleOptions33, useVoiceSelector: useVoiceSelector2 } = hook_exports;
@@ -157544,7 +157876,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       /* @__PURE__ */ import_react321.default.createElement(
         TranscriptFocusContent_default,
         {
-          className: (0, import_classnames58.default)("webchat__basic-transcript__activity", {
+          className: (0, import_classnames57.default)("webchat__basic-transcript__activity", {
             "webchat__basic-transcript__activity--acknowledged": acknowledged,
             "webchat__basic-transcript__activity--read": read
           }),
@@ -158047,22 +158379,19 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     return null;
   };
   var UITracker_default = Tracker2;
-  var { useDirection: useDirection23, useStyleOptions: useStyleOptions62 } = hook_exports;
-  var ROOT_STYLE52 = {
-    "&.webchat__bubble": {
-      display: "flex",
-      position: "relative",
-      "& .webchat__bubble__nub-pad": {
-        flexShrink: 0
-      },
-      "& .webchat__bubble__content": {
-        flexGrow: 1,
-        // This is for hiding content outside of the bubble, for example, content outside of border radius
-        overflow: "hidden"
-      }
-    }
-  };
-  function acuteNubSVG(nubSize, strokeWidth, side, upSideDown = false) {
+  var classes10 = { "bubble--hide-nub": "wS0r5AW_bubble--hide-nub", "bubble": "wS0r5AW_bubble", "bubble__nub-pad": "wS0r5AW_bubble__nub-pad", "bubble--from-user": "wS0r5AW_bubble--from-user", "bubble__nub-outline": "wS0r5AW_bubble__nub-outline", "bubble__nub": "wS0r5AW_bubble__nub", "bubble--show-nub": "wS0r5AW_bubble--show-nub", "bubble--nub-on-top": "wS0r5AW_bubble--nub-on-top", "bubble__content": "wS0r5AW_bubble__content" };
+  var Bubble_module_default = classes10;
+  var _bubble__hide_nub0 = classes10["bubble--hide-nub"];
+  var _bubble0 = classes10["bubble"];
+  var _bubble__nub_pad0 = classes10["bubble__nub-pad"];
+  var _bubble__from_user0 = classes10["bubble--from-user"];
+  var _bubble__nub_outline0 = classes10["bubble__nub-outline"];
+  var _bubble__nub0 = classes10["bubble__nub"];
+  var _bubble__show_nub0 = classes10["bubble--show-nub"];
+  var _bubble__nub_on_top0 = classes10["bubble--nub-on-top"];
+  var _bubble__content0 = classes10["bubble__content"];
+  var { useStyleOptions: useStyleOptions62 } = hook_exports;
+  function acuteNubSVG(nubSize, strokeWidth, side, upSideDown = false, classNames31) {
     if (typeof nubSize !== "number") {
       return false;
     }
@@ -158076,12 +158405,12 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     return /* @__PURE__ */ import_react333.default.createElement(
       "svg",
       {
-        className: "webchat__bubble__nub",
+        className: classNames31["bubble__nub"],
         version: "1.1",
         viewBox: `0 0 ${nubSize} ${nubSize}`,
         xmlns: "http://www.w3.org/2000/svg"
       },
-      /* @__PURE__ */ import_react333.default.createElement("g", { transform: `${horizontalTransform} ${verticalTransform}` }, /* @__PURE__ */ import_react333.default.createElement("path", { className: "webchat__bubble__nub-outline", d: `M${p1} L${p22} L${p3}` }))
+      /* @__PURE__ */ import_react333.default.createElement("g", { transform: `${horizontalTransform} ${verticalTransform}` }, /* @__PURE__ */ import_react333.default.createElement("path", { className: classNames31["bubble__nub-outline"], d: `M${p1} L${p22} L${p3}` }))
     );
   }
   var bubblePropsSchema = pipe(
@@ -158102,8 +158431,6 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       fromUser,
       nub = false
     } = validateProps2(bubblePropsSchema, props);
-    const [{ bubble: bubbleStyleSet }] = useStyleSet();
-    const [direction] = useDirection23();
     const [
       {
         bubbleBorderWidth,
@@ -158114,7 +158441,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         bubbleFromUserNubOffset
       }
     ] = useStyleOptions62();
-    const rootClassName = useStyleToEmotionObject()(ROOT_STYLE52) + "";
+    const classNames31 = useStyles_default(Bubble_module_default);
     const { borderWidth, nubOffset, nubSize, side } = fromUser ? {
       borderWidth: bubbleFromUserBorderWidth,
       nubOffset: bubbleFromUserNubOffset,
@@ -158130,27 +158457,32 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       "div",
       {
         "aria-hidden": ariaHidden,
-        className: (0, import_classnames61.default)(
-          "webchat__bubble",
+        className: (0, import_classnames60.default)(
+          classNames31.bubble,
           {
-            "webchat__bubble--from-user": fromUser,
-            "webchat__bubble--hide-nub": nub !== true && nub !== false,
-            "webchat__bubble--nub-on-top": isZeroOrPositive(nubOffset),
-            "webchat__bubble--rtl": direction === "rtl",
-            "webchat__bubble--show-nub": nub === true
+            [classNames31["bubble--from-user"]]: fromUser,
+            [classNames31["bubble--hide-nub"]]: nub !== true && nub !== false,
+            [classNames31["bubble--nub-on-top"]]: isZeroOrPositive(nubOffset),
+            [classNames31["bubble--show-nub"]]: nub === true
           },
-          rootClassName,
-          bubbleStyleSet + "",
           className
         )
       },
-      /* @__PURE__ */ import_react333.default.createElement("div", { className: "webchat__bubble__nub-pad" }),
-      /* @__PURE__ */ import_react333.default.createElement("div", { className: "webchat__bubble__content" }, children),
-      nub === true && acuteNubSVG(nubSize, borderWidth, side, !isZeroOrPositive(nubOffset))
+      /* @__PURE__ */ import_react333.default.createElement("div", { className: classNames31["bubble__nub-pad"] }),
+      /* @__PURE__ */ import_react333.default.createElement("div", { className: classNames31["bubble__content"] }, children),
+      nub === true && acuteNubSVG(nubSize, borderWidth, side, !isZeroOrPositive(nubOffset), classNames31)
     );
   }
   var Bubble_default = (0, import_react333.memo)(Bubble);
-  var { useDirection: useDirection32, useLocalizer: useLocalizer14 } = hook_exports;
+  var classes11 = { "carousel-filmstrip-attachment--show-avatar": "wC3CBRG_carousel-filmstrip-attachment--show-avatar", "carousel-filmstrip-attachment--hide-nub": "wC3CBRG_carousel-filmstrip-attachment--hide-nub", "carousel-filmstrip-attachment--hide-avatar": "wC3CBRG_carousel-filmstrip-attachment--hide-avatar", "carousel-filmstrip-attachment--show-nub": "wC3CBRG_carousel-filmstrip-attachment--show-nub", "carousel-filmstrip-attachment": "wC3CBRG_carousel-filmstrip-attachment", "carousel-filmstrip-attachment--focus": "wC3CBRG_carousel-filmstrip-attachment--focus" };
+  var CarouselFilmStripAttachment_module_default = classes11;
+  var _carousel_filmstrip_attachment__show_avatar0 = classes11["carousel-filmstrip-attachment--show-avatar"];
+  var _carousel_filmstrip_attachment__hide_nub0 = classes11["carousel-filmstrip-attachment--hide-nub"];
+  var _carousel_filmstrip_attachment__hide_avatar0 = classes11["carousel-filmstrip-attachment--hide-avatar"];
+  var _carousel_filmstrip_attachment__show_nub0 = classes11["carousel-filmstrip-attachment--show-nub"];
+  var _carousel_filmstrip_attachment0 = classes11["carousel-filmstrip-attachment"];
+  var _carousel_filmstrip_attachment__focus0 = classes11["carousel-filmstrip-attachment--focus"];
+  var { useLocalizer: useLocalizer14 } = hook_exports;
   var CarouselFilmStripAttachment = ({
     activity,
     attachment,
@@ -158163,32 +158495,29 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     showAvatar,
     showNub
   }) => {
-    const [direction] = useDirection32();
     const localize2 = useLocalizer14();
-    const [{ carouselFilmStripAttachment: carouselFilmStripAttachmentStyleSet }] = useStyleSet();
+    const classNames31 = useStyles_default(CarouselFilmStripAttachment_module_default);
     const attachedAlt = localize2(fromUser ? "ACTIVITY_YOU_ATTACHED_ALT" : "ACTIVITY_BOT_ATTACHED_ALT");
     return /* @__PURE__ */ import_react334.default.createElement(
       "li",
       {
         "aria-roledescription": "attachment",
-        className: (0, import_classnames62.default)(
-          "webchat__carousel-filmstrip-attachment",
+        className: (0, import_classnames61.default)(
+          classNames31["carousel-filmstrip-attachment"],
           {
-            "webchat__carousel-filmstrip-attachment--hide-avatar": hasAvatar && !showAvatar,
-            "webchat__carousel-filmstrip-attachment--hide-nub": hideNub,
-            "webchat__carousel-filmstrip-attachment--rtl": direction === "rtl",
-            "webchat__carousel-filmstrip-attachment--show-avatar": showAvatar,
-            "webchat__carousel-filmstrip-attachment--show-nub": showNub
+            [classNames31["carousel-filmstrip-attachment--hide-avatar"]]: hasAvatar && !showAvatar,
+            [classNames31["carousel-filmstrip-attachment--hide-nub"]]: hideNub,
+            [classNames31["carousel-filmstrip-attachment--show-avatar"]]: showAvatar,
+            [classNames31["carousel-filmstrip-attachment--show-nub"]]: showNub
           },
           "react-film__filmstrip__item",
-          carouselFilmStripAttachmentStyleSet + "",
-          (className || "") + ""
+          className
         ),
         role: "listitem",
         tabIndex: 0
       },
       /* @__PURE__ */ import_react334.default.createElement(ScreenReaderText_default, { text: attachedAlt }),
-      /* @__PURE__ */ import_react334.default.createElement(Bubble_default, { fromUser, key: index2, nub: false }, renderAttachment({ activity, attachment }), /* @__PURE__ */ import_react334.default.createElement("div", { className: "webchat__carousel-filmstrip-attachment--focus" }))
+      /* @__PURE__ */ import_react334.default.createElement(Bubble_default, { fromUser, key: index2, nub: false }, renderAttachment({ activity, attachment }), /* @__PURE__ */ import_react334.default.createElement("div", { className: classNames31["carousel-filmstrip-attachment--focus"] }))
     );
   };
   CarouselFilmStripAttachment.defaultProps = {
@@ -158217,72 +158546,30 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     showNub: import_prop_types31.default.bool.isRequired
   };
   var CarouselFilmStripAttachment_default = CarouselFilmStripAttachment;
-  var { useAvatarForBot: useAvatarForBot22, useAvatarForUser: useAvatarForUser2, useDirection: useDirection42, useLocalizer: useLocalizer15, useStyleOptions: useStyleOptions72 } = hook_exports;
-  var ROOT_STYLE62 = {
-    "&.webchat__carousel-filmstrip": {
-      display: "flex",
-      flexDirection: "column",
-      MsOverflowStyle: "none",
-      overflowX: "scroll",
-      overflowY: "hidden",
-      position: "relative",
-      // This is to keep screen reader text in the destinated area.
-      touchAction: "manipulation",
-      WebkitOverflowScrolling: "touch",
-      "&::-webkit-scrollbar": {
-        display: "none"
-      },
-      "& .webchat__carousel-filmstrip__alignment-pad": {
-        flexShrink: 0
-      },
-      "& .webchat__carousel-filmstrip-attachment": {
-        flex: 1
-      },
-      "& .webchat__carousel-filmstrip__attachments": {
-        display: "flex",
-        listStyleType: "none",
-        margin: 0,
-        padding: 0
-      },
-      "& .webchat__carousel-filmstrip__avatar": {
-        flexShrink: 0
-      },
-      "& .webchat__carousel-filmstrip__avatar-gutter": {
-        display: "flex",
-        flexDirection: "column",
-        flexShrink: 0
-      },
-      "& .webchat__carousel-filmstrip__complimentary": {
-        display: "flex"
-      },
-      "& .webchat__carousel-filmstrip__complimentary-content": {
-        display: "flex",
-        flexGrow: 1,
-        flexDirection: "column"
-      },
-      "& .webchat__carousel-filmstrip__content": {
-        display: "flex",
-        flexGrow: 1,
-        flexDirection: "column"
-      },
-      "& .webchat__carousel-filmstrip__filler": {
-        flexGrow: 1e4,
-        flexShrink: 1
-      },
-      "& .webchat__carousel-filmstrip__main": {
-        display: "flex"
-      },
-      "& .webchat__carousel-filmstrip__message": {
-        display: "flex"
-      },
-      "& .webchat__carousel-filmstrip__nub-pad": {
-        flexShrink: 0
-      },
-      "& .webchat__carousel-filmstrip__status": {
-        display: "flex"
-      }
-    }
-  };
+  var classes12 = { "carousel-filmstrip--top-callout": "w1RU2Zq_carousel-filmstrip--top-callout", "carousel-filmstrip__message": "w1RU2Zq_carousel-filmstrip__message", "carousel-filmstrip--show-avatar": "w1RU2Zq_carousel-filmstrip--show-avatar", "carousel-filmstrip__filler": "w1RU2Zq_carousel-filmstrip__filler", "carousel-filmstrip__nub-pad": "w1RU2Zq_carousel-filmstrip__nub-pad", "carousel-filmstrip__main": "w1RU2Zq_carousel-filmstrip__main", "carousel-filmstrip__complimentary": "w1RU2Zq_carousel-filmstrip__complimentary", "carousel-filmstrip--hide-avatar": "w1RU2Zq_carousel-filmstrip--hide-avatar", "carousel-filmstrip--no-message": "w1RU2Zq_carousel-filmstrip--no-message", "carousel-filmstrip--hide-nub": "w1RU2Zq_carousel-filmstrip--hide-nub", "carousel-filmstrip--show-nub": "w1RU2Zq_carousel-filmstrip--show-nub", "carousel-filmstrip__alignment-pad": "w1RU2Zq_carousel-filmstrip__alignment-pad", "carousel-filmstrip__content": "w1RU2Zq_carousel-filmstrip__content", "carousel-filmstrip__attachments": "w1RU2Zq_carousel-filmstrip__attachments", "carousel-filmstrip__avatar": "w1RU2Zq_carousel-filmstrip__avatar", "carousel-filmstrip__avatar-gutter": "w1RU2Zq_carousel-filmstrip__avatar-gutter", "carousel-filmstrip__complimentary-content": "w1RU2Zq_carousel-filmstrip__complimentary-content", "carousel-filmstrip__status": "w1RU2Zq_carousel-filmstrip__status", "carousel-filmstrip": "w1RU2Zq_carousel-filmstrip", "carousel-filmstrip__bubble": "w1RU2Zq_carousel-filmstrip__bubble", "carousel-filmstrip--extra-trailing": "w1RU2Zq_carousel-filmstrip--extra-trailing" };
+  var CarouselFilmStrip_module_default = classes12;
+  var _carousel_filmstrip__top_callout0 = classes12["carousel-filmstrip--top-callout"];
+  var _carousel_filmstrip__message0 = classes12["carousel-filmstrip__message"];
+  var _carousel_filmstrip__show_avatar0 = classes12["carousel-filmstrip--show-avatar"];
+  var _carousel_filmstrip__filler0 = classes12["carousel-filmstrip__filler"];
+  var _carousel_filmstrip__nub_pad0 = classes12["carousel-filmstrip__nub-pad"];
+  var _carousel_filmstrip__main0 = classes12["carousel-filmstrip__main"];
+  var _carousel_filmstrip__complimentary0 = classes12["carousel-filmstrip__complimentary"];
+  var _carousel_filmstrip__hide_avatar0 = classes12["carousel-filmstrip--hide-avatar"];
+  var _carousel_filmstrip__no_message0 = classes12["carousel-filmstrip--no-message"];
+  var _carousel_filmstrip__hide_nub0 = classes12["carousel-filmstrip--hide-nub"];
+  var _carousel_filmstrip__show_nub0 = classes12["carousel-filmstrip--show-nub"];
+  var _carousel_filmstrip__alignment_pad0 = classes12["carousel-filmstrip__alignment-pad"];
+  var _carousel_filmstrip__content0 = classes12["carousel-filmstrip__content"];
+  var _carousel_filmstrip__attachments0 = classes12["carousel-filmstrip__attachments"];
+  var _carousel_filmstrip__avatar0 = classes12["carousel-filmstrip__avatar"];
+  var _carousel_filmstrip__avatar_gutter0 = classes12["carousel-filmstrip__avatar-gutter"];
+  var _carousel_filmstrip__complimentary_content0 = classes12["carousel-filmstrip__complimentary-content"];
+  var _carousel_filmstrip__status0 = classes12["carousel-filmstrip__status"];
+  var _carousel_filmstrip0 = classes12["carousel-filmstrip"];
+  var _carousel_filmstrip__bubble0 = classes12["carousel-filmstrip__bubble"];
+  var _carousel_filmstrip__extra_trailing0 = classes12["carousel-filmstrip--extra-trailing"];
+  var { useAvatarForBot: useAvatarForBot22, useAvatarForUser: useAvatarForUser2, useLocalizer: useLocalizer15, useStyleOptions: useStyleOptions72 } = hook_exports;
   var CarouselFilmStrip = ({
     activity,
     className,
@@ -158293,13 +158580,11 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     showCallout
   }) => {
     const [{ bubbleNubOffset, bubbleNubSize, bubbleFromUserNubOffset, bubbleFromUserNubSize }] = useStyleOptions72();
-    const [{ carouselFilmStrip: carouselFilmStripStyleSet }] = useStyleSet();
     const [{ initials: botInitials }] = useAvatarForBot22();
     const [{ initials: userInitials }] = useAvatarForUser2();
-    const [direction] = useDirection42();
     const localize2 = useLocalizer15();
-    const rootClassName = useStyleToEmotionObject()(ROOT_STYLE62) + "";
     const showActivityStatus = typeof renderActivityStatus === "function";
+    const classNames31 = useStyles_default(CarouselFilmStrip_module_default);
     const itemContainerCallbackRef = useItemContainerCallbackRef();
     const scrollableCallbackRef = useScrollableCallbackRef();
     const {
@@ -158329,29 +158614,26 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     return /* @__PURE__ */ import_react332.default.createElement(
       "div",
       {
-        className: (0, import_classnames60.default)(
-          "webchat__carousel-filmstrip",
+        className: (0, import_classnames59.default)(
+          classNames31["carousel-filmstrip"],
           {
-            "webchat__carousel-filmstrip--extra-trailing": extraTrailing,
-            "webchat__carousel-filmstrip--hide-avatar": hasAvatar && !showAvatar,
-            "webchat__carousel-filmstrip--hide-nub": hideNub,
-            "webchat__carousel-filmstrip--no-message": !activityDisplayText,
-            "webchat__carousel-filmstrip--rtl": direction === "rtl",
-            "webchat__carousel-filmstrip--show-avatar": showAvatar,
-            "webchat__carousel-filmstrip--show-nub": showNub,
-            "webchat__carousel-filmstrip--top-callout": topAlignedCallout
+            [classNames31["carousel-filmstrip--extra-trailing"]]: extraTrailing,
+            [classNames31["carousel-filmstrip--hide-avatar"]]: hasAvatar && !showAvatar,
+            [classNames31["carousel-filmstrip--hide-nub"]]: hideNub,
+            [classNames31["carousel-filmstrip--no-message"]]: !activityDisplayText,
+            [classNames31["carousel-filmstrip--show-avatar"]]: showAvatar,
+            [classNames31["carousel-filmstrip--show-nub"]]: showNub,
+            [classNames31["carousel-filmstrip--top-callout"]]: topAlignedCallout
           },
           "react-film__filmstrip",
-          rootClassName,
-          carouselFilmStripStyleSet + "",
-          (className || "") + ""
+          className
         ),
         ref: scrollableCallbackRef
       },
-      /* @__PURE__ */ import_react332.default.createElement("div", { className: "webchat__carousel-filmstrip__main" }, /* @__PURE__ */ import_react332.default.createElement("div", { className: "webchat__carousel-filmstrip__avatar-gutter" }, showAvatar && renderAvatar({ activity })), /* @__PURE__ */ import_react332.default.createElement("div", { className: "webchat__carousel-filmstrip__content" }, !!activityDisplayText && /* @__PURE__ */ import_react332.default.createElement("div", { "aria-roledescription": "message", className: "webchat__carousel-filmstrip__message", role: "group" }, /* @__PURE__ */ import_react332.default.createElement(ScreenReaderText_default, { text: greetingAlt }), /* @__PURE__ */ import_react332.default.createElement(
+      /* @__PURE__ */ import_react332.default.createElement("div", { className: classNames31["carousel-filmstrip__main"] }, /* @__PURE__ */ import_react332.default.createElement("div", { className: classNames31["carousel-filmstrip__avatar-gutter"] }, showAvatar && renderAvatar({ activity })), /* @__PURE__ */ import_react332.default.createElement("div", { className: classNames31["carousel-filmstrip__content"] }, !!activityDisplayText && /* @__PURE__ */ import_react332.default.createElement("div", { "aria-roledescription": "message", className: classNames31["carousel-filmstrip__message"], role: "group" }, /* @__PURE__ */ import_react332.default.createElement(ScreenReaderText_default, { text: greetingAlt }), /* @__PURE__ */ import_react332.default.createElement(
         Bubble_default,
         {
-          className: "webchat__carousel-filmstrip__bubble",
+          className: classNames31["carousel-filmstrip__bubble"],
           fromUser,
           nub: showNub || (hasAvatar || hasNub) && "hidden"
         },
@@ -158362,10 +158644,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
             contentType: textFormatToContentType(textFormat)
           }
         })
-      ), /* @__PURE__ */ import_react332.default.createElement("div", { className: "webchat__carousel-filmstrip__filler" })), /* @__PURE__ */ import_react332.default.createElement("div", { className: "webchat__carousel-filmstrip__complimentary" }, /* @__PURE__ */ import_react332.default.createElement("div", { className: "webchat__carousel-filmstrip__nub-pad" }), /* @__PURE__ */ import_react332.default.createElement("div", { className: "webchat__carousel-filmstrip__complimentary-content" }, /* @__PURE__ */ import_react332.default.createElement(
+      ), /* @__PURE__ */ import_react332.default.createElement("div", { className: classNames31["carousel-filmstrip__filler"] })), /* @__PURE__ */ import_react332.default.createElement("div", { className: classNames31["carousel-filmstrip__complimentary"] }, /* @__PURE__ */ import_react332.default.createElement("div", { className: classNames31["carousel-filmstrip__nub-pad"] }), /* @__PURE__ */ import_react332.default.createElement("div", { className: classNames31["carousel-filmstrip__complimentary-content"] }, /* @__PURE__ */ import_react332.default.createElement(
         "ul",
         {
-          className: "webchat__carousel-filmstrip__attachments react-film__filmstrip__list",
+          className: (0, import_classnames59.default)(classNames31["carousel-filmstrip__attachments"], "react-film__filmstrip__list"),
           ref: itemContainerCallbackRef
         },
         attachments.map((attachment, index2) => /* @__PURE__ */ import_react332.default.createElement(
@@ -158383,8 +158665,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
             showNub
           }
         ))
-      )))), /* @__PURE__ */ import_react332.default.createElement("div", { className: "webchat__carousel-filmstrip__alignment-pad" })),
-      showActivityStatus && /* @__PURE__ */ import_react332.default.createElement("div", { className: "webchat__carousel-filmstrip__status" }, /* @__PURE__ */ import_react332.default.createElement("div", { className: "webchat__carousel-filmstrip__avatar-gutter" }), /* @__PURE__ */ import_react332.default.createElement("div", { className: "webchat__carousel-filmstrip__nub-pad" }), renderActivityStatus({ hideTimestamp }))
+      )))), /* @__PURE__ */ import_react332.default.createElement("div", { className: classNames31["carousel-filmstrip__alignment-pad"] })),
+      showActivityStatus && /* @__PURE__ */ import_react332.default.createElement("div", { className: classNames31["carousel-filmstrip__status"] }, /* @__PURE__ */ import_react332.default.createElement("div", { className: classNames31["carousel-filmstrip__avatar-gutter"] }), /* @__PURE__ */ import_react332.default.createElement("div", { className: classNames31["carousel-filmstrip__nub-pad"] }), renderActivityStatus({ hideTimestamp }))
     );
   };
   CarouselFilmStrip.defaultProps = {
@@ -158417,13 +158699,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     showCallout: import_prop_types30.default.bool
   };
   var CarouselFilmStrip_default = CarouselFilmStrip;
-  var { useDirection: useDirection52, useLocalizer: useLocalizer16, useStyleOptions: useStyleOptions82 } = hook_exports;
-  var ROOT_STYLE72 = {
-    "&.webchat__carousel-layout": {
-      overflow: "hidden",
-      position: "relative"
-    }
-  };
+  var classes13 = { "carousel-layout": "wf8uRvG_carousel-layout" };
+  var CarouselLayout_module_default = classes13;
+  var _carousel_layout0 = classes13["carousel-layout"];
+  var { useDirection: useDirection23, useLocalizer: useLocalizer16, useStyleOptions: useStyleOptions82 } = hook_exports;
   var CarouselLayoutCore = ({
     activity,
     hideTimestamp,
@@ -158432,36 +158711,29 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     renderAvatar,
     showCallout
   }) => {
-    const [{ carouselFlipper: carouselFlipperStyleSet }] = useStyleSet();
     const [{ root: filmRootClassName }] = useStyleSetClassNames();
-    const [direction] = useDirection52();
+    const [direction] = useDirection23();
     const [scrollBarWidth] = useScrollBarWidth();
     const [scrolling] = useScrolling();
     const leftSideFlipper = direction === "rtl" ? ">" : "<";
     const localize2 = useLocalizer16();
     const rightSideFlipper = direction === "rtl" ? "<" : ">";
-    const rootClassName = useStyleToEmotionObject()(ROOT_STYLE72) + "";
+    const classNames31 = useStyles_default(CarouselLayout_module_default);
     const nextAlt = localize2("CAROUSEL_FLIPPER_NEXT_ALT");
     const previousAlt = localize2("CAROUSEL_FLIPPER_PREVIOUS_ALT");
     const leftFlipperAriaLabel = direction === "rtl" ? nextAlt : previousAlt;
     const rightFlipperAriaLabel = direction === "rtl" ? previousAlt : nextAlt;
-    return /* @__PURE__ */ import_react331.default.createElement(
-      "div",
+    return /* @__PURE__ */ import_react331.default.createElement("div", { className: (0, import_classnames58.default)(classNames31["carousel-layout"], filmRootClassName) }, /* @__PURE__ */ import_react331.default.createElement("div", { className: (0, import_classnames58.default)("react-film__main", { "react-film__main--scrolling": scrolling }) }, /* @__PURE__ */ import_react331.default.createElement(
+      CarouselFilmStrip_default,
       {
-        className: (0, import_classnames59.default)("webchat__carousel-layout", rootClassName, carouselFlipperStyleSet + "", filmRootClassName)
-      },
-      /* @__PURE__ */ import_react331.default.createElement("div", { className: (0, import_classnames59.default)("react-film__main", { "react-film__main--scrolling": scrolling }) }, /* @__PURE__ */ import_react331.default.createElement(
-        CarouselFilmStrip_default,
-        {
-          activity,
-          hideTimestamp,
-          renderActivityStatus,
-          renderAttachment,
-          renderAvatar,
-          showCallout
-        }
-      ), scrollBarWidth !== "100%" && /* @__PURE__ */ import_react331.default.createElement(import_react331.default.Fragment, null, /* @__PURE__ */ import_react331.default.createElement(Flipper_default, { "aria-label": leftFlipperAriaLabel, blurFocusOnClick: true, mode: "left" }, leftSideFlipper), /* @__PURE__ */ import_react331.default.createElement(Flipper_default, { "aria-label": rightFlipperAriaLabel, blurFocusOnClick: true, mode: "right" }, rightSideFlipper)))
-    );
+        activity,
+        hideTimestamp,
+        renderActivityStatus,
+        renderAttachment,
+        renderAvatar,
+        showCallout
+      }
+    ), scrollBarWidth !== "100%" && /* @__PURE__ */ import_react331.default.createElement(import_react331.default.Fragment, null, /* @__PURE__ */ import_react331.default.createElement(Flipper_default, { "aria-label": leftFlipperAriaLabel, blurFocusOnClick: true, mode: "left" }, leftSideFlipper), /* @__PURE__ */ import_react331.default.createElement(Flipper_default, { "aria-label": rightFlipperAriaLabel, blurFocusOnClick: true, mode: "right" }, rightSideFlipper))));
   };
   CarouselLayoutCore.defaultProps = {
     hideTimestamp: false,
@@ -158481,7 +158753,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   };
   var CarouselLayout = (props) => {
     const { activity: { attachments = [] } = {} } = props;
-    const [direction] = useDirection52();
+    const [direction] = useDirection23();
     const [nonce] = useNonce();
     const filmStyleSet = (0, import_react331.useMemo)(() => createBasicStyleSet({ cursor: null }), []);
     const [{ stylesRoot }] = useStyleOptions82();
@@ -158525,24 +158797,24 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       hasNub,
       showBubble = true
     } = validateProps2(attachmentRowPropsSchema, props);
-    const classNames49 = useStyles_default(StackedLayout_module_default);
-    return /* @__PURE__ */ import_react336.default.createElement("div", { "aria-roledescription": "attachment", className: classNames49["stacked-layout__attachment-row"], role: "group" }, /* @__PURE__ */ import_react336.default.createElement(ScreenReaderText_default, { text: attachedAlt }), showBubble ? /* @__PURE__ */ import_react336.default.createElement(
+    const classNames31 = useStyles_default(StackedLayout_module_default);
+    return /* @__PURE__ */ import_react336.default.createElement("div", { "aria-roledescription": "attachment", className: classNames31["stacked-layout__attachment-row"], role: "group" }, /* @__PURE__ */ import_react336.default.createElement(ScreenReaderText_default, { text: attachedAlt }), showBubble ? /* @__PURE__ */ import_react336.default.createElement(
       Bubble_default,
       {
-        className: classNames49["stacked-layout__attachment"],
+        className: classNames31["stacked-layout__attachment"],
         fromUser,
         nub: hasAvatar || hasNub ? "hidden" : false
       },
       children
-    ) : /* @__PURE__ */ import_react336.default.createElement("div", { className: (0, import_classnames64.default)(classNames49["stacked-layout__attachment"]) }, children));
+    ) : /* @__PURE__ */ import_react336.default.createElement("div", { className: (0, import_classnames63.default)(classNames31["stacked-layout__attachment"]) }, children));
   }
   var AttachmentRow_default = (0, import_react336.memo)(AttachmentRow);
-  var classes43 = { "code-block-content__code-block": "w_R1nMW_code-block-content__code-block", "code-block-content__title": "w_R1nMW_code-block-content__title", "code-block-content": "w_R1nMW_code-block-content", "code-block-content__header": "w_R1nMW_code-block-content__header" };
-  var CodeBlockContent_module_default = classes43;
-  var _code_block_content__code_block0 = classes43["code-block-content__code-block"];
-  var _code_block_content__title0 = classes43["code-block-content__title"];
-  var _code_block_content0 = classes43["code-block-content"];
-  var _code_block_content__header0 = classes43["code-block-content__header"];
+  var classes14 = { "code-block-content": "w_R1nMW_code-block-content", "code-block-content__title": "w_R1nMW_code-block-content__title", "code-block-content__code-block": "w_R1nMW_code-block-content__code-block", "code-block-content__header": "w_R1nMW_code-block-content__header" };
+  var CodeBlockContent_module_default = classes14;
+  var _code_block_content0 = classes14["code-block-content"];
+  var _code_block_content__title0 = classes14["code-block-content__title"];
+  var _code_block_content__code_block0 = classes14["code-block-content__code-block"];
+  var _code_block_content__header0 = classes14["code-block-content__header"];
   var codeBlockContentPropsSchema = pipe(
     object({
       code: string(),
@@ -158553,18 +158825,18 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   );
   function CodeBlockContent(props) {
     const { code: code2, language: language2, title } = validateProps2(codeBlockContentPropsSchema, props);
-    const classNames49 = useStyles_default(CodeBlockContent_module_default);
+    const classNames31 = useStyles_default(CodeBlockContent_module_default);
     const [, CodeBlock2] = useCodeBlockTag();
-    return /* @__PURE__ */ import_react337.default.createElement("div", { className: classNames49["code-block-content"] }, title && /* @__PURE__ */ import_react337.default.createElement("div", { className: (0, import_classnames65.default)(classNames49["code-block-content__header"]) }, /* @__PURE__ */ import_react337.default.createElement("div", { className: (0, import_classnames65.default)(classNames49["code-block-content__title"]) }, title)), /* @__PURE__ */ import_react337.default.createElement(CodeBlock2, { className: (0, import_classnames65.default)(classNames49["code-block-content__code-block"]), language: language2 }, /* @__PURE__ */ import_react337.default.createElement("code", null, code2)));
+    return /* @__PURE__ */ import_react337.default.createElement("div", { className: classNames31["code-block-content"] }, title && /* @__PURE__ */ import_react337.default.createElement("div", { className: (0, import_classnames64.default)(classNames31["code-block-content__header"]) }, /* @__PURE__ */ import_react337.default.createElement("div", { className: (0, import_classnames64.default)(classNames31["code-block-content__title"]) }, title)), /* @__PURE__ */ import_react337.default.createElement(CodeBlock2, { className: (0, import_classnames64.default)(classNames31["code-block-content__code-block"]), language: language2 }, /* @__PURE__ */ import_react337.default.createElement("code", null, code2)));
   }
   var CodeBlockContent_default = (0, import_react337.memo)(CodeBlockContent);
-  var classes53 = { "collapsible-content__content": "wwif4Va_collapsible-content__content", "collapsible-content": "wwif4Va_collapsible-content", "collapsible-content__summary": "wwif4Va_collapsible-content__summary", "collapsible-content__chevron": "wwif4Va_collapsible-content__chevron", "collapsible-content__summary-text": "wwif4Va_collapsible-content__summary-text" };
-  var CollapsibleContent_module_default = classes53;
-  var _collapsible_content__content0 = classes53["collapsible-content__content"];
-  var _collapsible_content0 = classes53["collapsible-content"];
-  var _collapsible_content__summary0 = classes53["collapsible-content__summary"];
-  var _collapsible_content__chevron0 = classes53["collapsible-content__chevron"];
-  var _collapsible_content__summary_text0 = classes53["collapsible-content__summary-text"];
+  var classes15 = { "collapsible-content": "wwif4Va_collapsible-content", "collapsible-content__summary": "wwif4Va_collapsible-content__summary", "collapsible-content__summary-text": "wwif4Va_collapsible-content__summary-text", "collapsible-content__content": "wwif4Va_collapsible-content__content", "collapsible-content__chevron": "wwif4Va_collapsible-content__chevron" };
+  var CollapsibleContent_module_default = classes15;
+  var _collapsible_content0 = classes15["collapsible-content"];
+  var _collapsible_content__summary0 = classes15["collapsible-content__summary"];
+  var _collapsible_content__summary_text0 = classes15["collapsible-content__summary-text"];
+  var _collapsible_content__content0 = classes15["collapsible-content__content"];
+  var _collapsible_content__chevron0 = classes15["collapsible-content__chevron"];
   var collapsibleContentPropsSchema = pipe(
     object({
       children: reactNode_default(),
@@ -158579,7 +158851,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function CollapsibleContent(props) {
     const { children, summary, summaryClassName } = validateProps2(collapsibleContentPropsSchema, props);
     const [id] = (0, import_react338.useState)(() => `webchat-collapsible-content-${uniqueId22()}`);
-    const classNames49 = useStyles_default(CollapsibleContent_module_default);
+    const classNames31 = useStyles_default(CollapsibleContent_module_default);
     const summaryRef = (0, import_react338.useRef)(null);
     const handleToggle = (0, import_react338.useCallback)((event2) => {
       const summary2 = summaryRef.current;
@@ -158592,19 +158864,19 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     }, []);
     return (
       // eslint-disable-next-line react/forbid-dom-props
-      /* @__PURE__ */ import_react338.default.createElement("details", { className: (0, import_classnames66.default)(classNames49["collapsible-content"]), id, onToggle: handleToggle }, /* @__PURE__ */ import_react338.default.createElement(
+      /* @__PURE__ */ import_react338.default.createElement("details", { className: (0, import_classnames65.default)(classNames31["collapsible-content"]), id, onToggle: handleToggle }, /* @__PURE__ */ import_react338.default.createElement(
         "summary",
         {
           "aria-controls": id,
           "aria-expanded": "false",
           "aria-pressed": "false",
-          className: (0, import_classnames66.default)(classNames49["collapsible-content__summary"], summaryClassName),
+          className: (0, import_classnames65.default)(classNames31["collapsible-content__summary"], summaryClassName),
           ref: summaryRef,
           role: "button"
         },
-        summary && /* @__PURE__ */ import_react338.default.createElement("span", { className: classNames49["collapsible-content__summary-text"] }, summary),
-        /* @__PURE__ */ import_react338.default.createElement(ComponentIcon_default, { appearance: "text", className: classNames49["collapsible-content__chevron"], icon: "chevron" })
-      ), /* @__PURE__ */ import_react338.default.createElement("div", { className: classNames49["collapsible-content__content"] }, children))
+        summary && /* @__PURE__ */ import_react338.default.createElement("span", { className: classNames31["collapsible-content__summary-text"] }, summary),
+        /* @__PURE__ */ import_react338.default.createElement(ComponentIcon_default, { appearance: "text", className: classNames31["collapsible-content__chevron"], icon: "chevron" })
+      ), /* @__PURE__ */ import_react338.default.createElement("div", { className: classNames31["collapsible-content__content"] }, children))
     );
   }
   var CollapsibleContent_default = (0, import_react338.memo)(CollapsibleContent);
@@ -158625,14 +158897,14 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     }) => {
       const [{ initials: botInitials }] = useAvatarForBot32();
       const localize2 = useLocalizer17();
-      const classNames49 = useStyles_default(StackedLayout_module_default);
+      const classNames31 = useStyles_default(StackedLayout_module_default);
       const messageThing = (0, import_react335.useMemo)(() => getOrgSchemaMessage(activity.entities), [activity]);
       const greetingAlt = (fromUser ? localize2("ACTIVITY_YOU_SAID_ALT") : localize2("ACTIVITY_BOT_SAID_ALT", botInitials || "")).replace(/\s{2,}/gu, " ");
       return /* @__PURE__ */ import_react335.default.createElement(StackedLayoutMain_default, { avatar: showAvatar && renderAvatar && renderAvatar() }, !!(hasDisplayText || (messageThing == null ? void 0 : messageThing.abstract)) && /* @__PURE__ */ import_react335.default.createElement(
         "div",
         {
           "aria-roledescription": "message",
-          className: (0, import_classnames63.default)(classNames49["stacked-layout__message-row"]),
+          className: (0, import_classnames62.default)(classNames31["stacked-layout__message-row"]),
           id,
           role: "group"
         },
@@ -158640,13 +158912,13 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         /* @__PURE__ */ import_react335.default.createElement(
           Bubble_default,
           {
-            className: classNames49["stacked-layout__message"],
+            className: classNames31["stacked-layout__message"],
             fromUser,
             nub: showNub || (hasAvatar || hasNub ? "hidden" : false)
           },
           /* @__PURE__ */ import_react335.default.createElement(ActivityBorderDecorator_default, { activity }, renderBubbleContent(messageThing == null ? void 0 : messageThing.abstract))
         )
-      ), /* @__PURE__ */ import_react335.default.createElement("div", { className: classNames49["stacked-layout__attachment-list"] }, children));
+      ), /* @__PURE__ */ import_react335.default.createElement("div", { className: classNames31["stacked-layout__attachment-list"] }, children));
     }
   );
   StackedLayoutInner.displayName = "StackedLayoutInner";
@@ -158664,7 +158936,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const [{ initials: userInitials }] = useAvatarForUser22();
     const ariaLabelId = useUniqueId("webchat__stacked-layout__id");
     const localize2 = useLocalizer17();
-    const classNames49 = useStyles_default(StackedLayout_module_default);
+    const classNames31 = useStyles_default(StackedLayout_module_default);
     const { bubbleNubOffset, bubbleNubSize, bubbleFromUserNubOffset, bubbleFromUserNubSize } = styleOptions;
     const isMessageOrTyping = activity.type === "message" || activity.type === "typing";
     const attachments = (0, import_react335.useMemo)(() => isMessageOrTyping && activity.attachments || [], [activity, isMessageOrTyping]);
@@ -158694,14 +158966,14 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const showNub = !isInGroup && showCallout && hasNub && (topAlignedCallout || !(attachments == null ? void 0 : attachments.length));
     const showStatus = !!(messageThing == null ? void 0 : messageThing.creativeWorkStatus) || isInGroup;
     const renderMainBubbleContent = (0, import_react335.useCallback)(
-      (title = "", withStatus = true) => /* @__PURE__ */ import_react335.default.createElement("div", { className: classNames49["stacked-layout__bubble"] }, withStatus && showStatus && /* @__PURE__ */ import_react335.default.createElement(StackedLayoutMessageStatus_default, { creativeWorkStatus: messageThing == null ? void 0 : messageThing.creativeWorkStatus }), title && /* @__PURE__ */ import_react335.default.createElement("div", { className: classNames49["stacked-layout__title"] }, title), activityDisplayText && renderAttachment({
+      (title = "", withStatus = true) => /* @__PURE__ */ import_react335.default.createElement("div", { className: classNames31["stacked-layout__bubble"] }, withStatus && showStatus && /* @__PURE__ */ import_react335.default.createElement(StackedLayoutMessageStatus_default, { creativeWorkStatus: messageThing == null ? void 0 : messageThing.creativeWorkStatus }), title && /* @__PURE__ */ import_react335.default.createElement("div", { className: classNames31["stacked-layout__title"] }, title), activityDisplayText && renderAttachment({
         activity,
         attachment: {
           content: activityDisplayText,
           contentType: textFormatToContentType("textFormat" in activity ? activity.textFormat : void 0)
         }
       })),
-      [activity, activityDisplayText, classNames49, messageThing == null ? void 0 : messageThing.creativeWorkStatus, renderAttachment, showStatus]
+      [activity, activityDisplayText, classNames31, messageThing == null ? void 0 : messageThing.creativeWorkStatus, renderAttachment, showStatus]
     );
     const attachmentChildren = (0, import_react335.useMemo)(() => {
       const syntheticAttachments = [];
@@ -158777,15 +159049,15 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       renderMainBubbleContent
     ]);
     const renderCollapsibleBubbleContent = (0, import_react335.useCallback)(
-      (title = "") => /* @__PURE__ */ import_react335.default.createElement("div", { className: classNames49["stacked-layout__bubble"] }, showStatus && /* @__PURE__ */ import_react335.default.createElement(StackedLayoutMessageStatus_default, { creativeWorkStatus: messageThing == null ? void 0 : messageThing.creativeWorkStatus }), /* @__PURE__ */ import_react335.default.createElement(
+      (title = "") => /* @__PURE__ */ import_react335.default.createElement("div", { className: classNames31["stacked-layout__bubble"] }, showStatus && /* @__PURE__ */ import_react335.default.createElement(StackedLayoutMessageStatus_default, { creativeWorkStatus: messageThing == null ? void 0 : messageThing.creativeWorkStatus }), /* @__PURE__ */ import_react335.default.createElement(
         CollapsibleContent_default,
         {
           summary: title,
-          summaryClassName: (0, import_classnames63.default)(classNames49["stacked-layout__title"], classNames49["stacked-layout__title--collapsible"])
+          summaryClassName: (0, import_classnames62.default)(classNames31["stacked-layout__title"], classNames31["stacked-layout__title--collapsible"])
         },
-        /* @__PURE__ */ import_react335.default.createElement("div", { className: classNames49["stacked-layout__attachment-list"] }, attachmentChildren)
+        /* @__PURE__ */ import_react335.default.createElement("div", { className: classNames31["stacked-layout__attachment-list"] }, attachmentChildren)
       )),
-      [attachmentChildren, classNames49, messageThing == null ? void 0 : messageThing.creativeWorkStatus, showStatus]
+      [attachmentChildren, classNames31, messageThing == null ? void 0 : messageThing.creativeWorkStatus, showStatus]
     );
     const renderBubbleContent = isCollapsible ? renderCollapsibleBubbleContent : renderMainBubbleContent;
     return /* @__PURE__ */ import_react335.default.createElement(
@@ -159017,6 +159289,13 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     onRetryClick: import_prop_types32.default.func.isRequired
   };
   var SendFailedRetry_default = SendFailedRetry;
+  var classes16 = { "activity-status__originator": "wlpDjkW_activity-status__originator", "activity-status__originator--has-link": "wlpDjkW_activity-status__originator--has-link", "activity-status": "wlpDjkW_activity-status", "activity-status-slot": "wlpDjkW_activity-status-slot", "activity-status--slotted": "wlpDjkW_activity-status--slotted" };
+  var ActivityStatus_module_default = classes16;
+  var _activity_status__originator0 = classes16["activity-status__originator"];
+  var _activity_status__originator__has_link0 = classes16["activity-status__originator--has-link"];
+  var _activity_status0 = classes16["activity-status"];
+  var _activity_status_slot0 = classes16["activity-status-slot"];
+  var _activity_status__slotted0 = classes16["activity-status--slotted"];
   var { useLocalizer: useLocalizer19, usePostActivity: usePostActivity22 } = hook_exports;
   var sendStatusPropsSchema = pipe(
     object({
@@ -159027,16 +159306,16 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   );
   function SendStatus(props) {
     const { activity, sendStatus } = validateProps2(sendStatusPropsSchema, props);
-    const [{ sendStatus: sendStatusStyleSet }] = useStyleSet();
     const focus = useFocus();
     const localize2 = useLocalizer19();
     const postActivity3 = usePostActivity22();
+    const classNames31 = useStyles_default(ActivityStatus_module_default);
     const handleRetryClick = (0, import_react340.useCallback)(() => {
       postActivity3(activity);
       focus("sendBoxWithoutKeyboard");
     }, [activity, focus, postActivity3]);
     const sendingText = localize2("ACTIVITY_STATUS_SEND_STATUS_ALT_SENDING");
-    return /* @__PURE__ */ import_react340.default.createElement(import_react340.default.Fragment, null, /* @__PURE__ */ import_react340.default.createElement("span", { className: (0, import_classnames67.default)("webchat__activity-status", "webchat__activity-status--sending", sendStatusStyleSet) }, sendStatus === SENDING3 ? sendingText : sendStatus === SEND_FAILED3 ? /* @__PURE__ */ import_react340.default.createElement(SendFailedRetry_default, { onRetryClick: handleRetryClick }) : false));
+    return /* @__PURE__ */ import_react340.default.createElement(import_react340.default.Fragment, null, /* @__PURE__ */ import_react340.default.createElement("span", { className: classNames31["activity-status"] }, sendStatus === SENDING3 ? sendingText : sendStatus === SEND_FAILED3 ? /* @__PURE__ */ import_react340.default.createElement(SendFailedRetry_default, { onRetryClick: handleRetryClick }) : false));
   }
   var SendStatus_default = (0, import_react340.memo)(SendStatus);
   function createSendStatusMiddleware() {
@@ -159632,8 +159911,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         var value = data[normalize2(feature)];
         return value === POLYFILL ? true : value === NATIVE ? false : isCallable2(detection) ? fails3(detection) : !!detection;
       };
-      var normalize2 = isForced.normalize = function(string45) {
-        return String(string45).replace(replacement, ".").toLowerCase();
+      var normalize2 = isForced.normalize = function(string44) {
+        return String(string44).replace(replacement, ".").toLowerCase();
       };
       var data = isForced.data = {};
       var NATIVE = isForced.NATIVE = "N";
@@ -159732,11 +160011,11 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       var DESCRIPTORS2 = require_descriptors10();
       var definePropertyModule = require_object_define_property10();
       var createPropertyDescriptor = require_create_property_descriptor10();
-      module.exports = DESCRIPTORS2 ? function(object62, key2, value) {
-        return definePropertyModule.f(object62, key2, createPropertyDescriptor(1, value));
-      } : function(object62, key2, value) {
-        object62[key2] = value;
-        return object62;
+      module.exports = DESCRIPTORS2 ? function(object61, key2, value) {
+        return definePropertyModule.f(object61, key2, createPropertyDescriptor(1, value));
+      } : function(object61, key2, value) {
+        object61[key2] = value;
+        return object61;
       };
     }
   });
@@ -159820,8 +160099,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       var globalThis2 = require_global_this9();
       var userAgent22 = require_environment_user_agent9();
       var classof = require_classof_raw10();
-      var userAgentStartsWith = function(string45) {
-        return userAgent22.slice(0, string45.length) === string45;
+      var userAgentStartsWith = function(string44) {
+        return userAgent22.slice(0, string44.length) === string44;
       };
       module.exports = (function() {
         if (userAgentStartsWith("Bun/")) return "BUN";
@@ -159859,9 +160138,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       "use strict";
       var uncurryThis = require_function_uncurry_this9();
       var aCallable = require_a_callable10();
-      module.exports = function(object62, key2, method) {
+      module.exports = function(object61, key2, method) {
         try {
-          return uncurryThis(aCallable(Object.getOwnPropertyDescriptor(object62, key2)[method]));
+          return uncurryThis(aCallable(Object.getOwnPropertyDescriptor(object61, key2)[method]));
         } catch (error2) {
         }
       };
@@ -161039,15 +161318,15 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         }
         var ITERATION_SUPPORT = false;
         try {
-          var object62 = {};
-          object62[ITERATOR] = function() {
+          var object61 = {};
+          object61[ITERATOR] = function() {
             return {
               next: function() {
                 return { done: ITERATION_SUPPORT = true };
               }
             };
           };
-          exec2(object62);
+          exec2(object61);
         } catch (error2) {
         }
         return ITERATION_SUPPORT;
@@ -161403,6 +161682,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       project: { name, slogan, url: url2 }
     } = validateProps2(originatorPropsSchema, props);
     const sanitizeHref = useSanitizeHrefCallback();
+    const classNames31 = useStyles_default(ActivityStatus_module_default);
     const { sanitizedHref } = sanitizeHref(url2);
     const text6 = slogan || name;
     return sanitizedHref ? (
@@ -161411,17 +161691,20 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       /* @__PURE__ */ import_react346.default.createElement(
         "a",
         {
-          className: "webchat__activity-status__originator webchat__activity-status__originator--has-link",
+          className: (0, import_classnames67.default)(classNames31["activity-status__originator"], classNames31["activity-status__originator--has-link"]),
           href: sanitizedHref,
           rel: "noopener noreferrer",
           target: "_blank"
         },
         text6
       )
-    ) : /* @__PURE__ */ import_react346.default.createElement("span", { className: "webchat__activity-status__originator" }, text6);
+    ) : /* @__PURE__ */ import_react346.default.createElement("span", { className: classNames31["activity-status__originator"] }, text6);
   });
   var Originator_default = Originator;
-  var StatusSlot = ({ children, className }) => /* @__PURE__ */ import_react347.default.createElement("span", { className: (0, import_classnames69.default)("webchat__activity-status-slot", className) }, children);
+  var StatusSlot = ({ children, className }) => {
+    const classNames31 = useStyles_default(ActivityStatus_module_default);
+    return /* @__PURE__ */ import_react347.default.createElement("span", { className: (0, import_classnames68.default)(classNames31["activity-status-slot"], className) }, children);
+  };
   StatusSlot.displayName = "StatusSlot";
   var StatusSlot_default = (0, import_react347.memo)(StatusSlot);
   var { usePonyfill: usePonyfill23 } = hook_exports;
@@ -161491,9 +161774,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   var warnRootLevelThings = warnOnce5(
     'Root-level things are being deprecated, please relate all things to `entities[@id=""]` instead. This feature will be removed in 2025-03-06.'
   );
-  var OthersActivityStatus = (0, import_react345.memo)(({ activity, className }) => {
+  var OthersActivityStatus = (0, import_react345.memo)(({ activity, className, slotted }) => {
     const [{ feedbackActionsPlacement }] = useStyleOptions12();
-    const [{ sendStatus }] = useStyleSet();
+    const classNames31 = useStyles_default(ActivityStatus_module_default);
     const { timestamp } = activity;
     const graph = (0, import_react345.useMemo)(() => dereferenceBlankNodes(activity.entities || []), [activity.entities]);
     const messageThing = (0, import_react345.useMemo)(() => getOrgSchemaMessage(graph), [graph]);
@@ -161516,17 +161799,25 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       } catch {
       }
     }, [graph, messageThing]);
-    return /* @__PURE__ */ import_react345.default.createElement("span", { className: (0, import_classnames68.default)("webchat__activity-status", className, sendStatus + "") }, timestamp && /* @__PURE__ */ import_react345.default.createElement(StatusSlot_default, null, /* @__PURE__ */ import_react345.default.createElement(Timestamp_default, { key: "timestamp", timestamp })), claimInterpreter && /* @__PURE__ */ import_react345.default.createElement(StatusSlot_default, null, /* @__PURE__ */ import_react345.default.createElement(Originator_default, { key: "originator", project: claimInterpreter })), feedbackActionsPlacement === "activity-status" && /* @__PURE__ */ import_react345.default.createElement(StatusSlot_default, null, /* @__PURE__ */ import_react345.default.createElement(ActivityFeedback_default, { activity, key: "feedback" })));
+    return /* @__PURE__ */ import_react345.default.createElement(
+      "span",
+      {
+        className: (0, import_classnames66.default)(classNames31["activity-status"], { [classNames31["activity-status--slotted"]]: slotted }, className)
+      },
+      timestamp && /* @__PURE__ */ import_react345.default.createElement(StatusSlot_default, null, /* @__PURE__ */ import_react345.default.createElement(Timestamp_default, { key: "timestamp", timestamp })),
+      claimInterpreter && /* @__PURE__ */ import_react345.default.createElement(StatusSlot_default, null, /* @__PURE__ */ import_react345.default.createElement(Originator_default, { key: "originator", project: claimInterpreter })),
+      feedbackActionsPlacement === "activity-status" && /* @__PURE__ */ import_react345.default.createElement(StatusSlot_default, null, /* @__PURE__ */ import_react345.default.createElement(ActivityFeedback_default, { activity, key: "feedback" }))
+    );
   });
   OthersActivityStatus.displayName = "OthersActivityStatus";
   var OthersActivityStatus_default = OthersActivityStatus;
-  var SelftActivityStatus = (0, import_react352.memo)(({ activity, className }) => {
-    const [{ sendStatus }] = useStyleSet();
+  var SelftActivityStatus = (0, import_react352.memo)(({ activity, className, slotted }) => {
+    const classNames31 = useStyles_default(ActivityStatus_module_default);
     const { timestamp } = activity;
     return timestamp ? /* @__PURE__ */ import_react352.default.createElement(
       "span",
       {
-        className: (0, import_classnames70.default)("webchat__activity-status", "webchat__activity-status--self", className, sendStatus + "")
+        className: (0, import_classnames69.default)(classNames31["activity-status"], { [classNames31["activity-status--slotted"]]: slotted }, className)
       },
       /* @__PURE__ */ import_react352.default.createElement(Timestamp_default, { timestamp })
     ) : null;
@@ -161541,9 +161832,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       } else if (hideTimestamp) {
         return /* @__PURE__ */ import_react343.default.createElement(AbsoluteTime_default, { hide: true, value: activity.timestamp });
       } else if (activity.from.role === "bot") {
-        return /* @__PURE__ */ import_react343.default.createElement(OthersActivityStatus_default, { activity, className: "webchat__activity-status--slotted" });
+        return /* @__PURE__ */ import_react343.default.createElement(OthersActivityStatus_default, { activity, slotted: true });
       }
-      return /* @__PURE__ */ import_react343.default.createElement(SelfActivityStatus_default, { activity, className: "webchat__activity-status--slotted" });
+      return /* @__PURE__ */ import_react343.default.createElement(SelfActivityStatus_default, { activity, slotted: true });
     };
   }
   function createCoreMiddleware3() {
@@ -161610,7 +161901,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     ];
   }
   var { useAvatarForBot: useAvatarForBot4, useAvatarForUser: useAvatarForUser3 } = hook_exports;
-  var ROOT_STYLE82 = {
+  var ROOT_STYLE42 = {
     "& .webchat__imageAvatar__image": {
       width: "100%",
       height: "auto"
@@ -161627,13 +161918,13 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const [{ image: avatarImageForBot }] = useAvatarForBot4();
     const [{ image: avatarImageForUser }] = useAvatarForUser3();
     const [{ imageAvatar: imageAvatarStyleSet }] = useStyleSet();
-    const rootClassName = useStyleToEmotionObject()(ROOT_STYLE82) + "";
+    const rootClassName = useStyleToEmotionObject()(ROOT_STYLE42) + "";
     const avatarImage = fromUser ? avatarImageForUser : avatarImageForBot;
-    return !!avatarImage && /* @__PURE__ */ import_react360.default.createElement("div", { className: (0, import_classnames72.default)("webchat__imageAvatar", rootClassName, imageAvatarStyleSet + "") }, /* @__PURE__ */ import_react360.default.createElement("img", { alt: "", className: "webchat__imageAvatar__image", src: fromUser ? avatarImageForUser : avatarImageForBot }));
+    return !!avatarImage && /* @__PURE__ */ import_react360.default.createElement("div", { className: (0, import_classnames71.default)("webchat__imageAvatar", rootClassName, imageAvatarStyleSet + "") }, /* @__PURE__ */ import_react360.default.createElement("img", { alt: "", className: "webchat__imageAvatar__image", src: fromUser ? avatarImageForUser : avatarImageForBot }));
   };
   var ImageAvatar_default = (0, import_react360.memo)(ImageAvatar);
   var { useAvatarForBot: useAvatarForBot5, useAvatarForUser: useAvatarForUser4 } = hook_exports;
-  var ROOT_STYLE92 = {
+  var ROOT_STYLE52 = {
     alignItems: "center",
     display: "flex",
     "& .webchat__initialsAvatar__initials": {
@@ -161651,11 +161942,11 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const [{ initials: avatarInitialsForBot }] = useAvatarForBot5();
     const [{ initials: avatarInitialsForUser }] = useAvatarForUser4();
     const [{ initialsAvatar: initialsAvatarStyleSet }] = useStyleSet();
-    const rootClassName = useStyleToEmotionObject()(ROOT_STYLE92) + "";
+    const rootClassName = useStyleToEmotionObject()(ROOT_STYLE52) + "";
     return /* @__PURE__ */ import_react361.default.createElement(
       "div",
       {
-        className: (0, import_classnames73.default)(
+        className: (0, import_classnames72.default)(
           "webchat__initialsAvatar",
           {
             "webchat__initialsAvatar--fromUser": fromUser
@@ -161668,7 +161959,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     );
   }
   var InitialsAvatar_default = (0, import_react361.memo)(InitialsAvatar);
-  var ROOT_STYLE102 = {
+  var ROOT_STYLE62 = {
     overflow: ["hidden", "clip"],
     position: "relative",
     "> *": {
@@ -161688,12 +161979,12 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function DefaultAvatar(props) {
     const { "aria-hidden": ariaHidden = true, className, fromUser } = validateProps2(defaultAvatarPropsSchema, props);
     const [{ avatar: avatarStyleSet }] = useStyleSet();
-    const rootClassName = useStyleToEmotionObject()(ROOT_STYLE102) + "";
+    const rootClassName = useStyleToEmotionObject()(ROOT_STYLE62) + "";
     return /* @__PURE__ */ import_react359.default.createElement(
       "div",
       {
         "aria-hidden": ariaHidden,
-        className: (0, import_classnames71.default)(
+        className: (0, import_classnames70.default)(
           "webchat__defaultAvatar",
           { "webchat__defaultAvatar--fromUser": fromUser },
           rootClassName,
@@ -161799,7 +162090,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       {
         "aria-keyshortcuts": shouldShowNewMessagesButton ? localizeAccessKey(newMessagesAccessKey) : void 0,
         "aria-label": text6,
-        className: (0, import_classnames74.default)("webchat__scroll-to-end-button", scrollToEndButtonStyleSet + ""),
+        className: (0, import_classnames73.default)("webchat__scroll-to-end-button", scrollToEndButtonStyleSet + ""),
         onClick: onClick2,
         ref: focusRef,
         tabIndex: 0,
@@ -161919,7 +162210,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
   var useInternalRenderMarkdownInline_default = useInternalRenderMarkdownInline;
   var { useDismissNotification: useDismissNotification2, useLocalizer: useLocalizer29 } = hook_exports;
-  var ROOT_STYLE112 = {
+  var ROOT_STYLE72 = {
     display: "flex",
     "& .webchat__toast__text": {
       flex: 1
@@ -161931,7 +162222,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const localize2 = useLocalizer29();
     const dismissNotification2 = useDismissNotification2();
     const renderMarkdownInline = useInternalRenderMarkdownInline_default();
-    const rootClassName = useStyleToEmotionObject()(ROOT_STYLE112) + "";
+    const rootClassName = useStyleToEmotionObject()(ROOT_STYLE72) + "";
     const handleDismiss = (0, import_react364.useCallback)(() => dismissNotification2(id), [dismissNotification2, id]);
     const html5 = (0, import_react364.useMemo)(() => ({ __html: renderMarkdownInline(message) }), [message, renderMarkdownInline]);
     return /* @__PURE__ */ import_react364.default.createElement(
@@ -161939,7 +162230,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       {
         "aria-describedby": contentId,
         "aria-label": localize2("TOAST_TITLE_ALT"),
-        className: (0, import_classnames75.default)(
+        className: (0, import_classnames74.default)(
           "webchat__toast",
           {
             "webchat__toast--error": level === "error",
@@ -161994,20 +162285,20 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     ];
   }
   var createCoreMiddleware_default = createCoreMiddleware5;
-  var { useDirection: useDirection6, useLocalizer: useLocalizer30 } = hook_exports;
-  var ROOT_STYLE12 = {
+  var { useDirection: useDirection32, useLocalizer: useLocalizer30 } = hook_exports;
+  var ROOT_STYLE82 = {
     "&.webchat__typing-indicator.webchat__typing-indicator--rtl": { transform: "scale(-1, 1)" }
   };
   var TypingAnimation = () => {
     const [{ typingAnimation: typingAnimationStyleSet }] = useStyleSet();
-    const [direction] = useDirection6();
+    const [direction] = useDirection32();
     const localize2 = useLocalizer30();
-    const rootClassName = useStyleToEmotionObject()(ROOT_STYLE12) + "";
+    const rootClassName = useStyleToEmotionObject()(ROOT_STYLE82) + "";
     return /* @__PURE__ */ import_react370.default.createElement(import_react370.default.Fragment, null, /* @__PURE__ */ import_react370.default.createElement(ScreenReaderText_default, { text: localize2("TYPING_INDICATOR_ALT") }), /* @__PURE__ */ import_react370.default.createElement(
       "div",
       {
         "aria-hidden": true,
-        className: (0, import_classnames77.default)(
+        className: (0, import_classnames76.default)(
           "webchat__typing-indicator",
           {
             "webchat__typing-indicator--rtl": direction === "rtl"
@@ -162020,24 +162311,24 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     ));
   };
   var TypingAnimation_default = TypingAnimation;
-  var { useDirection: useDirection7, useLocalizer: useLocalizer31 } = hook_exports;
+  var { useDirection: useDirection42, useLocalizer: useLocalizer31 } = hook_exports;
   var DotIndicator = () => {
     const [{ typingIndicator: typingIndicatorStyleSet }] = useStyleSet();
-    const [direction] = useDirection7();
+    const [direction] = useDirection42();
     const localize2 = useLocalizer31();
-    return /* @__PURE__ */ import_react369.default.createElement("div", { className: (0, import_classnames76.default)(typingIndicatorStyleSet + "", direction === "rtl" && "webchat__typing-indicator--rtl") }, /* @__PURE__ */ import_react369.default.createElement(TypingAnimation_default, { "aria-label": localize2("TYPING_INDICATOR_ALT") }));
+    return /* @__PURE__ */ import_react369.default.createElement("div", { className: (0, import_classnames75.default)(typingIndicatorStyleSet + "", direction === "rtl" && "webchat__typing-indicator--rtl") }, /* @__PURE__ */ import_react369.default.createElement(TypingAnimation_default, { "aria-label": localize2("TYPING_INDICATOR_ALT") }));
   };
   function createCoreMiddleware6() {
     return [
       () => () => ({ visible }) => visible && /* @__PURE__ */ import_react369.default.createElement(DotIndicator, null)
     ];
   }
-  var classes62 = { "code-block__theme--github-dark-default": "wqvreca_code-block__theme--github-dark-default", "code-block": "wqvreca_code-block", "code-block__body": "wqvreca_code-block__body", "code-block__theme--github-light-default": "wqvreca_code-block__theme--github-light-default" };
-  var CodeBlock_module_default = classes62;
-  var _code_block__theme__github_dark_default0 = classes62["code-block__theme--github-dark-default"];
-  var _code_block0 = classes62["code-block"];
-  var _code_block__body0 = classes62["code-block__body"];
-  var _code_block__theme__github_light_default0 = classes62["code-block__theme--github-light-default"];
+  var classes17 = { "code-block": "wqvreca_code-block", "code-block__theme--github-dark-default": "wqvreca_code-block__theme--github-dark-default", "code-block__theme--github-light-default": "wqvreca_code-block__theme--github-light-default", "code-block__body": "wqvreca_code-block__body" };
+  var CodeBlock_module_default = classes17;
+  var _code_block0 = classes17["code-block"];
+  var _code_block__theme__github_dark_default0 = classes17["code-block__theme--github-dark-default"];
+  var _code_block__theme__github_light_default0 = classes17["code-block__theme--github-light-default"];
+  var _code_block__body0 = classes17["code-block__body"];
   var { useStyleOptions: useStyleOptions14, useLocalizer: useLocalizer322 } = hook_exports;
   var _a11, _connected, _originalFragment, _updateTask;
   var CodeBlock = (_a11 = class extends HTMLElement {
@@ -162141,7 +162432,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   };
   function useReactCodeBlockClass(copyButtonTagName) {
     const [codeBlockTarget, codeBlockPropsRef] = useCodeBlockProps(copyButtonTagName);
-    const classNames49 = useStyles_default(CodeBlock_module_default);
+    const classNames31 = useStyles_default(CodeBlock_module_default);
     return (0, import_react372.useMemo)(
       () => {
         var _a29, _prevProps, _ReactCodeBlock_instances, props_get, _handlePropsChange;
@@ -162168,7 +162459,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
             });
           }
           connectedCallback() {
-            this.classList.add(...classNames49["code-block"].split(/\s+/gu));
+            this.classList.add(...classNames31["code-block"].split(/\s+/gu));
             codeBlockTarget.addEventListener("change", __privateGet(this, _handlePropsChange));
             __privateGet(this, _handlePropsChange).call(this);
             super.connectedCallback();
@@ -162177,10 +162468,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
             var _a30, _b4;
             super.update();
             const body3 = this.querySelector("pre");
-            body3 == null ? void 0 : body3.classList.add(...classNames49["code-block__body"].split(/\s+/gu));
+            body3 == null ? void 0 : body3.classList.add(...classNames31["code-block__body"].split(/\s+/gu));
             const theme = (_a30 = this.options) == null ? void 0 : _a30.theme;
             theme && (body3 == null ? void 0 : body3.classList.add(
-              ...((_b4 = classNames49[`code-block__theme--${theme}`]) != null ? _b4 : `code-block__theme--${theme}`).split(/\s+/gu)
+              ...((_b4 = classNames31[`code-block__theme--${theme}`]) != null ? _b4 : `code-block__theme--${theme}`).split(/\s+/gu)
             ));
           }
           disconnectedCallback() {
@@ -162198,7 +162489,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           return codeBlockPropsRef.current;
         }, _handlePropsChange = new WeakMap(), __publicField(_a29, "observedAttributes", CodeBlock.observedAttributes), _a29;
       },
-      [classNames49, codeBlockPropsRef, codeBlockTarget]
+      [classNames31, codeBlockPropsRef, codeBlockTarget]
     );
   }
   var ConnectionState = {
@@ -162257,12 +162548,12 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       return Object.freeze(Object.fromEntries(propEntries));
     }, _a29;
   }
-  var classes7 = { "code-block-copy-button": "wMGtala_code-block-copy-button", "code-block-copy-button__icon": "wMGtala_code-block-copy-button__icon", "code-block-copy-button__icon--copied": "wMGtala_code-block-copy-button__icon--copied", "code-block-copy-button--copied": "wMGtala_code-block-copy-button--copied" };
-  var CodeBlockCopyButton_module_default = classes7;
-  var _code_block_copy_button0 = classes7["code-block-copy-button"];
-  var _code_block_copy_button__icon0 = classes7["code-block-copy-button__icon"];
-  var _code_block_copy_button__icon__copied0 = classes7["code-block-copy-button__icon--copied"];
-  var _code_block_copy_button__copied0 = classes7["code-block-copy-button--copied"];
+  var classes18 = { "code-block-copy-button--copied": "wMGtala_code-block-copy-button--copied", "code-block-copy-button": "wMGtala_code-block-copy-button", "code-block-copy-button__icon--copied": "wMGtala_code-block-copy-button__icon--copied", "code-block-copy-button__icon": "wMGtala_code-block-copy-button__icon" };
+  var CodeBlockCopyButton_module_default = classes18;
+  var _code_block_copy_button__copied0 = classes18["code-block-copy-button--copied"];
+  var _code_block_copy_button0 = classes18["code-block-copy-button"];
+  var _code_block_copy_button__icon__copied0 = classes18["code-block-copy-button__icon--copied"];
+  var _code_block_copy_button__icon0 = classes18["code-block-copy-button__icon"];
   var CodeBlockCopyButton = (0, import_react373.memo)(
     ({
       className,
@@ -162270,7 +162561,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       "data-alt-copy": copyAlt,
       "data-value": value
     }) => {
-      const classNames49 = useStyles_default(CodeBlockCopyButton_module_default);
+      const classNames31 = useStyles_default(CodeBlockCopyButton_module_default);
       const [disabled, setDisabled, disabledRef] = useStateWithRef(false);
       const [pressed, setPressed] = (0, import_react373.useState)(false);
       const valueRef = useRefFrom(value);
@@ -162308,8 +162599,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           "aria-disabled": disabled,
           "aria-live": "assertive",
           "aria-pressed": pressed ? "true" : void 0,
-          className: (0, import_classnames78.default)(className, classNames49["code-block-copy-button"], {
-            [classNames49["code-block-copy-button--copied"]]: pressed
+          className: (0, import_classnames77.default)(className, classNames31["code-block-copy-button"], {
+            [classNames31["code-block-copy-button--copied"]]: pressed
           }),
           "data-testid": testIds_default.codeBlockCopyButton,
           onAnimationEnd: handleAnimationEnd,
@@ -162321,7 +162612,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           {
             "aria-hidden": pressed ? "true" : void 0,
             "aria-label": copyAlt,
-            className: (0, import_classnames78.default)(classNames49["code-block-copy-button__icon"], classNames49["code-block-copy-button__icon--copy"]),
+            className: (0, import_classnames77.default)(classNames31["code-block-copy-button__icon"], classNames31["code-block-copy-button__icon--copy"]),
             icon: pressed ? "copy-code-checkmark" : "copy-code",
             role: "img"
           }
@@ -162331,7 +162622,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           {
             "aria-hidden": pressed ? void 0 : "true",
             "aria-label": copiedAlt,
-            className: (0, import_classnames78.default)(classNames49["code-block-copy-button__icon"], classNames49["code-block-copy-button__icon--copied"]),
+            className: (0, import_classnames77.default)(classNames31["code-block-copy-button__icon"], classNames31["code-block-copy-button__icon--copied"]),
             role: "img"
           }
         )
@@ -162472,13 +162763,13 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     }, [error2, hasValue]);
     const errorMessage = error2 && errorMessageStringMap.get(error2);
     useLiveRegion(
-      () => errorMessage && /* @__PURE__ */ import_react376.default.createElement("div", { className: (0, import_classnames79.default)("webchat__submit-error-message__status") }, errorMessage),
+      () => errorMessage && /* @__PURE__ */ import_react376.default.createElement("div", { className: (0, import_classnames78.default)("webchat__submit-error-message__status") }, errorMessage),
       [errorMessage]
     );
     return /* @__PURE__ */ import_react376.default.createElement(Context_default23.Provider, { value: context9 }, children, /* @__PURE__ */ import_react376.default.createElement(
       "span",
       {
-        className: (0, import_classnames79.default)("webchat__submit-error-message", submitErrorMessageClassName),
+        className: (0, import_classnames78.default)("webchat__submit-error-message", submitErrorMessageClassName),
         id: submitErrorMessageId
       },
       error2 ? errorMessageStringMap.get(error2) : ""
@@ -162506,7 +162797,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         {
           "aria-label": !ariaLabelledBy ? ariaLabel : void 0,
           "aria-labelledby": ariaLabelledBy,
-          className: (0, import_classnames80.default)("webchat__modal-dialog", className, modalDialogStyleSet + ""),
+          className: (0, import_classnames79.default)("webchat__modal-dialog", className, modalDialogStyleSet + ""),
           onClose: onDismiss,
           open: false,
           ref: dialogRef,
@@ -162594,7 +162885,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   };
   var createMiddleware = () => Object.freeze([() => () => () => HideableSendBox]);
   var createMiddleware_default = createMiddleware;
-  var ROOT_STYLE13 = {
+  var ROOT_STYLE92 = {
     "&.webchat__attachment-icon": {
       display: "grid",
       gridTemplateArea: "body",
@@ -162617,11 +162908,11 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     }
   };
   var AttachmentIcon = ({ checked }) => {
-    const rootClassName = useStyleToEmotionObject()(ROOT_STYLE13) + "";
+    const rootClassName = useStyleToEmotionObject()(ROOT_STYLE92) + "";
     return /* @__PURE__ */ import_react385.default.createElement(
       "div",
       {
-        className: (0, import_classnames82.default)(
+        className: (0, import_classnames81.default)(
           "webchat__attachment-icon",
           { "webchat__attachment-icon--checked": checked },
           rootClassName
@@ -162639,7 +162930,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   };
   var AttachmentIcon_default = AttachmentIcon;
   var { useSendBoxAttachments: useSendBoxAttachments22, useLocalizer: useLocalizer35, useStyleOptions: useStyleOptions16, useUIState: useUIState42 } = hook_exports;
-  var ROOT_STYLE14 = {
+  var ROOT_STYLE102 = {
     "&.webchat__upload-button": {
       display: "flex",
       overflow: "hidden",
@@ -162672,7 +162963,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const inputRef = (0, import_react384.useRef)(null);
     const localize2 = useLocalizer35();
     const makeThumbnail2 = useMakeThumbnail();
-    const rootClassName = useStyleToEmotionObject()(ROOT_STYLE14) + "";
+    const rootClassName = useStyleToEmotionObject()(ROOT_STYLE102) + "";
     const submit = useSubmit();
     const disabled = uiState === "disabled";
     const sendAttachmentOnRef = useRefFrom(sendAttachmentOn);
@@ -162707,7 +162998,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       },
       [focus, makeThumbnail2, sendBoxAttachmentsRef, sendAttachmentOnRef, setInputKey, setSendBoxAttachments2, submit]
     );
-    return /* @__PURE__ */ import_react384.default.createElement("div", { className: (0, import_classnames81.default)(rootClassName, "webchat__upload-button", uploadButtonStyleSet + "", className) }, /* @__PURE__ */ import_react384.default.createElement(
+    return /* @__PURE__ */ import_react384.default.createElement("div", { className: (0, import_classnames80.default)(rootClassName, "webchat__upload-button", uploadButtonStyleSet + "", className) }, /* @__PURE__ */ import_react384.default.createElement(
       "input",
       {
         accept: uploadAccept,
@@ -165103,48 +165394,6 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       width: "100%"
     };
   }
-  function createSpeechToSpeechExperienceStyle({
-    speechToSpeechButtonBackgroundColor,
-    speechToSpeechButtonRecordingBackgroundColor,
-    speechToSpeechButtonTextColor,
-    speechToSpeechButtonBorderRadius,
-    speechToSpeechButtonPaddingBlock,
-    speechToSpeechButtonPaddingInline,
-    speechToSpeechButtonGap
-  }) {
-    return {
-      "&.webchat__s2s-experience__footer": {
-        display: "flex",
-        justifyContent: "center",
-        padding: "16px",
-        "& .webchat__s2s-experience__button": {
-          backgroundColor: speechToSpeechButtonBackgroundColor,
-          color: speechToSpeechButtonTextColor,
-          border: "none",
-          borderRadius: `${speechToSpeechButtonBorderRadius}px`,
-          padding: `${speechToSpeechButtonPaddingBlock}px ${speechToSpeechButtonPaddingInline}px`,
-          fontSize: "14px",
-          fontWeight: "500",
-          cursor: "pointer",
-          display: "flex",
-          alignItems: "center",
-          gap: `${speechToSpeechButtonGap}px`,
-          transition: "all 0.2s ease",
-          "&:hover": {
-            transform: "translateY(-2px)"
-          },
-          "&:disabled": {
-            opacity: 0.6,
-            cursor: "not-allowed",
-            transform: "none"
-          },
-          "&.webchat__s2s-experience__button--recording": {
-            backgroundColor: speechToSpeechButtonRecordingBackgroundColor
-          }
-        }
-      }
-    };
-  }
   function createStyleSet(styleOptions) {
     const strictStyleOptions = normalizeStyleOptions(styleOptions);
     return Object.freeze({
@@ -165199,8 +165448,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       sendStatus: createSendStatusStyle(),
       textContent: createTextContentStyle(),
       thumbButton: ThumbButton_default2(),
-      tooltip: Tooltip_default2(),
-      speechToSpeechExperience: createSpeechToSpeechExperienceStyle(strictStyleOptions)
+      tooltip: Tooltip_default2()
     });
   }
   var customPropertiesContainerPropsSchema = pipe(
@@ -165231,17 +165479,31 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         borderAnimationColor3,
         bubbleAttachmentMaxWidth,
         bubbleAttachmentMinWidth,
+        bubbleBackground,
         bubbleBorderColor,
         bubbleBorderRadius,
         bubbleBorderStyle,
         bubbleBorderWidth,
+        bubbleFromUserBackground,
+        bubbleFromUserBorderColor,
+        bubbleFromUserBorderRadius,
+        bubbleFromUserBorderStyle,
+        bubbleFromUserBorderWidth,
+        bubbleFromUserNubOffset,
+        bubbleFromUserNubSize,
+        bubbleFromUserTextColor,
+        bubbleTextColor,
         bubbleImageMaxHeight,
         bubbleImageMinHeight,
         bubbleMessageMaxWidth,
         bubbleMessageMinWidth,
         bubbleMinHeight,
+        bubbleNubOffset,
+        bubbleNubSize,
         fontSizeSmall,
         markdownExternalLinkIconImage,
+        messageActivityWordBreak,
+        monospaceFont,
         paddingRegular,
         primaryFont,
         sendBoxAttachmentBarMaxHeight,
@@ -165250,6 +165512,14 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         transcriptActivityVisualKeyboardIndicatorColor,
         transcriptActivityVisualKeyboardIndicatorStyle,
         transcriptActivityVisualKeyboardIndicatorWidth,
+        transcriptOverlayButtonBackground,
+        transcriptOverlayButtonBackgroundOnDisabled,
+        transcriptOverlayButtonBackgroundOnFocus,
+        transcriptOverlayButtonBackgroundOnHover,
+        transcriptOverlayButtonColor,
+        transcriptOverlayButtonColorOnDisabled,
+        transcriptOverlayButtonColorOnFocus,
+        transcriptOverlayButtonColorOnHover,
         transcriptTerminatorBackgroundColor,
         transcriptTerminatorBorderRadius,
         transcriptTerminatorColor,
@@ -165273,25 +165543,42 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
 .${webchatCustomPropertiesClass}.${randomClass} {
   display: contents;
   /* From component */
+  ${CustomPropertyNames_default.BackgroundBubble}: ${bubbleBackground};
+  ${CustomPropertyNames_default.BackgroundBubbleUser}: ${bubbleFromUserBackground};
+  ${CustomPropertyNames_default.BackgroundTranscriptOverlayButton}: ${transcriptOverlayButtonBackground};
+  ${CustomPropertyNames_default.BackgroundTranscriptOverlayButtonDisabled}: ${transcriptOverlayButtonBackgroundOnDisabled};
+  ${CustomPropertyNames_default.BackgroundTranscriptOverlayButtonFocus}: ${transcriptOverlayButtonBackgroundOnFocus};
+  ${CustomPropertyNames_default.BackgroundTranscriptOverlayButtonHover}: ${transcriptOverlayButtonBackgroundOnHover};
   ${CustomPropertyNames_default.BackgroundTranscriptTerminator}: ${transcriptTerminatorBackgroundColor};
   ${CustomPropertyNames_default.BorderAnimationColor1}: ${borderAnimationColor1};
   ${CustomPropertyNames_default.BorderAnimationColor2}: ${borderAnimationColor2};
   ${CustomPropertyNames_default.BorderAnimationColor3}: ${borderAnimationColor3};
   ${CustomPropertyNames_default.BorderColorBubble}: ${bubbleBorderColor};
+  ${CustomPropertyNames_default.BorderColorBubbleUser}: ${bubbleFromUserBorderColor};
   ${CustomPropertyNames_default.BorderRadiusBubble}: ${bubbleBorderRadius}px;
+  ${CustomPropertyNames_default.BorderRadiusBubbleUser}: ${bubbleFromUserBorderRadius}px;
   ${CustomPropertyNames_default.BorderRadiusTranscriptTerminator}: ${transcriptTerminatorBorderRadius}px;
   ${CustomPropertyNames_default.BorderStyleBubble}: ${bubbleBorderStyle};
+  ${CustomPropertyNames_default.BorderStyleBubbleUser}: ${bubbleFromUserBorderStyle};
   ${CustomPropertyNames_default.BorderStyleTranscriptActivityVisualKeyboardIndicator}: ${transcriptActivityVisualKeyboardIndicatorStyle};
   ${CustomPropertyNames_default.BorderStyleTranscriptVisualKeyboardIndicator}: ${transcriptVisualKeyboardIndicatorStyle};
   ${CustomPropertyNames_default.BorderWidthBubble}: ${bubbleBorderWidth}px;
+  ${CustomPropertyNames_default.BorderWidthBubbleUser}: ${bubbleFromUserBorderWidth}px;
   ${CustomPropertyNames_default.BorderWidthTranscriptActivityVisualKeyboardIndicator}: ${transcriptActivityVisualKeyboardIndicatorWidth}px;
   ${CustomPropertyNames_default.BorderWidthTranscriptVisualKeyboardIndicator}: ${transcriptVisualKeyboardIndicatorWidth}px;
   ${CustomPropertyNames_default.ColorAccent}: ${accent2};
+  ${CustomPropertyNames_default.ColorBubble}: ${bubbleTextColor};
+  ${CustomPropertyNames_default.ColorBubbleUser}: ${bubbleFromUserTextColor};
   ${CustomPropertyNames_default.ColorSubtle}: ${subtle};
   ${CustomPropertyNames_default.ColorTimestamp}: ${timestampColor || subtle};
   ${CustomPropertyNames_default.ColorTranscriptActivityVisualKeyboardIndicator}: ${transcriptActivityVisualKeyboardIndicatorColor};
+  ${CustomPropertyNames_default.ColorTranscriptOverlayButton}: ${transcriptOverlayButtonColor};
+  ${CustomPropertyNames_default.ColorTranscriptOverlayButtonDisabled}: ${transcriptOverlayButtonColorOnDisabled};
+  ${CustomPropertyNames_default.ColorTranscriptOverlayButtonFocus}: ${transcriptOverlayButtonColorOnFocus || "unset"};
+  ${CustomPropertyNames_default.ColorTranscriptOverlayButtonHover}: ${transcriptOverlayButtonColorOnHover || "unset"};
   ${CustomPropertyNames_default.ColorTranscriptTerminator}: ${transcriptTerminatorColor};
   ${CustomPropertyNames_default.ColorTranscriptVisualKeyboardIndicator}: ${transcriptVisualKeyboardIndicatorColor};
+  ${CustomPropertyNames_default.FontMonospace}: ${monospaceFont};
   ${CustomPropertyNames_default.FontPrimary}: ${primaryFont};
   ${CustomPropertyNames_default.FontSizeSmall}: ${fontSizeSmall};
   ${CustomPropertyNames_default.FontSizeTranscriptTerminator}: ${transcriptTerminatorFontSize}px;
@@ -165306,8 +165593,13 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   ${CustomPropertyNames_default.MinHeightImageBubble}: ${bubbleImageMinHeight}px;
   ${CustomPropertyNames_default.PaddingRegular}: ${paddingRegular}px;
   ${CustomPropertyNames_default.SizeAvatar}: ${avatarSize}px;
+  ${CustomPropertyNames_default.SizeBubbleNub}: ${bubbleNubSize === void 0 ? "unset" : `${bubbleNubSize}px`};
+  ${CustomPropertyNames_default.SizeBubbleNubUser}: ${bubbleFromUserNubSize === void 0 ? "unset" : `${bubbleFromUserNubSize}px`};
+  ${CustomPropertyNames_default.SpaceBubbleNub}: ${bubbleNubOffset}px;
+  ${CustomPropertyNames_default.SpaceBubbleNubUser}: ${bubbleFromUserNubOffset}px;
   ${CustomPropertyNames_default.TransitionDuration}: ${transitionDuration};
   ${CustomPropertyNames_default.TransitionEasing}: ${transitionEasing};
+  ${CustomPropertyNames_default.WordBreakMessageActivity}: ${messageActivityWordBreak};
   /* From bundle */
   ${bundleStyleProps}
 }
@@ -165315,7 +165607,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       const [style] = makeCreateStyles(contents)(`component/CustomPropertiesContainer-${uniqueId32()}`);
       return [Object.freeze([style]), Object.freeze([`${webchatCustomPropertiesClass} ${randomClass}`])];
     }, [styleOptions]);
-    return /* @__PURE__ */ import_react386.default.createElement("div", { className: (0, import_classnames83.default)(className, classNameState[0]), ref }, /* @__PURE__ */ import_react386.default.createElement(InjectStyleElements_default, { at: styleOptions.stylesRoot, nonce, styleElements: styleElements22 }), children);
+    return /* @__PURE__ */ import_react386.default.createElement("div", { className: (0, import_classnames82.default)(className, classNameState[0]), ref }, /* @__PURE__ */ import_react386.default.createElement(InjectStyleElements_default, { at: styleOptions.stylesRoot, nonce, styleElements: styleElements22 }), children);
   }
   CustomPropertiesContainer.displayName = "CustomPropertiesContainer";
   var CSSCustomPropertiesContainer_default = (0, import_react386.memo)((0, import_react386.forwardRef)(CustomPropertiesContainer));
@@ -165403,15 +165695,89 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
 .webchat .w1GPAoW_icon--unchecked-circle {
   --webchat__component-icon--mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 14 14"><path fill="currentColor" d="M1 7a6 6 0 1 1 12 0A6 6 0 0 1 1 7m6-7a7 7 0 1 0 0 14A7 7 0 0 0 7 0z"/></svg>');
 }
-.webchat .w1GPAoW_icon--microphone-gradient {
-  --webchat__component-icon--image: url('data:image/svg+xml;utf8,<svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M30 1.5C45.7401 1.5 58.5 14.2599 58.5 30C58.5 45.7401 45.7401 58.5 30 58.5C14.2599 58.5 1.5 45.7401 1.5 30C1.5 14.2599 14.2599 1.5 30 1.5Z" stroke="white" stroke-width="3"/><path d="M30 1.5C45.7401 1.5 58.5 14.2599 58.5 30C58.5 45.7401 45.7401 58.5 30 58.5C14.2599 58.5 1.5 45.7401 1.5 30C1.5 14.2599 14.2599 1.5 30 1.5Z" stroke="url(%23paint0_linear_4209_3620)" stroke-opacity="0.65" stroke-width="3"/><path d="M36.25 29C36.6297 29 36.9435 29.2822 36.9932 29.6482L37 29.75V30.25C37 33.8094 34.245 36.7254 30.751 36.9817L30.75 39.25C30.75 39.6642 30.4142 40 30 40C29.6203 40 29.3065 39.7178 29.2568 39.3518L29.25 39.25L29.25 36.9818C25.8332 36.7316 23.1228 33.938 23.0041 30.4863L23 30.25V29.75C23 29.3358 23.3358 29 23.75 29C24.1297 29 24.4435 29.2822 24.4932 29.6482L24.5 29.75V30.25C24.5 33.077 26.7344 35.3821 29.5336 35.4956L29.75 35.5H30.25C33.077 35.5 35.3821 33.2656 35.4956 30.4664L35.5 30.25V29.75C35.5 29.3358 35.8358 29 36.25 29ZM30 20C32.2091 20 34 21.7909 34 24V30C34 32.2091 32.2091 34 30 34C27.7909 34 26 32.2091 26 30V24C26 21.7909 27.7909 20 30 20ZM30 21.5C28.6193 21.5 27.5 22.6193 27.5 24V30C27.5 31.3807 28.6193 32.5 30 32.5C31.3807 32.5 32.5 31.3807 32.5 30V24C32.5 22.6193 31.3807 21.5 30 21.5Z" fill="%23242424"/><defs><linearGradient id="paint0_linear_4209_3620" x1="57.5" y1="58" x2="6" y2="3" gradientUnits="userSpaceOnUse"><stop stop-color="%23EC5EB4"/><stop offset="0.25" stop-color="%231E72E9"/><stop offset="0.5" stop-color="%234ECF82"/><stop offset="0.75" stop-color="%23FCD639"/><stop offset="1" stop-color="%23FEA55F"/></linearGradient></defs></svg>');
-  --webchat__component-icon--color: transparent;
-  --webchat__component-icon--size: 30px;
+
+/* unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/component/src/hooks/RenderMarkdown.module_built.css */
+.webchat .wOO68XW_render-markdown {
+  display: contents;
 }
-.webchat .w1GPAoW_icon--bot-speaking {
-  --webchat__component-icon--image: url('data:image/svg+xml;utf8,<svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="60" height="60" rx="30" fill="black" fill-opacity="0.6"/><path d="M30 21C30.3797 21 30.6935 21.2822 30.7431 21.6482L30.75 21.75V38.25C30.75 38.6642 30.4142 39 30 39C29.6203 39 29.3065 38.7178 29.2568 38.3518L29.25 38.25V21.75C29.25 21.3358 29.5858 21 30 21ZM26.2549 24C26.6346 24 26.9484 24.2822 26.9981 24.6482L27.0049 24.75V35.25C27.0049 35.6642 26.6691 36 26.2549 36C25.8752 36 25.5614 35.7178 25.5118 35.3518L25.5049 35.25V24.75C25.5049 24.3358 25.8407 24 26.2549 24ZM33.745 24C34.1247 24 34.4385 24.2822 34.4882 24.6482L34.495 24.75V35.25C34.495 35.6642 34.1593 36 33.745 36C33.3653 36 33.0515 35.7178 33.0019 35.3518L32.995 35.25V24.75C32.995 24.3358 33.3308 24 33.745 24ZM22.7511 27C23.1308 27 23.4446 27.2822 23.4943 27.6482L23.5011 27.75V32.25C23.5011 32.6642 23.1653 33 22.7511 33C22.3714 33 22.0576 32.7178 22.0079 32.3518L22.0011 32.25V27.75C22.0011 27.3358 22.3369 27 22.7511 27ZM37.2522 27C37.6319 27 37.9457 27.2822 37.9953 27.6482L38.0022 27.75V32.2487C38.0022 32.6629 37.6664 32.9987 37.2522 32.9987C36.8725 32.9987 36.5587 32.7165 36.509 32.3504L36.5022 32.2487V27.75C36.5022 27.3358 36.838 27 37.2522 27Z" fill="white"/><rect x="1.5" y="1.5" width="57" height="57" rx="28.5" stroke="black" stroke-opacity="0.2" stroke-width="3"/></svg>');
-  --webchat__component-icon--color: transparent;
-  --webchat__component-icon--size: 30px;
+.webchat .wOO68XW_render-markdown.wOO68XW_render-markdown--adaptive-cards > :first-child {
+  text-overflow: ellipsis;
+  width: 100%;
+  margin-block-start: 0;
+  overflow: hidden;
+}
+.webchat .wOO68XW_render-markdown.wOO68XW_render-markdown--adaptive-cards > :last-child {
+  margin-block-end: 0;
+}
+.webchat .wOO68XW_render-markdown.wOO68XW_render-markdown--message-activity > :first-child {
+  margin-block-start: 0;
+}
+.webchat .wOO68XW_render-markdown.wOO68XW_render-markdown--message-activity > :last-child {
+  margin-block-end: 0;
+}
+.webchat .wOO68XW_render-markdown .render-markdown__external-link-icon {
+  background-image: var(--webchat__icon-url--external-link);
+  height: .75em;
+  margin-inline-start: .25em;
+}
+.webchat .wOO68XW_render-markdown .render-markdown__citation {
+  cursor: pointer;
+  font-family: unset;
+  font-size: unset;
+  text-overflow: ellipsis;
+  vertical-align: bottom;
+  white-space: nowrap;
+  background: none;
+  border: 0;
+  padding: 0;
+  text-decoration: underline;
+  display: inline-block;
+  overflow: hidden;
+}
+@media (forced-colors: active) {
+  .webchat .wOO68XW_render-markdown .render-markdown__citation {
+    color: linktext;
+  }
+}
+@media not (forced-colors: active) {
+  .webchat .wOO68XW_render-markdown .render-markdown__citation {
+    color: var(--webchat__color--accent);
+  }
+}
+.webchat .wOO68XW_render-markdown .render-markdown__pure-identifier {
+  text-overflow: ellipsis;
+  vertical-align: bottom;
+  white-space: nowrap;
+  max-width: 100%;
+  display: inline-block;
+  overflow: hidden;
+}
+.webchat .wOO68XW_render-markdown .render-markdown__pure-identifier:before {
+  content: "[";
+}
+.webchat .wOO68XW_render-markdown .render-markdown__pure-identifier:after {
+  content: "]";
+}
+.webchat .wOO68XW_render-markdown [data-math-type=block] {
+  outline-offset: 2px;
+  scrollbar-width: thin;
+  flex-direction: column;
+  align-items: center;
+  margin-block-end: -4px;
+  padding-block-end: 4px;
+  display: flex;
+  overflow: auto clip;
+}
+.webchat .wOO68XW_render-markdown span[data-math-type=block] {
+  display: inline-flex;
+}
+.webchat .wOO68XW_render-markdown [data-math-type=inline] {
+  flex-direction: column;
+  align-items: center;
+  display: inline-flex;
+}
+.webchat .wOO68XW_render-markdown :is([data-math-type=block], [data-math-type=inline]) > span {
+  display: contents;
 }
 
 /* unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/component/src/SendBox/AttachmentBar/AttachmentBar.module_built.css */
@@ -165756,6 +166122,399 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   color: #fff;
 }
 
+/* unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/component/src/ActivityFeedback/private/ThumbButton.module_built.css */
+.webchat .wIExi9q_thumb-button {
+  box-sizing: content-box;
+  border-radius: 2px;
+  grid-template-areas: "main";
+  align-items: center;
+  width: 16px;
+  height: 16px;
+  display: grid;
+}
+.webchat .wIExi9q_thumb-button .wIExi9q_thumb-button__input {
+  -webkit-appearance: none;
+  appearance: none;
+  opacity: 0;
+  background: none;
+  border: 0;
+  grid-area: main;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  padding: 0;
+}
+.webchat .wIExi9q_thumb-button .wIExi9q_thumb-button__input:active {
+  background: #edebe9;
+}
+.webchat .wIExi9q_thumb-button:has(.wIExi9q_thumb-button__input:focus-visible) {
+  outline: 1px solid #605e5c;
+}
+.webchat .wIExi9q_thumb-button .wIExi9q_thumb-button__image {
+  color: var(--webchat__color--accent);
+  pointer-events: none;
+  visibility: hidden;
+  grid-area: main;
+  justify-self: center;
+  width: 14px;
+}
+.webchat .wIExi9q_thumb-button .wIExi9q_thumb-button__image.wIExi9q_thumb-button__image--is-stroked {
+  visibility: unset;
+}
+.webchat .wIExi9q_thumb-button:has(.wIExi9q_thumb-button__input:is(:not([aria-disabled=true]):hover, :checked, [aria-pressed=true])) .wIExi9q_thumb-button__image.wIExi9q_thumb-button__image--is-stroked {
+  visibility: hidden;
+}
+.webchat .wIExi9q_thumb-button:has(.wIExi9q_thumb-button__input:is(:not([aria-disabled=true]):hover, :checked, [aria-pressed=true])) .wIExi9q_thumb-button__image.wIExi9q_thumb-button__image--is-filled {
+  visibility: unset;
+}
+.webchat .wIExi9q_thumb-button.wIExi9q_thumb-button--large {
+  border: 1px solid #0000;
+  border-radius: 4px;
+  width: 30px;
+  height: 30px;
+}
+.webchat .wIExi9q_thumb-button.wIExi9q_thumb-button--large .wIExi9q_thumb-button__input {
+  background: currentColor;
+  width: 30px;
+  height: 30px;
+}
+.webchat .wIExi9q_thumb-button.wIExi9q_thumb-button--large .wIExi9q_thumb-button__image {
+  color: currentColor;
+  width: 1em;
+  height: 1em;
+  font-size: 20px;
+}
+.webchat .wIExi9q_thumb-button.wIExi9q_thumb-button--large:has(.wIExi9q_thumb-button__input:is(:hover, :active, :checked, [aria-pressed=true])) .wIExi9q_thumb-button__image {
+  color: var(--webchat__color--accent);
+}
+.webchat .wIExi9q_thumb-button.wIExi9q_thumb-button--large:has(.wIExi9q_thumb-button__input[aria-disabled=true]) .wIExi9q_thumb-button__image {
+  color: var(--webchat__color--subtle);
+}
+.webchat .wIExi9q_thumb-button.wIExi9q_thumb-button--large.wIExi9q_thumb-button--has-submitted:has(.wIExi9q_thumb-button__input:not(:checked):not([aria-pressed=true])) .wIExi9q_thumb-button__tooltip {
+  display: none;
+}
+.webchat .wIExi9q_thumb-button.wIExi9q_thumb-button--large.wIExi9q_thumb-button--has-submitted .wIExi9q_thumb-button__tooltip {
+  --webchat__tooltip-anchor-inline-start: 20%;
+}
+
+/* unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/component/src/LinkDefinition/LinkDefinitions.module_built.css */
+.webchat .wIcA0ta_link-definitions .wIcA0ta_link-definitions__header {
+  cursor: default;
+  font-family: var(--webchat__font--primary);
+  font-size: var(--webchat__font-size--small);
+  justify-content: space-between;
+  align-items: center;
+  gap: 4px;
+  list-style: none;
+  display: flex;
+}
+@media (forced-colors: none) {
+  .webchat .wIcA0ta_link-definitions .wIcA0ta_link-definitions__header {
+    color: #616161;
+  }
+}
+@media (forced-colors: none) and (not (forced-colors: none)) {
+  .webchat .wIcA0ta_link-definitions .wIcA0ta_link-definitions__header {
+    color: #616161;
+  }
+}
+.webchat .wIcA0ta_link-definitions .wIcA0ta_link-definitions__header-section {
+  align-items: center;
+  gap: 4px;
+  display: flex;
+  overflow: hidden;
+}
+.webchat .wIcA0ta_link-definitions .wIcA0ta_link-definitions__header-section--left,
+.webchat .wIcA0ta_link-definitions .wIcA0ta_link-definitions__header-text {
+  flex-shrink: 0;
+}
+.webchat .wIcA0ta_link-definitions .wIcA0ta_link-definitions__header::-webkit-details-marker {
+  display: none;
+}
+.webchat .wIcA0ta_link-definitions .wIcA0ta_link-definitions__header-chevron {
+  flex-shrink: 0;
+}
+.webchat .wIcA0ta_link-definitions:not([open]) .wIcA0ta_link-definitions__header-chevron {
+  transform: rotate(-180deg);
+}
+.webchat .wIcA0ta_link-definitions .wIcA0ta_link-definitions__header-accessory {
+  overflow: hidden;
+}
+.webchat .wIcA0ta_link-definitions .wIcA0ta_link-definitions__message-sensitivity-label {
+  align-items: center;
+  gap: 4px;
+  display: flex;
+}
+.webchat .wIcA0ta_link-definitions .wIcA0ta_link-definitions__message-sensitivity-label-icon {
+  color: canvastext;
+  flex-shrink: 0;
+}
+.webchat .wIcA0ta_link-definitions .wIcA0ta_link-definitions__message-sensitivity-label-text {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.webchat .wIcA0ta_link-definitions .wIcA0ta_link-definitions__list {
+  flex-direction: column;
+  gap: 4px;
+  margin: 4px 0 0;
+  padding: 0;
+  display: flex;
+}
+.webchat .wIcA0ta_link-definitions .wIcA0ta_link-definitions__list-item {
+  flex-direction: column;
+  display: flex;
+}
+.webchat .wIcA0ta_link-definitions .wIcA0ta_link-definitions__badge {
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  align-self: flex-start;
+  min-width: 1em;
+  max-width: 4em;
+  margin: 4px;
+  padding: 2px;
+  font-size: 75%;
+  overflow: hidden;
+}
+@media (forced-colors: none) {
+  .webchat .wIcA0ta_link-definitions .wIcA0ta_link-definitions__badge {
+    color: #000;
+    background-color: #fff;
+    border-color: #e0e0e0;
+  }
+}
+@media (forced-colors: none) and (not (forced-colors: none)) {
+  .webchat .wIcA0ta_link-definitions .wIcA0ta_link-definitions__badge {
+    color: #fff;
+    background-color: #000;
+    border-color: #e0e0e0;
+  }
+}
+@media (forced-colors: active) {
+  .webchat .wIcA0ta_link-definitions .wIcA0ta_link-definitions__badge {
+    border-color: buttonborder;
+  }
+}
+.webchat .wIcA0ta_link-definitions .wIcA0ta_link-definitions__list-item-box {
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 4px;
+  align-items: center;
+}
+@media (forced-colors: none) {
+  .webchat .wIcA0ta_link-definitions .wIcA0ta_link-definitions__list-item-box {
+    background-color: #fff;
+    border-color: #d1d1d1;
+  }
+}
+@media (forced-colors: none) and (not (forced-colors: none)) {
+  .webchat .wIcA0ta_link-definitions .wIcA0ta_link-definitions__list-item-box {
+    background-color: #000;
+    border-color: #d1d1d1;
+  }
+}
+@media (forced-colors: active) {
+  .webchat .wIcA0ta_link-definitions .wIcA0ta_link-definitions__list-item-box {
+    background-color: canvas;
+    border-color: buttonborder;
+  }
+}
+.webchat .wIcA0ta_link-definitions .wIcA0ta_link-definitions__list-item-box--as-link {
+  outline-offset: 0;
+  text-decoration: none;
+  display: block;
+}
+.webchat .wIcA0ta_link-definitions .wIcA0ta_link-definitions__list-item-box--as-button {
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  text-align: initial;
+  background: none;
+  padding: 0;
+  overflow: hidden;
+}
+.webchat .wIcA0ta_link-definitions .wIcA0ta_link-definitions__list-item-body {
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  font-family:
+    Calibri,
+    Helvetica Neue,
+    Arial,
+    sans-serif;
+  display: flex;
+}
+.webchat .wIcA0ta_link-definitions .wIcA0ta_link-definitions__list-item-body-main {
+  flex-direction: column;
+  gap: 2px;
+  display: flex;
+  overflow: hidden;
+}
+.webchat .wIcA0ta_link-definitions .wIcA0ta_link-definitions__list-item-main-text {
+  align-items: baseline;
+  gap: 4px;
+  display: flex;
+}
+.webchat .wIcA0ta_link-definitions .wIcA0ta_link-definitions__list-item-badge,
+.webchat .wIcA0ta_link-definitions .wIcA0ta_link-definitions__list-item-text {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.webchat .wIcA0ta_link-definitions .wIcA0ta_link-definitions__list-item-text {
+  text-decoration: underline;
+}
+@media not (forced-colors: active) {
+  .webchat .wIcA0ta_link-definitions .wIcA0ta_link-definitions__list-item-text {
+    color: var(--webchat__color--accent);
+  }
+}
+.webchat .wIcA0ta_link-definitions .wIcA0ta_link-definitions__list-item-badge {
+  font-size: var(--webchat__font-size--small);
+}
+@media not (forced-colors: active) {
+  .webchat .wIcA0ta_link-definitions .wIcA0ta_link-definitions__list-item-badge {
+    color: var(--webchat__color--subtle);
+  }
+}
+.webchat .wIcA0ta_link-definitions .wIcA0ta_link-definitions__open-in-new-window-icon {
+  flex-shrink: 0;
+  padding-right: 4px;
+}
+@media not (forced-colors: active) {
+  .webchat .wIcA0ta_link-definitions .wIcA0ta_link-definitions__open-in-new-window-icon {
+    color: var(--webchat__color--accent);
+  }
+}
+
+/* unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/component/src/Attachment/Text/TextContent.module_built.css */
+.webchat .wukSAJG_text-content {
+  font-family: var(--webchat__font--primary);
+  min-height: calc(var(--webchat__min-height--bubble) - var(--webchat__padding--regular) * 2);
+  padding: var(--webchat__padding--regular);
+  margin: 0;
+}
+.webchat .wukSAJG_text-content.wukSAJG_text-content--is-markdown {
+  justify-content: center;
+  gap: var(--webchat__padding--regular);
+  flex-direction: column;
+  min-width: 0;
+  display: flex;
+}
+.webchat .wukSAJG_text-content .wukSAJG_text-content__markdown img:not(.render-markdown__external-link-icon) {
+  max-width: var(--webchat__max-width--message-bubble);
+  min-width: var(--webchat__min-width--message-bubble);
+  width: 100%;
+}
+.webchat .wukSAJG_text-content .wukSAJG_text-content__markdown pre {
+  overflow: hidden;
+}
+.webchat .wukSAJG_text-content .wukSAJG_text-content__open-in-new-window-icon {
+  height: .75em;
+}
+.webchat .wukSAJG_text-content .wukSAJG_text-content__activity-actions {
+  align-self: flex-start;
+  gap: 8px calc(var(--webchat__padding--regular) / 2);
+  flex-wrap: wrap;
+  width: 100%;
+  display: flex;
+}
+.webchat .wukSAJG_text-content .wukSAJG_text-content__activity-actions:empty {
+  display: none;
+}
+.webchat .wukSAJG_text-content .wukSAJG_text-content__generated-badge {
+  color: var(--webchat__color--subtle);
+  font-size: var(--webchat__font-size--small);
+}
+
+/* unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/component/src/Attachment/Text/private/ActivityButton.module_built.css */
+.webchat .wakyRHW_activity-button {
+  -webkit-appearance: none;
+  appearance: none;
+  color: #242424;
+  background: #fff;
+  border: 1px solid #d1d1d1;
+  border-radius: 4px;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 12px;
+  display: flex;
+}
+.webchat .wakyRHW_activity-button:hover {
+  color: #242424;
+  background: #f5f5f5;
+  border: 1px solid #c7c7c7;
+}
+.webchat .wakyRHW_activity-button:active {
+  color: #242424;
+  background: #e0e0e0;
+  border: 1px solid #b3b3b3;
+}
+.webchat .wakyRHW_activity-button:focus-visible {
+  outline-offset: -2px;
+  background: #fff;
+  outline: 2px solid #000;
+}
+.webchat .wakyRHW_activity-button[aria-disabled=true] {
+  color: #bdbdbd;
+  cursor: not-allowed;
+  background: #f0f0f0;
+  border: 1px solid #e0e0e0;
+}
+.webchat .wakyRHW_activity-button .wakyRHW_activity-button__icon {
+  --webchat__component-icon--color: #707070;
+  --webchat__component-icon--size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+/* unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/component/src/Attachment/Text/private/ActivityCopyButton.module_built.css */
+.webchat .wYnoyiq_activity-copy-button {
+  position: relative;
+  overflow: clip;
+}
+@supports not (overflow: clip) {
+  .webchat .wYnoyiq_activity-copy-button {
+    overflow: hidden;
+  }
+}
+.webchat .wYnoyiq_activity-copy-button .wYnoyiq_activity-copy-button__copied-text {
+  visibility: hidden;
+  background-color: #fff;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  position: absolute;
+}
+.webchat .wYnoyiq_activity-copy-button.wYnoyiq_activity-copy-button--copied .wYnoyiq_activity-copy-button__copied-text {
+  animation: .7s linear webchat__activity-copy-button__copied-animation;
+}
+.webchat .wYnoyiq_activity-copy-button.wYnoyiq_activity-copy-button--copied .wYnoyiq_activity-button__icon,
+.webchat .wYnoyiq_activity-copy-button.wYnoyiq_activity-copy-button--copied .wYnoyiq_activity-button__text {
+  visibility: hidden;
+}
+.webchat .wYnoyiq_activity-copy-button__copy-announcement {
+  pointer-events: none;
+}
+@keyframes webchat__activity-copy-button__copied-animation {
+  0% {
+    visibility: visible;
+  }
+  100% {
+    visibility: unset;
+  }
+}
+
 /* unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/component/src/Attachment/Text/private/ViewCodeDialog.module_built.css */
 .webchat .wzmzsZW_view-code-dialog {
   box-sizing: border-box;
@@ -165805,6 +166564,14 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
 }
 .webchat .wzmzsZW_view-code-dialog__footer {
   color: var(--webchat__color--subtle);
+  line-height: 20px;
+}
+
+/* unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/component/src/Attachment/Text/private/CitationModal.module_built.css */
+.webchat .wjSs5NG_citation-modal-dialog .wjSs5NG_citation-modal-dialog__header {
+  cursor: default;
+}
+.webchat .wjSs5NG_citation-modal-dialog .wjSs5NG_citation-modal-dialog__body {
   line-height: 20px;
 }
 
@@ -165903,7 +166670,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   font-size: 1.1em;
   display: grid;
 }
-.webchat .wX4Ui5a_stacked-layout .wX4Ui5a_stacked-layout__message-status:has(+ .webchat__text-content) {
+.webchat .wX4Ui5a_stacked-layout .wX4Ui5a_stacked-layout__message-status:has(+ .text-content) {
   font-size: 1em;
 }
 .webchat .wX4Ui5a_stacked-layout .wX4Ui5a_stacked-layout__message-status > * {
@@ -166163,6 +166930,260 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   margin-inline: 0;
 }
 
+/* unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/component/src/Activity/SayAlt.module_built.css */
+.webchat .wKfNakG_say-alt {
+  color: red;
+  margin: 0;
+}
+
+/* unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/component/src/Activity/Bubble.module_built.css */
+.webchat .wS0r5AW_bubble {
+  --webchat__bubble--background: var(--webchat__background--bubble);
+  --webchat__bubble--border-color: var(--webchat__border-color--bubble);
+  --webchat__bubble--border-radius: var(--webchat__border-radius--bubble);
+  --webchat__bubble--border-style: var(--webchat__border-style--bubble);
+  --webchat__bubble--border-width: var(--webchat__border-width--bubble);
+  --webchat__bubble--color: var(--webchat__color--bubble);
+  --webchat__bubble--nub-size: var(--webchat__size--bubble-nub);
+  --webchat__bubble--nub-space: var(--webchat__space--bubble-nub);
+  --webchat__bubble--nub-border-radius: min(var(--webchat__bubble--border-radius), calc(var(--webchat__bubble--nub-space) * -1));
+  --webchat__bubble--nub-inset-block: auto calc(-1 * var(--webchat__bubble--nub-space));
+  --webchat__bubble--nub-inset-inline: calc(var(--webchat__bubble--border-width) - var(--webchat__bubble--nub-size) + var(--webchat__padding--regular)) auto;
+  display: flex;
+  position: relative;
+}
+.webchat .wS0r5AW_bubble.wS0r5AW_bubble--nub-on-top {
+  --webchat__bubble--nub-border-radius: min(var(--webchat__bubble--border-radius), var(--webchat__bubble--nub-space));
+  --webchat__bubble--nub-inset-block: var(--webchat__bubble--nub-space) auto;
+}
+.webchat .wS0r5AW_bubble.wS0r5AW_bubble--from-user {
+  --webchat__bubble--background: var(--webchat__background--bubble-user);
+  --webchat__bubble--border-color: var(--webchat__border-color--bubble-user);
+  --webchat__bubble--border-radius: var(--webchat__border-radius--bubble-user);
+  --webchat__bubble--border-style: var(--webchat__border-style--bubble-user);
+  --webchat__bubble--border-width: var(--webchat__border-width--bubble-user);
+  --webchat__bubble--color: var(--webchat__color--bubble-user);
+  --webchat__bubble--nub-size: var(--webchat__size--bubble-nub-user);
+  --webchat__bubble--nub-space: var(--webchat__space--bubble-nub-user);
+  --webchat__bubble--nub-inset-inline: auto calc(var(--webchat__bubble--border-width) - var(--webchat__bubble--nub-size) + var(--webchat__padding--regular));
+}
+.webchat .wS0r5AW_bubble .wS0r5AW_bubble__content {
+  transition-duration: var(--webchat__transition-duration);
+  word-break: var(--webchat__word-break--message-activity);
+  flex-grow: 1;
+  margin-inline: 0;
+  transition-property: margin-inline-start, margin-inline-end;
+  overflow: hidden;
+}
+.webchat .wS0r5AW_bubble .wS0r5AW_bubble__nub {
+  position: absolute;
+  overflow: hidden;
+}
+.webchat .wS0r5AW_bubble:dir(rtl) .wS0r5AW_bubble__nub {
+  transform: scale(-1, 1);
+}
+.webchat .wS0r5AW_bubble .wS0r5AW_bubble__nub-pad {
+  transition-duration: var(--webchat__transition-duration);
+  flex-shrink: 0;
+  width: 0;
+  transition-property: width;
+}
+:is(.webchat .wS0r5AW_bubble.wS0r5AW_bubble--hide-nub, .webchat .wS0r5AW_bubble.wS0r5AW_bubble--show-nub) .wS0r5AW_bubble__nub-pad {
+  width: var(--webchat__padding--regular);
+}
+.webchat .wS0r5AW_bubble .wS0r5AW_bubble__content {
+  background: var(--webchat__bubble--background);
+  border-color: var(--webchat__bubble--border-color);
+  border-radius: var(--webchat__bubble--border-radius);
+  border-style: var(--webchat__bubble--border-style);
+  border-width: var(--webchat__bubble--border-width);
+  color: var(--webchat__bubble--color);
+  min-height: calc(var(--webchat__min-height--bubble) - var(--webchat__bubble--border-width) * 2);
+}
+.webchat .wS0r5AW_bubble .wS0r5AW_bubble__nub {
+  height: var(--webchat__bubble--nub-size);
+  inset-block: var(--webchat__bubble--nub-inset-block);
+  inset-inline: var(--webchat__bubble--nub-inset-inline);
+  width: var(--webchat__bubble--nub-size);
+}
+.webchat .wS0r5AW_bubble .wS0r5AW_bubble__nub-outline {
+  fill: var(--webchat__bubble--background);
+  stroke-width: var(--webchat__bubble--border-width);
+  stroke: var(--webchat__bubble--border-color);
+}
+.webchat .wS0r5AW_bubble:not(.wS0r5AW_bubble--from-user).wS0r5AW_bubble--show-nub:not(.wS0r5AW_bubble--nub-on-top) .wS0r5AW_bubble__content {
+  border-end-start-radius: var(--webchat__bubble--nub-border-radius);
+}
+.webchat .wS0r5AW_bubble:not(.wS0r5AW_bubble--from-user).wS0r5AW_bubble--show-nub.wS0r5AW_bubble--nub-on-top .wS0r5AW_bubble__content {
+  border-start-start-radius: var(--webchat__bubble--nub-border-radius);
+}
+.webchat .wS0r5AW_bubble.wS0r5AW_bubble--from-user {
+  flex-direction: row-reverse;
+}
+.webchat .wS0r5AW_bubble.wS0r5AW_bubble--from-user.wS0r5AW_bubble--show-nub:not(.wS0r5AW_bubble--nub-on-top) .wS0r5AW_bubble__content {
+  border-end-end-radius: var(--webchat__bubble--nub-border-radius);
+}
+.webchat .wS0r5AW_bubble.wS0r5AW_bubble--from-user.wS0r5AW_bubble--show-nub.wS0r5AW_bubble--nub-on-top .wS0r5AW_bubble__content {
+  border-start-end-radius: var(--webchat__bubble--nub-border-radius);
+}
+
+/* unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/component/src/Activity/CarouselFilmStripAttachment.module_built.css */
+.webchat .wC3CBRG_carousel-filmstrip-attachment {
+  max-width: var(--webchat__max-width--attachment-bubble);
+  min-width: var(--webchat__min-width--attachment-bubble);
+  transition-duration: var(--webchat__transition-duration);
+  padding-inline-start: var(--webchat__padding--regular);
+  transition-property: max-width, min-width;
+}
+.webchat .wC3CBRG_carousel-filmstrip-attachment:focus {
+  outline: 0;
+}
+.webchat .wC3CBRG_carousel-filmstrip-attachment:focus .wC3CBRG_carousel-filmstrip-attachment--focus {
+  border-color: var(--webchat__color--transcript-visual-keyboard-indicator);
+  border-style: var(--webchat__border-style--transcript-visual-keyboard-indicator);
+  border-width: var(--webchat__border-width--transcript-visual-keyboard-indicator);
+  box-sizing: border-box;
+  height: calc(100% - var(--webchat__border-width--transcript-visual-keyboard-indicator));
+  pointer-events: none;
+  width: calc(100% - var(--webchat__border-width--transcript-visual-keyboard-indicator));
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+}
+:is(.webchat .wC3CBRG_carousel-filmstrip-attachment.wC3CBRG_carousel-filmstrip-attachment--hide-avatar, .webchat .wC3CBRG_carousel-filmstrip-attachment.wC3CBRG_carousel-filmstrip-attachment--show-avatar):first-child {
+  padding-inline-start: calc(var(--webchat__size--avatar) + var(--webchat__padding--regular) * 2);
+}
+:is(.webchat .wC3CBRG_carousel-filmstrip-attachment.wC3CBRG_carousel-filmstrip-attachment--hide-nub, .webchat .wC3CBRG_carousel-filmstrip-attachment.wC3CBRG_carousel-filmstrip-attachment--show-nub):not(.wC3CBRG_carousel-filmstrip-attachment--hide-avatar.wC3CBRG_carousel-filmstrip-attachment--show-avatar):first-child {
+  padding-inline-start: calc(var(--webchat__padding--regular) * 2);
+}
+
+/* unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/component/src/Activity/CarouselFilmStrip.module_built.css */
+.webchat .w1RU2Zq_carousel-filmstrip {
+  -ms-overflow-style: none;
+  touch-action: manipulation;
+  -webkit-overflow-scrolling: touch;
+  flex-direction: column;
+  display: flex;
+  position: relative;
+  overflow: scroll hidden;
+}
+@supports ((-moz-appearance: none)) {
+  .webchat .w1RU2Zq_carousel-filmstrip {
+    margin-block-end: -17px;
+  }
+}
+.webchat .w1RU2Zq_carousel-filmstrip::-webkit-scrollbar {
+  display: none;
+}
+.webchat .w1RU2Zq_carousel-filmstrip .w1RU2Zq_carousel-filmstrip__bubble {
+  max-width: var(--webchat__max-width--message-bubble);
+  min-width: var(--webchat__min-width--message-bubble);
+  transition-duration: var(--webchat__transition-duration);
+  transition-property: max-width;
+}
+:is(.webchat .w1RU2Zq_carousel-filmstrip.w1RU2Zq_carousel-filmstrip--hide-nub, .webchat .w1RU2Zq_carousel-filmstrip.w1RU2Zq_carousel-filmstrip--show-nub, .webchat .w1RU2Zq_carousel-filmstrip.w1RU2Zq_carousel-filmstrip--hide-avatar, .webchat .w1RU2Zq_carousel-filmstrip.w1RU2Zq_carousel-filmstrip--show-avatar) .w1RU2Zq_carousel-filmstrip__bubble {
+  max-width: calc(var(--webchat__max-width--message-bubble) + var(--webchat__padding--regular));
+}
+.webchat .w1RU2Zq_carousel-filmstrip .w1RU2Zq_carousel-filmstrip__alignment-pad {
+  transition-duration: var(--webchat__transition-duration);
+  width: var(--webchat__padding--regular);
+  flex-shrink: 0;
+  transition-property: width;
+}
+.webchat .w1RU2Zq_carousel-filmstrip.w1RU2Zq_carousel-filmstrip--extra-trailing .w1RU2Zq_carousel-filmstrip__alignment-pad {
+  width: calc(var(--webchat__padding--regular) * 2);
+}
+.webchat .w1RU2Zq_carousel-filmstrip:not(.w1RU2Zq_carousel-filmstrip--no-message) .w1RU2Zq_carousel-filmstrip__attachments {
+  margin-block-start: var(--webchat__padding--regular);
+}
+.webchat .w1RU2Zq_carousel-filmstrip .w1RU2Zq_carousel-filmstrip__attachments {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  display: flex;
+}
+.webchat .w1RU2Zq_carousel-filmstrip .w1RU2Zq_carousel-filmstrip__avatar {
+  flex-shrink: 0;
+}
+.webchat .w1RU2Zq_carousel-filmstrip .w1RU2Zq_carousel-filmstrip__avatar-gutter {
+  transition-duration: var(--webchat__transition-duration);
+  flex-direction: column;
+  flex-shrink: 0;
+  align-items: flex-end;
+  transition-property: width;
+  display: flex;
+}
+:is(.webchat .w1RU2Zq_carousel-filmstrip.w1RU2Zq_carousel-filmstrip--hide-avatar, .webchat .w1RU2Zq_carousel-filmstrip.w1RU2Zq_carousel-filmstrip--show-avatar) .w1RU2Zq_carousel-filmstrip__avatar-gutter {
+  width: var(--webchat__size--avatar);
+}
+.webchat .w1RU2Zq_carousel-filmstrip:not(.w1RU2Zq_carousel-filmstrip--top-callout) .w1RU2Zq_carousel-filmstrip__avatar-gutter {
+  justify-content: flex-end;
+}
+.webchat .w1RU2Zq_carousel-filmstrip .w1RU2Zq_carousel-filmstrip__complimentary {
+  display: flex;
+}
+.webchat .w1RU2Zq_carousel-filmstrip .w1RU2Zq_carousel-filmstrip__complimentary-content,
+.webchat .w1RU2Zq_carousel-filmstrip .w1RU2Zq_carousel-filmstrip__content {
+  flex-direction: column;
+  flex-grow: 1;
+  display: flex;
+}
+.webchat .w1RU2Zq_carousel-filmstrip .w1RU2Zq_carousel-filmstrip__filler {
+  flex-grow: 10000;
+  flex-shrink: 1;
+}
+.webchat .w1RU2Zq_carousel-filmstrip .w1RU2Zq_carousel-filmstrip__main,
+.webchat .w1RU2Zq_carousel-filmstrip .w1RU2Zq_carousel-filmstrip__message {
+  display: flex;
+}
+.webchat .w1RU2Zq_carousel-filmstrip .w1RU2Zq_carousel-filmstrip__nub-pad {
+  transition-duration: var(--webchat__transition-duration);
+  flex-shrink: 0;
+  width: 0;
+  transition-property: width;
+}
+:is(.webchat .w1RU2Zq_carousel-filmstrip.w1RU2Zq_carousel-filmstrip--hide-avatar, .webchat .w1RU2Zq_carousel-filmstrip.w1RU2Zq_carousel-filmstrip--show-avatar, .webchat .w1RU2Zq_carousel-filmstrip.w1RU2Zq_carousel-filmstrip--hide-nub, .webchat .w1RU2Zq_carousel-filmstrip.w1RU2Zq_carousel-filmstrip--show-nub) .w1RU2Zq_carousel-filmstrip__nub-pad {
+  width: var(--webchat__padding--regular);
+}
+.webchat .w1RU2Zq_carousel-filmstrip .w1RU2Zq_carousel-filmstrip__status {
+  display: flex;
+}
+.webchat .w1RU2Zq_carousel-filmstrip .w1RU2Zq_carousel-filmstrip__avatar-gutter {
+  margin-inline-start: var(--webchat__padding--regular);
+}
+.webchat .w1RU2Zq_carousel-filmstrip.w1RU2Zq_carousel-filmstrip .w1RU2Zq_carousel-filmstrip__attachments {
+  margin-inline-start: calc(-1 * var(--webchat__padding--regular));
+}
+:is(.webchat .w1RU2Zq_carousel-filmstrip.w1RU2Zq_carousel-filmstrip--hide-avatar, .webchat .w1RU2Zq_carousel-filmstrip.w1RU2Zq_carousel-filmstrip--show-avatar) .w1RU2Zq_carousel-filmstrip__attachments {
+  margin-inline-start: calc(-1 * (var(--webchat__size--avatar) + var(--webchat__padding--regular) * 2));
+}
+:is(.webchat .w1RU2Zq_carousel-filmstrip.w1RU2Zq_carousel-filmstrip--hide-nub, .webchat .w1RU2Zq_carousel-filmstrip.w1RU2Zq_carousel-filmstrip--show-nub):not(.w1RU2Zq_carousel-filmstrip--hide-avatar.w1RU2Zq_carousel-filmstrip--show-avatar) .w1RU2Zq_carousel-filmstrip__attachments {
+  margin-inline-start: calc(-1 * var(--webchat__padding--regular) * 2);
+}
+
+/* unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/component/src/Activity/CarouselLayout.module_built.css */
+.webchat .wf8uRvG_carousel-layout {
+  position: relative;
+  overflow: hidden;
+}
+.webchat .wf8uRvG_carousel-layout .react-film__flipper .react-film__flipper__body {
+  background-color: var(--webchat__background--transcript-overlay-button);
+  color: var(--webchat__color--transcript-overlay-button);
+  outline: 0;
+}
+:is(.webchat .wf8uRvG_carousel-layout .react-film__flipper:disabled, .webchat .wf8uRvG_carousel-layout .react-film__flipper[aria-disabled=true]) .react-film__flipper__body {
+  background-color: var(--webchat__background--transcript-overlay-button-disabled);
+  color: var(--webchat__color--transcript-overlay-button-disabled);
+}
+.webchat .wf8uRvG_carousel-layout .react-film__flipper:focus .react-film__flipper__body {
+  background-color: var(--webchat__background--transcript-overlay-button-focus);
+  color: var(--webchat__color--transcript-overlay-button-focus, var(--webchat__color--transcript-overlay-button));
+}
+.webchat .wf8uRvG_carousel-layout .react-film__flipper:hover .react-film__flipper__body {
+  background-color: var(--webchat__background--transcript-overlay-button-hover);
+  color: var(--webchat__color--transcript-overlay-button-hover, var(--webchat__color--transcript-overlay-button));
+}
+
 /* unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/component/src/Activity/CodeBlockContent.module_built.css */
 .webchat .w_R1nMW_code-block-content {
   border: var(--webchat__border-width--bubble) var(--webchat__border-style--bubble) var(--webchat__border-color--bubble);
@@ -166237,6 +167258,33 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
 .webchat .wwif4Va_collapsible-content__content {
   flex-direction: column;
   display: flex;
+}
+
+/* unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/component/src/ActivityStatus/ActivityStatus.module_built.css */
+.webchat .wlpDjkW_activity-status {
+  color: var(--webchat__color--timestamp);
+  font-family: var(--webchat__font--primary);
+  font-size: var(--webchat__font-size--small);
+  margin-block-start: calc(var(--webchat__padding--regular) / 2);
+}
+.webchat .wlpDjkW_activity-status.wlpDjkW_activity-status--slotted {
+  gap: 4px;
+  display: inline-flex;
+}
+.webchat .wlpDjkW_activity-status-slot {
+  display: contents;
+}
+.webchat .wlpDjkW_activity-status-slot:not(:first-child):before {
+  content: "|";
+}
+.webchat .wlpDjkW_activity-status-slot:empty {
+  display: none;
+}
+.webchat .wlpDjkW_activity-status__originator {
+  align-items: center;
+}
+.webchat .wlpDjkW_activity-status__originator.wlpDjkW_activity-status__originator--has-link {
+  color: var(--webchat__color--accent);
 }
 
 /* unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/component/src/providers/CustomElements/customElements/CodeBlock.module_built.css */
@@ -166387,7 +167435,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function styleSetToEmotionObjects(styleToEmotionObject, styleSet) {
     return mapMap2(styleSet, (style, key2) => key2 === "options" ? style : styleToEmotionObject(style));
   }
-  var ROOT_STYLE15 = {
+  var ROOT_STYLE112 = {
     "&.webchat__css-custom-properties": {
       "& .webchat__live-region": {
         color: "transparent",
@@ -166402,7 +167450,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   };
   var ComposerCoreUI = (0, import_react273.memo)(({ children, nonce, storeDebugAPI }) => {
     const [{ internalLiveRegionFadeAfter }] = useStyleOptions20();
-    const rootClassName = useStyleToEmotionObject()(ROOT_STYLE15) + "";
+    const rootClassName = useStyleToEmotionObject()(ROOT_STYLE112) + "";
     const rootRef = (0, import_react273.useRef)(null);
     const trackException = useTrackException2();
     const dictationOnError = (0, import_react273.useCallback)(
@@ -166741,22 +167789,22 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     return (0, import_react393.useCallback)(() => setForceRender({}), [setForceRender]);
   }
   var useForceRender_default2 = useForceRender2;
-  var { useDirection: useDirection8 } = hook_exports;
+  var { useDirection: useDirection52 } = hook_exports;
   var SpinnerAnimation = () => {
     const [{ spinnerAnimation: spinnerAnimationStyleSet }] = useStyleSet();
-    const [direction] = useDirection8();
-    return /* @__PURE__ */ import_react394.default.createElement("div", { className: (0, import_classnames86.default)(spinnerAnimationStyleSet + "", direction === "rtl" && "webchat__spinner--rtl") });
+    const [direction] = useDirection52();
+    return /* @__PURE__ */ import_react394.default.createElement("div", { className: (0, import_classnames85.default)(spinnerAnimationStyleSet + "", direction === "rtl" && "webchat__spinner--rtl") });
   };
   var SpinnerAnimation_default = SpinnerAnimation;
-  var { useDirection: useDirection9 } = hook_exports;
+  var { useDirection: useDirection6 } = hook_exports;
   var ICON_SIZE_FACTOR = 16;
   var WarningNotificationIcon = ({ className, size }) => {
-    const [direction] = useDirection9();
+    const [direction] = useDirection6();
     return /* @__PURE__ */ import_react395.default.createElement(
       "svg",
       {
         alt: "",
-        className: (0, import_classnames87.default)(className + "", direction === "rtl" && "webchat_warning--rtl"),
+        className: (0, import_classnames86.default)(className + "", direction === "rtl" && "webchat_warning--rtl"),
         height: ICON_SIZE_FACTOR * size,
         viewBox: "0 0 13.1 13.1",
         width: ICON_SIZE_FACTOR * size
@@ -166773,7 +167821,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     size: import_prop_types42.default.number
   };
   var WarningNotificationIcon_default = WarningNotificationIcon;
-  var { useDirection: useDirection10, useLocalizer: useLocalizer37, usePonyfill: usePonyfill5, useStyleOptions: useStyleOptions21 } = hook_exports;
+  var { useDirection: useDirection7, useLocalizer: useLocalizer37, usePonyfill: usePonyfill5, useStyleOptions: useStyleOptions21 } = hook_exports;
   var connectivityStatusConnectingPropsSchema = pipe(
     object({
       reconnect: optional(boolean())
@@ -166787,7 +167835,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const [
       { connectivityNotification: connectivityNotificationStyleSet, warningNotification: warningNotificationStyleSet }
     ] = useStyleSet();
-    const [direction] = useDirection10();
+    const [direction] = useDirection7();
     const [initialRenderAt] = (0, import_react392.useState)(() => Date2.now());
     const forceRender = useForceRender_default2();
     const localize2 = useLocalizer37();
@@ -166801,7 +167849,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       "div",
       {
         "aria-hidden": true,
-        className: (0, import_classnames85.default)("webchat__connectivityStatus", warningNotificationStyleSet + ""),
+        className: (0, import_classnames84.default)("webchat__connectivityStatus", warningNotificationStyleSet + ""),
         dir: direction
       },
       /* @__PURE__ */ import_react392.default.createElement(WarningNotificationIcon_default, null),
@@ -166815,7 +167863,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       "div",
       {
         "aria-hidden": true,
-        className: (0, import_classnames85.default)("webchat__connectivityStatus", connectivityNotificationStyleSet + ""),
+        className: (0, import_classnames84.default)("webchat__connectivityStatus", connectivityNotificationStyleSet + ""),
         dir: direction
       },
       /* @__PURE__ */ import_react392.default.createElement(SpinnerAnimation_default, null),
@@ -166823,15 +167871,15 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     ));
   }
   var Connecting_default = (0, import_react392.memo)(ConnectivityStatusConnecting);
-  var { useDirection: useDirection11 } = hook_exports;
+  var { useDirection: useDirection8 } = hook_exports;
   var ICON_SIZE_FACTOR2 = 16;
   var ErrorNotificationIcon = ({ className, size }) => {
-    const [direction] = useDirection11();
+    const [direction] = useDirection8();
     return /* @__PURE__ */ import_react397.default.createElement(
       "svg",
       {
         alt: "",
-        className: (0, import_classnames89.default)(className + "", direction === "rtl" && "webchat__error--rtl"),
+        className: (0, import_classnames88.default)(className + "", direction === "rtl" && "webchat__error--rtl"),
         height: ICON_SIZE_FACTOR2 * size,
         viewBox: "0 0 13.1 13.1",
         width: ICON_SIZE_FACTOR2 * size
@@ -166854,17 +167902,17 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     size: import_prop_types43.default.number
   };
   var ErrorNotificationIcon_default = ErrorNotificationIcon;
-  var { useDirection: useDirection12, useLocalizer: useLocalizer38 } = hook_exports;
+  var { useDirection: useDirection9, useLocalizer: useLocalizer38 } = hook_exports;
   var ConnectivityStatusFailedToConnect = () => {
     const [{ errorNotification: errorNotificationStyleSet }] = useStyleSet();
-    const [direction] = useDirection12();
+    const [direction] = useDirection9();
     const localize2 = useLocalizer38();
     const failedConnectionText = localize2("CONNECTIVITY_STATUS_ALT_FATAL");
     return /* @__PURE__ */ import_react396.default.createElement(import_react396.default.Fragment, null, /* @__PURE__ */ import_react396.default.createElement(ScreenReaderText_default, { text: localize2("CONNECTIVITY_STATUS_ALT", failedConnectionText) }), /* @__PURE__ */ import_react396.default.createElement(
       "div",
       {
         "aria-hidden": true,
-        className: (0, import_classnames88.default)("webchat__connectivityStatus", errorNotificationStyleSet + ""),
+        className: (0, import_classnames87.default)("webchat__connectivityStatus", errorNotificationStyleSet + ""),
         dir: direction
       },
       /* @__PURE__ */ import_react396.default.createElement(ErrorNotificationIcon_default, null),
@@ -166872,17 +167920,17 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     ));
   };
   var FailedToConnect_default = ConnectivityStatusFailedToConnect;
-  var { useDirection: useDirection13, useLocalizer: useLocalizer39 } = hook_exports;
+  var { useDirection: useDirection10, useLocalizer: useLocalizer39 } = hook_exports;
   var ConnectivityStatusJavaScriptError = () => {
     const [{ errorNotification: errorNotificationStyleSet }] = useStyleSet();
-    const [direction] = useDirection13();
+    const [direction] = useDirection10();
     const localize2 = useLocalizer39();
     const renderErrorNotificationText = localize2("CONNECTIVITY_STATUS_ALT_RENDER_ERROR");
     return /* @__PURE__ */ import_react398.default.createElement(import_react398.default.Fragment, null, /* @__PURE__ */ import_react398.default.createElement(ScreenReaderText_default, { text: localize2("CONNECTIVITY_STATUS_ALT", renderErrorNotificationText) }), /* @__PURE__ */ import_react398.default.createElement(
       "div",
       {
         "aria-hidden": true,
-        className: (0, import_classnames90.default)("webchat__connectivityStatus", errorNotificationStyleSet + ""),
+        className: (0, import_classnames89.default)("webchat__connectivityStatus", errorNotificationStyleSet + ""),
         dir: direction
       },
       /* @__PURE__ */ import_react398.default.createElement(ErrorNotificationIcon_default, null),
@@ -166952,7 +168000,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   };
   var ExpandIcon_default = ExpandIcon;
   var { useDebouncedNotifications: useDebouncedNotifications22, useLocalizer: useLocalizer40, useRenderToast: useRenderToast2 } = hook_exports;
-  var ROOT_STYLE16 = {
+  var ROOT_STYLE12 = {
     display: "flex",
     flexDirection: "column",
     "& .webchat__toaster__header": {
@@ -166998,7 +168046,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const localizeWithPlural = useLocalizer40({ plural: true });
     const renderToast = useRenderToast2();
     const renderMarkdownInline = useInternalRenderMarkdownInline_default();
-    const rootClassName = useStyleToEmotionObject()(ROOT_STYLE16) + "";
+    const rootClassName = useStyleToEmotionObject()(ROOT_STYLE12) + "";
     const handleToggleExpand = (0, import_react399.useCallback)(() => setExpanded(!expanded), [expanded, setExpanded]);
     const sortedNotifications = (0, import_react399.useMemo)(() => sortNotifications(debouncedNotifications), [debouncedNotifications]);
     const sortedNotificationsWithChildren = (0, import_react399.useMemo)(
@@ -167050,7 +168098,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       {
         "aria-labelledby": headerElementId,
         "aria-relevant": "all",
-        className: (0, import_classnames91.default)(
+        className: (0, import_classnames90.default)(
           "webchat__toaster",
           {
             "webchat__toaster--expandable": expandable,
@@ -167095,10 +168143,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function ChatHistoryBox(props) {
     const { children, className } = validateProps2(chatHistoryBoxPropsSchema, props);
     const [{ chatHistoryBox }] = useStyleSet();
-    return /* @__PURE__ */ import_react403.default.createElement("div", { className: (0, import_classnames93.default)("webchat__chat-history-box", className, chatHistoryBox) }, children);
+    return /* @__PURE__ */ import_react403.default.createElement("div", { className: (0, import_classnames92.default)("webchat__chat-history-box", className, chatHistoryBox) }, children);
   }
   var ChatHistoryBox_default = (0, import_react403.memo)(ChatHistoryBox);
-  var { useDirection: useDirection14 } = hook_exports;
+  var { useDirection: useDirection11 } = hook_exports;
   var chatHistoryToolbarPropsSchema = pipe(
     object({
       children: optional(reactNode_default())
@@ -167107,11 +168155,11 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   );
   function ChatHistoryToolbar(props) {
     const { children } = validateProps2(chatHistoryToolbarPropsSchema, props);
-    const [direction] = useDirection14();
+    const [direction] = useDirection11();
     return /* @__PURE__ */ import_react404.default.createElement(
       "div",
       {
-        className: (0, import_classnames94.default)(
+        className: (0, import_classnames93.default)(
           "webchat__chat-history-box__toolbar",
           direction === "rtl" ? "webchat__chat-history-box__toolbar--rtl" : ""
         )
@@ -167232,7 +168280,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
   var LiveRegionSuggestedActions_default = (0, import_react410.memo)(LiveRegionSuggestedActions);
   var { useAvatarForBot: useAvatarForBot6, useLocalizer: useLocalizer422 } = hook_exports;
-  var ROOT_STYLE17 = {
+  var ROOT_STYLE13 = {
     "&.webchat__live-region-activity": {
       color: "transparent",
       height: 1,
@@ -167260,11 +168308,11 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const fallbackText = type2 === "message" ? activity.channelData["webchat:fallback-text"] : void 0;
     const localize2 = useLocalizer422();
     const renderMarkdownAsHTML = useRenderMarkdownAsHTML("accessible name");
-    const rootClassName = useStyleToEmotionObject()(ROOT_STYLE17) + "";
+    const rootClassName = useStyleToEmotionObject()(ROOT_STYLE13) + "";
     const textAlt = (0, import_react408.useMemo)(() => activityAltText(activity, renderMarkdownAsHTML), [activity, renderMarkdownAsHTML]);
     const greetingAlt = (role === "user" ? localize2("ACTIVITY_YOU_SAID_ALT") : localize2("ACTIVITY_BOT_SAID_ALT", botInitials || "")).replace(/\s{2,}/gu, " ");
     const validFallbackText = fallbackText && typeof fallbackText === "string";
-    return /* @__PURE__ */ import_react408.default.createElement("article", { "aria-atomic": true, className: (0, import_classnames95.default)("webchat__live-region-activity", rootClassName) }, /* @__PURE__ */ import_react408.default.createElement("div", null, greetingAlt), validFallbackText ? /* @__PURE__ */ import_react408.default.createElement("div", null, fallbackText) : /* @__PURE__ */ import_react408.default.createElement(import_react408.Fragment, null, /* @__PURE__ */ import_react408.default.createElement("div", null, textAlt), type2 === "message" && /* @__PURE__ */ import_react408.default.createElement(import_react408.Fragment, null, !!activity.suggestedActions && /* @__PURE__ */ import_react408.default.createElement(LiveRegionSuggestedActions_default, { suggestedActions: activity.suggestedActions }), /* @__PURE__ */ import_react408.default.createElement(LiveRegionAttachments_default, { activity }))));
+    return /* @__PURE__ */ import_react408.default.createElement("article", { "aria-atomic": true, className: (0, import_classnames94.default)("webchat__live-region-activity", rootClassName) }, /* @__PURE__ */ import_react408.default.createElement("div", null, greetingAlt), validFallbackText ? /* @__PURE__ */ import_react408.default.createElement("div", null, fallbackText) : /* @__PURE__ */ import_react408.default.createElement(import_react408.Fragment, null, /* @__PURE__ */ import_react408.default.createElement("div", null, textAlt), type2 === "message" && /* @__PURE__ */ import_react408.default.createElement(import_react408.Fragment, null, !!activity.suggestedActions && /* @__PURE__ */ import_react408.default.createElement(LiveRegionSuggestedActions_default, { suggestedActions: activity.suggestedActions }), /* @__PURE__ */ import_react408.default.createElement(LiveRegionAttachments_default, { activity }))));
   }
   var LiveRegionActivity_default = LiveRegionActivity;
   function usePrevious3(value) {
@@ -167983,7 +169031,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
   var {
     useActivityKeys: useActivityKeys22,
-    useDirection: useDirection15,
+    useDirection: useDirection12,
     useGetActivityByKey: useGetActivityByKey3,
     useGetKeyByActivityId: useGetKeyByActivityId2,
     useLastAcknowledgedActivityKey: useLastAcknowledgedActivityKey2,
@@ -167992,7 +169040,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     useMarkAllAsAcknowledged: useMarkAllAsAcknowledged2,
     useStyleOptions: useStyleOptions242
   } = hook_exports;
-  var ROOT_STYLE18 = {
+  var ROOT_STYLE14 = {
     "&.webchat__basic-transcript": {
       display: "flex",
       flexDirection: "column",
@@ -168021,7 +169069,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   var InternalTranscript = (0, import_react402.forwardRef)(
     ({ className, terminatorRef }, ref) => {
       const [activeDescendantId] = useActiveDescendantId();
-      const [direction] = useDirection15();
+      const [direction] = useDirection12();
       const [focusedKey] = useFocusedKey();
       const [focusedExplicitly] = useFocusedExplicitly();
       const focusElementMapRef = useActivityElementMapRef();
@@ -168031,7 +169079,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       const getActivityByKey = useGetActivityByKey3();
       const getKeyByActivityId = useGetKeyByActivityId2();
       const localize2 = useLocalizer45();
-      const rootClassName = useStyleToEmotionObject()(ROOT_STYLE18) + "";
+      const rootClassName = useStyleToEmotionObject()(ROOT_STYLE14) + "";
       const rootElementRef = (0, import_react402.useRef)(null);
       const focusedKeyRef = useValueRef2(focusedKey);
       const transcriptAriaLabel = localize2("TRANSCRIPT_ARIA_LABEL_ALT");
@@ -168222,7 +169270,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         {
           "aria-activedescendant": android ? void 0 : activeDescendantId,
           "aria-label": transcriptAriaLabel,
-          className: (0, import_classnames92.default)("webchat__basic-transcript", rootClassName, (className || "") + ""),
+          className: (0, import_classnames91.default)("webchat__basic-transcript", rootClassName, (className || "") + ""),
           dir: direction,
           onFocus: handleFocus,
           onKeyDown: handleTranscriptKeyDown,
@@ -168259,7 +169307,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       TranscriptActivityList_default,
       {
         "aria-roledescription": transcriptRoleDescription,
-        className: (0, import_classnames92.default)(activitiesStyleSet + "", "webchat__basic-transcript__transcript"),
+        className: (0, import_classnames91.default)(activitiesStyleSet + "", "webchat__basic-transcript__transcript"),
         role: "feed"
       },
       children
@@ -168436,132 +169484,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     return /* @__PURE__ */ import_react423.default.createElement(Context_default42.Provider, { value: contextRef.current }, /* @__PURE__ */ import_react423.default.createElement("div", { className, onKeyUp: handleKeyUp, ref, role }, children));
   });
   var Surface_default = Surface;
-  var { useDebouncedNotifications: useDebouncedNotifications3, useSpeechToSpeech: useSpeechToSpeech2 } = hook_exports;
-  var speechToSpeechButtonPropsSchema = pipe(
-    object({
-      className: optional(string())
-    }),
-    readonly()
-  );
-  var EXPERIENCE_ROOT_CLASS = "webchat__s2s-experience";
-  var SpeechToSpeechExperience = (props) => {
-    const { className } = validateProps2(speechToSpeechButtonPropsSchema, props);
-    const [{ connectivitystatus }] = useDebouncedNotifications3();
-    const [{ speechToSpeechExperience: s2sStyleSet }] = useStyleSet();
-    const [{ recording, setRecording, speechState }] = useSpeechToSpeech2();
-    const connectivityMessage = connectivitystatus == null ? void 0 : connectivitystatus.message;
-    const isConnected = connectivityMessage === "connected";
-    const isConnecting = connectivityMessage === "connecting" || connectivityMessage === "reconnecting" || !connectivityMessage;
-    const hasError = connectivityMessage === "failedtoconnect" || connectivityMessage === "javascripterror";
-    const buttonDisabled = !isConnected || hasError;
-    const getStatusText = () => {
-      if (hasError) {
-        return "Unavailable";
-      }
-      if (isConnecting) {
-        return "Connecting\u2026";
-      }
-      switch (speechState) {
-        case "listening":
-          return "Listening...";
-        case "processing":
-          return "Processing...";
-        case "bot_speaking":
-          return "Talk to interrupt...";
-        default:
-          return recording ? "Recording" : "Ready to talk";
-      }
-    };
-    const statusText = getStatusText();
-    return /* @__PURE__ */ import_react424.default.createElement("div", { className: (0, import_classnames96.default)(`${EXPERIENCE_ROOT_CLASS}__footer`, s2sStyleSet, className) }, /* @__PURE__ */ import_react424.default.createElement(
-      "div",
-      {
-        className: (0, import_classnames96.default)(
-          `${EXPERIENCE_ROOT_CLASS}__container`,
-          recording && `${EXPERIENCE_ROOT_CLASS}__container--recording`,
-          hasError && `${EXPERIENCE_ROOT_CLASS}__container--error`,
-          isConnecting && `${EXPERIENCE_ROOT_CLASS}__container--connecting`
-        ),
-        style: {
-          display: "flex",
-          alignItems: "center",
-          gap: "12px",
-          padding: "8px 16px",
-          backgroundColor: "rgba(255, 255, 255, 0.9)",
-          borderRadius: "24px",
-          border: "1px solid rgba(0, 0, 0, 0.1)",
-          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
-          backdropFilter: "blur(10px)",
-          maxWidth: "fit-content",
-          margin: "0 auto"
-        }
-      },
-      /* @__PURE__ */ import_react424.default.createElement(
-        "button",
-        {
-          className: (0, import_classnames96.default)(`${EXPERIENCE_ROOT_CLASS}__close-button`),
-          disabled: buttonDisabled,
-          onClick: () => {
-            if (recording) {
-              setRecording(false);
-            }
-          },
-          style: {
-            background: "transparent",
-            border: "none",
-            cursor: buttonDisabled ? "not-allowed" : "pointer",
-            opacity: buttonDisabled ? 0.5 : 1,
-            padding: "4px"
-          },
-          title: "Close",
-          type: "button"
-        },
-        /* @__PURE__ */ import_react424.default.createElement(ComponentIcon_default, { appearance: "text", icon: "dismiss" })
-      ),
-      /* @__PURE__ */ import_react424.default.createElement(
-        "span",
-        {
-          className: `${EXPERIENCE_ROOT_CLASS}__status`,
-          style: {
-            fontSize: "14px",
-            fontWeight: "500",
-            color: "#333",
-            minWidth: "80px",
-            textAlign: "center"
-          }
-        },
-        statusText
-      ),
-      /* @__PURE__ */ import_react424.default.createElement(
-        "button",
-        {
-          className: (0, import_classnames96.default)(
-            `${EXPERIENCE_ROOT_CLASS}__mic-button`,
-            recording && `${EXPERIENCE_ROOT_CLASS}__mic-button--recording`
-          ),
-          disabled: buttonDisabled,
-          onClick: () => setRecording(!recording),
-          style: {
-            background: "transparent",
-            border: "none",
-            cursor: buttonDisabled ? "not-allowed" : "pointer",
-            opacity: buttonDisabled ? 0.5 : 1
-          },
-          title: recording ? "Stop recording" : "Start recording",
-          type: "button"
-        },
-        /* @__PURE__ */ import_react424.default.createElement(
-          ComponentIcon_default,
-          {
-            appearance: "text",
-            icon: speechState === "bot_speaking" ? "bot-speaking" : "microphone-gradient"
-          }
-        )
-      )
-    ));
-  };
   var { useStyleOptions: useStyleOptions25 } = hook_exports;
-  var ROOT_STYLE19 = {
+  var ROOT_STYLE15 = {
     display: "flex",
     flexDirection: "column"
   };
@@ -168593,19 +169517,21 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const [options] = useStyleOptions25();
     const styleToEmotionObject = useStyleToEmotionObject();
     const connectivityStatusClassName = styleToEmotionObject(CONNECTIVITY_STATUS_STYLE) + "";
-    const rootClassName = styleToEmotionObject(ROOT_STYLE19) + "";
+    const rootClassName = styleToEmotionObject(ROOT_STYLE15) + "";
     const sendBoxClassName = styleToEmotionObject(SEND_BOX_CSS) + "";
     const toasterClassName = styleToEmotionObject(TOASTER_STYLE) + "";
     const transcriptClassName = styleToEmotionObject(TRANSCRIPT_STYLE) + "";
     return /* @__PURE__ */ import_react389.default.createElement(
       Surface_default,
       {
-        className: (0, import_classnames84.default)("webchat__surface", rootClassName, rootStyleSet + "", className),
+        className: (0, import_classnames83.default)("webchat__surface", rootClassName, rootStyleSet + "", className),
         ref: rootRef,
         role
       },
       !options.hideToaster && /* @__PURE__ */ import_react389.default.createElement(BasicToaster_default, { className: toasterClassName }),
-      options.enableSpeech2SpeechMode ? /* @__PURE__ */ import_react389.default.createElement(import_react389.default.Fragment, null, /* @__PURE__ */ import_react389.default.createElement(BasicTranscript_default, { className: transcriptClassName }), /* @__PURE__ */ import_react389.default.createElement(SpeechToSpeechExperience, null)) : /* @__PURE__ */ import_react389.default.createElement(import_react389.default.Fragment, null, /* @__PURE__ */ import_react389.default.createElement(BasicTranscript_default, { className: transcriptClassName }), /* @__PURE__ */ import_react389.default.createElement(BasicConnectivityStatus_default, { className: connectivityStatusClassName }), /* @__PURE__ */ import_react389.default.createElement(SendBoxMiddlewareProxy, { className: sendBoxClassName, request: void 0 }))
+      /* @__PURE__ */ import_react389.default.createElement(BasicTranscript_default, { className: transcriptClassName }),
+      /* @__PURE__ */ import_react389.default.createElement(BasicConnectivityStatus_default, { className: connectivityStatusClassName }),
+      /* @__PURE__ */ import_react389.default.createElement(SendBoxMiddlewareProxy, { className: sendBoxClassName, request: void 0 })
     );
   }
   var BasicWebChat_default = (0, import_react389.memo)(BasicWebChat);
@@ -168639,9 +169565,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     console.warn(
       "botframework-webchat: <Avatar> component is deprecated and will be removed on or after 2022-02-25. Please use `useRenderAvatar` hook instead."
     );
-    return /* @__PURE__ */ import_react425.default.createElement(MemoizedDefaultAvatar, { "aria-hidden": ariaHidden, className, fromUser });
+    return /* @__PURE__ */ import_react424.default.createElement(MemoizedDefaultAvatar, { "aria-hidden": ariaHidden, className, fromUser });
   }
-  var Avatar_default = (0, import_react425.memo)(Avatar);
+  var Avatar_default = (0, import_react424.memo)(Avatar);
   var { useLocalizer: useLocalizer46, useTrackException: useTrackException22 } = hook_exports;
   var errorBoxPropsSchema = pipe(
     object({
@@ -168655,7 +169581,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const [{ errorBox: errorBoxStyleSet }] = useStyleSet();
     const localize2 = useLocalizer46();
     const trackException = useTrackException22();
-    (0, import_react426.useEffect)(() => {
+    (0, import_react425.useEffect)(() => {
       let rectifiedError;
       if (error2 instanceof Error) {
         rectifiedError = error2;
@@ -168665,12 +169591,12 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       }
       trackException(rectifiedError, false);
     }, [error2, trackException]);
-    return /* @__PURE__ */ import_react426.default.createElement(import_react426.Fragment, null, /* @__PURE__ */ import_react426.default.createElement(ScreenReaderText_default, { text: localize2("ACTIVITY_ERROR_BOX_TITLE") }), /* @__PURE__ */ import_react426.default.createElement("div", { className: errorBoxStyleSet }, /* @__PURE__ */ import_react426.default.createElement("div", null, type2), error2 instanceof Error ? /* @__PURE__ */ import_react426.default.createElement("details", null, /* @__PURE__ */ import_react426.default.createElement("summary", null, error2.message), /* @__PURE__ */ import_react426.default.createElement("pre", null, error2.stack)) : (
+    return /* @__PURE__ */ import_react425.default.createElement(import_react425.Fragment, null, /* @__PURE__ */ import_react425.default.createElement(ScreenReaderText_default, { text: localize2("ACTIVITY_ERROR_BOX_TITLE") }), /* @__PURE__ */ import_react425.default.createElement("div", { className: errorBoxStyleSet }, /* @__PURE__ */ import_react425.default.createElement("div", null, type2), error2 instanceof Error ? /* @__PURE__ */ import_react425.default.createElement("details", null, /* @__PURE__ */ import_react425.default.createElement("summary", null, error2.message), /* @__PURE__ */ import_react425.default.createElement("pre", null, error2.stack)) : (
       // eslint-disable-next-line no-magic-numbers
-      /* @__PURE__ */ import_react426.default.createElement("pre", null, JSON.stringify(error2, null, 2))
+      /* @__PURE__ */ import_react425.default.createElement("pre", null, JSON.stringify(error2, null, 2))
     )));
   }
-  var ErrorBox_default = (0, import_react426.memo)(ErrorBox);
+  var ErrorBox_default = (0, import_react425.memo)(ErrorBox);
   var themeProviderPropsSchema = pipe(
     object({
       children: optional(reactNode_default()),
@@ -168729,63 +169655,63 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       toastMiddleware,
       typingIndicatorMiddleware
     } = validateProps2(themeProviderPropsSchema, props);
-    const existingContext = (0, import_react427.useContext)(Context_default62);
-    const mergedActivityMiddleware = (0, import_react427.useMemo)(
+    const existingContext = (0, import_react426.useContext)(Context_default62);
+    const mergedActivityMiddleware = (0, import_react426.useMemo)(
       () => Object.freeze([...activityMiddleware || [], ...existingContext.activityMiddleware]),
       [activityMiddleware, existingContext.activityMiddleware]
     );
-    const mergedActivityStatusMiddleware = (0, import_react427.useMemo)(
+    const mergedActivityStatusMiddleware = (0, import_react426.useMemo)(
       () => Object.freeze([...activityStatusMiddleware || EMPTY_ARRAY23, ...existingContext.activityStatusMiddleware]),
       [activityStatusMiddleware, existingContext.activityStatusMiddleware]
     );
-    const mergedAttachmentForScreenReaderMiddleware = (0, import_react427.useMemo)(
+    const mergedAttachmentForScreenReaderMiddleware = (0, import_react426.useMemo)(
       () => Object.freeze([
         ...attachmentForScreenReaderMiddleware || EMPTY_ARRAY23,
         ...existingContext.attachmentForScreenReaderMiddleware
       ]),
       [attachmentForScreenReaderMiddleware, existingContext.attachmentForScreenReaderMiddleware]
     );
-    const mergedAttachmentMiddleware = (0, import_react427.useMemo)(
+    const mergedAttachmentMiddleware = (0, import_react426.useMemo)(
       () => Object.freeze([...attachmentMiddleware || EMPTY_ARRAY23, ...existingContext.attachmentMiddleware]),
       [attachmentMiddleware, existingContext.attachmentMiddleware]
     );
-    const mergedAvatarMiddleware = (0, import_react427.useMemo)(
+    const mergedAvatarMiddleware = (0, import_react426.useMemo)(
       () => Object.freeze([...avatarMiddleware || EMPTY_ARRAY23, ...existingContext.avatarMiddleware]),
       [avatarMiddleware, existingContext.avatarMiddleware]
     );
-    const mergedCardActionMiddleware = (0, import_react427.useMemo)(
+    const mergedCardActionMiddleware = (0, import_react426.useMemo)(
       () => Object.freeze([...cardActionMiddleware || EMPTY_ARRAY23, ...existingContext.cardActionMiddleware]),
       [cardActionMiddleware, existingContext.cardActionMiddleware]
     );
-    const mergedGroupActivitiesMiddleware = (0, import_react427.useMemo)(
+    const mergedGroupActivitiesMiddleware = (0, import_react426.useMemo)(
       () => Object.freeze([...groupActivitiesMiddleware || EMPTY_ARRAY23, ...existingContext.groupActivitiesMiddleware]),
       [groupActivitiesMiddleware, existingContext.groupActivitiesMiddleware]
     );
-    const mergedPolymiddleware = (0, import_react427.useMemo)(
+    const mergedPolymiddleware = (0, import_react426.useMemo)(
       () => Object.freeze([...polymiddleware || EMPTY_ARRAY23, ...existingContext.polymiddleware]),
       [polymiddleware, existingContext.polymiddleware]
     );
-    const mergedScrollToEndButtonMiddleware = (0, import_react427.useMemo)(
+    const mergedScrollToEndButtonMiddleware = (0, import_react426.useMemo)(
       () => Object.freeze([...scrollToEndButtonMiddleware || EMPTY_ARRAY23, ...existingContext.scrollToEndButtonMiddleware]),
       [scrollToEndButtonMiddleware, existingContext.scrollToEndButtonMiddleware]
     );
-    const mergedSendBoxMiddleware = (0, import_react427.useMemo)(
+    const mergedSendBoxMiddleware = (0, import_react426.useMemo)(
       () => Object.freeze([...sendBoxMiddleware || EMPTY_ARRAY23, ...existingContext.sendBoxMiddleware]),
       [sendBoxMiddleware, existingContext.sendBoxMiddleware]
     );
-    const mergedSendBoxToolbarMiddleware = (0, import_react427.useMemo)(
+    const mergedSendBoxToolbarMiddleware = (0, import_react426.useMemo)(
       () => Object.freeze([...sendBoxToolbarMiddleware || EMPTY_ARRAY23, ...existingContext.sendBoxToolbarMiddleware]),
       [sendBoxToolbarMiddleware, existingContext.sendBoxToolbarMiddleware]
     );
-    const mergedToastMiddleware = (0, import_react427.useMemo)(
+    const mergedToastMiddleware = (0, import_react426.useMemo)(
       () => Object.freeze([...toastMiddleware || EMPTY_ARRAY23, ...existingContext.toastMiddleware]),
       [toastMiddleware, existingContext.toastMiddleware]
     );
-    const mergedTypingIndicatorMiddleware = (0, import_react427.useMemo)(
+    const mergedTypingIndicatorMiddleware = (0, import_react426.useMemo)(
       () => Object.freeze([...typingIndicatorMiddleware || EMPTY_ARRAY23, ...existingContext.typingIndicatorMiddleware]),
       [typingIndicatorMiddleware, existingContext.typingIndicatorMiddleware]
     );
-    const context9 = (0, import_react427.useMemo)(
+    const context9 = (0, import_react426.useMemo)(
       () => ({
         activityMiddleware: mergedActivityMiddleware,
         activityStatusMiddleware: mergedActivityStatusMiddleware,
@@ -168817,12 +169743,12 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         mergedTypingIndicatorMiddleware
       ]
     );
-    return /* @__PURE__ */ import_react427.default.createElement(StyleOptionsComposer_default, { styleOptions }, /* @__PURE__ */ import_react427.default.createElement(Context_default62.Provider, { value: context9 }, children));
+    return /* @__PURE__ */ import_react426.default.createElement(StyleOptionsComposer_default, { styleOptions }, /* @__PURE__ */ import_react426.default.createElement(Context_default62.Provider, { value: context9 }, children));
   };
   ThemeProvider.displayName = "ThemeProvider";
-  var ThemeProvider_default = (0, import_react427.memo)(ThemeProvider);
+  var ThemeProvider_default = (0, import_react426.memo)(ThemeProvider);
 
-  // ../component/dist/chunk-UYN5AVMJ.mjs
+  // ../component/dist/chunk-SC7O6TE2.mjs
   var hook_exports2 = {};
   __export2(hook_exports2, {
     useActiveTyping: () => useActiveTyping_default,
@@ -169083,10 +170009,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
 
   // src/renderWebChat.tsx
-  var import_react428 = __toESM(require_react());
+  var import_react427 = __toESM(require_react());
   var import_react_dom4 = __toESM(require_react_dom());
   function renderWebChat(ReactWebChat2, props, element3) {
-    import_react_dom4.default.render(/* @__PURE__ */ import_react428.default.createElement(ReactWebChat2, { ...props }), element3);
+    import_react_dom4.default.render(/* @__PURE__ */ import_react427.default.createElement(ReactWebChat2, { ...props }), element3);
   }
 
   // src/boot/actual/renderWebChat/minimal.ts
@@ -169112,11 +170038,11 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   });
 
   // ../component/dist/botframework-webchat-component.decorator.mjs
+  var import_react428 = __toESM(require_react(), 1);
   var import_react429 = __toESM(require_react(), 1);
   var import_react430 = __toESM(require_react(), 1);
+  var import_classnames95 = __toESM(require_classnames(), 1);
   var import_react431 = __toESM(require_react(), 1);
-  var import_classnames97 = __toESM(require_classnames(), 1);
-  var import_react432 = __toESM(require_react(), 1);
   var decoratorStyleContent = '/* unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/component/src/decorator/private/BorderFlair.module_built.css */\n@property --webchat-decorator-borderFlair-animated-angle { syntax: "<number>"; inherits: true; initial-value: 0; }\n@property --webchat-decorator-borderFlair-animated-color1 { syntax: "<color>"; inherits: true; initial-value: #0000; }\n@property --webchat-decorator-borderFlair-animated-color2 { syntax: "<color>"; inherits: true; initial-value: #0000; }\n@property --webchat-decorator-borderFlair-animated-color3 { syntax: "<color>"; inherits: true; initial-value: #0000; }\n@keyframes borderAnimation-angle {\n  0% {\n    --webchat-decorator-borderFlair-animated-angle: .75;\n  }\n  100% {\n    --webchat-decorator-borderFlair-animated-angle: 2.75;\n  }\n}\n@keyframes borderAnimation-color1 {\n  0% {\n    --webchat-decorator-borderFlair-animated-color1: var(--webchat-decorator-borderFlair-color1Fade);\n  }\n  33% {\n    --webchat-decorator-borderFlair-animated-color1: var(--webchat-decorator-borderFlair-color1);\n  }\n  83% {\n    --webchat-decorator-borderFlair-animated-color1: var(--webchat-decorator-borderFlair-color1);\n  }\n  100% {\n    --webchat-decorator-borderFlair-animated-color1: var(--webchat-decorator-borderFlair-color1Fade);\n  }\n}\n@keyframes borderAnimation-color2 {\n  0% {\n    --webchat-decorator-borderFlair-animated-color2: var(--webchat-decorator-borderFlair-color2Fade);\n  }\n  33% {\n    --webchat-decorator-borderFlair-animated-color2: var(--webchat-decorator-borderFlair-color2);\n  }\n  83% {\n    --webchat-decorator-borderFlair-animated-color2: var(--webchat-decorator-borderFlair-color2);\n  }\n  100% {\n    --webchat-decorator-borderFlair-animated-color2: var(--webchat-decorator-borderFlair-color2Fade);\n  }\n}\n@keyframes borderAnimation-color3 {\n  0% {\n    --webchat-decorator-borderFlair-animated-color3: var(--webchat-decorator-borderFlair-color3Fade);\n  }\n  33% {\n    --webchat-decorator-borderFlair-animated-color3: var(--webchat-decorator-borderFlair-color3);\n  }\n  83% {\n    --webchat-decorator-borderFlair-animated-color3: var(--webchat-decorator-borderFlair-color3);\n  }\n  100% {\n    --webchat-decorator-borderFlair-animated-color3: var(--webchat-decorator-borderFlair-color3Fade);\n  }\n}\n.webchat .wEa7pCG_border-flair {\n  --webchat-decorator-borderFlair-color1: var(--webchat-borderFlair-color1, var(--webchat__border-animation--color-1));\n  --webchat-decorator-borderFlair-color2: var(--webchat-borderFlair-color2, var(--webchat__border-animation--color-2));\n  --webchat-decorator-borderFlair-color3: var(--webchat-borderFlair-color3, var(--webchat__border-animation--color-3));\n  --webchat-decorator-borderFlair-color1Fade: var(--webchat-borderFlair-color1Fade, transparent);\n  --webchat-decorator-borderFlair-color2Fade: var(--webchat-borderFlair-color2Fade, transparent);\n  --webchat-decorator-borderFlair-color3Fade: var(--webchat-borderFlair-color1Fade, transparent);\n  --webchat-decorator-borderFlair-borderSize: var(--webchat-borderFlair-borderSize, 2px);\n  --webchat-decorator-borderFlair-backgroundSize: calc(100% + (2 * var(--webchat-decorator-borderFlair-borderSize)));\n  --webchat-decorator-borderFlair-borderGradient:\n    linear-gradient(\n      calc(var(--webchat-decorator-borderFlair-animated-angle) * 180deg + 45deg),\n      var(--webchat-decorator-borderFlair-animated-color1),\n      var(--webchat-decorator-borderFlair-animated-color2),\n      var(--webchat-decorator-borderFlair-animated-color3));\n  --webchat-decorator-borderFlair-borderMask: linear-gradient(#fff0, #fff0) padding-box, linear-gradient(#fff, #fff) border-box;\n  background: var(--webchat-decorator-borderFlair-borderGradient) center center / var(--webchat-decorator-borderFlair-backgroundSize) var(--webchat-decorator-borderFlair-backgroundSize);\n  border: var(--webchat-decorator-borderFlair-borderSize) solid transparent;\n  border-radius: inherit;\n  isolation: isolate;\n  -webkit-mask: var(--webchat-decorator-borderFlair-borderMask);\n  -webkit-mask-composite: clear;\n  mask: var(--webchat-decorator-borderFlair-borderMask);\n  pointer-events: none;\n  animation:\n    2s linear forwards borderAnimation-angle,\n    1.2s linear forwards borderAnimation-color1,\n    1.2s linear .2s forwards borderAnimation-color2,\n    1.2s linear .4s forwards borderAnimation-color3;\n  position: absolute;\n  inset: 0;\n  mask-composite: intersect;\n}\n.webchat .wEa7pCG_border-flair--complete {\n  animation-play-state: paused;\n}\n@supports ((-moz-appearance: none)) {\n  @keyframes borderFlair-animation {\n    0% {\n      --webchat-decorator-borderFlair-animated: 0;\n    }\n    1% {\n      --webchat-decorator-borderFlair-animated: .01;\n    }\n    2% {\n      --webchat-decorator-borderFlair-animated: .02;\n    }\n    3% {\n      --webchat-decorator-borderFlair-animated: .03;\n    }\n    4% {\n      --webchat-decorator-borderFlair-animated: .04;\n    }\n    5% {\n      --webchat-decorator-borderFlair-animated: .05;\n    }\n    6% {\n      --webchat-decorator-borderFlair-animated: .06;\n    }\n    7% {\n      --webchat-decorator-borderFlair-animated: .07;\n    }\n    8% {\n      --webchat-decorator-borderFlair-animated: .08;\n    }\n    9% {\n      --webchat-decorator-borderFlair-animated: .09;\n    }\n    10% {\n      --webchat-decorator-borderFlair-animated: .1;\n    }\n    11% {\n      --webchat-decorator-borderFlair-animated: .11;\n    }\n    12% {\n      --webchat-decorator-borderFlair-animated: .12;\n    }\n    13% {\n      --webchat-decorator-borderFlair-animated: .13;\n    }\n    14% {\n      --webchat-decorator-borderFlair-animated: .14;\n    }\n    15% {\n      --webchat-decorator-borderFlair-animated: .15;\n    }\n    16% {\n      --webchat-decorator-borderFlair-animated: .16;\n    }\n    17% {\n      --webchat-decorator-borderFlair-animated: .17;\n    }\n    18% {\n      --webchat-decorator-borderFlair-animated: .18;\n    }\n    19% {\n      --webchat-decorator-borderFlair-animated: .19;\n    }\n    20% {\n      --webchat-decorator-borderFlair-animated: .2;\n    }\n    21% {\n      --webchat-decorator-borderFlair-animated: .21;\n    }\n    22% {\n      --webchat-decorator-borderFlair-animated: .22;\n    }\n    23% {\n      --webchat-decorator-borderFlair-animated: .23;\n    }\n    24% {\n      --webchat-decorator-borderFlair-animated: .24;\n    }\n    25% {\n      --webchat-decorator-borderFlair-animated: .25;\n    }\n    26% {\n      --webchat-decorator-borderFlair-animated: .26;\n    }\n    27% {\n      --webchat-decorator-borderFlair-animated: .27;\n    }\n    28% {\n      --webchat-decorator-borderFlair-animated: .28;\n    }\n    29% {\n      --webchat-decorator-borderFlair-animated: .29;\n    }\n    30% {\n      --webchat-decorator-borderFlair-animated: .3;\n    }\n    31% {\n      --webchat-decorator-borderFlair-animated: .31;\n    }\n    32% {\n      --webchat-decorator-borderFlair-animated: .32;\n    }\n    33% {\n      --webchat-decorator-borderFlair-animated: .33;\n    }\n    34% {\n      --webchat-decorator-borderFlair-animated: .34;\n    }\n    35% {\n      --webchat-decorator-borderFlair-animated: .35;\n    }\n    36% {\n      --webchat-decorator-borderFlair-animated: .36;\n    }\n    37% {\n      --webchat-decorator-borderFlair-animated: .37;\n    }\n    38% {\n      --webchat-decorator-borderFlair-animated: .38;\n    }\n    39% {\n      --webchat-decorator-borderFlair-animated: .39;\n    }\n    40% {\n      --webchat-decorator-borderFlair-animated: .4;\n    }\n    41% {\n      --webchat-decorator-borderFlair-animated: .41;\n    }\n    42% {\n      --webchat-decorator-borderFlair-animated: .42;\n    }\n    43% {\n      --webchat-decorator-borderFlair-animated: .43;\n    }\n    44% {\n      --webchat-decorator-borderFlair-animated: .44;\n    }\n    45% {\n      --webchat-decorator-borderFlair-animated: .45;\n    }\n    46% {\n      --webchat-decorator-borderFlair-animated: .46;\n    }\n    47% {\n      --webchat-decorator-borderFlair-animated: .47;\n    }\n    48% {\n      --webchat-decorator-borderFlair-animated: .48;\n    }\n    49% {\n      --webchat-decorator-borderFlair-animated: .49;\n    }\n    50% {\n      --webchat-decorator-borderFlair-animated: .5;\n    }\n    51% {\n      --webchat-decorator-borderFlair-animated: .51;\n    }\n    52% {\n      --webchat-decorator-borderFlair-animated: .52;\n    }\n    53% {\n      --webchat-decorator-borderFlair-animated: .53;\n    }\n    54% {\n      --webchat-decorator-borderFlair-animated: .54;\n    }\n    55% {\n      --webchat-decorator-borderFlair-animated: .55;\n    }\n    56% {\n      --webchat-decorator-borderFlair-animated: .56;\n    }\n    57% {\n      --webchat-decorator-borderFlair-animated: .57;\n    }\n    58% {\n      --webchat-decorator-borderFlair-animated: .58;\n    }\n    59% {\n      --webchat-decorator-borderFlair-animated: .59;\n    }\n    60% {\n      --webchat-decorator-borderFlair-animated: .6;\n    }\n    61% {\n      --webchat-decorator-borderFlair-animated: .61;\n    }\n    62% {\n      --webchat-decorator-borderFlair-animated: .62;\n    }\n    63% {\n      --webchat-decorator-borderFlair-animated: .63;\n    }\n    64% {\n      --webchat-decorator-borderFlair-animated: .64;\n    }\n    65% {\n      --webchat-decorator-borderFlair-animated: .65;\n    }\n    66% {\n      --webchat-decorator-borderFlair-animated: .66;\n    }\n    67% {\n      --webchat-decorator-borderFlair-animated: .67;\n    }\n    68% {\n      --webchat-decorator-borderFlair-animated: .68;\n    }\n    69% {\n      --webchat-decorator-borderFlair-animated: .69;\n    }\n    70% {\n      --webchat-decorator-borderFlair-animated: .7;\n    }\n    71% {\n      --webchat-decorator-borderFlair-animated: .71;\n    }\n    72% {\n      --webchat-decorator-borderFlair-animated: .72;\n    }\n    73% {\n      --webchat-decorator-borderFlair-animated: .73;\n    }\n    74% {\n      --webchat-decorator-borderFlair-animated: .74;\n    }\n    75% {\n      --webchat-decorator-borderFlair-animated: .75;\n    }\n    76% {\n      --webchat-decorator-borderFlair-animated: .76;\n    }\n    77% {\n      --webchat-decorator-borderFlair-animated: .77;\n    }\n    78% {\n      --webchat-decorator-borderFlair-animated: .78;\n    }\n    79% {\n      --webchat-decorator-borderFlair-animated: .79;\n    }\n    80% {\n      --webchat-decorator-borderFlair-animated: .8;\n    }\n    81% {\n      --webchat-decorator-borderFlair-animated: .81;\n    }\n    82% {\n      --webchat-decorator-borderFlair-animated: .82;\n    }\n    83% {\n      --webchat-decorator-borderFlair-animated: .83;\n    }\n    84% {\n      --webchat-decorator-borderFlair-animated: .84;\n    }\n    85% {\n      --webchat-decorator-borderFlair-animated: .85;\n    }\n    86% {\n      --webchat-decorator-borderFlair-animated: .86;\n    }\n    87% {\n      --webchat-decorator-borderFlair-animated: .87;\n    }\n    88% {\n      --webchat-decorator-borderFlair-animated: .88;\n    }\n    89% {\n      --webchat-decorator-borderFlair-animated: .89;\n    }\n    90% {\n      --webchat-decorator-borderFlair-animated: .9;\n    }\n    91% {\n      --webchat-decorator-borderFlair-animated: .91;\n    }\n    92% {\n      --webchat-decorator-borderFlair-animated: .92;\n    }\n    93% {\n      --webchat-decorator-borderFlair-animated: .93;\n    }\n    94% {\n      --webchat-decorator-borderFlair-animated: .94;\n    }\n    95% {\n      --webchat-decorator-borderFlair-animated: .95;\n    }\n    96% {\n      --webchat-decorator-borderFlair-animated: .96;\n    }\n    97% {\n      --webchat-decorator-borderFlair-animated: .97;\n    }\n    98% {\n      --webchat-decorator-borderFlair-animated: .98;\n    }\n    99% {\n      --webchat-decorator-borderFlair-animated: .99;\n    }\n    100% {\n      --webchat-decorator-borderFlair-animated: 1;\n    }\n  }\n  .webchat .wEa7pCG_border-flair {\n    --webchat-decorator-borderFlair-animated-angle: calc(.75 + 2 * var(--webchat-decorator-borderFlair-animated));\n    --webchat-decorator-borderFlair-animated-color1: color-mix(in srgb, var(--webchat-decorator-borderFlair-color1) calc((1 - abs(var(--webchat-decorator-borderFlair-animated) * 3 - 1.5)) * 100%), var(--webchat-decorator-borderFlair-color1Fade));\n    --webchat-decorator-borderFlair-animated-color2: color-mix(in srgb, var(--webchat-decorator-borderFlair-color2) calc((1 - abs(var(--webchat-decorator-borderFlair-animated) * 3 - 1.75)) * 100%), var(--webchat-decorator-borderFlair-color2Fade));\n    --webchat-decorator-borderFlair-animated-color3: color-mix(in srgb, var(--webchat-decorator-borderFlair-color3) calc((1 - abs(var(--webchat-decorator-borderFlair-animated) * 3 - 2)) * 100%), var(--webchat-decorator-borderFlair-color3Fade));\n    animation: 2s linear forwards borderFlair-animation;\n  }\n}\n\n/* unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/component/src/decorator/private/BorderLoader.module_built.css */\n@keyframes borderAnimation-position {\n  0% {\n    width: 33%;\n    left: -33%;\n  }\n  100% {\n    width: 33%;\n    left: 100%;\n  }\n}\n.webchat .wO9qNnq_border-loader__track {\n  --webchat-decorator-borderLoader-borderSize: var(--webchat-borderLoader-borderSize, 4px);\n  background-color: var(--webchat-colorNeutralBackground6, #e6e6e6);\n  height: var(--webchat-decorator-borderLoader-borderSize);\n  width: 100%;\n  position: relative;\n}\n.webchat .wO9qNnq_border-loader__loader {\n  --webchat-decorator-borderLoader-color1: var(--webchat-borderLoader-color1, var(--webchat__border-animation--color-1));\n  --webchat-decorator-borderLoader-color2: var(--webchat-borderLoader-color2, var(--webchat__border-animation--color-2));\n  --webchat-decorator-borderLoader-color3: var(--webchat-borderLoader-color3, var(--webchat__border-animation--color-3));\n  --webchat-decorator-borderLoader-color1Fade: var(--webchat-borderLoader-color1Fade, transparent);\n  --webchat-decorator-borderLoader-color3Fade: var(--webchat-borderLoader-color1Fade, transparent);\n  background:\n    linear-gradient(\n      90deg,\n      var(--webchat-decorator-borderLoader-color1Fade) 0%,\n      var(--webchat-decorator-borderLoader-color1) 35%,\n      var(--webchat-decorator-borderLoader-color2) 70%,\n      var(--webchat-decorator-borderLoader-color3) 92%,\n      var(--webchat-decorator-borderLoader-color3Fade)) no-repeat;\n  height: var(--webchat-decorator-borderLoader-borderSize);\n  isolation: isolate;\n  width: 100%;\n  animation: 3s linear infinite borderAnimation-position;\n  position: absolute;\n  inset: 0;\n}\n';
   var createDecoratorStyleElements = makeCreateStyles(decoratorStyleContent);
   var createDecoratorStyleElements_default = createDecoratorStyleElements;
@@ -169131,36 +170057,36 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function DecoratorStylesheet(props) {
     const { nonce } = validateProps2(decoratorStylesheetPropsSchema, props);
     const [{ stylesRoot }] = useStyleOptions();
-    return /* @__PURE__ */ import_react430.default.createElement(InjectStyleElements_default, { at: stylesRoot, nonce, styleElements: styleElements2 });
+    return /* @__PURE__ */ import_react429.default.createElement(InjectStyleElements_default, { at: stylesRoot, nonce, styleElements: styleElements2 });
   }
   DecoratorStylesheet.displayName = "DecoratorStylesheet";
-  var DecoratorStylesheet_default = (0, import_react430.memo)(DecoratorStylesheet);
-  var classes8 = { "border-flair": "wEa7pCG_border-flair", "border-flair--complete": "wEa7pCG_border-flair--complete" };
-  var BorderFlair_module_default = classes8;
-  var _border_flair0 = classes8["border-flair"];
-  var _border_flair__complete0 = classes8["border-flair--complete"];
+  var DecoratorStylesheet_default = (0, import_react429.memo)(DecoratorStylesheet);
+  var classes19 = { "border-flair": "wEa7pCG_border-flair", "border-flair--complete": "wEa7pCG_border-flair--complete" };
+  var BorderFlair_module_default = classes19;
+  var _border_flair0 = classes19["border-flair"];
+  var _border_flair__complete0 = classes19["border-flair--complete"];
   function BorderFlair({
     children,
     showFlair = true
   }) {
-    const classNames49 = useStyles_default(BorderFlair_module_default);
-    const [isComplete, setComplete] = (0, import_react431.useState)(false);
-    const handleAnimationEnd = (0, import_react431.useCallback)(
+    const classNames31 = useStyles_default(BorderFlair_module_default);
+    const [isComplete, setComplete] = (0, import_react430.useState)(false);
+    const handleAnimationEnd = (0, import_react430.useCallback)(
       (event2) => (event2.animationName === BorderFlair_module_default["borderAnimation-angle"] || event2.animationName === BorderFlair_module_default["borderFlair-animation"]) && setComplete(true),
       []
     );
     if (!showFlair && isComplete) {
       setComplete(false);
     }
-    return /* @__PURE__ */ import_react431.default.createElement(import_react431.Fragment, null, children, showFlair && /* @__PURE__ */ import_react431.default.createElement(
+    return /* @__PURE__ */ import_react430.default.createElement(import_react430.Fragment, null, children, showFlair && /* @__PURE__ */ import_react430.default.createElement(
       "div",
       {
-        className: (0, import_classnames97.default)(classNames49["border-flair"], isComplete && classNames49["border-flair--complete"]),
+        className: (0, import_classnames95.default)(classNames31["border-flair"], isComplete && classNames31["border-flair--complete"]),
         onAnimationEnd: handleAnimationEnd
       }
     ));
   }
-  var BorderFlair_default = (0, import_react431.memo)(BorderFlair);
+  var BorderFlair_default = (0, import_react430.memo)(BorderFlair);
   var classes25 = { "border-loader__track": "wO9qNnq_border-loader__track", "border-loader__loader": "wO9qNnq_border-loader__loader" };
   var BorderLoader_module_default = classes25;
   var _border_loader__track0 = classes25["border-loader__track"];
@@ -169169,18 +170095,18 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     children,
     showLoader = true
   }) {
-    const classNames49 = useStyles_default(BorderLoader_module_default);
-    return /* @__PURE__ */ import_react432.default.createElement(import_react432.Fragment, null, children, showLoader && /* @__PURE__ */ import_react432.default.createElement("div", { className: classNames49["border-loader__track"] }, /* @__PURE__ */ import_react432.default.createElement("div", { className: classNames49["border-loader__loader"] })));
+    const classNames31 = useStyles_default(BorderLoader_module_default);
+    return /* @__PURE__ */ import_react431.default.createElement(import_react431.Fragment, null, children, showLoader && /* @__PURE__ */ import_react431.default.createElement("div", { className: classNames31["border-loader__track"] }, /* @__PURE__ */ import_react431.default.createElement("div", { className: classNames31["border-loader__loader"] })));
   }
-  var BorderLoader_default = (0, import_react432.memo)(BorderLoader);
+  var BorderLoader_default = (0, import_react431.memo)(BorderLoader);
   var middleware3 = Object.freeze([
     createActivityBorderMiddleware(function BorderFlairDecorator({ request: request2, Next, ...props }) {
       var _a29;
-      return /* @__PURE__ */ import_react429.default.createElement(BorderFlair_default, { showFlair: (_a29 = props.showFlair) != null ? _a29 : request2.livestreamingState === "completing" }, /* @__PURE__ */ import_react429.default.createElement(Next, { ...props, showFlair: false }));
+      return /* @__PURE__ */ import_react428.default.createElement(BorderFlair_default, { showFlair: (_a29 = props.showFlair) != null ? _a29 : request2.livestreamingState === "completing" }, /* @__PURE__ */ import_react428.default.createElement(Next, { ...props, showFlair: false }));
     }),
     createActivityBorderMiddleware(function BorderLoaderDecorator({ request: request2, Next, ...props }) {
       var _a29;
-      return /* @__PURE__ */ import_react429.default.createElement(BorderLoader_default, { showLoader: (_a29 = props.showLoader) != null ? _a29 : request2.livestreamingState === "preparing" }, /* @__PURE__ */ import_react429.default.createElement(Next, { ...props, showLoader: false }));
+      return /* @__PURE__ */ import_react428.default.createElement(BorderLoader_default, { showLoader: (_a29 = props.showLoader) != null ? _a29 : request2.livestreamingState === "preparing" }, /* @__PURE__ */ import_react428.default.createElement(Next, { ...props, showLoader: false }));
     })
   ]);
   var webChatDecoratorPropsSchema = pipe(
@@ -169192,9 +170118,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   );
   function WebChatDecorator(props) {
     const { children, nonce } = validateProps2(webChatDecoratorPropsSchema, props);
-    return /* @__PURE__ */ import_react429.default.createElement(import_react429.Fragment, null, /* @__PURE__ */ import_react429.default.createElement(DecoratorStylesheet_default, { nonce }), /* @__PURE__ */ import_react429.default.createElement(DecoratorComposer_default, { middleware: middleware3 }, children));
+    return /* @__PURE__ */ import_react428.default.createElement(import_react428.Fragment, null, /* @__PURE__ */ import_react428.default.createElement(DecoratorStylesheet_default, { nonce }), /* @__PURE__ */ import_react428.default.createElement(DecoratorComposer_default, { middleware: middleware3 }, children));
   }
-  var WebChatDecorator_default = (0, import_react429.memo)(WebChatDecorator);
+  var WebChatDecorator_default = (0, import_react428.memo)(WebChatDecorator);
 
   // src/boot/actual/hook/minimal.ts
   var minimal_exports2 = {};
@@ -169528,22 +170454,22 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
 
   // src/adaptiveCards/Attachment/AdaptiveCardContent.tsx
-  var import_react450 = __toESM(require_react());
+  var import_react449 = __toESM(require_react());
 
   // src/adaptiveCards/hooks/internal/useParseAdaptiveCardJSON.ts
-  var import_react435 = __toESM(require_react());
-
-  // src/adaptiveCards/hooks/internal/useAdaptiveCardsContext.ts
   var import_react434 = __toESM(require_react());
 
-  // src/adaptiveCards/AdaptiveCardsContext.ts
+  // src/adaptiveCards/hooks/internal/useAdaptiveCardsContext.ts
   var import_react433 = __toESM(require_react());
-  var AdaptiveCardsContext = (0, import_react433.createContext)(void 0);
+
+  // src/adaptiveCards/AdaptiveCardsContext.ts
+  var import_react432 = __toESM(require_react());
+  var AdaptiveCardsContext = (0, import_react432.createContext)(void 0);
   var AdaptiveCardsContext_default = AdaptiveCardsContext;
 
   // src/adaptiveCards/hooks/internal/useAdaptiveCardsContext.ts
   function useAdaptiveCardsContext() {
-    const context9 = (0, import_react434.useContext)(AdaptiveCardsContext_default);
+    const context9 = (0, import_react433.useContext)(AdaptiveCardsContext_default);
     if (!context9) {
       throw new Error("This hook can only be used on component that is decendants of <ComposerWithAdaptiveCards>");
     }
@@ -169563,7 +170489,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
 
   // src/adaptiveCards/hooks/internal/useParseAdaptiveCardJSON.ts
-  var { useDirection: useDirection16 } = hook_exports2;
+  var { useDirection: useDirection13 } = hook_exports2;
   function updateRTLInline(element3, rtl, adaptiveCardsPackage) {
     if (element3 instanceof adaptiveCardsPackage.Container) {
       element3.rtl = rtl;
@@ -169578,10 +170504,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
   function useParseAdaptiveCardJSON() {
     const [adaptiveCardsPackage] = useAdaptiveCardsPackage();
-    const [direction] = useDirection16();
+    const [direction] = useDirection13();
     const [{ adaptiveCardsParserMaxVersion }] = useStyleOptions18();
     const { AdaptiveCard: AdaptiveCard2, SerializationContext: SerializationContext2, Version: Version2 } = adaptiveCardsPackage;
-    const maxVersion = (0, import_react435.useMemo)(() => {
+    const maxVersion = (0, import_react434.useMemo)(() => {
       const maxVersion2 = Version2.parse(adaptiveCardsParserMaxVersion, new SerializationContext2());
       if (maxVersion2 && !maxVersion2.isValid) {
         console.warn('botframework-webchat: "adaptiveCardsParserMaxVersion" specified is not a valid version.');
@@ -169589,7 +170515,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       }
       return maxVersion2;
     }, [adaptiveCardsParserMaxVersion, SerializationContext2, Version2]);
-    return (0, import_react435.useCallback)(
+    return (0, import_react434.useCallback)(
       (content3, { ignoreErrors = false } = {}) => {
         if (!content3) {
           return;
@@ -169614,8 +170540,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
 
   // ../styles/dist/botframework-webchat-styles.react.mjs
+  var import_react435 = __toESM(require_react(), 1);
   var import_react436 = __toESM(require_react(), 1);
-  var import_react437 = __toESM(require_react(), 1);
   var __create10 = Object.create;
   var __defProp11 = Object.defineProperty;
   var __getOwnPropDesc10 = Object.getOwnPropertyDescriptor;
@@ -171872,7 +172798,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   var EMOJI_REGEX3 = new RegExp("^(?:[\\u{1F1E6}-\\u{1F1FF}]{2}|\\u{1F3F4}[\\u{E0061}-\\u{E007A}]{2}[\\u{E0030}-\\u{E0039}\\u{E0061}-\\u{E007A}]{1,3}\\u{E007F}|(?:\\p{Emoji}\\uFE0F\\u20E3?|\\p{Emoji_Modifier_Base}\\p{Emoji_Modifier}?|(?![\\p{Emoji_Modifier_Base}\\u{1F1E6}-\\u{1F1FF}])\\p{Emoji_Presentation})(?:\\u200D(?:\\p{Emoji}\\uFE0F\\u20E3?|\\p{Emoji_Modifier_Base}\\p{Emoji_Modifier}?|(?![\\p{Emoji_Modifier_Base}\\u{1F1E6}-\\u{1F1FF}])\\p{Emoji_Presentation}))*)+$", "u");
   var warnNonce2 = warnOnce6('The elements passing to <InjectStyleElements> should not have "nonce" attribute set');
   function useStyles2(styles2) {
-    return (0, import_react437.useMemo)(
+    return (0, import_react436.useMemo)(
       () => Object.freeze(
         Object.fromEntries(
           Object.entries(styles2).map(([baseClassName, resultClassName]) => [
@@ -171887,10 +172813,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   var useStyles_default2 = useStyles2;
 
   // src/adaptiveCards/Attachment/AdaptiveCardRenderer.tsx
-  var import_react449 = __toESM(require_react());
+  var import_react448 = __toESM(require_react());
 
   // src/adaptiveCards/hooks/useAdaptiveCardsHostConfig.ts
-  var import_react438 = __toESM(require_react());
+  var import_react437 = __toESM(require_react());
 
   // src/adaptiveCards/Styles/adaptiveCardHostConfig.ts
   function createAdaptiveCardsHostConfig(styleOptions) {
@@ -172031,7 +172957,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function useAdaptiveCardsHostConfig() {
     const { hostConfigFromProps } = useAdaptiveCardsContext();
     const [styleOptions] = useStyleOptions18();
-    const patchedHostConfig = (0, import_react438.useMemo)(
+    const patchedHostConfig = (0, import_react437.useMemo)(
       () => hostConfigFromProps || createAdaptiveCardsHostConfig(styleOptions),
       [hostConfigFromProps, styleOptions]
     );
@@ -172039,15 +172965,15 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
 
   // src/adaptiveCards/Attachment/AdaptiveCardHacks/private/useValueRef.ts
-  var import_react439 = __toESM(require_react());
+  var import_react438 = __toESM(require_react());
   function useValueRef3(value) {
-    const ref = (0, import_react439.useRef)(value);
+    const ref = (0, import_react438.useRef)(value);
     ref.current = value;
     return ref;
   }
 
   // src/adaptiveCards/Attachment/AdaptiveCardHacks/useActionShouldBePushButtonModEffect.ts
-  var import_react443 = __toESM(require_react());
+  var import_react442 = __toESM(require_react());
 
   // src/adaptiveCards/DOMManipulationWithUndo/private/noOp.ts
   var noOp = () => {
@@ -172157,13 +173083,13 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
 
   // src/adaptiveCards/Attachment/AdaptiveCardHacks/private/useAdaptiveCardModEffect.ts
-  var import_react441 = __toESM(require_react());
+  var import_react440 = __toESM(require_react());
 
   // src/adaptiveCards/Attachment/AdaptiveCardHacks/private/useLazyRef.ts
-  var import_react440 = __toESM(require_react());
+  var import_react439 = __toESM(require_react());
   var UNINITIALIZED2 = /* @__PURE__ */ Symbol();
   function useLazyRef(refInit) {
-    const ref = (0, import_react440.useRef)(UNINITIALIZED2);
+    const ref = (0, import_react439.useRef)(UNINITIALIZED2);
     if (ref.current === UNINITIALIZED2) {
       ref.current = refInit();
     }
@@ -172195,21 +173121,21 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   _undo = new WeakMap();
   function useAdaptiveCardModEffect(modder, adaptiveCard) {
     const adaptiveCardRef = useValueRef3(adaptiveCard);
-    const mod = (0, import_react441.useMemo)(() => new Mod(modder), [modder]);
-    const reapplyRef = (0, import_react441.useRef)();
+    const mod = (0, import_react440.useMemo)(() => new Mod(modder), [modder]);
+    const reapplyRef = (0, import_react440.useRef)();
     const observerRef = useLazyRef(
       () => new MutationObserver(() => {
         var _a29;
         (_a29 = reapplyRef.current) == null ? void 0 : _a29.call(reapplyRef);
       })
     );
-    (0, import_react441.useEffect)(
+    (0, import_react440.useEffect)(
       () => () => {
         observerRef.current.disconnect();
       },
       [observerRef]
     );
-    const handleApply = (0, import_react441.useCallback)(
+    const handleApply = (0, import_react440.useCallback)(
       (cardElement, ...args) => {
         if (adaptiveCardRef.current && cardElement) {
           (reapplyRef.current = () => mod.apply(adaptiveCardRef.current, cardElement, ...args))();
@@ -172220,21 +173146,21 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       },
       [adaptiveCardRef, observerRef, mod]
     );
-    const handleUndo = (0, import_react441.useCallback)(() => {
+    const handleUndo = (0, import_react440.useCallback)(() => {
       mod.undo();
       reapplyRef.current = void 0;
     }, [mod, reapplyRef]);
-    return (0, import_react441.useMemo)(
+    return (0, import_react440.useMemo)(
       () => Object.freeze([handleApply, handleUndo]),
       [handleApply, handleUndo]
     );
   }
 
   // src/adaptiveCards/Attachment/AdaptiveCardHacks/private/usePrevious.ts
-  var import_react442 = __toESM(require_react());
+  var import_react441 = __toESM(require_react());
   function usePrevious4(value) {
-    const ref = (0, import_react442.useRef)();
-    (0, import_react442.useEffect)(() => {
+    const ref = (0, import_react441.useRef)();
+    (0, import_react441.useEffect)(() => {
       ref.current = value;
     });
     return ref.current;
@@ -172243,9 +173169,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   // src/adaptiveCards/Attachment/AdaptiveCardHacks/useActionShouldBePushButtonModEffect.ts
   function useActionShouldBePushButtonModEffect(adaptiveCard) {
     const prevAdaptiveCard = usePrevious4(adaptiveCard);
-    const pushedCardObjectsRef = (0, import_react443.useRef)(/* @__PURE__ */ new Set());
+    const pushedCardObjectsRef = (0, import_react442.useRef)(/* @__PURE__ */ new Set());
     prevAdaptiveCard === adaptiveCard || pushedCardObjectsRef.current.clear();
-    const modder = (0, import_react443.useMemo)(
+    const modder = (0, import_react442.useMemo)(
       () => (adaptiveCard2, cardElement, actionPerformedClassName) => {
         const undoStack = [];
         Array.from(cardElement.querySelectorAll("button.ac-pushButton")).forEach(
@@ -172299,14 +173225,14 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
 
   // src/adaptiveCards/Attachment/AdaptiveCardHacks/useActiveElementModEffect.ts
-  var import_react444 = __toESM(require_react());
+  var import_react443 = __toESM(require_react());
   function useActiveElementModEffect(adaptiveCard) {
-    const activeCardObjectRef = (0, import_react444.useRef)();
+    const activeCardObjectRef = (0, import_react443.useRef)();
     const prevAdaptiveCard = usePrevious4(adaptiveCard);
     if (prevAdaptiveCard !== adaptiveCard) {
       activeCardObjectRef.current = void 0;
     }
-    const modder = (0, import_react444.useMemo)(
+    const modder = (0, import_react443.useMemo)(
       () => (adaptiveCard2) => {
         var _a29, _b4, _c3;
         (_c3 = (_b4 = (_a29 = activeCardObjectRef.current) == null ? void 0 : _a29.renderedElement) == null ? void 0 : _b4.focus) == null ? void 0 : _c3.call(_b4);
@@ -172320,7 +173246,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
 
   // src/adaptiveCards/Attachment/AdaptiveCardHacks/useDisabledModEffect.ts
-  var import_react445 = __toESM(require_react());
+  var import_react444 = __toESM(require_react());
 
   // src/adaptiveCards/DOMManipulationWithUndo/durableDisableInputElementAccessiblyWithUndo.ts
   function disabledHandler(event2) {
@@ -172371,7 +173297,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   };
   var INPUT_ELEMENT_SELECTOR = "button:not([aria-expanded]), input, select, textarea";
   function useDisabledModEffect(adaptiveCard) {
-    const modder = (0, import_react445.useMemo)(
+    const modder = (0, import_react444.useMemo)(
       () => (_2, cardElement, disabled) => {
         if (!disabled) {
           return NO_OP;
@@ -172387,7 +173313,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
 
   // src/adaptiveCards/Attachment/AdaptiveCardHacks/usePersistValuesModEffect.ts
-  var import_react446 = __toESM(require_react());
+  var import_react445 = __toESM(require_react());
   function getUserValues(element3) {
     if (!element3) {
       return /* @__PURE__ */ new Set();
@@ -172434,9 +173360,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
   function usePersistValuesModEffect(adaptiveCard) {
     const prevAdaptiveCard = usePrevious4(adaptiveCard);
-    const valuesMapRef = (0, import_react446.useRef)(/* @__PURE__ */ new Map());
+    const valuesMapRef = (0, import_react445.useRef)(/* @__PURE__ */ new Map());
     prevAdaptiveCard === adaptiveCard || valuesMapRef.current.clear();
-    const modder = (0, import_react446.useMemo)(
+    const modder = (0, import_react445.useMemo)(
       () => (adaptiveCard2) => {
         const { current: valuesMap } = valuesMapRef;
         adaptiveCard2.getAllInputs().forEach((cardObject) => {
@@ -172455,9 +173381,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
 
   // src/adaptiveCards/Attachment/AdaptiveCardHacks/useRoleModEffect.ts
-  var import_react447 = __toESM(require_react());
+  var import_react446 = __toESM(require_react());
   function useRoleModEffect(adaptiveCard) {
-    const modder = (0, import_react447.useMemo)(
+    const modder = (0, import_react446.useMemo)(
       () => (_2, cardElement) => setOrRemoveAttributeIfFalseWithUndo(
         cardElement,
         "role",
@@ -172629,9 +173555,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/bundle/src/adaptiveCards/Attachment/AdaptiveCardRenderer.module.css?css_module
-  var classes9 = { "adaptive-card-renderer": "weyGYtG_adaptive-card-renderer" };
-  var AdaptiveCardRenderer_module_default = classes9;
-  var _adaptive_card_renderer0 = classes9["adaptive-card-renderer"];
+  var classes20 = { "adaptive-card-renderer": "weyGYtG_adaptive-card-renderer" };
+  var AdaptiveCardRenderer_module_default = classes20;
+  var _adaptive_card_renderer0 = classes20["adaptive-card-renderer"];
 
   // src/adaptiveCards/Attachment/AdaptiveCardRenderer.tsx
   var { useLocalizer: useLocalizer47, usePerformCardAction: usePerformCardAction3, useRenderMarkdownAsHTML: useRenderMarkdownAsHTML2, useScrollToEnd: useScrollToEnd3, useUIState: useUIState6 } = hook_exports2;
@@ -172654,16 +173580,16 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const [{ GlobalSettings: GlobalSettings2, HostConfig: HostConfig2 }] = useAdaptiveCardsPackage();
     const [adaptiveCardsHostConfig] = useAdaptiveCardsHostConfig();
     const [uiState] = useUIState6();
-    const contentRef = (0, import_react449.useRef)();
+    const contentRef = (0, import_react448.useRef)();
     const localize2 = useLocalizer47();
     const performCardAction = usePerformCardAction3();
     const renderMarkdownAsHTML = useRenderMarkdownAsHTML2("adaptive cards");
     const scrollToEnd2 = useScrollToEnd3();
-    const classNames49 = useStyles_default2(AdaptiveCardRenderer_module_default);
+    const classNames31 = useStyles_default2(AdaptiveCardRenderer_module_default);
     const disabled = uiState === "disabled" || disabledFromProps;
     const tapActionRef = useValueRef3(tapAction);
     const disabledRef = useValueRef3(disabled);
-    const handleClickAndKeyPress = (0, import_react449.useCallback)(
+    const handleClickAndKeyPress = (0, import_react448.useCallback)(
       (event2) => {
         const { key: key2, type: type2 } = event2;
         const target = event2.target;
@@ -172692,7 +173618,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       [contentRef, performCardAction, scrollToEnd2, tapActionRef]
     );
     const handleClickAndKeyPressForTapAction = !disabled && tapAction ? handleClickAndKeyPress : void 0;
-    const handleExecuteAction = (0, import_react449.useCallback)(
+    const handleExecuteAction = (0, import_react448.useCallback)(
       (action2) => {
         if (disabledRef.current) {
           return;
@@ -172742,7 +173668,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const [applyDisabledMod, undoDisabledMod] = useDisabledModEffect(adaptiveCard);
     const [applyPersistValuesMod, undoPersistValuesMod] = usePersistValuesModEffect(adaptiveCard);
     const [applyRoleMod, undoRoleMod] = useRoleModEffect(adaptiveCard);
-    const { element: element3, errors: errors2 } = (0, import_react449.useMemo)(() => {
+    const { element: element3, errors: errors2 } = (0, import_react448.useMemo)(() => {
       undoActionShouldBePushButtonMod();
       undoActiveElementMod();
       undoDisabledMod();
@@ -172767,19 +173693,19 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       undoPersistValuesMod,
       undoRoleMod
     ]);
-    (0, import_react449.useMemo)(() => {
+    (0, import_react448.useMemo)(() => {
       adaptiveCard.onExecuteAction = handleExecuteAction;
     }, [adaptiveCard, handleExecuteAction]);
-    (0, import_react449.useLayoutEffect)(() => {
+    (0, import_react448.useLayoutEffect)(() => {
       var _a29;
       (_a29 = contentRef.current) == null ? void 0 : _a29.replaceChildren(element3);
     }, [contentRef, element3]);
     const elementRef = useRefFrom(element3);
-    (0, import_react449.useEffect)(() => () => {
+    (0, import_react448.useEffect)(() => () => {
       var _a29;
       return (_a29 = elementRef.current) == null ? void 0 : _a29.remove();
     }, [elementRef]);
-    (0, import_react449.useLayoutEffect)(() => {
+    (0, import_react448.useLayoutEffect)(() => {
       if (element3) {
         applyActionShouldBePushButtonMod(element3, actionPerformedClassName);
         applyActiveElementMod(element3);
@@ -172798,17 +173724,17 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       element3
     ]);
     (errors2 == null ? void 0 : errors2.length) && console.warn("botframework-webchat: Failed to render Adaptive Cards.", errors2);
-    return (errors2 == null ? void 0 : errors2.length) ? /* @__PURE__ */ import_react449.default.createElement(ErrorBoxPolymiddlewareProxy, { error: errors2[0], where: localize2("ADAPTIVE_CARD_ERROR_BOX_TITLE_RENDER") }) : /* @__PURE__ */ import_react449.default.createElement(
+    return (errors2 == null ? void 0 : errors2.length) ? /* @__PURE__ */ import_react448.default.createElement(ErrorBoxPolymiddlewareProxy, { error: errors2[0], where: localize2("ADAPTIVE_CARD_ERROR_BOX_TITLE_RENDER") }) : /* @__PURE__ */ import_react448.default.createElement(
       "div",
       {
-        className: classNames49["adaptive-card-renderer"],
+        className: classNames31["adaptive-card-renderer"],
         onClick: handleClickAndKeyPressForTapAction,
         onKeyPress: handleClickAndKeyPressForTapAction,
         ref: contentRef
       }
     );
   }
-  var AdaptiveCardRenderer_default2 = (0, import_react449.memo)(AdaptiveCardRenderer);
+  var AdaptiveCardRenderer_default2 = (0, import_react448.memo)(AdaptiveCardRenderer);
 
   // src/adaptiveCards/Attachment/AdaptiveCardContent.tsx
   function stripSubmitAction(card) {
@@ -172829,7 +173755,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function AdaptiveCardContent(props) {
     const { actionPerformedClassName, content: content3, disabled } = validateProps7(adaptiveCardContentPropsSchema, props);
     const parseAdaptiveCardJSON = useParseAdaptiveCardJSON();
-    const card = (0, import_react450.useMemo)(
+    const card = (0, import_react449.useMemo)(
       () => parseAdaptiveCardJSON(
         stripSubmitAction({
           version: "1.0",
@@ -172839,7 +173765,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       ),
       [content3, parseAdaptiveCardJSON]
     );
-    return !!card && /* @__PURE__ */ import_react450.default.createElement(
+    return !!card && /* @__PURE__ */ import_react449.default.createElement(
       AdaptiveCardRenderer_default2,
       {
         actionPerformedClassName,
@@ -172848,14 +173774,14 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       }
     );
   }
-  var AdaptiveCardContent_default = (0, import_react450.memo)(AdaptiveCardContent);
+  var AdaptiveCardContent_default = (0, import_react449.memo)(AdaptiveCardContent);
 
   // src/adaptiveCards/Attachment/AnimationCardContent.tsx
-  var import_react453 = __toESM(require_react());
+  var import_react452 = __toESM(require_react());
 
   // src/adaptiveCards/Attachment/CommonCard.js
   var import_prop_types47 = __toESM(require_prop_types());
-  var import_react451 = __toESM(require_react());
+  var import_react450 = __toESM(require_react());
 
   // ../../node_modules/adaptivecards/lib/adaptivecards.js
   var adaptivecards_exports = {};
@@ -175144,15 +176070,15 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     paddingDefinitionToSpacingDefinition(paddingDefinition) {
       return new SpacingDefinition(this.getEffectiveSpacing(paddingDefinition.top), this.getEffectiveSpacing(paddingDefinition.right), this.getEffectiveSpacing(paddingDefinition.bottom), this.getEffectiveSpacing(paddingDefinition.left));
     }
-    makeCssClassNames(...classNames49) {
+    makeCssClassNames(...classNames31) {
       const result = [];
-      for (const className of classNames49) {
+      for (const className of classNames31) {
         result.push((this.cssClassNamePrefix ? this.cssClassNamePrefix + "-" : "") + className);
       }
       return result;
     }
-    makeCssClassName(...classNames49) {
-      const result = this.makeCssClassNames(...classNames49).join(" ");
+    makeCssClassName(...classNames31) {
+      const result = this.makeCssClassNames(...classNames31).join(" ");
       return result ? result : "";
     }
     get fontFamily() {
@@ -182910,11 +183836,11 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
 
   // ../../node_modules/swiper/shared/utils.mjs
-  function classesToTokens(classes15) {
-    if (classes15 === void 0) {
-      classes15 = "";
+  function classesToTokens(classes30) {
+    if (classes30 === void 0) {
+      classes30 = "";
     }
-    return classes15.trim().split(" ").filter((c) => !!c.trim());
+    return classes30.trim().split(" ").filter((c) => !!c.trim());
   }
   function deleteProps(obj) {
     const object3 = obj;
@@ -183118,12 +184044,12 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     } catch (err) {
     }
   }
-  function createElement6(tag, classes15) {
-    if (classes15 === void 0) {
-      classes15 = [];
+  function createElement6(tag, classes30) {
+    if (classes30 === void 0) {
+      classes30 = [];
     }
     const el = document.createElement(tag);
-    el.classList.add(...Array.isArray(classes15) ? classes15 : classesToTokens(classes15));
+    el.classList.add(...Array.isArray(classes30) ? classes30 : classesToTokens(classes30));
     return el;
   }
   function elementOffset(el) {
@@ -186106,9 +187032,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const resultClasses = [];
     entries.forEach((item) => {
       if (typeof item === "object") {
-        Object.keys(item).forEach((classNames49) => {
-          if (item[classNames49]) {
-            resultClasses.push(prefix2 + classNames49);
+        Object.keys(item).forEach((classNames31) => {
+          if (item[classNames31]) {
+            resultClasses.push(prefix2 + classNames31);
           }
         });
       } else if (typeof item === "string") {
@@ -186120,7 +187046,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function addClasses() {
     const swiper = this;
     const {
-      classNames: classNames49,
+      classNames: classNames31,
       params,
       rtl,
       el,
@@ -186147,21 +187073,21 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     }, {
       "watch-progress": params.watchSlidesProgress
     }], params.containerModifierClass);
-    classNames49.push(...suffixes);
-    el.classList.add(...classNames49);
+    classNames31.push(...suffixes);
+    el.classList.add(...classNames31);
     swiper.emitContainerClasses();
   }
   function removeClasses() {
     const swiper = this;
     const {
       el,
-      classNames: classNames49
+      classNames: classNames31
     } = swiper;
     if (!el || typeof el === "string") return;
-    el.classList.remove(...classNames49);
+    el.classList.remove(...classNames31);
     swiper.emitContainerClasses();
   }
-  var classes10 = {
+  var classes21 = {
     addClasses,
     removeClasses
   };
@@ -186364,7 +187290,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     events: events$1,
     breakpoints,
     checkOverflow: checkOverflow$1,
-    classes: classes10
+    classes: classes21
   };
   var extendedDefaults = {};
   var Swiper = class _Swiper {
@@ -186601,12 +187527,12 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       if (!swiper.params._emitClasses || !swiper.el) return;
       const updates = [];
       swiper.slides.forEach((slideEl) => {
-        const classNames49 = swiper.getSlideClasses(slideEl);
+        const classNames31 = swiper.getSlideClasses(slideEl);
         updates.push({
           slideEl,
-          classNames: classNames49
+          classNames: classNames31
         });
-        swiper.emit("_slideClass", slideEl, classNames49);
+        swiper.emit("_slideClass", slideEl, classNames31);
       });
       swiper.emit("_slideClasses", updates);
     }
@@ -187256,11 +188182,11 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
 
   // ../../node_modules/swiper/shared/classes-to-selector.mjs
-  function classesToSelector(classes15) {
-    if (classes15 === void 0) {
-      classes15 = "";
+  function classesToSelector(classes30) {
+    if (classes30 === void 0) {
+      classes30 = "";
     }
-    return `.${classes15.trim().replace(/([\.:!+\/()[\]])/g, "\\$1").replace(/ /g, ".")}`;
+    return `.${classes30.trim().replace(/([\.:!+\/()[\]])/g, "\\$1").replace(/ /g, ".")}`;
   }
 
   // ../../node_modules/swiper/modules/pagination.mjs
@@ -190527,19 +191453,19 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   };
 
   // src/adaptiveCards/Attachment/CommonCard.js
-  var { useDirection: useDirection17 } = hook_exports2;
+  var { useDirection: useDirection14 } = hook_exports2;
   var CommonCard = ({ actionPerformedClassName, content: content3, disabled }) => {
     const [adaptiveCardsPackage] = useAdaptiveCardsPackage();
-    const [direction] = useDirection17();
+    const [direction] = useDirection14();
     const [styleOptions] = useStyleOptions18();
-    const builtCard = (0, import_react451.useMemo)(() => {
+    const builtCard = (0, import_react450.useMemo)(() => {
       if (content3) {
         const builder = new AdaptiveCardBuilder(adaptiveCardsPackage, styleOptions, direction);
         builder.addCommon(content3);
         return builder.card;
       }
     }, [adaptiveCardsPackage, content3, direction, styleOptions]);
-    return /* @__PURE__ */ import_react451.default.createElement(
+    return /* @__PURE__ */ import_react450.default.createElement(
       AdaptiveCardRenderer_default2,
       {
         actionPerformedClassName,
@@ -190563,9 +191489,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   var CommonCard_default = CommonCard;
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/bundle/src/adaptiveCards/Attachment/AnimationCardContent.module.css?css_module
-  var classes11 = { "animation-card-attachment": "wnueR4a_animation-card-attachment" };
-  var AnimationCardContent_module_default = classes11;
-  var _animation_card_attachment0 = classes11["animation-card-attachment"];
+  var classes26 = { "animation-card-attachment": "wnueR4a_animation-card-attachment" };
+  var AnimationCardContent_module_default = classes26;
+  var _animation_card_attachment0 = classes26["animation-card-attachment"];
 
   // src/adaptiveCards/Attachment/AnimationCardContent.tsx
   var { ImageContent: ImageContent2, VideoContent: VideoContent2 } = component_exports;
@@ -190580,18 +191506,18 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function AnimationCardContent(props) {
     const { actionPerformedClassName, content: content3, disabled } = validateProps7(animationCardContentPropsSchema, props);
     const { media = [] } = content3;
-    const classNames49 = useStyles_default2(AnimationCardContent_module_default);
-    return /* @__PURE__ */ import_react453.default.createElement("div", { className: classNames49["animation-card-attachment"] }, /* @__PURE__ */ import_react453.default.createElement("ul", { className: "media-list" }, media.map(({ profile = "", url: url2 }, index2) => /* @__PURE__ */ import_react453.default.createElement("li", { key: index2 }, /\.gif$/iu.test(url2) ? /* @__PURE__ */ import_react453.default.createElement(ImageContent2, { alt: profile, src: url2 }) : /* @__PURE__ */ import_react453.default.createElement(VideoContent2, { alt: profile, src: url2 })))), /* @__PURE__ */ import_react453.default.createElement(CommonCard_default, { actionPerformedClassName, content: content3, disabled }));
+    const classNames31 = useStyles_default2(AnimationCardContent_module_default);
+    return /* @__PURE__ */ import_react452.default.createElement("div", { className: classNames31["animation-card-attachment"] }, /* @__PURE__ */ import_react452.default.createElement("ul", { className: "media-list" }, media.map(({ profile = "", url: url2 }, index2) => /* @__PURE__ */ import_react452.default.createElement("li", { key: index2 }, /\.gif$/iu.test(url2) ? /* @__PURE__ */ import_react452.default.createElement(ImageContent2, { alt: profile, src: url2 }) : /* @__PURE__ */ import_react452.default.createElement(VideoContent2, { alt: profile, src: url2 })))), /* @__PURE__ */ import_react452.default.createElement(CommonCard_default, { actionPerformedClassName, content: content3, disabled }));
   }
-  var AnimationCardContent_default = (0, import_react453.memo)(AnimationCardContent);
+  var AnimationCardContent_default = (0, import_react452.memo)(AnimationCardContent);
 
   // src/adaptiveCards/Attachment/AudioCardContent.tsx
-  var import_react455 = __toESM(require_react());
+  var import_react454 = __toESM(require_react());
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/bundle/src/adaptiveCards/Attachment/AudioCardContent.module.css?css_module
-  var classes12 = { "audio-card-attachment": "wsuNaRW_audio-card-attachment" };
-  var AudioCardContent_module_default = classes12;
-  var _audio_card_attachment0 = classes12["audio-card-attachment"];
+  var classes27 = { "audio-card-attachment": "wsuNaRW_audio-card-attachment" };
+  var AudioCardContent_module_default = classes27;
+  var _audio_card_attachment0 = classes27["audio-card-attachment"];
 
   // src/adaptiveCards/Attachment/AudioCardContent.tsx
   var { AudioContent: AudioContent3 } = component_exports;
@@ -190606,14 +191532,14 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function AudioCardContent(props) {
     const { actionPerformedClassName, content: content3, disabled } = validateProps7(audioCardContentPropsSchema, props);
     const { autostart = false, autoloop = false, image: { url: imageURL = "" } = {}, media = [] } = content3;
-    const classNames49 = useStyles_default2(AudioCardContent_module_default);
-    return /* @__PURE__ */ import_react455.default.createElement("div", { className: classNames49["audio-card-attachment"] }, /* @__PURE__ */ import_react455.default.createElement("ul", { className: "media-list" }, media.map(({ url: url2 }, index2) => /* @__PURE__ */ import_react455.default.createElement("li", { key: index2 }, /* @__PURE__ */ import_react455.default.createElement(AudioContent3, { autoPlay: autostart, loop: autoloop, poster: imageURL, src: url2 })))), /* @__PURE__ */ import_react455.default.createElement(CommonCard_default, { actionPerformedClassName, content: content3, disabled }));
+    const classNames31 = useStyles_default2(AudioCardContent_module_default);
+    return /* @__PURE__ */ import_react454.default.createElement("div", { className: classNames31["audio-card-attachment"] }, /* @__PURE__ */ import_react454.default.createElement("ul", { className: "media-list" }, media.map(({ url: url2 }, index2) => /* @__PURE__ */ import_react454.default.createElement("li", { key: index2 }, /* @__PURE__ */ import_react454.default.createElement(AudioContent3, { autoPlay: autostart, loop: autoloop, poster: imageURL, src: url2 })))), /* @__PURE__ */ import_react454.default.createElement(CommonCard_default, { actionPerformedClassName, content: content3, disabled }));
   }
-  var AudioCardContent_default = (0, import_react455.memo)(AudioCardContent);
+  var AudioCardContent_default = (0, import_react454.memo)(AudioCardContent);
 
   // src/adaptiveCards/Attachment/HeroCardContent.tsx
-  var import_react456 = __toESM(require_react());
-  var { useDirection: useDirection18 } = hook_exports2;
+  var import_react455 = __toESM(require_react());
+  var { useDirection: useDirection15 } = hook_exports2;
   var heroCardContentPropsSchema = pipe(
     object({
       actionPerformedClassName: optional(string()),
@@ -190626,8 +191552,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const { actionPerformedClassName, content: content3, disabled } = validateProps7(heroCardContentPropsSchema, props);
     const [adaptiveCardsPackage] = useAdaptiveCardsPackage();
     const [styleOptions] = useStyleOptions18();
-    const [direction] = useDirection18();
-    const builtCard = (0, import_react456.useMemo)(() => {
+    const [direction] = useDirection15();
+    const builtCard = (0, import_react455.useMemo)(() => {
       const builder = new AdaptiveCardBuilder(adaptiveCardsPackage, styleOptions, direction);
       if (content3) {
         (content3.images || []).forEach(
@@ -190637,7 +191563,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         return builder.card;
       }
     }, [adaptiveCardsPackage, content3, direction, styleOptions]);
-    return /* @__PURE__ */ import_react456.default.createElement(
+    return /* @__PURE__ */ import_react455.default.createElement(
       AdaptiveCardRenderer_default2,
       {
         actionPerformedClassName,
@@ -190647,11 +191573,11 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       }
     );
   }
-  var HeroCardContent_default = (0, import_react456.memo)(HeroCardContent);
+  var HeroCardContent_default = (0, import_react455.memo)(HeroCardContent);
 
   // src/adaptiveCards/Attachment/OAuthCardContent.tsx
-  var import_react457 = __toESM(require_react());
-  var { useDirection: useDirection19 } = hook_exports2;
+  var import_react456 = __toESM(require_react());
+  var { useDirection: useDirection16 } = hook_exports2;
   var oauthCardContentPropsSchema = pipe(
     object({
       actionPerformedClassName: optional(string()),
@@ -190663,9 +191589,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function OAuthCardContent(props) {
     const { actionPerformedClassName, content: content3, disabled } = validateProps7(oauthCardContentPropsSchema, props);
     const [adaptiveCardsPackage] = useAdaptiveCardsPackage();
-    const [direction] = useDirection19();
+    const [direction] = useDirection16();
     const [styleOptions] = useStyleOptions18();
-    const builtCard = (0, import_react457.useMemo)(() => {
+    const builtCard = (0, import_react456.useMemo)(() => {
       if (content3) {
         const builder = new AdaptiveCardBuilder(adaptiveCardsPackage, styleOptions, direction);
         builder.addCommonHeaders(content3);
@@ -190673,7 +191599,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         return builder.card;
       }
     }, [adaptiveCardsPackage, content3, direction, styleOptions]);
-    return /* @__PURE__ */ import_react457.default.createElement(
+    return /* @__PURE__ */ import_react456.default.createElement(
       AdaptiveCardRenderer_default2,
       {
         actionPerformedClassName,
@@ -190682,11 +191608,11 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       }
     );
   }
-  var OAuthCardContent_default = (0, import_react457.memo)(OAuthCardContent);
+  var OAuthCardContent_default = (0, import_react456.memo)(OAuthCardContent);
 
   // src/adaptiveCards/Attachment/ReceiptCardContent.tsx
-  var import_react458 = __toESM(require_react());
-  var { useDirection: useDirection20, useLocalizer: useLocalizer48 } = hook_exports2;
+  var import_react457 = __toESM(require_react());
+  var { useDirection: useDirection17, useLocalizer: useLocalizer48 } = hook_exports2;
   function nullOrUndefined(obj) {
     return obj === null || typeof obj === "undefined";
   }
@@ -190701,13 +191627,13 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function ReceiptCardContent(props) {
     const { actionPerformedClassName, content: content3, disabled } = validateProps7(receiptCardContentPropsSchema, props);
     const [adaptiveCardsPackage] = useAdaptiveCardsPackage();
-    const [direction] = useDirection20();
+    const [direction] = useDirection17();
     const [styleOptions] = useStyleOptions18();
     const localize2 = useLocalizer48();
     const taxText = localize2("RECEIPT_CARD_TAX");
     const totalText = localize2("RECEIPT_CARD_TOTAL");
     const vatText = localize2("RECEIPT_CARD_VAT");
-    const builtCard = (0, import_react458.useMemo)(() => {
+    const builtCard = (0, import_react457.useMemo)(() => {
       const builder = new AdaptiveCardBuilder(adaptiveCardsPackage, styleOptions, direction);
       const { HorizontalAlignment: HorizontalAlignment2, TextSize: TextSize2, TextWeight: TextWeight2 } = adaptiveCardsPackage;
       const { buttons, facts, items, tax, title, total, vat } = content3;
@@ -190769,7 +191695,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         return builder.card;
       }
     }, [adaptiveCardsPackage, content3, direction, styleOptions, taxText, totalText, vatText]);
-    return /* @__PURE__ */ import_react458.default.createElement(
+    return /* @__PURE__ */ import_react457.default.createElement(
       AdaptiveCardRenderer_default2,
       {
         actionPerformedClassName,
@@ -190779,15 +191705,15 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       }
     );
   }
-  var ReceiptCardContent_default = (0, import_react458.memo)(ReceiptCardContent);
+  var ReceiptCardContent_default = (0, import_react457.memo)(ReceiptCardContent);
 
   // src/adaptiveCards/Attachment/SignInCardContent.tsx
-  var import_react460 = __toESM(require_react());
+  var import_react459 = __toESM(require_react());
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/bundle/src/adaptiveCards/Attachment/SignInCardContent.module.css?css_module
-  var classes13 = { "sign-in-card-attachment": "wDXAKka_sign-in-card-attachment" };
-  var SignInCardContent_module_default = classes13;
-  var _sign_in_card_attachment0 = classes13["sign-in-card-attachment"];
+  var classes28 = { "sign-in-card-attachment": "wDXAKka_sign-in-card-attachment" };
+  var SignInCardContent_module_default = classes28;
+  var _sign_in_card_attachment0 = classes28["sign-in-card-attachment"];
 
   // src/adaptiveCards/Attachment/SignInCardContent.tsx
   var signInCardContentPropsSchema = pipe(
@@ -190800,14 +191726,14 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   );
   function SignInCardContent(props) {
     const { actionPerformedClassName, content: content3, disabled } = validateProps7(signInCardContentPropsSchema, props);
-    const classNames49 = useStyles_default2(SignInCardContent_module_default);
-    return /* @__PURE__ */ import_react460.default.createElement("div", { className: classNames49["sign-in-card-attachment"] }, /* @__PURE__ */ import_react460.default.createElement(CommonCard_default, { actionPerformedClassName, content: content3, disabled }));
+    const classNames31 = useStyles_default2(SignInCardContent_module_default);
+    return /* @__PURE__ */ import_react459.default.createElement("div", { className: classNames31["sign-in-card-attachment"] }, /* @__PURE__ */ import_react459.default.createElement(CommonCard_default, { actionPerformedClassName, content: content3, disabled }));
   }
-  var SignInCardContent_default = (0, import_react460.memo)(SignInCardContent);
+  var SignInCardContent_default = (0, import_react459.memo)(SignInCardContent);
 
   // src/adaptiveCards/Attachment/ThumbnailCardContent.tsx
-  var import_react461 = __toESM(require_react());
-  var { useDirection: useDirection21 } = hook_exports2;
+  var import_react460 = __toESM(require_react());
+  var { useDirection: useDirection18 } = hook_exports2;
   var thumbnailCardContentPropsSchema = pipe(
     object({
       actionPerformedClassName: optional(string()),
@@ -190819,9 +191745,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function ThumbnailCardContent(props) {
     const { actionPerformedClassName, content: content3, disabled } = parse(thumbnailCardContentPropsSchema, props);
     const [adaptiveCardsPackage] = useAdaptiveCardsPackage();
-    const [direction] = useDirection21();
+    const [direction] = useDirection18();
     const [styleOptions] = useStyleOptions18();
-    const builtCard = (0, import_react461.useMemo)(() => {
+    const builtCard = (0, import_react460.useMemo)(() => {
       if (content3) {
         const builder = new AdaptiveCardBuilder(adaptiveCardsPackage, styleOptions, direction);
         const { TextSize: TextSize2, TextWeight: TextWeight2 } = adaptiveCardsPackage;
@@ -190845,7 +191771,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         return builder.card;
       }
     }, [adaptiveCardsPackage, direction, content3, styleOptions]);
-    return /* @__PURE__ */ import_react461.default.createElement(
+    return /* @__PURE__ */ import_react460.default.createElement(
       AdaptiveCardRenderer_default2,
       {
         actionPerformedClassName,
@@ -190855,15 +191781,15 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       }
     );
   }
-  var ThumbnailCardContent_default = (0, import_react461.memo)(ThumbnailCardContent);
+  var ThumbnailCardContent_default = (0, import_react460.memo)(ThumbnailCardContent);
 
   // src/adaptiveCards/Attachment/VideoCardContent.tsx
-  var import_react463 = __toESM(require_react());
+  var import_react462 = __toESM(require_react());
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/bundle/src/adaptiveCards/Attachment/VideoCardContent.module.css?css_module
-  var classes14 = { "video-card-attachment": "wvhPRLq_video-card-attachment" };
-  var VideoCardContent_module_default = classes14;
-  var _video_card_attachment0 = classes14["video-card-attachment"];
+  var classes29 = { "video-card-attachment": "wvhPRLq_video-card-attachment" };
+  var VideoCardContent_module_default = classes29;
+  var _video_card_attachment0 = classes29["video-card-attachment"];
 
   // src/adaptiveCards/Attachment/VideoCardContent.tsx
   var { VideoContent: VideoContent3 } = component_exports;
@@ -190878,41 +191804,41 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function VideoCardContent(props) {
     const { actionPerformedClassName, content: content3, disabled } = parse(videoCardContentPropsSchema, props);
     const { autoloop, autostart, image: { url: imageURL } = { url: void 0 }, media } = content3;
-    const classNames49 = useStyles_default2(VideoCardContent_module_default);
-    return /* @__PURE__ */ import_react463.default.createElement("div", { className: classNames49["video-card-attachment"] }, /* @__PURE__ */ import_react463.default.createElement("ul", { className: "media-list" }, media.map(({ url: url2 }, index2) => /* @__PURE__ */ import_react463.default.createElement("li", { key: index2 }, /* @__PURE__ */ import_react463.default.createElement(VideoContent3, { autoPlay: autostart, loop: autoloop, poster: imageURL, src: url2 })))), /* @__PURE__ */ import_react463.default.createElement(CommonCard_default, { actionPerformedClassName, content: content3, disabled }));
+    const classNames31 = useStyles_default2(VideoCardContent_module_default);
+    return /* @__PURE__ */ import_react462.default.createElement("div", { className: classNames31["video-card-attachment"] }, /* @__PURE__ */ import_react462.default.createElement("ul", { className: "media-list" }, media.map(({ url: url2 }, index2) => /* @__PURE__ */ import_react462.default.createElement("li", { key: index2 }, /* @__PURE__ */ import_react462.default.createElement(VideoContent3, { autoPlay: autostart, loop: autoloop, poster: imageURL, src: url2 })))), /* @__PURE__ */ import_react462.default.createElement(CommonCard_default, { actionPerformedClassName, content: content3, disabled }));
   }
-  var VideoCardContent_default = (0, import_react463.memo)(VideoCardContent);
+  var VideoCardContent_default = (0, import_react462.memo)(VideoCardContent);
 
   // src/FullReactWebChat.tsx
-  var import_react483 = __toESM(require_react());
-
-  // src/AddFullBundle.tsx
   var import_react482 = __toESM(require_react());
 
+  // src/AddFullBundle.tsx
+  var import_react481 = __toESM(require_react());
+
   // src/adaptiveCards/AdaptiveCardsComposer.tsx
-  var import_react464 = __toESM(require_react());
+  var import_react463 = __toESM(require_react());
   var AdaptiveCardsComposer = ({
     adaptiveCardsHostConfig,
     adaptiveCardsPackage,
     children
   }) => {
-    const patchedAdaptiveCardsPackage = (0, import_react464.useMemo)(
+    const patchedAdaptiveCardsPackage = (0, import_react463.useMemo)(
       () => adaptiveCardsPackage || adaptivecards_exports,
       [adaptiveCardsPackage]
     );
-    const adaptiveCardsContext = (0, import_react464.useMemo)(
+    const adaptiveCardsContext = (0, import_react463.useMemo)(
       () => ({
         adaptiveCardsPackage: patchedAdaptiveCardsPackage,
         hostConfigFromProps: adaptiveCardsHostConfig
       }),
       [adaptiveCardsHostConfig, patchedAdaptiveCardsPackage]
     );
-    return /* @__PURE__ */ import_react464.default.createElement(AdaptiveCardsContext_default.Provider, { value: adaptiveCardsContext }, children);
+    return /* @__PURE__ */ import_react463.default.createElement(AdaptiveCardsContext_default.Provider, { value: adaptiveCardsContext }, children);
   };
   var AdaptiveCardsComposer_default = AdaptiveCardsComposer;
 
   // src/codeHighlighter/ShikiComposer.tsx
-  var import_react465 = __toESM(require_react());
+  var import_react464 = __toESM(require_react());
 
   // ../../node_modules/@shikijs/types/dist/index.mjs
   var ShikiError = class extends Error {
@@ -202499,8 +203425,8 @@ XID_Start XIDS`.split(/\s/)
     theme: options.theme
   });
   function ShikiComposer({ children }) {
-    const [highlightProps, setHighlightProps] = (0, import_react465.useState)();
-    (0, import_react465.useEffect)(() => {
+    const [highlightProps, setHighlightProps] = (0, import_react464.useState)();
+    (0, import_react464.useEffect)(() => {
       let isMounted = true;
       (async () => isMounted && setHighlightProps(
         Object.freeze({
@@ -202511,12 +203437,12 @@ XID_Start XIDS`.split(/\s/)
         isMounted = false;
       };
     }, []);
-    return /* @__PURE__ */ import_react465.default.createElement(CodeHighlighterComposer, { ...highlightProps }, children);
+    return /* @__PURE__ */ import_react464.default.createElement(CodeHighlighterComposer, { ...highlightProps }, children);
   }
-  var ShikiComposer_default = (0, import_react465.memo)(ShikiComposer);
+  var ShikiComposer_default = (0, import_react464.memo)(ShikiComposer);
 
   // src/stylesheet/BundleStylesheet.tsx
-  var import_react466 = __toESM(require_react());
+  var import_react465 = __toESM(require_react());
 
   // ../styles/dist/botframework-webchat-styles.mjs
   function createStyle2(content3, origin) {
@@ -202554,26 +203480,26 @@ XID_Start XIDS`.split(/\s/)
   function BundleStylesheet(props) {
     const { nonce, at: at2 } = validateProps7(bundleStylesheetPropsSchema, props);
     const [{ stylesRoot }] = useStyleOptions();
-    return /* @__PURE__ */ import_react466.default.createElement(InjectStyleElements_default, { at: at2 != null ? at2 : stylesRoot, nonce, styleElements: styleElements3 });
+    return /* @__PURE__ */ import_react465.default.createElement(InjectStyleElements_default, { at: at2 != null ? at2 : stylesRoot, nonce, styleElements: styleElements3 });
   }
   BundleStylesheet.displayName = "BundleStylesheet";
-  var BundleStylesheet_default = (0, import_react466.memo)(BundleStylesheet);
+  var BundleStylesheet_default = (0, import_react465.memo)(BundleStylesheet);
 
   // src/useComposerProps.ts
-  var import_react481 = __toESM(require_react());
+  var import_react480 = __toESM(require_react());
 
   // src/adaptiveCards/createAdaptiveCardsAttachmentForScreenReaderMiddleware.tsx
-  var import_react470 = __toESM(require_react());
+  var import_react469 = __toESM(require_react());
 
   // src/adaptiveCards/AttachmentForScreenReader/AdaptiveCardAttachment.js
   var import_prop_types48 = __toESM(require_prop_types());
-  var import_react468 = __toESM(require_react());
+  var import_react467 = __toESM(require_react());
 
   // src/adaptiveCards/hooks/internal/useUniqueId.ts
-  var import_react467 = __toESM(require_react());
+  var import_react466 = __toESM(require_react());
   var import_math_random19 = __toESM(require_browser());
   function useUniqueId2(prefix2) {
-    const id = (0, import_react467.useMemo)(() => (0, import_math_random19.default)().toString(36).substr(2, 5), []);
+    const id = (0, import_react466.useMemo)(() => (0, import_math_random19.default)().toString(36).substr(2, 5), []);
     prefix2 = prefix2 ? `${prefix2}--` : "";
     return `${prefix2}${id}`;
   }
@@ -202596,7 +203522,7 @@ XID_Start XIDS`.split(/\s/)
   var AdaptiveCardChoiceSetInput = ({ input: { choices, defaultValue, label } }) => {
     const labelId = useUniqueId2("webchat__id");
     const defaultChoice = choices.find(({ value }) => defaultValue === value || !defaultValue && !value);
-    return /* @__PURE__ */ import_react468.default.createElement("div", null, /* @__PURE__ */ import_react468.default.createElement(
+    return /* @__PURE__ */ import_react467.default.createElement("div", null, /* @__PURE__ */ import_react467.default.createElement(
       "select",
       {
         "aria-label": label,
@@ -202604,7 +203530,7 @@ XID_Start XIDS`.split(/\s/)
         defaultValue,
         tabIndex: -1
       },
-      choices.map((choice) => /* @__PURE__ */ import_react468.default.createElement("option", { id: !label && choice === defaultChoice ? labelId : void 0, key: choice.value, value: choice.value }, choice.title))
+      choices.map((choice) => /* @__PURE__ */ import_react467.default.createElement("option", { id: !label && choice === defaultChoice ? labelId : void 0, key: choice.value, value: choice.value }, choice.title))
     ));
   };
   AdaptiveCardChoiceSetInput.propTypes = {
@@ -202636,8 +203562,8 @@ XID_Start XIDS`.split(/\s/)
         ToggleInput: ToggleInput2
       }
     ] = useAdaptiveCardsPackage();
-    const card = (0, import_react468.useMemo)(() => parseAdaptiveCardJSON(content3, { ignoreErrors: true }), [content3, parseAdaptiveCardJSON]);
-    const inputs = (0, import_react468.useMemo)(() => {
+    const card = (0, import_react467.useMemo)(() => parseAdaptiveCardJSON(content3, { ignoreErrors: true }), [content3, parseAdaptiveCardJSON]);
+    const inputs = (0, import_react467.useMemo)(() => {
       const inputs2 = [];
       walkAllItems(card, (node3) => {
         if (node3 instanceof ChoiceSetInput2 || node3 instanceof DateInput2 || node3 instanceof NumberInput2 || node3 instanceof OpenUrlAction2 || node3 instanceof ShowCardAction2 || node3 instanceof SubmitAction2 || node3 instanceof TextInput2 || node3 instanceof TimeInput2 || node3 instanceof ToggleInput2) {
@@ -202658,8 +203584,8 @@ XID_Start XIDS`.split(/\s/)
       ToggleInput2
     ]);
     const cardLabel = localize2("ATTACHMENT_CARD", card.speak || "", "", "");
-    return /* @__PURE__ */ import_react468.default.createElement("article", null, /* @__PURE__ */ import_react468.default.createElement("div", null, cardLabel), inputs.map(
-      (input, index2) => input instanceof ChoiceSetInput2 ? /* @__PURE__ */ import_react468.default.createElement(AdaptiveCardChoiceSetInput, { input, key: index2 }) : input instanceof DateInput2 ? /* @__PURE__ */ import_react468.default.createElement("label", { key: index2 }, input.title, /* @__PURE__ */ import_react468.default.createElement("input", { placeholder: input.placeholder, tabIndex: -1, type: "date" })) : input instanceof NumberInput2 ? /* @__PURE__ */ import_react468.default.createElement("label", { key: index2 }, input.title, /* @__PURE__ */ import_react468.default.createElement("input", { placeholder: input.placeholder, tabIndex: -1, type: "number" })) : input instanceof OpenUrlAction2 || input instanceof ShowCardAction2 || input instanceof SubmitAction2 ? /* @__PURE__ */ import_react468.default.createElement("div", { key: index2 }, /* @__PURE__ */ import_react468.default.createElement("button", { tabIndex: -1, type: "button" }, input.title)) : input instanceof TextInput2 ? /* @__PURE__ */ import_react468.default.createElement("label", { key: index2 }, input.title, /* @__PURE__ */ import_react468.default.createElement("input", { placeholder: input.placeholder, tabIndex: -1, type: "text" })) : input instanceof TimeInput2 ? /* @__PURE__ */ import_react468.default.createElement("label", { key: index2 }, input.title, /* @__PURE__ */ import_react468.default.createElement("input", { placeholder: input.placeholder, tabIndex: -1, type: "time" })) : input instanceof ToggleInput2 ? /* @__PURE__ */ import_react468.default.createElement("label", { key: index2 }, input.title, /* @__PURE__ */ import_react468.default.createElement("input", { defaultChecked: input.value === input.valueOn, tabIndex: -1, type: "checkbox" })) : false
+    return /* @__PURE__ */ import_react467.default.createElement("article", null, /* @__PURE__ */ import_react467.default.createElement("div", null, cardLabel), inputs.map(
+      (input, index2) => input instanceof ChoiceSetInput2 ? /* @__PURE__ */ import_react467.default.createElement(AdaptiveCardChoiceSetInput, { input, key: index2 }) : input instanceof DateInput2 ? /* @__PURE__ */ import_react467.default.createElement("label", { key: index2 }, input.title, /* @__PURE__ */ import_react467.default.createElement("input", { placeholder: input.placeholder, tabIndex: -1, type: "date" })) : input instanceof NumberInput2 ? /* @__PURE__ */ import_react467.default.createElement("label", { key: index2 }, input.title, /* @__PURE__ */ import_react467.default.createElement("input", { placeholder: input.placeholder, tabIndex: -1, type: "number" })) : input instanceof OpenUrlAction2 || input instanceof ShowCardAction2 || input instanceof SubmitAction2 ? /* @__PURE__ */ import_react467.default.createElement("div", { key: index2 }, /* @__PURE__ */ import_react467.default.createElement("button", { tabIndex: -1, type: "button" }, input.title)) : input instanceof TextInput2 ? /* @__PURE__ */ import_react467.default.createElement("label", { key: index2 }, input.title, /* @__PURE__ */ import_react467.default.createElement("input", { placeholder: input.placeholder, tabIndex: -1, type: "text" })) : input instanceof TimeInput2 ? /* @__PURE__ */ import_react467.default.createElement("label", { key: index2 }, input.title, /* @__PURE__ */ import_react467.default.createElement("input", { placeholder: input.placeholder, tabIndex: -1, type: "time" })) : input instanceof ToggleInput2 ? /* @__PURE__ */ import_react467.default.createElement("label", { key: index2 }, input.title, /* @__PURE__ */ import_react467.default.createElement("input", { defaultChecked: input.value === input.valueOn, tabIndex: -1, type: "checkbox" })) : false
     ));
   };
   AdaptiveCardAttachment.propTypes = {
@@ -202669,7 +203595,7 @@ XID_Start XIDS`.split(/\s/)
 
   // src/adaptiveCards/AttachmentForScreenReader/RichCardAttachment.js
   var import_prop_types49 = __toESM(require_prop_types());
-  var import_react469 = __toESM(require_react());
+  var import_react468 = __toESM(require_react());
   var { useLocalizer: useLocalizer50 } = hook_exports2;
   var RichCardAttachment = ({ content: content3 = {} }) => {
     const localize2 = useLocalizer50();
@@ -202678,7 +203604,7 @@ XID_Start XIDS`.split(/\s/)
     const totalLabel = localize2("RECEIPT_CARD_TOTAL");
     const vatLabel = localize2("RECEIPT_CARD_VAT");
     const cardLabel = localize2("ATTACHMENT_CARD", title || "", subtitle || "", text6 || "");
-    return /* @__PURE__ */ import_react469.default.createElement("article", null, /* @__PURE__ */ import_react469.default.createElement("div", null, cardLabel), !!image && !!image.alt && /* @__PURE__ */ import_react469.default.createElement("img", { alt: image.alt }), !!images && !!images.length && images.map(({ alt }, index2) => /* @__PURE__ */ import_react469.default.createElement("img", { alt, key: index2 })), !!facts && !!facts.length && /* @__PURE__ */ import_react469.default.createElement("dl", null, facts.map(({ key: key2, value }, index2) => /* @__PURE__ */ import_react469.default.createElement(import_react469.default.Fragment, { key: index2 }, /* @__PURE__ */ import_react469.default.createElement("dt", null, key2), /* @__PURE__ */ import_react469.default.createElement("dd", null, value)))), !!items && !!items.length && /* @__PURE__ */ import_react469.default.createElement("ul", null, items.map(({ image: image2, price, quantity, subtitle: subtitle2, text: text7, title: title2 }, index2) => /* @__PURE__ */ import_react469.default.createElement("li", { key: index2 }, !!image2 && !!image2.alt && /* @__PURE__ */ import_react469.default.createElement("img", { alt: image2.alt }), !!title2 && /* @__PURE__ */ import_react469.default.createElement("p", null, title2), !!subtitle2 && /* @__PURE__ */ import_react469.default.createElement("p", null, subtitle2), !!text7 && /* @__PURE__ */ import_react469.default.createElement("p", null, text7), !!quantity && /* @__PURE__ */ import_react469.default.createElement("p", null, quantity), !!price && /* @__PURE__ */ import_react469.default.createElement("p", null, price)))), !!vat && /* @__PURE__ */ import_react469.default.createElement("p", null, vatLabel, " ", vat), !!tax && /* @__PURE__ */ import_react469.default.createElement("p", null, taxLabel, " ", tax), !!total && /* @__PURE__ */ import_react469.default.createElement("p", null, totalLabel, " ", total), !!buttons && !!buttons.length && /* @__PURE__ */ import_react469.default.createElement("div", null, buttons.map(({ title: title2 }, index2) => /* @__PURE__ */ import_react469.default.createElement("button", { key: index2, tabIndex: -1, type: "button" }, title2))));
+    return /* @__PURE__ */ import_react468.default.createElement("article", null, /* @__PURE__ */ import_react468.default.createElement("div", null, cardLabel), !!image && !!image.alt && /* @__PURE__ */ import_react468.default.createElement("img", { alt: image.alt }), !!images && !!images.length && images.map(({ alt }, index2) => /* @__PURE__ */ import_react468.default.createElement("img", { alt, key: index2 })), !!facts && !!facts.length && /* @__PURE__ */ import_react468.default.createElement("dl", null, facts.map(({ key: key2, value }, index2) => /* @__PURE__ */ import_react468.default.createElement(import_react468.default.Fragment, { key: index2 }, /* @__PURE__ */ import_react468.default.createElement("dt", null, key2), /* @__PURE__ */ import_react468.default.createElement("dd", null, value)))), !!items && !!items.length && /* @__PURE__ */ import_react468.default.createElement("ul", null, items.map(({ image: image2, price, quantity, subtitle: subtitle2, text: text7, title: title2 }, index2) => /* @__PURE__ */ import_react468.default.createElement("li", { key: index2 }, !!image2 && !!image2.alt && /* @__PURE__ */ import_react468.default.createElement("img", { alt: image2.alt }), !!title2 && /* @__PURE__ */ import_react468.default.createElement("p", null, title2), !!subtitle2 && /* @__PURE__ */ import_react468.default.createElement("p", null, subtitle2), !!text7 && /* @__PURE__ */ import_react468.default.createElement("p", null, text7), !!quantity && /* @__PURE__ */ import_react468.default.createElement("p", null, quantity), !!price && /* @__PURE__ */ import_react468.default.createElement("p", null, price)))), !!vat && /* @__PURE__ */ import_react468.default.createElement("p", null, vatLabel, " ", vat), !!tax && /* @__PURE__ */ import_react468.default.createElement("p", null, taxLabel, " ", tax), !!total && /* @__PURE__ */ import_react468.default.createElement("p", null, totalLabel, " ", total), !!buttons && !!buttons.length && /* @__PURE__ */ import_react468.default.createElement("div", null, buttons.map(({ title: title2 }, index2) => /* @__PURE__ */ import_react468.default.createElement("button", { key: index2, tabIndex: -1, type: "button" }, title2))));
   };
   RichCardAttachment.propTypes = {
     content: import_prop_types49.default.any.isRequired
@@ -202703,15 +203629,15 @@ XID_Start XIDS`.split(/\s/)
           attachment: { content: content3, contentType }
         }
       ] = args;
-      return content3 && RICH_CARD_CONTENT_TYPES.includes(contentType) ? () => /* @__PURE__ */ import_react470.default.createElement(RichCardAttachment_default, { content: content3 }) : content3 && contentType === "application/vnd.microsoft.card.adaptive" ? () => /* @__PURE__ */ import_react470.default.createElement(AdaptiveCardAttachment_default, { content: content3 }) : next2(...args);
+      return content3 && RICH_CARD_CONTENT_TYPES.includes(contentType) ? () => /* @__PURE__ */ import_react469.default.createElement(RichCardAttachment_default, { content: content3 }) : content3 && contentType === "application/vnd.microsoft.card.adaptive" ? () => /* @__PURE__ */ import_react469.default.createElement(AdaptiveCardAttachment_default, { content: content3 }) : next2(...args);
     };
   }
 
   // src/adaptiveCards/createAdaptiveCardsAttachmentMiddleware.tsx
-  var import_react480 = __toESM(require_react());
+  var import_react479 = __toESM(require_react());
 
   // src/adaptiveCards/Attachment/AdaptiveCardAttachment.tsx
-  var import_react471 = __toESM(require_react());
+  var import_react470 = __toESM(require_react());
   var adaptiveCardAttachmentPropsSchema = pipe(
     object({
       attachment: pipe(
@@ -202729,14 +203655,14 @@ XID_Start XIDS`.split(/\s/)
       attachment: { content: content3 },
       disabled
     } = validateProps7(adaptiveCardAttachmentPropsSchema, props);
-    return /* @__PURE__ */ import_react471.default.createElement(AdaptiveCardContent_default, { content: content3, disabled });
+    return /* @__PURE__ */ import_react470.default.createElement(AdaptiveCardContent_default, { content: content3, disabled });
   }
-  var AdaptiveCardAttachment_default2 = (0, import_react471.memo)(AdaptiveCardAttachment2);
+  var AdaptiveCardAttachment_default2 = (0, import_react470.memo)(AdaptiveCardAttachment2);
 
   // src/adaptiveCards/Attachment/AnimationCardAttachment.js
   var import_prop_types50 = __toESM(require_prop_types());
-  var import_react472 = __toESM(require_react());
-  var AnimationCardAttachment2 = ({ attachment: { content: content3 }, disabled }) => /* @__PURE__ */ import_react472.default.createElement(AnimationCardContent_default, { content: content3, disabled });
+  var import_react471 = __toESM(require_react());
+  var AnimationCardAttachment2 = ({ attachment: { content: content3 }, disabled }) => /* @__PURE__ */ import_react471.default.createElement(AnimationCardContent_default, { content: content3, disabled });
   AnimationCardAttachment2.defaultProps = {
     disabled: void 0
   };
@@ -202757,8 +203683,8 @@ XID_Start XIDS`.split(/\s/)
 
   // src/adaptiveCards/Attachment/AudioCardAttachment.js
   var import_prop_types51 = __toESM(require_prop_types());
-  var import_react473 = __toESM(require_react());
-  var AudioCardAttachment2 = ({ attachment: { content: content3 }, disabled }) => /* @__PURE__ */ import_react473.default.createElement(AudioCardContent_default, { content: content3, disabled });
+  var import_react472 = __toESM(require_react());
+  var AudioCardAttachment2 = ({ attachment: { content: content3 }, disabled }) => /* @__PURE__ */ import_react472.default.createElement(AudioCardContent_default, { content: content3, disabled });
   AudioCardAttachment2.defaultProps = {
     disabled: void 0
   };
@@ -202783,8 +203709,8 @@ XID_Start XIDS`.split(/\s/)
 
   // src/adaptiveCards/Attachment/HeroCardAttachment.js
   var import_prop_types52 = __toESM(require_prop_types());
-  var import_react474 = __toESM(require_react());
-  var HeroCardAttachment = ({ attachment: { content: content3 } = {}, disabled }) => !!content3 && /* @__PURE__ */ import_react474.default.createElement(HeroCardContent_default, { content: content3, disabled });
+  var import_react473 = __toESM(require_react());
+  var HeroCardAttachment = ({ attachment: { content: content3 } = {}, disabled }) => !!content3 && /* @__PURE__ */ import_react473.default.createElement(HeroCardContent_default, { content: content3, disabled });
   HeroCardAttachment.defaultProps = {
     disabled: void 0
   };
@@ -202811,8 +203737,8 @@ XID_Start XIDS`.split(/\s/)
 
   // src/adaptiveCards/Attachment/OAuthCardAttachment.js
   var import_prop_types53 = __toESM(require_prop_types());
-  var import_react475 = __toESM(require_react());
-  var OAuthCardAttachment = ({ attachment: { content: content3 } = {}, disabled }) => /* @__PURE__ */ import_react475.default.createElement(OAuthCardContent_default, { content: content3, disabled });
+  var import_react474 = __toESM(require_react());
+  var OAuthCardAttachment = ({ attachment: { content: content3 } = {}, disabled }) => /* @__PURE__ */ import_react474.default.createElement(OAuthCardContent_default, { content: content3, disabled });
   OAuthCardAttachment.defaultProps = {
     disabled: void 0
   };
@@ -202828,8 +203754,8 @@ XID_Start XIDS`.split(/\s/)
 
   // src/adaptiveCards/Attachment/ReceiptCardAttachment.js
   var import_prop_types54 = __toESM(require_prop_types());
-  var import_react476 = __toESM(require_react());
-  var ReceiptCardAttachment = ({ attachment: { content: content3 }, disabled }) => /* @__PURE__ */ import_react476.default.createElement(ReceiptCardContent_default, { content: content3, disabled });
+  var import_react475 = __toESM(require_react());
+  var ReceiptCardAttachment = ({ attachment: { content: content3 }, disabled }) => /* @__PURE__ */ import_react475.default.createElement(ReceiptCardContent_default, { content: content3, disabled });
   ReceiptCardAttachment.defaultProps = {
     disabled: void 0
   };
@@ -202871,8 +203797,8 @@ XID_Start XIDS`.split(/\s/)
 
   // src/adaptiveCards/Attachment/SignInCardAttachment.js
   var import_prop_types55 = __toESM(require_prop_types());
-  var import_react477 = __toESM(require_react());
-  var SignInCardAttachment = ({ attachment: { content: content3 }, disabled }) => /* @__PURE__ */ import_react477.default.createElement(SignInCardContent_default, { content: content3, disabled });
+  var import_react476 = __toESM(require_react());
+  var SignInCardAttachment = ({ attachment: { content: content3 }, disabled }) => /* @__PURE__ */ import_react476.default.createElement(SignInCardContent_default, { content: content3, disabled });
   SignInCardAttachment.defaultProps = {
     disabled: void 0
   };
@@ -202886,8 +203812,8 @@ XID_Start XIDS`.split(/\s/)
 
   // src/adaptiveCards/Attachment/ThumbnailCardAttachment.js
   var import_prop_types56 = __toESM(require_prop_types());
-  var import_react478 = __toESM(require_react());
-  var ThumbnailCardAttachment = ({ attachment: { content: content3 }, disabled }) => /* @__PURE__ */ import_react478.default.createElement(ThumbnailCardContent_default, { content: content3, disabled });
+  var import_react477 = __toESM(require_react());
+  var ThumbnailCardAttachment = ({ attachment: { content: content3 }, disabled }) => /* @__PURE__ */ import_react477.default.createElement(ThumbnailCardContent_default, { content: content3, disabled });
   ThumbnailCardAttachment.defaultProps = {
     disabled: void 0
   };
@@ -202914,8 +203840,8 @@ XID_Start XIDS`.split(/\s/)
 
   // src/adaptiveCards/Attachment/VideoCardAttachment.js
   var import_prop_types57 = __toESM(require_prop_types());
-  var import_react479 = __toESM(require_react());
-  var VideoCardAttachment = ({ attachment: { content: content3 }, disabled }) => /* @__PURE__ */ import_react479.default.createElement(VideoCardContent_default, { content: content3, disabled });
+  var import_react478 = __toESM(require_react());
+  var VideoCardAttachment = ({ attachment: { content: content3 }, disabled }) => /* @__PURE__ */ import_react478.default.createElement(VideoCardContent_default, { content: content3, disabled });
   VideoCardAttachment.defaultProps = {
     disabled: void 0
   };
@@ -202943,7 +203869,7 @@ XID_Start XIDS`.split(/\s/)
   function createAdaptiveCardsAttachmentMiddleware2() {
     return () => (next2) => (...args) => {
       const [{ attachment }] = args;
-      return attachment.contentType === "application/vnd.microsoft.card.hero" ? /* @__PURE__ */ import_react480.default.createElement(HeroCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.adaptive" ? /* @__PURE__ */ import_react480.default.createElement(AdaptiveCardAttachment_default2, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.animation" ? /* @__PURE__ */ import_react480.default.createElement(AnimationCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.audio" ? /* @__PURE__ */ import_react480.default.createElement(AudioCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.oauth" ? /* @__PURE__ */ import_react480.default.createElement(OAuthCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.receipt" ? /* @__PURE__ */ import_react480.default.createElement(ReceiptCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.signin" ? /* @__PURE__ */ import_react480.default.createElement(SignInCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.thumbnail" ? /* @__PURE__ */ import_react480.default.createElement(ThumbnailCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.video" ? /* @__PURE__ */ import_react480.default.createElement(VideoCardAttachment_default, { attachment }) : next2(...args);
+      return attachment.contentType === "application/vnd.microsoft.card.hero" ? /* @__PURE__ */ import_react479.default.createElement(HeroCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.adaptive" ? /* @__PURE__ */ import_react479.default.createElement(AdaptiveCardAttachment_default2, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.animation" ? /* @__PURE__ */ import_react479.default.createElement(AnimationCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.audio" ? /* @__PURE__ */ import_react479.default.createElement(AudioCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.oauth" ? /* @__PURE__ */ import_react479.default.createElement(OAuthCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.receipt" ? /* @__PURE__ */ import_react479.default.createElement(ReceiptCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.signin" ? /* @__PURE__ */ import_react479.default.createElement(SignInCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.thumbnail" ? /* @__PURE__ */ import_react479.default.createElement(ThumbnailCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.video" ? /* @__PURE__ */ import_react479.default.createElement(VideoCardAttachment_default, { attachment }) : next2(...args);
     };
   }
 
@@ -206383,11 +207309,11 @@ XID_Start XIDS`.split(/\s/)
   var makeEm = function makeEm2(n3) {
     return +n3.toFixed(4) + "em";
   };
-  var createClass = function createClass2(classes15) {
-    return classes15.filter((cls) => cls).join(" ");
+  var createClass = function createClass2(classes30) {
+    return classes30.filter((cls) => cls).join(" ");
   };
-  var initNode = function initNode2(classes15, options, style) {
-    this.classes = classes15 || [];
+  var initNode = function initNode2(classes30, options, style) {
+    this.classes = classes30 || [];
     this.attributes = {};
     this.height = 0;
     this.depth = 0;
@@ -206452,7 +207378,7 @@ XID_Start XIDS`.split(/\s/)
     return markup;
   };
   var Span = class {
-    constructor(classes15, children, options, style) {
+    constructor(classes30, children, options, style) {
       this.children = void 0;
       this.attributes = void 0;
       this.classes = void 0;
@@ -206461,7 +207387,7 @@ XID_Start XIDS`.split(/\s/)
       this.width = void 0;
       this.maxFontSize = void 0;
       this.style = void 0;
-      initNode.call(this, classes15, options, style);
+      initNode.call(this, classes30, options, style);
       this.children = children || [];
     }
     /**
@@ -206483,7 +207409,7 @@ XID_Start XIDS`.split(/\s/)
     }
   };
   var Anchor = class {
-    constructor(href, classes15, children, options) {
+    constructor(href, classes30, children, options) {
       this.children = void 0;
       this.attributes = void 0;
       this.classes = void 0;
@@ -206491,7 +207417,7 @@ XID_Start XIDS`.split(/\s/)
       this.depth = void 0;
       this.maxFontSize = void 0;
       this.style = void 0;
-      initNode.call(this, classes15, options);
+      initNode.call(this, classes30, options);
       this.children = children || [];
       this.setAttribute("href", href);
     }
@@ -206560,7 +207486,7 @@ XID_Start XIDS`.split(/\s/)
     "\xEC": "\u0131\u0300"
   };
   var SymbolNode = class {
-    constructor(text6, height, depth, italic, skew2, width, classes15, style) {
+    constructor(text6, height, depth, italic, skew2, width, classes30, style) {
       this.text = void 0;
       this.height = void 0;
       this.depth = void 0;
@@ -206576,7 +207502,7 @@ XID_Start XIDS`.split(/\s/)
       this.italic = italic || 0;
       this.skew = skew2 || 0;
       this.width = width || 0;
-      this.classes = classes15 || [];
+      this.classes = classes30 || [];
       this.style = style || {};
       this.maxFontSize = 0;
       var script = scriptFromCodepoint(this.text.charCodeAt(0));
@@ -207600,7 +208526,7 @@ XID_Start XIDS`.split(/\s/)
       metrics: getCharacterMetrics(value, fontName, mode)
     };
   };
-  var makeSymbol = function makeSymbol2(value, fontName, mode, options, classes15) {
+  var makeSymbol = function makeSymbol2(value, fontName, mode, options, classes30) {
     var lookup2 = lookupSymbol(value, fontName, mode);
     var metrics = lookup2.metrics;
     value = lookup2.value;
@@ -207610,10 +208536,10 @@ XID_Start XIDS`.split(/\s/)
       if (mode === "text" || options && options.font === "mathit") {
         italic = 0;
       }
-      symbolNode = new SymbolNode(value, metrics.height, metrics.depth, italic, metrics.skew, metrics.width, classes15);
+      symbolNode = new SymbolNode(value, metrics.height, metrics.depth, italic, metrics.skew, metrics.width, classes30);
     } else {
       typeof console !== "undefined" && console.warn("No character metrics " + ("for '" + value + "' in style '" + fontName + "' and mode '" + mode + "'"));
-      symbolNode = new SymbolNode(value, 0, 0, 0, 0, 0, classes15);
+      symbolNode = new SymbolNode(value, 0, 0, 0, 0, 0, classes30);
     }
     if (options) {
       symbolNode.maxFontSize = options.sizeMultiplier;
@@ -207627,19 +208553,19 @@ XID_Start XIDS`.split(/\s/)
     }
     return symbolNode;
   };
-  var mathsym = function mathsym2(value, mode, options, classes15) {
-    if (classes15 === void 0) {
-      classes15 = [];
+  var mathsym = function mathsym2(value, mode, options, classes30) {
+    if (classes30 === void 0) {
+      classes30 = [];
     }
     if (options.font === "boldsymbol" && lookupSymbol(value, "Main-Bold", mode).metrics) {
-      return makeSymbol(value, "Main-Bold", mode, options, classes15.concat(["mathbf"]));
+      return makeSymbol(value, "Main-Bold", mode, options, classes30.concat(["mathbf"]));
     } else if (value === "\\" || symbols[mode][value].font === "main") {
-      return makeSymbol(value, "Main-Regular", mode, options, classes15);
+      return makeSymbol(value, "Main-Regular", mode, options, classes30);
     } else {
-      return makeSymbol(value, "AMS-Regular", mode, options, classes15.concat(["amsrm"]));
+      return makeSymbol(value, "AMS-Regular", mode, options, classes30.concat(["amsrm"]));
     }
   };
-  var boldsymbol = function boldsymbol2(value, mode, options, classes15, type2) {
+  var boldsymbol = function boldsymbol2(value, mode, options, classes30, type2) {
     if (type2 !== "textord" && lookupSymbol(value, "Math-BoldItalic", mode).metrics) {
       return {
         fontName: "Math-BoldItalic",
@@ -207655,7 +208581,7 @@ XID_Start XIDS`.split(/\s/)
   var makeOrd = function makeOrd2(group, options, type2) {
     var mode = group.mode;
     var text6 = group.text;
-    var classes15 = ["mord"];
+    var classes30 = ["mord"];
     var isFont = mode === "math" || mode === "text" && options.font;
     var fontOrFamily = isFont ? options.font : options.fontFamily;
     var wideFontName = "";
@@ -207664,12 +208590,12 @@ XID_Start XIDS`.split(/\s/)
       [wideFontName, wideFontClass] = wideCharacterFont(text6, mode);
     }
     if (wideFontName.length > 0) {
-      return makeSymbol(text6, wideFontName, mode, options, classes15.concat(wideFontClass));
+      return makeSymbol(text6, wideFontName, mode, options, classes30.concat(wideFontClass));
     } else if (fontOrFamily) {
       var fontName;
       var fontClasses;
       if (fontOrFamily === "boldsymbol") {
-        var fontData = boldsymbol(text6, mode, options, classes15, type2);
+        var fontData = boldsymbol(text6, mode, options, classes30, type2);
         fontName = fontData.fontName;
         fontClasses = [fontData.fontClass];
       } else if (isFont) {
@@ -207680,28 +208606,28 @@ XID_Start XIDS`.split(/\s/)
         fontClasses = [fontOrFamily, options.fontWeight, options.fontShape];
       }
       if (lookupSymbol(text6, fontName, mode).metrics) {
-        return makeSymbol(text6, fontName, mode, options, classes15.concat(fontClasses));
+        return makeSymbol(text6, fontName, mode, options, classes30.concat(fontClasses));
       } else if (ligatures.hasOwnProperty(text6) && fontName.slice(0, 10) === "Typewriter") {
         var parts = [];
         for (var i3 = 0; i3 < text6.length; i3++) {
-          parts.push(makeSymbol(text6[i3], fontName, mode, options, classes15.concat(fontClasses)));
+          parts.push(makeSymbol(text6[i3], fontName, mode, options, classes30.concat(fontClasses)));
         }
         return makeFragment(parts);
       }
     }
     if (type2 === "mathord") {
-      return makeSymbol(text6, "Math-Italic", mode, options, classes15.concat(["mathnormal"]));
+      return makeSymbol(text6, "Math-Italic", mode, options, classes30.concat(["mathnormal"]));
     } else if (type2 === "textord") {
       var font = symbols[mode][text6] && symbols[mode][text6].font;
       if (font === "ams") {
         var _fontName = retrieveTextFontName("amsrm", options.fontWeight, options.fontShape);
-        return makeSymbol(text6, _fontName, mode, options, classes15.concat("amsrm", options.fontWeight, options.fontShape));
+        return makeSymbol(text6, _fontName, mode, options, classes30.concat("amsrm", options.fontWeight, options.fontShape));
       } else if (font === "main" || !font) {
         var _fontName2 = retrieveTextFontName("textrm", options.fontWeight, options.fontShape);
-        return makeSymbol(text6, _fontName2, mode, options, classes15.concat(options.fontWeight, options.fontShape));
+        return makeSymbol(text6, _fontName2, mode, options, classes30.concat(options.fontWeight, options.fontShape));
       } else {
         var _fontName3 = retrieveTextFontName(font, options.fontWeight, options.fontShape);
-        return makeSymbol(text6, _fontName3, mode, options, classes15.concat(_fontName3, options.fontWeight, options.fontShape));
+        return makeSymbol(text6, _fontName3, mode, options, classes30.concat(_fontName3, options.fontWeight, options.fontShape));
       }
     } else {
       throw new Error("unexpected type: " + type2 + " in makeOrd");
@@ -207764,12 +208690,12 @@ XID_Start XIDS`.split(/\s/)
     elem.depth = depth;
     elem.maxFontSize = maxFontSize;
   };
-  var makeSpan$2 = function makeSpan(classes15, children, options, style) {
-    var span = new Span(classes15, children, options, style);
+  var makeSpan$2 = function makeSpan(classes30, children, options, style) {
+    var span = new Span(classes30, children, options, style);
     sizeElementFromChildren(span);
     return span;
   };
-  var makeSvgSpan = (classes15, children, options, style) => new Span(classes15, children, options, style);
+  var makeSvgSpan = (classes30, children, options, style) => new Span(classes30, children, options, style);
   var makeLineSpan = function makeLineSpan2(className, options, thickness) {
     var line2 = makeSpan$2([className], [], options);
     line2.height = Math.max(thickness || options.fontMetrics().defaultRuleThickness, options.minRuleThickness);
@@ -207777,8 +208703,8 @@ XID_Start XIDS`.split(/\s/)
     line2.maxFontSize = 1;
     return line2;
   };
-  var makeAnchor = function makeAnchor2(href, classes15, children, options) {
-    var anchor = new Anchor(href, classes15, children, options);
+  var makeAnchor = function makeAnchor2(href, classes30, children, options) {
+    var anchor = new Anchor(href, classes30, children, options);
     sizeElementFromChildren(anchor);
     return anchor;
   };
@@ -207868,9 +208794,9 @@ XID_Start XIDS`.split(/\s/)
         currPos += _child.size;
       } else {
         var _elem = _child.elem;
-        var classes15 = _child.wrapperClasses || [];
+        var classes30 = _child.wrapperClasses || [];
         var style = _child.wrapperStyle || {};
-        var childWrap = makeSpan$2(classes15, [pstrut, _elem], void 0, style);
+        var childWrap = makeSpan$2(classes30, [pstrut, _elem], void 0, style);
         childWrap.style.top = makeEm(-pstrutSize - currPos - _elem.depth);
         if (_child.marginLeft) {
           childWrap.style.marginLeft = _child.marginLeft;
@@ -208321,9 +209247,9 @@ XID_Start XIDS`.split(/\s/)
     }
     return DomEnum[node3.classes[0]] || null;
   };
-  var makeNullDelimiter = function makeNullDelimiter2(options, classes15) {
+  var makeNullDelimiter = function makeNullDelimiter2(options, classes30) {
     var moreClasses = ["nulldelimiter"].concat(options.baseSizingClasses());
-    return makeSpan$1(classes15.concat(moreClasses));
+    return makeSpan$1(classes30.concat(moreClasses));
   };
   var buildGroup$1 = function buildGroup(group, options, baseOptions) {
     if (!group) {
@@ -208415,7 +209341,7 @@ XID_Start XIDS`.split(/\s/)
     return new DocumentFragment2(children);
   }
   var MathNode = class {
-    constructor(type2, children, classes15) {
+    constructor(type2, children, classes30) {
       this.type = void 0;
       this.attributes = void 0;
       this.children = void 0;
@@ -208423,7 +209349,7 @@ XID_Start XIDS`.split(/\s/)
       this.type = type2;
       this.attributes = {};
       this.children = children || [];
-      this.classes = classes15 || [];
+      this.classes = classes30 || [];
     }
     /**
      * Sets an attribute on a MathML node. MathML depends on attributes to convey a
@@ -208760,14 +209686,14 @@ XID_Start XIDS`.split(/\s/)
   };
   var displayWrap = function displayWrap2(node3, settings) {
     if (settings.displayMode) {
-      var classes15 = ["katex-display"];
+      var classes30 = ["katex-display"];
       if (settings.leqno) {
-        classes15.push("leqno");
+        classes30.push("leqno");
       }
       if (settings.fleqn) {
-        classes15.push("fleqn");
+        classes30.push("fleqn");
       }
-      node3 = buildCommon.makeSpan(classes15, [node3]);
+      node3 = buildCommon.makeSpan(classes30, [node3]);
     }
     return node3;
   };
@@ -210155,9 +211081,9 @@ XID_Start XIDS`.split(/\s/)
     }
     return metrics;
   };
-  var styleWrap = function styleWrap2(delim, toStyle, options, classes15) {
+  var styleWrap = function styleWrap2(delim, toStyle, options, classes30) {
     var newOptions = options.havingBaseStyle(toStyle);
-    var span = buildCommon.makeSpan(classes15.concat(newOptions.sizingClasses(options)), [delim], options);
+    var span = buildCommon.makeSpan(classes30.concat(newOptions.sizingClasses(options)), [delim], options);
     var delimSizeMultiplier = newOptions.sizeMultiplier / options.sizeMultiplier;
     span.height *= delimSizeMultiplier;
     span.depth *= delimSizeMultiplier;
@@ -210172,9 +211098,9 @@ XID_Start XIDS`.split(/\s/)
     span.height -= shift;
     span.depth += shift;
   };
-  var makeSmallDelim = function makeSmallDelim2(delim, style, center, options, mode, classes15) {
+  var makeSmallDelim = function makeSmallDelim2(delim, style, center, options, mode, classes30) {
     var text6 = buildCommon.makeSymbol(delim, "Main-Regular", mode, options);
-    var span = styleWrap(text6, style, options, classes15);
+    var span = styleWrap(text6, style, options, classes30);
     if (center) {
       centerSpan(span, options, style);
     }
@@ -210183,9 +211109,9 @@ XID_Start XIDS`.split(/\s/)
   var mathrmSize = function mathrmSize2(value, size, mode, options) {
     return buildCommon.makeSymbol(value, "Size" + size + "-Regular", mode, options);
   };
-  var makeLargeDelim = function makeLargeDelim2(delim, size, center, options, mode, classes15) {
+  var makeLargeDelim = function makeLargeDelim2(delim, size, center, options, mode, classes30) {
     var inner2 = mathrmSize(delim, size, mode, options);
-    var span = styleWrap(buildCommon.makeSpan(["delimsizing", "size" + size], [inner2], options), Style$1.TEXT, options, classes15);
+    var span = styleWrap(buildCommon.makeSpan(["delimsizing", "size" + size], [inner2], options), Style$1.TEXT, options, classes30);
     if (center) {
       centerSpan(span, options, Style$1.TEXT);
     }
@@ -210231,7 +211157,7 @@ XID_Start XIDS`.split(/\s/)
   };
   var verts = ["|", "\\lvert", "\\rvert", "\\vert"];
   var doubleVerts = ["\\|", "\\lVert", "\\rVert", "\\Vert"];
-  var makeStackedDelim = function makeStackedDelim2(delim, heightTotal, center, options, mode, classes15) {
+  var makeStackedDelim = function makeStackedDelim2(delim, heightTotal, center, options, mode, classes30) {
     var top;
     var middle;
     var repeat;
@@ -210415,7 +211341,7 @@ XID_Start XIDS`.split(/\s/)
       positionData: depth,
       children: stack
     }, newOptions);
-    return styleWrap(buildCommon.makeSpan(["delimsizing", "mult"], [inner2], newOptions), Style$1.TEXT, options, classes15);
+    return styleWrap(buildCommon.makeSpan(["delimsizing", "mult"], [inner2], newOptions), Style$1.TEXT, options, classes30);
   };
   var vbPad = 80;
   var emPad = 0.08;
@@ -210484,16 +211410,16 @@ XID_Start XIDS`.split(/\s/)
   var stackAlwaysDelimiters = ["\\uparrow", "\\downarrow", "\\updownarrow", "\\Uparrow", "\\Downarrow", "\\Updownarrow", "|", "\\|", "\\vert", "\\Vert", "\\lvert", "\\rvert", "\\lVert", "\\rVert", "\\lgroup", "\\rgroup", "\u27EE", "\u27EF", "\\lmoustache", "\\rmoustache", "\u23B0", "\u23B1"];
   var stackNeverDelimiters = ["<", ">", "\\langle", "\\rangle", "/", "\\backslash", "\\lt", "\\gt"];
   var sizeToMaxHeight = [0, 1.2, 1.8, 2.4, 3];
-  var makeSizedDelim = function makeSizedDelim2(delim, size, options, mode, classes15) {
+  var makeSizedDelim = function makeSizedDelim2(delim, size, options, mode, classes30) {
     if (delim === "<" || delim === "\\lt" || delim === "\u27E8") {
       delim = "\\langle";
     } else if (delim === ">" || delim === "\\gt" || delim === "\u27E9") {
       delim = "\\rangle";
     }
     if (stackLargeDelimiters.includes(delim) || stackNeverDelimiters.includes(delim)) {
-      return makeLargeDelim(delim, size, false, options, mode, classes15);
+      return makeLargeDelim(delim, size, false, options, mode, classes30);
     } else if (stackAlwaysDelimiters.includes(delim)) {
-      return makeStackedDelim(delim, sizeToMaxHeight[size], false, options, mode, classes15);
+      return makeStackedDelim(delim, sizeToMaxHeight[size], false, options, mode, classes30);
     } else {
       throw new ParseError("Illegal delimiter: '" + delim + "'");
     }
@@ -210585,7 +211511,7 @@ XID_Start XIDS`.split(/\s/)
     }
     return sequence[sequence.length - 1];
   };
-  var makeCustomSizedDelim = function makeCustomSizedDelim2(delim, height, center, options, mode, classes15) {
+  var makeCustomSizedDelim = function makeCustomSizedDelim2(delim, height, center, options, mode, classes30) {
     if (delim === "<" || delim === "\\lt" || delim === "\u27E8") {
       delim = "\\langle";
     } else if (delim === ">" || delim === "\\gt" || delim === "\u27E9") {
@@ -210601,14 +211527,14 @@ XID_Start XIDS`.split(/\s/)
     }
     var delimType = traverseSequence(delim, height, sequence, options);
     if (delimType.type === "small") {
-      return makeSmallDelim(delim, delimType.style, center, options, mode, classes15);
+      return makeSmallDelim(delim, delimType.style, center, options, mode, classes30);
     } else if (delimType.type === "large") {
-      return makeLargeDelim(delim, delimType.size, center, options, mode, classes15);
+      return makeLargeDelim(delim, delimType.size, center, options, mode, classes30);
     } else {
-      return makeStackedDelim(delim, height, center, options, mode, classes15);
+      return makeStackedDelim(delim, height, center, options, mode, classes30);
     }
   };
-  var makeLeftRightDelim = function makeLeftRightDelim2(delim, height, depth, options, mode, classes15) {
+  var makeLeftRightDelim = function makeLeftRightDelim2(delim, height, depth, options, mode, classes30) {
     var axisHeight = options.fontMetrics().axisHeight * options.sizeMultiplier;
     var delimiterFactor = 901;
     var delimiterExtend = 5 / options.fontMetrics().ptPerEm;
@@ -210626,7 +211552,7 @@ XID_Start XIDS`.split(/\s/)
       maxDistFromAxis / 500 * delimiterFactor,
       2 * maxDistFromAxis - delimiterExtend
     );
-    return makeCustomSizedDelim(delim, totalHeight, true, options, mode, classes15);
+    return makeCustomSizedDelim(delim, totalHeight, true, options, mode, classes30);
   };
   var delimiter3 = {
     sqrtImage: makeSqrtImage,
@@ -211005,7 +211931,7 @@ XID_Start XIDS`.split(/\s/)
         ]
       }, options);
     } else {
-      var classes15 = /cancel|phase/.test(label) ? ["svg-align"] : [];
+      var classes30 = /cancel|phase/.test(label) ? ["svg-align"] : [];
       vlist = buildCommon.makeVList({
         positionType: "individualShift",
         children: [
@@ -211019,7 +211945,7 @@ XID_Start XIDS`.split(/\s/)
             type: "elem",
             elem: img,
             shift: imgShift,
-            wrapperClasses: classes15
+            wrapperClasses: classes30
           }
         ]
       }, options);
@@ -212976,11 +213902,11 @@ XID_Start XIDS`.split(/\s/)
     },
     htmlBuilder: (group, options) => {
       var elements = buildExpression$1(group.body, options, false);
-      var classes15 = ["enclosing"];
+      var classes30 = ["enclosing"];
       if (group.attributes.class) {
-        classes15.push(...group.attributes.class.trim().split(/\s+/));
+        classes30.push(...group.attributes.class.trim().split(/\s+/));
       }
-      var span = buildCommon.makeSpan(classes15, elements, options);
+      var span = buildCommon.makeSpan(classes30, elements, options);
       for (var attr in group.attributes) {
         if (attr !== "class" && group.attributes.hasOwnProperty(attr)) {
           span.setAttribute(attr, group.attributes[attr]);
@@ -219410,27 +220336,27 @@ XID_Start XIDS`.split(/\s/)
         wrapZeroWidthSpace: true
       };
       const ariaLabelSegments = [textContent];
-      const classes15 = /* @__PURE__ */ new Set();
+      const classes30 = /* @__PURE__ */ new Set();
       const linkDefinition = linkDefinitions2.find(({ url: url2, markupUrl }) => url2 === href || href && markupUrl === href);
       const protocol = onErrorResumeNext(() => new URL(href).protocol);
       if (linkDefinition) {
         ariaLabelSegments.push(linkDefinition.title || ((_a29 = linkDefinition == null ? void 0 : linkDefinition.parsedUrl) == null ? void 0 : _a29.host) || linkDefinition.url);
-        linkDefinition.label === textContent && classes15.add("webchat__render-markdown__pure-identifier");
+        linkDefinition.label === textContent && classes30.add("render-markdown__pure-identifier");
       }
       if (protocol !== "javascript:") {
         if (!ALLOWED_SCHEMES2.map((scheme) => `${scheme}:`).includes(protocol)) {
           decoration.asButton = true;
-          classes15.add("webchat__render-markdown__citation");
+          classes30.add("render-markdown__citation");
         } else if (protocol === "http:" || protocol === "https:") {
           decoration.iconAlt = externalLinkAlt2;
-          decoration.iconClassName = "webchat__render-markdown__external-link-icon";
+          decoration.iconClassName = "render-markdown__external-link-icon";
           ariaLabelSegments.push(externalLinkAlt2);
         }
       }
       if (ariaLabelSegments.length > 1) {
         decoration.ariaLabel = (value) => value || ariaLabelSegments.join(" ");
       }
-      decoration.className = Array.from(classes15).join(" ");
+      decoration.className = Array.from(classes30).join(" ");
       decoration.title = false;
       return decoration;
     };
@@ -219464,23 +220390,23 @@ XID_Start XIDS`.split(/\s/)
     styleOptions,
     styleSet
   }) {
-    const patchedAttachmentMiddleware = (0, import_react481.useMemo)(
+    const patchedAttachmentMiddleware = (0, import_react480.useMemo)(
       () => [...attachmentMiddleware, createAdaptiveCardsAttachmentMiddleware2()],
       [attachmentMiddleware]
     );
-    const patchedAttachmentForScreenReaderMiddleware = (0, import_react481.useMemo)(
+    const patchedAttachmentForScreenReaderMiddleware = (0, import_react480.useMemo)(
       () => [...attachmentForScreenReaderMiddleware, createAdaptiveCardsAttachmentMiddleware()],
       [attachmentForScreenReaderMiddleware]
     );
-    const extraStyleSet = (0, import_react481.useMemo)(
+    const extraStyleSet = (0, import_react480.useMemo)(
       () => styleSet ? void 0 : createAdaptiveCardsStyleSet(styleOptions),
       [styleOptions, styleSet]
     );
-    const patchedRenderMarkdown = (0, import_react481.useMemo)(
+    const patchedRenderMarkdown = (0, import_react480.useMemo)(
       () => typeof renderMarkdown === "undefined" ? render5 : renderMarkdown,
       [renderMarkdown]
     );
-    const patchedHTMLContentTransformMiddleware = (0, import_react481.useMemo)(
+    const patchedHTMLContentTransformMiddleware = (0, import_react480.useMemo)(
       () => Object.freeze([...htmlContentTransformMiddleware || [], ...createHTMLContentTransformMiddleware()]),
       [htmlContentTransformMiddleware]
     );
@@ -219519,27 +220445,27 @@ XID_Start XIDS`.split(/\s/)
       styleOptions,
       styleSet
     });
-    return /* @__PURE__ */ import_react482.default.createElement(ShikiComposer_default, null, /* @__PURE__ */ import_react482.default.createElement(
+    return /* @__PURE__ */ import_react481.default.createElement(ShikiComposer_default, null, /* @__PURE__ */ import_react481.default.createElement(
       AdaptiveCardsComposer_default,
       {
         adaptiveCardsHostConfig: adaptiveCardHostConfig || adaptiveCardsHostConfig,
         adaptiveCardsPackage
       },
-      /* @__PURE__ */ import_react482.default.createElement(BundleStylesheet_default, { at: styleOptions == null ? void 0 : styleOptions.stylesRoot, nonce }),
+      /* @__PURE__ */ import_react481.default.createElement(BundleStylesheet_default, { at: styleOptions == null ? void 0 : styleOptions.stylesRoot, nonce }),
       children(patchedProps)
     ));
   }
-  var AddFullBundle_default = (0, import_react482.memo)(AddFullBundle);
+  var AddFullBundle_default = (0, import_react481.memo)(AddFullBundle);
 
   // src/FullReactWebChat.tsx
-  var FullReactWebChat = (props) => /* @__PURE__ */ import_react483.default.createElement(AddFullBundle_default, { ...props }, (extraProps) => /* @__PURE__ */ import_react483.default.createElement(ReactWebChat_default, { ...props, ...extraProps }));
+  var FullReactWebChat = (props) => /* @__PURE__ */ import_react482.default.createElement(AddFullBundle_default, { ...props }, (extraProps) => /* @__PURE__ */ import_react482.default.createElement(ReactWebChat_default, { ...props, ...extraProps }));
   var FullReactWebChat_default = FullReactWebChat;
 
   // src/FullComposer.tsx
   var import_prop_types58 = __toESM(require_prop_types());
-  var import_react484 = __toESM(require_react());
+  var import_react483 = __toESM(require_react());
   var { Composer: Composer8 } = component_exports;
-  var FullComposer = (props) => /* @__PURE__ */ import_react484.default.createElement(AddFullBundle_default, { ...props }, (extraProps) => /* @__PURE__ */ import_react484.default.createElement(Composer8, { ...props, ...extraProps }, props.children));
+  var FullComposer = (props) => /* @__PURE__ */ import_react483.default.createElement(AddFullBundle_default, { ...props }, (extraProps) => /* @__PURE__ */ import_react483.default.createElement(Composer8, { ...props, ...extraProps }, props.children));
   FullComposer.defaultProps = {
     ...Composer8.defaultProps,
     adaptiveCardsHostConfig: void 0,

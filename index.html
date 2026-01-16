@@ -196,6 +196,7 @@
               
               const { conversationId, streamUrl: originalStreamUrl } = await conRes.json();
 
+              // const reverseProxy = "wss://custom-reverse-proxy-voice-live-seasia-g6hhfwfxh6e8fadd.southeastasia-01.azurewebsites.net/voice-live/realtime?api-version=2025-05-01-preview&model=gpt-4.1";
               let streamUrl = originalStreamUrl;
               if (botSchema && environmentId) {
                 streamUrl = `${streamUrl}&ppFqdn=${environmentId}&botSchemaName=${botSchema}`;
