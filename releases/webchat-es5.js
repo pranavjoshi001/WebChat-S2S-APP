@@ -20346,7 +20346,7 @@
       var react_1 = require_react();
       var attributes_to_props_1 = __importDefault(require_attributes_to_props());
       var utilities_1 = require_utilities3();
-      var React179 = {
+      var React180 = {
         cloneElement: react_1.cloneElement,
         createElement: react_1.createElement,
         isValidElement: react_1.isValidElement
@@ -20358,7 +20358,7 @@
         var reactElements = [];
         var hasReplace = typeof options.replace === "function";
         var transform3 = options.transform || utilities_1.returnFirstArg;
-        var _a29 = options.library || React179, cloneElement = _a29.cloneElement, createElement7 = _a29.createElement, isValidElement3 = _a29.isValidElement;
+        var _a29 = options.library || React180, cloneElement = _a29.cloneElement, createElement7 = _a29.createElement, isValidElement3 = _a29.isValidElement;
         var nodesLength = nodes.length;
         for (var index2 = 0; index2 < nodesLength; index2++) {
           var node3 = nodes[index2];
@@ -50800,11 +50800,14 @@
       });
       exports2.createCcv2Adapter = createCcv2Adapter2;
       var _defineProperty2 = _interopRequireDefault(require_defineProperty());
+      var _objectWithoutProperties2 = _interopRequireDefault(require_objectWithoutProperties());
       var _BehaviorSubject = require_BehaviorSubject();
       var _Observable = require_Observable();
       require_share3();
       require_startWith3();
       var _directLine = require_directLine();
+      var _excluded2 = ["payload"];
+      var _excluded22 = ["payload"];
       function ownKeys3(object3, enumerableOnly) {
         var keys2 = Object.keys(object3);
         if (Object.getOwnPropertySymbols) {
@@ -50844,9 +50847,10 @@
             from: {
               role: "bot"
             },
-            value: {
+            timestamp: activity.timestamp || (/* @__PURE__ */ new Date()).toISOString(),
+            payload: {
               voice: {
-                contentUrl: activity.value.voice.data
+                content: activity.value.voice.data
               }
             }
           };
@@ -50857,57 +50861,64 @@
             return {
               type: "event",
               name: "stream.end",
-              value: {
+              timestamp: activity.timestamp || (/* @__PURE__ */ new Date()).toISOString(),
+              payload: {
                 voice: {
                   origin: "user",
                   transcription: activity.value.transcript.text
                 }
               }
             };
-          } else {
-            return {
-              type: "event",
-              name: "stream.end",
-              value: {
-                voice: {
-                  origin: "agent",
-                  transcription: activity.value.transcript.text
-                }
-              }
-            };
           }
+          return {
+            type: "event",
+            name: "stream.end",
+            timestamp: activity.timestamp || (/* @__PURE__ */ new Date()).toISOString(),
+            payload: {
+              voice: {
+                origin: "agent",
+                transcription: activity.value.transcript.text
+              }
+            }
+          };
         }
         if (activity.name && activity.name.toString() === "bargein") {
           return {
             type: "event",
             name: "session.update",
-            value: {
+            payload: {
               voice: {
-                bot_state: "voice.request.detected"
+                session: "request.detected"
               }
             }
           };
         }
         return activity;
       }
-      function transformOutgoingActivity(activity) {
-        var _activity$value3, _activity$value3$voic, _activity$value4, _activity$value4$dtmf;
-        if (activity.name === "stream.chunk" && (_activity$value3 = activity.value) !== null && _activity$value3 !== void 0 && (_activity$value3$voic = _activity$value3.voice) !== null && _activity$value3$voic !== void 0 && _activity$value3$voic.contentUrl) {
-          return _objectSpread3(_objectSpread3({}, activity), {}, {
+      function transformOutgoingActivity(activity, voiceSeq) {
+        var _activity$payload, _activity$payload$voi, _activity$payload2, _activity$payload2$dt;
+        if (activity.name === "stream.chunk" && (_activity$payload = activity.payload) !== null && _activity$payload !== void 0 && (_activity$payload$voi = _activity$payload.voice) !== null && _activity$payload$voi !== void 0 && _activity$payload$voi.content) {
+          var payload = activity.payload, activityWithoutPayload = (0, _objectWithoutProperties2["default"])(activity, _excluded2);
+          var voiceData = {
+            data: activity.payload.voice.content,
+            participantRawId: "user",
+            silent: false,
+            timestamp: activity.payload.voice.timestamp
+          };
+          if (typeof voiceSeq === "number") {
+            voiceData.seq = voiceSeq;
+          }
+          return _objectSpread3(_objectSpread3({}, activityWithoutPayload), {}, {
             value: {
-              voice: {
-                data: activity.value.voice.contentUrl,
-                participantRawId: "user",
-                silent: false,
-                timestamp: activity.value.voice.timestamp
-              }
+              voice: voiceData
             }
           });
         }
-        if (activity.name === "dtmf" && (_activity$value4 = activity.value) !== null && _activity$value4 !== void 0 && (_activity$value4$dtmf = _activity$value4.dtmf) !== null && _activity$value4$dtmf !== void 0 && _activity$value4$dtmf.value) {
-          return _objectSpread3(_objectSpread3({}, activity), {}, {
+        if (activity.name === "dtmf" && (_activity$payload2 = activity.payload) !== null && _activity$payload2 !== void 0 && (_activity$payload2$dt = _activity$payload2.dtmf) !== null && _activity$payload2$dt !== void 0 && _activity$payload2$dt.value) {
+          var _payload = activity.payload, _activityWithoutPayload = (0, _objectWithoutProperties2["default"])(activity, _excluded22);
+          return _objectSpread3(_objectSpread3({}, _activityWithoutPayload), {}, {
             value: {
-              data: activity.value.dtmf.value
+              data: activity.payload.dtmf.value
             }
           });
         }
@@ -50916,6 +50927,12 @@
       function createCcv2Adapter2(_ref) {
         var streamUrl = _ref.streamUrl;
         var socket = null;
+        var voiceSeq = 0;
+        var hasEmittedCapabilities = false;
+        var voiceConfiguration = {
+          sampleRate: 16e3,
+          chunkIntervalMs: 20
+        };
         var connectionStatus$ = new _BehaviorSubject.BehaviorSubject(_directLine.ConnectionStatus.Uninitialized);
         var activity$ = _Observable.Observable.create(function(subscriber) {
           if (socket && socket.readyState === WebSocket.OPEN) {
@@ -50928,6 +50945,7 @@
             socket = new WebSocket(streamUrl);
             socket.onopen = function() {
               connectionStatus$.next(_directLine.ConnectionStatus.Online);
+              voiceSeq = 1;
               socket.send(JSON.stringify({
                 type: "event",
                 name: "stream.start",
@@ -50963,10 +50981,12 @@
             };
             socket.onerror = function(error2) {
               connectionStatus$.next(_directLine.ConnectionStatus.FailedToConnect);
-              subscriber.error(new Error("WebSocket connection failed"));
+              voiceSeq = 0;
+              subscriber.error(new Error("WebSocket connection failed", error2));
             };
             socket.onclose = function() {
               connectionStatus$.next(_directLine.ConnectionStatus.Ended);
+              voiceSeq = 0;
               subscriber.complete();
             };
           }
@@ -50974,22 +50994,16 @@
             var _socket;
             if (((_socket = socket) === null || _socket === void 0 ? void 0 : _socket.readyState) === WebSocket.OPEN) {
               socket.close();
+              voiceSeq = 0;
             }
             socket = null;
+            hasEmittedCapabilities = false;
+            voiceConfiguration = void 0;
           };
-        }).share().startWith({
-          type: "event",
-          name: "session.init",
-          value: {
-            session: {
-              config: {
-                sampleRate: 16e3,
-                chunkIntervalMs: 20
-              }
-            },
-            voice: {}
-          }
-        });
+        }).share();
+        var getVoiceConfiguration = function getVoiceConfiguration2() {
+          return voiceConfiguration;
+        };
         var postActivity3 = function postActivity4(activity) {
           return _Observable.Observable.create(function(subscriber) {
             if (!socket || socket.readyState !== WebSocket.OPEN) {
@@ -50997,8 +51011,10 @@
               return;
             }
             try {
+              var _activity$value3, _activity$value3$voic;
               var activityId = "ccv2-".concat(Date.now(), "-").concat(Math.random().toString(36).substr(2, 9));
-              var transformedActivity = transformOutgoingActivity(activity);
+              var isVoiceChunk = activity.type === "event" && (activity === null || activity === void 0 ? void 0 : activity.name) === "stream.chunk" && ((_activity$value3 = activity.value) === null || _activity$value3 === void 0 ? void 0 : (_activity$value3$voic = _activity$value3.voice) === null || _activity$value3$voic === void 0 ? void 0 : _activity$value3$voic.content);
+              var transformedActivity = transformOutgoingActivity(activity, isVoiceChunk ? voiceSeq++ : void 0);
               socket.send(JSON.stringify(transformedActivity));
               subscriber.next(activityId);
               subscriber.complete();
@@ -51012,13 +51028,15 @@
             socket.close();
             socket = null;
           }
+          voiceSeq = 0;
           connectionStatus$.next(_directLine.ConnectionStatus.Ended);
         };
         return {
           activity$,
           connectionStatus$,
           postActivity: postActivity3,
-          end
+          end,
+          getVoiceConfiguration
         };
       }
     }
@@ -51079,6 +51097,8 @@
       var _directLineStreaming = require_directLineStreaming();
       var _ccv2Adapter = require_ccv2Adapter();
       var _excluded2 = ["contentUrl"];
+      var _excluded22 = ["payload"];
+      var _excluded3 = ["payload"];
       function _getRequireWildcardCache(nodeInterop) {
         if (typeof WeakMap !== "function") return null;
         var cacheBabelInterop = /* @__PURE__ */ new WeakMap();
@@ -51770,8 +51790,8 @@
         }], [{
           key: "isVoiceEventActivity",
           value: function isVoiceEventActivity(activity) {
-            var _activity$value, _activity$value2, _activity$value3, _activity$value4, _activity$value5, _activity$value6;
-            return activity.type === "event" && (activity === null || activity === void 0 ? void 0 : activity.value) && (0, _typeof2["default"])(activity === null || activity === void 0 ? void 0 : activity.value) === "object" && ((activity === null || activity === void 0 ? void 0 : (_activity$value = activity.value) === null || _activity$value === void 0 ? void 0 : _activity$value.voice) || (activity === null || activity === void 0 ? void 0 : (_activity$value2 = activity.value) === null || _activity$value2 === void 0 ? void 0 : _activity$value2.voiceLiveEvent)) && ((0, _typeof2["default"])(activity === null || activity === void 0 ? void 0 : (_activity$value3 = activity.value) === null || _activity$value3 === void 0 ? void 0 : _activity$value3.voice) === "object" || (0, _typeof2["default"])(activity === null || activity === void 0 ? void 0 : (_activity$value4 = activity.value) === null || _activity$value4 === void 0 ? void 0 : _activity$value4.voiceLiveEvent) === "object") && (Object.keys((activity === null || activity === void 0 ? void 0 : (_activity$value5 = activity.value) === null || _activity$value5 === void 0 ? void 0 : _activity$value5.voice) || {}).length > 0 || Object.keys((activity === null || activity === void 0 ? void 0 : (_activity$value6 = activity.value) === null || _activity$value6 === void 0 ? void 0 : _activity$value6.voiceLiveEvent) || {}).length > 0);
+            var _activity$payload, _activity$payload2, _activity$payload3, _activity$payload4, _activity$payload5, _activity$payload6;
+            return activity.type === "event" && (activity === null || activity === void 0 ? void 0 : activity.payload) && (0, _typeof2["default"])(activity === null || activity === void 0 ? void 0 : activity.payload) === "object" && ((activity === null || activity === void 0 ? void 0 : (_activity$payload = activity.payload) === null || _activity$payload === void 0 ? void 0 : _activity$payload.voice) || (activity === null || activity === void 0 ? void 0 : (_activity$payload2 = activity.payload) === null || _activity$payload2 === void 0 ? void 0 : _activity$payload2.voiceLiveEvent)) && ((0, _typeof2["default"])(activity === null || activity === void 0 ? void 0 : (_activity$payload3 = activity.payload) === null || _activity$payload3 === void 0 ? void 0 : _activity$payload3.voice) === "object" || (0, _typeof2["default"])(activity === null || activity === void 0 ? void 0 : (_activity$payload4 = activity.payload) === null || _activity$payload4 === void 0 ? void 0 : _activity$payload4.voiceLiveEvent) === "object") && (Object.keys((activity === null || activity === void 0 ? void 0 : (_activity$payload5 = activity.payload) === null || _activity$payload5 === void 0 ? void 0 : _activity$payload5.voice) || {}).length > 0 || Object.keys((activity === null || activity === void 0 ? void 0 : (_activity$payload6 = activity.payload) === null || _activity$payload6 === void 0 ? void 0 : _activity$payload6.voiceLiveEvent) || {}).length > 0);
           }
           /**
            * Transform voice activity to match ABS expectations.
@@ -51787,16 +51807,32 @@
         }, {
           key: "transformVoiceActivity",
           value: function transformVoiceActivity(activity) {
-            var _activity$value7, _activity$value7$voic;
-            if (activity.type === "event" && activity.name === "stream.chunk" && activity !== null && activity !== void 0 && (_activity$value7 = activity.value) !== null && _activity$value7 !== void 0 && (_activity$value7$voic = _activity$value7.voice) !== null && _activity$value7$voic !== void 0 && _activity$value7$voic.contentUrl) {
-              return _objectSpread3(_objectSpread3({}, activity), {}, {
+            var _activity$payload7, _activity$payload7$vo, _activity$payload8, _activity$payload8$vo;
+            if (activity.type === "event" && activity.name === "stream.chunk" && activity !== null && activity !== void 0 && (_activity$payload7 = activity.payload) !== null && _activity$payload7 !== void 0 && (_activity$payload7$vo = _activity$payload7.voice) !== null && _activity$payload7$vo !== void 0 && _activity$payload7$vo.content) {
+              var _ref3 = activity, payload = _ref3.payload, activityWithoutPayload = (0, _objectWithoutProperties2["default"])(_ref3, _excluded22);
+              return {
+                type: "event",
+                name: "stream.chunk",
                 value: {
                   voiceLiveEvent: {
                     type: "input_audio_buffer.append",
-                    audio: activity.value.voice.contentUrl
+                    audio: activity.payload.voice.content
                   }
                 }
-              });
+              };
+            }
+            if (activity.type === "event" && activity.name === "stream.chunk" && activity !== null && activity !== void 0 && (_activity$payload8 = activity.payload) !== null && _activity$payload8 !== void 0 && (_activity$payload8$vo = _activity$payload8.voice) !== null && _activity$payload8$vo !== void 0 && _activity$payload8$vo.session) {
+              var _ref4 = activity, _payload = _ref4.payload, _activityWithoutPayload = (0, _objectWithoutProperties2["default"])(_ref4, _excluded3);
+              return {
+                type: "event",
+                name: "stream.chunk",
+                value: {
+                  voiceLiveEvent: {
+                    type: "session.update",
+                    session: activity.payload.voice.session
+                  }
+                }
+              };
             }
             return activity;
           }
@@ -100081,10 +100117,10 @@ and ensure you are accounting for this risk.
     }
   }
 
-  // ../component/dist/chunk-7PDCZKKO.mjs
+  // ../component/dist/chunk-O5XKYK64.mjs
   var import_classnames = __toESM(require_classnames(), 1);
-  var import_react95 = __toESM(require_react(), 1);
-  var import_react96 = __toESM(require_react(), 1);
+  var import_react99 = __toESM(require_react(), 1);
+  var import_react100 = __toESM(require_react(), 1);
 
   // ../../node_modules/use-ref-from/lib/esmodules/useRefFrom.js
   var import_create = __toESM(require_create3());
@@ -100104,9 +100140,9 @@ and ensure you are accounting for this risk.
     return readOnlyRef;
   }
 
-  // ../component/dist/chunk-7PDCZKKO.mjs
-  var import_react97 = __toESM(require_react(), 1);
-  var import_react98 = __toESM(require_react(), 1);
+  // ../component/dist/chunk-O5XKYK64.mjs
+  var import_react101 = __toESM(require_react(), 1);
+  var import_react102 = __toESM(require_react(), 1);
 
   // ../api/dist/chunk-F4JS55XW.mjs
   var __create4 = Object.create;
@@ -110962,7 +110998,7 @@ and ensure you are accounting for this risk.
     mod
   ));
 
-  // ../api/dist/chunk-JWOMQTME.mjs
+  // ../api/dist/chunk-QUJMWKBR.mjs
   var import_react32 = __toESM(require_react(), 1);
   var import_react33 = __toESM(require_react(), 1);
   var import_react34 = __toESM(require_react(), 1);
@@ -111323,7 +111359,7 @@ and ensure you are accounting for this risk.
   // ../../node_modules/react-redux/es/index.js
   setBatch(import_react_dom.unstable_batchedUpdates);
 
-  // ../api/dist/chunk-JWOMQTME.mjs
+  // ../api/dist/chunk-QUJMWKBR.mjs
   var import_react41 = __toESM(require_react(), 1);
   var import_react42 = __toESM(require_react(), 1);
   var import_react43 = __toESM(require_react(), 1);
@@ -118049,11 +118085,11 @@ and ensure you are accounting for this risk.
     const indexToInsert = sortedArray.findIndex((i3) => compareFn(i3, item) > 0);
     return toSpliced(sortedArray, ~indexToInsert ? indexToInsert : sortedArray.length, 0, item);
   }
-  var isVoiceActivity = (activity) => activity.type === "event" && !!activity.name && !!activity.value && typeof activity.value === "object" && ("voice" in activity.value || "dtmf" in activity.value);
+  var isVoiceActivity = (activity) => activity.type === "event" && !!activity.name && !!activity.payload && typeof activity.payload === "object" && ("voice" in activity.payload || "dtmf" in activity.payload);
   var isVoiceActivity_default = isVoiceActivity;
   var isVoiceTranscriptActivity = (activity) => {
     var _a29, _b4;
-    return isVoiceActivity_default(activity) && activity.name === "stream.end" && typeof ((_b4 = (_a29 = activity.value) == null ? void 0 : _a29.voice) == null ? void 0 : _b4.transcription) === "string";
+    return isVoiceActivity_default(activity) && activity.name === "stream.end" && typeof ((_b4 = (_a29 = activity == null ? void 0 : activity.payload) == null ? void 0 : _a29.voice) == null ? void 0 : _b4.transcription) === "string";
   };
   var isVoiceTranscriptActivity_default = isVoiceTranscriptActivity;
   var INITIAL_STATE = Object.freeze({
@@ -119209,21 +119245,21 @@ and ensure you are accounting for this risk.
       case "input_audio_buffer.speech_started":
         newActivity.name = "session.update";
         newValue.voice = {
-          bot_state: "voice.request.detected",
+          session: "request.detected",
           message: "Your request is identified"
         };
         break;
       case "input_audio_buffer.committed":
         newActivity.name = "session.update";
         newValue.voice = {
-          bot_state: "voice.request.processing",
+          session: "request.processing",
           message: "Your request is being processed"
         };
         break;
       case "response.audio.delta":
         newActivity.name = "stream.chunk";
         newValue.voice = {
-          contentUrl: voiceLiveEvent.delta
+          content: voiceLiveEvent.delta
         };
         break;
       case "conversation.item.input_audio_transcription.completed":
@@ -119237,7 +119273,7 @@ and ensure you are accounting for this risk.
         newActivity.name = "stream.end";
         newValue.voice = {
           transcription: voiceLiveEvent.transcript,
-          origin: "bot"
+          origin: "agent"
         };
         break;
       default:
@@ -119245,7 +119281,7 @@ and ensure you are accounting for this risk.
         newActivity.name = "stream.unknown";
         break;
     }
-    newActivity.value = newValue;
+    newActivity.payload = newValue;
     return newActivity;
   }
   function* observeActivity({ directLine, userID }) {
@@ -119903,10 +119939,10 @@ and ensure you are accounting for this risk.
   }
   var getVoiceActivityRole = (activity) => {
     if (isVoiceTranscriptActivity_default(activity)) {
-      if (activity.value.voice.origin === "agent") {
+      if (activity.payload.voice.origin === "agent") {
         return "bot";
       }
-      if (activity.value.voice.origin === "user") {
+      if (activity.payload.voice.origin === "user") {
         return "user";
       }
     }
@@ -119916,7 +119952,7 @@ and ensure you are accounting for this risk.
   var getVoiceActivityText = (activity) => {
     var _a29;
     if (isVoiceTranscriptActivity_default(activity)) {
-      return (_a29 = activity.value.voice) == null ? void 0 : _a29.transcription;
+      return (_a29 = activity.payload.voice) == null ? void 0 : _a29.transcription;
     }
     return void 0;
   };
@@ -119941,7 +119977,7 @@ and ensure you are accounting for this risk.
   var Constants = { ActivityClientState: ActivityClientState_exports, DictateState: DictateState_exports };
   var { object: buildInfoObject, version } = buildInfo_default2;
 
-  // ../api/dist/chunk-JWOMQTME.mjs
+  // ../api/dist/chunk-QUJMWKBR.mjs
   var import_react51 = __toESM(require_react(), 1);
   var import_react52 = __toESM(require_react(), 1);
   var import_react53 = __toESM(require_react(), 1);
@@ -121466,6 +121502,8 @@ and ensure you are accounting for this risk.
     "_ACCESS_KEY_FOR_MAC_ALT.comment": "These are keyboard modifier keys for screen reader on a Mac.",
     ACTIVITY_BOT_SAID_ALT: "Bot $1 said:",
     "_ACTIVITY_BOT_SAID_ALT.comment": 'This is for screen reader only. $1 is the initials for the bot (e.g. "JD").',
+    ACTIVITY_STATUS_VOICE_TRANSCRIPT_AGENT_LABEL: "Agent",
+    "_ACTIVITY_STATUS_VOICE_TRANSCRIPT_AGENT_LABEL.comment": "Label shown before timestamp for incoming voice transcript messages from the agent.",
     ACTIVITY_YOU_SAID_ALT: "You said:",
     "_ACTIVITY_YOU_SAID_ALT.comment": "This is for screen reader only.",
     ACTIVITY_BOT_ATTACHED_ALT: "Bot attached:",
@@ -127605,18 +127643,22 @@ and ensure you are accounting for this risk.
   var import_react83 = __toESM(require_react(), 1);
   var import_react84 = __toESM(require_react(), 1);
   var import_react85 = __toESM(require_react(), 1);
-  var import_prop_types3 = __toESM(require_prop_types(), 1);
   var import_react86 = __toESM(require_react(), 1);
   var import_react87 = __toESM(require_react(), 1);
-  var import_prop_types4 = __toESM(require_prop_types(), 1);
-  var import_prop_types5 = __toESM(require_prop_types(), 1);
   var import_react88 = __toESM(require_react(), 1);
+  var import_prop_types3 = __toESM(require_prop_types(), 1);
   var import_react89 = __toESM(require_react(), 1);
   var import_react90 = __toESM(require_react(), 1);
+  var import_prop_types4 = __toESM(require_prop_types(), 1);
+  var import_prop_types5 = __toESM(require_prop_types(), 1);
   var import_react91 = __toESM(require_react(), 1);
   var import_react92 = __toESM(require_react(), 1);
   var import_react93 = __toESM(require_react(), 1);
   var import_react94 = __toESM(require_react(), 1);
+  var import_react95 = __toESM(require_react(), 1);
+  var import_react96 = __toESM(require_react(), 1);
+  var import_react97 = __toESM(require_react(), 1);
+  var import_react98 = __toESM(require_react(), 1);
   var require_globalize_runtime = __commonJS7({
     "../../node_modules/globalize/dist/globalize-runtime.js"(exports2, module) {
       (function(root2, factory) {
@@ -138658,6 +138700,119 @@ and ensure you are accounting for this risk.
   };
   ActivityTypingComposer.displayName = "ActivityTypingComposer";
   var ActivityTypingComposer_default = (0, import_react82.memo)(ActivityTypingComposer);
+  var CapabilitiesContext = (0, import_react85.createContext)(void 0);
+  CapabilitiesContext.displayName = "CapabilitiesContext";
+  var Context_default7 = CapabilitiesContext;
+  function useStateRef(initialValue) {
+    const [_2, forceRender] = (0, import_react86.useState)();
+    const valueRef = (0, import_react86.useRef)(initialValue);
+    const setter = (0, import_react86.useCallback)(
+      (value) => {
+        const { current: current2 } = valueRef;
+        value = value instanceof Function ? value(current2) : value;
+        if (current2 !== value) {
+          valueRef.current = value;
+          forceRender({});
+        }
+      },
+      [forceRender, valueRef]
+    );
+    return Object.freeze([valueRef.current, setter, valueRef]);
+  }
+  var EMPTY_CAPABILITIES = Object.freeze({});
+  function isCapabilitiesChangedEvent(activity) {
+    return activity.type === "event" && activity.name === "capabilitiesChanged";
+  }
+  var CapabilitiesComposer = (0, import_react84.memo)(({ children }) => {
+    const [activities2] = useActivities_default();
+    const { directLine } = useWebChatAPIContext();
+    const lastProcessedIndexRef = (0, import_react84.useRef)(0);
+    const hasInitializedRef = (0, import_react84.useRef)(false);
+    const [capabilities, setCapabilities] = useStateRef(EMPTY_CAPABILITIES);
+    const refreshCapabilitiesFromAdapter = (0, import_react84.useCallback)(
+      (reason) => {
+        if (!directLine) {
+          return false;
+        }
+        console.log(`[CapabilitiesComposer] Refreshing capabilities from adapter (${reason})...`);
+        const { getVoiceConfiguration } = directLine;
+        if (typeof getVoiceConfiguration === "function") {
+          const voiceConfig = getVoiceConfiguration();
+          console.log("[CapabilitiesComposer] Got voiceConfiguration from adapter:", voiceConfig);
+          if (voiceConfig) {
+            let didUpdate = false;
+            setCapabilities((prev2) => {
+              var _a29, _b4;
+              if (((_a29 = prev2.voiceConfiguration) == null ? void 0 : _a29.sampleRate) === voiceConfig.sampleRate && ((_b4 = prev2.voiceConfiguration) == null ? void 0 : _b4.chunkIntervalMs) === voiceConfig.chunkIntervalMs) {
+                console.log("[CapabilitiesComposer] VoiceConfiguration unchanged, skipping state update");
+                return prev2;
+              }
+              console.log("[CapabilitiesComposer] VoiceConfiguration changed, updating state:", {
+                from: prev2.voiceConfiguration,
+                to: voiceConfig
+              });
+              didUpdate = true;
+              return Object.freeze({
+                ...prev2,
+                voiceConfiguration: Object.freeze({
+                  sampleRate: voiceConfig.sampleRate,
+                  chunkIntervalMs: voiceConfig.chunkIntervalMs
+                })
+              });
+            });
+            return didUpdate;
+          }
+        } else {
+          console.log("[CapabilitiesComposer] Adapter does not have getVoiceConfiguration function");
+        }
+        return false;
+      },
+      [directLine, setCapabilities]
+    );
+    (0, import_react84.useEffect)(() => {
+      if (hasInitializedRef.current || !directLine) {
+        return;
+      }
+      hasInitializedRef.current = true;
+      console.log("[CapabilitiesComposer] Initial mount - checking for existing capabilities");
+      refreshCapabilitiesFromAdapter("initial mount");
+    }, [directLine, refreshCapabilitiesFromAdapter]);
+    (0, import_react84.useEffect)(() => {
+      const startIndex = lastProcessedIndexRef.current;
+      const activitiesLength = activities2.length;
+      if (startIndex >= activitiesLength) {
+        return;
+      }
+      const newActivitiesCount = activitiesLength - startIndex;
+      console.log(
+        `[CapabilitiesComposer] Processing ${newActivitiesCount} new activities (index ${startIndex} to ${activitiesLength - 1})`
+      );
+      let shouldRefreshCapabilities = false;
+      for (let i3 = startIndex; i3 < activitiesLength; i3++) {
+        const activity = activities2[i3];
+        const activityName = activity.name || activity.type;
+        if (isCapabilitiesChangedEvent(activity)) {
+          console.log(`[CapabilitiesComposer] Found capabilitiesChanged event at index ${i3}`);
+          shouldRefreshCapabilities = true;
+          break;
+        } else {
+          console.log(
+            `[CapabilitiesComposer] Skipping activity at index ${i3}: type=${activity.type}, name=${activityName}`
+          );
+        }
+      }
+      if (shouldRefreshCapabilities) {
+        refreshCapabilitiesFromAdapter("capabilitiesChanged event");
+      } else {
+        console.log("[CapabilitiesComposer] No capabilitiesChanged event found in new activities");
+      }
+      lastProcessedIndexRef.current = activitiesLength;
+    }, [activities2, directLine, refreshCapabilitiesFromAdapter, setCapabilities]);
+    const contextValue = (0, import_react84.useMemo)(() => Object.freeze({ capabilities }), [capabilities]);
+    return /* @__PURE__ */ import_react84.default.createElement(Context_default7.Provider, { value: contextValue }, children);
+  });
+  CapabilitiesComposer.displayName = "CapabilitiesComposer";
+  var CapabilitiesComposer_default = CapabilitiesComposer;
   function concatMiddleware(...middleware4) {
     return (setupArgs) => {
       const setup = middleware4.reduce((setup2, middleware22) => {
@@ -138675,7 +138830,7 @@ and ensure you are accounting for this risk.
     };
   }
   var RenderChildrenFunction = ({ children }) => typeof children === "function" ? children() : children;
-  var ErrorBoundary2 = class extends import_react87.Component {
+  var ErrorBoundary2 = class extends import_react90.Component {
     constructor() {
       super();
       this.state = { hasError: false };
@@ -138688,7 +138843,7 @@ and ensure you are accounting for this risk.
     render() {
       const { children } = this.props;
       const { hasError } = this.state;
-      return !hasError && /* @__PURE__ */ import_react87.default.createElement(RenderChildrenFunction, null, children);
+      return !hasError && /* @__PURE__ */ import_react90.default.createElement(RenderChildrenFunction, null, children);
     }
   };
   ErrorBoundary2.defaultProps = {
@@ -138701,9 +138856,9 @@ and ensure you are accounting for this risk.
   };
   var ErrorBoundary_default2 = ErrorBoundary2;
   var UserlandBoundary = ({ children, type: type2 }) => {
-    const [error2, setError] = (0, import_react86.useState)();
-    const handleError = (0, import_react86.useCallback)((error22) => setError(error22), []);
-    return error2 ? /* @__PURE__ */ import_react86.default.createElement(ErrorBoxPolymiddlewareProxy, { error: error2, where: type2 }) : /* @__PURE__ */ import_react86.default.createElement(ErrorBoundary_default2, { onError: handleError }, children);
+    const [error2, setError] = (0, import_react89.useState)();
+    const handleError = (0, import_react89.useCallback)((error22) => setError(error22), []);
+    return error2 ? /* @__PURE__ */ import_react89.default.createElement(ErrorBoxPolymiddlewareProxy, { error: error2, where: type2 }) : /* @__PURE__ */ import_react89.default.createElement(ErrorBoundary_default2, { onError: handleError }, children);
   };
   UserlandBoundary.defaultProps = {
     children: void 0,
@@ -138724,43 +138879,43 @@ and ensure you are accounting for this risk.
       const fn = concatMiddleware(...middleware4)(...setupArgs)(() => {
         throw new Error(`reached terminator of ${type2}`);
       });
-      return (...args) => /* @__PURE__ */ import_react85.default.createElement(UserlandBoundary_default, { type: `render of ${type2}` }, () => {
+      return (...args) => /* @__PURE__ */ import_react88.default.createElement(UserlandBoundary_default, { type: `render of ${type2}` }, () => {
         try {
           return fn(...args);
         } catch (err) {
-          return /* @__PURE__ */ import_react85.default.createElement(ErrorBoxPolymiddlewareProxy, { error: err, where: `render of ${type2}` });
+          return /* @__PURE__ */ import_react88.default.createElement(ErrorBoxPolymiddlewareProxy, { error: err, where: `render of ${type2}` });
         }
       });
     };
   }
   function forRenderer(type2, { strict = false } = {}, ...middleware4) {
     return (...setupArgs) => {
-      const runMiddleware = concatMiddleware(...middleware4)(...setupArgs)(() => /* @__PURE__ */ import_react85.default.createElement(ErrorBoxPolymiddlewareProxy, { error: new Error(`reached terminator of ${type2}`), where: type2 }));
+      const runMiddleware = concatMiddleware(...middleware4)(...setupArgs)(() => /* @__PURE__ */ import_react88.default.createElement(ErrorBoxPolymiddlewareProxy, { error: new Error(`reached terminator of ${type2}`), where: type2 }));
       return (...createRendererArgs) => {
         try {
           const render6 = runMiddleware(...createRendererArgs);
           if (!render6) {
             return false;
-          } else if ((0, import_react85.isValidElement)(render6)) {
+          } else if ((0, import_react88.isValidElement)(render6)) {
             if (strict) {
               console.error(`botframework-webchat: ${type2} should only return either false or a render function.`);
               return false;
             }
-            return /* @__PURE__ */ import_react85.default.createElement(UserlandBoundary_default, { type: `render of ${type2}` }, render6);
+            return /* @__PURE__ */ import_react88.default.createElement(UserlandBoundary_default, { type: `render of ${type2}` }, render6);
           }
-          return (...renderTimeArgs) => /* @__PURE__ */ import_react85.default.createElement(UserlandBoundary_default, { type: `render of ${type2}` }, () => {
+          return (...renderTimeArgs) => /* @__PURE__ */ import_react88.default.createElement(UserlandBoundary_default, { type: `render of ${type2}` }, () => {
             try {
               const element3 = render6(...renderTimeArgs);
-              if (strict && !(0, import_react85.isValidElement)(element3)) {
+              if (strict && !(0, import_react88.isValidElement)(element3)) {
                 console.error(`botframework-webchat: ${type2} should return React element only.`);
               }
               return element3;
             } catch (err) {
-              return /* @__PURE__ */ import_react85.default.createElement(ErrorBoxPolymiddlewareProxy, { error: err, where: `render of ${type2}` });
+              return /* @__PURE__ */ import_react88.default.createElement(ErrorBoxPolymiddlewareProxy, { error: err, where: `render of ${type2}` });
             }
           });
         } catch (err) {
-          return /* @__PURE__ */ import_react85.default.createElement(ErrorBoxPolymiddlewareProxy, { error: err, where: `render of ${type2}` });
+          return /* @__PURE__ */ import_react88.default.createElement(ErrorBoxPolymiddlewareProxy, { error: err, where: `render of ${type2}` });
         }
       };
     };
@@ -138868,7 +139023,7 @@ and ensure you are accounting for this risk.
   function GroupActivitiesComposer({ children, groupActivitiesMiddleware }) {
     const [ponyfill2] = usePonyfill();
     const [{ groupActivitiesBy, groupTimestamp }] = useStyleOptions();
-    const runMiddleware = (0, import_react84.useMemo)(
+    const runMiddleware = (0, import_react87.useMemo)(
       () => applyMiddleware4(
         "group activities",
         ...groupActivitiesMiddleware,
@@ -138877,8 +139032,8 @@ and ensure you are accounting for this risk.
       ),
       [groupActivitiesMiddleware, groupTimestamp, ponyfill2]
     );
-    const runAllMiddleware = (0, import_react84.useMemo)(() => runMiddleware(), [runMiddleware]);
-    const groupActivities = (0, import_react84.useCallback)(
+    const runAllMiddleware = (0, import_react87.useMemo)(() => runMiddleware(), [runMiddleware]);
+    const groupActivities = (0, import_react87.useCallback)(
       ({ activities: activities2 }) => {
         const results = runAllMiddleware({ activities: activities2 }) || Object.freeze({});
         const validatedResults = /* @__PURE__ */ new Map();
@@ -138896,14 +139051,14 @@ and ensure you are accounting for this risk.
       },
       [runAllMiddleware]
     );
-    const groupActivitiesByGroup = (0, import_react84.useMemo)(
+    const groupActivitiesByGroup = (0, import_react87.useMemo)(
       () => new Map(
         groupActivitiesBy.map((groupingName) => [groupingName, runMiddleware(groupingName)])
       ),
       [groupActivitiesBy, runMiddleware]
     );
     const groupActivitiesByRef = useRefFrom(groupActivitiesBy);
-    const groupActivitiesByName = (0, import_react84.useCallback)(
+    const groupActivitiesByName = (0, import_react87.useCallback)(
       (activities2, groupingName) => {
         const group = groupActivitiesByGroup.get(groupingName);
         if (group) {
@@ -138929,21 +139084,21 @@ and ensure you are accounting for this risk.
       },
       [groupActivitiesByGroup, groupActivitiesByRef]
     );
-    const context9 = (0, import_react84.useMemo)(
+    const context9 = (0, import_react87.useMemo)(
       () => ({
         groupActivities,
         groupActivitiesByName
       }),
       [groupActivities, groupActivitiesByName]
     );
-    return /* @__PURE__ */ import_react84.default.createElement(GroupActivitiesContext_default.Provider, { value: context9 }, children);
+    return /* @__PURE__ */ import_react87.default.createElement(GroupActivitiesContext_default.Provider, { value: context9 }, children);
   }
-  var GroupActivitiesComposer_default = (0, import_react84.memo)(GroupActivitiesComposer);
+  var GroupActivitiesComposer_default = (0, import_react87.memo)(GroupActivitiesComposer);
   var PonyfillComposer = ({ children, ponyfill: partialPonyfill }) => {
-    if ((0, import_react88.useRef)(partialPonyfill).current !== partialPonyfill) {
+    if ((0, import_react91.useRef)(partialPonyfill).current !== partialPonyfill) {
       throw new Error('botframework-webchat: "ponyfill" props cannot be changed after initial render.');
     }
-    const ponyfill2 = (0, import_react88.useMemo)(
+    const ponyfill2 = (0, import_react91.useMemo)(
       // The complexity is introduced by the check of ponyfill.
       // eslint-disable-next-line complexity
       () => {
@@ -138976,11 +139131,11 @@ and ensure you are accounting for this risk.
       },
       [partialPonyfill]
     );
-    const contextValue = (0, import_react88.useMemo)(
+    const contextValue = (0, import_react91.useMemo)(
       () => ({ ponyfillState: Object.freeze([ponyfill2]) }),
       [ponyfill2]
     );
-    return /* @__PURE__ */ import_react88.default.createElement(PonyfillContext_default.Provider, { value: contextValue }, children);
+    return /* @__PURE__ */ import_react91.default.createElement(PonyfillContext_default.Provider, { value: contextValue }, children);
   };
   PonyfillComposer.defaultProps = {
     ponyfill: void 0
@@ -138989,23 +139144,68 @@ and ensure you are accounting for this risk.
     ponyfill: import_prop_types5.default.any
   };
   var PonyfillComposer_default = PonyfillComposer;
+  function useCapabilitiesContext() {
+    const context9 = (0, import_react95.useContext)(Context_default7);
+    if (!context9) {
+      throw new Error("botframework-webchat internal: This hook can only be used under <CapabilitiesComposer>.");
+    }
+    return context9;
+  }
+  var hookInstanceCounter = 0;
+  function useCapabilities(selector) {
+    const instanceIdRef = (0, import_react94.useRef)(null);
+    if (instanceIdRef.current === null) {
+      instanceIdRef.current = ++hookInstanceCounter;
+      console.log(`[useCapabilities#${instanceIdRef.current}] Hook instance created`);
+    }
+    const instanceId = instanceIdRef.current;
+    const { capabilities } = useCapabilitiesContext();
+    const selectedValue = selector(capabilities);
+    const prevSelectedValueRef = (0, import_react94.useRef)(selectedValue);
+    const renderCountRef = (0, import_react94.useRef)(0);
+    renderCountRef.current++;
+    return (0, import_react94.useMemo)(() => {
+      if (Object.is(prevSelectedValueRef.current, selectedValue)) {
+        console.log(`[useCapabilities#${instanceId}] Render #${renderCountRef.current}: Value unchanged, reusing previous reference`);
+        return prevSelectedValueRef.current;
+      }
+      console.log(`[useCapabilities#${instanceId}] Render #${renderCountRef.current}: Value CHANGED`, {
+        from: prevSelectedValueRef.current,
+        to: selectedValue
+      });
+      prevSelectedValueRef.current = selectedValue;
+      return selectedValue;
+    }, [selectedValue, instanceId]);
+  }
   var DEFAULT_SAMPLE_RATE = 24e3;
   var INT16_SCALE = 32768;
-  function useAudioPlayer(config) {
-    const audioCtxRef = (0, import_react90.useRef)(null);
-    const nextPlayTimeRef = (0, import_react90.useRef)(0);
-    const { sampleRate = DEFAULT_SAMPLE_RATE } = config || {};
-    const initAudio = (0, import_react90.useCallback)(() => {
+  function useAudioPlayer() {
+    var _a29;
+    const audioCtxRef = (0, import_react93.useRef)(null);
+    const nextPlayTimeRef = (0, import_react93.useRef)(0);
+    const voiceConfiguration = useCapabilities((caps) => caps.voiceConfiguration);
+    const sampleRate = (_a29 = voiceConfiguration == null ? void 0 : voiceConfiguration.sampleRate) != null ? _a29 : DEFAULT_SAMPLE_RATE;
+    (0, import_react93.useEffect)(() => {
+      if (voiceConfiguration) {
+        console.log("[useAudioPlayer] Voice configuration received:", `sampleRate=${voiceConfiguration.sampleRate}`);
+      } else {
+        console.log(
+          "[useAudioPlayer] Voice configuration is undefined, using default:",
+          `sampleRate=${DEFAULT_SAMPLE_RATE}`
+        );
+      }
+    }, [voiceConfiguration]);
+    const initAudio = (0, import_react93.useCallback)(() => {
       if (!audioCtxRef.current) {
         audioCtxRef.current = new AudioContext({ sampleRate });
       }
       return audioCtxRef.current;
     }, [sampleRate]);
-    const playAudio = (0, import_react90.useCallback)(
+    const playAudio = (0, import_react93.useCallback)(
       (base64) => {
-        var _a29;
+        var _a30;
         const audioCtx = initAudio();
-        (_a29 = audioCtx.resume) == null ? void 0 : _a29.call(audioCtx);
+        (_a30 = audioCtx.resume) == null ? void 0 : _a30.call(audioCtx);
         try {
           const bytes = Uint8Array.from(atob(base64), (c) => c.charCodeAt(0));
           const int16 = new Int16Array(bytes.buffer);
@@ -139031,7 +139231,7 @@ and ensure you are accounting for this risk.
       },
       [initAudio]
     );
-    const stopAudio = (0, import_react90.useCallback)(() => {
+    const stopAudio = (0, import_react93.useCallback)(() => {
       nextPlayTimeRef.current = 0;
       if (audioCtxRef.current) {
         audioCtxRef.current.close();
@@ -139083,14 +139283,30 @@ and ensure you are accounting for this risk.
   var DEFAULT_SAMPLE_RATE2 = 24e3;
   var DEFAULT_CHUNK_SIZE_IN_MS = 100;
   var MS_IN_SECOND = 1e3;
-  function useRecorder(onAudioChunk, config) {
-    const [recording, setRecordingInternal] = (0, import_react91.useState)(false);
-    const audioCtxRef = (0, import_react91.useRef)(null);
-    const workletRef = (0, import_react91.useRef)(null);
-    const streamRef = (0, import_react91.useRef)(null);
+  function useRecorder(onAudioChunk) {
+    var _a29, _b4;
+    const [recording, setRecordingInternal] = (0, import_react96.useState)(false);
+    const audioCtxRef = (0, import_react96.useRef)(null);
+    const workletRef = (0, import_react96.useRef)(null);
+    const streamRef = (0, import_react96.useRef)(null);
     const [{ Date: Date2 }] = usePonyfill();
-    const { sampleRate = DEFAULT_SAMPLE_RATE2, chunkIntervalMs = DEFAULT_CHUNK_SIZE_IN_MS } = config || {};
-    const initAudio = (0, import_react91.useCallback)(async () => {
+    const voiceConfiguration = useCapabilities((caps) => caps.voiceConfiguration);
+    const sampleRate = (_a29 = voiceConfiguration == null ? void 0 : voiceConfiguration.sampleRate) != null ? _a29 : DEFAULT_SAMPLE_RATE2;
+    const chunkIntervalMs = (_b4 = voiceConfiguration == null ? void 0 : voiceConfiguration.chunkIntervalMs) != null ? _b4 : DEFAULT_CHUNK_SIZE_IN_MS;
+    (0, import_react96.useEffect)(() => {
+      if (voiceConfiguration) {
+        console.log(
+          "[useRecorder] Voice configuration received:",
+          `sampleRate=${voiceConfiguration.sampleRate}, chunkIntervalMs=${voiceConfiguration.chunkIntervalMs}`
+        );
+      } else {
+        console.log(
+          "[useRecorder] Voice configuration is undefined, using defaults:",
+          `sampleRate=${DEFAULT_SAMPLE_RATE2}, chunkIntervalMs=${DEFAULT_CHUNK_SIZE_IN_MS}`
+        );
+      }
+    }, [voiceConfiguration]);
+    const initAudio = (0, import_react96.useCallback)(async () => {
       if (audioCtxRef.current) {
         return;
       }
@@ -139103,7 +139319,7 @@ and ensure you are accounting for this risk.
       URL.revokeObjectURL(url2);
       audioCtxRef.current = audioCtx;
     }, [sampleRate]);
-    const startRecording = (0, import_react91.useCallback)(async () => {
+    const startRecording = (0, import_react96.useCallback)(async () => {
       await initAudio();
       const audioCtx = audioCtxRef.current;
       if (audioCtx.state === "suspended") {
@@ -139141,7 +139357,7 @@ and ensure you are accounting for this risk.
       workletRef.current = worklet;
       setRecordingInternal(true);
     }, [Date2, chunkIntervalMs, initAudio, onAudioChunk, sampleRate]);
-    const stopRecording = (0, import_react91.useCallback)(() => {
+    const stopRecording = (0, import_react96.useCallback)(() => {
       if (workletRef.current) {
         workletRef.current.port.postMessage({ command: "STOP" });
         workletRef.current.disconnect();
@@ -139153,7 +139369,7 @@ and ensure you are accounting for this risk.
       }
       setRecordingInternal(false);
     }, []);
-    const setRecording = (0, import_react91.useCallback)(
+    const setRecording = (0, import_react96.useCallback)(
       async (shouldRecord) => {
         if (!shouldRecord && recording) {
           stopRecording();
@@ -139167,22 +139383,6 @@ and ensure you are accounting for this risk.
       recording,
       setRecording
     };
-  }
-  function useStateRef(initialValue) {
-    const [_2, forceRender] = (0, import_react92.useState)();
-    const valueRef = (0, import_react92.useRef)(initialValue);
-    const setter = (0, import_react92.useCallback)(
-      (value) => {
-        const { current: current2 } = valueRef;
-        value = value instanceof Function ? value(current2) : value;
-        if (current2 !== value) {
-          valueRef.current = value;
-          forceRender({});
-        }
-      },
-      [forceRender, valueRef]
-    );
-    return Object.freeze([valueRef.current, setter, valueRef]);
   }
   var session = {
     instructions: "You are a helpful AI assistant responding in natural, engaging language.",
@@ -139214,43 +139414,36 @@ and ensure you are accounting for this risk.
     const [voiceActivities] = useVoiceActivities();
     const postActivity22 = usePostActivity();
     const [{ connectivitystatus }] = useDebouncedNotifications_default();
-    const lastProcessedIndexRef = (0, import_react89.useRef)(0);
+    const lastProcessedIndexRef = (0, import_react92.useRef)(0);
     const [speechState, setSpeechState] = useStateRef("idle");
-    const [serverConfig, setServerConfig] = useStateRef(null);
-    const { playAudio, stopAudio, isPlaying } = useAudioPlayer(serverConfig);
-    const isConnected = (0, import_react89.useMemo)(() => (connectivitystatus == null ? void 0 : connectivitystatus.message) === "connected", [connectivitystatus]);
-    const sendAudioChunk = (0, import_react89.useCallback)(
+    const { playAudio, stopAudio, isPlaying } = useAudioPlayer();
+    const isConnected = (0, import_react92.useMemo)(() => (connectivitystatus == null ? void 0 : connectivitystatus.message) === "connected", [connectivitystatus]);
+    const sendAudioChunk = (0, import_react92.useCallback)(
       (base64, timestamp) => {
         postActivity22({
           type: "event",
           name: "stream.chunk",
-          value: { voice: { contentUrl: base64, timestamp } }
+          payload: { voice: { contentType: "audio/webm", content: base64, timestamp } }
         });
       },
       [postActivity22]
     );
-    const { recording, setRecording: baseSetRecording } = useRecorder(sendAudioChunk, serverConfig);
-    const handleVoiceActivity = (0, import_react89.useCallback)(
+    const { recording, setRecording: baseSetRecording } = useRecorder(sendAudioChunk);
+    const handleVoiceActivity = (0, import_react92.useCallback)(
       (activity) => {
-        var _a29;
         if (!isVoiceActivity_default(activity)) {
           return;
         }
-        const { name, value } = activity;
-        const { voice } = value;
+        const { name, payload } = activity || {};
+        const { voice } = payload || {};
         switch (name) {
-          // TODO - this will be commandResult activity and not event, need to think on handling of command and commandResult activities.
-          case "session.init": {
-            setServerConfig((_a29 = value.session) == null ? void 0 : _a29.config);
-            break;
-          }
           case "session.update": {
-            switch (voice.bot_state) {
-              case "voice.request.detected":
+            switch (voice.session) {
+              case "request.detected":
                 stopAudio();
                 setSpeechState("user_speaking");
                 break;
-              case "voice.request.processing":
+              case "request.processing":
                 setSpeechState("processing");
                 break;
               default:
@@ -139259,8 +139452,8 @@ and ensure you are accounting for this risk.
             break;
           }
           case "stream.chunk": {
-            if (voice.contentUrl) {
-              playAudio(voice.contentUrl);
+            if (voice.content) {
+              playAudio(voice.content);
             }
             break;
           }
@@ -139268,9 +139461,9 @@ and ensure you are accounting for this risk.
             break;
         }
       },
-      [playAudio, setServerConfig, setSpeechState, stopAudio]
+      [playAudio, setSpeechState, stopAudio]
     );
-    (0, import_react89.useEffect)(() => {
+    (0, import_react92.useEffect)(() => {
       var _a29;
       const startIndex = lastProcessedIndexRef.current;
       if (!voiceActivities.length || startIndex >= voiceActivities.length) {
@@ -139278,7 +139471,7 @@ and ensure you are accounting for this risk.
       }
       for (let i3 = startIndex; i3 < voiceActivities.length; i3++) {
         const activity = voiceActivities[i3];
-        if (((_a29 = activity.from) == null ? void 0 : _a29.role) === "user" || !recording && isVoiceActivity_default(activity) && activity.name !== "session.init") {
+        if (((_a29 = activity.from) == null ? void 0 : _a29.role) === "user" || !recording) {
           continue;
         }
         handleVoiceActivity(activity);
@@ -139290,14 +139483,14 @@ and ensure you are accounting for this risk.
       }
       lastProcessedIndexRef.current = voiceActivities.length;
     }, [handleVoiceActivity, isPlaying, recording, setSpeechState, speechState, voiceActivities]);
-    const updateSession = (0, import_react89.useCallback)(() => {
+    const updateSession = (0, import_react92.useCallback)(() => {
       postActivity22({
         type: "event",
         name: "stream.chunk",
-        value: { voiceLiveEvent: { type: "session.update", session } }
+        payload: { voice: { type: "session.update", session } }
       });
     }, [postActivity22]);
-    const setRecording = (0, import_react89.useCallback)(
+    const setRecording = (0, import_react92.useCallback)(
       async (shouldRecord) => {
         if (!isConnected) {
           return;
@@ -139313,7 +139506,7 @@ and ensure you are accounting for this risk.
       },
       [isConnected, baseSetRecording, setSpeechState, stopAudio]
     );
-    const contextValue = (0, import_react89.useMemo)(
+    const contextValue = (0, import_react92.useMemo)(
       () => ({
         recording,
         setRecording,
@@ -139321,7 +139514,7 @@ and ensure you are accounting for this risk.
       }),
       [recording, setRecording, speechState]
     );
-    return /* @__PURE__ */ import_react89.default.createElement(Context_default32.Provider, { value: contextValue }, children);
+    return /* @__PURE__ */ import_react92.default.createElement(Context_default32.Provider, { value: contextValue }, children);
   };
   function mapMap(map3, mapper) {
     return Object.entries(map3).reduce((result, [key2, value]) => {
@@ -139441,10 +139634,10 @@ and ensure you are accounting for this risk.
     const [language2] = useLanguage();
     const trackDimension = useTrackDimension();
     const trackEvent = useTrackEvent();
-    (0, import_react93.useEffect)(() => {
+    (0, import_react97.useEffect)(() => {
       trackDimension("prop:locale", language2);
     }, [language2, trackDimension]);
-    (0, import_react93.useEffect)(() => {
+    (0, import_react97.useEffect)(() => {
       trackEvent("init");
     }, [trackEvent]);
   }
@@ -139460,7 +139653,7 @@ and ensure you are accounting for this risk.
       null
     ) || voices[0];
   }
-  var NoActivityToRenderComponent = (0, import_react94.memo)(function NoActivityToRenderComponent2({
+  var NoActivityToRenderComponent = (0, import_react98.memo)(function NoActivityToRenderComponent2({
     activity
   }) {
     throw new Error(`No renderer for activity of type "${activity.type}"`);
@@ -139856,7 +140049,7 @@ and ensure you are accounting for this risk.
         username
       ]
     );
-    return /* @__PURE__ */ import_react74.default.createElement(WebChatAPIContext_default.Provider, { value: context9 }, /* @__PURE__ */ import_react74.default.createElement(ActivityListenerComposer_default, null, /* @__PURE__ */ import_react74.default.createElement(ActivitySendStatusComposer_default, null, /* @__PURE__ */ import_react74.default.createElement(ActivityTypingComposer_default, null, /* @__PURE__ */ import_react74.default.createElement(SendBoxMiddlewareProvider, { middleware: sendBoxMiddleware || EMPTY_ARRAY6 }, /* @__PURE__ */ import_react74.default.createElement(SendBoxToolbarMiddlewareProvider, { middleware: sendBoxToolbarMiddleware || EMPTY_ARRAY6 }, /* @__PURE__ */ import_react74.default.createElement(GroupActivitiesComposer_default, { groupActivitiesMiddleware: singleToArray(groupActivitiesMiddleware) }, /* @__PURE__ */ import_react74.default.createElement(PolymiddlewareComposer_default, { polymiddleware }, /* @__PURE__ */ import_react74.default.createElement(SpeechToSpeechComposer, null, typeof children === "function" ? children(context9) : children))), /* @__PURE__ */ import_react74.default.createElement(ActivitySendStatusTelemetryComposer_default, null)))))), onTelemetry && /* @__PURE__ */ import_react74.default.createElement(Tracker_default, null));
+    return /* @__PURE__ */ import_react74.default.createElement(WebChatAPIContext_default.Provider, { value: context9 }, /* @__PURE__ */ import_react74.default.createElement(ActivityListenerComposer_default, null, /* @__PURE__ */ import_react74.default.createElement(CapabilitiesComposer_default, null, /* @__PURE__ */ import_react74.default.createElement(ActivitySendStatusComposer_default, null, /* @__PURE__ */ import_react74.default.createElement(ActivityTypingComposer_default, null, /* @__PURE__ */ import_react74.default.createElement(SendBoxMiddlewareProvider, { middleware: sendBoxMiddleware || EMPTY_ARRAY6 }, /* @__PURE__ */ import_react74.default.createElement(SendBoxToolbarMiddlewareProvider, { middleware: sendBoxToolbarMiddleware || EMPTY_ARRAY6 }, /* @__PURE__ */ import_react74.default.createElement(GroupActivitiesComposer_default, { groupActivitiesMiddleware: singleToArray(groupActivitiesMiddleware) }, /* @__PURE__ */ import_react74.default.createElement(PolymiddlewareComposer_default, { polymiddleware }, /* @__PURE__ */ import_react74.default.createElement(SpeechToSpeechComposer, null, typeof children === "function" ? children(context9) : children))), /* @__PURE__ */ import_react74.default.createElement(ActivitySendStatusTelemetryComposer_default, null))))))), onTelemetry && /* @__PURE__ */ import_react74.default.createElement(Tracker_default, null));
   };
   ComposerCore.defaultProps = {
     activityStatusMiddleware: void 0,
@@ -139988,12 +140181,12 @@ and ensure you are accounting for this risk.
   var buildInfo_default3 = buildInfo3;
   var { object: buildInfoObject2, version: version2 } = buildInfo_default3;
 
-  // ../component/dist/chunk-7PDCZKKO.mjs
-  var import_react99 = __toESM(require_react(), 1);
-  var import_react100 = __toESM(require_react(), 1);
-  var import_react101 = __toESM(require_react(), 1);
-  var import_react102 = __toESM(require_react(), 1);
+  // ../component/dist/chunk-O5XKYK64.mjs
   var import_react103 = __toESM(require_react(), 1);
+  var import_react104 = __toESM(require_react(), 1);
+  var import_react105 = __toESM(require_react(), 1);
+  var import_react106 = __toESM(require_react(), 1);
+  var import_react107 = __toESM(require_react(), 1);
 
   // ../../node_modules/@emotion/sheet/dist/emotion-sheet.esm.js
   var isDevelopment = false;
@@ -141209,11 +141402,11 @@ and ensure you are accounting for this risk.
     return cls;
   };
 
-  // ../component/dist/chunk-7PDCZKKO.mjs
-  var import_react104 = __toESM(require_react(), 1);
+  // ../component/dist/chunk-O5XKYK64.mjs
+  var import_react108 = __toESM(require_react(), 1);
   var import_math_random4 = __toESM(require_browser(), 1);
   var import_classnames2 = __toESM(require_classnames(), 1);
-  var import_react105 = __toESM(require_react(), 1);
+  var import_react109 = __toESM(require_react(), 1);
   function createPropsSchema(styles2, modifiers) {
     const props = Object.keys(styles2).reduce((acc, key2) => {
       const [rawBase, modifier] = key2.split("--");
@@ -141252,7 +141445,7 @@ and ensure you are accounting for this risk.
       const validatedProps = validateProps2(modifierPropsSchema, props);
       const classNames31 = useStyles_default(styles2);
       const classes210 = Object.entries(validatedProps).map(([key2, value]) => classNames31[`${key2}--${value}`]);
-      return /* @__PURE__ */ import_react95.default.createElement(BaseIcon, { className: (0, import_classnames.default)(className, classes210), ...rest });
+      return /* @__PURE__ */ import_react99.default.createElement(BaseIcon, { className: (0, import_classnames.default)(className, classes210), ...rest });
     });
     return { component, modifierPropsSchema };
   }
@@ -141268,7 +141461,7 @@ and ensure you are accounting for this risk.
   }
   function useMarkAllAsRenderedEffect() {
     const { markAllAsRendered } = useLiveRegionTwinContext();
-    (0, import_react101.useEffect)(markAllAsRendered);
+    (0, import_react105.useEffect)(markAllAsRendered);
   }
   function useStaticElementEntries() {
     return useLiveRegionTwinContext().staticElementEntriesState;
@@ -141295,7 +141488,7 @@ and ensure you are accounting for this risk.
     } = validateProps2(liveRegionTwinContainerPropsSchema, props);
     const [staticElementEntries] = useStaticElementEntries();
     useMarkAllAsRenderedEffect();
-    return /* @__PURE__ */ import_react100.default.createElement(
+    return /* @__PURE__ */ import_react104.default.createElement(
       "div",
       {
         "aria-label": ariaLabel,
@@ -141306,9 +141499,9 @@ and ensure you are accounting for this risk.
       },
       staticElementEntries.map(({ element: element3, key: key2 }) => {
         if (typeof element3 === "string") {
-          return /* @__PURE__ */ import_react100.default.createElement("div", { "aria-atomic": true, className: textElementClassName, key: key2 }, element3);
+          return /* @__PURE__ */ import_react104.default.createElement("div", { "aria-atomic": true, className: textElementClassName, key: key2 }, element3);
         }
-        return /* @__PURE__ */ import_react100.default.createElement(import_react100.Fragment, { key: key2 }, element3);
+        return /* @__PURE__ */ import_react104.default.createElement(import_react104.Fragment, { key: key2 }, element3);
       })
     );
   }
@@ -141328,12 +141521,12 @@ and ensure you are accounting for this risk.
       textElementClassName
     }) => {
       const [{ clearTimeout: clearTimeout2, setTimeout: setTimeout2 }] = usePonyfill2();
-      const [staticElementEntries, setStaticElementEntries] = (0, import_react99.useState)([]);
+      const [staticElementEntries, setStaticElementEntries] = (0, import_react103.useState)([]);
       const fadeAfterRef = useRefFrom(fadeAfter);
-      const markAllAsRenderedTimeoutIdRef = (0, import_react99.useRef)();
-      const nextKeyRef = (0, import_react99.useRef)(1);
+      const markAllAsRenderedTimeoutIdRef = (0, import_react103.useRef)();
+      const nextKeyRef = (0, import_react103.useRef)(1);
       const staticElementEntriesRef = useRefFrom(staticElementEntries);
-      const markAllAsRendered = (0, import_react99.useCallback)(() => {
+      const markAllAsRendered = (0, import_react103.useCallback)(() => {
         if (!staticElementEntriesRef.current.length) {
           return;
         }
@@ -141349,11 +141542,11 @@ and ensure you are accounting for this risk.
         setTimeout2,
         staticElementEntriesRef
       ]);
-      (0, import_react99.useEffect)(
+      (0, import_react103.useEffect)(
         () => () => markAllAsRenderedTimeoutIdRef.current && clearTimeout2(markAllAsRenderedTimeoutIdRef.current),
         [clearTimeout2, markAllAsRenderedTimeoutIdRef]
       );
-      const queueStaticElement = (0, import_react99.useCallback)(
+      const queueStaticElement = (0, import_react103.useCallback)(
         (element3) => {
           const key2 = nextKeyRef.current;
           nextKeyRef.current = nextKeyRef.current + 1;
@@ -141361,11 +141554,11 @@ and ensure you are accounting for this risk.
         },
         [nextKeyRef, setStaticElementEntries]
       );
-      const staticElementEntriesState = (0, import_react99.useMemo)(
+      const staticElementEntriesState = (0, import_react103.useMemo)(
         () => Object.freeze([Object.freeze(staticElementEntries)]),
         [staticElementEntries]
       );
-      const context9 = (0, import_react99.useMemo)(
+      const context9 = (0, import_react103.useMemo)(
         () => ({
           markAllAsRendered,
           queueStaticElement,
@@ -141373,7 +141566,7 @@ and ensure you are accounting for this risk.
         }),
         [markAllAsRendered, queueStaticElement, staticElementEntriesState]
       );
-      return /* @__PURE__ */ import_react99.default.createElement(Provider3, { value: context9 }, /* @__PURE__ */ import_react99.default.createElement(
+      return /* @__PURE__ */ import_react103.default.createElement(Provider3, { value: context9 }, /* @__PURE__ */ import_react103.default.createElement(
         LiveRegionTwinContainer_default,
         {
           "aria-label": ariaLabel,
@@ -141386,10 +141579,10 @@ and ensure you are accounting for this risk.
       ), children);
     };
     LiveRegionTwinComposer2.displayName = "LiveRegionTwinComposer";
-    return (0, import_react99.memo)(LiveRegionTwinComposer2);
+    return (0, import_react103.memo)(LiveRegionTwinComposer2);
   };
   var createLiveRegionTwinComposer_default = createLiveRegionTwinComposer;
-  var LiveRegionTwinContext = (0, import_react98.createContext)(
+  var LiveRegionTwinContext = (0, import_react102.createContext)(
     new Proxy(
       {},
       {
@@ -141404,7 +141597,7 @@ and ensure you are accounting for this risk.
   var LiveRegionTwinComposer = createLiveRegionTwinComposer_default(LiveRegionTwinContext);
   var LiveRegionTwinComposer_default = LiveRegionTwinComposer;
   function useLiveRegionTwinContext() {
-    const contextValue = (0, import_react97.useContext)(LiveRegionTwinContext);
+    const contextValue = (0, import_react101.useContext)(LiveRegionTwinContext);
     return contextValue;
   }
   function useQueueStaticElement() {
@@ -141413,7 +141606,7 @@ and ensure you are accounting for this risk.
   function useLiveRegion(createNode, deps) {
     const createNodeRef = useRefFrom(createNode);
     const queueStaticElement = useQueueStaticElement();
-    (0, import_react96.useMemo)(() => {
+    (0, import_react100.useMemo)(() => {
       const node3 = createNodeRef == null ? void 0 : createNodeRef.current();
       node3 && queueStaticElement(node3);
     }, [...deps, createNodeRef, queueStaticElement]);
@@ -141423,7 +141616,7 @@ and ensure you are accounting for this risk.
   }
   var sharedEmotionInstances = [];
   function useEmotion(nonce, container) {
-    const emotion = (0, import_react104.useMemo)(() => {
+    const emotion = (0, import_react108.useMemo)(() => {
       const sharedEmotion = sharedEmotionInstances.find(
         ({ sheet: sheet2 }) => sheet2.nonce === nonce && sheet2.container === container
       );
@@ -141431,7 +141624,7 @@ and ensure you are accounting for this risk.
       sharedEmotionInstances.push(emotion2);
       return emotion2;
     }, [container, nonce]);
-    (0, import_react104.useEffect)(
+    (0, import_react108.useEffect)(
       () => () => {
         var _a29;
         const index2 = sharedEmotionInstances.lastIndexOf(emotion);
@@ -141450,46 +141643,46 @@ and ensure you are accounting for this risk.
   var createStyleToEmotionObjectComposer = ({ Provider: Provider3 }) => ({ children, nonce }) => {
     const [{ stylesRoot }] = useStyleOptions2();
     const emotion = useEmotion(nonce, stylesRoot);
-    const styleToEmotionObject = (0, import_react103.useCallback)((style) => emotion.css(style), [emotion]);
+    const styleToEmotionObject = (0, import_react107.useCallback)((style) => emotion.css(style), [emotion]);
     const styleToEmotionObjectRef = useRefFrom(styleToEmotionObject);
-    return /* @__PURE__ */ import_react103.default.createElement(Provider3, { value: styleToEmotionObjectRef }, styleToEmotionObject && children);
+    return /* @__PURE__ */ import_react107.default.createElement(Provider3, { value: styleToEmotionObjectRef }, styleToEmotionObject && children);
   };
   var createStyleToEmotionObjectComposer_default = createStyleToEmotionObjectComposer;
-  var styleToEmotionObjectContext = (0, import_react102.createContext)(
-    new Proxy((0, import_react102.createRef)(), {
+  var styleToEmotionObjectContext = (0, import_react106.createContext)(
+    new Proxy((0, import_react106.createRef)(), {
       get() {
         throw new Error("StyleToEmotionObjectContext was used without StyleToEmotionObjectComposer");
       }
     })
   );
   function useStyleToEmotionObject() {
-    return (0, import_react102.useContext)(styleToEmotionObjectContext).current;
+    return (0, import_react106.useContext)(styleToEmotionObjectContext).current;
   }
-  var StyleToEmotionObjectComposer = (0, import_react102.memo)(createStyleToEmotionObjectComposer_default(styleToEmotionObjectContext));
+  var StyleToEmotionObjectComposer = (0, import_react106.memo)(createStyleToEmotionObjectComposer_default(styleToEmotionObjectContext));
   StyleToEmotionObjectComposer.displayName = "StyleToEmotionObjectComposer";
-  var classes = { "icon--view-code": "w1GPAoW_icon--view-code", "icon--thumb-down-filled": "w1GPAoW_icon--thumb-down-filled", "direction--rtl": "w1GPAoW_direction--rtl", "icon--attachment": "w1GPAoW_icon--attachment", "icon--checkmark-circle": "w1GPAoW_icon--checkmark-circle", "icon--copy": "w1GPAoW_icon--copy", "icon--dismiss": "w1GPAoW_icon--dismiss", "appearance--text": "w1GPAoW_appearance--text", "icon--send": "w1GPAoW_icon--send", "direction--follow": "w1GPAoW_direction--follow", "icon--download": "w1GPAoW_icon--download", "icon--unchecked-circle": "w1GPAoW_icon--unchecked-circle", "icon--microphone": "w1GPAoW_icon--microphone", "icon--copy-code": "w1GPAoW_icon--copy-code", "icon--thumb-up-filled": "w1GPAoW_icon--thumb-up-filled", "icon--thumb-up": "w1GPAoW_icon--thumb-up", "icon--chevron": "w1GPAoW_icon--chevron", "icon--copy-code-checkmark": "w1GPAoW_icon--copy-code-checkmark", "icon--thumb-down": "w1GPAoW_icon--thumb-down", "icon--attachment-checkmark": "w1GPAoW_icon--attachment-checkmark", "component-icon": "w1GPAoW_component-icon" };
+  var classes = { "icon--thumb-down": "w1GPAoW_icon--thumb-down", "component-icon": "w1GPAoW_component-icon", "icon--view-code": "w1GPAoW_icon--view-code", "icon--attachment-checkmark": "w1GPAoW_icon--attachment-checkmark", "direction--follow": "w1GPAoW_direction--follow", "icon--attachment": "w1GPAoW_icon--attachment", "icon--chevron": "w1GPAoW_icon--chevron", "icon--dismiss": "w1GPAoW_icon--dismiss", "icon--unchecked-circle": "w1GPAoW_icon--unchecked-circle", "icon--copy": "w1GPAoW_icon--copy", "icon--copy-code-checkmark": "w1GPAoW_icon--copy-code-checkmark", "icon--microphone": "w1GPAoW_icon--microphone", "appearance--text": "w1GPAoW_appearance--text", "direction--rtl": "w1GPAoW_direction--rtl", "icon--download": "w1GPAoW_icon--download", "icon--checkmark-circle": "w1GPAoW_icon--checkmark-circle", "icon--send": "w1GPAoW_icon--send", "icon--thumb-up-filled": "w1GPAoW_icon--thumb-up-filled", "icon--copy-code": "w1GPAoW_icon--copy-code", "icon--thumb-up": "w1GPAoW_icon--thumb-up", "icon--thumb-down-filled": "w1GPAoW_icon--thumb-down-filled" };
   var ComponentIcon_module_default = classes;
-  var _icon__view_code0 = classes["icon--view-code"];
-  var _icon__thumb_down_filled0 = classes["icon--thumb-down-filled"];
-  var _direction__rtl0 = classes["direction--rtl"];
-  var _icon__attachment0 = classes["icon--attachment"];
-  var _icon__checkmark_circle0 = classes["icon--checkmark-circle"];
-  var _icon__copy0 = classes["icon--copy"];
-  var _icon__dismiss0 = classes["icon--dismiss"];
-  var _appearance__text0 = classes["appearance--text"];
-  var _icon__send0 = classes["icon--send"];
-  var _direction__follow0 = classes["direction--follow"];
-  var _icon__download0 = classes["icon--download"];
-  var _icon__unchecked_circle0 = classes["icon--unchecked-circle"];
-  var _icon__microphone0 = classes["icon--microphone"];
-  var _icon__copy_code0 = classes["icon--copy-code"];
-  var _icon__thumb_up_filled0 = classes["icon--thumb-up-filled"];
-  var _icon__thumb_up0 = classes["icon--thumb-up"];
-  var _icon__chevron0 = classes["icon--chevron"];
-  var _icon__copy_code_checkmark0 = classes["icon--copy-code-checkmark"];
   var _icon__thumb_down0 = classes["icon--thumb-down"];
-  var _icon__attachment_checkmark0 = classes["icon--attachment-checkmark"];
   var _component_icon0 = classes["component-icon"];
+  var _icon__view_code0 = classes["icon--view-code"];
+  var _icon__attachment_checkmark0 = classes["icon--attachment-checkmark"];
+  var _direction__follow0 = classes["direction--follow"];
+  var _icon__attachment0 = classes["icon--attachment"];
+  var _icon__chevron0 = classes["icon--chevron"];
+  var _icon__dismiss0 = classes["icon--dismiss"];
+  var _icon__unchecked_circle0 = classes["icon--unchecked-circle"];
+  var _icon__copy0 = classes["icon--copy"];
+  var _icon__copy_code_checkmark0 = classes["icon--copy-code-checkmark"];
+  var _icon__microphone0 = classes["icon--microphone"];
+  var _appearance__text0 = classes["appearance--text"];
+  var _direction__rtl0 = classes["direction--rtl"];
+  var _icon__download0 = classes["icon--download"];
+  var _icon__checkmark_circle0 = classes["icon--checkmark-circle"];
+  var _icon__send0 = classes["icon--send"];
+  var _icon__thumb_up_filled0 = classes["icon--thumb-up-filled"];
+  var _icon__copy_code0 = classes["icon--copy-code"];
+  var _icon__thumb_up0 = classes["icon--thumb-up"];
+  var _icon__thumb_down_filled0 = classes["icon--thumb-down-filled"];
   var baseComponentIconPropsSchema = pipe(
     object({
       "aria-hidden": optional(literal("true")),
@@ -141507,7 +141700,7 @@ and ensure you are accounting for this risk.
       role
     } = validateProps2(baseComponentIconPropsSchema, props);
     const classNames31 = useStyles_default(ComponentIcon_module_default);
-    return /* @__PURE__ */ import_react105.default.createElement(
+    return /* @__PURE__ */ import_react109.default.createElement(
       "div",
       {
         "aria-hidden": ariaHidden,
@@ -141530,7 +141723,7 @@ and ensure you are accounting for this risk.
     }),
     readonly()
   );
-  var ComponentIcon_default = (0, import_react105.memo)(ComponentIcon);
+  var ComponentIcon_default = (0, import_react109.memo)(ComponentIcon);
   var { userAgent } = navigator;
   var android = /Linux; Android/u.test(userAgent);
   var chromium = !/Edge\//u.test(userAgent) && /Chrome\//u.test(userAgent);
@@ -141539,15 +141732,15 @@ and ensure you are accounting for this risk.
   var firefox = /Firefox\//u.test(userAgent);
   var ie11 = /Trident\/7.0/u.test(userAgent);
 
-  // ../component/dist/chunk-QDBFCDG3.mjs
-  var import_react134 = __toESM(require_react(), 1);
-  var import_react135 = __toESM(require_react(), 1);
-  var import_react136 = __toESM(require_react(), 1);
-  var import_react137 = __toESM(require_react(), 1);
+  // ../component/dist/chunk-LV37XPB7.mjs
   var import_react138 = __toESM(require_react(), 1);
   var import_react139 = __toESM(require_react(), 1);
   var import_react140 = __toESM(require_react(), 1);
   var import_react141 = __toESM(require_react(), 1);
+  var import_react142 = __toESM(require_react(), 1);
+  var import_react143 = __toESM(require_react(), 1);
+  var import_react144 = __toESM(require_react(), 1);
+  var import_react145 = __toESM(require_react(), 1);
 
   // ../../node_modules/@emotion/css/dist/emotion-css.esm.js
   var _createEmotion = createEmotion({
@@ -141564,13 +141757,13 @@ and ensure you are accounting for this risk.
   var sheet = _createEmotion.sheet;
   var cache = _createEmotion.cache;
 
-  // ../component/dist/chunk-QDBFCDG3.mjs
-  var import_react142 = __toESM(require_react(), 1);
-  var import_react143 = __toESM(require_react(), 1);
-  var import_react144 = __toESM(require_react(), 1);
+  // ../component/dist/chunk-LV37XPB7.mjs
+  var import_react146 = __toESM(require_react(), 1);
+  var import_react147 = __toESM(require_react(), 1);
+  var import_react148 = __toESM(require_react(), 1);
 
   // ../../node_modules/use-propagate/dist/use-propagate.mjs
-  var import_react106 = __toESM(require_react(), 1);
+  var import_react110 = __toESM(require_react(), 1);
   function createPropagationContextValue() {
     const listeners = /* @__PURE__ */ new Set();
     return {
@@ -141587,31 +141780,31 @@ and ensure you are accounting for this risk.
   }
   function createPropagation(init = {}) {
     const { allowPropagateDuringRender } = init;
-    const context9 = (0, import_react106.createContext)(createPropagationContextValue());
+    const context9 = (0, import_react110.createContext)(createPropagationContextValue());
     let rendering = false;
     function PropagationScope({ children }) {
-      const value = (0, import_react106.useMemo)(createPropagationContextValue, []);
-      return /* @__PURE__ */ import_react106.default.createElement(context9.Provider, { value }, children);
+      const value = (0, import_react110.useMemo)(createPropagationContextValue, []);
+      return /* @__PURE__ */ import_react110.default.createElement(context9.Provider, { value }, children);
     }
     return {
-      PropagationScope: (0, import_react106.memo)(PropagationScope),
+      PropagationScope: (0, import_react110.memo)(PropagationScope),
       useListen: (listener) => {
         const listenerRef = useRefFrom(listener);
-        const { addListener: addListener2, removeListener: removeListener2 } = (0, import_react106.useContext)(context9);
-        const wrappingListener = (0, import_react106.useMemo)(() => {
+        const { addListener: addListener2, removeListener: removeListener2 } = (0, import_react110.useContext)(context9);
+        const wrappingListener = (0, import_react110.useMemo)(() => {
           const wrappingListener2 = (value) => listenerRef.current(value);
           addListener2(wrappingListener2);
           return wrappingListener2;
         }, [listenerRef]);
-        (0, import_react106.useEffect)(() => () => removeListener2(wrappingListener), [wrappingListener]);
+        (0, import_react110.useEffect)(() => () => removeListener2(wrappingListener), [wrappingListener]);
       },
       usePropagate: () => {
         rendering = true;
-        const { runListeners } = (0, import_react106.useContext)(context9);
-        (0, import_react106.useLayoutEffect)(() => {
+        const { runListeners } = (0, import_react110.useContext)(context9);
+        (0, import_react110.useLayoutEffect)(() => {
           rendering = false;
         });
-        return (0, import_react106.useCallback)(
+        return (0, import_react110.useCallback)(
           (value) => {
             if (rendering && !allowPropagateDuringRender) {
               return console.warn(
@@ -141626,11 +141819,7 @@ and ensure you are accounting for this risk.
     };
   }
 
-  // ../component/dist/chunk-QDBFCDG3.mjs
-  var import_react145 = __toESM(require_react(), 1);
-  var import_react146 = __toESM(require_react(), 1);
-  var import_react147 = __toESM(require_react(), 1);
-  var import_react148 = __toESM(require_react(), 1);
+  // ../component/dist/chunk-LV37XPB7.mjs
   var import_react149 = __toESM(require_react(), 1);
   var import_react150 = __toESM(require_react(), 1);
   var import_react151 = __toESM(require_react(), 1);
@@ -141638,16 +141827,20 @@ and ensure you are accounting for this risk.
   var import_react153 = __toESM(require_react(), 1);
   var import_react154 = __toESM(require_react(), 1);
   var import_react155 = __toESM(require_react(), 1);
-  var import_classnames5 = __toESM(require_classnames(), 1);
   var import_react156 = __toESM(require_react(), 1);
-  var import_classnames6 = __toESM(require_classnames(), 1);
   var import_react157 = __toESM(require_react(), 1);
-  var import_classnames7 = __toESM(require_classnames(), 1);
   var import_react158 = __toESM(require_react(), 1);
   var import_react159 = __toESM(require_react(), 1);
+  var import_classnames5 = __toESM(require_classnames(), 1);
   var import_react160 = __toESM(require_react(), 1);
-  var import_classnames8 = __toESM(require_classnames(), 1);
+  var import_classnames6 = __toESM(require_classnames(), 1);
   var import_react161 = __toESM(require_react(), 1);
+  var import_classnames7 = __toESM(require_classnames(), 1);
+  var import_react162 = __toESM(require_react(), 1);
+  var import_react163 = __toESM(require_react(), 1);
+  var import_react164 = __toESM(require_react(), 1);
+  var import_classnames8 = __toESM(require_classnames(), 1);
+  var import_react165 = __toESM(require_react(), 1);
   var import_classnames9 = __toESM(require_classnames(), 1);
 
   // ../../node_modules/memoize-one/dist/memoize-one.esm.js
@@ -141701,56 +141894,56 @@ and ensure you are accounting for this risk.
     return memoized;
   }
 
-  // ../component/dist/chunk-QDBFCDG3.mjs
-  var import_react162 = __toESM(require_react(), 1);
-  var import_classnames10 = __toESM(require_classnames(), 1);
-  var import_react163 = __toESM(require_react(), 1);
-  var import_react164 = __toESM(require_react(), 1);
-  var import_react165 = __toESM(require_react(), 1);
+  // ../component/dist/chunk-LV37XPB7.mjs
   var import_react166 = __toESM(require_react(), 1);
+  var import_classnames10 = __toESM(require_classnames(), 1);
   var import_react167 = __toESM(require_react(), 1);
-  var import_classnames11 = __toESM(require_classnames(), 1);
   var import_react168 = __toESM(require_react(), 1);
+  var import_react169 = __toESM(require_react(), 1);
+  var import_react170 = __toESM(require_react(), 1);
+  var import_react171 = __toESM(require_react(), 1);
+  var import_classnames11 = __toESM(require_classnames(), 1);
+  var import_react172 = __toESM(require_react(), 1);
   var import_classnames12 = __toESM(require_classnames(), 1);
   var import_prop_types12 = __toESM(require_prop_types(), 1);
-  var import_react169 = __toESM(require_react(), 1);
+  var import_react173 = __toESM(require_react(), 1);
 
   // ../../node_modules/react-film/dist/react-film.mjs
   var import_classnames3 = __toESM(require_classnames(), 1);
   var import_prop_types6 = __toESM(require_prop_types(), 1);
-  var import_react107 = __toESM(require_react(), 1);
-  var import_react108 = __toESM(require_react(), 1);
-  var import_prop_types7 = __toESM(require_prop_types(), 1);
-  var import_react109 = __toESM(require_react(), 1);
-  var import_react110 = __toESM(require_react(), 1);
   var import_react111 = __toESM(require_react(), 1);
   var import_react112 = __toESM(require_react(), 1);
+  var import_prop_types7 = __toESM(require_prop_types(), 1);
   var import_react113 = __toESM(require_react(), 1);
   var import_react114 = __toESM(require_react(), 1);
   var import_react115 = __toESM(require_react(), 1);
-  var import_prop_types8 = __toESM(require_prop_types(), 1);
   var import_react116 = __toESM(require_react(), 1);
   var import_react117 = __toESM(require_react(), 1);
   var import_react118 = __toESM(require_react(), 1);
   var import_react119 = __toESM(require_react(), 1);
+  var import_prop_types8 = __toESM(require_prop_types(), 1);
   var import_react120 = __toESM(require_react(), 1);
-  var import_classnames4 = __toESM(require_classnames(), 1);
-  var import_prop_types9 = __toESM(require_prop_types(), 1);
   var import_react121 = __toESM(require_react(), 1);
   var import_react122 = __toESM(require_react(), 1);
-  var import_prop_types10 = __toESM(require_prop_types(), 1);
   var import_react123 = __toESM(require_react(), 1);
   var import_react124 = __toESM(require_react(), 1);
+  var import_classnames4 = __toESM(require_classnames(), 1);
+  var import_prop_types9 = __toESM(require_prop_types(), 1);
   var import_react125 = __toESM(require_react(), 1);
   var import_react126 = __toESM(require_react(), 1);
+  var import_prop_types10 = __toESM(require_prop_types(), 1);
   var import_react127 = __toESM(require_react(), 1);
   var import_react128 = __toESM(require_react(), 1);
   var import_react129 = __toESM(require_react(), 1);
-  var import_math_random5 = __toESM(require_browser(), 1);
   var import_react130 = __toESM(require_react(), 1);
   var import_react131 = __toESM(require_react(), 1);
-  var import_prop_types11 = __toESM(require_prop_types(), 1);
   var import_react132 = __toESM(require_react(), 1);
+  var import_react133 = __toESM(require_react(), 1);
+  var import_math_random5 = __toESM(require_browser(), 1);
+  var import_react134 = __toESM(require_react(), 1);
+  var import_react135 = __toESM(require_react(), 1);
+  var import_prop_types11 = __toESM(require_prop_types(), 1);
+  var import_react136 = __toESM(require_react(), 1);
 
   // ../../node_modules/html-react-parser/esm/index.mjs
   var import_lib = __toESM(require_lib4(), 1);
@@ -141758,19 +141951,19 @@ and ensure you are accounting for this risk.
   var esm_default = import_lib.default.default || import_lib.default;
 
   // ../../node_modules/react-film/dist/react-film.mjs
-  var import_react133 = __toESM(require_react(), 1);
+  var import_react137 = __toESM(require_react(), 1);
   var import_react_dom2 = __toESM(require_react_dom(), 1);
-  var ViewContext_default = (0, import_react111.createContext)();
+  var ViewContext_default = (0, import_react115.createContext)();
   function useViewContext() {
-    return (0, import_react110.useContext)(ViewContext_default);
+    return (0, import_react114.useContext)(ViewContext_default);
   }
   function useIndex() {
     const { index: index2 } = useViewContext();
     return [index2];
   }
-  var FunctionContext_default = (0, import_react113.createContext)();
+  var FunctionContext_default = (0, import_react117.createContext)();
   function useFunctionContext() {
-    const context9 = (0, import_react112.useContext)(FunctionContext_default);
+    const context9 = (0, import_react116.useContext)(FunctionContext_default);
     if (!context9) {
       throw new Error("react-film: Hooks can only be used inside the component.");
     }
@@ -141784,8 +141977,8 @@ and ensure you are accounting for this risk.
     const [index2] = useIndex();
     const scrollTo2 = useScrollTo();
     const checked = index2 === itemIndex;
-    const handleChange = (0, import_react109.useCallback)(() => scrollTo2(() => itemIndex), [itemIndex, scrollTo2]);
-    const handleKeyPress = (0, import_react109.useCallback)(
+    const handleChange = (0, import_react113.useCallback)(() => scrollTo2(() => itemIndex), [itemIndex, scrollTo2]);
+    const handleKeyPress = (0, import_react113.useCallback)(
       (event2) => {
         const { keyCode } = event2;
         if (keyCode === 13 || keyCode === 32) {
@@ -141796,7 +141989,7 @@ and ensure you are accounting for this risk.
       },
       [handleChange]
     );
-    return /* @__PURE__ */ import_react109.default.createElement("li", { className: "react-film__dot" }, /* @__PURE__ */ import_react109.default.createElement(
+    return /* @__PURE__ */ import_react113.default.createElement("li", { className: "react-film__dot" }, /* @__PURE__ */ import_react113.default.createElement(
       "input",
       {
         "aria-label": ariaLabel,
@@ -141808,7 +142001,7 @@ and ensure you are accounting for this risk.
         role: "button",
         type: "checkbox"
       }
-    ), /* @__PURE__ */ import_react109.default.createElement("div", { className: "react-film__dot__handle" }));
+    ), /* @__PURE__ */ import_react113.default.createElement("div", { className: "react-film__dot__handle" }));
   };
   Dot.defaultProps = {
     "aria-label": void 0
@@ -141818,9 +142011,9 @@ and ensure you are accounting for this risk.
     itemIndex: import_prop_types7.default.number.isRequired
   };
   var Dot_default = Dot;
-  var PropsContext_default = (0, import_react115.createContext)();
+  var PropsContext_default = (0, import_react119.createContext)();
   function usePropsContext() {
-    const context9 = (0, import_react114.useContext)(PropsContext_default);
+    const context9 = (0, import_react118.useContext)(PropsContext_default);
     if (!context9) {
       throw new Error("react-film: Hooks can only be used inside the component.");
     }
@@ -141832,15 +142025,15 @@ and ensure you are accounting for this risk.
   }
   var Dots = () => {
     const [numItems] = useNumItems();
-    return /* @__PURE__ */ import_react108.default.createElement("ul", { className: "react-film__dots" }, new Array(numItems).fill().map((_2, itemIndex) => (
+    return /* @__PURE__ */ import_react112.default.createElement("ul", { className: "react-film__dots" }, new Array(numItems).fill().map((_2, itemIndex) => (
       /* eslint-disable-next-line react/no-array-index-key */
-      /* @__PURE__ */ import_react108.default.createElement(Dot_default, { "aria-label": itemIndex + 1 + "", itemIndex, key: itemIndex })
+      /* @__PURE__ */ import_react112.default.createElement(Dot_default, { "aria-label": itemIndex + 1 + "", itemIndex, key: itemIndex })
     )));
   };
   var Dots_default = Dots;
-  var InternalContext_default = (0, import_react119.createContext)();
+  var InternalContext_default = (0, import_react123.createContext)();
   function useInternalContext() {
-    const context9 = (0, import_react118.useContext)(InternalContext_default);
+    const context9 = (0, import_react122.useContext)(InternalContext_default);
     if (!context9) {
       throw new Error("react-film: Hooks can only be used inside the component.");
     }
@@ -141848,19 +142041,19 @@ and ensure you are accounting for this risk.
   }
   function useItemContainerCallbackRef() {
     const { itemContainerCallbackRefWithSubscribe } = useInternalContext();
-    return (0, import_react117.useCallback)(
+    return (0, import_react121.useCallback)(
       (element3) => itemContainerCallbackRefWithSubscribe(element3),
       [itemContainerCallbackRefWithSubscribe]
     );
   }
   function useScrollableCallbackRef() {
     const { scrollableCallbackRefWithSubscribe } = useInternalContext();
-    return (0, import_react120.useCallback)((element3) => scrollableCallbackRefWithSubscribe(element3), [scrollableCallbackRefWithSubscribe]);
+    return (0, import_react124.useCallback)((element3) => scrollableCallbackRefWithSubscribe(element3), [scrollableCallbackRefWithSubscribe]);
   }
   var Filmstrip = ({ children }) => {
     const itemContainerCallbackRef = useItemContainerCallbackRef();
     const scrollableCallbackRef = useScrollableCallbackRef();
-    return /* @__PURE__ */ import_react116.default.createElement("div", { className: "react-film__filmstrip", ref: scrollableCallbackRef }, /* @__PURE__ */ import_react116.default.createElement("ul", { className: "react-film__filmstrip__list", ref: itemContainerCallbackRef }, import_react116.Children.map(children, (child) => /* @__PURE__ */ import_react116.default.createElement("li", { className: "react-film__filmstrip__item" }, child))));
+    return /* @__PURE__ */ import_react120.default.createElement("div", { className: "react-film__filmstrip", ref: scrollableCallbackRef }, /* @__PURE__ */ import_react120.default.createElement("ul", { className: "react-film__filmstrip__list", ref: itemContainerCallbackRef }, import_react120.Children.map(children, (child) => /* @__PURE__ */ import_react120.default.createElement("li", { className: "react-film__filmstrip__item" }, child))));
   };
   Filmstrip.defaultProps = {
     children: void 0
@@ -141888,15 +142081,15 @@ and ensure you are accounting for this risk.
   var Flipper = ({ "aria-label": ariaLabel, blurFocusOnClick, children, mode }) => {
     const [dir] = useDir();
     const [scrollBarPercentage] = useScrollBarPercentage();
-    const buttonRef = (0, import_react121.useRef)();
+    const buttonRef = (0, import_react125.useRef)();
     const left = mode === "left";
     const scrollOneLeft = useScrollOneLeft();
     const scrollOneRight = useScrollOneRight();
-    const handleClick = (0, import_react121.useCallback)(() => {
+    const handleClick = (0, import_react125.useCallback)(() => {
       left ? scrollOneLeft() : scrollOneRight();
       blurFocusOnClick && buttonRef.current && buttonRef.current.blur();
     }, [blurFocusOnClick, buttonRef, left, scrollOneLeft, scrollOneRight]);
-    const handleKeyDown = (0, import_react121.useCallback)(
+    const handleKeyDown = (0, import_react125.useCallback)(
       (event2) => {
         const { key: key2 } = event2;
         if (key2 === "Enter" || key2 === " ") {
@@ -141920,7 +142113,7 @@ and ensure you are accounting for this risk.
         hide = scrollBarPercentage === "100%";
       }
     }
-    return /* @__PURE__ */ import_react121.default.createElement(
+    return /* @__PURE__ */ import_react125.default.createElement(
       "button",
       {
         "aria-label": ariaLabel || (left ? "left" : "right"),
@@ -141933,7 +142126,7 @@ and ensure you are accounting for this risk.
         ref: buttonRef,
         type: "button"
       },
-      /* @__PURE__ */ import_react121.default.createElement(
+      /* @__PURE__ */ import_react125.default.createElement(
         "div",
         {
           className: (0, import_classnames4.default)("react-film__flipper__slider", "react-film__main__slider", {
@@ -141942,7 +142135,7 @@ and ensure you are accounting for this risk.
             "react-film__main__slider--right": !left
           })
         },
-        /* @__PURE__ */ import_react121.default.createElement("div", { className: "react-film__flipper__body" }, children)
+        /* @__PURE__ */ import_react125.default.createElement("div", { className: "react-film__flipper__body" }, children)
       )
     );
   };
@@ -141973,7 +142166,7 @@ and ensure you are accounting for this risk.
     const [dir] = useDir();
     const [scrollBarPercentage] = useScrollBarPercentage();
     const [scrollBarWidth] = useScrollBarWidth();
-    return /* @__PURE__ */ import_react122.default.createElement("div", { className: "react-film__scroll-bar react-film__main__slider react-film__main__slider--bottom" }, /* @__PURE__ */ import_react122.default.createElement(
+    return /* @__PURE__ */ import_react126.default.createElement("div", { className: "react-film__scroll-bar react-film__main__slider react-film__main__slider--bottom" }, /* @__PURE__ */ import_react126.default.createElement(
       "div",
       {
         className: "react-film__scroll-bar__handle",
@@ -142026,18 +142219,18 @@ and ensure you are accounting for this risk.
         showScrollBar
       }
     ] = useStyleOptions3();
-    const contentStyle = (0, import_react107.useMemo)(() => ({ height }), [height]);
-    return /* @__PURE__ */ import_react107.default.createElement("div", { className: (0, import_classnames3.default)(rootClassName, (className || "") + ""), dir }, /* @__PURE__ */ import_react107.default.createElement(
+    const contentStyle = (0, import_react111.useMemo)(() => ({ height }), [height]);
+    return /* @__PURE__ */ import_react111.default.createElement("div", { className: (0, import_classnames3.default)(rootClassName, (className || "") + ""), dir }, /* @__PURE__ */ import_react111.default.createElement(
       "div",
       {
         className: (0, import_classnames3.default)("react-film__main", { "react-film__main--scrolling": scrolling }),
         style: contentStyle
       },
-      !!numItems && scrollBarWidth !== "100%" && !!showFlipper && /* @__PURE__ */ import_react107.default.createElement(Flipper_default, { "aria-label": leftFlipperAriaLabel, blurFocusOnClick: flipperBlurFocusOnClick, mode: "left" }, leftFlipperText),
-      /* @__PURE__ */ import_react107.default.createElement(Filmstrip_default, null, children),
-      !!numItems && scrollBarWidth !== "100%" && !!showFlipper && /* @__PURE__ */ import_react107.default.createElement(Flipper_default, { "aria-label": rightFlipperAriaLabel, blurFocusOnClick: flipperBlurFocusOnClick, mode: "right" }, rightFlipperText),
-      !!numItems && scrollBarWidth !== "100%" && !!showScrollBar && /* @__PURE__ */ import_react107.default.createElement(ScrollBar_default, null)
-    ), !!numItems && scrollBarWidth !== "100%" && !!showDots && /* @__PURE__ */ import_react107.default.createElement(Dots_default, null));
+      !!numItems && scrollBarWidth !== "100%" && !!showFlipper && /* @__PURE__ */ import_react111.default.createElement(Flipper_default, { "aria-label": leftFlipperAriaLabel, blurFocusOnClick: flipperBlurFocusOnClick, mode: "left" }, leftFlipperText),
+      /* @__PURE__ */ import_react111.default.createElement(Filmstrip_default, null, children),
+      !!numItems && scrollBarWidth !== "100%" && !!showFlipper && /* @__PURE__ */ import_react111.default.createElement(Flipper_default, { "aria-label": rightFlipperAriaLabel, blurFocusOnClick: flipperBlurFocusOnClick, mode: "right" }, rightFlipperText),
+      !!numItems && scrollBarWidth !== "100%" && !!showScrollBar && /* @__PURE__ */ import_react111.default.createElement(ScrollBar_default, null)
+    ), !!numItems && scrollBarWidth !== "100%" && !!showDots && /* @__PURE__ */ import_react111.default.createElement(Dots_default, null));
   };
   BasicFilm.defaultProps = {
     children: void 0,
@@ -142049,7 +142242,7 @@ and ensure you are accounting for this risk.
   };
   var BasicFilm_default = BasicFilm;
   function useTimeout(onTrigger, duration) {
-    (0, import_react125.useEffect)(() => {
+    (0, import_react129.useEffect)(() => {
       if (onTrigger) {
         const timeout = setTimeout(onTrigger, duration);
         return () => clearTimeout(timeout);
@@ -142060,7 +142253,7 @@ and ensure you are accounting for this risk.
     const [{ autoCenter }] = useStyleOptions3();
     const [scrolling] = useScrolling();
     const scrollTo2 = useScrollTo();
-    const handleTrigger = (0, import_react124.useCallback)(() => scrollTo2(({ index: index2 }) => index2), [scrollTo2]);
+    const handleTrigger = (0, import_react128.useCallback)(() => scrollTo2(({ index: index2 }) => index2), [scrollTo2]);
     useTimeout(!autoCenter || scrolling ? void 0 : handleTrigger, 0);
   }
   var AutoCenter = () => {
@@ -142397,7 +142590,7 @@ and ensure you are accounting for this risk.
       }
     }
   }
-  var LegacyContext_default = (0, import_react126.createContext)();
+  var LegacyContext_default = (0, import_react130.createContext)();
   function step(from2, to, stepper, index2) {
     let next2 = from2;
     for (let i3 = 0; i3 < index2; i3++) {
@@ -142415,7 +142608,7 @@ and ensure you are accounting for this risk.
     return Math.max(to, next2);
   }
   function useAnimateScrollLeft(element3, to, onEnd) {
-    (0, import_react127.useEffect)(() => {
+    (0, import_react131.useEffect)(() => {
       if (element3) {
         const start = Date.now();
         let animator;
@@ -142440,7 +142633,7 @@ and ensure you are accounting for this risk.
   }
   var SUBSCRIBER_LIMIT = 10;
   function useCallbackRefWithSubscribe() {
-    return (0, import_react128.useMemo)(() => {
+    return (0, import_react132.useMemo)(() => {
       const subscriptions = [];
       const callbackRef = (current2) => {
         callbackRef.current = current2;
@@ -142472,7 +142665,7 @@ and ensure you are accounting for this risk.
   }
   var sharedEmotionInstances2 = [];
   function useEmotion2(nonce, container) {
-    const emotion = (0, import_react129.useMemo)(() => {
+    const emotion = (0, import_react133.useMemo)(() => {
       const sharedEmotion = sharedEmotionInstances2.find(
         ({ sheet: sheet2 }) => sheet2.nonce === nonce && sheet2.container === container
       );
@@ -142480,7 +142673,7 @@ and ensure you are accounting for this risk.
       sharedEmotionInstances2.push(emotion2);
       return emotion2;
     }, [container, nonce]);
-    (0, import_react129.useEffect)(
+    (0, import_react133.useEffect)(
       () => () => {
         var _a29;
         const index2 = sharedEmotionInstances2.lastIndexOf(emotion);
@@ -142519,7 +142712,7 @@ and ensure you are accounting for this risk.
     return new Promise((resolve) => setTimeout(() => resolve()));
   }
   function useObserveScrollLeft(callbackRefWithSubscribe, observer) {
-    (0, import_react130.useEffect)(
+    (0, import_react134.useEffect)(
       () => callbackRefWithSubscribe.subscribe((current2) => {
         if (!current2) {
           return;
@@ -142557,23 +142750,23 @@ and ensure you are accounting for this risk.
   }
   var Composer2 = ({ children, dir, height, nonce, numItems, styleOptions, styleSet }) => {
     dir = dir === "ltr" || dir === "rtl" ? dir : void 0;
-    const patchedStyleOptions = (0, import_react123.useMemo)(() => normalizeStyleOptions2(styleOptions), [styleOptions]);
-    const patchedStyleSet = (0, import_react123.useMemo)(
+    const patchedStyleOptions = (0, import_react127.useMemo)(() => normalizeStyleOptions2(styleOptions), [styleOptions]);
+    const patchedStyleSet = (0, import_react127.useMemo)(
       () => styleSet || createBasicStyleSet(patchedStyleOptions),
       [patchedStyleOptions, styleSet]
     );
     const emotion = useEmotion2(nonce, styleOptions.stylesRoot);
-    const styleSetClassNames = (0, import_react123.useMemo)(
+    const styleSetClassNames = (0, import_react127.useMemo)(
       () => Object.fromEntries(Object.entries(patchedStyleSet).map(([name, style]) => [name, emotion.css(style) + ""])),
       [emotion, patchedStyleSet]
     );
-    const [_2, forceRender] = (0, import_react123.useState)();
+    const [_2, forceRender] = (0, import_react127.useState)();
     const itemContainerCallbackRefWithSubscribe = useCallbackRefWithSubscribe();
     const scrollableCallbackRefWithSubscribe = useCallbackRefWithSubscribe();
-    const scrollLeftRef = (0, import_react123.useRef)(null);
-    const scrollTimeoutRef = (0, import_react123.useRef)();
-    (0, import_react123.useEffect)(() => () => clearTimeout(scrollTimeoutRef.current), [scrollTimeoutRef]);
-    const scrollTo2 = (0, import_react123.useCallback)(
+    const scrollLeftRef = (0, import_react127.useRef)(null);
+    const scrollTimeoutRef = (0, import_react127.useRef)();
+    (0, import_react127.useEffect)(() => () => clearTimeout(scrollTimeoutRef.current), [scrollTimeoutRef]);
+    const scrollTo2 = (0, import_react127.useCallback)(
       (scrollFn) => {
         const view = getView(
           dir,
@@ -142597,13 +142790,13 @@ and ensure you are accounting for this risk.
       },
       [dir, forceRender, itemContainerCallbackRefWithSubscribe, scrollableCallbackRefWithSubscribe, scrollLeftRef]
     );
-    const scrollOneLeft = (0, import_react123.useCallback)(() => {
+    const scrollOneLeft = (0, import_react127.useCallback)(() => {
       scrollTo2(({ indexFraction }) => dir === "rtl" ? Math.floor(indexFraction) + 1 : Math.ceil(indexFraction) - 1);
     }, [dir, scrollTo2]);
-    const scrollOneRight = (0, import_react123.useCallback)(() => {
+    const scrollOneRight = (0, import_react127.useCallback)(() => {
       scrollTo2(({ indexFraction }) => dir === "rtl" ? Math.ceil(indexFraction) - 1 : Math.floor(indexFraction) + 1);
     }, [dir, scrollTo2]);
-    const functionContext = (0, import_react123.useMemo)(
+    const functionContext = (0, import_react127.useMemo)(
       () => ({
         scrollTo: scrollTo2,
         scrollOneLeft,
@@ -142611,25 +142804,25 @@ and ensure you are accounting for this risk.
       }),
       [scrollTo2, scrollOneLeft, scrollOneRight]
     );
-    const internalContext = (0, import_react123.useMemo)(
+    const internalContext = (0, import_react127.useMemo)(
       () => ({
         itemContainerCallbackRefWithSubscribe,
         scrollableCallbackRefWithSubscribe
       }),
       [itemContainerCallbackRefWithSubscribe, scrollableCallbackRefWithSubscribe]
     );
-    const propsContext = (0, import_react123.useMemo)(
+    const propsContext = (0, import_react127.useMemo)(
       () => ({ dir, height, nonce, numItems, styleOptions: patchedStyleOptions, styleSetClassNames }),
       [dir, height, nonce, numItems, patchedStyleOptions, styleSetClassNames]
     );
-    const [viewContext, setViewContext] = (0, import_react123.useState)({
+    const [viewContext, setViewContext] = (0, import_react127.useState)({
       index: 0,
       indexFraction: 0,
       scrollBarPercentage: "0%",
       scrollBarWidth: "0%",
       scrolling: false
     });
-    const setViewContext2 = (0, import_react123.useCallback)(
+    const setViewContext2 = (0, import_react127.useCallback)(
       (nextViewContext) => {
         setViewContext(nextViewContext);
         clearTimeout(scrollTimeoutRef.current);
@@ -142646,7 +142839,7 @@ and ensure you are accounting for this risk.
       },
       [scrollTimeoutRef, setViewContext]
     );
-    const handleScroll = (0, import_react123.useCallback)(
+    const handleScroll = (0, import_react127.useCallback)(
       ({ fraction: scrollBarPercentage, initial, width: scrollBarWidth }) => {
         const view = getView(
           dir,
@@ -142667,11 +142860,11 @@ and ensure you are accounting for this risk.
       },
       [dir, itemContainerCallbackRefWithSubscribe, scrollableCallbackRefWithSubscribe, scrollLeftRef, setViewContext2]
     );
-    const handleScrollToEnd = (0, import_react123.useCallback)(() => {
+    const handleScrollToEnd = (0, import_react127.useCallback)(() => {
       scrollLeftRef.current = null;
       forceRender({});
     }, [forceRender, scrollLeftRef]);
-    const legacyContext = (0, import_react123.useMemo)(
+    const legacyContext = (0, import_react127.useMemo)(
       () => ({
         ...functionContext,
         ...internalContext,
@@ -142685,7 +142878,7 @@ and ensure you are accounting for this risk.
       scrollLeftRef.current,
       handleScrollToEnd
     );
-    (0, import_react123.useEffect)(
+    (0, import_react127.useEffect)(
       () => scrollableCallbackRefWithSubscribe.subscribe((current2) => {
         if (current2) {
           current2.addEventListener("pointerdown", handleScrollToEnd, { passive: true });
@@ -142695,7 +142888,7 @@ and ensure you are accounting for this risk.
       [handleScrollToEnd, scrollableCallbackRefWithSubscribe]
     );
     useObserveScrollLeft(scrollableCallbackRefWithSubscribe, handleScroll);
-    return /* @__PURE__ */ import_react123.default.createElement(PropsContext_default.Provider, { value: propsContext }, /* @__PURE__ */ import_react123.default.createElement(InternalContext_default.Provider, { value: internalContext }, /* @__PURE__ */ import_react123.default.createElement(FunctionContext_default.Provider, { value: functionContext }, /* @__PURE__ */ import_react123.default.createElement(ViewContext_default.Provider, { value: viewContext }, /* @__PURE__ */ import_react123.default.createElement(LegacyContext_default.Provider, { value: legacyContext }, children, patchedStyleOptions.autoCenter && /* @__PURE__ */ import_react123.default.createElement(AutoCenter_default, null))))));
+    return /* @__PURE__ */ import_react127.default.createElement(PropsContext_default.Provider, { value: propsContext }, /* @__PURE__ */ import_react127.default.createElement(InternalContext_default.Provider, { value: internalContext }, /* @__PURE__ */ import_react127.default.createElement(FunctionContext_default.Provider, { value: functionContext }, /* @__PURE__ */ import_react127.default.createElement(ViewContext_default.Provider, { value: viewContext }, /* @__PURE__ */ import_react127.default.createElement(LegacyContext_default.Provider, { value: legacyContext }, children, patchedStyleOptions.autoCenter && /* @__PURE__ */ import_react127.default.createElement(AutoCenter_default, null))))));
   };
   Composer2.defaultProps = {
     children: void 0,
@@ -142721,7 +142914,7 @@ and ensure you are accounting for this risk.
       console.warn("react-film: <FilmStrip> is being renamed to <Filmstrip>.");
       deprecationNotesShown = true;
     }
-    return /* @__PURE__ */ import_react131.default.createElement(Filmstrip_default, { ...props });
+    return /* @__PURE__ */ import_react135.default.createElement(Filmstrip_default, { ...props });
   };
   DeprecatedFilmStrip.defaultProps = Filmstrip_default.defaultProps;
   DeprecatedFilmStrip.propTypes = Filmstrip_default.propTypes;
@@ -142745,7 +142938,7 @@ and ensure you are accounting for this risk.
     styleSet,
     stylesRoot
   }) => {
-    const styleOptions = (0, import_react132.useMemo)(
+    const styleOptions = (0, import_react136.useMemo)(
       () => ({
         autoCenter,
         autoHide,
@@ -142777,17 +142970,17 @@ and ensure you are accounting for this risk.
         stylesRoot
       ]
     );
-    return /* @__PURE__ */ import_react132.default.createElement(
+    return /* @__PURE__ */ import_react136.default.createElement(
       Composer_default2,
       {
         dir,
         height,
         nonce,
-        numItems: children ? import_react132.Children.count(children) : 0,
+        numItems: children ? import_react136.Children.count(children) : 0,
         styleOptions,
         styleSet
       },
-      /* @__PURE__ */ import_react132.default.createElement(BasicFilm_default, { className }, children)
+      /* @__PURE__ */ import_react136.default.createElement(BasicFilm_default, { className }, children)
     );
   };
   ReactFilm.defaultProps = {
@@ -142839,23 +143032,23 @@ and ensure you are accounting for this risk.
     document.head.appendChild(meta2);
   }
 
-  // ../component/dist/chunk-QDBFCDG3.mjs
-  var import_react170 = __toESM(require_react(), 1);
-  var import_react171 = __toESM(require_react(), 1);
-  var import_react172 = __toESM(require_react(), 1);
-  var import_classnames13 = __toESM(require_classnames(), 1);
-  var import_react173 = __toESM(require_react(), 1);
+  // ../component/dist/chunk-LV37XPB7.mjs
   var import_react174 = __toESM(require_react(), 1);
   var import_react175 = __toESM(require_react(), 1);
   var import_react176 = __toESM(require_react(), 1);
+  var import_classnames13 = __toESM(require_classnames(), 1);
   var import_react177 = __toESM(require_react(), 1);
   var import_react178 = __toESM(require_react(), 1);
   var import_react179 = __toESM(require_react(), 1);
   var import_react180 = __toESM(require_react(), 1);
-  var import_classnames14 = __toESM(require_classnames(), 1);
   var import_react181 = __toESM(require_react(), 1);
   var import_react182 = __toESM(require_react(), 1);
   var import_react183 = __toESM(require_react(), 1);
+  var import_react184 = __toESM(require_react(), 1);
+  var import_classnames14 = __toESM(require_classnames(), 1);
+  var import_react185 = __toESM(require_react(), 1);
+  var import_react186 = __toESM(require_react(), 1);
+  var import_react187 = __toESM(require_react(), 1);
 
   // ../../node_modules/merge-refs/dist/index.js
   function mergeRefs() {
@@ -142880,22 +143073,22 @@ and ensure you are accounting for this risk.
     };
   }
 
-  // ../component/dist/chunk-QDBFCDG3.mjs
-  var import_react184 = __toESM(require_react(), 1);
-  var import_react185 = __toESM(require_react(), 1);
-  var import_classnames15 = __toESM(require_classnames(), 1);
-  var import_react186 = __toESM(require_react(), 1);
-  var import_prop_types13 = __toESM(require_prop_types(), 1);
-  var import_react187 = __toESM(require_react(), 1);
+  // ../component/dist/chunk-LV37XPB7.mjs
   var import_react188 = __toESM(require_react(), 1);
   var import_react189 = __toESM(require_react(), 1);
-  var import_classnames16 = __toESM(require_classnames(), 1);
+  var import_classnames15 = __toESM(require_classnames(), 1);
   var import_react190 = __toESM(require_react(), 1);
+  var import_prop_types13 = __toESM(require_prop_types(), 1);
   var import_react191 = __toESM(require_react(), 1);
-  var context3 = (0, import_react134.createContext)(void 0);
+  var import_react192 = __toESM(require_react(), 1);
+  var import_react193 = __toESM(require_react(), 1);
+  var import_classnames16 = __toESM(require_classnames(), 1);
+  var import_react194 = __toESM(require_react(), 1);
+  var import_react195 = __toESM(require_react(), 1);
+  var context3 = (0, import_react138.createContext)(void 0);
   var WebChatUIContext_default = context3;
   function useWebChatUIContext() {
-    const context22 = (0, import_react135.useContext)(WebChatUIContext_default);
+    const context22 = (0, import_react139.useContext)(WebChatUIContext_default);
     if (!context22) {
       throw new Error("This hook can only be used on a component that is a descendant of <Composer>");
     }
@@ -142904,7 +143097,7 @@ and ensure you are accounting for this risk.
   function useStyleSet() {
     return Object.freeze([useWebChatUIContext().styleSet]);
   }
-  var CustomElementsContext = (0, import_react139.createContext)(
+  var CustomElementsContext = (0, import_react143.createContext)(
     new Proxy({}, {
       get() {
         throw new Error("botframework-webchat: Cannot use this hook outside of <CustomElementsComposer>.");
@@ -142914,21 +143107,21 @@ and ensure you are accounting for this risk.
   CustomElementsContext.displayName = "CustomElementsContext";
   var CustomElementsContext_default = CustomElementsContext;
   function useCustomElementsContext() {
-    return (0, import_react138.useContext)(CustomElementsContext_default);
+    return (0, import_react142.useContext)(CustomElementsContext_default);
   }
   function useCodeBlockTag() {
     const { codeBlockTagName } = useCustomElementsContext();
-    return (0, import_react137.useMemo)(
+    return (0, import_react141.useMemo)(
       () => Object.freeze([
         codeBlockTagName,
-        (0, import_react137.memo)(
-          (props) => (0, import_react137.createElement)(codeBlockTagName, { ...props, class: props.className, className: void 0 })
+        (0, import_react141.memo)(
+          (props) => (0, import_react141.createElement)(codeBlockTagName, { ...props, class: props.className, className: void 0 })
         )
       ]),
       [codeBlockTagName]
     );
   }
-  var HTMLContentTransformContext = (0, import_react141.createContext)(
+  var HTMLContentTransformContext = (0, import_react145.createContext)(
     new Proxy({}, {
       get() {
         throw new Error("botframework-webchat: This hook can only be used under <HTMLContentTransformComposer>.");
@@ -142937,7 +143130,7 @@ and ensure you are accounting for this risk.
   );
   var HTMLContentTransformContext_default = HTMLContentTransformContext;
   function useHTMLContentTransformContext() {
-    return (0, import_react140.useContext)(HTMLContentTransformContext_default);
+    return (0, import_react144.useContext)(HTMLContentTransformContext_default);
   }
   var { useLocalizer: useLocalizer2 } = hook_exports;
   var DEFAULT_ALLOWED_TAGS = Object.freeze(
@@ -143098,7 +143291,7 @@ and ensure you are accounting for this risk.
     const { transform: transform3 } = useHTMLContentTransformContext();
     const localize2 = useLocalizer2();
     const externalLinkAlt2 = localize2("MARKDOWN_EXTERNAL_LINK_ALT");
-    return (0, import_react136.useCallback)(
+    return (0, import_react140.useCallback)(
       (documentFragment) => transform3({
         allowedTags: DEFAULT_ALLOWED_TAGS,
         codeBlockTagName,
@@ -143108,11 +143301,11 @@ and ensure you are accounting for this risk.
       [codeBlockTagName, externalLinkAlt2, transform3]
     );
   }
-  var classes2 = { "render-markdown--message-activity": "wOO68XW_render-markdown--message-activity", "render-markdown": "wOO68XW_render-markdown", "render-markdown--adaptive-cards": "wOO68XW_render-markdown--adaptive-cards" };
+  var classes2 = { "render-markdown--adaptive-cards": "wOO68XW_render-markdown--adaptive-cards", "render-markdown": "wOO68XW_render-markdown", "render-markdown--message-activity": "wOO68XW_render-markdown--message-activity" };
   var RenderMarkdown_module_default = classes2;
-  var _render_markdown__message_activity0 = classes2["render-markdown--message-activity"];
-  var _render_markdown0 = classes2["render-markdown"];
   var _render_markdown__adaptive_cards0 = classes2["render-markdown--adaptive-cards"];
+  var _render_markdown0 = classes2["render-markdown"];
+  var _render_markdown__message_activity0 = classes2["render-markdown--message-activity"];
   var { useLocalizer: useLocalizer22, useStyleOptions: useStyleOptions4 } = hook_exports;
   function useRenderMarkdownAsHTML(mode = "message activity") {
     const { renderMarkdown } = useWebChatUIContext();
@@ -143121,7 +143314,7 @@ and ensure you are accounting for this risk.
     const transformHTMLContent = useTransformHTMLContent();
     const classNames103 = useStyles_default(RenderMarkdown_module_default);
     const externalLinkAlt2 = localize2("MARKDOWN_EXTERNAL_LINK_ALT");
-    const containerClassName = (0, import_react142.useMemo)(
+    const containerClassName = (0, import_react146.useMemo)(
       () => cx3(classNames103["render-markdown"], {
         [classNames103["render-markdown--adaptive-cards"]]: mode === "adaptive cards",
         [classNames103["render-markdown--citation"]]: mode === "citation modal",
@@ -143129,7 +143322,7 @@ and ensure you are accounting for this risk.
       }),
       [classNames103, mode]
     );
-    return (0, import_react142.useMemo)(
+    return (0, import_react146.useMemo)(
       () => renderMarkdown && ((markdown) => {
         const html5 = renderMarkdown(markdown, styleOptions, { externalLinkAlt: externalLinkAlt2 });
         const documentFragment = transformHTMLContent(parseDocumentFragmentFromString(html5));
@@ -143149,11 +143342,11 @@ and ensure you are accounting for this risk.
       }
     }
   };
-  var Context = (0, import_react144.createContext)(Object.create({}, defaultContextValue));
+  var Context = (0, import_react148.createContext)(Object.create({}, defaultContextValue));
   Context.displayName = "ReducedMotionComposer";
   var Context_default4 = Context;
   function useContext44() {
-    return (0, import_react143.useContext)(Context_default4);
+    return (0, import_react147.useContext)(Context_default4);
   }
   function useShouldReduceMotion() {
     return useContext44().shouldReduceMotionState;
@@ -143194,7 +143387,7 @@ and ensure you are accounting for this risk.
   function useFocus() {
     const focusSendBox = useFocusSendBox();
     const { focusTranscriptCallbacksRef } = useWebChatUIContext();
-    return (0, import_react145.useCallback)(
+    return (0, import_react149.useCallback)(
       async (where) => {
         if (where === "sendBox" || where === "sendBoxWithoutKeyboard") {
           const [options, getPromise] = createWaitUntilable({ noKeyboard: where === "sendBoxWithoutKeyboard" });
@@ -143428,7 +143621,7 @@ and ensure you are accounting for this risk.
     const [styleOptions] = useStyleOptions22();
     const trackTiming = useTrackTiming2();
     const styleOptionsRef = useRefFrom(styleOptions);
-    return (0, import_react146.useCallback)(
+    return (0, import_react150.useCallback)(
       (file, contentType) => {
         const {
           current: {
@@ -143466,7 +143659,7 @@ and ensure you are accounting for this risk.
       );
     }
     const { observeScrollPosition } = useWebChatUIContext();
-    (0, import_react147.useEffect)(() => observer && observeScrollPosition(observer), [...deps || [], observer, observeScrollPosition]);
+    (0, import_react151.useEffect)(() => observer && observeScrollPosition(observer), [...deps || [], observer, observeScrollPosition]);
   }
   function useObserveTranscriptFocus(observer, deps) {
     if (typeof observer !== "function") {
@@ -143478,7 +143671,7 @@ and ensure you are accounting for this risk.
       );
     }
     const { observeTranscriptFocus } = useWebChatUIContext();
-    (0, import_react148.useEffect)(() => observer && observeTranscriptFocus(observer), [...deps || [], observer, observeTranscriptFocus]);
+    (0, import_react152.useEffect)(() => observer && observeTranscriptFocus(observer), [...deps || [], observer, observeTranscriptFocus]);
   }
   var {
     PropagationScope: ScrollRelativeTranscriptScope,
@@ -143487,31 +143680,31 @@ and ensure you are accounting for this risk.
   } = createPropagation();
   function useScrollDown() {
     const scrollRelative = useScrollRelativeTranscript();
-    return (0, import_react149.useCallback)((options) => scrollRelative({ direction: "down", ...options }), [scrollRelative]);
+    return (0, import_react153.useCallback)((options) => scrollRelative({ direction: "down", ...options }), [scrollRelative]);
   }
   function useScrollTo2() {
     const { scrollToCallbacksRef } = useWebChatUIContext();
-    return (0, import_react150.useCallback)(
+    return (0, import_react154.useCallback)(
       (...args) => scrollToCallbacksRef.current.forEach((callback) => callback(...args)),
       [scrollToCallbacksRef]
     );
   }
   function useScrollToEnd() {
     const { scrollToEndCallbacksRef } = useWebChatUIContext();
-    return (0, import_react151.useCallback)(
+    return (0, import_react155.useCallback)(
       () => scrollToEndCallbacksRef.current.forEach((callback) => callback({ behavior: "smooth" })),
       [scrollToEndCallbacksRef]
     );
   }
   function useScrollUp() {
     const scrollRelative = useScrollRelativeTranscript();
-    return (0, import_react152.useCallback)((options) => scrollRelative({ direction: "up", ...options }), [scrollRelative]);
+    return (0, import_react156.useCallback)((options) => scrollRelative({ direction: "up", ...options }), [scrollRelative]);
   }
   var { useSendFiles: useAPISendFiles } = hook_exports;
   function useSendFiles2() {
     const makeThumbnail2 = useMakeThumbnail();
     const sendFiles2 = useAPISendFiles();
-    return (0, import_react153.useCallback)(
+    return (0, import_react157.useCallback)(
       (files) => {
         (async function() {
           files && files.length && sendFiles2(
@@ -143544,7 +143737,7 @@ and ensure you are accounting for this risk.
   function useSendMessage2() {
     const makeThumbnail2 = useMakeThumbnail();
     const sendMessage2 = useAPISendMessage();
-    return (0, import_react154.useCallback)(
+    return (0, import_react158.useCallback)(
       async (text6, method, { channelData, attachments } = {}) => {
         sendMessage2(text6, method, {
           attachments: attachments ? await Promise.all(
@@ -143567,7 +143760,7 @@ and ensure you are accounting for this risk.
   var { useActiveTyping: useActiveTyping2, useRenderTypingIndicator: useRenderTypingIndicator2 } = hook_exports;
   function useTypingIndicatorVisible() {
     const [activeTyping] = useActiveTyping2();
-    return (0, import_react155.useMemo)(
+    return (0, import_react159.useMemo)(
       () => Object.freeze([
         !!Object.values(activeTyping).some(
           // Show typing indicator if anyone is typing and not livestreaming.
@@ -143582,7 +143775,7 @@ and ensure you are accounting for this risk.
     const [visible] = useTypingIndicatorVisible();
     const [typing] = useActiveTyping2(Infinity);
     const renderTypingIndicator = useRenderTypingIndicator2();
-    return /* @__PURE__ */ import_react155.default.createElement(import_react155.Fragment, null, renderTypingIndicator({ activeTyping, typing, visible }));
+    return /* @__PURE__ */ import_react159.default.createElement(import_react159.Fragment, null, renderTypingIndicator({ activeTyping, typing, visible }));
   };
   var BasicTypingIndicator_default = BasicTypingIndicator;
   var testIds = {
@@ -143601,16 +143794,16 @@ and ensure you are accounting for this risk.
     viewCodeButton: "view code button"
   };
   var testIds_default = testIds;
-  var classes22 = { "send-box-attachment-bar": "w7l006a_send-box-attachment-bar", "send-box-attachment-bar--as-list-item": "w7l006a_send-box-attachment-bar--as-list-item", "send-box-attachment-bar--as-thumbnail": "w7l006a_send-box-attachment-bar--as-thumbnail", "send-box-attachment-bar__box": "w7l006a_send-box-attachment-bar__box" };
+  var classes22 = { "send-box-attachment-bar--as-list-item": "w7l006a_send-box-attachment-bar--as-list-item", "send-box-attachment-bar--as-thumbnail": "w7l006a_send-box-attachment-bar--as-thumbnail", "send-box-attachment-bar": "w7l006a_send-box-attachment-bar", "send-box-attachment-bar__box": "w7l006a_send-box-attachment-bar__box" };
   var AttachmentBar_module_default = classes22;
-  var _send_box_attachment_bar0 = classes22["send-box-attachment-bar"];
   var _send_box_attachment_bar__as_list_item0 = classes22["send-box-attachment-bar--as-list-item"];
   var _send_box_attachment_bar__as_thumbnail0 = classes22["send-box-attachment-bar--as-thumbnail"];
+  var _send_box_attachment_bar0 = classes22["send-box-attachment-bar"];
   var _send_box_attachment_bar__box0 = classes22["send-box-attachment-bar__box"];
-  var SendBoxContext = (0, import_react160.createContext)(void 0);
+  var SendBoxContext = (0, import_react164.createContext)(void 0);
   var Context_default23 = SendBoxContext;
   function useSendBoxContext() {
-    const context22 = (0, import_react159.useContext)(Context_default23);
+    const context22 = (0, import_react163.useContext)(Context_default23);
     if (!context22) {
       throw new Error("botframework-webchat internal: This hook can only be used under <SendBoxComposer>.");
     }
@@ -143640,21 +143833,21 @@ and ensure you are accounting for this risk.
     const [{ dictationInterims: dictationInterimsStyleSet }] = useStyleSet();
     const localize2 = useLocalizer3();
     const rootClassName = useStyleToEmotionObject()(ROOT_STYLE) + "";
-    return dictateState2 === STARTING2 || dictateState2 === STOPPING2 ? /* @__PURE__ */ import_react161.default.createElement(
+    return dictateState2 === STARTING2 || dictateState2 === STOPPING2 ? /* @__PURE__ */ import_react165.default.createElement(
       "p",
       {
         className: (0, import_classnames8.default)(dictationInterimsStyleSet + "", rootClassName, className, "status"),
         "data-testid": testIds_default.sendBoxSpeechBox
       },
       dictateState2 === STARTING2 && localize2("SPEECH_INPUT_STARTING")
-    ) : dictateState2 === DICTATING2 && (dictateInterims2.length ? /* @__PURE__ */ import_react161.default.createElement(
+    ) : dictateState2 === DICTATING2 && (dictateInterims2.length ? /* @__PURE__ */ import_react165.default.createElement(
       "p",
       {
         className: (0, import_classnames8.default)(dictationInterimsStyleSet + "", rootClassName, className, "dictating"),
         "data-testid": testIds_default.sendBoxSpeechBox
       },
-      dictateInterims2.map((interim, index2) => /* @__PURE__ */ import_react161.default.createElement("span", { key: index2 }, interim, "\xA0"))
-    ) : /* @__PURE__ */ import_react161.default.createElement(
+      dictateInterims2.map((interim, index2) => /* @__PURE__ */ import_react165.default.createElement("span", { key: index2 }, interim, "\xA0"))
+    ) : /* @__PURE__ */ import_react165.default.createElement(
       "p",
       {
         className: (0, import_classnames8.default)(dictationInterimsStyleSet + "", rootClassName, className, "status"),
@@ -143663,7 +143856,7 @@ and ensure you are accounting for this risk.
       localize2("SPEECH_INPUT_LISTENING")
     ));
   }
-  var DictationInterims_default = (0, import_react161.memo)(DictationInterims);
+  var DictationInterims_default = (0, import_react165.memo)(DictationInterims);
   function supportPseudoClass(pseudoClass, nonce) {
     const styleElement = document.createElement("style");
     nonce && styleElement.setAttribute("nonce", nonce);
@@ -143682,8 +143875,8 @@ and ensure you are accounting for this risk.
     return Object.freeze([nonce]);
   }
   function useValueRef2(value) {
-    const ref = (0, import_react166.useRef)();
-    const readOnlyRef = (0, import_react166.useMemo)(
+    const ref = (0, import_react170.useRef)();
+    const readOnlyRef = (0, import_react170.useMemo)(
       () => Object.create(
         {},
         {
@@ -143738,10 +143931,10 @@ and ensure you are accounting for this risk.
   }
   function useObserveFocusVisibleForLegacyBrowsers(targetRef, onFocusVisibleRef) {
     const [{ Date: Date2 }] = usePonyfill3();
-    const blurSinceRef = (0, import_react165.useRef)(0);
-    const hadKeyboardEventRef = (0, import_react165.useRef)(true);
-    const hasFocusVisibleRef = (0, import_react165.useRef)(false);
-    const eventSubscription = (0, import_react165.useMemo)(
+    const blurSinceRef = (0, import_react169.useRef)(0);
+    const hadKeyboardEventRef = (0, import_react169.useRef)(true);
+    const hasFocusVisibleRef = (0, import_react169.useRef)(false);
+    const eventSubscription = (0, import_react169.useMemo)(
       () => createEventSubscription(
         document,
         [
@@ -143765,7 +143958,7 @@ and ensure you are accounting for this risk.
       ),
       [hadKeyboardEventRef]
     );
-    const setHasFocusVisible = (0, import_react165.useCallback)(
+    const setHasFocusVisible = (0, import_react169.useCallback)(
       (nextHasFocusVisible) => {
         if (hasFocusVisibleRef.current !== nextHasFocusVisible) {
           hasFocusVisibleRef.current = nextHasFocusVisible;
@@ -143774,7 +143967,7 @@ and ensure you are accounting for this risk.
       },
       [hasFocusVisibleRef, onFocusVisibleRef]
     );
-    const handleKeyDown = (0, import_react165.useCallback)(
+    const handleKeyDown = (0, import_react169.useCallback)(
       (event2) => {
         if (event2.altKey || event2.ctrlKey || event2.metaKey) {
           return;
@@ -143786,16 +143979,16 @@ and ensure you are accounting for this risk.
       },
       [hadKeyboardEventRef, setHasFocusVisible, targetRef]
     );
-    const handlePointerDown = (0, import_react165.useCallback)(() => {
+    const handlePointerDown = (0, import_react169.useCallback)(() => {
       hadKeyboardEventRef.current = false;
     }, [hadKeyboardEventRef]);
-    const handleFocus = (0, import_react165.useCallback)(
+    const handleFocus = (0, import_react169.useCallback)(
       ({ target }) => {
         target === targetRef.current && (hadKeyboardEventRef.current || focusTriggersKeyboardModality(target)) && setHasFocusVisible(true);
       },
       [hadKeyboardEventRef, setHasFocusVisible, targetRef]
     );
-    const handleBlur = (0, import_react165.useCallback)(
+    const handleBlur = (0, import_react169.useCallback)(
       (event2) => {
         if (event2.target === targetRef.current && hasFocusVisibleRef.current) {
           blurSinceRef.current = Date2.now();
@@ -143804,7 +143997,7 @@ and ensure you are accounting for this risk.
       },
       [blurSinceRef, Date2, hasFocusVisibleRef, setHasFocusVisible, targetRef]
     );
-    const handleVisibilityChange = (0, import_react165.useCallback)(() => {
+    const handleVisibilityChange = (0, import_react169.useCallback)(() => {
       if (document.visibilityState === "hidden") {
         if (Date2.now() - blurSinceRef.current < 100) {
           hadKeyboardEventRef.current = true;
@@ -143812,7 +144005,7 @@ and ensure you are accounting for this risk.
         eventSubscription.resume();
       }
     }, [blurSinceRef, Date2, eventSubscription, hadKeyboardEventRef]);
-    (0, import_react165.useEffect)(() => {
+    (0, import_react169.useEffect)(() => {
       document.addEventListener("keydown", handleKeyDown, true);
       document.addEventListener("mousedown", handlePointerDown, true);
       document.addEventListener("pointerdown", handlePointerDown, true);
@@ -143826,7 +144019,7 @@ and ensure you are accounting for this risk.
         document.removeEventListener("visibilitychange", handleVisibilityChange);
       };
     }, [handleKeyDown, handlePointerDown, handleVisibilityChange]);
-    (0, import_react165.useEffect)(() => {
+    (0, import_react169.useEffect)(() => {
       const { current: target } = targetRef;
       target.addEventListener("blur", handleBlur, true);
       target.addEventListener("focus", handleFocus, true);
@@ -143835,13 +144028,13 @@ and ensure you are accounting for this risk.
         target.removeEventListener("focus", handleFocus);
       };
     }, [handleBlur, handleFocus, targetRef]);
-    (0, import_react165.useEffect)(() => {
+    (0, import_react169.useEffect)(() => {
       eventSubscription.resume();
       return () => eventSubscription.pause();
     }, [eventSubscription]);
   }
   function useObserveFocusVisibleForModernBrowsers(targetRef, onFocusVisibleRef) {
-    const handleFocus = (0, import_react165.useCallback)(() => {
+    const handleFocus = (0, import_react169.useCallback)(() => {
       const { current: current2 } = targetRef;
       if (
         // "msMatchesSelector" is vendor-prefixed version of "matches".
@@ -143853,7 +144046,7 @@ and ensure you are accounting for this risk.
         onFocusVisibleRef == null ? void 0 : onFocusVisibleRef.current();
       }
     }, [onFocusVisibleRef, targetRef]);
-    (0, import_react165.useEffect)(() => {
+    (0, import_react169.useEffect)(() => {
       const { current: target } = targetRef;
       target.addEventListener("focus", handleFocus);
       return () => target.removeEventListener("focus", handleFocus);
@@ -143862,8 +144055,8 @@ and ensure you are accounting for this risk.
   function useObserveFocusVisible(targetRef, onFocusVisible) {
     const [nonce] = useNonce();
     const onFocusVisibleRef = useValueRef2(onFocusVisible);
-    const nonceRef = (0, import_react165.useRef)(nonce);
-    const supportFocusVisible = (0, import_react165.useMemo)(() => supportPseudoClass(":focus-visible", nonceRef.current), [nonceRef]);
+    const nonceRef = (0, import_react169.useRef)(nonce);
+    const supportFocusVisible = (0, import_react169.useMemo)(() => supportPseudoClass(":focus-visible", nonceRef.current), [nonceRef]);
     if (supportFocusVisible) {
       useObserveFocusVisibleForModernBrowsers(targetRef, onFocusVisibleRef);
     } else {
@@ -143871,11 +144064,11 @@ and ensure you are accounting for this risk.
     }
   }
   function useFocusVisible(targetRef) {
-    const [focusVisible, setFocusVisible] = (0, import_react164.useState)(false);
-    const handleBlur = (0, import_react164.useCallback)(() => setFocusVisible(false), [setFocusVisible]);
-    const handleFocusVisible = (0, import_react164.useCallback)(() => setFocusVisible(true), [setFocusVisible]);
+    const [focusVisible, setFocusVisible] = (0, import_react168.useState)(false);
+    const handleBlur = (0, import_react168.useCallback)(() => setFocusVisible(false), [setFocusVisible]);
+    const handleFocusVisible = (0, import_react168.useCallback)(() => setFocusVisible(true), [setFocusVisible]);
     useObserveFocusVisible(targetRef, handleFocusVisible);
-    (0, import_react164.useEffect)(() => {
+    (0, import_react168.useEffect)(() => {
       const { current: current2 } = targetRef;
       current2.addEventListener("blur", handleBlur);
       return () => current2.removeEventListener("blur", handleBlur);
@@ -143898,7 +144091,7 @@ and ensure you are accounting for this risk.
     }),
     readonly()
   );
-  var AccessibleButton = (0, import_react167.forwardRef)(
+  var AccessibleButton = (0, import_react171.forwardRef)(
     ({
       "aria-hidden": ariaHidden,
       "aria-keyshortcuts": ariaKeyShortcuts,
@@ -143909,7 +144102,7 @@ and ensure you are accounting for this risk.
       onClick: onClick2,
       tabIndex,
       title
-    }, ref) => /* @__PURE__ */ import_react167.default.createElement(
+    }, ref) => /* @__PURE__ */ import_react171.default.createElement(
       "button",
       {
         "aria-disabled": disabled || void 0,
@@ -143927,7 +144120,7 @@ and ensure you are accounting for this risk.
     )
   );
   AccessibleButton.displayName = "AccessibleButton";
-  var AccessibleButton_default = (0, import_react167.memo)(AccessibleButton);
+  var AccessibleButton_default = (0, import_react171.memo)(AccessibleButton);
   var { useStyleOptions: useStyleOptions32 } = hook_exports;
   var iconButtonPropsSchema = pipe(
     object({
@@ -143951,9 +144144,9 @@ and ensure you are accounting for this risk.
     } = validateProps2(iconButtonPropsSchema, props);
     const [{ sendBoxButton: sendBoxButtonStyleSet }] = useStyleSet();
     const [{ sendBoxButtonAlignment }] = useStyleOptions32();
-    const buttonRef = (0, import_react163.useRef)();
+    const buttonRef = (0, import_react167.useRef)();
     const [focusVisible] = useFocusVisible(buttonRef);
-    return /* @__PURE__ */ import_react163.default.createElement(
+    return /* @__PURE__ */ import_react167.default.createElement(
       AccessibleButton_default,
       {
         className: (0, import_classnames10.default)(
@@ -143972,12 +144165,12 @@ and ensure you are accounting for this risk.
         title: alt,
         type: "button"
       },
-      /* @__PURE__ */ import_react163.default.createElement("div", { className: "webchat__icon-button__shade" }),
+      /* @__PURE__ */ import_react167.default.createElement("div", { className: "webchat__icon-button__shade" }),
       children,
-      /* @__PURE__ */ import_react163.default.createElement("div", { className: "webchat__icon-button__keyboard-focus-indicator" })
+      /* @__PURE__ */ import_react167.default.createElement("div", { className: "webchat__icon-button__keyboard-focus-indicator" })
     );
   }
-  var IconButton_default = (0, import_react163.memo)(IconButton);
+  var IconButton_default = (0, import_react167.memo)(IconButton);
   var { DictateState } = Constants;
   var {
     useDictateInterims: useDictateInterims22,
@@ -144012,7 +144205,7 @@ and ensure you are accounting for this risk.
     const startDictate2 = useStartDictate2();
     const stopDictate2 = useStopDictate2();
     const { speechSynthesis: speechSynthesis2, SpeechSynthesisUtterance: SpeechSynthesisUtterance3 } = webSpeechPonyfill || {};
-    const [primeSpeechSynthesis] = (0, import_react162.useState)(
+    const [primeSpeechSynthesis] = (0, import_react166.useState)(
       () => memoizeOne((speechSynthesis22, SpeechSynthesisUtterance22) => {
         if (speechSynthesis22 && SpeechSynthesisUtterance22) {
           const utterance = new SpeechSynthesisUtterance22("");
@@ -144021,7 +144214,7 @@ and ensure you are accounting for this risk.
         }
       })
     );
-    return (0, import_react162.useCallback)(() => {
+    return (0, import_react166.useCallback)(() => {
       if (dictateState2 === DictateState.WILL_START) {
         setShouldSpeakIncomingActivity(false);
       } else if (dictateState2 === DictateState.DICTATING) {
@@ -144063,8 +144256,8 @@ and ensure you are accounting for this risk.
     const message = localize2(
       dictating ? "SPEECH_INPUT_MICROPHONE_BUTTON_OPEN_ALT" : "SPEECH_INPUT_MICROPHONE_BUTTON_CLOSE_ALT"
     );
-    useLiveRegion(() => message && /* @__PURE__ */ import_react162.default.createElement("div", { className: "webchat__microphone-button__status" }, message), [message]);
-    return /* @__PURE__ */ import_react162.default.createElement(
+    useLiveRegion(() => message && /* @__PURE__ */ import_react166.default.createElement("div", { className: "webchat__microphone-button__status" }, message), [message]);
+    return /* @__PURE__ */ import_react166.default.createElement(
       "div",
       {
         "aria-controls": "webchatSendBoxMicrophoneButton",
@@ -144076,7 +144269,7 @@ and ensure you are accounting for this risk.
           (className || "") + ""
         )
       },
-      /* @__PURE__ */ import_react162.default.createElement(
+      /* @__PURE__ */ import_react166.default.createElement(
         IconButton_default,
         {
           alt: localize2("TEXT_INPUT_SPEAK_BUTTON_ALT"),
@@ -144085,7 +144278,7 @@ and ensure you are accounting for this risk.
           disabled,
           onClick: click
         },
-        /* @__PURE__ */ import_react162.default.createElement(
+        /* @__PURE__ */ import_react166.default.createElement(
           ComponentIcon_default,
           {
             appearance: "text",
@@ -144094,11 +144287,11 @@ and ensure you are accounting for this risk.
           }
         )
       ),
-      /* @__PURE__ */ import_react162.default.createElement("div", { className: "sr-only", id: "webchatSendBoxMicrophoneButton" }, message)
+      /* @__PURE__ */ import_react166.default.createElement("div", { className: "sr-only", id: "webchatSendBoxMicrophoneButton" }, message)
     );
   };
   MicrophoneButton.displayName = "MicrophoneButton";
-  var MicrophoneButton_default = (0, import_react162.memo)(MicrophoneButton);
+  var MicrophoneButton_default = (0, import_react166.memo)(MicrophoneButton);
   function useSubmit() {
     return useSendBoxContext().submit;
   }
@@ -144115,8 +144308,8 @@ and ensure you are accounting for this risk.
     const [uiState] = useUIState22();
     const localize2 = useLocalizer5();
     const submit = useSubmit();
-    const handleClick = (0, import_react168.useCallback)(() => submit({ setFocus: "sendBoxWithoutKeyboard" }), [submit]);
-    return /* @__PURE__ */ import_react168.default.createElement(
+    const handleClick = (0, import_react172.useCallback)(() => submit({ setFocus: "sendBoxWithoutKeyboard" }), [submit]);
+    return /* @__PURE__ */ import_react172.default.createElement(
       IconButton_default,
       {
         alt: localize2("TEXT_INPUT_SEND_BUTTON_ALT"),
@@ -144124,7 +144317,7 @@ and ensure you are accounting for this risk.
         disabled: uiState === "disabled",
         onClick: handleClick
       },
-      /* @__PURE__ */ import_react168.default.createElement(
+      /* @__PURE__ */ import_react172.default.createElement(
         ComponentIcon_default,
         {
           appearance: "text",
@@ -144149,9 +144342,9 @@ and ensure you are accounting for this risk.
     return JSON.stringify(value);
   }
   function useFocusWithin(targetRef) {
-    const [focusWithin, setFocusWithin] = (0, import_react170.useState)(false);
-    const handleBlur = (0, import_react170.useCallback)(() => setFocusWithin(false), [setFocusWithin]);
-    const handleFocus = (0, import_react170.useCallback)(
+    const [focusWithin, setFocusWithin] = (0, import_react174.useState)(false);
+    const handleBlur = (0, import_react174.useCallback)(() => setFocusWithin(false), [setFocusWithin]);
+    const handleFocus = (0, import_react174.useCallback)(
       ({ target }) => {
         var _a29;
         const targetElement = target;
@@ -144159,7 +144352,7 @@ and ensure you are accounting for this risk.
       },
       [setFocusWithin, targetRef]
     );
-    (0, import_react170.useEffect)(() => {
+    (0, import_react174.useEffect)(() => {
       document.addEventListener("blur", handleBlur);
       document.addEventListener("focus", handleFocus);
       return () => {
@@ -144169,7 +144362,7 @@ and ensure you are accounting for this risk.
     }, [handleBlur, handleFocus]);
     return Object.freeze([focusWithin]);
   }
-  var RovingTabIndexContext = (0, import_react172.createContext)({
+  var RovingTabIndexContext = (0, import_react176.createContext)({
     itemEffector: () => {
       throw new Error("botframework-webchat internal: Not implemented.");
     }
@@ -144185,15 +144378,15 @@ and ensure you are accounting for this risk.
   );
   function RovingTabIndexComposer(props) {
     const { children, onEscapeKey, orientation } = validateProps2(rovingTabIndexContextProps, props);
-    const activeItemIndexRef = (0, import_react171.useRef)(0);
-    const itemRefsRef = (0, import_react171.useRef)([]);
-    const refreshTabIndices = (0, import_react171.useCallback)(() => {
+    const activeItemIndexRef = (0, import_react175.useRef)(0);
+    const itemRefsRef = (0, import_react175.useRef)([]);
+    const refreshTabIndices = (0, import_react175.useCallback)(() => {
       const { current: activeItemIndex } = activeItemIndexRef;
       itemRefsRef.current.forEach(({ current: current2 }, index2) => {
         current2 == null ? void 0 : current2.setAttribute("tabindex", activeItemIndex === index2 ? "0" : "-1");
       });
     }, [activeItemIndexRef]);
-    const setActiveItemIndex = (0, import_react171.useCallback)(
+    const setActiveItemIndex = (0, import_react175.useCallback)(
       (valueOrFunction) => {
         var _a29, _b4, _c3;
         let nextActiveItemIndex;
@@ -144213,7 +144406,7 @@ and ensure you are accounting for this risk.
       },
       [activeItemIndexRef, itemRefsRef, refreshTabIndices]
     );
-    const handleFocus = (0, import_react171.useCallback)(
+    const handleFocus = (0, import_react175.useCallback)(
       (event2) => {
         const { target } = event2;
         const index2 = itemRefsRef.current.findIndex(({ current: current2 }) => current2 === target);
@@ -144221,7 +144414,7 @@ and ensure you are accounting for this risk.
       },
       [itemRefsRef, setActiveItemIndex]
     );
-    const handleKeyDown = (0, import_react171.useCallback)(
+    const handleKeyDown = (0, import_react175.useCallback)(
       (event2) => {
         const { key: key2 } = event2;
         const vertical = orientation === "vertical";
@@ -144280,7 +144473,7 @@ and ensure you are accounting for this risk.
       },
       [setActiveItemIndex, onEscapeKey, orientation]
     );
-    const itemEffector = (0, import_react171.useCallback)(
+    const itemEffector = (0, import_react175.useCallback)(
       (ref, index2) => {
         const { current: current2 } = ref;
         itemRefsRef.current[+index2] = ref;
@@ -144295,18 +144488,18 @@ and ensure you are accounting for this risk.
       },
       [activeItemIndexRef, handleFocus, handleKeyDown]
     );
-    const contextValue = (0, import_react171.useMemo)(
+    const contextValue = (0, import_react175.useMemo)(
       () => ({
         itemEffector
       }),
       [itemEffector]
     );
-    (0, import_react171.useEffect)(() => {
+    (0, import_react175.useEffect)(() => {
       setActiveItemIndex((value) => value);
     });
-    return /* @__PURE__ */ import_react171.default.createElement(Context_default33.Provider, { value: contextValue }, children);
+    return /* @__PURE__ */ import_react175.default.createElement(Context_default33.Provider, { value: contextValue }, children);
   }
-  var RovingTabIndexComposer_default = (0, import_react171.memo)(RovingTabIndexComposer);
+  var RovingTabIndexComposer_default = (0, import_react175.memo)(RovingTabIndexComposer);
   var ANDROID_PATTERN = /^(android|linux armv7l)/giu;
   var APPLE_PATTERN = /^(mac|ipad|iphone|ipod)/giu;
   var LINUX_PATTERN = /^linux/giu;
@@ -144315,7 +144508,7 @@ and ensure you are accounting for this risk.
     const {
       navigator: { platform }
     } = window;
-    return (0, import_react175.useMemo)(() => {
+    return (0, import_react179.useMemo)(() => {
       const android2 = ANDROID_PATTERN.test(platform);
       const apple = APPLE_PATTERN.test(platform);
       const windows = WINDOWS_PATTERN.test(platform);
@@ -144334,7 +144527,7 @@ and ensure you are accounting for this risk.
   function useLocalizeAccessKey(type2) {
     const [{ apple }] = useNavigatorPlatform();
     const localize2 = useLocalizer6();
-    return (0, import_react174.useCallback)(
+    return (0, import_react178.useCallback)(
       (accessKey) => {
         if (!accessKey || typeof accessKey !== "string" || !accessKey.length) {
           throw new Error('useLocalizeAccessKey: "accessKey" must be a non-empty string');
@@ -144352,22 +144545,22 @@ and ensure you are accounting for this risk.
     return [suggestedActionsAccessKey];
   }
   function useRovingTabIndexContext(throwOnUndefined = true) {
-    const contextValue = (0, import_react177.useContext)(Context_default33);
+    const contextValue = (0, import_react181.useContext)(Context_default33);
     if (throwOnUndefined && !contextValue) {
       throw new Error("botframework-webchat internal: This hook can only be used under <RovingTabIndexComposer>.");
     }
     return contextValue;
   }
   function useItemRef(itemIndex) {
-    const ref = (0, import_react176.useRef)();
+    const ref = (0, import_react180.useRef)();
     const { itemEffector } = useRovingTabIndexContext();
-    (0, import_react176.useEffect)(() => itemEffector(ref, itemIndex));
+    (0, import_react180.useEffect)(() => itemEffector(ref, itemIndex));
     return ref;
   }
-  var AccessKeySinkContext = (0, import_react180.createContext)();
+  var AccessKeySinkContext = (0, import_react184.createContext)();
   var Context_default42 = AccessKeySinkContext;
   function useAccessKeySinkContext() {
-    return (0, import_react179.useContext)(Context_default42);
+    return (0, import_react183.useContext)(Context_default42);
   }
   function removeInline(array6, item) {
     const index2 = array6.indexOf(item);
@@ -144380,7 +144573,7 @@ and ensure you are accounting for this risk.
       throw new Error('useFocusAccessKeyEffect: "ref" must be defined and has "current" property.');
     }
     const context22 = useAccessKeySinkContext();
-    (0, import_react178.useEffect)(() => {
+    (0, import_react182.useEffect)(() => {
       if (key2) {
         const entry = { keys: key2.split(/\s+/gu), ref };
         context22.focii.push(entry);
@@ -144450,7 +144643,7 @@ and ensure you are accounting for this risk.
     const rootClassName = useStyleToEmotionObject()(ROOT_STYLE3) + "";
     const scrollToEnd2 = useScrollToEnd();
     const [focusVisible] = useFocusVisible(focusRef);
-    const handleClick = (0, import_react173.useCallback)(
+    const handleClick = (0, import_react177.useCallback)(
       ({ target }) => {
         (async function() {
           await focus("sendBoxWithoutKeyboard");
@@ -144462,7 +144655,7 @@ and ensure you are accounting for this risk.
       [displayText, focus, performCardAction, scrollToEnd2, setSuggestedActions2, text6, type2, value]
     );
     useFocusAccessKeyEffect(accessKey, focusRef);
-    return /* @__PURE__ */ import_react173.default.createElement(
+    return /* @__PURE__ */ import_react177.default.createElement(
       AccessibleButton_default,
       {
         ...accessKey ? { "aria-keyshortcuts": localizeAccessKeyAsAriaKeyShortcuts(accessKey) } : {},
@@ -144483,7 +144676,7 @@ and ensure you are accounting for this risk.
         ref: focusRef,
         type: "button"
       },
-      image && /* @__PURE__ */ import_react173.default.createElement(
+      image && /* @__PURE__ */ import_react177.default.createElement(
         "img",
         {
           alt: imageAlt,
@@ -144494,11 +144687,11 @@ and ensure you are accounting for this risk.
           src: image
         }
       ),
-      /* @__PURE__ */ import_react173.default.createElement("span", { className: (0, import_classnames13.default)("webchat__suggested-action__text", textClassName) }, buttonText),
-      /* @__PURE__ */ import_react173.default.createElement("div", { className: "webchat__suggested-action__keyboard-focus-indicator" })
+      /* @__PURE__ */ import_react177.default.createElement("span", { className: (0, import_classnames13.default)("webchat__suggested-action__text", textClassName) }, buttonText),
+      /* @__PURE__ */ import_react177.default.createElement("div", { className: "webchat__suggested-action__keyboard-focus-indicator" })
     );
   }
-  var SuggestedAction_default = (0, import_react173.memo)(SuggestedAction);
+  var SuggestedAction_default = (0, import_react177.memo)(SuggestedAction);
   var { useDirection: useDirection3, useLocalizer: useLocalizer7, useStyleOptions: useStyleOptions5, useSuggestedActionsHooks: useSuggestedActionsHooks22 } = hook_exports;
   var ROOT_STYLE4 = {
     "&.webchat__suggested-actions": {
@@ -144524,9 +144717,9 @@ and ensure you are accounting for this risk.
     const [direction] = useDirection3();
     const [nonce] = useNonce();
     const localize2 = useLocalizer7();
-    const ref = (0, import_react169.useRef)();
+    const ref = (0, import_react173.useRef)();
     const rootClassName = useStyleToEmotionObject()(ROOT_STYLE4) + "";
-    const filmStyleSet = (0, import_react169.useMemo)(
+    const filmStyleSet = (0, import_react173.useMemo)(
       () => createBasicStyleSet({
         autoHide: false,
         cursor: suggestedActionsCarouselFlipperCursor,
@@ -144547,7 +144740,7 @@ and ensure you are accounting for this risk.
     return (
       // TODO: The content of suggested actions should be the labelled by the activity.
       //       That means, when the user focus into the suggested actions, it should read similar to "Bot said, what's your preference of today? Suggested actions has items: apple button, orange button, banana button."
-      /* @__PURE__ */ import_react169.default.createElement(
+      /* @__PURE__ */ import_react173.default.createElement(
         "div",
         {
           "aria-label": label,
@@ -144566,7 +144759,7 @@ and ensure you are accounting for this risk.
           ref,
           role: "toolbar"
         },
-        !!children && !!import_react169.default.Children.count(children) && /* @__PURE__ */ import_react169.default.createElement(
+        !!children && !!import_react173.default.Children.count(children) && /* @__PURE__ */ import_react173.default.createElement(
           ReactFilm_default,
           {
             autoCenter: false,
@@ -144582,7 +144775,7 @@ and ensure you are accounting for this risk.
           },
           children
         ),
-        /* @__PURE__ */ import_react169.default.createElement("div", { className: "webchat__suggested-actions__focus-indicator" })
+        /* @__PURE__ */ import_react173.default.createElement("div", { className: "webchat__suggested-actions__focus-indicator" })
       )
     );
   };
@@ -144598,7 +144791,7 @@ and ensure you are accounting for this risk.
   var SuggestedActionFlowContainer = ({ children, className, label }) => {
     const [{ suggestedActions: suggestedActionsStyleSet }] = useStyleSet();
     const rootClassName = useStyleToEmotionObject()(ROOT_STYLE4) + "";
-    return /* @__PURE__ */ import_react169.default.createElement(
+    return /* @__PURE__ */ import_react173.default.createElement(
       "div",
       {
         "aria-label": label,
@@ -144612,8 +144805,8 @@ and ensure you are accounting for this risk.
         ),
         role: "toolbar"
       },
-      !!children && !!import_react169.default.Children.count(children) && /* @__PURE__ */ import_react169.default.createElement("div", { className: "webchat__suggested-actions__flow-box" }, import_react169.default.Children.map(children, (child) => /* @__PURE__ */ import_react169.default.createElement("div", { className: "webchat__suggested-actions__flow-item-box" }, child))),
-      /* @__PURE__ */ import_react169.default.createElement("div", { className: "webchat__suggested-actions__focus-indicator" })
+      !!children && !!import_react173.default.Children.count(children) && /* @__PURE__ */ import_react173.default.createElement("div", { className: "webchat__suggested-actions__flow-box" }, import_react173.default.Children.map(children, (child) => /* @__PURE__ */ import_react173.default.createElement("div", { className: "webchat__suggested-actions__flow-item-box" }, child))),
+      /* @__PURE__ */ import_react173.default.createElement("div", { className: "webchat__suggested-actions__focus-indicator" })
     );
   };
   SuggestedActionFlowContainer.defaultProps = {
@@ -144628,7 +144821,7 @@ and ensure you are accounting for this risk.
   var SuggestedActionStackedContainer = ({ children, className, label }) => {
     const [{ suggestedActions: suggestedActionsStyleSet }] = useStyleSet();
     const rootClassName = useStyleToEmotionObject()(ROOT_STYLE4) + "";
-    return /* @__PURE__ */ import_react169.default.createElement(
+    return /* @__PURE__ */ import_react173.default.createElement(
       "div",
       {
         "aria-label": label,
@@ -144642,8 +144835,8 @@ and ensure you are accounting for this risk.
         ),
         role: "toolbar"
       },
-      !!children && !!import_react169.default.Children.count(children) && /* @__PURE__ */ import_react169.default.createElement("div", { className: "webchat__suggested-actions__stack" }, children),
-      /* @__PURE__ */ import_react169.default.createElement("div", { className: "webchat__suggested-actions__focus-indicator" })
+      !!children && !!import_react173.default.Children.count(children) && /* @__PURE__ */ import_react173.default.createElement("div", { className: "webchat__suggested-actions__stack" }, children),
+      /* @__PURE__ */ import_react173.default.createElement("div", { className: "webchat__suggested-actions__focus-indicator" })
     );
   };
   SuggestedActionStackedContainer.defaultProps = {
@@ -144660,13 +144853,13 @@ and ensure you are accounting for this risk.
     const [{ suggestedActionLayout, suggestedActionsStackedLayoutButtonTextWrap }] = useStyleOptions5();
     const localize2 = useLocalizer7();
     const focus = useFocus();
-    const handleEscapeKey = (0, import_react169.useCallback)(() => {
+    const handleEscapeKey = (0, import_react173.useCallback)(() => {
       focus("sendBox");
     }, [focus]);
     const label = localize2("SUGGESTED_ACTIONS_LABEL_ALT");
     const children = suggestedActions2.map((cardAction, index2) => {
       const { displayText, image, imageAltText, text: text6, type: type2, value } = cardAction;
-      return /* @__PURE__ */ import_react169.default.createElement("div", { className: "webchat__suggested-actions__item-box", key: index2 }, /* @__PURE__ */ import_react169.default.createElement(
+      return /* @__PURE__ */ import_react173.default.createElement("div", { className: "webchat__suggested-actions__item-box", key: index2 }, /* @__PURE__ */ import_react173.default.createElement(
         SuggestedAction_default,
         {
           buttonText: computeSuggestedActionText(cardAction),
@@ -144686,22 +144879,22 @@ and ensure you are accounting for this risk.
       return null;
     }
     if (suggestedActionLayout === "flow") {
-      return /* @__PURE__ */ import_react169.default.createElement(RovingTabIndexComposer_default, { onEscapeKey: handleEscapeKey }, /* @__PURE__ */ import_react169.default.createElement(SuggestedActionFlowContainer, { className, label }, children));
+      return /* @__PURE__ */ import_react173.default.createElement(RovingTabIndexComposer_default, { onEscapeKey: handleEscapeKey }, /* @__PURE__ */ import_react173.default.createElement(SuggestedActionFlowContainer, { className, label }, children));
     } else if (suggestedActionLayout === "stacked") {
-      return /* @__PURE__ */ import_react169.default.createElement(RovingTabIndexComposer_default, { onEscapeKey: handleEscapeKey, orientation: "vertical" }, /* @__PURE__ */ import_react169.default.createElement(SuggestedActionStackedContainer, { className, label }, children));
+      return /* @__PURE__ */ import_react173.default.createElement(RovingTabIndexComposer_default, { onEscapeKey: handleEscapeKey, orientation: "vertical" }, /* @__PURE__ */ import_react173.default.createElement(SuggestedActionStackedContainer, { className, label }, children));
     }
-    return /* @__PURE__ */ import_react169.default.createElement(RovingTabIndexComposer_default, { onEscapeKey: handleEscapeKey }, /* @__PURE__ */ import_react169.default.createElement(SuggestedActionCarouselContainer, { className, label }, children));
+    return /* @__PURE__ */ import_react173.default.createElement(RovingTabIndexComposer_default, { onEscapeKey: handleEscapeKey }, /* @__PURE__ */ import_react173.default.createElement(SuggestedActionCarouselContainer, { className, label }, children));
   };
   var SuggestedActions_default = SuggestedActions;
   function useEnterKeyHint(elementRef, enterKeyHint) {
-    (0, import_react183.useEffect)(() => {
+    (0, import_react187.useEffect)(() => {
       const { current: current2 } = elementRef;
       if (current2) {
         current2.enterKeyHint = enterKeyHint;
       }
     }, [enterKeyHint, elementRef]);
   }
-  var AccessibleInputText = (0, import_react182.forwardRef)(
+  var AccessibleInputText = (0, import_react186.forwardRef)(
     ({
       "aria-errormessage": ariaErrorMessage,
       className,
@@ -144721,10 +144914,10 @@ and ensure you are accounting for this risk.
       value,
       ...props
     }, forwardedRef) => {
-      const targetRef = (0, import_react182.useRef)();
+      const targetRef = (0, import_react186.useRef)();
       const ref = forwardedRef || targetRef;
       useEnterKeyHint(ref, enterKeyHint);
-      return /* @__PURE__ */ import_react182.default.createElement(
+      return /* @__PURE__ */ import_react186.default.createElement(
         "input",
         {
           "aria-disabled": disabled || void 0,
@@ -144810,8 +145003,8 @@ and ensure you are accounting for this risk.
     }
   }, _group = new WeakMap(), _selectionEnd = new WeakMap(), _selectionStart = new WeakMap(), _value = new WeakMap(), _a9);
   function useUndoStack(elementRef) {
-    const undoStackRef = (0, import_react185.useRef)([]);
-    const push2 = (0, import_react185.useCallback)(
+    const undoStackRef = (0, import_react189.useRef)([]);
+    const push2 = (0, import_react189.useCallback)(
       (group) => {
         const { current: element3 } = elementRef;
         if (!element3) {
@@ -144827,7 +145020,7 @@ and ensure you are accounting for this risk.
       },
       [elementRef, undoStackRef]
     );
-    const undo = (0, import_react185.useCallback)(() => {
+    const undo = (0, import_react189.useCallback)(() => {
       const { current: element3 } = elementRef;
       if (!element3) {
         return;
@@ -144860,11 +145053,11 @@ and ensure you are accounting for this risk.
     onChange
   }) {
     const { value } = componentProps;
-    const inputElementRef = (0, import_react184.useRef)(null);
+    const inputElementRef = (0, import_react188.useRef)(null);
     const onChangeRef = useRefFrom(onChange);
     const { push: push2, undo } = useUndoStack(inputElementRef);
     const valueRef = useRefFrom(value);
-    const handleChange = (0, import_react184.useCallback)(
+    const handleChange = (0, import_react188.useCallback)(
       ({ currentTarget }) => {
         var _a29;
         const { selectionEnd, selectionStart, value: value2 } = currentTarget;
@@ -144887,8 +145080,8 @@ and ensure you are accounting for this risk.
       },
       [push2, emojiMap, onChangeRef, valueRef]
     );
-    const handleFocus = (0, import_react184.useCallback)(() => push2(), [push2]);
-    const handleKeyDown = (0, import_react184.useCallback)(
+    const handleFocus = (0, import_react188.useCallback)(() => push2(), [push2]);
+    const handleKeyDown = (0, import_react188.useCallback)(
       // eslint-disable-next-line complexity
       (event2) => {
         var _a29;
@@ -144910,11 +145103,11 @@ and ensure you are accounting for this risk.
       },
       [push2, onChangeRef, undo]
     );
-    (0, import_react184.useMemo)(
+    (0, import_react188.useMemo)(
       () => (!inputElementRef.current || inputElementRef.current.value !== value) && push2(),
       [push2, inputElementRef, value]
     );
-    return import_react184.default.createElement(componentType, {
+    return import_react188.default.createElement(componentType, {
       ...componentProps,
       onChange: handleChange,
       onFocus: handleFocus,
@@ -144923,7 +145116,7 @@ and ensure you are accounting for this risk.
     });
   }
   function withEmoji(componentType) {
-    const WithEmoji = (0, import_react184.forwardRef)(({ emojiMap, onChange, ...props }, ref) => /* @__PURE__ */ import_react184.default.createElement(
+    const WithEmoji = (0, import_react188.forwardRef)(({ emojiMap, onChange, ...props }, ref) => /* @__PURE__ */ import_react188.default.createElement(
       WithEmojiController,
       {
         componentProps: props,
@@ -144936,7 +145129,7 @@ and ensure you are accounting for this risk.
     WithEmoji.displayName = `WithEmoji<${componentType.displayName}>`;
     return WithEmoji;
   }
-  var AccessibleTextArea = (0, import_react187.forwardRef)(
+  var AccessibleTextArea = (0, import_react191.forwardRef)(
     ({
       className,
       disabled,
@@ -144953,9 +145146,9 @@ and ensure you are accounting for this risk.
       tabIndex,
       ...props
     }, forwardedRef) => {
-      const targetRef = (0, import_react187.useRef)();
+      const targetRef = (0, import_react191.useRef)();
       const ref = forwardedRef || targetRef;
-      return /* @__PURE__ */ import_react187.default.createElement(
+      return /* @__PURE__ */ import_react191.default.createElement(
         "textarea",
         {
           "aria-disabled": disabled || void 0,
@@ -145011,7 +145204,7 @@ and ensure you are accounting for this risk.
     value: import_prop_types13.default.string
   };
   var AccessibleTextArea_default = AccessibleTextArea;
-  var AutoResizeTextArea = (0, import_react186.forwardRef)(
+  var AutoResizeTextArea = (0, import_react190.forwardRef)(
     ({
       "aria-errormessage": ariaErrorMessage,
       "aria-label": ariaLabel,
@@ -145035,7 +145228,7 @@ and ensure you are accounting for this risk.
     }, ref) => {
       const [{ autoResizeTextArea: autoResizeTextAreaStyleSet }] = useStyleSet();
       useEnterKeyHint(ref, enterKeyHint);
-      return /* @__PURE__ */ import_react186.default.createElement("div", { className: (0, import_classnames15.default)("webchat__auto-resize-textarea", autoResizeTextAreaStyleSet + "", className) }, /* @__PURE__ */ import_react186.default.createElement("div", { "aria-hidden": true, className: "webchat__auto-resize-textarea__doppelganger" }, value, "\xA0"), /* @__PURE__ */ import_react186.default.createElement(
+      return /* @__PURE__ */ import_react190.default.createElement("div", { className: (0, import_classnames15.default)("webchat__auto-resize-textarea", autoResizeTextAreaStyleSet + "", className) }, /* @__PURE__ */ import_react190.default.createElement("div", { "aria-hidden": true, className: "webchat__auto-resize-textarea__doppelganger" }, value, "\xA0"), /* @__PURE__ */ import_react190.default.createElement(
         AccessibleTextArea_default,
         {
           "aria-errormessage": ariaErrorMessage,
@@ -145072,7 +145265,7 @@ and ensure you are accounting for this risk.
   };
   function useTextBoxSubmit() {
     const submit = useSubmit();
-    return (0, import_react181.useCallback)(
+    return (0, import_react185.useCallback)(
       (setFocus) => submit({ setFocus: setFocus || void 0 }),
       [submit]
     );
@@ -145080,7 +145273,7 @@ and ensure you are accounting for this risk.
   function useTextBoxValue() {
     const [value, setValue] = useSendBoxValue22();
     const stopDictate2 = useStopDictate22();
-    const setter = (0, import_react181.useCallback)(
+    const setter = (0, import_react185.useCallback)(
       (nextValue) => {
         if (typeof nextValue !== "string") {
           throw new Error("botframework-webchat: First argument passed to useTextBoxValue() must be a string.");
@@ -145101,7 +145294,7 @@ and ensure you are accounting for this risk.
     const [{ emojiSet, sendBoxTextWrap }] = useStyleOptions6();
     const [{ setTimeout: setTimeout2 }] = usePonyfill22();
     const [uiState] = useUIState4();
-    const inputElementRef = (0, import_react181.useRef)();
+    const inputElementRef = (0, import_react185.useRef)();
     const localize2 = useLocalizer8();
     const rootClassName = useStyleToEmotionObject()(ROOT_STYLE5) + "";
     const scrollDown = useScrollDown();
@@ -145110,7 +145303,7 @@ and ensure you are accounting for this risk.
     const disabled = uiState === "disabled";
     const sendBoxString = localize2("TEXT_INPUT_ALT");
     const typeYourMessageString = localize2("TEXT_INPUT_PLACEHOLDER");
-    const handleKeyPress = (0, import_react181.useCallback)(
+    const handleKeyPress = (0, import_react185.useCallback)(
       (event2) => {
         const { key: key2, shiftKey } = event2;
         if (key2 === "Enter" && !shiftKey) {
@@ -145120,14 +145313,14 @@ and ensure you are accounting for this risk.
       },
       [submitTextBox]
     );
-    const handleSubmit = (0, import_react181.useCallback)(
+    const handleSubmit = (0, import_react185.useCallback)(
       (event2) => {
         event2.preventDefault();
         submitTextBox();
       },
       [submitTextBox]
     );
-    const handleKeyDownCapture = (0, import_react181.useCallback)(
+    const handleKeyDownCapture = (0, import_react185.useCallback)(
       (event2) => {
         const { ctrlKey, metaKey, shiftKey } = event2;
         if (ctrlKey || metaKey || shiftKey) {
@@ -145160,7 +145353,7 @@ and ensure you are accounting for this risk.
       },
       [scrollDown, scrollUp]
     );
-    const focusCallback = (0, import_react181.useCallback)(
+    const focusCallback = (0, import_react185.useCallback)(
       (options) => {
         const { noKeyboard } = options;
         const { current: current2 } = inputElementRef;
@@ -145185,8 +145378,8 @@ and ensure you are accounting for this risk.
       [inputElementRef, setTimeout2]
     );
     useRegisterFocusSendBox(focusCallback);
-    const emojiMap = (0, import_react181.useMemo)(() => new Map(Object.entries(emojiSet)), [emojiSet]);
-    return /* @__PURE__ */ import_react181.default.createElement(
+    const emojiMap = (0, import_react185.useMemo)(() => new Map(Object.entries(emojiSet)), [emojiSet]);
+    return /* @__PURE__ */ import_react185.default.createElement(
       "form",
       {
         "aria-disabled": disabled,
@@ -145198,7 +145391,7 @@ and ensure you are accounting for this risk.
         ),
         onSubmit: disabled ? PREVENT_DEFAULT_HANDLER2 : handleSubmit
       },
-      !sendBoxTextWrap ? /* @__PURE__ */ import_react181.default.createElement(
+      !sendBoxTextWrap ? /* @__PURE__ */ import_react185.default.createElement(
         SingleLineTextBox,
         {
           "aria-label": sendBoxString,
@@ -145218,7 +145411,7 @@ and ensure you are accounting for this risk.
           type: "text",
           value
         }
-      ) : /* @__PURE__ */ import_react181.default.createElement(
+      ) : /* @__PURE__ */ import_react185.default.createElement(
         MultiLineTextBox,
         {
           "aria-label": sendBoxString,
@@ -145240,7 +145433,7 @@ and ensure you are accounting for this risk.
           value
         }
       ),
-      disabled && /* @__PURE__ */ import_react181.default.createElement("div", { className: "webchat__send-box-text-box__glass" })
+      disabled && /* @__PURE__ */ import_react185.default.createElement("div", { className: "webchat__send-box-text-box__glass" })
     );
   };
   var TextBox_default = TextBox;
@@ -145282,7 +145475,7 @@ and ensure you are accounting for this risk.
       "webchat__send-box__button--align-stretch": sendBoxButtonAlignment !== "bottom" && sendBoxButtonAlignment !== "top",
       "webchat__send-box__button--align-top": sendBoxButtonAlignment === "top"
     });
-    return /* @__PURE__ */ import_react158.default.createElement(
+    return /* @__PURE__ */ import_react162.default.createElement(
       "div",
       {
         "aria-describedby": errorMessageId,
@@ -145292,19 +145485,19 @@ and ensure you are accounting for this risk.
         dir: direction,
         role: "form"
       },
-      /* @__PURE__ */ import_react158.default.createElement(SuggestedActions_default, null),
-      /* @__PURE__ */ import_react158.default.createElement("div", { className: "webchat__send-box__main" }, /* @__PURE__ */ import_react158.default.createElement(AttachmentBar_default, { className: "webchat__send-box__attachment-bar" }), /* @__PURE__ */ import_react158.default.createElement(SendBoxToolbarMiddlewareProxy, { className: buttonClassName, request: void 0 }), /* @__PURE__ */ import_react158.default.createElement("div", { className: "webchat__send-box__editable" }, speechInterimsVisible ? /* @__PURE__ */ import_react158.default.createElement(DictationInterims_default, { className: "webchat__send-box__dictation-interims" }) : /* @__PURE__ */ import_react158.default.createElement(TextBox_default, { className: "webchat__send-box__text-box" })), supportSpeechRecognition ? /* @__PURE__ */ import_react158.default.createElement(MicrophoneButton_default, { className: (0, import_classnames7.default)(buttonClassName, "webchat__send-box__microphone-button") }) : /* @__PURE__ */ import_react158.default.createElement(SendButton_default, { className: buttonClassName }))
+      /* @__PURE__ */ import_react162.default.createElement(SuggestedActions_default, null),
+      /* @__PURE__ */ import_react162.default.createElement("div", { className: "webchat__send-box__main" }, /* @__PURE__ */ import_react162.default.createElement(AttachmentBar_default, { className: "webchat__send-box__attachment-bar" }), /* @__PURE__ */ import_react162.default.createElement(SendBoxToolbarMiddlewareProxy, { className: buttonClassName, request: void 0 }), /* @__PURE__ */ import_react162.default.createElement("div", { className: "webchat__send-box__editable" }, speechInterimsVisible ? /* @__PURE__ */ import_react162.default.createElement(DictationInterims_default, { className: "webchat__send-box__dictation-interims" }) : /* @__PURE__ */ import_react162.default.createElement(TextBox_default, { className: "webchat__send-box__text-box" })), supportSpeechRecognition ? /* @__PURE__ */ import_react162.default.createElement(MicrophoneButton_default, { className: (0, import_classnames7.default)(buttonClassName, "webchat__send-box__microphone-button") }) : /* @__PURE__ */ import_react162.default.createElement(SendButton_default, { className: buttonClassName }))
     );
   }
-  var BasicSendBox_default = (0, import_react158.memo)(BasicSendBox);
-  var classes3 = { "send-box-attachment-bar-item__delete-button": "wI2ZoOW_send-box-attachment-bar-item__delete-button", "send-box-attachment-bar-item": "wI2ZoOW_send-box-attachment-bar-item", "send-box-attachment-bar-item--as-list-item": "wI2ZoOW_send-box-attachment-bar-item--as-list-item", "send-box-attachment-bar-item__dismiss-icon": "wI2ZoOW_send-box-attachment-bar-item__dismiss-icon", "send-box-attachment-bar-item__preview": "wI2ZoOW_send-box-attachment-bar-item__preview", "send-box-attachment-bar-item--as-thumbnail": "wI2ZoOW_send-box-attachment-bar-item--as-thumbnail" };
+  var BasicSendBox_default = (0, import_react162.memo)(BasicSendBox);
+  var classes3 = { "send-box-attachment-bar-item": "wI2ZoOW_send-box-attachment-bar-item", "send-box-attachment-bar-item--as-thumbnail": "wI2ZoOW_send-box-attachment-bar-item--as-thumbnail", "send-box-attachment-bar-item--as-list-item": "wI2ZoOW_send-box-attachment-bar-item--as-list-item", "send-box-attachment-bar-item__delete-button": "wI2ZoOW_send-box-attachment-bar-item__delete-button", "send-box-attachment-bar-item__dismiss-icon": "wI2ZoOW_send-box-attachment-bar-item__dismiss-icon", "send-box-attachment-bar-item__preview": "wI2ZoOW_send-box-attachment-bar-item__preview" };
   var AttachmentBarItem_module_default = classes3;
-  var _send_box_attachment_bar_item__delete_button0 = classes3["send-box-attachment-bar-item__delete-button"];
   var _send_box_attachment_bar_item0 = classes3["send-box-attachment-bar-item"];
+  var _send_box_attachment_bar_item__as_thumbnail0 = classes3["send-box-attachment-bar-item--as-thumbnail"];
   var _send_box_attachment_bar_item__as_list_item0 = classes3["send-box-attachment-bar-item--as-list-item"];
+  var _send_box_attachment_bar_item__delete_button0 = classes3["send-box-attachment-bar-item__delete-button"];
   var _send_box_attachment_bar_item__dismiss_icon0 = classes3["send-box-attachment-bar-item__dismiss-icon"];
   var _send_box_attachment_bar_item__preview0 = classes3["send-box-attachment-bar-item__preview"];
-  var _send_box_attachment_bar_item__as_thumbnail0 = classes3["send-box-attachment-bar-item--as-thumbnail"];
   var { useLocalizer: useLocalizer9 } = hook_exports;
   var attachmentDeleteButtonPropsSchema = pipe(
     object({
@@ -145318,7 +145511,7 @@ and ensure you are accounting for this risk.
     const classNames103 = useStyles_default(AttachmentBarItem_module_default);
     const focus = useFocus();
     const localize2 = useLocalizer9();
-    const handleKeyDown = (0, import_react188.useCallback)(
+    const handleKeyDown = (0, import_react192.useCallback)(
       (event2) => {
         if (event2.key === "Escape") {
           event2.preventDefault();
@@ -145327,7 +145520,7 @@ and ensure you are accounting for this risk.
       },
       [focus]
     );
-    return /* @__PURE__ */ import_react188.default.createElement(
+    return /* @__PURE__ */ import_react192.default.createElement(
       "button",
       {
         "aria-label": localize2("SEND_BOX_ATTACHMENT_BAR_DELETE_BUTTON_ALT", attachmentName),
@@ -145338,7 +145531,7 @@ and ensure you are accounting for this risk.
         title: localize2("SEND_BOX_ATTACHMENT_BAR_DELETE_BUTTON_TOOLTIP"),
         type: "button"
       },
-      /* @__PURE__ */ import_react188.default.createElement(
+      /* @__PURE__ */ import_react192.default.createElement(
         ComponentIcon_default,
         {
           appearance: "text",
@@ -145356,14 +145549,14 @@ and ensure you are accounting for this risk.
     }),
     readonly()
   );
-  var classes4 = { "send-box-attachment-bar-item-file-preview__text": "w9ttrMa_send-box-attachment-bar-item-file-preview__text", "send-box-attachment-bar-item-file-preview": "w9ttrMa_send-box-attachment-bar-item-file-preview", "send-box-attachment-bar-item-file-preview--is-image": "w9ttrMa_send-box-attachment-bar-item-file-preview--is-image", "send-box-attachment-bar-item-file-preview--as-list-item": "w9ttrMa_send-box-attachment-bar-item-file-preview--as-list-item", "send-box-attachment-bar-item-file-preview--is-file": "w9ttrMa_send-box-attachment-bar-item-file-preview--is-file", "send-box-attachment-bar-item-file-preview--as-thumbnail": "w9ttrMa_send-box-attachment-bar-item-file-preview--as-thumbnail" };
+  var classes4 = { "send-box-attachment-bar-item-file-preview": "w9ttrMa_send-box-attachment-bar-item-file-preview", "send-box-attachment-bar-item-file-preview--as-thumbnail": "w9ttrMa_send-box-attachment-bar-item-file-preview--as-thumbnail", "send-box-attachment-bar-item-file-preview--is-file": "w9ttrMa_send-box-attachment-bar-item-file-preview--is-file", "send-box-attachment-bar-item-file-preview--is-image": "w9ttrMa_send-box-attachment-bar-item-file-preview--is-image", "send-box-attachment-bar-item-file-preview__text": "w9ttrMa_send-box-attachment-bar-item-file-preview__text", "send-box-attachment-bar-item-file-preview--as-list-item": "w9ttrMa_send-box-attachment-bar-item-file-preview--as-list-item" };
   var FilePreview_module_default = classes4;
-  var _send_box_attachment_bar_item_file_preview__text0 = classes4["send-box-attachment-bar-item-file-preview__text"];
   var _send_box_attachment_bar_item_file_preview0 = classes4["send-box-attachment-bar-item-file-preview"];
-  var _send_box_attachment_bar_item_file_preview__is_image0 = classes4["send-box-attachment-bar-item-file-preview--is-image"];
-  var _send_box_attachment_bar_item_file_preview__as_list_item0 = classes4["send-box-attachment-bar-item-file-preview--as-list-item"];
-  var _send_box_attachment_bar_item_file_preview__is_file0 = classes4["send-box-attachment-bar-item-file-preview--is-file"];
   var _send_box_attachment_bar_item_file_preview__as_thumbnail0 = classes4["send-box-attachment-bar-item-file-preview--as-thumbnail"];
+  var _send_box_attachment_bar_item_file_preview__is_file0 = classes4["send-box-attachment-bar-item-file-preview--is-file"];
+  var _send_box_attachment_bar_item_file_preview__is_image0 = classes4["send-box-attachment-bar-item-file-preview--is-image"];
+  var _send_box_attachment_bar_item_file_preview__text0 = classes4["send-box-attachment-bar-item-file-preview__text"];
+  var _send_box_attachment_bar_item_file_preview__as_list_item0 = classes4["send-box-attachment-bar-item-file-preview--as-list-item"];
   var sendBoxAttachmentBarItemFileAttachmentPreviewPropsSchema = pipe(
     object({
       attachment: sendBoxAttachmentSchema,
@@ -145378,7 +145571,7 @@ and ensure you are accounting for this risk.
       props
     );
     const classNames103 = useStyles_default(FilePreview_module_default);
-    return mode === "list item" ? /* @__PURE__ */ import_react190.default.createElement(
+    return mode === "list item" ? /* @__PURE__ */ import_react194.default.createElement(
       "div",
       {
         className: (0, import_classnames16.default)(
@@ -145390,9 +145583,9 @@ and ensure you are accounting for this risk.
           }
         )
       },
-      /* @__PURE__ */ import_react190.default.createElement(ComponentIcon_default, null),
-      /* @__PURE__ */ import_react190.default.createElement("div", { className: classNames103["send-box-attachment-bar-item-file-preview__text"] }, attachmentName)
-    ) : /* @__PURE__ */ import_react190.default.createElement(
+      /* @__PURE__ */ import_react194.default.createElement(ComponentIcon_default, null),
+      /* @__PURE__ */ import_react194.default.createElement("div", { className: classNames103["send-box-attachment-bar-item-file-preview__text"] }, attachmentName)
+    ) : /* @__PURE__ */ import_react194.default.createElement(
       "div",
       {
         className: (0, import_classnames16.default)(
@@ -145401,10 +145594,10 @@ and ensure you are accounting for this risk.
           classNames103["send-box-attachment-bar-item-file-preview--is-file"]
         )
       },
-      /* @__PURE__ */ import_react190.default.createElement(ComponentIcon_default, null)
+      /* @__PURE__ */ import_react194.default.createElement(ComponentIcon_default, null)
     );
   }
-  var FilePreview_default = (0, import_react190.memo)(SendBoxAttachmentBarItemFileAttachmentPreview);
+  var FilePreview_default = (0, import_react194.memo)(SendBoxAttachmentBarItemFileAttachmentPreview);
   var classes5 = { "send-box-attachment-bar-item-image-preview": "wcrkJHq_send-box-attachment-bar-item-image-preview" };
   var ImagePreview_module_default = classes5;
   var _send_box_attachment_bar_item_image_preview0 = classes5["send-box-attachment-bar-item-image-preview"];
@@ -145422,7 +145615,7 @@ and ensure you are accounting for this risk.
       props
     );
     const classNames103 = useStyles_default(ImagePreview_module_default);
-    return mode === "list item" ? /* @__PURE__ */ import_react191.default.createElement(FilePreview_default, { attachment, attachmentName, mode }) : /* @__PURE__ */ import_react191.default.createElement(
+    return mode === "list item" ? /* @__PURE__ */ import_react195.default.createElement(FilePreview_default, { attachment, attachmentName, mode }) : /* @__PURE__ */ import_react195.default.createElement(
       "img",
       {
         alt: attachmentName,
@@ -145431,7 +145624,7 @@ and ensure you are accounting for this risk.
       }
     );
   }
-  var ImagePreview_default = (0, import_react191.memo)(SendBoxAttachmentBarItemImageAttachmentPreview);
+  var ImagePreview_default = (0, import_react195.memo)(SendBoxAttachmentBarItemImageAttachmentPreview);
   var sendBoxAttachmentBarItemPreviewPropsSchema = pipe(
     object({
       attachment: sendBoxAttachmentSchema,
@@ -145445,7 +145638,7 @@ and ensure you are accounting for this risk.
     const classNames103 = useStyles_default(AttachmentBarItem_module_default);
     let element3;
     if (attachment.thumbnailURL) {
-      element3 = /* @__PURE__ */ import_react189.default.createElement(
+      element3 = /* @__PURE__ */ import_react193.default.createElement(
         ImagePreview_default,
         {
           attachment,
@@ -145454,7 +145647,7 @@ and ensure you are accounting for this risk.
         }
       );
     } else {
-      element3 = /* @__PURE__ */ import_react189.default.createElement(
+      element3 = /* @__PURE__ */ import_react193.default.createElement(
         FilePreview_default,
         {
           attachment,
@@ -145463,9 +145656,9 @@ and ensure you are accounting for this risk.
         }
       );
     }
-    return /* @__PURE__ */ import_react189.default.createElement("div", { className: classNames103["send-box-attachment-bar-item__preview"] }, element3);
+    return /* @__PURE__ */ import_react193.default.createElement("div", { className: classNames103["send-box-attachment-bar-item__preview"] }, element3);
   }
-  var ItemPreview_default = (0, import_react189.memo)(SendBoxAttachmentBarItemPreview);
+  var ItemPreview_default = (0, import_react193.memo)(SendBoxAttachmentBarItemPreview);
   var { useLocalizer: useLocalizer10 } = hook_exports;
   var sendBoxAttachmentBarItemPropsSchema = pipe(
     object({
@@ -145489,28 +145682,28 @@ and ensure you are accounting for this risk.
     const { attachment, mode, onDelete } = validateProps2(sendBoxAttachmentBarItemPropsSchema, props);
     const classNames103 = useStyles_default(AttachmentBarItem_module_default);
     const attachmentRef = useRefFrom(attachment);
-    const elementRef = (0, import_react157.useRef)(null);
+    const elementRef = (0, import_react161.useRef)(null);
     const focus = useFocus();
     const localize2 = useLocalizer10();
     const onDeleteRef = useRefFrom(onDelete);
-    const shownRef = (0, import_react157.useRef)(false);
-    const attachmentName = (0, import_react157.useMemo)(
+    const shownRef = (0, import_react161.useRef)(false);
+    const attachmentName = (0, import_react161.useMemo)(
       () => attachment.blob instanceof File ? attachment.blob.name : attachment.thumbnailURL ? localize2("SEND_BOX_ATTACHMENT_BAR_GENERIC_IMAGE_ALT") : localize2("SEND_BOX_ATTACHMENT_BAR_GENERIC_FILE_ALT"),
       [attachment, localize2]
     );
-    const handleDeleteButtonClick = (0, import_react157.useCallback)(() => {
+    const handleDeleteButtonClick = (0, import_react161.useCallback)(() => {
       var _a29;
       (_a29 = onDeleteRef.current) == null ? void 0 : _a29.call(onDeleteRef, { attachment: attachmentRef.current });
       focus("sendBox");
     }, [attachmentRef, focus, onDeleteRef]);
-    (0, import_react157.useEffect)(() => {
+    (0, import_react161.useEffect)(() => {
       var _a29;
       if (!shownRef.current) {
         shownRef.current = true;
         (_a29 = elementRef.current) == null ? void 0 : _a29.scrollIntoView();
       }
     }, [elementRef, shownRef]);
-    return /* @__PURE__ */ import_react157.default.createElement(
+    return /* @__PURE__ */ import_react161.default.createElement(
       "div",
       {
         className: (0, import_classnames6.default)(classNames103["send-box-attachment-bar-item"], {
@@ -145521,11 +145714,11 @@ and ensure you are accounting for this risk.
         ref: elementRef,
         title: attachmentName
       },
-      /* @__PURE__ */ import_react157.default.createElement(ItemPreview_default, { attachment, attachmentName, mode }),
-      /* @__PURE__ */ import_react157.default.createElement(ItemDeleteButton_default, { attachmentName, onClick: handleDeleteButtonClick })
+      /* @__PURE__ */ import_react161.default.createElement(ItemPreview_default, { attachment, attachmentName, mode }),
+      /* @__PURE__ */ import_react161.default.createElement(ItemDeleteButton_default, { attachmentName, onClick: handleDeleteButtonClick })
     );
   }
-  var AttachmentBarItem_default = (0, import_react157.memo)(SendBoxAttachmentBarItem);
+  var AttachmentBarItem_default = (0, import_react161.memo)(SendBoxAttachmentBarItem);
   var { useSendBoxAttachments: useSendBoxAttachments2, useStyleOptions: useStyleOptions8 } = hook_exports;
   var sendBoxAttachmentBarPropsSchema = pipe(
     object({
@@ -145538,18 +145731,18 @@ and ensure you are accounting for this risk.
     const [sendBoxAttachments3, setSendBoxAttachments2] = useSendBoxAttachments2();
     const classNames103 = useStyles_default(AttachmentBar_module_default);
     const [{ sendBoxAttachmentBarMaxThumbnail }] = useStyleOptions8();
-    const mode = (0, import_react156.useMemo)(
+    const mode = (0, import_react160.useMemo)(
       () => sendBoxAttachments3.length > sendBoxAttachmentBarMaxThumbnail ? "list item" : "thumbnail",
       [sendBoxAttachmentBarMaxThumbnail, sendBoxAttachments3]
     );
     const sendBoxAttachmentsRef = useRefFrom(sendBoxAttachments3);
-    const handleAttachmentDelete = (0, import_react156.useCallback)(
+    const handleAttachmentDelete = (0, import_react160.useCallback)(
       ({ attachment }) => setSendBoxAttachments2(
         sendBoxAttachmentsRef.current.filter((sendBoxAttachment) => sendBoxAttachment !== attachment)
       ),
       [setSendBoxAttachments2, sendBoxAttachmentsRef]
     );
-    return sendBoxAttachments3.length > 0 && /* @__PURE__ */ import_react156.default.createElement(
+    return sendBoxAttachments3.length > 0 && /* @__PURE__ */ import_react160.default.createElement(
       "div",
       {
         className: (0, import_classnames5.default)(
@@ -145562,71 +145755,71 @@ and ensure you are accounting for this risk.
         ),
         "data-testid": testIds_default.sendBoxAttachmentBar
       },
-      /* @__PURE__ */ import_react156.default.createElement("div", { className: classNames103["send-box-attachment-bar__box"] }, sendBoxAttachments3.map((attachment, index2) => (
+      /* @__PURE__ */ import_react160.default.createElement("div", { className: classNames103["send-box-attachment-bar__box"] }, sendBoxAttachments3.map((attachment, index2) => (
         // eslint-disable-next-line react/no-array-index-key
-        /* @__PURE__ */ import_react156.default.createElement(AttachmentBarItem_default, { attachment, key: index2, mode, onDelete: handleAttachmentDelete })
+        /* @__PURE__ */ import_react160.default.createElement(AttachmentBarItem_default, { attachment, key: index2, mode, onDelete: handleAttachmentDelete })
       )))
     );
   }
-  var AttachmentBar_default = (0, import_react156.memo)(SendBoxAttachmentBar);
+  var AttachmentBar_default = (0, import_react160.memo)(SendBoxAttachmentBar);
 
-  // ../component/dist/chunk-QUWDO2PR.mjs
-  var import_react193 = __toESM(require_react(), 1);
-  var import_react194 = __toESM(require_react(), 1);
-  var import_react195 = __toESM(require_react(), 1);
+  // ../component/dist/chunk-RFO55PF6.mjs
+  var import_react197 = __toESM(require_react(), 1);
+  var import_react198 = __toESM(require_react(), 1);
+  var import_react199 = __toESM(require_react(), 1);
   var import_classnames17 = __toESM(require_classnames(), 1);
   var import_classnames18 = __toESM(require_classnames(), 1);
-  var import_react196 = __toESM(require_react(), 1);
-  var import_classnames19 = __toESM(require_classnames(), 1);
-  var import_react197 = __toESM(require_react(), 1);
-  var import_classnames20 = __toESM(require_classnames(), 1);
-  var import_react198 = __toESM(require_react(), 1);
-  var import_classnames21 = __toESM(require_classnames(), 1);
-  var import_react199 = __toESM(require_react(), 1);
-  var import_classnames22 = __toESM(require_classnames(), 1);
   var import_react200 = __toESM(require_react(), 1);
+  var import_classnames19 = __toESM(require_classnames(), 1);
   var import_react201 = __toESM(require_react(), 1);
+  var import_classnames20 = __toESM(require_classnames(), 1);
   var import_react202 = __toESM(require_react(), 1);
+  var import_classnames21 = __toESM(require_classnames(), 1);
   var import_react203 = __toESM(require_react(), 1);
+  var import_classnames22 = __toESM(require_classnames(), 1);
   var import_react204 = __toESM(require_react(), 1);
   var import_react205 = __toESM(require_react(), 1);
   var import_react206 = __toESM(require_react(), 1);
   var import_react207 = __toESM(require_react(), 1);
   var import_react208 = __toESM(require_react(), 1);
   var import_react209 = __toESM(require_react(), 1);
-  var import_classnames23 = __toESM(require_classnames(), 1);
   var import_react210 = __toESM(require_react(), 1);
-  var import_classnames24 = __toESM(require_classnames(), 1);
   var import_react211 = __toESM(require_react(), 1);
-  var import_classnames25 = __toESM(require_classnames(), 1);
   var import_react212 = __toESM(require_react(), 1);
-  var import_classnames26 = __toESM(require_classnames(), 1);
   var import_react213 = __toESM(require_react(), 1);
-  var import_classnames27 = __toESM(require_classnames(), 1);
+  var import_classnames23 = __toESM(require_classnames(), 1);
   var import_react214 = __toESM(require_react(), 1);
-  var import_classnames28 = __toESM(require_classnames(), 1);
+  var import_classnames24 = __toESM(require_classnames(), 1);
   var import_react215 = __toESM(require_react(), 1);
-  var import_classnames29 = __toESM(require_classnames(), 1);
+  var import_classnames25 = __toESM(require_classnames(), 1);
   var import_react216 = __toESM(require_react(), 1);
-  var import_classnames30 = __toESM(require_classnames(), 1);
+  var import_classnames26 = __toESM(require_classnames(), 1);
   var import_react217 = __toESM(require_react(), 1);
+  var import_classnames27 = __toESM(require_classnames(), 1);
   var import_react218 = __toESM(require_react(), 1);
+  var import_classnames28 = __toESM(require_classnames(), 1);
+  var import_react219 = __toESM(require_react(), 1);
+  var import_classnames29 = __toESM(require_classnames(), 1);
+  var import_react220 = __toESM(require_react(), 1);
+  var import_classnames30 = __toESM(require_classnames(), 1);
+  var import_react221 = __toESM(require_react(), 1);
+  var import_react222 = __toESM(require_react(), 1);
   var import_math_random6 = __toESM(require_browser(), 1);
   var import_classnames31 = __toESM(require_classnames(), 1);
-  var import_react219 = __toESM(require_react(), 1);
+  var import_react223 = __toESM(require_react(), 1);
   var import_classnames32 = __toESM(require_classnames(), 1);
-  var import_react220 = __toESM(require_react(), 1);
+  var import_react224 = __toESM(require_react(), 1);
   var import_classnames33 = __toESM(require_classnames(), 1);
   var import_math_random7 = __toESM(require_browser(), 1);
-  var import_react221 = __toESM(require_react(), 1);
-  var import_classnames34 = __toESM(require_classnames(), 1);
-  var import_react222 = __toESM(require_react(), 1);
-  var import_classnames35 = __toESM(require_classnames(), 1);
-  var import_react223 = __toESM(require_react(), 1);
-  var import_classnames36 = __toESM(require_classnames(), 1);
-  var import_react224 = __toESM(require_react(), 1);
-  var import_math_random8 = __toESM(require_browser(), 1);
   var import_react225 = __toESM(require_react(), 1);
+  var import_classnames34 = __toESM(require_classnames(), 1);
+  var import_react226 = __toESM(require_react(), 1);
+  var import_classnames35 = __toESM(require_classnames(), 1);
+  var import_react227 = __toESM(require_react(), 1);
+  var import_classnames36 = __toESM(require_classnames(), 1);
+  var import_react228 = __toESM(require_react(), 1);
+  var import_math_random8 = __toESM(require_browser(), 1);
+  var import_react229 = __toESM(require_react(), 1);
 
   // ../../node_modules/@babel/runtime-corejs3/helpers/esm/arrayWithHoles.js
   var import_is_array = __toESM(require_is_array8(), 1);
@@ -145693,17 +145886,17 @@ and ensure you are accounting for this risk.
 
   // ../../node_modules/use-state-with-ref/lib/esmodules/useStateWithRef.js
   var import_freeze = __toESM(require_freeze3());
-  var import_react192 = __toESM(require_react());
+  var import_react196 = __toESM(require_react());
   function useStateWithRef(initialState) {
-    var _useState = (0, import_react192.useState)(initialState), _useState2 = _slicedToArray(_useState, 2), value = _useState2[0], setter = _useState2[1];
+    var _useState = (0, import_react196.useState)(initialState), _useState2 = _slicedToArray(_useState, 2), value = _useState2[0], setter = _useState2[1];
     return (0, import_freeze.default)([value, setter, useRefFrom(value)]);
   }
 
-  // ../component/dist/chunk-QUWDO2PR.mjs
-  var import_react226 = __toESM(require_react(), 1);
-  var import_react227 = __toESM(require_react(), 1);
-  var import_react228 = __toESM(require_react(), 1);
-  var import_react229 = __toESM(require_react(), 1);
+  // ../component/dist/chunk-RFO55PF6.mjs
+  var import_react230 = __toESM(require_react(), 1);
+  var import_react231 = __toESM(require_react(), 1);
+  var import_react232 = __toESM(require_react(), 1);
+  var import_react233 = __toESM(require_react(), 1);
   var ROOT_STYLE7 = {
     // .sr-only - This component is intended to be invisible to the visual Web Chat user, but read by the AT when using a screen reader
     color: "transparent",
@@ -145727,7 +145920,7 @@ and ensure you are accounting for this risk.
     }),
     readonly()
   );
-  var ScreenReaderText = (0, import_react193.forwardRef)(function ScreenReaderText2(props, ref) {
+  var ScreenReaderText = (0, import_react197.forwardRef)(function ScreenReaderText2(props, ref) {
     const { "aria-hidden": ariaHidden, id, text: text6 } = validateProps2(screenReaderTextPropsSchema, props);
     const rootClassName = useStyleToEmotionObject()(ROOT_STYLE7) + "";
     if (ariaHidden && !id) {
@@ -145735,42 +145928,42 @@ and ensure you are accounting for this risk.
         'botframework-webchat assertion: when "aria-hidden" is set, the screen reader text should be read by "aria-labelledby". Thus, "id" must be set.'
       );
     }
-    return /* @__PURE__ */ import_react193.default.createElement("div", { "aria-hidden": ariaHidden, className: rootClassName, id, ref }, text6);
+    return /* @__PURE__ */ import_react197.default.createElement("div", { "aria-hidden": ariaHidden, className: rootClassName, id, ref }, text6);
   });
-  var ScreenReaderText_default = (0, import_react193.memo)(ScreenReaderText);
-  var classes6 = { "stacked-layout--show-avatar": "wX4Ui5a_stacked-layout--show-avatar", "stacked-layout__attachment-list": "wX4Ui5a_stacked-layout__attachment-list", "stacked-layout__message-status--published": "wX4Ui5a_stacked-layout__message-status--published", "stacked-layout": "wX4Ui5a_stacked-layout", "stacked-layout__content": "wX4Ui5a_stacked-layout__content", "stacked-layout--hide-nub": "wX4Ui5a_stacked-layout--hide-nub", "stacked-layout__message-status--unset": "wX4Ui5a_stacked-layout__message-status--unset", "stacked-layout--top-callout": "wX4Ui5a_stacked-layout--top-callout", "stacked-layout__attachment-row": "wX4Ui5a_stacked-layout__attachment-row", "stacked-layout__attachment": "wX4Ui5a_stacked-layout__attachment", "stacked-layout--hide-avatar": "wX4Ui5a_stacked-layout--hide-avatar", "stacked-layout--group": "wX4Ui5a_stacked-layout--group", "stacked-layout--no-message": "wX4Ui5a_stacked-layout--no-message", "stacked-layout__main": "wX4Ui5a_stacked-layout__main", "stacked-layout__alignment-pad": "wX4Ui5a_stacked-layout__alignment-pad", "stacked-layout__message-status": "wX4Ui5a_stacked-layout__message-status", "stacked-layout__bubble": "wX4Ui5a_stacked-layout__bubble", "stacked-layout__avatar-gutter": "wX4Ui5a_stacked-layout__avatar-gutter", "stacked-layout--extra-trailing": "wX4Ui5a_stacked-layout--extra-trailing", "stacked-layout__nub-pad": "wX4Ui5a_stacked-layout__nub-pad", "stacked-layout--from-user": "wX4Ui5a_stacked-layout--from-user", "stacked-layout--show-nub": "wX4Ui5a_stacked-layout--show-nub", "stacked-layout__message": "wX4Ui5a_stacked-layout__message", "stacked-layout__status": "wX4Ui5a_stacked-layout__status", "stacked-layout__message-row": "wX4Ui5a_stacked-layout__message-row", "stacked-layout__message-status-unset-icon": "wX4Ui5a_stacked-layout__message-status-unset-icon", "stacked-layout--activity": "wX4Ui5a_stacked-layout--activity", "stacked-layout__title": "wX4Ui5a_stacked-layout__title", "stacked-layout__message-status--incomplete": "wX4Ui5a_stacked-layout__message-status--incomplete", "stacked-layout__message-status-complete-icon": "wX4Ui5a_stacked-layout__message-status-complete-icon", "stacked-layout__message-status-loader": "wX4Ui5a_stacked-layout__message-status-loader" };
+  var ScreenReaderText_default = (0, import_react197.memo)(ScreenReaderText);
+  var classes6 = { "stacked-layout__message-status-complete-icon": "wX4Ui5a_stacked-layout__message-status-complete-icon", "stacked-layout--from-user": "wX4Ui5a_stacked-layout--from-user", "stacked-layout__content": "wX4Ui5a_stacked-layout__content", "stacked-layout--extra-trailing": "wX4Ui5a_stacked-layout--extra-trailing", "stacked-layout__message-status": "wX4Ui5a_stacked-layout__message-status", "stacked-layout__message": "wX4Ui5a_stacked-layout__message", "stacked-layout--no-message": "wX4Ui5a_stacked-layout--no-message", "stacked-layout__attachment": "wX4Ui5a_stacked-layout__attachment", "stacked-layout": "wX4Ui5a_stacked-layout", "stacked-layout--activity": "wX4Ui5a_stacked-layout--activity", "stacked-layout__message-status--published": "wX4Ui5a_stacked-layout__message-status--published", "stacked-layout__status": "wX4Ui5a_stacked-layout__status", "stacked-layout__alignment-pad": "wX4Ui5a_stacked-layout__alignment-pad", "stacked-layout__title": "wX4Ui5a_stacked-layout__title", "stacked-layout--show-avatar": "wX4Ui5a_stacked-layout--show-avatar", "stacked-layout__nub-pad": "wX4Ui5a_stacked-layout__nub-pad", "stacked-layout__bubble": "wX4Ui5a_stacked-layout__bubble", "stacked-layout--top-callout": "wX4Ui5a_stacked-layout--top-callout", "stacked-layout__message-row": "wX4Ui5a_stacked-layout__message-row", "stacked-layout--show-nub": "wX4Ui5a_stacked-layout--show-nub", "stacked-layout__attachment-row": "wX4Ui5a_stacked-layout__attachment-row", "stacked-layout__main": "wX4Ui5a_stacked-layout__main", "stacked-layout--group": "wX4Ui5a_stacked-layout--group", "stacked-layout__message-status-unset-icon": "wX4Ui5a_stacked-layout__message-status-unset-icon", "stacked-layout__message-status--incomplete": "wX4Ui5a_stacked-layout__message-status--incomplete", "stacked-layout--hide-avatar": "wX4Ui5a_stacked-layout--hide-avatar", "stacked-layout__attachment-list": "wX4Ui5a_stacked-layout__attachment-list", "stacked-layout__avatar-gutter": "wX4Ui5a_stacked-layout__avatar-gutter", "stacked-layout--hide-nub": "wX4Ui5a_stacked-layout--hide-nub", "stacked-layout__message-status-loader": "wX4Ui5a_stacked-layout__message-status-loader", "stacked-layout__message-status--unset": "wX4Ui5a_stacked-layout__message-status--unset" };
   var StackedLayout_module_default = classes6;
-  var _stacked_layout__show_avatar0 = classes6["stacked-layout--show-avatar"];
-  var _stacked_layout__attachment_list0 = classes6["stacked-layout__attachment-list"];
-  var _stacked_layout__message_status__published0 = classes6["stacked-layout__message-status--published"];
-  var _stacked_layout0 = classes6["stacked-layout"];
-  var _stacked_layout__content0 = classes6["stacked-layout__content"];
-  var _stacked_layout__hide_nub0 = classes6["stacked-layout--hide-nub"];
-  var _stacked_layout__message_status__unset0 = classes6["stacked-layout__message-status--unset"];
-  var _stacked_layout__top_callout0 = classes6["stacked-layout--top-callout"];
-  var _stacked_layout__attachment_row0 = classes6["stacked-layout__attachment-row"];
-  var _stacked_layout__attachment0 = classes6["stacked-layout__attachment"];
-  var _stacked_layout__hide_avatar0 = classes6["stacked-layout--hide-avatar"];
-  var _stacked_layout__group0 = classes6["stacked-layout--group"];
-  var _stacked_layout__no_message0 = classes6["stacked-layout--no-message"];
-  var _stacked_layout__main0 = classes6["stacked-layout__main"];
-  var _stacked_layout__alignment_pad0 = classes6["stacked-layout__alignment-pad"];
-  var _stacked_layout__message_status0 = classes6["stacked-layout__message-status"];
-  var _stacked_layout__bubble0 = classes6["stacked-layout__bubble"];
-  var _stacked_layout__avatar_gutter0 = classes6["stacked-layout__avatar-gutter"];
-  var _stacked_layout__extra_trailing0 = classes6["stacked-layout--extra-trailing"];
-  var _stacked_layout__nub_pad0 = classes6["stacked-layout__nub-pad"];
-  var _stacked_layout__from_user0 = classes6["stacked-layout--from-user"];
-  var _stacked_layout__show_nub0 = classes6["stacked-layout--show-nub"];
-  var _stacked_layout__message0 = classes6["stacked-layout__message"];
-  var _stacked_layout__status0 = classes6["stacked-layout__status"];
-  var _stacked_layout__message_row0 = classes6["stacked-layout__message-row"];
-  var _stacked_layout__message_status_unset_icon0 = classes6["stacked-layout__message-status-unset-icon"];
-  var _stacked_layout__activity0 = classes6["stacked-layout--activity"];
-  var _stacked_layout__title0 = classes6["stacked-layout__title"];
-  var _stacked_layout__message_status__incomplete0 = classes6["stacked-layout__message-status--incomplete"];
   var _stacked_layout__message_status_complete_icon0 = classes6["stacked-layout__message-status-complete-icon"];
+  var _stacked_layout__from_user0 = classes6["stacked-layout--from-user"];
+  var _stacked_layout__content0 = classes6["stacked-layout__content"];
+  var _stacked_layout__extra_trailing0 = classes6["stacked-layout--extra-trailing"];
+  var _stacked_layout__message_status0 = classes6["stacked-layout__message-status"];
+  var _stacked_layout__message0 = classes6["stacked-layout__message"];
+  var _stacked_layout__no_message0 = classes6["stacked-layout--no-message"];
+  var _stacked_layout__attachment0 = classes6["stacked-layout__attachment"];
+  var _stacked_layout0 = classes6["stacked-layout"];
+  var _stacked_layout__activity0 = classes6["stacked-layout--activity"];
+  var _stacked_layout__message_status__published0 = classes6["stacked-layout__message-status--published"];
+  var _stacked_layout__status0 = classes6["stacked-layout__status"];
+  var _stacked_layout__alignment_pad0 = classes6["stacked-layout__alignment-pad"];
+  var _stacked_layout__title0 = classes6["stacked-layout__title"];
+  var _stacked_layout__show_avatar0 = classes6["stacked-layout--show-avatar"];
+  var _stacked_layout__nub_pad0 = classes6["stacked-layout__nub-pad"];
+  var _stacked_layout__bubble0 = classes6["stacked-layout__bubble"];
+  var _stacked_layout__top_callout0 = classes6["stacked-layout--top-callout"];
+  var _stacked_layout__message_row0 = classes6["stacked-layout__message-row"];
+  var _stacked_layout__show_nub0 = classes6["stacked-layout--show-nub"];
+  var _stacked_layout__attachment_row0 = classes6["stacked-layout__attachment-row"];
+  var _stacked_layout__main0 = classes6["stacked-layout__main"];
+  var _stacked_layout__group0 = classes6["stacked-layout--group"];
+  var _stacked_layout__message_status_unset_icon0 = classes6["stacked-layout__message-status-unset-icon"];
+  var _stacked_layout__message_status__incomplete0 = classes6["stacked-layout__message-status--incomplete"];
+  var _stacked_layout__hide_avatar0 = classes6["stacked-layout--hide-avatar"];
+  var _stacked_layout__attachment_list0 = classes6["stacked-layout__attachment-list"];
+  var _stacked_layout__avatar_gutter0 = classes6["stacked-layout__avatar-gutter"];
+  var _stacked_layout__hide_nub0 = classes6["stacked-layout--hide-nub"];
   var _stacked_layout__message_status_loader0 = classes6["stacked-layout__message-status-loader"];
+  var _stacked_layout__message_status__unset0 = classes6["stacked-layout__message-status--unset"];
   var stackedLayoutMainPropsSchema = pipe(
     object({
       avatar: optional(reactNode_default()),
@@ -145778,10 +145971,10 @@ and ensure you are accounting for this risk.
     }),
     readonly()
   );
-  var StackedLayoutMain = (0, import_react196.memo)((props) => {
+  var StackedLayoutMain = (0, import_react200.memo)((props) => {
     const { avatar, children } = validateProps2(stackedLayoutMainPropsSchema, props);
     const classNames31 = useStyles_default(StackedLayout_module_default);
-    return /* @__PURE__ */ import_react196.default.createElement("div", { className: classNames31["stacked-layout__main"] }, /* @__PURE__ */ import_react196.default.createElement("div", { className: (0, import_classnames18.default)(classNames31["stacked-layout__avatar-gutter"]) }, avatar), /* @__PURE__ */ import_react196.default.createElement("div", { className: (0, import_classnames18.default)(classNames31["stacked-layout__content"]) }, children), /* @__PURE__ */ import_react196.default.createElement("div", { className: classNames31["stacked-layout__alignment-pad"] }));
+    return /* @__PURE__ */ import_react200.default.createElement("div", { className: classNames31["stacked-layout__main"] }, /* @__PURE__ */ import_react200.default.createElement("div", { className: (0, import_classnames18.default)(classNames31["stacked-layout__avatar-gutter"]) }, avatar), /* @__PURE__ */ import_react200.default.createElement("div", { className: (0, import_classnames18.default)(classNames31["stacked-layout__content"]) }, children), /* @__PURE__ */ import_react200.default.createElement("div", { className: classNames31["stacked-layout__alignment-pad"] }));
   });
   StackedLayoutMain.displayName = "StackedLayoutMain";
   var StackedLayoutMain_default = StackedLayoutMain;
@@ -145797,9 +145990,9 @@ and ensure you are accounting for this risk.
   function MessageStatusLoader(props) {
     const { className } = validateProps2(messageStatusLoaderPropsSchema, props);
     const classNames31 = useStyles_default(MessageStatusLoader_module_default);
-    return /* @__PURE__ */ import_react198.default.createElement(ComponentIcon_default, { appearance: "text", className: (0, import_classnames20.default)(classNames31["message-status-loader"], className) });
+    return /* @__PURE__ */ import_react202.default.createElement(ComponentIcon_default, { appearance: "text", className: (0, import_classnames20.default)(classNames31["message-status-loader"], className) });
   }
-  var MessageStatusLoader_default = (0, import_react198.memo)(MessageStatusLoader);
+  var MessageStatusLoader_default = (0, import_react202.memo)(MessageStatusLoader);
   var stackedLayoutMessageStatusPropsSchema = pipe(
     object({
       className: optional(string()),
@@ -145810,7 +146003,7 @@ and ensure you are accounting for this risk.
   var StackedLayoutMessageStatus = (props) => {
     const { className, creativeWorkStatus } = validateProps2(stackedLayoutMessageStatusPropsSchema, props);
     const classNames31 = useStyles_default(StackedLayout_module_default);
-    return /* @__PURE__ */ import_react197.default.createElement(
+    return /* @__PURE__ */ import_react201.default.createElement(
       "div",
       {
         className: (0, import_classnames19.default)(
@@ -145823,7 +146016,7 @@ and ensure you are accounting for this risk.
           className
         )
       },
-      /* @__PURE__ */ import_react197.default.createElement(
+      /* @__PURE__ */ import_react201.default.createElement(
         ComponentIcon_default,
         {
           appearance: "text",
@@ -145831,7 +146024,7 @@ and ensure you are accounting for this risk.
           icon: "unchecked-circle"
         }
       ),
-      /* @__PURE__ */ import_react197.default.createElement(
+      /* @__PURE__ */ import_react201.default.createElement(
         ComponentIcon_default,
         {
           appearance: "text",
@@ -145839,11 +146032,11 @@ and ensure you are accounting for this risk.
           icon: "checkmark-circle"
         }
       ),
-      /* @__PURE__ */ import_react197.default.createElement(MessageStatusLoader_default, { className: classNames31["stacked-layout__message-status-loader"] })
+      /* @__PURE__ */ import_react201.default.createElement(MessageStatusLoader_default, { className: classNames31["stacked-layout__message-status-loader"] })
     );
   };
   StackedLayoutMessageStatus.displayName = "StackedLayoutMessageStatus";
-  var StackedLayoutMessageStatus_default = (0, import_react197.memo)(StackedLayoutMessageStatus);
+  var StackedLayoutMessageStatus_default = (0, import_react201.memo)(StackedLayoutMessageStatus);
   var stackedLayoutRootPropsSchema = pipe(
     object({
       ariaLabelId: optional(string()),
@@ -145861,7 +146054,7 @@ and ensure you are accounting for this risk.
     }),
     readonly()
   );
-  var StackedLayoutRoot = (0, import_react199.memo)((props) => {
+  var StackedLayoutRoot = (0, import_react203.memo)((props) => {
     const {
       ariaLabelId,
       children,
@@ -145877,7 +146070,7 @@ and ensure you are accounting for this risk.
       topCallout
     } = validateProps2(stackedLayoutRootPropsSchema, props);
     const classNames31 = useStyles_default(StackedLayout_module_default);
-    return /* @__PURE__ */ import_react199.default.createElement(
+    return /* @__PURE__ */ import_react203.default.createElement(
       "div",
       {
         "aria-labelledby": ariaLabelId,
@@ -145905,15 +146098,15 @@ and ensure you are accounting for this risk.
     }),
     readonly()
   );
-  var StackedLayoutStatus = (0, import_react200.memo)((props) => {
+  var StackedLayoutStatus = (0, import_react204.memo)((props) => {
     const { children } = validateProps2(stackedLayoutStatusPropsSchema, props);
     const classNames31 = useStyles_default(StackedLayout_module_default);
-    return /* @__PURE__ */ import_react200.default.createElement("div", { className: (0, import_classnames22.default)(classNames31["stacked-layout__status"]) }, /* @__PURE__ */ import_react200.default.createElement("div", { className: (0, import_classnames22.default)(classNames31["stacked-layout__avatar-gutter"]) }), /* @__PURE__ */ import_react200.default.createElement("div", { className: (0, import_classnames22.default)(classNames31["stacked-layout__nub-pad"]) }), children, /* @__PURE__ */ import_react200.default.createElement("div", { className: (0, import_classnames22.default)(classNames31["stacked-layout__alignment-pad"]) }));
+    return /* @__PURE__ */ import_react204.default.createElement("div", { className: (0, import_classnames22.default)(classNames31["stacked-layout__status"]) }, /* @__PURE__ */ import_react204.default.createElement("div", { className: (0, import_classnames22.default)(classNames31["stacked-layout__avatar-gutter"]) }), /* @__PURE__ */ import_react204.default.createElement("div", { className: (0, import_classnames22.default)(classNames31["stacked-layout__nub-pad"]) }), children, /* @__PURE__ */ import_react204.default.createElement("div", { className: (0, import_classnames22.default)(classNames31["stacked-layout__alignment-pad"]) }));
   });
   StackedLayoutStatus.displayName = "StackedLayoutStatus";
   var StackedLayoutStatus_default = StackedLayoutStatus;
   function createContextAndHook(displayName) {
-    const contextComponentType32 = (0, import_react201.createContext)(
+    const contextComponentType32 = (0, import_react205.createContext)(
       new Proxy({}, {
         get() {
           throw new Error(`botframework-webchat: This hook can only be used under <${displayName}>`);
@@ -145923,18 +146116,18 @@ and ensure you are accounting for this risk.
     contextComponentType32.displayName = displayName;
     return {
       contextComponentType: contextComponentType32,
-      useContext: () => (0, import_react201.useContext)(contextComponentType32)
+      useContext: () => (0, import_react205.useContext)(contextComponentType32)
     };
   }
-  var { contextComponentType, useContext: useContext16 } = createContextAndHook("ChatHistoryDOMContext");
+  var { contextComponentType, useContext: useContext17 } = createContextAndHook("ChatHistoryDOMContext");
   var ChatHistoryDOMContext_default = contextComponentType;
   function useActivityElementMapRef() {
-    return useContext16().activityElementRef;
+    return useContext17().activityElementRef;
   }
-  var TranscriptFocusContext = (0, import_react203.createContext)(void 0);
+  var TranscriptFocusContext = (0, import_react207.createContext)(void 0);
   var Context_default5 = TranscriptFocusContext;
   function useTranscriptFocusContext(throwOnUndefined = true) {
-    const contextValue = (0, import_react202.useContext)(Context_default5);
+    const contextValue = (0, import_react206.useContext)(Context_default5);
     if (throwOnUndefined && !contextValue) {
       throw new Error("botframework-webchat internal: This hook can only be used under <TranscriptFocusComposer>.");
     }
@@ -145973,23 +146166,23 @@ and ensure you are accounting for this risk.
     onLeave,
     targetClassName
   }) => {
-    const bodyRef = (0, import_react204.useRef)();
-    const lastFocused = (0, import_react204.useRef)();
+    const bodyRef = (0, import_react208.useRef)();
+    const lastFocused = (0, import_react208.useRef)();
     const onFocusRef = useRefFrom(onFocus);
     const onLeaveRef = useRefFrom(onLeave);
-    const getTabbableElementsInBody = (0, import_react204.useCallback)(() => {
+    const getTabbableElementsInBody = (0, import_react208.useCallback)(() => {
       var _a29;
       const nestedTraps = Array.from((_a29 = bodyRef.current) == null ? void 0 : _a29.querySelectorAll(".webchat__focus-trap"));
       return tabbableElements(bodyRef.current).filter((element3) => element3.getAttribute("aria-disabled") !== "true").filter((element3) => !nestedTraps.some((trap) => trap.contains(element3)));
     }, [bodyRef]);
-    const focusOrTriggerLeave = (0, import_react204.useCallback)(
+    const focusOrTriggerLeave = (0, import_react208.useCallback)(
       (element3) => {
         var _a29;
         return element3 ? element3.focus() : (_a29 = onLeaveRef.current) == null ? void 0 : _a29.call(onLeaveRef);
       },
       [onLeaveRef]
     );
-    const handleBodyKeyDown = (0, import_react204.useCallback)(
+    const handleBodyKeyDown = (0, import_react208.useCallback)(
       (event2) => {
         var _a29;
         if (event2.key === "Escape") {
@@ -146011,7 +146204,7 @@ and ensure you are accounting for this risk.
       },
       [focusOrTriggerLeave, getTabbableElementsInBody, onLeaveRef]
     );
-    const handleFocus = (0, import_react204.useCallback)(
+    const handleFocus = (0, import_react208.useCallback)(
       (event2) => {
         var _a29;
         (_a29 = onFocusRef.current) == null ? void 0 : _a29.call(onFocusRef);
@@ -146019,7 +146212,7 @@ and ensure you are accounting for this risk.
       },
       [lastFocused, onFocusRef]
     );
-    const handleBlur = (0, import_react204.useCallback)(
+    const handleBlur = (0, import_react208.useCallback)(
       (event2) => {
         const { target } = event2;
         const focusables = getTabbableElementsInBody();
@@ -146033,7 +146226,7 @@ and ensure you are accounting for this risk.
       },
       [focusOrTriggerLeave, getTabbableElementsInBody]
     );
-    const handleTrapFocus = (0, import_react204.useCallback)(
+    const handleTrapFocus = (0, import_react208.useCallback)(
       (event2) => {
         event2.preventDefault();
         event2.stopPropagation();
@@ -146047,7 +146240,7 @@ and ensure you are accounting for this risk.
       },
       [focusOrTriggerLeave, getTabbableElementsInBody]
     );
-    return /* @__PURE__ */ import_react204.default.createElement(import_react204.Fragment, null, /* @__PURE__ */ import_react204.default.createElement(
+    return /* @__PURE__ */ import_react208.default.createElement(import_react208.Fragment, null, /* @__PURE__ */ import_react208.default.createElement(
       "div",
       {
         className: "webchat__focus-trap",
@@ -146057,18 +146250,18 @@ and ensure you are accounting for this risk.
         ref: bodyRef
       },
       children
-    ), /* @__PURE__ */ import_react204.default.createElement("div", { "aria-hidden": "true", className: targetClassName, onFocus: handleTrapFocus, tabIndex: -1 }));
+    ), /* @__PURE__ */ import_react208.default.createElement("div", { "aria-hidden": "true", className: targetClassName, onFocus: handleTrapFocus, tabIndex: -1 }));
   };
   FocusTrap.displayName = "FocusTrap";
-  var FocusTrap_default = (0, import_react204.memo)(FocusTrap);
+  var FocusTrap_default = (0, import_react208.memo)(FocusTrap);
   var EMPTY_STATE = Object.freeze([void 0]);
-  var SenderGroupingContext = (0, import_react207.createContext)({
+  var SenderGroupingContext = (0, import_react211.createContext)({
     firstActivityState: EMPTY_STATE,
     lastActivityState: EMPTY_STATE
   });
   var SenderGroupingContext_default = SenderGroupingContext;
   function useSenderGroupingContext() {
-    return (0, import_react206.useContext)(SenderGroupingContext_default);
+    return (0, import_react210.useContext)(SenderGroupingContext_default);
   }
   function useFirstActivity() {
     return useSenderGroupingContext().firstActivityState;
@@ -146077,13 +146270,13 @@ and ensure you are accounting for this risk.
     return useSenderGroupingContext().lastActivityState;
   }
   var EMPTY_STATE2 = Object.freeze([void 0]);
-  var StatusGroupingContext = (0, import_react209.createContext)({
+  var StatusGroupingContext = (0, import_react213.createContext)({
     firstActivityState: EMPTY_STATE2,
     lastActivityState: EMPTY_STATE2
   });
   var StatusGroupingContext_default = StatusGroupingContext;
   function useStatusGroupingContext() {
-    return (0, import_react208.useContext)(StatusGroupingContext_default);
+    return (0, import_react212.useContext)(StatusGroupingContext_default);
   }
   function useFirstActivity2() {
     return useStatusGroupingContext().firstActivityState;
@@ -146109,13 +146302,13 @@ and ensure you are accounting for this risk.
     const isFirstInStatusGroup = firstActivityInStatusGroup === activity || typeof firstActivityInStatusGroup === "undefined";
     const isLastInSenderGroup = lastActivityInSenderGroup === activity || typeof lastActivityInSenderGroup === "undefined";
     const isLastInStatusGroup = lastActivityInStatusGroup === activity || typeof lastActivityInStatusGroup === "undefined";
-    const renderAvatarForSenderGroup = (0, import_react205.useMemo)(
+    const renderAvatarForSenderGroup = (0, import_react209.useMemo)(
       () => !!renderAvatar && renderAvatar({ activity }),
       [activity, renderAvatar]
     );
     const isTopSideBotNub = isZeroOrPositive(bubbleNubOffset);
     const isTopSideUserNub = isZeroOrPositive(bubbleFromUserNubOffset);
-    const renderActivityStatus = (0, import_react205.useMemo)(
+    const renderActivityStatus = (0, import_react209.useMemo)(
       () => createActivityStatusRenderer({ activity }),
       [activity, createActivityStatusRenderer]
     );
@@ -146145,50 +146338,50 @@ and ensure you are accounting for this risk.
     };
   };
   var useRenderActivityProps_default = useRenderActivityProps;
-  var classes32 = { "transcript-focus-area__activity-list": "ws7yAGq_transcript-focus-area__activity-list", "transcript-focus-area__root": "ws7yAGq_transcript-focus-area__root", "transcript-focus-area__content": "ws7yAGq_transcript-focus-area__content", "transcript-focus-area__transcript-indicator": "ws7yAGq_transcript-focus-area__transcript-indicator", "transcript-focus-area__terminator-body": "ws7yAGq_transcript-focus-area__terminator-body", "transcript-focus-area__terminator": "ws7yAGq_transcript-focus-area__terminator", "transcript-focus-area__terminator-text": "ws7yAGq_transcript-focus-area__terminator-text", "transcript-focus-area__content-active-descendant": "ws7yAGq_transcript-focus-area__content-active-descendant", "transcript-focus-area__content-root": "ws7yAGq_transcript-focus-area__content-root", "transcript-focus-area__content--focused": "ws7yAGq_transcript-focus-area__content--focused", "transcript-focus-area": "ws7yAGq_transcript-focus-area", "transcript-focus-area__indicator": "ws7yAGq_transcript-focus-area__indicator", "transcript-focus-area__content-overlay": "ws7yAGq_transcript-focus-area__content-overlay" };
+  var classes32 = { "transcript-focus-area__terminator-body": "ws7yAGq_transcript-focus-area__terminator-body", "transcript-focus-area__terminator": "ws7yAGq_transcript-focus-area__terminator", "transcript-focus-area__activity-list": "ws7yAGq_transcript-focus-area__activity-list", "transcript-focus-area__transcript-indicator": "ws7yAGq_transcript-focus-area__transcript-indicator", "transcript-focus-area__terminator-text": "ws7yAGq_transcript-focus-area__terminator-text", "transcript-focus-area__content-root": "ws7yAGq_transcript-focus-area__content-root", "transcript-focus-area__content": "ws7yAGq_transcript-focus-area__content", "transcript-focus-area__indicator": "ws7yAGq_transcript-focus-area__indicator", "transcript-focus-area__root": "ws7yAGq_transcript-focus-area__root", "transcript-focus-area__content-overlay": "ws7yAGq_transcript-focus-area__content-overlay", "transcript-focus-area": "ws7yAGq_transcript-focus-area", "transcript-focus-area__content-active-descendant": "ws7yAGq_transcript-focus-area__content-active-descendant", "transcript-focus-area__content--focused": "ws7yAGq_transcript-focus-area__content--focused" };
   var TranscriptFocus_module_default = classes32;
-  var _transcript_focus_area__activity_list0 = classes32["transcript-focus-area__activity-list"];
-  var _transcript_focus_area__root0 = classes32["transcript-focus-area__root"];
-  var _transcript_focus_area__content0 = classes32["transcript-focus-area__content"];
-  var _transcript_focus_area__transcript_indicator0 = classes32["transcript-focus-area__transcript-indicator"];
   var _transcript_focus_area__terminator_body0 = classes32["transcript-focus-area__terminator-body"];
   var _transcript_focus_area__terminator0 = classes32["transcript-focus-area__terminator"];
+  var _transcript_focus_area__activity_list0 = classes32["transcript-focus-area__activity-list"];
+  var _transcript_focus_area__transcript_indicator0 = classes32["transcript-focus-area__transcript-indicator"];
   var _transcript_focus_area__terminator_text0 = classes32["transcript-focus-area__terminator-text"];
-  var _transcript_focus_area__content_active_descendant0 = classes32["transcript-focus-area__content-active-descendant"];
   var _transcript_focus_area__content_root0 = classes32["transcript-focus-area__content-root"];
-  var _transcript_focus_area__content__focused0 = classes32["transcript-focus-area__content--focused"];
-  var _transcript_focus_area0 = classes32["transcript-focus-area"];
+  var _transcript_focus_area__content0 = classes32["transcript-focus-area__content"];
   var _transcript_focus_area__indicator0 = classes32["transcript-focus-area__indicator"];
+  var _transcript_focus_area__root0 = classes32["transcript-focus-area__root"];
   var _transcript_focus_area__content_overlay0 = classes32["transcript-focus-area__content-overlay"];
-  var TranscriptActivityList = (0, import_react210.forwardRef)(
+  var _transcript_focus_area0 = classes32["transcript-focus-area"];
+  var _transcript_focus_area__content_active_descendant0 = classes32["transcript-focus-area__content-active-descendant"];
+  var _transcript_focus_area__content__focused0 = classes32["transcript-focus-area__content--focused"];
+  var TranscriptActivityList = (0, import_react214.forwardRef)(
     ({ className, ...props }, ref) => {
       const classNames31 = useStyles_default(TranscriptFocus_module_default);
-      return /* @__PURE__ */ import_react210.default.createElement("section", { ...props, className: (0, import_classnames23.default)(classNames31["transcript-focus-area__activity-list"], className), ref });
+      return /* @__PURE__ */ import_react214.default.createElement("section", { ...props, className: (0, import_classnames23.default)(classNames31["transcript-focus-area__activity-list"], className), ref });
     }
   );
   TranscriptActivityList.displayName = "TranscriptActivityList";
-  var TranscriptActivityList_default = (0, import_react210.memo)(TranscriptActivityList);
-  var TranscriptFocusIndicator = (0, import_react212.forwardRef)(
+  var TranscriptActivityList_default = (0, import_react214.memo)(TranscriptActivityList);
+  var TranscriptFocusIndicator = (0, import_react216.forwardRef)(
     ({ className, type: type2 = "content", ...props }, ref) => {
       const classNames31 = useStyles_default(TranscriptFocus_module_default);
       const indicatorClass = type2 === "content" ? classNames31["transcript-focus-area__indicator"] : classNames31["transcript-focus-area__transcript-indicator"];
-      return /* @__PURE__ */ import_react212.default.createElement("div", { ...props, className: (0, import_classnames25.default)(indicatorClass, className), ref });
+      return /* @__PURE__ */ import_react216.default.createElement("div", { ...props, className: (0, import_classnames25.default)(indicatorClass, className), ref });
     }
   );
   TranscriptFocusIndicator.displayName = "TranscriptFocusIndicator";
   var TranscriptFocusIndicator_default = TranscriptFocusIndicator;
-  var TranscriptFocusArea = (0, import_react211.forwardRef)(
+  var TranscriptFocusArea = (0, import_react215.forwardRef)(
     ({ className, children, ...props }, ref) => {
       const classNames31 = useStyles_default(TranscriptFocus_module_default);
-      return /* @__PURE__ */ import_react211.default.createElement("div", { ...props, className: (0, import_classnames24.default)(classNames31["transcript-focus-area"], className), ref }, /* @__PURE__ */ import_react211.default.createElement("div", { className: classNames31["transcript-focus-area__root"] }, children), /* @__PURE__ */ import_react211.default.createElement(TranscriptFocusIndicator_default, { type: "transcript" }));
+      return /* @__PURE__ */ import_react215.default.createElement("div", { ...props, className: (0, import_classnames24.default)(classNames31["transcript-focus-area"], className), ref }, /* @__PURE__ */ import_react215.default.createElement("div", { className: classNames31["transcript-focus-area__root"] }, children), /* @__PURE__ */ import_react215.default.createElement(TranscriptFocusIndicator_default, { type: "transcript" }));
     }
   );
   TranscriptFocusArea.displayName = "TranscriptFocusArea";
   var TranscriptFocusArea_default = TranscriptFocusArea;
-  var TranscriptFocusContent = (0, import_react213.forwardRef)(
+  var TranscriptFocusContent = (0, import_react217.forwardRef)(
     ({ className, focused, tag: Tag = "div", ...props }, ref) => {
       const classNames31 = useStyles_default(TranscriptFocus_module_default);
-      return /* @__PURE__ */ import_react213.default.createElement(
+      return /* @__PURE__ */ import_react217.default.createElement(
         Tag,
         {
           ...props,
@@ -146204,18 +146397,18 @@ and ensure you are accounting for this risk.
   );
   TranscriptFocusContent.displayName = "TranscriptFocusContent";
   var TranscriptFocusContent_default = TranscriptFocusContent;
-  var TranscriptFocusContentOverlay = (0, import_react214.forwardRef)(
+  var TranscriptFocusContentOverlay = (0, import_react218.forwardRef)(
     ({ className, ...props }, ref) => {
       const classNames31 = useStyles_default(TranscriptFocus_module_default);
-      return /* @__PURE__ */ import_react214.default.createElement("div", { ...props, className: (0, import_classnames27.default)(classNames31["transcript-focus-area__content-overlay"], className), ref });
+      return /* @__PURE__ */ import_react218.default.createElement("div", { ...props, className: (0, import_classnames27.default)(classNames31["transcript-focus-area__content-overlay"], className), ref });
     }
   );
   TranscriptFocusContentOverlay.displayName = "TranscriptFocusContentOverlay";
   var TranscriptFocusContentOverlay_default = TranscriptFocusContentOverlay;
-  var TranscriptFocusContentActiveDescendant = (0, import_react215.forwardRef)(
+  var TranscriptFocusContentActiveDescendant = (0, import_react219.forwardRef)(
     ({ className, ...props }, ref) => {
       const classNames31 = useStyles_default(TranscriptFocus_module_default);
-      return /* @__PURE__ */ import_react215.default.createElement(
+      return /* @__PURE__ */ import_react219.default.createElement(
         "div",
         {
           ...props,
@@ -146227,26 +146420,26 @@ and ensure you are accounting for this risk.
   );
   TranscriptFocusContentActiveDescendant.displayName = "TranscriptFocusContentActiveDescendant";
   var TranscriptFocusContentActiveDescendant_default = TranscriptFocusContentActiveDescendant;
-  var TranscriptFocusContentBody = (0, import_react216.forwardRef)(
+  var TranscriptFocusContentBody = (0, import_react220.forwardRef)(
     ({ className, ...props }, ref) => {
       const classNames31 = useStyles_default(TranscriptFocus_module_default);
-      return /* @__PURE__ */ import_react216.default.createElement("div", { ...props, className: (0, import_classnames29.default)(classNames31["transcript-focus-area__content-body"], className), ref });
+      return /* @__PURE__ */ import_react220.default.createElement("div", { ...props, className: (0, import_classnames29.default)(classNames31["transcript-focus-area__content-body"], className), ref });
     }
   );
   TranscriptFocusContentBody.displayName = "TranscriptFocusContentBody";
   function useUniqueId(prefix2) {
-    const id = (0, import_react218.useMemo)(() => (0, import_math_random6.default)().toString(36).substr(2, 5), []);
+    const id = (0, import_react222.useMemo)(() => (0, import_math_random6.default)().toString(36).substr(2, 5), []);
     prefix2 = prefix2 ? `${prefix2}--` : "";
     return `${prefix2}${id}`;
   }
   var { useLocalizer: useLocalizer11 } = hook_exports;
-  var TranscriptFocusTerminator = (0, import_react217.forwardRef)(
+  var TranscriptFocusTerminator = (0, import_react221.forwardRef)(
     ({ className, ...props }, ref) => {
       const classNames31 = useStyles_default(TranscriptFocus_module_default);
       const localize2 = useLocalizer11();
       const terminatorText = localize2("TRANSCRIPT_TERMINATOR_TEXT");
       const terminatorLabelId = useUniqueId("webchat__basic-transcript__terminator-label");
-      return /* @__PURE__ */ import_react217.default.createElement(
+      return /* @__PURE__ */ import_react221.default.createElement(
         "div",
         {
           ...props,
@@ -146254,23 +146447,23 @@ and ensure you are accounting for this risk.
           className: (0, import_classnames30.default)(classNames31["transcript-focus-area__terminator"], className),
           ref
         },
-        /* @__PURE__ */ import_react217.default.createElement("div", { className: (0, import_classnames30.default)(classNames31["transcript-focus-area__terminator-body"]) }, /* @__PURE__ */ import_react217.default.createElement("div", { className: (0, import_classnames30.default)(classNames31["transcript-focus-area__terminator-text"]), id: terminatorLabelId }, terminatorText))
+        /* @__PURE__ */ import_react221.default.createElement("div", { className: (0, import_classnames30.default)(classNames31["transcript-focus-area__terminator-body"]) }, /* @__PURE__ */ import_react221.default.createElement("div", { className: (0, import_classnames30.default)(classNames31["transcript-focus-area__terminator-text"]), id: terminatorLabelId }, terminatorText))
       );
     }
   );
   TranscriptFocusTerminator.displayName = "TranscriptFocusTerminator";
   var TranscriptFocusTerminator_default = TranscriptFocusTerminator;
-  var TranscriptFocusTerminatorBody = (0, import_react219.forwardRef)(
+  var TranscriptFocusTerminatorBody = (0, import_react223.forwardRef)(
     ({ className, ...props }, ref) => {
       const classNames31 = useStyles_default(TranscriptFocus_module_default);
-      return /* @__PURE__ */ import_react219.default.createElement("div", { ...props, className: (0, import_classnames31.default)(classNames31["transcript-focus-area__terminator-body"], className), ref });
+      return /* @__PURE__ */ import_react223.default.createElement("div", { ...props, className: (0, import_classnames31.default)(classNames31["transcript-focus-area__terminator-body"], className), ref });
     }
   );
   TranscriptFocusTerminatorBody.displayName = "TranscriptFocusTerminatorBody";
-  var TranscriptFocusTerminatorText = (0, import_react220.forwardRef)(
+  var TranscriptFocusTerminatorText = (0, import_react224.forwardRef)(
     ({ className, ...props }, ref) => {
       const classNames31 = useStyles_default(TranscriptFocus_module_default);
-      return /* @__PURE__ */ import_react220.default.createElement("div", { ...props, className: (0, import_classnames32.default)(classNames31["transcript-focus-area__terminator-text"], className), ref });
+      return /* @__PURE__ */ import_react224.default.createElement("div", { ...props, className: (0, import_classnames32.default)(classNames31["transcript-focus-area__terminator-text"], className), ref });
     }
   );
   TranscriptFocusTerminatorText.displayName = "TranscriptFocusTerminatorText";
@@ -146293,7 +146486,7 @@ and ensure you are accounting for this risk.
     }),
     readonly()
   );
-  var ActivityButton = (0, import_react222.forwardRef)((props, ref) => {
+  var ActivityButton = (0, import_react226.forwardRef)((props, ref) => {
     const {
       "aria-controls": ariaControls,
       "aria-expanded": ariaExpanded,
@@ -146308,11 +146501,11 @@ and ensure you are accounting for this risk.
     } = validateProps2(activityButtonPropsSchema, props);
     const classNames31 = useStyles_default(ActivityButton_module_default);
     const onClickRef = useRefFrom(onClick2);
-    const handleClick = (0, import_react222.useCallback)(() => {
+    const handleClick = (0, import_react226.useCallback)(() => {
       var _a29;
       return (_a29 = onClickRef.current) == null ? void 0 : _a29.call(onClickRef);
     }, [onClickRef]);
-    return /* @__PURE__ */ import_react222.default.createElement(
+    return /* @__PURE__ */ import_react226.default.createElement(
       "button",
       {
         "aria-controls": ariaControls,
@@ -146326,23 +146519,23 @@ and ensure you are accounting for this risk.
         tabIndex: disabled ? -1 : void 0,
         type: "button"
       },
-      icon && /* @__PURE__ */ import_react222.default.createElement(ComponentIcon_default, { appearance: "text", className: classNames31["activity-button__icon"], icon }),
-      text6 && /* @__PURE__ */ import_react222.default.createElement("span", { className: "activity-button__text" }, text6),
+      icon && /* @__PURE__ */ import_react226.default.createElement(ComponentIcon_default, { appearance: "text", className: classNames31["activity-button__icon"], icon }),
+      text6 && /* @__PURE__ */ import_react226.default.createElement("span", { className: "activity-button__text" }, text6),
       children
     );
   });
-  var ActivityButton_default = (0, import_react222.memo)(ActivityButton);
-  var classes52 = { "collapsible-grouping__header": "w30owfW_collapsible-grouping__header", "collapsible-grouping__list": "w30owfW_collapsible-grouping__list", "collapsible-grouping": "w30owfW_collapsible-grouping", "collapsible-grouping__content--open": "w30owfW_collapsible-grouping__content--open", "collapsible-grouping__chevron": "w30owfW_collapsible-grouping__chevron", "collapsible-grouping__title": "w30owfW_collapsible-grouping__title", "collapsible-grouping__content": "w30owfW_collapsible-grouping__content", "collapsible-grouping--open": "w30owfW_collapsible-grouping--open", "collapsible-grouping__toggle": "w30owfW_collapsible-grouping__toggle" };
+  var ActivityButton_default = (0, import_react226.memo)(ActivityButton);
+  var classes52 = { "collapsible-grouping": "w30owfW_collapsible-grouping", "collapsible-grouping__header": "w30owfW_collapsible-grouping__header", "collapsible-grouping__toggle": "w30owfW_collapsible-grouping__toggle", "collapsible-grouping--open": "w30owfW_collapsible-grouping--open", "collapsible-grouping__content--open": "w30owfW_collapsible-grouping__content--open", "collapsible-grouping__chevron": "w30owfW_collapsible-grouping__chevron", "collapsible-grouping__title": "w30owfW_collapsible-grouping__title", "collapsible-grouping__content": "w30owfW_collapsible-grouping__content", "collapsible-grouping__list": "w30owfW_collapsible-grouping__list" };
   var CollapsibleGrouping_module_default = classes52;
-  var _collapsible_grouping__header0 = classes52["collapsible-grouping__header"];
-  var _collapsible_grouping__list0 = classes52["collapsible-grouping__list"];
   var _collapsible_grouping0 = classes52["collapsible-grouping"];
+  var _collapsible_grouping__header0 = classes52["collapsible-grouping__header"];
+  var _collapsible_grouping__toggle0 = classes52["collapsible-grouping__toggle"];
+  var _collapsible_grouping__open0 = classes52["collapsible-grouping--open"];
   var _collapsible_grouping__content__open0 = classes52["collapsible-grouping__content--open"];
   var _collapsible_grouping__chevron0 = classes52["collapsible-grouping__chevron"];
   var _collapsible_grouping__title0 = classes52["collapsible-grouping__title"];
   var _collapsible_grouping__content0 = classes52["collapsible-grouping__content"];
-  var _collapsible_grouping__open0 = classes52["collapsible-grouping--open"];
-  var _collapsible_grouping__toggle0 = classes52["collapsible-grouping__toggle"];
+  var _collapsible_grouping__list0 = classes52["collapsible-grouping__list"];
   var { useLocalizer: useLocalizer23 } = hook_exports;
   var collapsibleGroupingPropsSchema = pipe(
     object({
@@ -146359,13 +146552,13 @@ and ensure you are accounting for this risk.
   }
   function CollapsibleGrouping(props) {
     const { children, className, header, isOpen = true, onToggle } = validateProps2(collapsibleGroupingPropsSchema, props);
-    const [id] = (0, import_react221.useState)(() => `webchat-collapsible-grouping-${uniqueId2()}`);
+    const [id] = (0, import_react225.useState)(() => `webchat-collapsible-grouping-${uniqueId2()}`);
     const classNames31 = useStyles_default(CollapsibleGrouping_module_default);
-    const buttonRef = (0, import_react221.useRef)(null);
+    const buttonRef = (0, import_react225.useRef)(null);
     const isOpenRef = useRefFrom(isOpen);
     const onToggleRef = useRefFrom(onToggle);
     const localize2 = useLocalizer23();
-    const handleToggle = (0, import_react221.useCallback)(() => {
+    const handleToggle = (0, import_react225.useCallback)(() => {
       var _a29;
       const newIsOpen = !isOpenRef.current;
       const button = buttonRef.current;
@@ -146376,7 +146569,7 @@ and ensure you are accounting for this risk.
       (_a29 = onToggleRef.current) == null ? void 0 : _a29.call(onToggleRef, newIsOpen);
     }, [isOpenRef, onToggleRef]);
     const text6 = isOpen ? localize2("COLLAPSE_BUTTON_LESS") : localize2("COLLAPSE_BUTTON_MORE");
-    return /* @__PURE__ */ import_react221.default.createElement(
+    return /* @__PURE__ */ import_react225.default.createElement(
       "div",
       {
         className: (0, import_classnames33.default)(
@@ -146385,7 +146578,7 @@ and ensure you are accounting for this risk.
           className
         )
       },
-      /* @__PURE__ */ import_react221.default.createElement("div", { className: (0, import_classnames33.default)(classNames31["collapsible-grouping__header"]) }, header, /* @__PURE__ */ import_react221.default.createElement(
+      /* @__PURE__ */ import_react225.default.createElement("div", { className: (0, import_classnames33.default)(classNames31["collapsible-grouping__header"]) }, header, /* @__PURE__ */ import_react225.default.createElement(
         ActivityButton_default,
         {
           "aria-controls": id,
@@ -146396,9 +146589,9 @@ and ensure you are accounting for this risk.
           ref: buttonRef,
           text: text6
         },
-        /* @__PURE__ */ import_react221.default.createElement(ComponentIcon_default, { appearance: "text", className: classNames31["collapsible-grouping__chevron"], icon: "chevron" })
+        /* @__PURE__ */ import_react225.default.createElement(ComponentIcon_default, { appearance: "text", className: classNames31["collapsible-grouping__chevron"], icon: "chevron" })
       )),
-      /* @__PURE__ */ import_react221.default.createElement(
+      /* @__PURE__ */ import_react225.default.createElement(
         "div",
         {
           className: (0, import_classnames33.default)(classNames31["collapsible-grouping__content"], {
@@ -146410,7 +146603,7 @@ and ensure you are accounting for this risk.
       )
     );
   }
-  var CollapsibleGrouping_default = (0, import_react221.memo)(CollapsibleGrouping);
+  var CollapsibleGrouping_default = (0, import_react225.memo)(CollapsibleGrouping);
   var collapsibleGroupingListPropsSchema = pipe(
     object({
       children: optional(reactNode_default()),
@@ -146422,10 +146615,10 @@ and ensure you are accounting for this risk.
   var CollapsibleGroupingList = (props) => {
     const { className, children, tag: Tag = "div" } = validateProps2(collapsibleGroupingListPropsSchema, props);
     const classNames31 = useStyles_default(CollapsibleGrouping_module_default);
-    return /* @__PURE__ */ import_react223.default.createElement(Tag, { className: (0, import_classnames35.default)(classNames31["collapsible-grouping__list"], className) }, children);
+    return /* @__PURE__ */ import_react227.default.createElement(Tag, { className: (0, import_classnames35.default)(classNames31["collapsible-grouping__list"], className) }, children);
   };
   CollapsibleGroupingList.displayName = "CollapsibleGroupingList";
-  var CollapsibleGroupingList_default = (0, import_react223.memo)(CollapsibleGroupingList);
+  var CollapsibleGroupingList_default = (0, import_react227.memo)(CollapsibleGroupingList);
   var collapsibleGroupingTitlePropsSchema = pipe(
     object({
       children: optional(reactNode_default()),
@@ -146436,18 +146629,18 @@ and ensure you are accounting for this risk.
   var CollapsibleGroupingTitle = (props) => {
     const { className, children } = validateProps2(collapsibleGroupingTitlePropsSchema, props);
     const classNames31 = useStyles_default(CollapsibleGrouping_module_default);
-    return /* @__PURE__ */ import_react224.default.createElement("div", { className: (0, import_classnames36.default)(classNames31["collapsible-grouping__title"], className) }, children);
+    return /* @__PURE__ */ import_react228.default.createElement("div", { className: (0, import_classnames36.default)(classNames31["collapsible-grouping__title"], className) }, children);
   };
   CollapsibleGroupingTitle.displayName = "CollapsibleGroupingTitle";
-  var CollapsibleGroupingTitle_default = (0, import_react224.memo)(CollapsibleGroupingTitle);
+  var CollapsibleGroupingTitle_default = (0, import_react228.memo)(CollapsibleGroupingTitle);
   var { contextComponentType: contextComponentType2, useContext: useContext54 } = createContextAndHook(
     "ActivityLogicalGroupingContext"
   );
   var ActivityLogicalGroupingContext_default = contextComponentType2;
   function useStateWithOptimisticRef(initialState) {
-    const [state, setState] = (0, import_react227.useState)(initialState);
-    const stateRef = (0, import_react227.useRef)(state);
-    const setStateWithRefUpdate = (0, import_react227.useCallback)((newState) => {
+    const [state, setState] = (0, import_react231.useState)(initialState);
+    const stateRef = (0, import_react231.useRef)(state);
+    const setStateWithRefUpdate = (0, import_react231.useCallback)((newState) => {
       setState(newState);
       stateRef.current = newState;
     }, []);
@@ -146461,9 +146654,9 @@ and ensure you are accounting for this risk.
   );
   var ActivityLogicalGroupingComposer = (props) => {
     const { children } = validateProps2(activityLogicalGroupingComposerPropsSchema, props);
-    const logicalGroupingsRef = (0, import_react226.useRef)(/* @__PURE__ */ new Map());
+    const logicalGroupingsRef = (0, import_react230.useRef)(/* @__PURE__ */ new Map());
     const [_activityToGroupMap, setActivityToGroupMap, activityToGroupMapRef] = useStateWithOptimisticRef(/* @__PURE__ */ new Map());
-    const addLogicalGrouping = (0, import_react226.useCallback)(
+    const addLogicalGrouping = (0, import_react230.useCallback)(
       (grouping) => {
         var _a29, _b4;
         const prevGroupingKeys = (_b4 = (_a29 = logicalGroupingsRef.current.get(grouping.key)) == null ? void 0 : _a29.activityKeys) != null ? _b4 : [];
@@ -146481,18 +146674,18 @@ and ensure you are accounting for this risk.
       },
       [activityToGroupMapRef, setActivityToGroupMap]
     );
-    const removeLogicalGrouping = (0, import_react226.useCallback)(
+    const removeLogicalGrouping = (0, import_react230.useCallback)(
       (key2) => {
         logicalGroupingsRef.current.delete(key2);
         setActivityToGroupMap(new Map([...activityToGroupMapRef.current].filter(([, value]) => value !== key2)));
       },
       [activityToGroupMapRef, setActivityToGroupMap]
     );
-    const getLogicalGroupKey = (0, import_react226.useCallback)(
+    const getLogicalGroupKey = (0, import_react230.useCallback)(
       (activityKey) => activityToGroupMapRef.current.get(activityKey),
       [activityToGroupMapRef]
     );
-    const getGroupState = (0, import_react226.useCallback)(
+    const getGroupState = (0, import_react230.useCallback)(
       (groupKey) => {
         var _a29;
         const group = logicalGroupingsRef.current.get(groupKey);
@@ -146500,7 +146693,7 @@ and ensure you are accounting for this risk.
       },
       [logicalGroupingsRef]
     );
-    const getGroupBoundaries = (0, import_react226.useCallback)(
+    const getGroupBoundaries = (0, import_react230.useCallback)(
       (groupKey) => {
         const group = logicalGroupingsRef.current.get(groupKey);
         if (!group || !group.activityKeys.length) {
@@ -146510,7 +146703,7 @@ and ensure you are accounting for this risk.
       },
       [logicalGroupingsRef]
     );
-    const contextValue = (0, import_react226.useMemo)(
+    const contextValue = (0, import_react230.useMemo)(
       () => ({
         addLogicalGrouping,
         getLogicalGroupKey,
@@ -146520,10 +146713,10 @@ and ensure you are accounting for this risk.
       }),
       [addLogicalGrouping, getLogicalGroupKey, getGroupState, getGroupBoundaries, removeLogicalGrouping]
     );
-    return (0, import_react226.createElement)(ActivityLogicalGroupingContext_default.Provider, { value: contextValue }, children);
+    return (0, import_react230.createElement)(ActivityLogicalGroupingContext_default.Provider, { value: contextValue }, children);
   };
   ActivityLogicalGroupingComposer.displayName = "ActivityLogicalGroupingComposer";
-  var ActivityLogicalGroupingComposer_default = (0, import_react226.memo)(ActivityLogicalGroupingComposer);
+  var ActivityLogicalGroupingComposer_default = (0, import_react230.memo)(ActivityLogicalGroupingComposer);
   function useAddLogicalGrouping() {
     return useContext54().addLogicalGrouping;
   }
@@ -146541,8 +146734,8 @@ and ensure you are accounting for this risk.
     const addLogicalGrouping = useAddLogicalGrouping();
     const removeLogicalGrouping = useRemoveLogicalGrouping();
     const isCollapsedRef = useRefFrom(isCollapsed);
-    const getGroupState = (0, import_react225.useCallback)(() => ({ isCollapsed: isCollapsedRef.current }), [isCollapsedRef]);
-    (0, import_react225.useMemo)(
+    const getGroupState = (0, import_react229.useCallback)(() => ({ isCollapsed: isCollapsedRef.current }), [isCollapsedRef]);
+    (0, import_react229.useMemo)(
       () => addLogicalGrouping({
         key: partKeyRef.current,
         activityKeys: Array.from(activityKeys),
@@ -146551,17 +146744,17 @@ and ensure you are accounting for this risk.
       [activityKeys, addLogicalGrouping, getGroupState, partKeyRef]
     );
     const removeLogicalGroupingRef = useRefFrom(removeLogicalGrouping);
-    (0, import_react225.useEffect)(() => () => removeLogicalGroupingRef.current(partKeyRef.current), [partKeyRef, removeLogicalGroupingRef]);
+    (0, import_react229.useEffect)(() => () => removeLogicalGroupingRef.current(partKeyRef.current), [partKeyRef, removeLogicalGroupingRef]);
     return partGroupKey;
   }
   var usePartGroupingLogicalGroup_default = usePartGroupingLogicalGroup;
-  var classes62 = { "part-grouping-activity__message-status": "wKyGLuG_part-grouping-activity__message-status", "part-grouping-activity__collapsible--open": "wKyGLuG_part-grouping-activity__collapsible--open", "part-grouping-activity__activities": "wKyGLuG_part-grouping-activity__activities", "part-grouping-activity": "wKyGLuG_part-grouping-activity", "part-grouping-activity__collapsible": "wKyGLuG_part-grouping-activity__collapsible" };
+  var classes62 = { "part-grouping-activity__message-status": "wKyGLuG_part-grouping-activity__message-status", "part-grouping-activity__collapsible": "wKyGLuG_part-grouping-activity__collapsible", "part-grouping-activity__activities": "wKyGLuG_part-grouping-activity__activities", "part-grouping-activity": "wKyGLuG_part-grouping-activity", "part-grouping-activity__collapsible--open": "wKyGLuG_part-grouping-activity__collapsible--open" };
   var PartGroupingActivity_module_default = classes62;
   var _part_grouping_activity__message_status0 = classes62["part-grouping-activity__message-status"];
-  var _part_grouping_activity__collapsible__open0 = classes62["part-grouping-activity__collapsible--open"];
+  var _part_grouping_activity__collapsible0 = classes62["part-grouping-activity__collapsible"];
   var _part_grouping_activity__activities0 = classes62["part-grouping-activity__activities"];
   var _part_grouping_activity0 = classes62["part-grouping-activity"];
-  var _part_grouping_activity__collapsible0 = classes62["part-grouping-activity__collapsible"];
+  var _part_grouping_activity__collapsible__open0 = classes62["part-grouping-activity__collapsible--open"];
   var { useAvatarForBot: useAvatarForBot2, useGetKeyByActivity: useGetKeyByActivity2, useLocalizer: useLocalizer32, useStyleOptions: useStyleOptions23 } = hook_exports;
   var partGroupingActivityPropsSchema = pipe(
     object({
@@ -146583,29 +146776,29 @@ and ensure you are accounting for this risk.
     }),
     readonly()
   );
-  var FocusablePartGroupingActivity = (0, import_react195.memo)(function FocusablePartGroupingActivity2(props) {
+  var FocusablePartGroupingActivity = (0, import_react199.memo)(function FocusablePartGroupingActivity2(props) {
     const { activity, children, className, groupKey } = validateProps2(partGroupingFocusableActivityPropsSchema, props);
     const [activeDescendantId] = useActiveDescendantId();
     const getGroupDescendantIdByActivityKey = useGetGroupDescendantIdByActivityKey();
     const focusByGroupKey = useFocusByGroupKey();
     const getKeyByActivity = useGetKeyByActivity2();
     const groupingActivityDescendantId = getGroupDescendantIdByActivityKey(getKeyByActivity(activity));
-    const focusSelf = (0, import_react195.useCallback)(
+    const focusSelf = (0, import_react199.useCallback)(
       (withFocus) => focusByGroupKey(groupKey, withFocus),
       [groupKey, focusByGroupKey]
     );
-    const handleDescendantFocus = (0, import_react195.useCallback)(() => focusSelf(false), [focusSelf]);
-    const handleLeaveFocusTrap = (0, import_react195.useCallback)(() => focusSelf(), [focusSelf]);
-    const handleMouseDownCapture = (0, import_react195.useCallback)(() => focusSelf(false), [focusSelf]);
+    const handleDescendantFocus = (0, import_react199.useCallback)(() => focusSelf(false), [focusSelf]);
+    const handleLeaveFocusTrap = (0, import_react199.useCallback)(() => focusSelf(), [focusSelf]);
+    const handleMouseDownCapture = (0, import_react199.useCallback)(() => focusSelf(false), [focusSelf]);
     const isActiveDescendant = groupingActivityDescendantId === activeDescendantId;
     const activityElementMapRef = useActivityElementMapRef();
-    const groupCallbackRef = (0, import_react195.useCallback)(
+    const groupCallbackRef = (0, import_react199.useCallback)(
       (activityElement) => {
         activityElement ? activityElementMapRef.current.set(groupKey, activityElement) : activityElementMapRef.current.delete(groupKey);
       },
       [activityElementMapRef, groupKey]
     );
-    return /* @__PURE__ */ import_react195.default.createElement(
+    return /* @__PURE__ */ import_react199.default.createElement(
       TranscriptFocusContent_default,
       {
         className,
@@ -146614,7 +146807,7 @@ and ensure you are accounting for this risk.
         ref: groupCallbackRef,
         role: "article"
       },
-      /* @__PURE__ */ import_react195.default.createElement(
+      /* @__PURE__ */ import_react199.default.createElement(
         FocusTrap_default,
         {
           onFocus: handleDescendantFocus,
@@ -146623,7 +146816,7 @@ and ensure you are accounting for this risk.
         },
         children
       ),
-      /* @__PURE__ */ import_react195.default.createElement(TranscriptFocusContentOverlay_default, null, !android && /* @__PURE__ */ import_react195.default.createElement(TranscriptFocusContentActiveDescendant_default, { id: groupingActivityDescendantId }), /* @__PURE__ */ import_react195.default.createElement(TranscriptFocusIndicator_default, { type: "content" }))
+      /* @__PURE__ */ import_react199.default.createElement(TranscriptFocusContentOverlay_default, null, !android && /* @__PURE__ */ import_react199.default.createElement(TranscriptFocusContentActiveDescendant_default, { id: groupingActivityDescendantId }), /* @__PURE__ */ import_react199.default.createElement(TranscriptFocusIndicator_default, { type: "content" }))
     );
   });
   function PartGroupingActivity(props) {
@@ -146631,13 +146824,13 @@ and ensure you are accounting for this risk.
     const { activities: activities2, children } = validateProps2(partGroupingActivityPropsSchema, props);
     const classNames31 = useStyles_default(PartGroupingActivity_module_default);
     const getKeyByActivity = useGetKeyByActivity2();
-    const [isGroupOpen, setIsGroupOpen] = (0, import_react195.useState)(true);
-    const messages = (0, import_react195.useMemo)(
+    const [isGroupOpen, setIsGroupOpen] = (0, import_react199.useState)(true);
+    const messages = (0, import_react199.useMemo)(
       () => activities2.map((activity) => getOrgSchemaMessage(activity.entities)).filter((message) => !!message),
       [activities2]
     );
     const lastMessage = messages.at(-1);
-    const activityKeys = (0, import_react195.useMemo)(
+    const activityKeys = (0, import_react199.useMemo)(
       () => activities2.map((activity) => getKeyByActivity(activity)),
       [activities2, getKeyByActivity]
     );
@@ -146647,7 +146840,7 @@ and ensure you are accounting for this risk.
     });
     const firstActivity = activities2.at(0);
     const lastActivity = activities2.at(-1);
-    const currentMessage = (0, import_react195.useMemo)(
+    const currentMessage = (0, import_react199.useMemo)(
       () => messages.find((message) => message.creativeWorkStatus === "Incomplete") || lastMessage,
       [messages, lastMessage]
     );
@@ -146658,29 +146851,29 @@ and ensure you are accounting for this risk.
     const showAvatar = showCallout && hasAvatar && !!renderAvatar;
     const [{ bubbleNubOffset }] = useStyleOptions23();
     const topAlignedCallout = isZeroOrPositive(bubbleNubOffset);
-    const defaultWorkStatus = (0, import_react195.useMemo)(
+    const defaultWorkStatus = (0, import_react199.useMemo)(
       () => messages.some((message) => "creativeWorkStatus" in message) ? "Incomplete" : void 0,
       [messages]
     );
     const currentGroupStatus = (currentMessage == null ? void 0 : currentMessage.creativeWorkStatus) || defaultWorkStatus;
-    const groupHeader = (0, import_react195.useMemo)(
-      () => /* @__PURE__ */ import_react195.default.createElement(import_react195.Fragment, null, defaultWorkStatus && /* @__PURE__ */ import_react195.default.createElement(
+    const groupHeader = (0, import_react199.useMemo)(
+      () => /* @__PURE__ */ import_react199.default.createElement(import_react199.Fragment, null, defaultWorkStatus && /* @__PURE__ */ import_react199.default.createElement(
         StackedLayoutMessageStatus_default,
         {
           className: classNames31["part-grouping-activity__message-status"],
           creativeWorkStatus: currentGroupStatus
         }
-      ), /* @__PURE__ */ import_react195.default.createElement(CollapsibleGroupingTitle_default, null, currentGroupStatus === "Incomplete" ? (currentMessage == null ? void 0 : currentMessage.abstract) || localize2("COLLAPSIBLE_GROUPING_TITLE") : localize2("COLLAPSIBLE_GROUPING_TITLE"))),
+      ), /* @__PURE__ */ import_react199.default.createElement(CollapsibleGroupingTitle_default, null, currentGroupStatus === "Incomplete" ? (currentMessage == null ? void 0 : currentMessage.abstract) || localize2("COLLAPSIBLE_GROUPING_TITLE") : localize2("COLLAPSIBLE_GROUPING_TITLE"))),
       [classNames31, currentGroupStatus, currentMessage == null ? void 0 : currentMessage.abstract, defaultWorkStatus, localize2]
     );
-    return /* @__PURE__ */ import_react195.default.createElement(
+    return /* @__PURE__ */ import_react199.default.createElement(
       FocusablePartGroupingActivity,
       {
         activity: firstActivity,
         className: classNames31["part-grouping-activity"],
         groupKey
       },
-      /* @__PURE__ */ import_react195.default.createElement(
+      /* @__PURE__ */ import_react199.default.createElement(
         StackedLayoutRoot_default,
         {
           hideAvatar: hasAvatar && !showAvatar,
@@ -146688,7 +146881,7 @@ and ensure you are accounting for this risk.
           showAvatar,
           topCallout: topAlignedCallout
         },
-        /* @__PURE__ */ import_react195.default.createElement(StackedLayoutMain_default, { avatar: showAvatar && renderAvatar && renderAvatar() }, /* @__PURE__ */ import_react195.default.createElement(
+        /* @__PURE__ */ import_react199.default.createElement(StackedLayoutMain_default, { avatar: showAvatar && renderAvatar && renderAvatar() }, /* @__PURE__ */ import_react199.default.createElement(
           CollapsibleGrouping_default,
           {
             className: (0, import_classnames17.default)(classNames31["part-grouping-activity__collapsible"], {
@@ -146698,7 +146891,7 @@ and ensure you are accounting for this risk.
             isOpen: isGroupOpen,
             onToggle: setIsGroupOpen
           },
-          /* @__PURE__ */ import_react195.default.createElement(
+          /* @__PURE__ */ import_react199.default.createElement(
             CollapsibleGroupingList_default,
             {
               className: classNames31["part-grouping-activity__activities"],
@@ -146707,11 +146900,11 @@ and ensure you are accounting for this risk.
             children
           )
         )),
-        renderActivityStatus && /* @__PURE__ */ import_react195.default.createElement(StackedLayoutStatus_default, null, renderActivityStatus({ hideTimestamp }))
+        renderActivityStatus && /* @__PURE__ */ import_react199.default.createElement(StackedLayoutStatus_default, null, renderActivityStatus({ hideTimestamp }))
       )
     );
   }
-  var PartGroupingActivity_default = (0, import_react195.memo)(PartGroupingActivity);
+  var PartGroupingActivity_default = (0, import_react199.memo)(PartGroupingActivity);
   var partGroupingPropsSchema = pipe(
     object({
       activities: pipe(
@@ -146727,7 +146920,7 @@ and ensure you are accounting for this risk.
     var _a29;
     const { activities: activities2, children } = parse(partGroupingPropsSchema, props);
     const lastActivity = activities2.at(-1);
-    const lastMessage = (0, import_react194.useMemo)(
+    const lastMessage = (0, import_react198.useMemo)(
       () => {
         var _a30;
         return getOrgSchemaMessage(
@@ -146740,12 +146933,12 @@ and ensure you are accounting for this risk.
       [activities2, lastActivity]
     );
     const isGroup = activities2.length > 1 || safeParse(IdentifierSchema2, (_a29 = lastMessage == null ? void 0 : lastMessage.isPartOf) == null ? void 0 : _a29["@id"]).success;
-    return isGroup ? /* @__PURE__ */ import_react194.default.createElement(PartGroupingActivity_default, { activities: activities2 }, children) : /* @__PURE__ */ import_react194.default.createElement(import_react194.Fragment, null, children);
+    return isGroup ? /* @__PURE__ */ import_react198.default.createElement(PartGroupingActivity_default, { activities: activities2 }, children) : /* @__PURE__ */ import_react198.default.createElement(import_react198.Fragment, null, children);
   }
-  var PartGrouping_default = (0, import_react194.memo)(PartGrouping);
+  var PartGrouping_default = (0, import_react198.memo)(PartGrouping);
   var createCodeHighlighterComposer = ({ Provider: Provider3 }) => ({ children, highlightCode }) => {
     const previousCodeHighlighter = useCodeHighlighter();
-    const safeHighlightCode = (0, import_react229.useCallback)(
+    const safeHighlightCode = (0, import_react233.useCallback)(
       (...args) => {
         try {
           return highlightCode(...args);
@@ -146756,13 +146949,13 @@ and ensure you are accounting for this risk.
       },
       [highlightCode, previousCodeHighlighter]
     );
-    const CodeHighlighterContextValue = (0, import_react229.useMemo)(
+    const CodeHighlighterContextValue = (0, import_react233.useMemo)(
       () => ({
         highlightCode: safeHighlightCode
       }),
       [safeHighlightCode]
     );
-    return /* @__PURE__ */ import_react229.default.createElement(Provider3, { value: CodeHighlighterContextValue }, children);
+    return /* @__PURE__ */ import_react233.default.createElement(Provider3, { value: CodeHighlighterContextValue }, children);
   };
   var createCodeHighlighterComposer_default = createCodeHighlighterComposer;
   var defaultHighlightCode = (source, language2) => {
@@ -146780,21 +146973,21 @@ and ensure you are accounting for this risk.
       return "<pre></pre>";
     }
   };
-  var CodeHighlighterContext = (0, import_react228.createContext)(
+  var CodeHighlighterContext = (0, import_react232.createContext)(
     Object.freeze({
       highlightCode: defaultHighlightCode
     })
   );
   function useCodeHighlighter() {
-    return (0, import_react228.useContext)(CodeHighlighterContext).highlightCode;
+    return (0, import_react232.useContext)(CodeHighlighterContext).highlightCode;
   }
-  var CodeHighlighterComposer = (0, import_react228.memo)(createCodeHighlighterComposer_default(CodeHighlighterContext));
+  var CodeHighlighterComposer = (0, import_react232.memo)(createCodeHighlighterComposer_default(CodeHighlighterContext));
   CodeHighlighterComposer.displayName = "CodeHighlighterComposer";
 
   // ../api/dist/chunk-WEBP7HVH.mjs
-  var import_react230 = __toESM(require_react(), 1);
-  var import_react231 = __toESM(require_react(), 1);
-  var DecoratorComposerContext = (0, import_react230.createContext)(
+  var import_react234 = __toESM(require_react(), 1);
+  var import_react235 = __toESM(require_react(), 1);
+  var DecoratorComposerContext = (0, import_react234.createContext)(
     Object.freeze({
       middleware: Object.freeze([])
     })
@@ -146806,24 +146999,24 @@ and ensure you are accounting for this risk.
     middleware: middlewareFromProps = EMPTY_ARRAY7,
     priority
   }) {
-    const existingContext = (0, import_react231.useContext)(DecoratorComposerContext_default);
-    const middleware4 = (0, import_react231.useMemo)(
+    const existingContext = (0, import_react235.useContext)(DecoratorComposerContext_default);
+    const middleware4 = (0, import_react235.useMemo)(
       () => priority === "low" ? Object.freeze([...existingContext.middleware, ...middlewareFromProps]) : Object.freeze([...middlewareFromProps, ...existingContext.middleware]),
       [existingContext, middlewareFromProps, priority]
     );
-    const context9 = (0, import_react231.useMemo)(() => ({ middleware: middleware4 }), [middleware4]);
-    return /* @__PURE__ */ import_react231.default.createElement(DecoratorComposerContext_default.Provider, { value: context9 }, children);
+    const context9 = (0, import_react235.useMemo)(() => ({ middleware: middleware4 }), [middleware4]);
+    return /* @__PURE__ */ import_react235.default.createElement(DecoratorComposerContext_default.Provider, { value: context9 }, children);
   }
-  var InternalDecoratorComposer_default = (0, import_react231.memo)(InternalDecoratorComposer);
+  var InternalDecoratorComposer_default = (0, import_react235.memo)(InternalDecoratorComposer);
 
   // ../api/dist/botframework-webchat-api.decorator.mjs
-  var import_react232 = __toESM(require_react(), 1);
-  var import_react233 = __toESM(require_react(), 1);
-  var import_react234 = __toESM(require_react(), 1);
-  var import_react235 = __toESM(require_react(), 1);
   var import_react236 = __toESM(require_react(), 1);
   var import_react237 = __toESM(require_react(), 1);
   var import_react238 = __toESM(require_react(), 1);
+  var import_react239 = __toESM(require_react(), 1);
+  var import_react240 = __toESM(require_react(), 1);
+  var import_react241 = __toESM(require_react(), 1);
+  var import_react242 = __toESM(require_react(), 1);
   var decoratorComposerPropsSchema = pipe(
     object({
       children: optional(reactNode_default5()),
@@ -146836,7 +147029,7 @@ and ensure you are accounting for this risk.
   );
   function DecoratorComposer(props) {
     const { children, middleware: middleware4 } = validateProps6(decoratorComposerPropsSchema, props);
-    (0, import_react232.useMemo)(() => {
+    (0, import_react236.useMemo)(() => {
       if (!safeParse(warnInvalidMiddlewarePropsSchema, middleware4).success) {
         console.warn(
           'botframework-webchat: "middleware" props passed to <DecoratorComposer> should be created using createXXXMiddleware() functions.',
@@ -146844,34 +147037,34 @@ and ensure you are accounting for this risk.
         );
       }
     }, [middleware4]);
-    return middleware4 ? /* @__PURE__ */ import_react232.default.createElement(InternalDecoratorComposer_default, { middleware: middleware4, priority: "normal" }, children) : (
+    return middleware4 ? /* @__PURE__ */ import_react236.default.createElement(InternalDecoratorComposer_default, { middleware: middleware4, priority: "normal" }, children) : (
       // We can't return `children` unless we are not using memo().
-      /* @__PURE__ */ import_react232.default.createElement(import_react232.Fragment, null, children)
+      /* @__PURE__ */ import_react236.default.createElement(import_react236.Fragment, null, children)
     );
   }
-  var DecoratorComposer_default = (0, import_react232.memo)(DecoratorComposer);
+  var DecoratorComposer_default = (0, import_react236.memo)(DecoratorComposer);
   function useDecoratorRequest(type2) {
     var _a29;
-    const request2 = (_a29 = (0, import_react233.useContext)(type2)) == null ? void 0 : _a29.request;
+    const request2 = (_a29 = (0, import_react237.useContext)(type2)) == null ? void 0 : _a29.request;
     if (!request2) {
       throw new Error(`useDecoratorRequest must be used within a ${type2}Provider`);
     }
     return request2;
   }
   function PassthroughFallback({ children }) {
-    return /* @__PURE__ */ import_react235.default.createElement(import_react235.Fragment, null, children);
+    return /* @__PURE__ */ import_react239.default.createElement(import_react239.Fragment, null, children);
   }
-  var PassthroughFallback_default = (0, import_react235.memo)(PassthroughFallback);
+  var PassthroughFallback_default = (0, import_react239.memo)(PassthroughFallback);
   var decoratorChain = createChainOfResponsibility_default();
   function templateDecorator(name, DecoratorRequestContext, FinalComponent = PassthroughFallback_default) {
     function buildComponent(Component3, Next) {
       function ChainNext(props) {
         var _a29;
-        const request2 = (_a29 = (0, import_react236.useContext)(DecoratorRequestContext)) == null ? void 0 : _a29.request;
-        return /* @__PURE__ */ import_react236.default.createElement(Component3, { ...props, Next, request: request2 });
+        const request2 = (_a29 = (0, import_react240.useContext)(DecoratorRequestContext)) == null ? void 0 : _a29.request;
+        return /* @__PURE__ */ import_react240.default.createElement(Component3, { ...props, Next, request: request2 });
       }
       ChainNext.displayName = `ChainNext(Next ${name})`;
-      return (0, import_react236.memo)(ChainNext);
+      return (0, import_react240.memo)(ChainNext);
     }
     function createMiddleware3(Component3) {
       const factory = (init) => {
@@ -146889,33 +147082,34 @@ and ensure you are accounting for this risk.
     const { Provider: DecoratorChainProvider, useBuildComponentCallback } = decoratorChain;
     function Chain(props) {
       const buildMiddleware = useBuildComponentCallback();
-      const Proxy4 = (0, import_react236.useMemo)(() => buildMiddleware(void 0, { fallbackComponent: FinalComponent }), [buildMiddleware]);
-      return Proxy4 && /* @__PURE__ */ import_react236.default.createElement(Proxy4, { ...props });
+      const Proxy4 = (0, import_react240.useMemo)(() => buildMiddleware(void 0, { fallbackComponent: FinalComponent }), [buildMiddleware]);
+      return Proxy4 && /* @__PURE__ */ import_react240.default.createElement(Proxy4, { ...props });
     }
     Chain.displayName = `DecoratorChain(Chain ${name})`;
-    const MemoChain = (0, import_react236.memo)(Chain);
+    const MemoChain = (0, import_react240.memo)(Chain);
     function DecoratorProxy(props) {
       const { request: request2 } = props;
-      const { middleware: middleware4 } = (0, import_react236.useContext)(DecoratorComposerContext_default);
-      const decoratorMiddleware = (0, import_react236.useMemo)(
+      const { middleware: middleware4 } = (0, import_react240.useContext)(DecoratorComposerContext_default);
+      const decoratorMiddleware = (0, import_react240.useMemo)(
         () => middleware4.map((middleware22) => middleware22(name)).filter((enhancer) => enhancer).map((enhancer) => () => enhancer),
         [middleware4]
       );
-      const value = (0, import_react236.useMemo)(() => ({ request: request2 }), [request2]);
-      return /* @__PURE__ */ import_react236.default.createElement(DecoratorRequestContext.Provider, { value }, /* @__PURE__ */ import_react236.default.createElement(DecoratorChainProvider, { init: name, middleware: decoratorMiddleware }, /* @__PURE__ */ import_react236.default.createElement(MemoChain, { ...props })));
+      const value = (0, import_react240.useMemo)(() => ({ request: request2 }), [request2]);
+      return /* @__PURE__ */ import_react240.default.createElement(DecoratorRequestContext.Provider, { value }, /* @__PURE__ */ import_react240.default.createElement(DecoratorChainProvider, { init: name, middleware: decoratorMiddleware }, /* @__PURE__ */ import_react240.default.createElement(MemoChain, { ...props })));
     }
     DecoratorProxy.displayName = `DecoratorProxy(Decorator ${name})`;
     return {
       createMiddleware: createMiddleware3,
-      Proxy: (0, import_react236.memo)(DecoratorProxy),
+      Proxy: (0, import_react240.memo)(DecoratorProxy),
       // This is for type inference, so we can use it in other files.
       "~types": void 0
     };
   }
-  var ActivityBorderDecoratorRequestContext = (0, import_react237.createContext)(
+  var ActivityBorderDecoratorRequestContext = (0, import_react241.createContext)(
     Object.freeze({
       request: Object.freeze({
         from: void 0,
+        voiceTranscriptRole: void 0,
         livestreamingState: void 0
       })
     })
@@ -146933,17 +147127,18 @@ and ensure you are accounting for this risk.
     void 0
   ];
   function ActivityBorderDecorator({ activity, children }) {
-    const request2 = (0, import_react234.useMemo)(() => {
+    const request2 = (0, import_react238.useMemo)(() => {
       var _a29, _b4;
       const { type: type2 } = getActivityLivestreamingMetadata(activity) || {};
       return {
         from: supportedActivityRoles.includes((_a29 = activity == null ? void 0 : activity.from) == null ? void 0 : _a29.role) ? (_b4 = activity == null ? void 0 : activity.from) == null ? void 0 : _b4.role : void 0,
+        voiceTranscriptRole: getVoiceActivityRole_default(activity),
         livestreamingState: type2 === "final activity" ? "completing" : type2 === "informative message" ? "preparing" : type2 === "interim activity" ? "ongoing" : type2 === "contentless" ? void 0 : void 0
       };
     }, [activity]);
-    return /* @__PURE__ */ import_react234.default.createElement(ActivityBorderDecoratorMiddlewareProxy, { request: request2 }, children);
+    return /* @__PURE__ */ import_react238.default.createElement(ActivityBorderDecoratorMiddlewareProxy, { request: request2 }, children);
   }
-  var ActivityBorderDecorator_default = (0, import_react234.memo)(ActivityBorderDecorator);
+  var ActivityBorderDecorator_default = (0, import_react238.memo)(ActivityBorderDecorator);
   var template22 = templateMiddleware_default("activity grouping");
   var {
     createMiddleware: createActivityGroupingMiddleware,
@@ -146952,13 +147147,13 @@ and ensure you are accounting for this risk.
     Proxy: ActivityGroupingDecoratorMiddlewareProxy
   } = template22;
   function ActivityGroupingDecorator({ activities: activities2, children, groupingName }) {
-    const request2 = (0, import_react238.useMemo)(() => ({ groupingName }), [groupingName]);
-    const { middleware: middleware4 } = (0, import_react238.useContext)(DecoratorComposerContext_default);
-    const activityGroupingMiddleware = (0, import_react238.useMemo)(
+    const request2 = (0, import_react242.useMemo)(() => ({ groupingName }), [groupingName]);
+    const { middleware: middleware4 } = (0, import_react242.useContext)(DecoratorComposerContext_default);
+    const activityGroupingMiddleware = (0, import_react242.useMemo)(
       () => extractActivityGroupingDecoratorMiddleware(middleware4),
       [middleware4]
     );
-    return /* @__PURE__ */ import_react238.default.createElement(ActivityGroupingDecoratorMiddlewareProvider, { middleware: activityGroupingMiddleware }, /* @__PURE__ */ import_react238.default.createElement(
+    return /* @__PURE__ */ import_react242.default.createElement(ActivityGroupingDecoratorMiddlewareProvider, { middleware: activityGroupingMiddleware }, /* @__PURE__ */ import_react242.default.createElement(
       ActivityGroupingDecoratorMiddlewareProxy,
       {
         activities: activities2,
@@ -146968,28 +147163,28 @@ and ensure you are accounting for this risk.
       children
     ));
   }
-  var ActivityGroupingDecorator_default = (0, import_react238.memo)(ActivityGroupingDecorator);
+  var ActivityGroupingDecorator_default = (0, import_react242.memo)(ActivityGroupingDecorator);
 
-  // ../component/dist/chunk-NNKGCOL2.mjs
+  // ../component/dist/chunk-S54HCXJI.mjs
   var import_classnames40 = __toESM(require_classnames(), 1);
   var import_markdown_it = __toESM(require_markdown_it(), 1);
   var import_prop_types23 = __toESM(require_prop_types(), 1);
-  var import_react273 = __toESM(require_react(), 1);
+  var import_react277 = __toESM(require_react(), 1);
 
   // ../../node_modules/react-say/dist/react-say.mjs
   var import_prop_types14 = __toESM(require_prop_types(), 1);
-  var import_react239 = __toESM(require_react(), 1);
-  var import_react240 = __toESM(require_react(), 1);
-  var import_prop_types15 = __toESM(require_prop_types(), 1);
-  var import_react241 = __toESM(require_react(), 1);
-  var import_prop_types16 = __toESM(require_prop_types(), 1);
-  var import_react242 = __toESM(require_react(), 1);
   var import_react243 = __toESM(require_react(), 1);
-  var import_prop_types17 = __toESM(require_prop_types(), 1);
   var import_react244 = __toESM(require_react(), 1);
+  var import_prop_types15 = __toESM(require_prop_types(), 1);
   var import_react245 = __toESM(require_react(), 1);
-  var Context2 = import_react240.default.createContext();
-  var Context_default7 = Context2;
+  var import_prop_types16 = __toESM(require_prop_types(), 1);
+  var import_react246 = __toESM(require_react(), 1);
+  var import_react247 = __toESM(require_react(), 1);
+  var import_prop_types17 = __toESM(require_prop_types(), 1);
+  var import_react248 = __toESM(require_react(), 1);
+  var import_react249 = __toESM(require_react(), 1);
+  var Context2 = import_react244.default.createContext();
+  var Context_default8 = Context2;
   function createCustomEvent2(name, eventInitDict) {
     if (name === "error") {
       if (typeof ErrorEvent === "function") {
@@ -147158,7 +147353,7 @@ and ensure you are accounting for this risk.
     return utterance;
   }
   function useSynthesize() {
-    const { ponyfill: ponyfill2, synthesize } = (0, import_react243.useContext)(Context_default7);
+    const { ponyfill: ponyfill2, synthesize } = (0, import_react247.useContext)(Context_default8);
     return (utteranceOrText, progressFn) => {
       if (typeof utteranceOrText === "string") {
         utteranceOrText = createNativeUtterance(ponyfill2, { text: utteranceOrText });
@@ -147168,9 +147363,9 @@ and ensure you are accounting for this risk.
   }
   var SayUtterance = (props) => {
     const { onEnd, onError, onStart, utterance } = migrateDeprecatedProps(props);
-    const started = (0, import_react242.useRef)(false);
+    const started = (0, import_react246.useRef)(false);
     const synthesize = useSynthesize();
-    (0, import_react242.useEffect)(() => {
+    (0, import_react246.useEffect)(() => {
       if (started.current) {
         return console.warn("react-say: Should not change utterance after synthesis started.");
       }
@@ -147200,7 +147395,7 @@ and ensure you are accounting for this risk.
     onError: import_prop_types16.default.func,
     onStart: import_prop_types16.default.func
   };
-  var SayUtteranceWithContext = ({ ponyfill: ponyfill2, ...props }) => /* @__PURE__ */ import_react242.default.createElement(Composer_default3, { ponyfill: ponyfill2 }, /* @__PURE__ */ import_react242.default.createElement(SayUtterance, { ...props }));
+  var SayUtteranceWithContext = ({ ponyfill: ponyfill2, ...props }) => /* @__PURE__ */ import_react246.default.createElement(Composer_default3, { ponyfill: ponyfill2 }, /* @__PURE__ */ import_react246.default.createElement(SayUtterance, { ...props }));
   SayUtteranceWithContext.defaultProps = {
     ...SayUtterance.defaultProps,
     ponyfill: void 0
@@ -147218,12 +147413,12 @@ and ensure you are accounting for this risk.
       props,
       Say
     );
-    const { ponyfill: ponyfill2 } = (0, import_react241.useContext)(Context_default7);
+    const { ponyfill: ponyfill2 } = (0, import_react245.useContext)(Context_default8);
     if (speak && !text6) {
       console.warn('react-say: "speak" prop is being deprecated and renamed to "text".');
       text6 = speak;
     }
-    const utterance = (0, import_react241.useMemo)(
+    const utterance = (0, import_react245.useMemo)(
       () => createNativeUtterance(ponyfill2, {
         lang: lang4,
         onBoundary,
@@ -147235,7 +147430,7 @@ and ensure you are accounting for this risk.
       }),
       [lang4, onBoundary, pitch, ponyfill2, rate, text6, voice, volume]
     );
-    return /* @__PURE__ */ import_react241.default.createElement(SayUtterance_default, { onEnd, onError, onStart, ponyfill: ponyfill2, utterance });
+    return /* @__PURE__ */ import_react245.default.createElement(SayUtterance_default, { onEnd, onError, onStart, ponyfill: ponyfill2, utterance });
   };
   Say.defaultProps = {
     children: void 0,
@@ -147264,7 +147459,7 @@ and ensure you are accounting for this risk.
     voice: import_prop_types15.default.oneOfType([import_prop_types15.default.any, import_prop_types15.default.func]),
     volume: import_prop_types15.default.number
   };
-  var SayWithContext = ({ ponyfill: ponyfill2, ...props }) => /* @__PURE__ */ import_react241.default.createElement(Composer_default3, { ponyfill: ponyfill2 }, /* @__PURE__ */ import_react241.default.createElement(Say, { ...props }));
+  var SayWithContext = ({ ponyfill: ponyfill2, ...props }) => /* @__PURE__ */ import_react245.default.createElement(Composer_default3, { ponyfill: ponyfill2 }, /* @__PURE__ */ import_react245.default.createElement(Say, { ...props }));
   SayWithContext.defaultProps = {
     ...SayUtterance_default.defaultProps,
     ponyfill: void 0
@@ -147279,8 +147474,8 @@ and ensure you are accounting for this risk.
   var Say_default = SayWithContext;
   var SayButton = (props) => {
     const { children, disabled, lang: lang4, onBoundary, onEnd, onError, onStart, pitch, ponyfill: ponyfill2, rate, text: text6, voice, volume } = migrateDeprecatedProps(props, SayButton);
-    const [busy, setBusy] = (0, import_react244.useState)(false);
-    const handleClick = (0, import_react244.useCallback)(() => setBusy(true));
+    const [busy, setBusy] = (0, import_react248.useState)(false);
+    const handleClick = (0, import_react248.useCallback)(() => setBusy(true));
     const sayProps = {
       lang: lang4,
       onBoundary,
@@ -147297,7 +147492,7 @@ and ensure you are accounting for this risk.
       voice,
       volume
     };
-    return /* @__PURE__ */ import_react244.default.createElement(import_react244.default.Fragment, null, /* @__PURE__ */ import_react244.default.createElement("button", { disabled: typeof disabled === "boolean" ? disabled : busy, onClick: handleClick }, children), busy && /* @__PURE__ */ import_react244.default.createElement(Say_default, { ...sayProps }));
+    return /* @__PURE__ */ import_react248.default.createElement(import_react248.default.Fragment, null, /* @__PURE__ */ import_react248.default.createElement("button", { disabled: typeof disabled === "boolean" ? disabled : busy, onClick: handleClick }, children), busy && /* @__PURE__ */ import_react248.default.createElement(Say_default, { ...sayProps }));
   };
   SayButton.defaultProps = {
     children: void 0,
@@ -147368,12 +147563,12 @@ and ensure you are accounting for this risk.
     };
   }
   function useImmediateEffect(fn, deps) {
-    const unsubscribeRef = (0, import_react245.useRef)({
+    const unsubscribeRef = (0, import_react249.useRef)({
       first: true,
       id: Math.random().toString(36).substr(2, 5),
       unsubscribe: fn()
     });
-    (0, import_react245.useEffect)(() => {
+    (0, import_react249.useEffect)(() => {
       const { current: current2 } = unsubscribeRef;
       if (!current2.first) {
         current2.unsubscribe = fn();
@@ -147398,16 +147593,16 @@ and ensure you are accounting for this risk.
   }
   var Composer3 = (props) => {
     const { children, ponyfill: ponyfillFromProps } = migrateDeprecatedProps(props, Composer3);
-    const { ponyfill: parentPonyfill, synthesize: parentSynthesize } = (0, import_react239.useContext)(Context_default7) || {};
+    const { ponyfill: parentPonyfill, synthesize: parentSynthesize } = (0, import_react243.useContext)(Context_default8) || {};
     const ponyfill2 = ponyfillFromProps || parentPonyfill || {
       speechSynthesis: window.speechSynthesis || window.webkitSpeechSynthesis,
       SpeechSynthesisUtterance: window.SpeechSynthesisUtterance || window.webkitSpeechSynthesisUtterance
     };
-    const synthesize = (0, import_react239.useMemo)(() => parentSynthesize || createSynthesize(), [parentSynthesize]);
+    const synthesize = (0, import_react243.useMemo)(() => parentSynthesize || createSynthesize(), [parentSynthesize]);
     const { speechSynthesis: speechSynthesis2 } = ponyfill2;
-    const [voices, setVoices] = (0, import_react239.useState)(speechSynthesis2.getVoices());
+    const [voices, setVoices] = (0, import_react243.useState)(speechSynthesis2.getVoices());
     useEvent(speechSynthesis2, "voiceschanged", () => setVoices(speechSynthesis2.getVoices()));
-    const context9 = (0, import_react239.useMemo)(
+    const context9 = (0, import_react243.useMemo)(
       () => ({
         ponyfill: ponyfill2,
         synthesize,
@@ -147415,7 +147610,7 @@ and ensure you are accounting for this risk.
       }),
       [ponyfill2, synthesize, voices]
     );
-    return /* @__PURE__ */ import_react239.default.createElement(Context_default7.Provider, { value: context9 }, typeof children === "function" ? /* @__PURE__ */ import_react239.default.createElement(Context_default7.Consumer, null, (context22) => children(context22)) : children);
+    return /* @__PURE__ */ import_react243.default.createElement(Context_default8.Provider, { value: context9 }, typeof children === "function" ? /* @__PURE__ */ import_react243.default.createElement(Context_default8.Consumer, null, (context22) => children(context22)) : children);
   };
   Composer3.defaultProps = {
     children: void 0,
@@ -147431,22 +147626,22 @@ and ensure you are accounting for this risk.
   var Composer_default3 = Composer3;
   var src_default2 = Say_default;
 
-  // ../component/dist/chunk-NNKGCOL2.mjs
-  var import_react274 = __toESM(require_react(), 1);
-  var import_prop_types24 = __toESM(require_prop_types(), 1);
-  var import_react275 = __toESM(require_react(), 1);
-  var import_react276 = __toESM(require_react(), 1);
-  var import_prop_types25 = __toESM(require_prop_types(), 1);
-  var import_react277 = __toESM(require_react(), 1);
-  var import_classnames41 = __toESM(require_classnames(), 1);
+  // ../component/dist/chunk-S54HCXJI.mjs
   var import_react278 = __toESM(require_react(), 1);
+  var import_prop_types24 = __toESM(require_prop_types(), 1);
   var import_react279 = __toESM(require_react(), 1);
-  var import_base64_js = __toESM(require_base64_js(), 1);
   var import_react280 = __toESM(require_react(), 1);
-  var import_classnames42 = __toESM(require_classnames(), 1);
+  var import_prop_types25 = __toESM(require_prop_types(), 1);
   var import_react281 = __toESM(require_react(), 1);
+  var import_classnames41 = __toESM(require_classnames(), 1);
   var import_react282 = __toESM(require_react(), 1);
   var import_react283 = __toESM(require_react(), 1);
+  var import_base64_js = __toESM(require_base64_js(), 1);
+  var import_react284 = __toESM(require_react(), 1);
+  var import_classnames42 = __toESM(require_classnames(), 1);
+  var import_react285 = __toESM(require_react(), 1);
+  var import_react286 = __toESM(require_react(), 1);
+  var import_react287 = __toESM(require_react(), 1);
   var import_classnames43 = __toESM(require_classnames(), 1);
 
   // ../../node_modules/mdast-util-to-string/lib/index.js
@@ -152873,9 +153068,9 @@ and ensure you are accounting for this risk.
     }
   }
 
-  // ../component/dist/chunk-NNKGCOL2.mjs
-  var import_react284 = __toESM(require_react(), 1);
-  var import_react285 = __toESM(require_react(), 1);
+  // ../component/dist/chunk-S54HCXJI.mjs
+  var import_react288 = __toESM(require_react(), 1);
+  var import_react289 = __toESM(require_react(), 1);
 
   // ../../node_modules/react-wrap-with/lib/esmodules/Extract.js
   var import_for = __toESM(require_for3());
@@ -152967,7 +153162,7 @@ and ensure you are accounting for this risk.
   }
 
   // ../../node_modules/react-wrap-with/lib/esmodules/private/withProps.js
-  var import_react246 = __toESM(require_react());
+  var import_react250 = __toESM(require_react());
 
   // ../../node_modules/@babel/runtime-corejs3/helpers/esm/arrayWithoutHoles.js
   var import_is_array2 = __toESM(require_is_array8(), 1);
@@ -152998,7 +153193,7 @@ and ensure you are accounting for this risk.
   var import_filter2 = __toESM(require_filter7());
   var import_entries4 = __toESM(require_entries8());
   var import_concat = __toESM(require_concat4());
-  var import_react247 = __toESM(require_react());
+  var import_react251 = __toESM(require_react());
 
   // ../../node_modules/react-wrap-with/lib/esmodules/private/util/pick.js
   var import_reduce = __toESM(require_reduce4());
@@ -153052,13 +153247,13 @@ and ensure you are accounting for this risk.
     var isRefExtracted = how && how.ref === Extract_default;
     return function wrap(contentComponent) {
       var _context6;
-      var WithContainer = /* @__PURE__ */ (0, import_react247.forwardRef)(function(props, ref) {
+      var WithContainer = /* @__PURE__ */ (0, import_react251.forwardRef)(function(props, ref) {
         var _context5;
         var _pickAndOmit = pickAndOmit(props, extractPropsKeys), _pickAndOmit2 = _slicedToArray(_pickAndOmit, 2), extractedProps = _pickAndOmit2[0], contentProps = _pickAndOmit2[1];
         var spyProps = pick(props, spyPropsKeys);
-        return import_react247.createElement.apply(void 0, (0, import_concat.default)(_context5 = [containerComponent, _objectSpread2(_objectSpread2(_objectSpread2({}, extractedProps), spyProps), isRefExtracted ? {
+        return import_react251.createElement.apply(void 0, (0, import_concat.default)(_context5 = [containerComponent, _objectSpread2(_objectSpread2(_objectSpread2({}, extractedProps), spyProps), isRefExtracted ? {
           ref
-        } : {})]).call(_context5, _toConsumableArray(contentComponent ? [/* @__PURE__ */ (0, import_react247.createElement)(contentComponent, _objectSpread2(_objectSpread2({}, contentProps), isRefExtracted ? {} : {
+        } : {})]).call(_context5, _toConsumableArray(contentComponent ? [/* @__PURE__ */ (0, import_react251.createElement)(contentComponent, _objectSpread2(_objectSpread2({}, contentProps), isRefExtracted ? {} : {
           ref
         }))] : [])));
       });
@@ -153070,108 +153265,108 @@ and ensure you are accounting for this risk.
   // ../../node_modules/react-wrap-with/lib/esmodules/wrapWith.js
   var wrapWith_default = wrapWith;
 
-  // ../component/dist/chunk-NNKGCOL2.mjs
-  var import_react286 = __toESM(require_react(), 1);
-  var import_react287 = __toESM(require_react(), 1);
-  var import_classnames44 = __toESM(require_classnames(), 1);
-  var import_react288 = __toESM(require_react(), 1);
-  var import_react289 = __toESM(require_react(), 1);
+  // ../component/dist/chunk-S54HCXJI.mjs
   var import_react290 = __toESM(require_react(), 1);
   var import_react291 = __toESM(require_react(), 1);
+  var import_classnames44 = __toESM(require_classnames(), 1);
   var import_react292 = __toESM(require_react(), 1);
-  var import_classnames45 = __toESM(require_classnames(), 1);
   var import_react293 = __toESM(require_react(), 1);
-  var import_classnames46 = __toESM(require_classnames(), 1);
   var import_react294 = __toESM(require_react(), 1);
   var import_react295 = __toESM(require_react(), 1);
-  var import_math_random10 = __toESM(require_browser(), 1);
   var import_react296 = __toESM(require_react(), 1);
-  var import_deep_freeze_strict = __toESM(require_deep_freeze_strict(), 1);
-  var import_classnames47 = __toESM(require_classnames(), 1);
+  var import_classnames45 = __toESM(require_classnames(), 1);
   var import_react297 = __toESM(require_react(), 1);
+  var import_classnames46 = __toESM(require_classnames(), 1);
   var import_react298 = __toESM(require_react(), 1);
   var import_react299 = __toESM(require_react(), 1);
-  var import_classnames48 = __toESM(require_classnames(), 1);
+  var import_math_random10 = __toESM(require_browser(), 1);
   var import_react300 = __toESM(require_react(), 1);
-  var import_classnames49 = __toESM(require_classnames(), 1);
-  var import_math_random11 = __toESM(require_browser(), 1);
+  var import_deep_freeze_strict = __toESM(require_deep_freeze_strict(), 1);
+  var import_classnames47 = __toESM(require_classnames(), 1);
   var import_react301 = __toESM(require_react(), 1);
   var import_react302 = __toESM(require_react(), 1);
   var import_react303 = __toESM(require_react(), 1);
+  var import_classnames48 = __toESM(require_classnames(), 1);
   var import_react304 = __toESM(require_react(), 1);
-  var import_classnames50 = __toESM(require_classnames(), 1);
+  var import_classnames49 = __toESM(require_classnames(), 1);
+  var import_math_random11 = __toESM(require_browser(), 1);
   var import_react305 = __toESM(require_react(), 1);
   var import_react306 = __toESM(require_react(), 1);
-  var import_markdown_it2 = __toESM(require_markdown_it(), 1);
   var import_react307 = __toESM(require_react(), 1);
+  var import_react308 = __toESM(require_react(), 1);
+  var import_classnames50 = __toESM(require_classnames(), 1);
+  var import_react309 = __toESM(require_react(), 1);
+  var import_react310 = __toESM(require_react(), 1);
+  var import_markdown_it2 = __toESM(require_markdown_it(), 1);
+  var import_react311 = __toESM(require_react(), 1);
   var import_markdown_it3 = __toESM(require_markdown_it(), 1);
   var import_classnames51 = __toESM(require_classnames(), 1);
-  var import_react308 = __toESM(require_react(), 1);
-  var import_classnames52 = __toESM(require_classnames(), 1);
-  var import_react309 = __toESM(require_react(), 1);
-  var import_classnames53 = __toESM(require_classnames(), 1);
-  var import_react310 = __toESM(require_react(), 1);
-  var import_classnames54 = __toESM(require_classnames(), 1);
-  var import_react311 = __toESM(require_react(), 1);
-  var import_classnames55 = __toESM(require_classnames(), 1);
   var import_react312 = __toESM(require_react(), 1);
+  var import_classnames52 = __toESM(require_classnames(), 1);
+  var import_react313 = __toESM(require_react(), 1);
+  var import_classnames53 = __toESM(require_classnames(), 1);
+  var import_react314 = __toESM(require_react(), 1);
+  var import_classnames54 = __toESM(require_classnames(), 1);
+  var import_react315 = __toESM(require_react(), 1);
+  var import_classnames55 = __toESM(require_classnames(), 1);
+  var import_react316 = __toESM(require_react(), 1);
   var import_classnames56 = __toESM(require_classnames(), 1);
   var import_prop_types26 = __toESM(require_prop_types(), 1);
-  var import_react313 = __toESM(require_react(), 1);
-  var import_react314 = __toESM(require_react(), 1);
-  var import_react315 = __toESM(require_react(), 1);
-  var import_react316 = __toESM(require_react(), 1);
   var import_react317 = __toESM(require_react(), 1);
+  var import_react318 = __toESM(require_react(), 1);
+  var import_react319 = __toESM(require_react(), 1);
+  var import_react320 = __toESM(require_react(), 1);
+  var import_react321 = __toESM(require_react(), 1);
 
   // ../api/dist/botframework-webchat-api.internal.mjs
-  var import_react248 = __toESM(require_react(), 1);
+  var import_react252 = __toESM(require_react(), 1);
   function LowPriorityDecoratorDecomposer({ children, middleware: middleware4 }) {
-    return /* @__PURE__ */ import_react248.default.createElement(InternalDecoratorComposer_default, { middleware: middleware4, priority: "low" }, children);
+    return /* @__PURE__ */ import_react252.default.createElement(InternalDecoratorComposer_default, { middleware: middleware4, priority: "low" }, children);
   }
-  var LowPriorityDecoratorComposer_default = (0, import_react248.memo)(LowPriorityDecoratorDecomposer);
+  var LowPriorityDecoratorComposer_default = (0, import_react252.memo)(LowPriorityDecoratorDecomposer);
   function useSetDictateState() {
     return useWebChatAPIContext().setDictateState;
   }
 
-  // ../component/dist/chunk-NNKGCOL2.mjs
-  var import_react318 = __toESM(require_react(), 1);
-  var import_react319 = __toESM(require_react(), 1);
-  var import_react320 = __toESM(require_react(), 1);
-  var import_classnames57 = __toESM(require_classnames(), 1);
-  var import_prop_types27 = __toESM(require_prop_types(), 1);
-  var import_react321 = __toESM(require_react(), 1);
+  // ../component/dist/chunk-S54HCXJI.mjs
   var import_react322 = __toESM(require_react(), 1);
   var import_react323 = __toESM(require_react(), 1);
   var import_react324 = __toESM(require_react(), 1);
+  var import_classnames57 = __toESM(require_classnames(), 1);
+  var import_prop_types27 = __toESM(require_prop_types(), 1);
   var import_react325 = __toESM(require_react(), 1);
   var import_react326 = __toESM(require_react(), 1);
   var import_react327 = __toESM(require_react(), 1);
-  var import_prop_types28 = __toESM(require_prop_types(), 1);
   var import_react328 = __toESM(require_react(), 1);
+  var import_react329 = __toESM(require_react(), 1);
+  var import_react330 = __toESM(require_react(), 1);
+  var import_react331 = __toESM(require_react(), 1);
+  var import_prop_types28 = __toESM(require_prop_types(), 1);
+  var import_react332 = __toESM(require_react(), 1);
 
   // ../../node_modules/react-dictate-button/dist/react-dictate-button.mjs
-  var import_react249 = __toESM(require_react(), 1);
-  var import_react250 = __toESM(require_react(), 1);
-  var import_react251 = __toESM(require_react(), 1);
-  var import_react252 = __toESM(require_react(), 1);
   var import_react253 = __toESM(require_react(), 1);
   var import_react254 = __toESM(require_react(), 1);
-  var Context3 = (0, import_react250.createContext)(
+  var import_react255 = __toESM(require_react(), 1);
+  var import_react256 = __toESM(require_react(), 1);
+  var import_react257 = __toESM(require_react(), 1);
+  var import_react258 = __toESM(require_react(), 1);
+  var Context3 = (0, import_react254.createContext)(
     Object.freeze({
       abortable: false,
       readyState: 0,
       supported: true
     })
   );
-  var Context_default8 = Context3;
+  var Context_default9 = Context3;
   function assert2(truthy) {
     if (false) {
       throw new Error("Assertion failed.");
     }
   }
   function usePrevious2(value) {
-    const ref = (0, import_react251.useRef)();
-    (0, import_react251.useEffect)(() => {
+    const ref = (0, import_react255.useRef)();
+    (0, import_react255.useEffect)(() => {
       ref.current = value;
     });
     return ref.current;
@@ -153209,12 +153404,12 @@ and ensure you are accounting for this risk.
     navigator.mediaDevices.getUserMedia && vendorPrefix("SpeechRecognition"),
     started
   }) => {
-    const [readyState2, setReadyState] = (0, import_react249.useState)(0);
+    const [readyState2, setReadyState] = (0, import_react253.useState)(0);
     const continuousRef = useRefFrom(continuous);
     const extraRef = useRefFrom(extra);
     const grammarRef = useRefFrom(grammar);
     const langRef = useRefFrom(lang4);
-    const notAllowedRef = (0, import_react249.useRef)(false);
+    const notAllowedRef = (0, import_react253.useRef)(false);
     const onDictateRef = useRefFrom(onDictate);
     const onEndRef = useRefFrom(onEnd);
     const onErrorRef = useRefFrom(onError);
@@ -153222,15 +153417,15 @@ and ensure you are accounting for this risk.
     const onRawEventRef = useRefFrom(onRawEvent);
     const onStartRef = useRefFrom(onStart);
     const prevSpeechRecognition = usePrevious2(speechRecognition);
-    const recognitionRef = (0, import_react249.useRef)();
+    const recognitionRef = (0, import_react253.useRef)();
     const speechGrammarListRef = useRefFrom(speechGrammarList);
     const speechRecognitionClassRef = useRefFrom(speechRecognition);
-    const stateRef = (0, import_react249.useRef)("idle");
-    const unmountedRef = (0, import_react249.useRef)(false);
+    const stateRef = (0, import_react253.useRef)("idle");
+    const unmountedRef = (0, import_react253.useRef)(false);
     if (prevSpeechRecognition !== speechRecognition) {
       notAllowedRef.current = false;
     }
-    const emitDictate = (0, import_react249.useCallback)(
+    const emitDictate = (0, import_react253.useCallback)(
       (event2) => {
         var _a29;
         if (unmountedRef.current) {
@@ -153242,7 +153437,7 @@ and ensure you are accounting for this risk.
       },
       [onDictateRef, stateRef]
     );
-    const emitEnd = (0, import_react249.useCallback)(() => {
+    const emitEnd = (0, import_react253.useCallback)(() => {
       var _a29;
       if (unmountedRef.current) {
         return;
@@ -153257,7 +153452,7 @@ and ensure you are accounting for this risk.
         stateRef.current = "idle";
       }
     }, [onEndRef, stateRef]);
-    const emitError = (0, import_react249.useCallback)(
+    const emitError = (0, import_react253.useCallback)(
       (event2) => {
         var _a29;
         if (unmountedRef.current) {
@@ -153268,7 +153463,7 @@ and ensure you are accounting for this risk.
       },
       [onErrorRef, stateRef]
     );
-    const emitProgress = (0, import_react249.useCallback)(
+    const emitProgress = (0, import_react253.useCallback)(
       (event2) => {
         var _a29;
         if (unmountedRef.current) {
@@ -153282,7 +153477,7 @@ and ensure you are accounting for this risk.
       },
       [onProgressRef, stateRef]
     );
-    const emitStart = (0, import_react249.useCallback)(() => {
+    const emitStart = (0, import_react253.useCallback)(() => {
       var _a29;
       if (unmountedRef.current) {
         return;
@@ -153291,11 +153486,11 @@ and ensure you are accounting for this risk.
       (_a29 = onStartRef.current) == null ? void 0 : _a29.call(onStartRef, new Event("start"));
       stateRef.current = "started";
     }, [onStartRef, stateRef]);
-    const handleAudioEnd = (0, import_react249.useCallback)(
+    const handleAudioEnd = (0, import_react253.useCallback)(
       ({ target }) => target === recognitionRef.current && setReadyState(3),
       [recognitionRef, setReadyState]
     );
-    const handleAudioStart = (0, import_react249.useCallback)(
+    const handleAudioStart = (0, import_react253.useCallback)(
       ({ target }) => {
         if (target !== recognitionRef.current) {
           return;
@@ -153305,7 +153500,7 @@ and ensure you are accounting for this risk.
       },
       [emitProgress, recognitionRef, setReadyState]
     );
-    const handleEnd = (0, import_react249.useCallback)(
+    const handleEnd = (0, import_react253.useCallback)(
       ({ target }) => {
         if (target !== recognitionRef.current) {
           return;
@@ -153316,7 +153511,7 @@ and ensure you are accounting for this risk.
       },
       [emitEnd, recognitionRef, setReadyState]
     );
-    const handleError = (0, import_react249.useCallback)(
+    const handleError = (0, import_react253.useCallback)(
       (event2) => {
         if (event2.target !== recognitionRef.current) {
           return;
@@ -153331,7 +153526,7 @@ and ensure you are accounting for this risk.
       },
       [emitEnd, emitError, notAllowedRef, recognitionRef, setReadyState]
     );
-    const handleRawEvent = (0, import_react249.useCallback)(
+    const handleRawEvent = (0, import_react253.useCallback)(
       (event2) => {
         var _a29;
         if (event2.target !== recognitionRef.current) {
@@ -153341,7 +153536,7 @@ and ensure you are accounting for this risk.
       },
       [onRawEventRef, recognitionRef]
     );
-    const handleResult = (0, import_react249.useCallback)(
+    const handleResult = (0, import_react253.useCallback)(
       ({ resultIndex, results: rawResults, target }) => {
         if (target !== recognitionRef.current) {
           return;
@@ -153376,7 +153571,7 @@ and ensure you are accounting for this risk.
       },
       [emitDictate, emitProgress, recognitionRef]
     );
-    const handleStart = (0, import_react249.useCallback)(
+    const handleStart = (0, import_react253.useCallback)(
       ({ target }) => {
         if (target === recognitionRef.current) {
           emitStart();
@@ -153385,7 +153580,7 @@ and ensure you are accounting for this risk.
       },
       [emitStart, recognitionRef, setReadyState]
     );
-    (0, import_react249.useEffect)(() => {
+    (0, import_react253.useEffect)(() => {
       if (!started) {
         return;
       }
@@ -153456,7 +153651,7 @@ and ensure you are accounting for this risk.
       started,
       stateRef
     ]);
-    (0, import_react249.useEffect)(
+    (0, import_react253.useEffect)(
       () => () => {
         unmountedRef.current = true;
       },
@@ -153464,7 +153659,7 @@ and ensure you are accounting for this risk.
     );
     const abortable = recognitionAbortable(recognitionRef.current) && readyState2 === 2;
     const supported = !!speechRecognition && !notAllowedRef.current;
-    const context9 = (0, import_react249.useMemo)(
+    const context9 = (0, import_react253.useMemo)(
       () => Object.freeze({
         abortable,
         readyState: readyState2,
@@ -153472,147 +153667,147 @@ and ensure you are accounting for this risk.
       }),
       [abortable, readyState2, supported]
     );
-    return /* @__PURE__ */ import_react249.default.createElement(Context_default8.Provider, { value: context9 }, /* @__PURE__ */ import_react249.default.createElement(Context_default8.Consumer, null, (context22) => typeof children === "function" ? children(context22) : children));
+    return /* @__PURE__ */ import_react253.default.createElement(Context_default9.Provider, { value: context9 }, /* @__PURE__ */ import_react253.default.createElement(Context_default9.Consumer, null, (context22) => typeof children === "function" ? children(context22) : children));
   };
   var Composer_default4 = Composer4;
 
-  // ../component/dist/chunk-NNKGCOL2.mjs
-  var import_react329 = __toESM(require_react(), 1);
-  var import_react330 = __toESM(require_react(), 1);
+  // ../component/dist/chunk-S54HCXJI.mjs
+  var import_react333 = __toESM(require_react(), 1);
+  var import_react334 = __toESM(require_react(), 1);
   var import_classnames58 = __toESM(require_classnames(), 1);
   var import_prop_types29 = __toESM(require_prop_types(), 1);
-  var import_react331 = __toESM(require_react(), 1);
+  var import_react335 = __toESM(require_react(), 1);
   var import_classnames59 = __toESM(require_classnames(), 1);
   var import_prop_types30 = __toESM(require_prop_types(), 1);
-  var import_react332 = __toESM(require_react(), 1);
+  var import_react336 = __toESM(require_react(), 1);
   var import_classnames60 = __toESM(require_classnames(), 1);
-  var import_react333 = __toESM(require_react(), 1);
+  var import_react337 = __toESM(require_react(), 1);
   var import_classnames61 = __toESM(require_classnames(), 1);
   var import_prop_types31 = __toESM(require_prop_types(), 1);
-  var import_react334 = __toESM(require_react(), 1);
+  var import_react338 = __toESM(require_react(), 1);
   var import_classnames62 = __toESM(require_classnames(), 1);
-  var import_react335 = __toESM(require_react(), 1);
+  var import_react339 = __toESM(require_react(), 1);
   var import_classnames63 = __toESM(require_classnames(), 1);
-  var import_react336 = __toESM(require_react(), 1);
+  var import_react340 = __toESM(require_react(), 1);
   var import_classnames64 = __toESM(require_classnames(), 1);
-  var import_react337 = __toESM(require_react(), 1);
+  var import_react341 = __toESM(require_react(), 1);
   var import_classnames65 = __toESM(require_classnames(), 1);
   var import_math_random12 = __toESM(require_browser(), 1);
-  var import_react338 = __toESM(require_react(), 1);
-  var import_react339 = __toESM(require_react(), 1);
-  var import_react340 = __toESM(require_react(), 1);
-  var import_prop_types32 = __toESM(require_prop_types(), 1);
-  var import_react341 = __toESM(require_react(), 1);
-  var import_prop_types33 = __toESM(require_prop_types(), 1);
   var import_react342 = __toESM(require_react(), 1);
-  var import_simple_update_in9 = __toESM(require_simple_update_in_production_min(), 1);
-  var import_math_random13 = __toESM(require_browser(), 1);
   var import_react343 = __toESM(require_react(), 1);
   var import_react344 = __toESM(require_react(), 1);
-  var import_classnames66 = __toESM(require_classnames(), 1);
+  var import_prop_types32 = __toESM(require_prop_types(), 1);
   var import_react345 = __toESM(require_react(), 1);
-  var import_classnames67 = __toESM(require_classnames(), 1);
+  var import_prop_types33 = __toESM(require_prop_types(), 1);
   var import_react346 = __toESM(require_react(), 1);
+  var import_simple_update_in9 = __toESM(require_simple_update_in_production_min(), 1);
+  var import_math_random13 = __toESM(require_browser(), 1);
   var import_react347 = __toESM(require_react(), 1);
-  var import_classnames68 = __toESM(require_classnames(), 1);
   var import_react348 = __toESM(require_react(), 1);
+  var import_classnames66 = __toESM(require_classnames(), 1);
   var import_react349 = __toESM(require_react(), 1);
-  var import_math_random14 = __toESM(require_browser(), 1);
+  var import_classnames67 = __toESM(require_classnames(), 1);
   var import_react350 = __toESM(require_react(), 1);
   var import_react351 = __toESM(require_react(), 1);
-  var import_classnames69 = __toESM(require_classnames(), 1);
+  var import_classnames68 = __toESM(require_classnames(), 1);
   var import_react352 = __toESM(require_react(), 1);
   var import_react353 = __toESM(require_react(), 1);
+  var import_math_random14 = __toESM(require_browser(), 1);
   var import_react354 = __toESM(require_react(), 1);
-  var import_prop_types34 = __toESM(require_prop_types(), 1);
   var import_react355 = __toESM(require_react(), 1);
+  var import_classnames69 = __toESM(require_classnames(), 1);
   var import_react356 = __toESM(require_react(), 1);
-  var import_prop_types35 = __toESM(require_prop_types(), 1);
   var import_react357 = __toESM(require_react(), 1);
   var import_react358 = __toESM(require_react(), 1);
-  var import_classnames70 = __toESM(require_classnames(), 1);
+  var import_prop_types34 = __toESM(require_prop_types(), 1);
   var import_react359 = __toESM(require_react(), 1);
-  var import_classnames71 = __toESM(require_classnames(), 1);
   var import_react360 = __toESM(require_react(), 1);
-  var import_classnames72 = __toESM(require_classnames(), 1);
+  var import_prop_types35 = __toESM(require_prop_types(), 1);
   var import_react361 = __toESM(require_react(), 1);
-  var import_classnames73 = __toESM(require_classnames(), 1);
   var import_react362 = __toESM(require_react(), 1);
+  var import_classnames70 = __toESM(require_classnames(), 1);
   var import_react363 = __toESM(require_react(), 1);
+  var import_classnames71 = __toESM(require_classnames(), 1);
+  var import_react364 = __toESM(require_react(), 1);
+  var import_classnames72 = __toESM(require_classnames(), 1);
+  var import_react365 = __toESM(require_react(), 1);
+  var import_classnames73 = __toESM(require_classnames(), 1);
+  var import_react366 = __toESM(require_react(), 1);
+  var import_react367 = __toESM(require_react(), 1);
   var import_classnames74 = __toESM(require_classnames(), 1);
   var import_prop_types36 = __toESM(require_prop_types(), 1);
-  var import_react364 = __toESM(require_react(), 1);
-  var import_prop_types37 = __toESM(require_prop_types(), 1);
-  var import_react365 = __toESM(require_react(), 1);
-  var import_prop_types38 = __toESM(require_prop_types(), 1);
-  var import_react366 = __toESM(require_react(), 1);
-  var import_prop_types39 = __toESM(require_prop_types(), 1);
-  var import_react367 = __toESM(require_react(), 1);
-  var import_prop_types40 = __toESM(require_prop_types(), 1);
   var import_react368 = __toESM(require_react(), 1);
-  var import_classnames75 = __toESM(require_classnames(), 1);
+  var import_prop_types37 = __toESM(require_prop_types(), 1);
   var import_react369 = __toESM(require_react(), 1);
-  var import_classnames76 = __toESM(require_classnames(), 1);
+  var import_prop_types38 = __toESM(require_prop_types(), 1);
   var import_react370 = __toESM(require_react(), 1);
-  var import_math_random15 = __toESM(require_browser(), 1);
+  var import_prop_types39 = __toESM(require_prop_types(), 1);
   var import_react371 = __toESM(require_react(), 1);
+  var import_prop_types40 = __toESM(require_prop_types(), 1);
   var import_react372 = __toESM(require_react(), 1);
-  var import_classnames77 = __toESM(require_classnames(), 1);
+  var import_classnames75 = __toESM(require_classnames(), 1);
   var import_react373 = __toESM(require_react(), 1);
+  var import_classnames76 = __toESM(require_classnames(), 1);
   var import_react374 = __toESM(require_react(), 1);
-  var import_react_dom3 = __toESM(require_react_dom(), 1);
+  var import_math_random15 = __toESM(require_browser(), 1);
   var import_react375 = __toESM(require_react(), 1);
-  var import_classnames78 = __toESM(require_classnames(), 1);
   var import_react376 = __toESM(require_react(), 1);
+  var import_classnames77 = __toESM(require_classnames(), 1);
   var import_react377 = __toESM(require_react(), 1);
-  var import_classnames79 = __toESM(require_classnames(), 1);
   var import_react378 = __toESM(require_react(), 1);
+  var import_react_dom3 = __toESM(require_react_dom(), 1);
   var import_react379 = __toESM(require_react(), 1);
+  var import_classnames78 = __toESM(require_classnames(), 1);
   var import_react380 = __toESM(require_react(), 1);
   var import_react381 = __toESM(require_react(), 1);
+  var import_classnames79 = __toESM(require_classnames(), 1);
   var import_react382 = __toESM(require_react(), 1);
   var import_react383 = __toESM(require_react(), 1);
+  var import_react384 = __toESM(require_react(), 1);
+  var import_react385 = __toESM(require_react(), 1);
+  var import_react386 = __toESM(require_react(), 1);
+  var import_react387 = __toESM(require_react(), 1);
   var import_classnames80 = __toESM(require_classnames(), 1);
   var import_math_random16 = __toESM(require_browser(), 1);
-  var import_react384 = __toESM(require_react(), 1);
+  var import_react388 = __toESM(require_react(), 1);
   var import_classnames81 = __toESM(require_classnames(), 1);
-  var import_react385 = __toESM(require_react(), 1);
+  var import_react389 = __toESM(require_react(), 1);
   var import_base64_js2 = __toESM(require_base64_js(), 1);
   var import_base64_js3 = __toESM(require_base64_js(), 1);
   var import_classnames82 = __toESM(require_classnames(), 1);
   var import_math_random17 = __toESM(require_browser(), 1);
-  var import_react386 = __toESM(require_react(), 1);
-  var import_react387 = __toESM(require_react(), 1);
-  var import_simple_update_in10 = __toESM(require_simple_update_in_production_min(), 1);
-  var import_prop_types41 = __toESM(require_prop_types(), 1);
-  var import_react388 = __toESM(require_react(), 1);
-  var import_classnames83 = __toESM(require_classnames(), 1);
-  var import_react389 = __toESM(require_react(), 1);
   var import_react390 = __toESM(require_react(), 1);
   var import_react391 = __toESM(require_react(), 1);
-  var import_classnames84 = __toESM(require_classnames(), 1);
+  var import_simple_update_in10 = __toESM(require_simple_update_in_production_min(), 1);
+  var import_prop_types41 = __toESM(require_prop_types(), 1);
   var import_react392 = __toESM(require_react(), 1);
+  var import_classnames83 = __toESM(require_classnames(), 1);
   var import_react393 = __toESM(require_react(), 1);
-  var import_classnames85 = __toESM(require_classnames(), 1);
   var import_react394 = __toESM(require_react(), 1);
+  var import_react395 = __toESM(require_react(), 1);
+  var import_classnames84 = __toESM(require_classnames(), 1);
+  var import_react396 = __toESM(require_react(), 1);
+  var import_react397 = __toESM(require_react(), 1);
+  var import_classnames85 = __toESM(require_classnames(), 1);
+  var import_react398 = __toESM(require_react(), 1);
   var import_classnames86 = __toESM(require_classnames(), 1);
   var import_prop_types42 = __toESM(require_prop_types(), 1);
-  var import_react395 = __toESM(require_react(), 1);
+  var import_react399 = __toESM(require_react(), 1);
   var import_classnames87 = __toESM(require_classnames(), 1);
-  var import_react396 = __toESM(require_react(), 1);
+  var import_react400 = __toESM(require_react(), 1);
   var import_classnames88 = __toESM(require_classnames(), 1);
   var import_prop_types43 = __toESM(require_prop_types(), 1);
-  var import_react397 = __toESM(require_react(), 1);
-  var import_classnames89 = __toESM(require_classnames(), 1);
-  var import_react398 = __toESM(require_react(), 1);
-  var import_classnames90 = __toESM(require_classnames(), 1);
-  var import_react399 = __toESM(require_react(), 1);
-  var import_prop_types44 = __toESM(require_prop_types(), 1);
-  var import_react400 = __toESM(require_react(), 1);
-  var import_prop_types45 = __toESM(require_prop_types(), 1);
   var import_react401 = __toESM(require_react(), 1);
-  var import_classnames91 = __toESM(require_classnames(), 1);
+  var import_classnames89 = __toESM(require_classnames(), 1);
   var import_react402 = __toESM(require_react(), 1);
+  var import_classnames90 = __toESM(require_classnames(), 1);
+  var import_react403 = __toESM(require_react(), 1);
+  var import_prop_types44 = __toESM(require_prop_types(), 1);
+  var import_react404 = __toESM(require_react(), 1);
+  var import_prop_types45 = __toESM(require_prop_types(), 1);
+  var import_react405 = __toESM(require_react(), 1);
+  var import_classnames91 = __toESM(require_classnames(), 1);
+  var import_react406 = __toESM(require_react(), 1);
 
   // ../../node_modules/react-scroll-to-bottom/lib/esm/addVersionToMetaTag.js
   function setMetaTag4(name, content3) {
@@ -153634,14 +153829,14 @@ and ensure you are accounting for this risk.
   // ../../node_modules/react-scroll-to-bottom/lib/esm/ScrollToBottom/AutoHideFollowButton.js
   var import_classnames37 = __toESM(require_classnames2());
   var import_prop_types18 = __toESM(require_prop_types2());
-  var import_react263 = __toESM(require_react());
+  var import_react267 = __toESM(require_react());
 
   // ../../node_modules/react-scroll-to-bottom/lib/esm/hooks/internal/useFunctionContext.js
-  var import_react256 = __toESM(require_react());
+  var import_react260 = __toESM(require_react());
 
   // ../../node_modules/react-scroll-to-bottom/lib/esm/ScrollToBottom/FunctionContext.js
-  var import_react255 = __toESM(require_react());
-  var context4 = /* @__PURE__ */ import_react255.default.createContext({
+  var import_react259 = __toESM(require_react());
+  var context4 = /* @__PURE__ */ import_react259.default.createContext({
     scrollTo: function scrollTo() {
       return 0;
     },
@@ -153663,7 +153858,7 @@ and ensure you are accounting for this risk.
 
   // ../../node_modules/react-scroll-to-bottom/lib/esm/hooks/internal/useFunctionContext.js
   function useFunctionContext2() {
-    return (0, import_react256.useContext)(FunctionContext_default2);
+    return (0, import_react260.useContext)(FunctionContext_default2);
   }
 
   // ../../node_modules/react-scroll-to-bottom/lib/esm/hooks/useScrollToEnd.js
@@ -153673,11 +153868,11 @@ and ensure you are accounting for this risk.
   }
 
   // ../../node_modules/react-scroll-to-bottom/lib/esm/hooks/internal/useStateContext.js
-  var import_react260 = __toESM(require_react());
+  var import_react264 = __toESM(require_react());
 
   // ../../node_modules/react-scroll-to-bottom/lib/esm/ScrollToBottom/State1Context.js
-  var import_react257 = __toESM(require_react());
-  var context5 = /* @__PURE__ */ import_react257.default.createContext({
+  var import_react261 = __toESM(require_react());
+  var context5 = /* @__PURE__ */ import_react261.default.createContext({
     atBottom: true,
     atEnd: true,
     atStart: false,
@@ -153688,8 +153883,8 @@ and ensure you are accounting for this risk.
   var State1Context_default = context5;
 
   // ../../node_modules/react-scroll-to-bottom/lib/esm/ScrollToBottom/State2Context.js
-  var import_react258 = __toESM(require_react());
-  var context6 = /* @__PURE__ */ import_react258.default.createContext({
+  var import_react262 = __toESM(require_react());
+  var context6 = /* @__PURE__ */ import_react262.default.createContext({
     animating: false,
     animatingToEnd: false,
     sticky: true
@@ -153698,8 +153893,8 @@ and ensure you are accounting for this risk.
   var State2Context_default = context6;
 
   // ../../node_modules/react-scroll-to-bottom/lib/esm/ScrollToBottom/StateContext.js
-  var import_react259 = __toESM(require_react());
-  var context7 = /* @__PURE__ */ import_react259.default.createContext({
+  var import_react263 = __toESM(require_react());
+  var context7 = /* @__PURE__ */ import_react263.default.createContext({
     animating: false,
     animatingToEnd: false,
     atBottom: true,
@@ -153715,7 +153910,7 @@ and ensure you are accounting for this risk.
   // ../../node_modules/react-scroll-to-bottom/lib/esm/hooks/internal/useStateContext.js
   var stateContexts = [StateContext_default, State1Context_default, State2Context_default];
   function useStateContext(tier) {
-    return (0, import_react260.useContext)(stateContexts[tier] || stateContexts[0]);
+    return (0, import_react264.useContext)(stateContexts[tier] || stateContexts[0]);
   }
 
   // ../../node_modules/react-scroll-to-bottom/lib/esm/hooks/useSticky.js
@@ -153725,11 +153920,11 @@ and ensure you are accounting for this risk.
   }
 
   // ../../node_modules/react-scroll-to-bottom/lib/esm/hooks/internal/useInternalContext.js
-  var import_react262 = __toESM(require_react());
+  var import_react266 = __toESM(require_react());
 
   // ../../node_modules/react-scroll-to-bottom/lib/esm/ScrollToBottom/InternalContext.js
-  var import_react261 = __toESM(require_react());
-  var context8 = /* @__PURE__ */ import_react261.default.createContext({
+  var import_react265 = __toESM(require_react());
+  var context8 = /* @__PURE__ */ import_react265.default.createContext({
     offsetHeight: 0,
     scrollHeight: 0,
     setTarget: function setTarget() {
@@ -153744,7 +153939,7 @@ and ensure you are accounting for this risk.
 
   // ../../node_modules/react-scroll-to-bottom/lib/esm/hooks/internal/useInternalContext.js
   function useInternalContext2() {
-    return (0, import_react262.useContext)(InternalContext_default2);
+    return (0, import_react266.useContext)(InternalContext_default2);
   }
 
   // ../../node_modules/react-scroll-to-bottom/lib/esm/hooks/internal/useStyleToClassName.js
@@ -153777,7 +153972,7 @@ and ensure you are accounting for this risk.
     var _useSticky = useSticky(), _useSticky2 = _slicedToArray(_useSticky, 1), sticky = _useSticky2[0];
     var rootCSS = useStyleToClassName()(ROOT_STYLE8);
     var scrollToEnd2 = useScrollToEnd2();
-    return !sticky && /* @__PURE__ */ import_react263.default.createElement("button", {
+    return !sticky && /* @__PURE__ */ import_react267.default.createElement("button", {
       className: (0, import_classnames37.default)(rootCSS, (className || "") + ""),
       onClick: scrollToEnd2,
       type: "button"
@@ -153796,7 +153991,7 @@ and ensure you are accounting for this risk.
   // ../../node_modules/react-scroll-to-bottom/lib/esm/BasicScrollToBottom.js
   var import_classnames39 = __toESM(require_classnames2());
   var import_prop_types22 = __toESM(require_prop_types2());
-  var import_react270 = __toESM(require_react());
+  var import_react274 = __toESM(require_react());
 
   // ../../node_modules/react-scroll-to-bottom/lib/esm/ScrollToBottom/Composer.js
   var import_es_regexp_exec2 = __toESM(require_es_regexp_exec());
@@ -153915,7 +154110,7 @@ and ensure you are accounting for this risk.
   var import_define_properties2 = __toESM(require_define_properties6());
   var import_define_property3 = __toESM(require_define_property6());
   var import_prop_types20 = __toESM(require_prop_types2());
-  var import_react268 = __toESM(require_react());
+  var import_react272 = __toESM(require_react());
 
   // ../../node_modules/react-scroll-to-bottom/lib/esm/utils/debug.js
   var import_concat2 = __toESM(require_concat4());
@@ -154001,7 +154196,7 @@ and ensure you are accounting for this risk.
   }
 
   // ../../node_modules/react-scroll-to-bottom/lib/esm/EventSpy.js
-  var import_react264 = __toESM(require_react());
+  var import_react268 = __toESM(require_react());
 
   // ../../node_modules/react-scroll-to-bottom/lib/esm/debounce.js
   var import_now = __toESM(require_now3());
@@ -154033,19 +154228,19 @@ and ensure you are accounting for this risk.
   // ../../node_modules/react-scroll-to-bottom/lib/esm/EventSpy.js
   var EventSpy = function EventSpy2(_ref) {
     var debounce3 = _ref.debounce, name = _ref.name, onEvent = _ref.onEvent, target = _ref.target;
-    var onEventRef = (0, import_react264.useRef)();
+    var onEventRef = (0, import_react268.useRef)();
     onEventRef.current = onEvent;
-    var debouncer = (0, import_react264.useMemo)(function() {
+    var debouncer = (0, import_react268.useMemo)(function() {
       return debounce_default(function(event2) {
         var current2 = onEventRef.current;
         current2 && current2(event2);
       }, debounce3);
     }, [debounce3, onEventRef]);
-    var handleEvent = (0, import_react264.useCallback)(function(event2) {
+    var handleEvent = (0, import_react268.useCallback)(function(event2) {
       event2.timeStampLow = (0, import_now2.default)();
       debouncer(event2);
     }, [debouncer]);
-    (0, import_react264.useLayoutEffect)(function() {
+    (0, import_react268.useLayoutEffect)(function() {
       target.addEventListener(name, handleEvent, {
         passive: true
       });
@@ -154068,7 +154263,7 @@ and ensure you are accounting for this risk.
   var import_sign2 = __toESM(require_sign8());
   var import_now3 = __toESM(require_now3());
   var import_prop_types19 = __toESM(require_prop_types2());
-  var import_react265 = __toESM(require_react());
+  var import_react269 = __toESM(require_react());
   function squareStepper2(current2, to) {
     var sign = (0, import_sign2.default)(to - current2);
     var step3 = Math.sqrt(Math.abs(to - current2));
@@ -154087,8 +154282,8 @@ and ensure you are accounting for this risk.
   }
   var SpineTo = function SpineTo2(_ref) {
     var name = _ref.name, onEnd = _ref.onEnd, target = _ref.target, value = _ref.value;
-    var animator = (0, import_react265.useRef)();
-    var animate = (0, import_react265.useCallback)(function(name2, from2, to, index2) {
+    var animator = (0, import_react269.useRef)();
+    var animate = (0, import_react269.useCallback)(function(name2, from2, to, index2) {
       var start = arguments.length > 4 && arguments[4] !== void 0 ? arguments[4] : (0, import_now3.default)();
       if (to === "100%" || typeof to === "number") {
         cancelAnimationFrame(animator.current);
@@ -154109,11 +154304,11 @@ and ensure you are accounting for this risk.
         });
       }
     }, [animator, onEnd, target]);
-    var handleCancelAnimation = (0, import_react265.useCallback)(function() {
+    var handleCancelAnimation = (0, import_react269.useCallback)(function() {
       cancelAnimationFrame(animator.current);
       onEnd && onEnd(false);
     }, [onEnd]);
-    (0, import_react265.useLayoutEffect)(function() {
+    (0, import_react269.useLayoutEffect)(function() {
       animate(name, target[name], value, 1);
       if (target) {
         target.addEventListener("pointerdown", handleCancelAnimation, {
@@ -154276,7 +154471,7 @@ and ensure you are accounting for this risk.
   var emotion_css_create_instance_esm_default = createEmotion3;
 
   // ../../node_modules/react-scroll-to-bottom/lib/esm/hooks/internal/useEmotion.js
-  var import_react266 = __toESM(require_react());
+  var import_react270 = __toESM(require_react());
 
   // ../../node_modules/react-scroll-to-bottom/lib/esm/createCSSKey.js
   var import_es_regexp_exec = __toESM(require_es_regexp_exec());
@@ -154381,7 +154576,7 @@ and ensure you are accounting for this risk.
   }
   var sharedEmotionInstances3 = [];
   function useEmotion3(nonce, container) {
-    var emotion = (0, import_react266.useMemo)(function() {
+    var emotion = (0, import_react270.useMemo)(function() {
       var sharedEmotion = (0, import_find3.default)(sharedEmotionInstances3).call(sharedEmotionInstances3, function(_ref) {
         var sheet2 = _ref.sheet;
         return sheet2.nonce === nonce && sheet2.container === container;
@@ -154394,7 +154589,7 @@ and ensure you are accounting for this risk.
       sharedEmotionInstances3.push(emotion2);
       return emotion2;
     }, [container, nonce]);
-    (0, import_react266.useEffect)(function() {
+    (0, import_react270.useEffect)(function() {
       return (emotion === null || emotion === void 0 ? void 0 : emotion.sheet) && function() {
         var index2 = (0, import_last_index_of.default)(sharedEmotionInstances3).call(sharedEmotionInstances3, emotion);
         ~index2 && (0, import_splice.default)(sharedEmotionInstances3).call(sharedEmotionInstances3, index2, 1);
@@ -154417,11 +154612,11 @@ and ensure you are accounting for this risk.
   }
 
   // ../../node_modules/react-scroll-to-bottom/lib/esm/hooks/internal/useStateRef.js
-  var import_react267 = __toESM(require_react());
+  var import_react271 = __toESM(require_react());
   function useStateRef2(initialState) {
-    var _useState = (0, import_react267.useState)(initialState), _useState2 = _slicedToArray(_useState, 2), state = _useState2[0], setState = _useState2[1];
-    var ref = (0, import_react267.useRef)();
-    var setValue = (0, import_react267.useCallback)(function(nextValue) {
+    var _useState = (0, import_react271.useState)(initialState), _useState2 = _slicedToArray(_useState, 2), state = _useState2[0], setState = _useState2[1];
+    var ref = (0, import_react271.useRef)();
+    var setValue = (0, import_react271.useCallback)(function(nextValue) {
       if (typeof nextValue === "function") {
         setValue(function(state2) {
           nextValue = nextValue(state2);
@@ -154500,26 +154695,26 @@ and ensure you are accounting for this risk.
   }
   var Composer5 = function Composer6(_ref2) {
     var checkInterval = _ref2.checkInterval, children = _ref2.children, debounce3 = _ref2.debounce, debugFromProp = _ref2.debug, initialScrollBehavior = _ref2.initialScrollBehavior, mode = _ref2.mode, nonce = _ref2.nonce, scroller = _ref2.scroller, styleOptions = _ref2.styleOptions;
-    var debug2 = (0, import_react268.useMemo)(function() {
+    var debug2 = (0, import_react272.useMemo)(function() {
       return debug("<ScrollToBottom>", {
         force: debugFromProp
       });
     }, [debugFromProp]);
     mode = mode === MODE_TOP ? MODE_TOP : MODE_BOTTOM;
-    var ignoreScrollEventBeforeRef = (0, import_react268.useRef)(0);
-    var initialScrollBehaviorRef = (0, import_react268.useRef)(initialScrollBehavior);
+    var ignoreScrollEventBeforeRef = (0, import_react272.useRef)(0);
+    var initialScrollBehaviorRef = (0, import_react272.useRef)(initialScrollBehavior);
     var _useStateRef = useStateRef2(mode === MODE_TOP ? 0 : "100%"), _useStateRef2 = _slicedToArray(_useStateRef, 3), animateTo = _useStateRef2[0], setAnimateTo = _useStateRef2[1], animateToRef = _useStateRef2[2];
     var _useStateRef3 = useStateRef2(null), _useStateRef4 = _slicedToArray(_useStateRef3, 3), target = _useStateRef4[0], setTarget2 = _useStateRef4[1], targetRef = _useStateRef4[2];
-    var animateFromRef = (0, import_react268.useRef)(0);
-    var offsetHeightRef = (0, import_react268.useRef)(0);
-    var scrollHeightRef = (0, import_react268.useRef)(0);
-    var _useState = (0, import_react268.useState)(true), _useState2 = _slicedToArray(_useState, 2), atBottom = _useState2[0], setAtBottom = _useState2[1];
-    var _useState3 = (0, import_react268.useState)(true), _useState4 = _slicedToArray(_useState3, 2), atEnd = _useState4[0], setAtEnd = _useState4[1];
-    var _useState5 = (0, import_react268.useState)(true), _useState6 = _slicedToArray(_useState5, 2), atTop = _useState6[0], setAtTop = _useState6[1];
-    var _useState7 = (0, import_react268.useState)(false), _useState8 = _slicedToArray(_useState7, 2), atStart = _useState8[0], setAtStart = _useState8[1];
+    var animateFromRef = (0, import_react272.useRef)(0);
+    var offsetHeightRef = (0, import_react272.useRef)(0);
+    var scrollHeightRef = (0, import_react272.useRef)(0);
+    var _useState = (0, import_react272.useState)(true), _useState2 = _slicedToArray(_useState, 2), atBottom = _useState2[0], setAtBottom = _useState2[1];
+    var _useState3 = (0, import_react272.useState)(true), _useState4 = _slicedToArray(_useState3, 2), atEnd = _useState4[0], setAtEnd = _useState4[1];
+    var _useState5 = (0, import_react272.useState)(true), _useState6 = _slicedToArray(_useState5, 2), atTop = _useState6[0], setAtTop = _useState6[1];
+    var _useState7 = (0, import_react272.useState)(false), _useState8 = _slicedToArray(_useState7, 2), atStart = _useState8[0], setAtStart = _useState8[1];
     var _useStateRef5 = useStateRef2(true), _useStateRef6 = _slicedToArray(_useStateRef5, 3), sticky = _useStateRef6[0], setSticky = _useStateRef6[1], stickyRef = _useStateRef6[2];
-    var scrollPositionObserversRef = (0, import_react268.useRef)([]);
-    var observeScrollPosition = (0, import_react268.useCallback)(function(fn) {
+    var scrollPositionObserversRef = (0, import_react272.useRef)([]);
+    var observeScrollPosition = (0, import_react272.useCallback)(function(fn) {
       var target2 = targetRef.current;
       scrollPositionObserversRef.current.push(fn);
       target2 && fn({
@@ -154531,7 +154726,7 @@ and ensure you are accounting for this risk.
         ~index2 && (0, import_splice2.default)(scrollPositionObservers).call(scrollPositionObservers, index2, 1);
       };
     }, [scrollPositionObserversRef, targetRef]);
-    var handleSpineToEnd = (0, import_react268.useCallback)(function() {
+    var handleSpineToEnd = (0, import_react272.useCallback)(function() {
       var animateTo2 = animateToRef.current;
       debug2(function() {
         var _context3;
@@ -154543,7 +154738,7 @@ and ensure you are accounting for this risk.
       isEnd3(animateTo2, mode) || setSticky(false);
       setAnimateTo(null);
     }, [animateToRef, debug2, ignoreScrollEventBeforeRef, mode, setAnimateTo, setSticky]);
-    var scrollTo2 = (0, import_react268.useCallback)(function(nextAnimateTo) {
+    var scrollTo2 = (0, import_react272.useCallback)(function(nextAnimateTo) {
       var _ref3 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {}, behavior = _ref3.behavior;
       var target2 = targetRef.current;
       if (typeof nextAnimateTo !== "number" && nextAnimateTo !== "100%") {
@@ -154577,7 +154772,7 @@ and ensure you are accounting for this risk.
         setSticky(true);
       }
     }, [debug2, handleSpineToEnd, mode, setAnimateTo, setSticky, targetRef]);
-    var scrollToBottom2 = (0, import_react268.useCallback)(function() {
+    var scrollToBottom2 = (0, import_react272.useCallback)(function() {
       var _ref4 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {}, behavior = _ref4.behavior;
       debug2(function() {
         var _context4;
@@ -154588,7 +154783,7 @@ and ensure you are accounting for this risk.
         behavior: behavior || "smooth"
       });
     }, [debug2, scrollTo2]);
-    var scrollToTop2 = (0, import_react268.useCallback)(function() {
+    var scrollToTop2 = (0, import_react272.useCallback)(function() {
       var _ref5 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {}, behavior = _ref5.behavior;
       debug2(function() {
         var _context5;
@@ -154599,7 +154794,7 @@ and ensure you are accounting for this risk.
         behavior: behavior || "smooth"
       });
     }, [debug2, scrollTo2]);
-    var scrollToEnd2 = (0, import_react268.useCallback)(function() {
+    var scrollToEnd2 = (0, import_react272.useCallback)(function() {
       var _ref6 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {}, behavior = _ref6.behavior;
       debug2(function() {
         var _context6;
@@ -154611,7 +154806,7 @@ and ensure you are accounting for this risk.
       };
       mode === MODE_TOP ? scrollToTop2(options) : scrollToBottom2(options);
     }, [debug2, mode, scrollToBottom2, scrollToTop2]);
-    var scrollToStart2 = (0, import_react268.useCallback)(function() {
+    var scrollToStart2 = (0, import_react272.useCallback)(function() {
       var _ref7 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {}, behavior = _ref7.behavior;
       debug2(function() {
         var _context7;
@@ -154623,7 +154818,7 @@ and ensure you are accounting for this risk.
       };
       mode === MODE_TOP ? scrollToBottom2(options) : scrollToTop2(options);
     }, [debug2, mode, scrollToBottom2, scrollToTop2]);
-    var scrollToSticky = (0, import_react268.useCallback)(function() {
+    var scrollToSticky = (0, import_react272.useCallback)(function() {
       var target2 = targetRef.current;
       if (target2) {
         if (initialScrollBehaviorRef.current === "auto") {
@@ -154672,7 +154867,7 @@ and ensure you are accounting for this risk.
         });
       }
     }, [animateFromRef, debug2, mode, scroller, scrollTo2, targetRef]);
-    var handleScroll = (0, import_react268.useCallback)(function(_ref8) {
+    var handleScroll = (0, import_react272.useCallback)(function(_ref8) {
       var _context17;
       var timeStampLow = _ref8.timeStampLow;
       var animateTo2 = animateToRef.current;
@@ -154740,7 +154935,7 @@ and ensure you are accounting for this risk.
         });
       });
     }, [animateToRef, debug2, ignoreScrollEventBeforeRef, mode, offsetHeightRef, scrollHeightRef, scrollPositionObserversRef, scrollToSticky, setAtBottom, setAtEnd, setAtStart, setAtTop, setSticky, stickyRef, targetRef]);
-    (0, import_react268.useEffect)(function() {
+    (0, import_react272.useEffect)(function() {
       if (target) {
         var stickyButNotAtEndSince = false;
         var timeout = setImmediateInterval(function() {
@@ -154785,17 +154980,17 @@ and ensure you are accounting for this risk.
       }
     }, [animateToRef, checkInterval, debug2, mode, scrollToSticky, setSticky, stickyRef, target, targetRef]);
     var emotion = useEmotion3(nonce, styleOptions === null || styleOptions === void 0 ? void 0 : styleOptions.stylesRoot);
-    var styleToClassName2 = (0, import_react268.useCallback)(function(style) {
+    var styleToClassName2 = (0, import_react272.useCallback)(function(style) {
       return emotion.css(style) + "";
     }, [emotion]);
-    var internalContext = (0, import_react268.useMemo)(function() {
+    var internalContext = (0, import_react272.useMemo)(function() {
       return {
         observeScrollPosition,
         setTarget: setTarget2,
         styleToClassName: styleToClassName2
       };
     }, [observeScrollPosition, setTarget2, styleToClassName2]);
-    var state1Context = (0, import_react268.useMemo)(function() {
+    var state1Context = (0, import_react272.useMemo)(function() {
       return {
         atBottom,
         atEnd,
@@ -154804,7 +154999,7 @@ and ensure you are accounting for this risk.
         mode
       };
     }, [atBottom, atEnd, atStart, atTop, mode]);
-    var state2Context = (0, import_react268.useMemo)(function() {
+    var state2Context = (0, import_react272.useMemo)(function() {
       var animating = animateTo !== null;
       return {
         animating,
@@ -154812,10 +155007,10 @@ and ensure you are accounting for this risk.
         sticky
       };
     }, [animateTo, mode, sticky]);
-    var combinedStateContext = (0, import_react268.useMemo)(function() {
+    var combinedStateContext = (0, import_react272.useMemo)(function() {
       return _objectSpread(_objectSpread({}, state1Context), state2Context);
     }, [state1Context, state2Context]);
-    var functionContext = (0, import_react268.useMemo)(function() {
+    var functionContext = (0, import_react272.useMemo)(function() {
       return {
         scrollTo: scrollTo2,
         scrollToBottom: scrollToBottom2,
@@ -154824,7 +155019,7 @@ and ensure you are accounting for this risk.
         scrollToTop: scrollToTop2
       };
     }, [scrollTo2, scrollToBottom2, scrollToEnd2, scrollToStart2, scrollToTop2]);
-    (0, import_react268.useEffect)(function() {
+    (0, import_react272.useEffect)(function() {
       if (target) {
         var handleFocus = function handleFocus2() {
           scrollHeightRef.current = target.scrollHeight;
@@ -154847,22 +155042,22 @@ and ensure you are accounting for this risk.
         target
       }];
     });
-    return /* @__PURE__ */ import_react268.default.createElement(InternalContext_default2.Provider, {
+    return /* @__PURE__ */ import_react272.default.createElement(InternalContext_default2.Provider, {
       value: internalContext
-    }, /* @__PURE__ */ import_react268.default.createElement(FunctionContext_default2.Provider, {
+    }, /* @__PURE__ */ import_react272.default.createElement(FunctionContext_default2.Provider, {
       value: functionContext
-    }, /* @__PURE__ */ import_react268.default.createElement(StateContext_default.Provider, {
+    }, /* @__PURE__ */ import_react272.default.createElement(StateContext_default.Provider, {
       value: combinedStateContext
-    }, /* @__PURE__ */ import_react268.default.createElement(State1Context_default.Provider, {
+    }, /* @__PURE__ */ import_react272.default.createElement(State1Context_default.Provider, {
       value: state1Context
-    }, /* @__PURE__ */ import_react268.default.createElement(State2Context_default.Provider, {
+    }, /* @__PURE__ */ import_react272.default.createElement(State2Context_default.Provider, {
       value: state2Context
-    }, children, target && /* @__PURE__ */ import_react268.default.createElement(EventSpy_default, {
+    }, children, target && /* @__PURE__ */ import_react272.default.createElement(EventSpy_default, {
       debounce: debounce3,
       name: "scroll",
       onEvent: handleScroll,
       target
-    }), target && animateTo !== null && /* @__PURE__ */ import_react268.default.createElement(SpineTo_default, {
+    }), target && animateTo !== null && /* @__PURE__ */ import_react272.default.createElement(SpineTo_default, {
       name: "scrollTop",
       onEnd: handleSpineToEnd,
       target,
@@ -154896,7 +155091,7 @@ and ensure you are accounting for this risk.
   // ../../node_modules/react-scroll-to-bottom/lib/esm/ScrollToBottom/Panel.js
   var import_classnames38 = __toESM(require_classnames2());
   var import_prop_types21 = __toESM(require_prop_types2());
-  var import_react269 = __toESM(require_react());
+  var import_react273 = __toESM(require_react());
   var ROOT_STYLE9 = {
     height: "100%",
     overflowY: "auto",
@@ -154904,9 +155099,9 @@ and ensure you are accounting for this risk.
   };
   var Panel = function Panel2(_ref) {
     var children = _ref.children, className = _ref.className;
-    var _useContext = (0, import_react269.useContext)(InternalContext_default2), setTarget2 = _useContext.setTarget;
+    var _useContext = (0, import_react273.useContext)(InternalContext_default2), setTarget2 = _useContext.setTarget;
     var rootCSS = useStyleToClassName()(ROOT_STYLE9);
-    return /* @__PURE__ */ import_react269.default.createElement("div", {
+    return /* @__PURE__ */ import_react273.default.createElement("div", {
       className: (0, import_classnames38.default)(rootCSS, (className || "") + ""),
       ref: setTarget2
     }, children);
@@ -154928,11 +155123,11 @@ and ensure you are accounting for this risk.
   var BasicScrollToBottomCore = function BasicScrollToBottomCore2(_ref) {
     var children = _ref.children, className = _ref.className, followButtonClassName = _ref.followButtonClassName, scrollViewClassName = _ref.scrollViewClassName;
     var rootCSS = useStyleToClassName()(ROOT_STYLE10);
-    return /* @__PURE__ */ import_react270.default.createElement("div", {
+    return /* @__PURE__ */ import_react274.default.createElement("div", {
       className: (0, import_classnames39.default)(rootCSS, (className || "") + "")
-    }, /* @__PURE__ */ import_react270.default.createElement(Panel_default, {
+    }, /* @__PURE__ */ import_react274.default.createElement(Panel_default, {
       className: (scrollViewClassName || "") + ""
-    }, children), /* @__PURE__ */ import_react270.default.createElement(AutoHideFollowButton_default, {
+    }, children), /* @__PURE__ */ import_react274.default.createElement(AutoHideFollowButton_default, {
       className: (followButtonClassName || "") + ""
     }));
   };
@@ -154950,7 +155145,7 @@ and ensure you are accounting for this risk.
   };
   var BasicScrollToBottom = function BasicScrollToBottom2(_ref2) {
     var checkInterval = _ref2.checkInterval, children = _ref2.children, className = _ref2.className, debounce3 = _ref2.debounce, debug2 = _ref2.debug, followButtonClassName = _ref2.followButtonClassName, initialScrollBehavior = _ref2.initialScrollBehavior, mode = _ref2.mode, nonce = _ref2.nonce, scroller = _ref2.scroller, scrollViewClassName = _ref2.scrollViewClassName, styleOptions = _ref2.styleOptions;
-    return /* @__PURE__ */ import_react270.default.createElement(Composer_default5, {
+    return /* @__PURE__ */ import_react274.default.createElement(Composer_default5, {
       checkInterval,
       debounce: debounce3,
       debug: debug2,
@@ -154959,7 +155154,7 @@ and ensure you are accounting for this risk.
       nonce,
       scroller,
       styleOptions
-    }, /* @__PURE__ */ import_react270.default.createElement(BasicScrollToBottomCore, {
+    }, /* @__PURE__ */ import_react274.default.createElement(BasicScrollToBottomCore, {
       className,
       followButtonClassName,
       scrollViewClassName
@@ -155009,7 +155204,7 @@ and ensure you are accounting for this risk.
   // ../../node_modules/react-scroll-to-bottom/lib/esm/hooks/useObserveScrollPosition.js
   var import_is_array5 = __toESM(require_is_array9());
   var import_concat4 = __toESM(require_concat4());
-  var import_react271 = __toESM(require_react());
+  var import_react275 = __toESM(require_react());
   function useObserveScrollPosition2(observer) {
     var _context3;
     var deps = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : [];
@@ -155019,7 +155214,7 @@ and ensure you are accounting for this risk.
       console.error('react-scroll-to-bottom: Second argument passed to "useObserveScrollPosition" must be an array if specified.');
     }
     var _useInternalContext = useInternalContext2(), observeScrollPosition = _useInternalContext.observeScrollPosition;
-    (0, import_react271.useEffect)(function() {
+    (0, import_react275.useEffect)(function() {
       return observer && observeScrollPosition(observer);
     }, (0, import_concat4.default)(_context3 = []).call(_context3, _toConsumableArray(deps), [!observer, observeScrollPosition]));
   }
@@ -155033,19 +155228,15 @@ and ensure you are accounting for this risk.
   // ../../node_modules/react-scroll-to-bottom/lib/esm/index.js
   addVersionToMetaTag();
 
-  // ../component/dist/chunk-NNKGCOL2.mjs
+  // ../component/dist/chunk-S54HCXJI.mjs
   var import_classnames92 = __toESM(require_classnames(), 1);
-  var import_react403 = __toESM(require_react(), 1);
-  var import_classnames93 = __toESM(require_classnames(), 1);
-  var import_react404 = __toESM(require_react(), 1);
-  var import_react405 = __toESM(require_react(), 1);
-  var import_react406 = __toESM(require_react(), 1);
   var import_react407 = __toESM(require_react(), 1);
-  var import_classnames94 = __toESM(require_classnames(), 1);
+  var import_classnames93 = __toESM(require_classnames(), 1);
   var import_react408 = __toESM(require_react(), 1);
   var import_react409 = __toESM(require_react(), 1);
   var import_react410 = __toESM(require_react(), 1);
   var import_react411 = __toESM(require_react(), 1);
+  var import_classnames94 = __toESM(require_classnames(), 1);
   var import_react412 = __toESM(require_react(), 1);
   var import_react413 = __toESM(require_react(), 1);
   var import_react414 = __toESM(require_react(), 1);
@@ -155055,13 +155246,17 @@ and ensure you are accounting for this risk.
   var import_react418 = __toESM(require_react(), 1);
   var import_react419 = __toESM(require_react(), 1);
   var import_react420 = __toESM(require_react(), 1);
+  var import_react421 = __toESM(require_react(), 1);
+  var import_react422 = __toESM(require_react(), 1);
+  var import_react423 = __toESM(require_react(), 1);
+  var import_react424 = __toESM(require_react(), 1);
 
   // ../../node_modules/use-reduce-memo/dist/use-reduce-memo.mjs
-  var import_react272 = __toESM(require_react(), 1);
+  var import_react276 = __toESM(require_react(), 1);
   function useMemoWithPrevious3(factory, deps) {
-    const prevValueRef = (0, import_react272.useRef)(void 0);
-    const value = (0, import_react272.useMemo)(() => factory(prevValueRef.current), deps);
-    (0, import_react272.useEffect)(() => {
+    const prevValueRef = (0, import_react276.useRef)(void 0);
+    const value = (0, import_react276.useMemo)(() => factory(prevValueRef.current), deps);
+    (0, import_react276.useEffect)(() => {
       prevValueRef.current = value;
     });
     return value;
@@ -155104,11 +155299,11 @@ and ensure you are accounting for this risk.
   }
   var useReduceMemo_default = useReduceMemo;
 
-  // ../component/dist/chunk-NNKGCOL2.mjs
+  // ../component/dist/chunk-S54HCXJI.mjs
   var import_math_random18 = __toESM(require_browser(), 1);
   var import_prop_types46 = __toESM(require_prop_types(), 1);
-  var import_react421 = __toESM(require_react(), 1);
-  var import_react422 = __toESM(require_react(), 1);
+  var import_react425 = __toESM(require_react(), 1);
+  var import_react426 = __toESM(require_react(), 1);
 
   // ../../node_modules/compute-scroll-into-view/dist/index.mjs
   function t(t3) {
@@ -155164,11 +155359,11 @@ and ensure you are accounting for this risk.
     return T3;
   };
 
-  // ../component/dist/chunk-NNKGCOL2.mjs
-  var import_react423 = __toESM(require_react(), 1);
-  var import_react424 = __toESM(require_react(), 1);
-  var import_react425 = __toESM(require_react(), 1);
-  var import_react426 = __toESM(require_react(), 1);
+  // ../component/dist/chunk-S54HCXJI.mjs
+  var import_react427 = __toESM(require_react(), 1);
+  var import_react428 = __toESM(require_react(), 1);
+  var import_react429 = __toESM(require_react(), 1);
+  var import_react430 = __toESM(require_react(), 1);
   var component_exports = {};
   __export2(component_exports, {
     AccessKeySinkSurface: () => Surface_default,
@@ -155218,7 +155413,7 @@ and ensure you are accounting for this risk.
   function AudioContent(props) {
     const { alt, autoPlay = false, loop: loop2 = false, src } = validateProps2(audioContentPropsSchema, props);
     const [{ audioContent: audioContentStyleSet }] = useStyleSet();
-    return /* @__PURE__ */ import_react276.default.createElement(
+    return /* @__PURE__ */ import_react280.default.createElement(
       "audio",
       {
         "aria-label": alt,
@@ -155230,10 +155425,10 @@ and ensure you are accounting for this risk.
       }
     );
   }
-  var AudioContent_default = (0, import_react276.memo)(AudioContent);
+  var AudioContent_default = (0, import_react280.memo)(AudioContent);
   var AudioAttachment = ({ attachment }) => {
     const [{ audioAttachment: audioAttachmentStyleSet }] = useStyleSet();
-    return /* @__PURE__ */ import_react275.default.createElement("div", { className: audioAttachmentStyleSet }, /* @__PURE__ */ import_react275.default.createElement(AudioContent_default, { alt: attachment.name, src: attachment.contentUrl }));
+    return /* @__PURE__ */ import_react279.default.createElement("div", { className: audioAttachmentStyleSet }, /* @__PURE__ */ import_react279.default.createElement(AudioContent_default, { alt: attachment.name, src: attachment.contentUrl }));
   };
   AudioAttachment.propTypes = {
     attachment: import_prop_types24.default.shape({
@@ -155276,7 +155471,7 @@ and ensure you are accounting for this risk.
     const [direction] = useDirection5();
     const formatByte = useByteFormatter2();
     const localizedSize = typeof size === "number" && formatByte(size);
-    return /* @__PURE__ */ import_react278.default.createElement(import_react278.default.Fragment, null, /* @__PURE__ */ import_react278.default.createElement("div", { "aria-hidden": true, className: "webchat__fileContent__badge" }, /* @__PURE__ */ import_react278.default.createElement("div", { className: "webchat__fileContent__fileName" }, fileName), !!localizedSize && /* @__PURE__ */ import_react278.default.createElement("div", { className: "webchat__fileContent__size" }, localizedSize)), downloadIcon && /* @__PURE__ */ import_react278.default.createElement(
+    return /* @__PURE__ */ import_react282.default.createElement(import_react282.default.Fragment, null, /* @__PURE__ */ import_react282.default.createElement("div", { "aria-hidden": true, className: "webchat__fileContent__badge" }, /* @__PURE__ */ import_react282.default.createElement("div", { className: "webchat__fileContent__fileName" }, fileName), !!localizedSize && /* @__PURE__ */ import_react282.default.createElement("div", { className: "webchat__fileContent__size" }, localizedSize)), downloadIcon && /* @__PURE__ */ import_react282.default.createElement(
       ComponentIcon_default,
       {
         appearance: "text",
@@ -155310,10 +155505,10 @@ and ensure you are accounting for this risk.
       fileName,
       localizedSize
     );
-    return /* @__PURE__ */ import_react278.default.createElement("div", { className: (0, import_classnames41.default)("webchat__fileContent", rootClassName, fileContentStyleSet + "", className) }, sanitizedHref ? (
+    return /* @__PURE__ */ import_react282.default.createElement("div", { className: (0, import_classnames41.default)("webchat__fileContent", rootClassName, fileContentStyleSet + "", className) }, sanitizedHref ? (
       // URL is sanitized.
       // eslint-disable-next-line react/forbid-elements
-      /* @__PURE__ */ import_react278.default.createElement(
+      /* @__PURE__ */ import_react282.default.createElement(
         "a",
         {
           "aria-label": alt,
@@ -155323,18 +155518,18 @@ and ensure you are accounting for this risk.
           rel: "noopener noreferrer",
           target: "_blank"
         },
-        /* @__PURE__ */ import_react278.default.createElement(FileContentBadge, { downloadIcon: true, fileName, size })
+        /* @__PURE__ */ import_react282.default.createElement(FileContentBadge, { downloadIcon: true, fileName, size })
       )
-    ) : /* @__PURE__ */ import_react278.default.createElement(FileContentBadge, { downloadIcon: false, fileName, size }));
+    ) : /* @__PURE__ */ import_react282.default.createElement(FileContentBadge, { downloadIcon: false, fileName, size }));
   }
-  var FileContent_default = (0, import_react278.memo)(FileContent);
+  var FileContent_default = (0, import_react282.memo)(FileContent);
   var FileAttachment = ({
     activity: { attachments = [], channelData: { attachmentSizes = [] } = {} } = {},
     attachment
   }) => {
     const attachmentIndex = attachments.indexOf(attachment);
     const size = attachmentSizes[+attachmentIndex];
-    return /* @__PURE__ */ import_react277.default.createElement(FileContent_default, { fileName: attachment.name, href: attachment.contentUrl, size });
+    return /* @__PURE__ */ import_react281.default.createElement(FileContent_default, { fileName: attachment.name, href: attachment.contentUrl, size });
   };
   FileAttachment.propTypes = {
     activity: import_prop_types25.default.shape({
@@ -155474,12 +155669,12 @@ and ensure you are accounting for this risk.
       }
     }
   };
-  var FixedWidthImage = (0, import_react281.memo)(
+  var FixedWidthImage = (0, import_react285.memo)(
     ({
       alt,
       className,
       src
-    }) => /* @__PURE__ */ import_react281.default.createElement(
+    }) => /* @__PURE__ */ import_react285.default.createElement(
       "div",
       {
         className: (0, import_classnames42.default)(
@@ -155488,17 +155683,17 @@ and ensure you are accounting for this risk.
           (className || "") + ""
         )
       },
-      /* @__PURE__ */ import_react281.default.createElement("img", { alt: "", className: "webchat__fixed-width-image__filler", role: "none", src }),
-      /* @__PURE__ */ import_react281.default.createElement("img", { alt, className: "webchat__fixed-width-image__image", src })
+      /* @__PURE__ */ import_react285.default.createElement("img", { alt: "", className: "webchat__fixed-width-image__filler", role: "none", src }),
+      /* @__PURE__ */ import_react285.default.createElement("img", { alt, className: "webchat__fixed-width-image__image", src })
     )
   );
   FixedWidthImage.displayName = "FixedWidthImage";
   var FixedWidthImage_default = FixedWidthImage;
-  var ImageContent = (0, import_react280.memo)(
+  var ImageContent = (0, import_react284.memo)(
     ({
       alt,
       src
-    }) => /* @__PURE__ */ import_react280.default.createElement(FixedWidthImage_default, { alt: alt || "", src })
+    }) => /* @__PURE__ */ import_react284.default.createElement(FixedWidthImage_default, { alt: alt || "", src })
   );
   var ImageContent_default = ImageContent;
   var imageAttachmentPropsSchema = pipe(
@@ -155523,7 +155718,7 @@ and ensure you are accounting for this risk.
     }),
     readonly()
   );
-  var ImageAttachment = (0, import_react279.memo)(function ImageAttachment2(props) {
+  var ImageAttachment = (0, import_react283.memo)(function ImageAttachment2(props) {
     const { attachment } = validateProps2(imageAttachmentPropsSchema, props);
     let imageURL = attachment.thumbnailUrl || attachment.contentUrl;
     const blob = readDataURIToBlob(imageURL);
@@ -155534,7 +155729,7 @@ and ensure you are accounting for this risk.
         })
       );
     }
-    return /* @__PURE__ */ import_react279.default.createElement(ImageContent_default, { alt: attachment.name, src: imageURL });
+    return /* @__PURE__ */ import_react283.default.createElement(ImageContent_default, { alt: attachment.name, src: imageURL });
   });
   var ImageAttachment_default = ImageAttachment;
   function isAIGeneratedActivity(activity) {
@@ -155551,44 +155746,44 @@ and ensure you are accounting for this risk.
   );
   function Markdownable({ className, id, text: text6 }) {
     const renderMarkdownAsHTML = useRenderMarkdownAsHTML("message activity");
-    const innerHTML = (0, import_react287.useMemo)(
+    const innerHTML = (0, import_react291.useMemo)(
       () => Object.freeze({ __html: renderMarkdownAsHTML == null ? void 0 : renderMarkdownAsHTML(text6) }),
       [text6, renderMarkdownAsHTML]
     );
     return innerHTML ? (
       // "id" is required for "aria-labelledby"
       // eslint-disable-next-line react/forbid-dom-props, react/no-danger
-      /* @__PURE__ */ import_react287.default.createElement("span", { className, dangerouslySetInnerHTML: innerHTML, id })
+      /* @__PURE__ */ import_react291.default.createElement("span", { className, dangerouslySetInnerHTML: innerHTML, id })
     ) : (
       // "id" is required for "aria-labelledby"
       // eslint-disable-next-line react/forbid-dom-props
-      /* @__PURE__ */ import_react287.default.createElement("span", { className, id }, text6)
+      /* @__PURE__ */ import_react291.default.createElement("span", { className, id }, text6)
     );
   }
-  var Markdownable_default = (0, import_react287.memo)(Markdownable);
-  var classes7 = { "text-area--in-completion": "wh0cFaa_text-area--in-completion", "text-area": "wh0cFaa_text-area", "text-area-doppelganger": "wh0cFaa_text-area-doppelganger", "text-area-input": "wh0cFaa_text-area-input", "text-area--scroll": "wh0cFaa_text-area--scroll", "text-area--hidden": "wh0cFaa_text-area--hidden", "text-area-shared": "wh0cFaa_text-area-shared" };
+  var Markdownable_default = (0, import_react291.memo)(Markdownable);
+  var classes7 = { "text-area-input": "wh0cFaa_text-area-input", "text-area--in-completion": "wh0cFaa_text-area--in-completion", "text-area": "wh0cFaa_text-area", "text-area--hidden": "wh0cFaa_text-area--hidden", "text-area-doppelganger": "wh0cFaa_text-area-doppelganger", "text-area-shared": "wh0cFaa_text-area-shared", "text-area--scroll": "wh0cFaa_text-area--scroll" };
   var TextArea_module_default = classes7;
+  var _text_area_input0 = classes7["text-area-input"];
   var _text_area__in_completion0 = classes7["text-area--in-completion"];
   var _text_area0 = classes7["text-area"];
-  var _text_area_doppelganger0 = classes7["text-area-doppelganger"];
-  var _text_area_input0 = classes7["text-area-input"];
-  var _text_area__scroll0 = classes7["text-area--scroll"];
   var _text_area__hidden0 = classes7["text-area--hidden"];
+  var _text_area_doppelganger0 = classes7["text-area-doppelganger"];
   var _text_area_shared0 = classes7["text-area-shared"];
+  var _text_area__scroll0 = classes7["text-area--scroll"];
   var { useUIState: useUIState5 } = hook_exports;
-  var TextArea = (0, import_react288.forwardRef)((props, ref) => {
+  var TextArea = (0, import_react292.forwardRef)((props, ref) => {
     var _a29;
     const [uiState] = useUIState5();
     const classNames31 = useStyles_default(TextArea_module_default);
-    const isInCompositionRef = (0, import_react288.useRef)(false);
+    const isInCompositionRef = (0, import_react292.useRef)(false);
     const disabled = uiState === "disabled" || props.readOnly;
-    const handleCompositionEnd = (0, import_react288.useCallback)(() => {
+    const handleCompositionEnd = (0, import_react292.useCallback)(() => {
       isInCompositionRef.current = false;
     }, [isInCompositionRef]);
-    const handleCompositionStart = (0, import_react288.useCallback)(() => {
+    const handleCompositionStart = (0, import_react292.useCallback)(() => {
       isInCompositionRef.current = true;
     }, [isInCompositionRef]);
-    const handleKeyDown = (0, import_react288.useCallback)((event2) => {
+    const handleKeyDown = (0, import_react292.useCallback)((event2) => {
       var _a30, _b4;
       if (!event2.shiftKey && event2.key === "Enter" && !isInCompositionRef.current) {
         event2.preventDefault();
@@ -155597,7 +155792,7 @@ and ensure you are accounting for this risk.
         }
       }
     }, []);
-    return /* @__PURE__ */ import_react288.default.createElement(
+    return /* @__PURE__ */ import_react292.default.createElement(
       "div",
       {
         className: (0, import_classnames44.default)(
@@ -155609,7 +155804,7 @@ and ensure you are accounting for this risk.
         ),
         role: props.hidden ? "hidden" : void 0
       },
-      uiState === "blueprint" ? /* @__PURE__ */ import_react288.default.createElement("div", { className: (0, import_classnames44.default)(classNames31["text-area-doppelganger"], classNames31["text-area-shared"]) }, " ") : /* @__PURE__ */ import_react288.default.createElement(import_react288.Fragment, null, /* @__PURE__ */ import_react288.default.createElement("div", { className: (0, import_classnames44.default)(classNames31["text-area-doppelganger"], classNames31["text-area-shared"]) }, props.completion ? props.completion : props.value, " "), /* @__PURE__ */ import_react288.default.createElement(
+      uiState === "blueprint" ? /* @__PURE__ */ import_react292.default.createElement("div", { className: (0, import_classnames44.default)(classNames31["text-area-doppelganger"], classNames31["text-area-shared"]) }, " ") : /* @__PURE__ */ import_react292.default.createElement(import_react292.Fragment, null, /* @__PURE__ */ import_react292.default.createElement("div", { className: (0, import_classnames44.default)(classNames31["text-area-doppelganger"], classNames31["text-area-shared"]) }, props.completion ? props.completion : props.value, " "), /* @__PURE__ */ import_react292.default.createElement(
         "textarea",
         {
           "aria-describedby": props["aria-describedby"],
@@ -155634,7 +155829,7 @@ and ensure you are accounting for this risk.
   });
   TextArea.displayName = "TextArea";
   var TextArea_default = TextArea;
-  var ActivityFeedbackContext = (0, import_react290.createContext)(
+  var ActivityFeedbackContext = (0, import_react294.createContext)(
     new Proxy({}, {
       get() {
         throw new Error("botframework-webchat: This hook can only be used under <ActivityFeedbackContext>");
@@ -155643,7 +155838,7 @@ and ensure you are accounting for this risk.
   );
   var ActivityFeedbackContext_default = ActivityFeedbackContext;
   function useActivityFeedbackHooks() {
-    return (0, import_react289.useContext)(ActivityFeedbackContext_default);
+    return (0, import_react293.useContext)(ActivityFeedbackContext_default);
   }
   function isUserReview(thing2) {
     return (thing2 == null ? void 0 : thing2["@type"]) === "UserReview";
@@ -155651,18 +155846,18 @@ and ensure you are accounting for this risk.
   function getDisclaimerFromActivity(action2) {
     return isUserReview(action2.result) ? action2.result.reviewAspect : void 0;
   }
-  var classes24 = { "feedback-form": "wBqmrRG_feedback-form", "feedback-form__form-header": "wBqmrRG_feedback-form__form-header", "feedback-form__form-footer": "wBqmrRG_feedback-form__form-footer", "feedback-form__cancel-button": "wBqmrRG_feedback-form__cancel-button", "feedback-form__submit-button": "wBqmrRG_feedback-form__submit-button", "feedback-form__submission-button-bar": "wBqmrRG_feedback-form__submission-button-bar", "feedback-form__form": "wBqmrRG_feedback-form__form", "feedback-form__text-box": "wBqmrRG_feedback-form__text-box", "feedback-form__vote-button-bar": "wBqmrRG_feedback-form__vote-button-bar", "feedback-form__text-area": "wBqmrRG_feedback-form__text-area" };
+  var classes24 = { "feedback-form__submit-button": "wBqmrRG_feedback-form__submit-button", "feedback-form__cancel-button": "wBqmrRG_feedback-form__cancel-button", "feedback-form__form-footer": "wBqmrRG_feedback-form__form-footer", "feedback-form__text-area": "wBqmrRG_feedback-form__text-area", "feedback-form": "wBqmrRG_feedback-form", "feedback-form__vote-button-bar": "wBqmrRG_feedback-form__vote-button-bar", "feedback-form__submission-button-bar": "wBqmrRG_feedback-form__submission-button-bar", "feedback-form__text-box": "wBqmrRG_feedback-form__text-box", "feedback-form__form-header": "wBqmrRG_feedback-form__form-header", "feedback-form__form": "wBqmrRG_feedback-form__form" };
   var FeedbackForm_module_default = classes24;
-  var _feedback_form0 = classes24["feedback-form"];
-  var _feedback_form__form_header0 = classes24["feedback-form__form-header"];
-  var _feedback_form__form_footer0 = classes24["feedback-form__form-footer"];
-  var _feedback_form__cancel_button0 = classes24["feedback-form__cancel-button"];
   var _feedback_form__submit_button0 = classes24["feedback-form__submit-button"];
-  var _feedback_form__submission_button_bar0 = classes24["feedback-form__submission-button-bar"];
-  var _feedback_form__form0 = classes24["feedback-form__form"];
-  var _feedback_form__text_box0 = classes24["feedback-form__text-box"];
-  var _feedback_form__vote_button_bar0 = classes24["feedback-form__vote-button-bar"];
+  var _feedback_form__cancel_button0 = classes24["feedback-form__cancel-button"];
+  var _feedback_form__form_footer0 = classes24["feedback-form__form-footer"];
   var _feedback_form__text_area0 = classes24["feedback-form__text-area"];
+  var _feedback_form0 = classes24["feedback-form"];
+  var _feedback_form__vote_button_bar0 = classes24["feedback-form__vote-button-bar"];
+  var _feedback_form__submission_button_bar0 = classes24["feedback-form__submission-button-bar"];
+  var _feedback_form__text_box0 = classes24["feedback-form__text-box"];
+  var _feedback_form__form_header0 = classes24["feedback-form__form-header"];
+  var _feedback_form__form0 = classes24["feedback-form__form"];
   var { useLocalizer: useLocalizer24 } = hook_exports;
   function FeedbackForm() {
     const classNames31 = useStyles_default(FeedbackForm_module_default);
@@ -155670,29 +155865,29 @@ and ensure you are accounting for this risk.
     const feedbackFormHeaderId = useUniqueId("feedback-form__form-header__id");
     const disclaimerId = useUniqueId("feedback-form__form-footer__id");
     const [selectedAction] = useSelectedAction();
-    const [hasFocus, setHasFocus] = (0, import_react286.useState)(false);
+    const [hasFocus, setHasFocus] = (0, import_react290.useState)(false);
     const [userFeedback, setUserFeedback] = useFeedbackText();
-    const feedbackTextAreaRef = (0, import_react286.useRef)(null);
+    const feedbackTextAreaRef = (0, import_react290.useRef)(null);
     const localize2 = useLocalizer24();
     const disclaimer = getDisclaimerFromActivity(selectedAction);
-    const handleMessageChange = (0, import_react286.useCallback)(
+    const handleMessageChange = (0, import_react290.useCallback)(
       ({ currentTarget: { value } }) => setUserFeedback(value),
       [setUserFeedback]
     );
-    (0, import_react286.useEffect)(() => {
+    (0, import_react290.useEffect)(() => {
       if (feedbackTextAreaRef.current && !hasFocus) {
         setHasFocus(true);
         feedbackTextAreaRef.current.focus();
       }
     }, [feedbackTextAreaRef, hasFocus, setHasFocus]);
-    return /* @__PURE__ */ import_react286.default.createElement("div", { className: classNames31["feedback-form__form"] }, /* @__PURE__ */ import_react286.default.createElement(
+    return /* @__PURE__ */ import_react290.default.createElement("div", { className: classNames31["feedback-form__form"] }, /* @__PURE__ */ import_react290.default.createElement(
       "span",
       {
         className: classNames31["feedback-form__form-header"],
         id: feedbackFormHeaderId
       },
       localize2("FEEDBACK_FORM_TITLE")
-    ), /* @__PURE__ */ import_react286.default.createElement("div", { className: classNames31["feedback-form__text-box"] }, /* @__PURE__ */ import_react286.default.createElement(
+    ), /* @__PURE__ */ import_react290.default.createElement("div", { className: classNames31["feedback-form__text-box"] }, /* @__PURE__ */ import_react290.default.createElement(
       TextArea_default,
       {
         "aria-describedby": disclaimer ? disclaimerId : void 0,
@@ -155705,9 +155900,9 @@ and ensure you are accounting for this risk.
         startRows: 3,
         value: userFeedback
       }
-    )), disclaimer && /* @__PURE__ */ import_react286.default.createElement(Markdownable_default, { className: classNames31["feedback-form__form-footer"], id: disclaimerId, text: disclaimer }), /* @__PURE__ */ import_react286.default.createElement("div", { className: classNames31["feedback-form__submission-button-bar"] }, /* @__PURE__ */ import_react286.default.createElement("button", { className: classNames31["feedback-form__submit-button"], type: "submit" }, localize2("FEEDBACK_FORM_SUBMIT_BUTTON_LABEL")), /* @__PURE__ */ import_react286.default.createElement("button", { className: classNames31["feedback-form__cancel-button"], type: "reset" }, localize2("FEEDBACK_FORM_CANCEL_BUTTON_LABEL"))));
+    )), disclaimer && /* @__PURE__ */ import_react290.default.createElement(Markdownable_default, { className: classNames31["feedback-form__form-footer"], id: disclaimerId, text: disclaimer }), /* @__PURE__ */ import_react290.default.createElement("div", { className: classNames31["feedback-form__submission-button-bar"] }, /* @__PURE__ */ import_react290.default.createElement("button", { className: classNames31["feedback-form__submit-button"], type: "submit" }, localize2("FEEDBACK_FORM_SUBMIT_BUTTON_LABEL")), /* @__PURE__ */ import_react290.default.createElement("button", { className: classNames31["feedback-form__cancel-button"], type: "reset" }, localize2("FEEDBACK_FORM_CANCEL_BUTTON_LABEL"))));
   }
-  var FeedbackForm_default = (0, import_react286.memo)(FeedbackForm);
+  var FeedbackForm_default = (0, import_react290.memo)(FeedbackForm);
   var {
     PropagationScope: ActivityFeedbackFocusPropagationScope,
     useListen: useListenToActivityFeedbackFocus,
@@ -155715,7 +155910,7 @@ and ensure you are accounting for this risk.
   } = createPropagation();
   function Tooltip({ children, className, position: position3 = "block-start" }) {
     const [{ tooltip: tooltipClassName }] = useStyleSet();
-    return /* @__PURE__ */ import_react294.default.createElement(
+    return /* @__PURE__ */ import_react298.default.createElement(
       "span",
       {
         className: (0, import_classnames46.default)("webchat__tooltip", className, tooltipClassName, `webchat__tooltip--${position3}`),
@@ -155725,7 +155920,7 @@ and ensure you are accounting for this risk.
       children
     );
   }
-  var Tooltip_default = (0, import_react294.memo)(Tooltip);
+  var Tooltip_default = (0, import_react298.memo)(Tooltip);
   var thumbButtonImagePropsSchema = pipe(
     object({
       className: optional(string()),
@@ -155734,9 +155929,9 @@ and ensure you are accounting for this risk.
     }),
     readonly()
   );
-  var ThumbButtonImage = (0, import_react295.memo)((props) => {
+  var ThumbButtonImage = (0, import_react299.memo)((props) => {
     const { className, direction, filled = false } = validateProps2(thumbButtonImagePropsSchema, props);
-    return /* @__PURE__ */ import_react295.default.createElement(
+    return /* @__PURE__ */ import_react299.default.createElement(
       ComponentIcon_default,
       {
         appearance: "text",
@@ -155747,16 +155942,16 @@ and ensure you are accounting for this risk.
   });
   ThumbButtonImage.displayName = "ThumbButtonImage";
   var ThumbButton_Image_default = ThumbButtonImage;
-  var classes33 = { "thumb-button": "wIExi9q_thumb-button", "thumb-button__image--is-stroked": "wIExi9q_thumb-button__image--is-stroked", "thumb-button--large": "wIExi9q_thumb-button--large", "thumb-button__image": "wIExi9q_thumb-button__image", "thumb-button__input": "wIExi9q_thumb-button__input", "thumb-button--has-submitted": "wIExi9q_thumb-button--has-submitted", "thumb-button__tooltip": "wIExi9q_thumb-button__tooltip", "thumb-button__image--is-filled": "wIExi9q_thumb-button__image--is-filled" };
+  var classes33 = { "thumb-button__tooltip": "wIExi9q_thumb-button__tooltip", "thumb-button--large": "wIExi9q_thumb-button--large", "thumb-button__image--is-stroked": "wIExi9q_thumb-button__image--is-stroked", "thumb-button__input": "wIExi9q_thumb-button__input", "thumb-button__image--is-filled": "wIExi9q_thumb-button__image--is-filled", "thumb-button--has-submitted": "wIExi9q_thumb-button--has-submitted", "thumb-button__image": "wIExi9q_thumb-button__image", "thumb-button": "wIExi9q_thumb-button" };
   var ThumbButton_module_default = classes33;
-  var _thumb_button0 = classes33["thumb-button"];
-  var _thumb_button__image__is_stroked0 = classes33["thumb-button__image--is-stroked"];
-  var _thumb_button__large0 = classes33["thumb-button--large"];
-  var _thumb_button__image0 = classes33["thumb-button__image"];
-  var _thumb_button__input0 = classes33["thumb-button__input"];
-  var _thumb_button__has_submitted0 = classes33["thumb-button--has-submitted"];
   var _thumb_button__tooltip0 = classes33["thumb-button__tooltip"];
+  var _thumb_button__large0 = classes33["thumb-button--large"];
+  var _thumb_button__image__is_stroked0 = classes33["thumb-button__image--is-stroked"];
+  var _thumb_button__input0 = classes33["thumb-button__input"];
   var _thumb_button__image__is_filled0 = classes33["thumb-button__image--is-filled"];
+  var _thumb_button__has_submitted0 = classes33["thumb-button--has-submitted"];
+  var _thumb_button__image0 = classes33["thumb-button__image"];
+  var _thumb_button0 = classes33["thumb-button"];
   var { useLocalizer: useLocalizer33 } = hook_exports;
   var thumbButtonPropsSchema = pipe(
     object({
@@ -155781,18 +155976,18 @@ and ensure you are accounting for this risk.
     const localize2 = useLocalizer33();
     const onClickRef = useRefFrom(onClick2);
     const classNames31 = useStyles_default(ThumbButton_module_default);
-    const buttonTitle = (0, import_react293.useMemo)(
+    const buttonTitle = (0, import_react297.useMemo)(
       () => title != null ? title : localize2(direction === "down" ? "VOTE_DISLIKE_ALT" : "VOTE_LIKE_ALT"),
       [direction, localize2, title]
     );
-    const handleClickOrChange = (0, import_react293.useCallback)(() => {
+    const handleClickOrChange = (0, import_react297.useCallback)(() => {
       var _a29;
       return !disabled && ((_a29 = onClickRef.current) == null ? void 0 : _a29.call(onClickRef));
     }, [disabled, onClickRef]);
-    const handleKeyDown = (0, import_react293.useCallback)((event2) => {
+    const handleKeyDown = (0, import_react297.useCallback)((event2) => {
       event2.key === "Enter" && event2.preventDefault();
     }, []);
-    return /* @__PURE__ */ import_react293.default.createElement(
+    return /* @__PURE__ */ import_react297.default.createElement(
       "div",
       {
         className: (0, import_classnames45.default)(
@@ -155804,7 +155999,7 @@ and ensure you are accounting for this risk.
           className
         )
       },
-      /* @__PURE__ */ import_react293.default.createElement(
+      /* @__PURE__ */ import_react297.default.createElement(
         "input",
         {
           "aria-disabled": disabled ? "true" : void 0,
@@ -155825,14 +156020,14 @@ and ensure you are accounting for this risk.
           }
         }
       ),
-      /* @__PURE__ */ import_react293.default.createElement(
+      /* @__PURE__ */ import_react297.default.createElement(
         ThumbButton_Image_default,
         {
           className: (0, import_classnames45.default)(classNames31["thumb-button__image"], classNames31["thumb-button__image--is-stroked"]),
           direction
         }
       ),
-      /* @__PURE__ */ import_react293.default.createElement(
+      /* @__PURE__ */ import_react297.default.createElement(
         ThumbButton_Image_default,
         {
           className: (0, import_classnames45.default)(classNames31["thumb-button__image"], classNames31["thumb-button__image--is-filled"]),
@@ -155840,10 +156035,10 @@ and ensure you are accounting for this risk.
           filled: true
         }
       ),
-      /* @__PURE__ */ import_react293.default.createElement(Tooltip_default, { className: classNames31["thumb-button__tooltip"] }, buttonTitle)
+      /* @__PURE__ */ import_react297.default.createElement(Tooltip_default, { className: classNames31["thumb-button__tooltip"] }, buttonTitle)
     );
   }
-  var ThumbButton_default = (0, import_react293.memo)((0, import_react293.forwardRef)(ThumbButton));
+  var ThumbButton_default = (0, import_react297.memo)((0, import_react297.forwardRef)(ThumbButton));
   function isActionRequireReview(action2) {
     var _a29;
     return ((_a29 = action2 == null ? void 0 : action2.result) == null ? void 0 : _a29["@type"]) === "UserReview";
@@ -155880,8 +156075,8 @@ and ensure you are accounting for this risk.
     const [hasSubmitted] = useHasSubmitted();
     const [selectedAction, setSelectedAction] = useSelectedActions();
     const actionRef = useRefFrom(action2);
-    const buttonRef = (0, import_react292.useRef)(null);
-    const direction = (0, import_react292.useMemo)(() => {
+    const buttonRef = (0, import_react296.useRef)(null);
+    const direction = (0, import_react296.useMemo)(() => {
       var _a29;
       if (action2["@type"] === "DislikeAction" || action2["@type"] === "VoteAction" && ((_a29 = onErrorResumeNext(() => parseVoteAction(action2))) == null ? void 0 : _a29.actionOption) === "downvote") {
         return "down";
@@ -155890,18 +156085,18 @@ and ensure you are accounting for this risk.
     }, [action2]);
     const localize2 = useLocalizer42();
     const selectedActionRef = useRefFrom(selectedAction);
-    const handleClick = (0, import_react292.useCallback)(
+    const handleClick = (0, import_react296.useCallback)(
       () => setSelectedAction(actionRef.current === selectedActionRef.current ? void 0 : actionRef.current),
       [actionRef, selectedActionRef, setSelectedAction]
     );
     const disabled = hasSubmitted && !canActionResubmit(action2);
     useListenToActivityFeedbackFocus(
-      (0, import_react292.useCallback)((target) => {
+      (0, import_react296.useCallback)((target) => {
         var _a29;
         return target === actionRef.current && ((_a29 = buttonRef.current) == null ? void 0 : _a29.focus());
       }, [actionRef])
     );
-    return /* @__PURE__ */ import_react292.default.createElement(
+    return /* @__PURE__ */ import_react296.default.createElement(
       ThumbButton_default,
       {
         as,
@@ -155917,7 +156112,7 @@ and ensure you are accounting for this risk.
       }
     );
   }
-  var FeedbackVoteButton_default = (0, import_react292.memo)(FeedbackVoteButton);
+  var FeedbackVoteButton_default = (0, import_react296.memo)(FeedbackVoteButton);
   var feedbackVoteButtonBarPropsSchema = pipe(
     object({
       buttonAs: union([literal("button"), literal("radio")])
@@ -155930,9 +156125,9 @@ and ensure you are accounting for this risk.
     const { useActions } = useActivityFeedbackHooks();
     const [actions] = useActions();
     const name = useUniqueId("webchat__feedback-form__vote-button-bar");
-    return /* @__PURE__ */ import_react291.default.createElement("div", { className: classNames31["feedback-form__vote-button-bar"] }, actions.map((action2, index2) => /* @__PURE__ */ import_react291.default.createElement(FeedbackVoteButton_default, { action: action2, as: buttonAs, key: action2["@id"] || index2, name })));
+    return /* @__PURE__ */ import_react295.default.createElement("div", { className: classNames31["feedback-form__vote-button-bar"] }, actions.map((action2, index2) => /* @__PURE__ */ import_react295.default.createElement(FeedbackVoteButton_default, { action: action2, as: buttonAs, key: action2["@id"] || index2, name })));
   }
-  var FeedbackVoteButtonBar_default = (0, import_react291.memo)(FeedbackVoteButtonBar);
+  var FeedbackVoteButtonBar_default = (0, import_react295.memo)(FeedbackVoteButtonBar);
   var DANGEROUS_PROPERTY_NAMES = ["__proto__", "constructor", "prototype"];
   function getSafeOwnPropertyNames(object61) {
     return Object.getOwnPropertyNames(object61).filter((name) => !DANGEROUS_PROPERTY_NAMES.includes(name));
@@ -156042,7 +156237,7 @@ and ensure you are accounting for this risk.
     const { children, activity: activityFromProps } = validateProps2(activityFeedbackComposerPropsSchema, props);
     const [{ clearTimeout: clearTimeout2, setTimeout: setTimeout2 }] = usePonyfill4();
     const [feedbackText, setFeedbackText, feedbackTextRef] = useStateWithRef();
-    const activity = (0, import_react296.useMemo)(
+    const activity = (0, import_react300.useMemo)(
       () => (
         // Force enable feedback loop until service fixed their issue.
         hasFeedbackLoop(activityFromProps) ? Object.freeze({
@@ -156083,16 +156278,16 @@ and ensure you are accounting for this risk.
       [activityFromProps]
     );
     const activityRef = useRefFrom(activity);
-    const actionStateRef = (0, import_react296.useRef)(void 0);
-    const [_2, setForceRefresh] = (0, import_react296.useState)({});
-    const setActionStateWithRefresh = (0, import_react296.useCallback)(
+    const actionStateRef = (0, import_react300.useRef)(void 0);
+    const [_2, setForceRefresh] = (0, import_react300.useState)({});
+    const setActionStateWithRefresh = (0, import_react300.useCallback)(
       (actionState) => {
         actionStateRef.current = actionState;
         setForceRefresh({});
       },
       [actionStateRef, setForceRefresh]
     );
-    const rawActions = (0, import_react296.useMemo)(() => {
+    const rawActions = (0, import_react300.useMemo)(() => {
       function patchActions(actions2) {
         var _a29;
         actions2 = actions2.map(
@@ -156141,7 +156336,7 @@ and ensure you are accounting for this risk.
       }
       return Object.freeze([]);
     }, [activity]);
-    (0, import_react296.useMemo)(() => {
+    (0, import_react300.useMemo)(() => {
       const activeOrCompletedAction = rawActions.find(
         (action2) => action2.actionStatus === "ActiveActionStatus" || action2.actionStatus === "CompletedActionStatus"
       );
@@ -156151,7 +156346,7 @@ and ensure you are accounting for this risk.
       } : void 0;
     }, [rawActions]);
     const actionStateForActions = actionStateRef.current;
-    const actions = (0, import_react296.useMemo)(
+    const actions = (0, import_react300.useMemo)(
       () => Object.freeze(
         rawActions.map(
           (action2) => actionStateForActions && actionStateForActions.actionId === action2["@id"] ? Object.freeze({ ...action2, actionStatus: actionStateForActions.actionStatus }) : action2.actionStatus === "PotentialActionStatus" ? action2 : Object.freeze({ ...action2, actionStatus: "PotentialActionStatus" })
@@ -156161,12 +156356,12 @@ and ensure you are accounting for this risk.
     );
     const actionsRef = useRefFrom(actions);
     const postActivity3 = usePostActivity2();
-    const hasSubmitted = (0, import_react296.useMemo)(
+    const hasSubmitted = (0, import_react300.useMemo)(
       () => actions.some((action2) => action2.actionStatus === "CompletedActionStatus"),
       [actions]
     );
     const hasSubmittedRef = useRefFrom(hasSubmitted);
-    const submit = (0, import_react296.useCallback)(
+    const submit = (0, import_react300.useCallback)(
       (action2) => {
         var _a29;
         if (((_a29 = actionStateRef.current) == null ? void 0 : _a29.actionStatus) === "CompletedActionStatus") {
@@ -156205,14 +156400,14 @@ and ensure you are accounting for this risk.
       },
       [actionsRef, actionStateRef, activityRef, feedbackTextRef, postActivity3, setActionStateWithRefresh]
     );
-    const selectedAction = (0, import_react296.useMemo)(
+    const selectedAction = (0, import_react300.useMemo)(
       () => actions.find(
         ({ actionStatus }) => actionStatus === "ActiveActionStatus" || actionStatus === "CompletedActionStatus"
       ),
       [actions]
     );
-    const autoSubmitTimeoutRef = (0, import_react296.useRef)(void 0);
-    const setSelectedAction = (0, import_react296.useCallback)(
+    const autoSubmitTimeoutRef = (0, import_react300.useRef)(void 0);
+    const setSelectedAction = (0, import_react300.useCallback)(
       (action2) => {
         const shouldAllowResubmit = canActionResubmit(action2);
         if (hasSubmittedRef.current && !shouldAllowResubmit) {
@@ -156242,29 +156437,29 @@ and ensure you are accounting for this risk.
       },
       [actionsRef, autoSubmitTimeoutRef, clearTimeout2, hasSubmittedRef, setActionStateWithRefresh, setTimeout2, submit]
     );
-    const selectedActionState = (0, import_react296.useMemo)(
+    const selectedActionState = (0, import_react300.useMemo)(
       () => Object.freeze([selectedAction, setSelectedAction]),
       [selectedAction, setSelectedAction]
     );
-    const actionsState = (0, import_react296.useMemo)(
+    const actionsState = (0, import_react300.useMemo)(
       () => Object.freeze([actions]),
       [actions]
     );
-    const feedbackTextState = (0, import_react296.useMemo)(
+    const feedbackTextState = (0, import_react300.useMemo)(
       () => Object.freeze([feedbackText, setFeedbackText]),
       [feedbackText, setFeedbackText]
     );
-    const hasSubmittedState = (0, import_react296.useMemo)(() => Object.freeze([hasSubmitted]), [hasSubmitted]);
-    const activityState = (0, import_react296.useMemo)(() => Object.freeze([activity]), [activity]);
+    const hasSubmittedState = (0, import_react300.useMemo)(() => Object.freeze([hasSubmitted]), [hasSubmitted]);
+    const activityState = (0, import_react300.useMemo)(() => Object.freeze([activity]), [activity]);
     const focusFeedbackButton = usePropagateActivityFeedbackFocus();
-    const useActions = (0, import_react296.useCallback)(() => actionsState, [actionsState]);
-    const useActivity = (0, import_react296.useCallback)(() => activityState, [activityState]);
-    const useFeedbackText = (0, import_react296.useCallback)(() => feedbackTextState, [feedbackTextState]);
-    const useFocusFeedbackButton = (0, import_react296.useCallback)(() => focusFeedbackButton, [focusFeedbackButton]);
-    const useHasSubmitted = (0, import_react296.useCallback)(() => hasSubmittedState, [hasSubmittedState]);
-    const useSelectedActions = (0, import_react296.useCallback)(() => selectedActionState, [selectedActionState]);
-    const useSubmit2 = (0, import_react296.useCallback)(() => submit, [submit]);
-    const context9 = (0, import_react296.useMemo)(
+    const useActions = (0, import_react300.useCallback)(() => actionsState, [actionsState]);
+    const useActivity = (0, import_react300.useCallback)(() => activityState, [activityState]);
+    const useFeedbackText = (0, import_react300.useCallback)(() => feedbackTextState, [feedbackTextState]);
+    const useFocusFeedbackButton = (0, import_react300.useCallback)(() => focusFeedbackButton, [focusFeedbackButton]);
+    const useHasSubmitted = (0, import_react300.useCallback)(() => hasSubmittedState, [hasSubmittedState]);
+    const useSelectedActions = (0, import_react300.useCallback)(() => selectedActionState, [selectedActionState]);
+    const useSubmit2 = (0, import_react300.useCallback)(() => submit, [submit]);
+    const context9 = (0, import_react300.useMemo)(
       () => ({
         useActions,
         useActivity,
@@ -156276,9 +156471,9 @@ and ensure you are accounting for this risk.
       }),
       [useActions, useActivity, useFeedbackText, useFocusFeedbackButton, useHasSubmitted, useSelectedActions, useSubmit2]
     );
-    return /* @__PURE__ */ import_react296.default.createElement(ActivityFeedbackContext_default.Provider, { value: context9 }, children);
+    return /* @__PURE__ */ import_react300.default.createElement(ActivityFeedbackContext_default.Provider, { value: context9 }, children);
   }
-  var ActivityFeedbackComposer_default = (0, import_react296.memo)(wrapWith_default(ActivityFeedbackFocusPropagationScope)(ActivityFeedbackComposer));
+  var ActivityFeedbackComposer_default = (0, import_react300.memo)(wrapWith_default(ActivityFeedbackFocusPropagationScope)(ActivityFeedbackComposer));
   function InternalActivityFeedback() {
     const classNames31 = useStyles_default(FeedbackForm_module_default);
     const { useActions, useFeedbackText, useFocusFeedbackButton, useHasSubmitted, useSelectedAction, useSubmit: useSubmit2 } = useActivityFeedbackHooks();
@@ -156288,21 +156483,21 @@ and ensure you are accounting for this risk.
     const [selectedAction, setSelectedAction] = useSelectedAction();
     const focusFeedbackButton = useFocusFeedbackButton();
     const submit = useSubmit2();
-    const firstActionRequireReview = (0, import_react285.useMemo)(() => actions.find(isActionRequireReview), [actions]);
+    const firstActionRequireReview = (0, import_react289.useMemo)(() => actions.find(isActionRequireReview), [actions]);
     const selectedActionRef = useRefFrom(selectedAction);
-    const handleReset = (0, import_react285.useCallback)(() => {
+    const handleReset = (0, import_react289.useCallback)(() => {
       focusFeedbackButton(selectedActionRef.current);
       setFeedbackText(void 0);
       setSelectedAction(void 0);
     }, [focusFeedbackButton, selectedActionRef, setFeedbackText, setSelectedAction]);
-    const handleSubmit = (0, import_react285.useCallback)(
+    const handleSubmit = (0, import_react289.useCallback)(
       (event2) => {
         event2.preventDefault();
         submit(selectedActionRef.current);
       },
       [selectedActionRef, submit]
     );
-    const handleKeyDown = (0, import_react285.useCallback)(
+    const handleKeyDown = (0, import_react289.useCallback)(
       (event2) => {
         if (event2.key === "Escape" && isActionRequireReview(selectedActionRef.current)) {
           event2.stopPropagation();
@@ -156311,14 +156506,14 @@ and ensure you are accounting for this risk.
       },
       [selectedActionRef]
     );
-    const isExpanded = (0, import_react285.useMemo)(
+    const isExpanded = (0, import_react289.useMemo)(
       () => {
         var _a29;
         return !hasSubmitted && ((_a29 = selectedAction == null ? void 0 : selectedAction.result) == null ? void 0 : _a29["@type"]) === "UserReview";
       },
       [hasSubmitted, selectedAction]
     );
-    return !!actions.length && /* @__PURE__ */ import_react285.default.createElement(
+    return !!actions.length && /* @__PURE__ */ import_react289.default.createElement(
       "form",
       {
         className: classNames31["feedback-form"],
@@ -156326,66 +156521,66 @@ and ensure you are accounting for this risk.
         onReset: handleReset,
         onSubmit: handleSubmit
       },
-      /* @__PURE__ */ import_react285.default.createElement(
+      /* @__PURE__ */ import_react289.default.createElement(
         FeedbackVoteButtonBar_default,
         {
           buttonAs: firstActionRequireReview ? "radio" : "button"
         }
       ),
-      isExpanded && /* @__PURE__ */ import_react285.default.createElement(FeedbackForm_default, null)
+      isExpanded && /* @__PURE__ */ import_react289.default.createElement(FeedbackForm_default, null)
     );
   }
   var ActivityFeedback = wrapWith_default(ActivityFeedbackComposer_default, { activity: Extract_default })(InternalActivityFeedback);
   ActivityFeedback.displayName = "ActivityFeedback";
-  var ActivityFeedback_default = (0, import_react285.memo)(ActivityFeedback);
-  var classes43 = { "link-definitions__list-item-badge": "wIcA0ta_link-definitions__list-item-badge", "link-definitions__list-item-text": "wIcA0ta_link-definitions__list-item-text", "link-definitions__header": "wIcA0ta_link-definitions__header", "link-definitions__badge": "wIcA0ta_link-definitions__badge", "link-definitions__list-item": "wIcA0ta_link-definitions__list-item", "link-definitions__list-item-body-main": "wIcA0ta_link-definitions__list-item-body-main", "link-definitions__message-sensitivity-label": "wIcA0ta_link-definitions__message-sensitivity-label", "link-definitions": "wIcA0ta_link-definitions", "link-definitions__header-section--left": "wIcA0ta_link-definitions__header-section--left", "link-definitions__header-text": "wIcA0ta_link-definitions__header-text", "link-definitions__header-section": "wIcA0ta_link-definitions__header-section", "link-definitions__list-item-box--as-link": "wIcA0ta_link-definitions__list-item-box--as-link", "link-definitions__list-item-main-text": "wIcA0ta_link-definitions__list-item-main-text", "link-definitions__open-in-new-window-icon": "wIcA0ta_link-definitions__open-in-new-window-icon", "link-definitions__header-chevron": "wIcA0ta_link-definitions__header-chevron", "link-definitions__message-sensitivity-label-text": "wIcA0ta_link-definitions__message-sensitivity-label-text", "link-definitions__list": "wIcA0ta_link-definitions__list", "link-definitions__list-item-box": "wIcA0ta_link-definitions__list-item-box", "link-definitions__list-item-body": "wIcA0ta_link-definitions__list-item-body", "link-definitions__header-accessory": "wIcA0ta_link-definitions__header-accessory", "link-definitions__list-item-box--as-button": "wIcA0ta_link-definitions__list-item-box--as-button", "link-definitions__message-sensitivity-label-icon": "wIcA0ta_link-definitions__message-sensitivity-label-icon" };
+  var ActivityFeedback_default = (0, import_react289.memo)(ActivityFeedback);
+  var classes43 = { "link-definitions__message-sensitivity-label-icon": "wIcA0ta_link-definitions__message-sensitivity-label-icon", "link-definitions__message-sensitivity-label-text": "wIcA0ta_link-definitions__message-sensitivity-label-text", "link-definitions__list-item-badge": "wIcA0ta_link-definitions__list-item-badge", "link-definitions__header": "wIcA0ta_link-definitions__header", "link-definitions__header-section--left": "wIcA0ta_link-definitions__header-section--left", "link-definitions__message-sensitivity-label": "wIcA0ta_link-definitions__message-sensitivity-label", "link-definitions__list-item": "wIcA0ta_link-definitions__list-item", "link-definitions__list": "wIcA0ta_link-definitions__list", "link-definitions__header-text": "wIcA0ta_link-definitions__header-text", "link-definitions__list-item-body-main": "wIcA0ta_link-definitions__list-item-body-main", "link-definitions__open-in-new-window-icon": "wIcA0ta_link-definitions__open-in-new-window-icon", "link-definitions": "wIcA0ta_link-definitions", "link-definitions__list-item-box": "wIcA0ta_link-definitions__list-item-box", "link-definitions__list-item-main-text": "wIcA0ta_link-definitions__list-item-main-text", "link-definitions__list-item-text": "wIcA0ta_link-definitions__list-item-text", "link-definitions__list-item-box--as-link": "wIcA0ta_link-definitions__list-item-box--as-link", "link-definitions__header-accessory": "wIcA0ta_link-definitions__header-accessory", "link-definitions__list-item-box--as-button": "wIcA0ta_link-definitions__list-item-box--as-button", "link-definitions__list-item-body": "wIcA0ta_link-definitions__list-item-body", "link-definitions__header-section": "wIcA0ta_link-definitions__header-section", "link-definitions__badge": "wIcA0ta_link-definitions__badge", "link-definitions__header-chevron": "wIcA0ta_link-definitions__header-chevron" };
   var LinkDefinitions_module_default = classes43;
-  var _link_definitions__list_item_badge0 = classes43["link-definitions__list-item-badge"];
-  var _link_definitions__list_item_text0 = classes43["link-definitions__list-item-text"];
-  var _link_definitions__header0 = classes43["link-definitions__header"];
-  var _link_definitions__badge0 = classes43["link-definitions__badge"];
-  var _link_definitions__list_item0 = classes43["link-definitions__list-item"];
-  var _link_definitions__list_item_body_main0 = classes43["link-definitions__list-item-body-main"];
-  var _link_definitions__message_sensitivity_label0 = classes43["link-definitions__message-sensitivity-label"];
-  var _link_definitions0 = classes43["link-definitions"];
-  var _link_definitions__header_section__left0 = classes43["link-definitions__header-section--left"];
-  var _link_definitions__header_text0 = classes43["link-definitions__header-text"];
-  var _link_definitions__header_section0 = classes43["link-definitions__header-section"];
-  var _link_definitions__list_item_box__as_link0 = classes43["link-definitions__list-item-box--as-link"];
-  var _link_definitions__list_item_main_text0 = classes43["link-definitions__list-item-main-text"];
-  var _link_definitions__open_in_new_window_icon0 = classes43["link-definitions__open-in-new-window-icon"];
-  var _link_definitions__header_chevron0 = classes43["link-definitions__header-chevron"];
+  var _link_definitions__message_sensitivity_label_icon0 = classes43["link-definitions__message-sensitivity-label-icon"];
   var _link_definitions__message_sensitivity_label_text0 = classes43["link-definitions__message-sensitivity-label-text"];
+  var _link_definitions__list_item_badge0 = classes43["link-definitions__list-item-badge"];
+  var _link_definitions__header0 = classes43["link-definitions__header"];
+  var _link_definitions__header_section__left0 = classes43["link-definitions__header-section--left"];
+  var _link_definitions__message_sensitivity_label0 = classes43["link-definitions__message-sensitivity-label"];
+  var _link_definitions__list_item0 = classes43["link-definitions__list-item"];
   var _link_definitions__list0 = classes43["link-definitions__list"];
+  var _link_definitions__header_text0 = classes43["link-definitions__header-text"];
+  var _link_definitions__list_item_body_main0 = classes43["link-definitions__list-item-body-main"];
+  var _link_definitions__open_in_new_window_icon0 = classes43["link-definitions__open-in-new-window-icon"];
+  var _link_definitions0 = classes43["link-definitions"];
   var _link_definitions__list_item_box0 = classes43["link-definitions__list-item-box"];
-  var _link_definitions__list_item_body0 = classes43["link-definitions__list-item-body"];
+  var _link_definitions__list_item_main_text0 = classes43["link-definitions__list-item-main-text"];
+  var _link_definitions__list_item_text0 = classes43["link-definitions__list-item-text"];
+  var _link_definitions__list_item_box__as_link0 = classes43["link-definitions__list-item-box--as-link"];
   var _link_definitions__header_accessory0 = classes43["link-definitions__header-accessory"];
   var _link_definitions__list_item_box__as_button0 = classes43["link-definitions__list-item-box--as-button"];
-  var _link_definitions__message_sensitivity_label_icon0 = classes43["link-definitions__message-sensitivity-label-icon"];
-  var Badge = (0, import_react299.memo)(({ value }) => {
+  var _link_definitions__list_item_body0 = classes43["link-definitions__list-item-body"];
+  var _link_definitions__header_section0 = classes43["link-definitions__header-section"];
+  var _link_definitions__badge0 = classes43["link-definitions__badge"];
+  var _link_definitions__header_chevron0 = classes43["link-definitions__header-chevron"];
+  var Badge = (0, import_react303.memo)(({ value }) => {
     const classNames31 = useStyles_default(LinkDefinitions_module_default);
-    return /* @__PURE__ */ import_react299.default.createElement("div", { className: classNames31["link-definitions__badge"], title: value }, value);
+    return /* @__PURE__ */ import_react303.default.createElement("div", { className: classNames31["link-definitions__badge"], title: value }, value);
   });
   Badge.displayName = "Badge";
   var Badge_default = Badge;
-  var classes53 = { "text-content__generated-badge": "wukSAJG_text-content__generated-badge", "text-content__open-in-new-window-icon": "wukSAJG_text-content__open-in-new-window-icon", "text-content__markdown": "wukSAJG_text-content__markdown", "text-content__activity-actions": "wukSAJG_text-content__activity-actions", "text-content--is-markdown": "wukSAJG_text-content--is-markdown", "text-content": "wukSAJG_text-content" };
+  var classes53 = { "text-content--is-markdown": "wukSAJG_text-content--is-markdown", "text-content__markdown": "wukSAJG_text-content__markdown", "text-content": "wukSAJG_text-content", "text-content__activity-actions": "wukSAJG_text-content__activity-actions", "text-content__generated-badge": "wukSAJG_text-content__generated-badge", "text-content__open-in-new-window-icon": "wukSAJG_text-content__open-in-new-window-icon" };
   var TextContent_module_default = classes53;
+  var _text_content__is_markdown0 = classes53["text-content--is-markdown"];
+  var _text_content__markdown0 = classes53["text-content__markdown"];
+  var _text_content0 = classes53["text-content"];
+  var _text_content__activity_actions0 = classes53["text-content__activity-actions"];
   var _text_content__generated_badge0 = classes53["text-content__generated-badge"];
   var _text_content__open_in_new_window_icon0 = classes53["text-content__open-in-new-window-icon"];
-  var _text_content__markdown0 = classes53["text-content__markdown"];
-  var _text_content__activity_actions0 = classes53["text-content__activity-actions"];
-  var _text_content__is_markdown0 = classes53["text-content--is-markdown"];
-  var _text_content0 = classes53["text-content"];
   var OpenInNewWindowIcon = ({ className }) => {
     const classNames31 = useStyles_default(TextContent_module_default);
-    return /* @__PURE__ */ import_react300.default.createElement(
+    return /* @__PURE__ */ import_react304.default.createElement(
       "svg",
       {
         className: (0, import_classnames48.default)(classNames31["text-content__open-in-new-window-icon"], className),
         viewBox: "3 3 18 18",
         xmlns: "http://www.w3.org/2000/svg"
       },
-      /* @__PURE__ */ import_react300.default.createElement(
+      /* @__PURE__ */ import_react304.default.createElement(
         "path",
         {
           d: "M7.2501 4.50017H10.7495C11.1637 4.50017 11.4995 4.83596 11.4995 5.25017C11.4995 5.62986 11.2173 5.94366 10.8513 5.99332L10.7495 6.00017H7.24974C6.07079 5.99961 5.10349 6.90656 5.00786 8.06112L5.00028 8.22003L5.00312 16.7507C5.00343 17.9415 5.92885 18.9161 7.09966 18.9949L7.25371 19.0001L15.7518 18.9884C16.9415 18.9868 17.9145 18.062 17.9935 16.8923L17.9987 16.7384V13.2321C17.9987 12.8179 18.3345 12.4821 18.7487 12.4821C19.1284 12.4821 19.4422 12.7643 19.4918 13.1303L19.4987 13.2321V16.7384C19.4987 18.7407 17.9293 20.3769 15.9528 20.4829L15.7538 20.4884L7.25827 20.5001L7.05495 20.4949C5.14239 20.3954 3.60895 18.8627 3.50837 16.9502L3.50312 16.7511L3.50089 8.2527L3.50529 8.0502C3.60539 6.13749 5.13867 4.60449 7.05096 4.50527L7.2501 4.50017H10.7495H7.2501ZM13.7481 3.00146L20.3018 3.00197L20.4014 3.01575L20.5022 3.04393L20.559 3.06803C20.6122 3.09122 20.6634 3.12163 20.7111 3.15885L20.7804 3.22156L20.8641 3.32014L20.9183 3.41025L20.957 3.50057L20.9762 3.56476L20.9898 3.62862L20.9992 3.72282L20.9997 10.2554C20.9997 10.6696 20.6639 11.0054 20.2497 11.0054C19.87 11.0054 19.5562 10.7232 19.5065 10.3571L19.4997 10.2554L19.4989 5.56147L12.2797 12.7847C12.0134 13.051 11.5968 13.0753 11.3031 12.8575L11.219 12.7849C10.9527 12.5187 10.9284 12.1021 11.1462 11.8084L11.2188 11.7243L18.4369 4.50146H13.7481C13.3684 4.50146 13.0546 4.21931 13.005 3.85324L12.9981 3.75146C12.9981 3.37177 13.2803 3.05797 13.6464 3.00831L13.7481 3.00146Z",
@@ -156395,9 +156590,9 @@ and ensure you are accounting for this risk.
     );
   };
   var OpenInNewWindowIcon_default = OpenInNewWindowIcon;
-  var ItemBody = (0, import_react298.memo)(({ badgeName, badgeTitle, identifier: identifier2, isExternal, text: text6 }) => {
+  var ItemBody = (0, import_react302.memo)(({ badgeName, badgeTitle, identifier: identifier2, isExternal, text: text6 }) => {
     const classNames31 = useStyles_default(LinkDefinitions_module_default);
-    return /* @__PURE__ */ import_react298.default.createElement("div", { className: classNames31["link-definitions__list-item-body"] }, identifier2 ? /* @__PURE__ */ import_react298.default.createElement(Badge_default, { value: identifier2 }) : null, /* @__PURE__ */ import_react298.default.createElement("div", { className: classNames31["link-definitions__list-item-body-main"] }, /* @__PURE__ */ import_react298.default.createElement("div", { className: classNames31["link-definitions__list-item-main-text"] }, /* @__PURE__ */ import_react298.default.createElement("div", { className: classNames31["link-definitions__list-item-text"], title: text6 }, text6), isExternal ? /* @__PURE__ */ import_react298.default.createElement(OpenInNewWindowIcon_default, { className: classNames31["link-definitions__open-in-new-window-icon"] }) : null), badgeName && /* @__PURE__ */ import_react298.default.createElement("div", { className: classNames31["link-definitions__list-item-badge"], title: badgeTitle }, badgeName)));
+    return /* @__PURE__ */ import_react302.default.createElement("div", { className: classNames31["link-definitions__list-item-body"] }, identifier2 ? /* @__PURE__ */ import_react302.default.createElement(Badge_default, { value: identifier2 }) : null, /* @__PURE__ */ import_react302.default.createElement("div", { className: classNames31["link-definitions__list-item-body-main"] }, /* @__PURE__ */ import_react302.default.createElement("div", { className: classNames31["link-definitions__list-item-main-text"] }, /* @__PURE__ */ import_react302.default.createElement("div", { className: classNames31["link-definitions__list-item-text"], title: text6 }, text6), isExternal ? /* @__PURE__ */ import_react302.default.createElement(OpenInNewWindowIcon_default, { className: classNames31["link-definitions__open-in-new-window-icon"] }) : null), badgeName && /* @__PURE__ */ import_react302.default.createElement("div", { className: classNames31["link-definitions__list-item-badge"], title: badgeTitle }, badgeName)));
   });
   ItemBody.displayName = "ItemBody";
   var ItemBody_default = ItemBody;
@@ -156434,14 +156629,14 @@ and ensure you are accounting for this risk.
     }),
     readonly()
   );
-  var LinkDefinitionItem = (0, import_react297.memo)(function LinkDefinitionItem2(props) {
+  var LinkDefinitionItem = (0, import_react301.memo)(function LinkDefinitionItem2(props) {
     const { badgeName, badgeTitle, identifier: identifier2, onClick: onClick2, sanitizedHref, text: text6 } = validateProps2(
       linkDefinitionItemPropsSchema,
       props
     );
     const classNames31 = useStyles_default(LinkDefinitions_module_default);
     const onClickRef = useRefFrom(onClick2);
-    const handleClick = (0, import_react297.useCallback)(
+    const handleClick = (0, import_react301.useCallback)(
       (event2) => {
         const { current: current2 } = onClickRef;
         if (current2) {
@@ -156455,7 +156650,7 @@ and ensure you are accounting for this risk.
     return sanitizedHref ? (
       // URL is sanitized.
       // eslint-disable-next-line react/forbid-elements
-      /* @__PURE__ */ import_react297.default.createElement(
+      /* @__PURE__ */ import_react301.default.createElement(
         "a",
         {
           className: (0, import_classnames47.default)(
@@ -156467,7 +156662,7 @@ and ensure you are accounting for this risk.
           rel: "noopener noreferrer",
           target: "_blank"
         },
-        /* @__PURE__ */ import_react297.default.createElement(
+        /* @__PURE__ */ import_react301.default.createElement(
           ItemBody_default,
           {
             badgeName,
@@ -156478,7 +156673,7 @@ and ensure you are accounting for this risk.
           }
         )
       )
-    ) : /* @__PURE__ */ import_react297.default.createElement(
+    ) : /* @__PURE__ */ import_react301.default.createElement(
       "button",
       {
         className: (0, import_classnames47.default)(
@@ -156488,12 +156683,12 @@ and ensure you are accounting for this risk.
         onClick: handleClick,
         type: "button"
       },
-      /* @__PURE__ */ import_react297.default.createElement(ItemBody_default, { badgeName, badgeTitle, identifier: identifier2, text: text6 })
+      /* @__PURE__ */ import_react301.default.createElement(ItemBody_default, { badgeName, badgeTitle, identifier: identifier2, text: text6 })
     );
   });
   var LinkDefinitionItem_default = LinkDefinitionItem;
   var { useLocalizer: useLocalizer52 } = hook_exports;
-  var { count: childrenCount, map: childrenMap } = import_react301.Children;
+  var { count: childrenCount, map: childrenMap } = import_react305.Children;
   var REFERENCE_LIST_HEADER_IDS = {
     one: "REFERENCE_LIST_HEADER_ONE",
     few: "REFERENCE_LIST_HEADER_FEW",
@@ -156509,12 +156704,12 @@ and ensure you are accounting for this risk.
     accessoryProps,
     children
   }) => {
-    const [id] = (0, import_react301.useState)(() => `webchat-link-definitions-${uniqueId3()}`);
+    const [id] = (0, import_react305.useState)(() => `webchat-link-definitions-${uniqueId3()}`);
     const localizeWithPlural = useLocalizer52({ plural: true });
-    const summaryRef = (0, import_react301.useRef)(null);
+    const summaryRef = (0, import_react305.useRef)(null);
     const classNames31 = useStyles_default(LinkDefinitions_module_default);
     const headerText = localizeWithPlural(REFERENCE_LIST_HEADER_IDS, childrenCount(children));
-    const handleToggle = (0, import_react301.useCallback)((event2) => {
+    const handleToggle = (0, import_react305.useCallback)((event2) => {
       const summary = summaryRef.current;
       const details = event2.target;
       if (summary && details && details instanceof HTMLDetailsElement) {
@@ -156523,7 +156718,7 @@ and ensure you are accounting for this risk.
         summary.setAttribute("aria-pressed", isDetailsOpen);
       }
     }, []);
-    return /* @__PURE__ */ import_react301.default.createElement(
+    return /* @__PURE__ */ import_react305.default.createElement(
       "details",
       {
         className: classNames31["link-definitions"],
@@ -156531,7 +156726,7 @@ and ensure you are accounting for this risk.
         onToggle: handleToggle,
         open: true
       },
-      /* @__PURE__ */ import_react301.default.createElement(
+      /* @__PURE__ */ import_react305.default.createElement(
         "summary",
         {
           "aria-controls": id,
@@ -156541,7 +156736,7 @@ and ensure you are accounting for this risk.
           ref: summaryRef,
           role: "button"
         },
-        /* @__PURE__ */ import_react301.default.createElement(
+        /* @__PURE__ */ import_react305.default.createElement(
           "div",
           {
             className: (0, import_classnames49.default)(
@@ -156549,10 +156744,10 @@ and ensure you are accounting for this risk.
               classNames31["link-definitions__header-section--left"]
             )
           },
-          /* @__PURE__ */ import_react301.default.createElement("div", { className: classNames31["link-definitions__header-text"] }, headerText),
-          /* @__PURE__ */ import_react301.default.createElement(ComponentIcon_default, { appearance: "text", className: classNames31["link-definitions__header-chevron"], icon: "chevron" })
+          /* @__PURE__ */ import_react305.default.createElement("div", { className: classNames31["link-definitions__header-text"] }, headerText),
+          /* @__PURE__ */ import_react305.default.createElement(ComponentIcon_default, { appearance: "text", className: classNames31["link-definitions__header-chevron"], icon: "chevron" })
         ),
-        /* @__PURE__ */ import_react301.default.createElement(
+        /* @__PURE__ */ import_react305.default.createElement(
           "div",
           {
             className: (0, import_classnames49.default)(
@@ -156560,17 +156755,17 @@ and ensure you are accounting for this risk.
               classNames31["link-definitions__header-section--right"]
             )
           },
-          accessoryComponentType && /* @__PURE__ */ import_react301.default.createElement("div", { className: classNames31["link-definitions__header-accessory"] }, import_react301.default.createElement(accessoryComponentType, accessoryProps))
+          accessoryComponentType && /* @__PURE__ */ import_react305.default.createElement("div", { className: classNames31["link-definitions__header-accessory"] }, import_react305.default.createElement(accessoryComponentType, accessoryProps))
         )
       ),
-      /* @__PURE__ */ import_react301.default.createElement("div", { className: classNames31["link-definitions__list"], role: "list" }, childrenMap(children, (child) => /* @__PURE__ */ import_react301.default.createElement("div", { className: classNames31["link-definitions__list-item"], role: "listitem" }, child)))
+      /* @__PURE__ */ import_react305.default.createElement("div", { className: classNames31["link-definitions__list"], role: "list" }, childrenMap(children, (child) => /* @__PURE__ */ import_react305.default.createElement("div", { className: classNames31["link-definitions__list-item"], role: "listitem" }, child)))
     );
   };
   LinkDefinitions.displayName = "LinkDefinitions";
   var LinkDefinitions_default = LinkDefinitions;
   function useSanitizeHrefCallback() {
     const transformHTMLContent = useTransformHTMLContent();
-    return (0, import_react302.useCallback)(
+    return (0, import_react306.useCallback)(
       (href) => {
         const anchorElement = document.createElement("a");
         anchorElement.setAttribute("href", href || "");
@@ -156599,11 +156794,11 @@ and ensure you are accounting for this risk.
       }
     }
   };
-  var Context4 = (0, import_react304.createContext)(Object.create({}, defaultContextValue2));
+  var Context4 = (0, import_react308.createContext)(Object.create({}, defaultContextValue2));
   Context4.displayName = "ModalDialogComposer";
   var Context_default52 = Context4;
   function useContext310() {
-    return (0, import_react303.useContext)(Context_default52);
+    return (0, import_react307.useContext)(Context_default52);
   }
   function useShowModal() {
     return useContext310().showModal;
@@ -156615,13 +156810,13 @@ and ensure you are accounting for this risk.
     );
   }
   var refObject_default = refObject;
-  var classes63 = { "activity-copy-button": "wYnoyiq_activity-copy-button", "activity-copy-button--copied": "wYnoyiq_activity-copy-button--copied", "activity-copy-button__copied-text": "wYnoyiq_activity-copy-button__copied-text", "activity-button__icon": "wYnoyiq_activity-button__icon", "activity-button__text": "wYnoyiq_activity-button__text", "activity-copy-button__copy-announcement": "wYnoyiq_activity-copy-button__copy-announcement" };
+  var classes63 = { "activity-copy-button": "wYnoyiq_activity-copy-button", "activity-copy-button__copied-text": "wYnoyiq_activity-copy-button__copied-text", "activity-copy-button--copied": "wYnoyiq_activity-copy-button--copied", "activity-button__text": "wYnoyiq_activity-button__text", "activity-button__icon": "wYnoyiq_activity-button__icon", "activity-copy-button__copy-announcement": "wYnoyiq_activity-copy-button__copy-announcement" };
   var ActivityCopyButton_module_default = classes63;
   var _activity_copy_button0 = classes63["activity-copy-button"];
-  var _activity_copy_button__copied0 = classes63["activity-copy-button--copied"];
   var _activity_copy_button__copied_text0 = classes63["activity-copy-button__copied-text"];
-  var _activity_button__icon02 = classes63["activity-button__icon"];
+  var _activity_copy_button__copied0 = classes63["activity-copy-button--copied"];
   var _activity_button__text0 = classes63["activity-button__text"];
+  var _activity_button__icon02 = classes63["activity-button__icon"];
   var _activity_copy_button__copy_announcement0 = classes63["activity-copy-button__copy-announcement"];
   var { useLocalizer: useLocalizer62, useUIState: useUIState23 } = hook_exports;
   var activityCopyButtonPropsSchema = pipe(
@@ -156634,15 +156829,15 @@ and ensure you are accounting for this risk.
   var ActivityCopyButton = (props) => {
     const { className, targetRef } = validateProps2(activityCopyButtonPropsSchema, props);
     const classNames31 = useStyles_default(ActivityCopyButton_module_default);
-    const [permissionGranted, setPermissionGranted] = (0, import_react305.useState)(false);
+    const [permissionGranted, setPermissionGranted] = (0, import_react309.useState)(false);
     const [uiState] = useUIState23();
-    const buttonRef = (0, import_react305.useRef)(null);
+    const buttonRef = (0, import_react309.useRef)(null);
     const localize2 = useLocalizer62();
     const queueStaticElement = useQueueStaticElement();
     const copiedText = localize2("COPY_BUTTON_COPIED_TEXT");
     const copyText = localize2("COPY_BUTTON_TEXT");
     const disabled = !permissionGranted || uiState === "disabled";
-    (0, import_react305.useEffect)(() => {
+    (0, import_react309.useEffect)(() => {
       const { current: current2 } = buttonRef;
       if (current2) {
         const handleAnimationEnd = () => current2.classList.remove(...classNames31["activity-copy-button--copied"].split(/\s+/gu));
@@ -156650,7 +156845,7 @@ and ensure you are accounting for this risk.
         return () => current2.removeEventListener("animationend", handleAnimationEnd);
       }
     }, [buttonRef, classNames31]);
-    const handleClick = (0, import_react305.useCallback)(() => {
+    const handleClick = (0, import_react309.useCallback)(() => {
       var _a29, _b4, _c3, _d2, _e3, _f;
       const htmlText2 = (_a29 = targetRef.current) == null ? void 0 : _a29.outerHTML;
       const plainText = (_b4 = targetRef.current) == null ? void 0 : _b4.textContent;
@@ -156663,9 +156858,9 @@ and ensure you are accounting for this risk.
       (_d2 = buttonRef.current) == null ? void 0 : _d2.classList.remove(...classNames31["activity-copy-button--copied"].split(/\s+/gu));
       (_e3 = buttonRef.current) == null ? void 0 : _e3.offsetWidth;
       (_f = buttonRef.current) == null ? void 0 : _f.classList.add(...classNames31["activity-copy-button--copied"].split(/\s+/gu));
-      queueStaticElement(/* @__PURE__ */ import_react305.default.createElement("div", { className: classNames31["activity-copy-button__copy-announcement"] }, copiedText));
+      queueStaticElement(/* @__PURE__ */ import_react309.default.createElement("div", { className: classNames31["activity-copy-button__copy-announcement"] }, copiedText));
     }, [classNames31, copiedText, queueStaticElement, targetRef]);
-    (0, import_react305.useEffect)(() => {
+    (0, import_react309.useEffect)(() => {
       let unmounted = false;
       (async function() {
         if ((await navigator.permissions.query({ name: "clipboard-write" })).state === "granted") {
@@ -156676,7 +156871,7 @@ and ensure you are accounting for this risk.
         unmounted = true;
       };
     }, [setPermissionGranted]);
-    return /* @__PURE__ */ import_react305.default.createElement(
+    return /* @__PURE__ */ import_react309.default.createElement(
       ActivityButton_default,
       {
         className: (0, import_classnames50.default)(classNames31["activity-copy-button"], className),
@@ -156687,11 +156882,11 @@ and ensure you are accounting for this risk.
         ref: buttonRef,
         text: copyText
       },
-      /* @__PURE__ */ import_react305.default.createElement("span", { className: classNames31["activity-copy-button__copied-text"] }, copiedText)
+      /* @__PURE__ */ import_react309.default.createElement("span", { className: classNames31["activity-copy-button__copied-text"] }, copiedText)
     );
   };
   ActivityCopyButton.displayName = "ActivityCopyButton";
-  var ActivityCopyButton_default = (0, import_react305.memo)(ActivityCopyButton);
+  var ActivityCopyButton_default = (0, import_react309.memo)(ActivityCopyButton);
   function iterator3(md, ruleName, tokenType, iterator22) {
     function scan(state) {
       const { env = {} } = state;
@@ -156828,7 +157023,7 @@ and ensure you are accounting for this risk.
   var LocalizedString = (props) => {
     const { className, linkClassName, onDecorateLink = defaultDecorateLink, stringIds, values } = props;
     const localize2 = useLocalizer72(isPlural(props) && { plural: true });
-    const env = (0, import_react307.useMemo)(
+    const env = (0, import_react311.useMemo)(
       () => ({
         linkOptions: {
           className: linkClassName
@@ -156837,22 +157032,22 @@ and ensure you are accounting for this risk.
       }),
       [linkClassName, onDecorateLink]
     );
-    const html5 = (0, import_react307.useMemo)(
+    const html5 = (0, import_react311.useMemo)(
       () => ({
         __html: markdownIt.renderer.render(markdownIt.parseInline(localize2(stringIds, ...values != null ? values : []), env), env)
       }),
       [env, localize2, stringIds, values]
     );
-    return /* @__PURE__ */ import_react307.default.createElement("span", { className, dangerouslySetInnerHTML: html5 });
+    return /* @__PURE__ */ import_react311.default.createElement("span", { className, dangerouslySetInnerHTML: html5 });
   };
-  var LocalizedString_default = (0, import_react307.memo)(LocalizedString);
-  var classes72 = { "view-code-dialog__footer": "wzmzsZW_view-code-dialog__footer", "view-code-dialog__title": "wzmzsZW_view-code-dialog__title", "view-code-dialog__header": "wzmzsZW_view-code-dialog__header", "view-code-dialog__body": "wzmzsZW_view-code-dialog__body", "view-code-dialog": "wzmzsZW_view-code-dialog" };
+  var LocalizedString_default = (0, import_react311.memo)(LocalizedString);
+  var classes72 = { "view-code-dialog__body": "wzmzsZW_view-code-dialog__body", "view-code-dialog__title": "wzmzsZW_view-code-dialog__title", "view-code-dialog": "wzmzsZW_view-code-dialog", "view-code-dialog__header": "wzmzsZW_view-code-dialog__header", "view-code-dialog__footer": "wzmzsZW_view-code-dialog__footer" };
   var ViewCodeDialog_module_default = classes72;
-  var _view_code_dialog__footer0 = classes72["view-code-dialog__footer"];
-  var _view_code_dialog__title0 = classes72["view-code-dialog__title"];
-  var _view_code_dialog__header0 = classes72["view-code-dialog__header"];
   var _view_code_dialog__body0 = classes72["view-code-dialog__body"];
+  var _view_code_dialog__title0 = classes72["view-code-dialog__title"];
   var _view_code_dialog0 = classes72["view-code-dialog"];
+  var _view_code_dialog__header0 = classes72["view-code-dialog__header"];
+  var _view_code_dialog__footer0 = classes72["view-code-dialog__footer"];
   var codeContentPropsSchema = pipe(
     object({
       children: optional(reactNode_default()),
@@ -156867,9 +157062,9 @@ and ensure you are accounting for this risk.
     const { children, className, code: code2, language: language2, title } = validateProps2(codeContentPropsSchema, props);
     const [, CodeBlock2] = useCodeBlockTag();
     const classNames31 = useStyles_default(ViewCodeDialog_module_default);
-    return /* @__PURE__ */ import_react308.default.createElement(import_react308.Fragment, null, /* @__PURE__ */ import_react308.default.createElement("div", { className: classNames31["view-code-dialog__header"] }, /* @__PURE__ */ import_react308.default.createElement("h2", { className: classNames31["view-code-dialog__title"] }, title)), /* @__PURE__ */ import_react308.default.createElement(CodeBlock2, { className: (0, import_classnames51.default)(classNames31["view-code-dialog__body"], className), language: language2 }, /* @__PURE__ */ import_react308.default.createElement("code", null, code2)), children);
+    return /* @__PURE__ */ import_react312.default.createElement(import_react312.Fragment, null, /* @__PURE__ */ import_react312.default.createElement("div", { className: classNames31["view-code-dialog__header"] }, /* @__PURE__ */ import_react312.default.createElement("h2", { className: classNames31["view-code-dialog__title"] }, title)), /* @__PURE__ */ import_react312.default.createElement(CodeBlock2, { className: (0, import_classnames51.default)(classNames31["view-code-dialog__body"], className), language: language2 }, /* @__PURE__ */ import_react312.default.createElement("code", null, code2)), children);
   }
-  var CodeContent_default = (0, import_react308.memo)(CodeContent);
+  var CodeContent_default = (0, import_react312.memo)(CodeContent);
   var { useLocalizer: useLocalizer82 } = hook_exports;
   var activityViewCodeButtonPropsSchema = pipe(
     object({
@@ -156886,16 +157081,16 @@ and ensure you are accounting for this risk.
     const classNames31 = useStyles_default(ViewCodeDialog_module_default);
     const showModal = useShowModal();
     const localize2 = useLocalizer82();
-    const showCodeModal = (0, import_react306.useCallback)(() => {
+    const showCodeModal = (0, import_react310.useCallback)(() => {
       showModal(
-        () => /* @__PURE__ */ import_react306.default.createElement(CodeContent_default, { code: code2, language: language2, title }, isAIGenerated && /* @__PURE__ */ import_react306.default.createElement("div", { className: classNames31["view-code-dialog__footer"] }, /* @__PURE__ */ import_react306.default.createElement(LocalizedString_default, { linkClassName: "view-code-dialog__link", stringIds: "ACTIVITY_CODE_CAUTION" }))),
+        () => /* @__PURE__ */ import_react310.default.createElement(CodeContent_default, { code: code2, language: language2, title }, isAIGenerated && /* @__PURE__ */ import_react310.default.createElement("div", { className: classNames31["view-code-dialog__footer"] }, /* @__PURE__ */ import_react310.default.createElement(LocalizedString_default, { linkClassName: "view-code-dialog__link", stringIds: "ACTIVITY_CODE_CAUTION" }))),
         {
           className: classNames31["view-code-dialog"],
           "aria-label": localize2("ACTIVITY_CODE_ALT", title != null ? title : "")
         }
       );
     }, [code2, isAIGenerated, language2, localize2, showModal, title, classNames31]);
-    return /* @__PURE__ */ import_react306.default.createElement(
+    return /* @__PURE__ */ import_react310.default.createElement(
       ActivityButton_default,
       {
         className,
@@ -156906,11 +157101,11 @@ and ensure you are accounting for this risk.
       }
     );
   };
-  var ActivityViewCodeButton_default = (0, import_react306.memo)(ActivityViewCodeButton);
-  var classes8 = { "citation-modal-dialog": "wjSs5NG_citation-modal-dialog", "citation-modal-dialog__body": "wjSs5NG_citation-modal-dialog__body", "citation-modal-dialog__header": "wjSs5NG_citation-modal-dialog__header" };
+  var ActivityViewCodeButton_default = (0, import_react310.memo)(ActivityViewCodeButton);
+  var classes8 = { "citation-modal-dialog__body": "wjSs5NG_citation-modal-dialog__body", "citation-modal-dialog": "wjSs5NG_citation-modal-dialog", "citation-modal-dialog__header": "wjSs5NG_citation-modal-dialog__header" };
   var CitationModal_module_default = classes8;
-  var _citation_modal_dialog0 = classes8["citation-modal-dialog"];
   var _citation_modal_dialog__body0 = classes8["citation-modal-dialog__body"];
+  var _citation_modal_dialog0 = classes8["citation-modal-dialog"];
   var _citation_modal_dialog__header0 = classes8["citation-modal-dialog__header"];
   var citationModalContentPropsSchema = pipe(
     object({
@@ -156923,16 +157118,16 @@ and ensure you are accounting for this risk.
     const { headerText, markdown } = validateProps2(citationModalContentPropsSchema, props);
     const classNames31 = useStyles_default(CitationModal_module_default);
     const renderMarkdownAsHTML = useRenderMarkdownAsHTML("citation modal");
-    const html5 = (0, import_react309.useMemo)(() => ({ __html: renderMarkdownAsHTML(markdown) }), [markdown, renderMarkdownAsHTML]);
-    return /* @__PURE__ */ import_react309.default.createElement(import_react309.Fragment, null, headerText && /* @__PURE__ */ import_react309.default.createElement("h2", { className: classNames31["citation-modal-dialog__header"] }, headerText), renderMarkdownAsHTML ? /* @__PURE__ */ import_react309.default.createElement(
+    const html5 = (0, import_react313.useMemo)(() => ({ __html: renderMarkdownAsHTML(markdown) }), [markdown, renderMarkdownAsHTML]);
+    return /* @__PURE__ */ import_react313.default.createElement(import_react313.Fragment, null, headerText && /* @__PURE__ */ import_react313.default.createElement("h2", { className: classNames31["citation-modal-dialog__header"] }, headerText), renderMarkdownAsHTML ? /* @__PURE__ */ import_react313.default.createElement(
       "div",
       {
         className: (0, import_classnames52.default)(classNames31["citation-modal-dialog__body"], "render-markdown"),
         dangerouslySetInnerHTML: html5
       }
-    ) : /* @__PURE__ */ import_react309.default.createElement("div", { className: "render-markdown" }, markdown));
+    ) : /* @__PURE__ */ import_react313.default.createElement("div", { className: "render-markdown" }, markdown));
   }
-  var CitationModalContent_default = (0, import_react309.memo)(CitationModalContent);
+  var CitationModalContent_default = (0, import_react313.memo)(CitationModalContent);
   var shieldIconPropsSchema = pipe(
     object({
       className: optional(string()),
@@ -156943,7 +157138,7 @@ and ensure you are accounting for this risk.
   );
   function ShieldIcon(props) {
     const { className, fillColor, hasLock } = validateProps2(shieldIconPropsSchema, props);
-    return /* @__PURE__ */ import_react311.default.createElement(
+    return /* @__PURE__ */ import_react315.default.createElement(
       "svg",
       {
         className: (0, import_classnames54.default)(className),
@@ -156952,25 +157147,25 @@ and ensure you are accounting for this risk.
         width: "16",
         xmlns: "http://www.w3.org/2000/svg"
       },
-      hasLock ? /* @__PURE__ */ import_react311.default.createElement(import_react311.Fragment, null, fillColor && /* @__PURE__ */ import_react311.default.createElement(
+      hasLock ? /* @__PURE__ */ import_react315.default.createElement(import_react315.Fragment, null, fillColor && /* @__PURE__ */ import_react315.default.createElement(
         "path",
         {
           d: "M8.35464 2.14678C8.15946 1.95123 7.84268 1.95105 7.64728 2.14638C6.40416 3.38902 5.02923 4 3.5 4C3.22386 4 3 4.22386 3 4.5V7.50126C3 10.4242 4.35378 12.4971 7 13.6523V10C7 9.06808 7.63739 8.28503 8.5 8.06301V8C8.5 6.34315 9.84315 5 11.5 5C12.0464 5 12.5587 5.14609 13 5.40135V4.5C13 4.22386 12.7761 4 12.5 4C10.9689 4 9.5947 3.38913 8.35464 2.14678ZM9.5 9V8C9.5 6.89543 10.3954 6 11.5 6C12.6046 6 13.5 6.89543 13.5 8V9H14C14.5523 9 15 9.44772 15 10V14C15 14.5523 14.5523 15 14 15H9C8.44771 15 8 14.5523 8 14V10C8 9.44772 8.44772 9 9 9H9.5ZM10.5 8V9H12.5V8C12.5 7.44772 12.0523 7 11.5 7C10.9477 7 10.5 7.44772 10.5 8ZM12.25 12C12.25 11.5858 11.9142 11.25 11.5 11.25C11.0858 11.25 10.75 11.5858 10.75 12C10.75 12.4142 11.0858 12.75 11.5 12.75C11.9142 12.75 12.25 12.4142 12.25 12Z",
           fill: fillColor
         }
-      ), /* @__PURE__ */ import_react311.default.createElement(
+      ), /* @__PURE__ */ import_react315.default.createElement(
         "path",
         {
           d: "M7.64728 2.14638C7.84268 1.95105 8.15946 1.95123 8.35464 2.14678C9.5947 3.38913 10.9689 4 12.5 4C12.7761 4 13 4.22386 13 4.5V5.40135C12.6963 5.22567 12.359 5.1017 12 5.04148V4.98121C10.5195 4.86895 9.18521 4.25528 8.00042 3.18917C6.81393 4.25491 5.47941 4.86879 4 4.98118V7.50126C4 8.9349 4.36269 10.0655 5.02127 10.9453C5.49089 11.5727 6.14168 12.1134 7 12.5478V13.6523C4.35378 12.4971 3 10.4242 3 7.50126V4.5C3 4.22386 3.22386 4 3.5 4C5.02923 4 6.40416 3.38902 7.64728 2.14638ZM9.5 8V9H9C8.44772 9 8 9.44772 8 10V14C8 14.5523 8.44771 15 9 15H14C14.5523 15 15 14.5523 15 14V10C15 9.44772 14.5523 9 14 9H13.5V8C13.5 6.89543 12.6046 6 11.5 6C10.3954 6 9.5 6.89543 9.5 8ZM10.5 9V8C10.5 7.44772 10.9477 7 11.5 7C12.0523 7 12.5 7.44772 12.5 8V9H10.5ZM11.5 11.25C11.9142 11.25 12.25 11.5858 12.25 12C12.25 12.4142 11.9142 12.75 11.5 12.75C11.0858 12.75 10.75 12.4142 10.75 12C10.75 11.5858 11.0858 11.25 11.5 11.25Z",
           fill: "currentcolor"
         }
-      )) : /* @__PURE__ */ import_react311.default.createElement(import_react311.Fragment, null, fillColor && /* @__PURE__ */ import_react311.default.createElement(
+      )) : /* @__PURE__ */ import_react315.default.createElement(import_react315.Fragment, null, fillColor && /* @__PURE__ */ import_react315.default.createElement(
         "path",
         {
           d: "M7.64728 2.14638C7.84268 1.95105 8.15946 1.95123 8.35464 2.14678C9.5947 3.38913 10.9689 4 12.5 4C12.7761 4 13 4.22386 13 4.5V7.50126C13 10.7196 11.3587 12.9075 8.15811 13.9743C8.05548 14.0086 7.94452 14.0086 7.84189 13.9743C4.64126 12.9075 3 10.7196 3 7.50126V4.5C3 4.22386 3.22386 4 3.5 4C5.02923 4 6.40416 3.38902 7.64728 2.14638Z",
           fill: fillColor
         }
-      ), /* @__PURE__ */ import_react311.default.createElement(
+      ), /* @__PURE__ */ import_react315.default.createElement(
         "path",
         {
           d: "M7.64728 2.14638C7.84268 1.95105 8.15946 1.95123 8.35464 2.14678C9.5947 3.38913 10.9689 4 12.5 4C12.7761 4 13 4.22386 13 4.5V7.50126C13 10.7196 11.3587 12.9075 8.15811 13.9743C8.05548 14.0086 7.94452 14.0086 7.84189 13.9743C4.64126 12.9075 3 10.7196 3 7.50126V4.5C3 4.22386 3.22386 4 3.5 4C5.02923 4 6.40416 3.38902 7.64728 2.14638ZM8.00042 3.18917C6.81393 4.25491 5.47941 4.86879 4 4.98118V7.50126C4 8.9349 4.36269 10.0655 5.02127 10.9453C5.65858 11.7967 6.62953 12.4885 8 12.9715C9.37047 12.4885 10.3414 11.7967 10.9787 10.9453C11.6373 10.0655 12 8.9349 12 7.50126V4.98121C10.5195 4.86895 9.18521 4.25528 8.00042 3.18917Z",
@@ -156979,7 +157174,7 @@ and ensure you are accounting for this risk.
       ))
     );
   }
-  var ShieldIcon_default = (0, import_react311.memo)(ShieldIcon);
+  var ShieldIcon_default = (0, import_react315.memo)(ShieldIcon);
   var messageSensitivityLabelPropsSchema = pipe(
     object({
       className: optional(string()),
@@ -156993,7 +157188,7 @@ and ensure you are accounting for this risk.
   function MessageSensitivityLabel(props) {
     const { className, color: color2, isEncrypted, name, title } = validateProps2(messageSensitivityLabelPropsSchema, props);
     const classNames31 = useStyles_default(LinkDefinitions_module_default);
-    return /* @__PURE__ */ import_react310.default.createElement(
+    return /* @__PURE__ */ import_react314.default.createElement(
       "div",
       {
         className: (0, import_classnames53.default)(
@@ -157003,9 +157198,9 @@ and ensure you are accounting for this risk.
           },
           className
         ),
-        title: (0, import_react310.useMemo)(() => [name, title].filter(Boolean).join("\n\n"), [name, title])
+        title: (0, import_react314.useMemo)(() => [name, title].filter(Boolean).join("\n\n"), [name, title])
       },
-      /* @__PURE__ */ import_react310.default.createElement(
+      /* @__PURE__ */ import_react314.default.createElement(
         ShieldIcon_default,
         {
           className: classNames31["link-definitions__message-sensitivity-label-icon"],
@@ -157013,10 +157208,10 @@ and ensure you are accounting for this risk.
           hasLock: isEncrypted
         }
       ),
-      /* @__PURE__ */ import_react310.default.createElement("span", { className: classNames31["link-definitions__message-sensitivity-label-text"] }, name)
+      /* @__PURE__ */ import_react314.default.createElement("span", { className: classNames31["link-definitions__message-sensitivity-label-text"] }, name)
     );
   }
-  var MessageSensitivityLabel_default = (0, import_react310.memo)(MessageSensitivityLabel);
+  var MessageSensitivityLabel_default = (0, import_react314.memo)(MessageSensitivityLabel);
   function isBasedOnSoftwareSourceCode(messageEntity) {
     var _a29;
     return ((_a29 = messageEntity == null ? void 0 : messageEntity.isBasedOn) == null ? void 0 : _a29["@type"]) === "SoftwareSourceCode";
@@ -157046,27 +157241,27 @@ and ensure you are accounting for this risk.
     const citationModalClassNames = useStyles_default(CitationModal_module_default);
     const textContentClassNames = useStyles_default(TextContent_module_default);
     const [{ feedbackActionsPlacement }] = useStyleOptions24();
-    const contentRef = (0, import_react284.useRef)(null);
+    const contentRef = (0, import_react288.useRef)(null);
     const localize2 = useLocalizer92();
-    const graph = (0, import_react284.useMemo)(() => dereferenceBlankNodes(activity.entities || []), [activity.entities]);
+    const graph = (0, import_react288.useMemo)(() => dereferenceBlankNodes(activity.entities || []), [activity.entities]);
     const renderMarkdownAsHTML = useRenderMarkdownAsHTML("message activity");
     const showModal = useShowModal();
-    const messageThing = (0, import_react284.useMemo)(() => getOrgSchemaMessage(graph), [graph]);
+    const messageThing = (0, import_react288.useMemo)(() => getOrgSchemaMessage(graph), [graph]);
     const citationModalDialogLabel = localize2("CITATION_MODEL_DIALOG_ALT");
     if (!renderMarkdownAsHTML) {
       throw new Error("botframework-webchat: assert failed for renderMarkdownAsHTML");
     }
-    const dangerouslySetInnerHTML = (0, import_react284.useMemo)(
+    const dangerouslySetInnerHTML = (0, import_react288.useMemo)(
       () => ({ __html: markdown ? renderMarkdownAsHTML(markdown) : "" }),
       [renderMarkdownAsHTML, markdown]
     );
-    const markdownDefinitions = (0, import_react284.useMemo)(
+    const markdownDefinitions = (0, import_react288.useMemo)(
       () => fromMarkdown(markdown).children.filter((node3) => node3.type === "definition"),
       [markdown]
     );
-    const showClaimModal = (0, import_react284.useCallback)(
+    const showClaimModal = (0, import_react288.useCallback)(
       (title, text6, altText) => {
-        showModal(() => /* @__PURE__ */ import_react284.default.createElement(CitationModalContent_default, { headerText: title, markdown: text6 }), {
+        showModal(() => /* @__PURE__ */ import_react288.default.createElement(CitationModalContent_default, { headerText: title, markdown: text6 }), {
           "aria-label": altText || title || citationModalDialogLabel,
           className: citationModalClassNames["citation-modal-dialog"]
         });
@@ -157074,7 +157269,7 @@ and ensure you are accounting for this risk.
       [citationModalClassNames, citationModalDialogLabel, showModal]
     );
     const sanitizeHref = useSanitizeHrefCallback();
-    const entries = (0, import_react284.useMemo)(
+    const entries = (0, import_react288.useMemo)(
       () => Object.freeze(
         markdownDefinitions.map((markdownDefinition) => {
           var _a30, _b5;
@@ -157154,7 +157349,7 @@ and ensure you are accounting for this risk.
       [graph, markdownDefinitions, messageThing, sanitizeHref, showClaimModal]
     );
     const entriesRef = useRefFrom(entries);
-    const handleClick = (0, import_react284.useCallback)(
+    const handleClick = (0, import_react288.useCallback)(
       (event2) => {
         const targetElement = event2.target;
         const buttonElement = isHTMLButtonElement(targetElement) ? targetElement : targetElement.closest("button");
@@ -157170,7 +157365,7 @@ and ensure you are accounting for this risk.
       },
       [entriesRef]
     );
-    const messageSensitivityLabelProps = (0, import_react284.useMemo)(() => {
+    const messageSensitivityLabelProps = (0, import_react288.useMemo)(() => {
       var _a30;
       const usageInfo = messageThing == null ? void 0 : messageThing.usageInfo;
       if (usageInfo) {
@@ -157196,7 +157391,7 @@ and ensure you are accounting for this risk.
       var _a30, _b5, _c4;
       return (_c4 = (_b5 = (_a30 = entry.claim) == null ? void 0 : _a30.appearance) == null ? void 0 : _b5.usageInfo) == null ? void 0 : _c4.description;
     };
-    return /* @__PURE__ */ import_react284.default.createElement("div", { className: (0, import_classnames43.default)(textContentClassNames["text-content"], textContentClassNames["text-content--is-markdown"]) }, /* @__PURE__ */ import_react284.default.createElement(
+    return /* @__PURE__ */ import_react288.default.createElement("div", { className: (0, import_classnames43.default)(textContentClassNames["text-content"], textContentClassNames["text-content--is-markdown"]) }, /* @__PURE__ */ import_react288.default.createElement(
       "div",
       {
         className: (0, import_classnames43.default)(textContentClassNames["text-content__markdown"]),
@@ -157204,7 +157399,7 @@ and ensure you are accounting for this risk.
         onClick: handleClick,
         ref: contentRef
       }
-    ), children, !!entries.length && /* @__PURE__ */ import_react284.default.createElement(
+    ), children, !!entries.length && /* @__PURE__ */ import_react288.default.createElement(
       LinkDefinitions_default,
       {
         accessoryComponentType: messageSensitivityLabelProps && MessageSensitivityLabel_default,
@@ -157212,7 +157407,7 @@ and ensure you are accounting for this risk.
       },
       entries.map((entry) => {
         var _a30, _b5;
-        return /* @__PURE__ */ import_react284.default.createElement(
+        return /* @__PURE__ */ import_react288.default.createElement(
           LinkDefinitionItem_default,
           {
             badgeName: getEntryBadgeName(entry),
@@ -157227,7 +157422,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           }
         );
       })
-    ), /* @__PURE__ */ import_react284.default.createElement("div", { className: textContentClassNames["text-content__activity-actions"] }, activity.type === "message" && isBasedOnSoftwareSourceCode(messageThing) && messageThing.isBasedOn.text && !((_b4 = (_a29 = messageThing.keywords) == null ? void 0 : _a29.includes) == null ? void 0 : _b4.call(_a29, "Collapsible")) ? /* @__PURE__ */ import_react284.default.createElement(
+    ), /* @__PURE__ */ import_react288.default.createElement("div", { className: textContentClassNames["text-content__activity-actions"] }, activity.type === "message" && isBasedOnSoftwareSourceCode(messageThing) && messageThing.isBasedOn.text && !((_b4 = (_a29 = messageThing.keywords) == null ? void 0 : _a29.includes) == null ? void 0 : _b4.call(_a29, "Collapsible")) ? /* @__PURE__ */ import_react288.default.createElement(
       ActivityViewCodeButton_default,
       {
         className: "text-content__activity-view-code-button",
@@ -157236,9 +157431,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         language: messageThing.isBasedOn.programmingLanguage,
         title: messageThing.isBasedOn.programmingLanguage
       }
-    ) : null, activity.type === "message" && activity.text && ((_c3 = messageThing == null ? void 0 : messageThing.keywords) == null ? void 0 : _c3.includes("AllowCopy")) ? /* @__PURE__ */ import_react284.default.createElement(ActivityCopyButton_default, { className: "text-content__activity-copy-button", targetRef: contentRef }) : null, activity.type === "message" && feedbackActionsPlacement === "activity-actions" && /* @__PURE__ */ import_react284.default.createElement(ActivityFeedback_default, { activity })));
+    ) : null, activity.type === "message" && activity.text && ((_c3 = messageThing == null ? void 0 : messageThing.keywords) == null ? void 0 : _c3.includes("AllowCopy")) ? /* @__PURE__ */ import_react288.default.createElement(ActivityCopyButton_default, { className: "text-content__activity-copy-button", targetRef: contentRef }) : null, activity.type === "message" && feedbackActionsPlacement === "activity-actions" && /* @__PURE__ */ import_react288.default.createElement(ActivityFeedback_default, { activity })));
   }
-  var MarkdownTextContent_default = (0, import_react284.memo)(MarkdownTextContent);
+  var MarkdownTextContent_default = (0, import_react288.memo)(MarkdownTextContent);
   var plainTextContentPropsSchema = pipe(
     object({
       children: optional(reactNode_default()),
@@ -157249,9 +157444,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function PlainTextContent(props) {
     const { children, text: text6 } = validateProps2(plainTextContentPropsSchema, props);
     const classNames31 = useStyles_default(TextContent_module_default);
-    return /* @__PURE__ */ import_react312.default.createElement(import_react312.Fragment, null, (text6 || "").split("\n").map((line2) => /* @__PURE__ */ import_react312.default.createElement("p", { className: (0, import_classnames55.default)(classNames31["text-content"]), key: line2 }, line2.trim())), children && /* @__PURE__ */ import_react312.default.createElement("div", { className: classNames31["text-content"] }, children));
+    return /* @__PURE__ */ import_react316.default.createElement(import_react316.Fragment, null, (text6 || "").split("\n").map((line2) => /* @__PURE__ */ import_react316.default.createElement("p", { className: (0, import_classnames55.default)(classNames31["text-content"]), key: line2 }, line2.trim())), children && /* @__PURE__ */ import_react316.default.createElement("div", { className: classNames31["text-content"] }, children));
   }
-  var PlainTextContent_default = (0, import_react312.memo)(PlainTextContent);
+  var PlainTextContent_default = (0, import_react316.memo)(PlainTextContent);
   var { useLocalizer: useLocalizer102 } = hook_exports;
   var textContentPropsSchema = pipe(
     object({
@@ -157266,13 +157461,13 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const classNames31 = useStyles_default(TextContent_module_default);
     const supportMarkdown = !!useRenderMarkdownAsHTML("message activity");
     const localize2 = useLocalizer102();
-    const generatedBadge = (0, import_react283.useMemo)(
-      () => isAIGeneratedActivity(activity) && /* @__PURE__ */ import_react283.default.createElement("div", { className: classNames31["text-content__generated-badge"] }, localize2("ACTIVITY_CONTENT_CAUTION")),
+    const generatedBadge = (0, import_react287.useMemo)(
+      () => isAIGeneratedActivity(activity) && /* @__PURE__ */ import_react287.default.createElement("div", { className: classNames31["text-content__generated-badge"] }, localize2("ACTIVITY_CONTENT_CAUTION")),
       [activity, classNames31, localize2]
     );
-    return text6 ? contentType === "text/markdown" && supportMarkdown ? /* @__PURE__ */ import_react283.default.createElement(MarkdownTextContent_default, { activity, markdown: text6 }, generatedBadge) : /* @__PURE__ */ import_react283.default.createElement(PlainTextContent_default, { text: text6 }, generatedBadge) : null;
+    return text6 ? contentType === "text/markdown" && supportMarkdown ? /* @__PURE__ */ import_react287.default.createElement(MarkdownTextContent_default, { activity, markdown: text6 }, generatedBadge) : /* @__PURE__ */ import_react287.default.createElement(PlainTextContent_default, { text: text6 }, generatedBadge) : null;
   }
-  var TextContent_default = (0, import_react283.memo)(TextContent);
+  var TextContent_default = (0, import_react287.memo)(TextContent);
   var directLineAttachmentSchema = pipe(
     object({
       content: optional(string()),
@@ -157301,9 +157496,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       activity,
       attachment: { content: content3, contentType }
     } = validateProps2(textAttachmentPropsSchema, props);
-    return /* @__PURE__ */ import_react282.default.createElement(TextContent_default, { activity, contentType, text: content3 });
+    return /* @__PURE__ */ import_react286.default.createElement(TextContent_default, { activity, contentType, text: content3 });
   }
-  var TextAttachment_default = (0, import_react282.memo)(TextAttachment);
+  var TextAttachment_default = (0, import_react286.memo)(TextAttachment);
   var htmlVideoContentPropsSchema = pipe(
     object({
       alt: optional(string()),
@@ -157317,7 +157512,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function HTMLVideoContent(props) {
     const { alt, autoPlay = false, loop: loop2 = false, poster, src } = validateProps2(htmlVideoContentPropsSchema, props);
     const [{ videoContent: videoContentStyleSet }] = useStyleSet();
-    return /* @__PURE__ */ import_react315.default.createElement(
+    return /* @__PURE__ */ import_react319.default.createElement(
       "video",
       {
         "aria-label": alt,
@@ -157330,7 +157525,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       }
     );
   }
-  var HTMLVideoContent_default = (0, import_react315.memo)(HTMLVideoContent);
+  var HTMLVideoContent_default = (0, import_react319.memo)(HTMLVideoContent);
   var { useLocalizer: useLocalizer112 } = hook_exports;
   var vimeoContentPropsSchema = pipe(
     object({
@@ -157354,7 +157549,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       title: "0"
     }).toString();
     const title = localize2("ATTACHMENT_VIDEO");
-    return /* @__PURE__ */ import_react316.default.createElement(
+    return /* @__PURE__ */ import_react320.default.createElement(
       "iframe",
       {
         allowFullScreen: true,
@@ -157366,7 +157561,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       }
     );
   }
-  var VimeoContent_default = (0, import_react316.memo)(VimeoContent);
+  var VimeoContent_default = (0, import_react320.memo)(VimeoContent);
   var { useLocalizer: useLocalizer122 } = hook_exports;
   var youTubeContentPropsSchema = pipe(
     object({
@@ -157389,7 +157584,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const title = localize2("ATTACHMENT_VIDEO");
     return (
       // TODO: We should encodeURI the URL
-      /* @__PURE__ */ import_react317.default.createElement(
+      /* @__PURE__ */ import_react321.default.createElement(
         "iframe",
         {
           allowFullScreen: true,
@@ -157402,7 +157597,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       )
     );
   }
-  var YouTubeContent_default = (0, import_react317.memo)(YouTubeContent);
+  var YouTubeContent_default = (0, import_react321.memo)(YouTubeContent);
   var YOUTUBE_DOMAIN = "youtube.com";
   var YOUTUBE_WWW_DOMAIN = "www.youtube.com";
   var YOUTUBE_SHORT_DOMAIN = "youtu.be";
@@ -157438,18 +157633,18 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     switch (hostname) {
       case VIMEO_DOMAIN:
       case VIMEO_WWW_DOMAIN:
-        return /* @__PURE__ */ import_react314.default.createElement(VimeoContent_default, { alt, autoPlay, embedID: lastSegment, loop: loop2 });
+        return /* @__PURE__ */ import_react318.default.createElement(VimeoContent_default, { alt, autoPlay, embedID: lastSegment, loop: loop2 });
       case YOUTUBE_DOMAIN:
       case YOUTUBE_WWW_DOMAIN:
-        return /* @__PURE__ */ import_react314.default.createElement(YouTubeContent_default, { alt, autoPlay, embedID: searchParams.get("v"), loop: loop2 });
+        return /* @__PURE__ */ import_react318.default.createElement(YouTubeContent_default, { alt, autoPlay, embedID: searchParams.get("v"), loop: loop2 });
       case YOUTUBE_SHORT_DOMAIN:
       case YOUTUBE_WWW_SHORT_DOMAIN:
-        return /* @__PURE__ */ import_react314.default.createElement(YouTubeContent_default, { alt, autoPlay, embedID: lastSegment, loop: loop2 });
+        return /* @__PURE__ */ import_react318.default.createElement(YouTubeContent_default, { alt, autoPlay, embedID: lastSegment, loop: loop2 });
       default:
-        return /* @__PURE__ */ import_react314.default.createElement(HTMLVideoContent_default, { alt, autoPlay, loop: loop2, poster, src });
+        return /* @__PURE__ */ import_react318.default.createElement(HTMLVideoContent_default, { alt, autoPlay, loop: loop2, poster, src });
     }
   }
-  var VideoContent_default = (0, import_react314.memo)(VideoContent);
+  var VideoContent_default = (0, import_react318.memo)(VideoContent);
   var ROOT_STYLE32 = {
     display: "flex",
     flexDirection: "column"
@@ -157457,7 +157652,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   var VideoAttachment = ({ attachment }) => {
     const [{ videoAttachment: videoAttachmentStyleSet }] = useStyleSet();
     const rootClassName = useStyleToEmotionObject()(ROOT_STYLE32) + "";
-    return /* @__PURE__ */ import_react313.default.createElement("div", { className: (0, import_classnames56.default)(rootClassName, videoAttachmentStyleSet + "") }, /* @__PURE__ */ import_react313.default.createElement(VideoContent_default, { alt: attachment.name, src: attachment.contentUrl }));
+    return /* @__PURE__ */ import_react317.default.createElement("div", { className: (0, import_classnames56.default)(rootClassName, videoAttachmentStyleSet + "") }, /* @__PURE__ */ import_react317.default.createElement(VideoContent_default, { alt: attachment.name, src: attachment.contentUrl }));
   };
   VideoAttachment.propTypes = {
     attachment: import_prop_types26.default.shape({
@@ -157481,7 +157676,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           }
         ] = args;
         const isText = isTextAttachment(attachment);
-        return (isText ? !attachment.content : role === "user" && !thumbnailUrl) ? /* @__PURE__ */ import_react274.default.createElement(FileAttachment_default, { activity, attachment }) : /^audio\//u.test(contentType) ? /* @__PURE__ */ import_react274.default.createElement(AudioAttachment_default, { attachment }) : /^image\//u.test(contentType) ? /* @__PURE__ */ import_react274.default.createElement(ImageAttachment_default, { attachment }) : /^video\//u.test(contentType) ? /* @__PURE__ */ import_react274.default.createElement(VideoAttachment_default, { attachment }) : contentUrl || contentType === "application/octet-stream" ? /* @__PURE__ */ import_react274.default.createElement(FileAttachment_default, { activity, attachment }) : isText ? /* @__PURE__ */ import_react274.default.createElement(TextAttachment_default, { activity, attachment }) : next2(...args);
+        return (isText ? !attachment.content : role === "user" && !thumbnailUrl) ? /* @__PURE__ */ import_react278.default.createElement(FileAttachment_default, { activity, attachment }) : /^audio\//u.test(contentType) ? /* @__PURE__ */ import_react278.default.createElement(AudioAttachment_default, { attachment }) : /^image\//u.test(contentType) ? /* @__PURE__ */ import_react278.default.createElement(ImageAttachment_default, { attachment }) : /^video\//u.test(contentType) ? /* @__PURE__ */ import_react278.default.createElement(VideoAttachment_default, { attachment }) : contentUrl || contentType === "application/octet-stream" ? /* @__PURE__ */ import_react278.default.createElement(FileAttachment_default, { activity, attachment }) : isText ? /* @__PURE__ */ import_react278.default.createElement(TextAttachment_default, { activity, attachment }) : next2(...args);
       }
     ];
   }
@@ -157502,9 +157697,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   var SayAlt = (props) => {
     const { speak } = validateProps2(sayAltPropsSchema, props);
     const classNames31 = useStyles_default(SayAlt_module_default);
-    return !!speak && /* @__PURE__ */ import_react323.default.createElement("pre", { className: classNames31["say-alt"] }, speak);
+    return !!speak && /* @__PURE__ */ import_react327.default.createElement("pre", { className: classNames31["say-alt"] }, speak);
   };
-  var SayAlt_default = (0, import_react323.memo)(SayAlt);
+  var SayAlt_default = (0, import_react327.memo)(SayAlt);
   var { useMarkActivityAsSpoken: useMarkActivityAsSpoken2, useStyleOptions: useStyleOptions33, useVoiceSelector: useVoiceSelector2 } = hook_exports;
   var speakableActivitySchema = pipe(
     object({
@@ -157554,11 +157749,11 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const activityRef = useRefFrom(activity);
     const markActivityAsSpoken = useMarkActivityAsSpoken2();
     const selectVoice = useVoiceSelector2(activity);
-    const markAsSpoken = (0, import_react322.useCallback)(
+    const markAsSpoken = (0, import_react326.useCallback)(
       () => markActivityAsSpoken(activityRef.current),
       [activityRef, markActivityAsSpoken]
     );
-    const singleLine = (0, import_react322.useMemo)(() => {
+    const singleLine = (0, import_react326.useMemo)(() => {
       if (activity.type !== "message") {
         return false;
       }
@@ -157574,7 +157769,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       ].filter((line2) => line2).join("\r\n");
     }, [activity]);
     const speechSynthesisUtterance = activity.type === "message" && ((_a29 = activity.channelData) == null ? void 0 : _a29.speechSynthesisUtterance);
-    return !!activity && /* @__PURE__ */ import_react322.default.createElement(import_react322.Fragment, null, speechSynthesisUtterance ? /* @__PURE__ */ import_react322.default.createElement(
+    return !!activity && /* @__PURE__ */ import_react326.default.createElement(import_react326.Fragment, null, speechSynthesisUtterance ? /* @__PURE__ */ import_react326.default.createElement(
       SayUtterance_default,
       {
         onEnd: markAsSpoken,
@@ -157582,7 +157777,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         ponyfill: webSpeechPonyfill,
         utterance: speechSynthesisUtterance
       }
-    ) : /* @__PURE__ */ import_react322.default.createElement(
+    ) : /* @__PURE__ */ import_react326.default.createElement(
       src_default2,
       {
         onEnd: markAsSpoken,
@@ -157591,9 +157786,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         text: singleLine,
         voice: selectVoice
       }
-    ), !!showSpokenText && /* @__PURE__ */ import_react322.default.createElement(SayAlt_default, { speak: singleLine }));
+    ), !!showSpokenText && /* @__PURE__ */ import_react326.default.createElement(SayAlt_default, { speak: singleLine }));
   }
-  var Speak_default = (0, import_react322.memo)(Speak);
+  var Speak_default = (0, import_react326.memo)(Speak);
   var BREAKPOINT_NAMES2 = ["render"];
   var RestrictedActivityDebugAPI = class extends RestrictedDebugAPI_default {
     constructor(getActivity) {
@@ -157729,7 +157924,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function useActivityAccessibleName(activity, bodyRef) {
     var _a29, _b4;
     const [{ initials: botInitials }] = useAvatarForBot3();
-    const [interactiveType, setInteractiveType] = (0, import_react324.useState)(false);
+    const [interactiveType, setInteractiveType] = (0, import_react328.useState)(false);
     const [sendStatusByActivityKey] = useSendStatusByActivityKey();
     const fromSelf = ((_a29 = activity.from) == null ? void 0 : _a29.role) === "user";
     const getKeyByActivity = useGetKeyByActivity3();
@@ -157743,8 +157938,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     );
     const activityInteractiveReasonLinkAlt = localize2("ACTIVITY_INTERACTIVE_REASON_LINK_ALT");
     const activityInteractiveReasonSendFailedAlt = localize2("ACTIVITY_INTERACTIVE_REASON_SEND_FAILED_ALT");
-    const activityKey = (0, import_react324.useMemo)(() => getKeyByActivity(activity), [activity, getKeyByActivity]);
-    const greetingAlt = (0, import_react324.useMemo)(
+    const activityKey = (0, import_react328.useMemo)(() => getKeyByActivity(activity), [activity, getKeyByActivity]);
+    const greetingAlt = (0, import_react328.useMemo)(
       () => (fromSelf ? localize2("ACTIVITY_YOU_SAID_ALT") : localize2("ACTIVITY_BOT_SAID_ALT", botInitials || "")).replace(
         /\s{2,}/gu,
         " "
@@ -157752,19 +157947,19 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       [botInitials, fromSelf, localize2]
     );
     const interactiveTypeRef = useValueRef2(interactiveType);
-    const messageTextAlt = (0, import_react324.useMemo)(
+    const messageTextAlt = (0, import_react328.useMemo)(
       () => activityAltText(activity, renderMarkdownAsHTML),
       [activity, renderMarkdownAsHTML]
     );
-    const numAttachmentsAlt = (0, import_react324.useMemo)(
+    const numAttachmentsAlt = (0, import_react328.useMemo)(
       () => numAttachments ? localizeWithPlural(ACTIVITY_NUM_ATTACHMENTS_ALT_IDS, numAttachments) : "",
       [localizeWithPlural, numAttachments]
     );
-    const isSendFailed = (0, import_react324.useMemo)(
+    const isSendFailed = (0, import_react328.useMemo)(
       () => sendStatusByActivityKey.get(activityKey) === SEND_FAILED3,
       [activityKey, sendStatusByActivityKey]
     );
-    const accessibleName = (0, import_react324.useMemo)(
+    const accessibleName = (0, import_react328.useMemo)(
       // We are concatenating in a single string for Safari. If we split it up, Safari will only narrate the first section.
       () => [
         greetingAlt,
@@ -157786,7 +157981,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         numAttachmentsAlt
       ]
     );
-    (0, import_react324.useEffect)(() => {
+    (0, import_react328.useEffect)(() => {
       var _a30;
       const hasLinks = !!((_a30 = bodyRef.current) == null ? void 0 : _a30.querySelector("a"));
       const hasWidgets = !!tabbableElements(bodyRef.current).length;
@@ -157797,12 +157992,12 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     return [accessibleName];
   }
   var { useActivityKeysByRead: useActivityKeysByRead2, useGetHasAcknowledgedByActivityKey, useGetKeyByActivity: useGetKeyByActivity22 } = hook_exports;
-  var ActivityRow = (0, import_react321.forwardRef)(({ activity, children }, ref) => {
+  var ActivityRow = (0, import_react325.forwardRef)(({ activity, children }, ref) => {
     var _a29;
     const [activeDescendantId] = useActiveDescendantId();
     const [readActivityKeys] = useActivityKeysByRead2();
     const activityRef = useRefFrom(activity);
-    const bodyRef = (0, import_react321.useRef)();
+    const bodyRef = (0, import_react325.useRef)();
     const focusByActivityKey = useFocusByActivityKey();
     const getKeyByActivity = useGetKeyByActivity22();
     const shouldSpeak = (_a29 = activity.channelData) == null ? void 0 : _a29.speak;
@@ -157814,19 +158009,19 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const descendantLabelId = `webchat__basic-transcript__active-descendant-label--${activityKey}`;
     const isActiveDescendant = descendantId === activeDescendantId;
     const read = readActivityKeys.includes(activityKey);
-    const focusSelf = (0, import_react321.useCallback)(
+    const focusSelf = (0, import_react325.useCallback)(
       (withFocus) => focusByActivityKey(activityKeyRef.current, withFocus),
       [activityKeyRef, focusByActivityKey]
     );
-    const handleDescendantFocus = (0, import_react321.useCallback)(() => focusSelf(false), [focusSelf]);
-    const handleLeaveFocusTrap = (0, import_react321.useCallback)(() => focusSelf(), [focusSelf]);
-    const handleMouseDownCapture = (0, import_react321.useCallback)(() => focusSelf(false), [focusSelf]);
-    const focusTrapChildren = (0, import_react321.useMemo)(
-      () => /* @__PURE__ */ import_react321.default.createElement("div", { className: "webchat__basic-transcript__activity-body", ref: bodyRef }, children),
+    const handleDescendantFocus = (0, import_react325.useCallback)(() => focusSelf(false), [focusSelf]);
+    const handleLeaveFocusTrap = (0, import_react325.useCallback)(() => focusSelf(), [focusSelf]);
+    const handleMouseDownCapture = (0, import_react325.useCallback)(() => focusSelf(false), [focusSelf]);
+    const focusTrapChildren = (0, import_react325.useMemo)(
+      () => /* @__PURE__ */ import_react325.default.createElement("div", { className: "webchat__basic-transcript__activity-body", ref: bodyRef }, children),
       [bodyRef, children]
     );
     const activityIdRef = useRefFrom(activity.id);
-    const handleFormData = (0, import_react321.useCallback)(
+    const handleFormData = (0, import_react325.useCallback)(
       (event2) => {
         var _a30;
         const { webchatIncludeActivityId, webchatIncludeActivityKey } = event2.target.dataset;
@@ -157839,10 +158034,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       },
       [activityKeyRef, activityIdRef]
     );
-    const prevArticleRef = (0, import_react321.useRef)(null);
-    const restrictedDebugAPI = (0, import_react321.useMemo)(() => new RestrictedActivityDebugAPI_default(() => activityRef.current), [activityRef]);
-    const debugAPI = (0, import_react321.useMemo)(() => restrictedDebugAPI.toPublic(), [restrictedDebugAPI]);
-    const wrappedRef = (0, import_react321.useCallback)(
+    const prevArticleRef = (0, import_react325.useRef)(null);
+    const restrictedDebugAPI = (0, import_react325.useMemo)(() => new RestrictedActivityDebugAPI_default(() => activityRef.current), [activityRef]);
+    const debugAPI = (0, import_react325.useMemo)(() => restrictedDebugAPI.toPublic(), [restrictedDebugAPI]);
+    const wrappedRef = (0, import_react325.useCallback)(
       (el) => {
         if (prevArticleRef.current) {
           prevArticleRef.current.removeEventListener("formdata", handleFormData);
@@ -157873,7 +158068,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           However, Android TalkBack 12.1 is buggy when the there is an element with ID of one of the `aria-activedescendant` potential candidates,
           TalkBack will narrate the message content twice (i.e. content of `bodyRef`), regardless whether the ID is currently set as `aria-activedescendant` or not.
           As Android does not support active descendant, we are hiding the whole DOM element altogether. */
-      /* @__PURE__ */ import_react321.default.createElement(
+      /* @__PURE__ */ import_react325.default.createElement(
         TranscriptFocusContent_default,
         {
           className: (0, import_classnames57.default)("webchat__basic-transcript__activity", {
@@ -157885,7 +158080,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           ref: wrappedRef,
           tag: "article"
         },
-        /* @__PURE__ */ import_react321.default.createElement(
+        /* @__PURE__ */ import_react325.default.createElement(
           FocusTrap_default,
           {
             onFocus: handleDescendantFocus,
@@ -157895,8 +158090,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           focusTrapChildren
         ),
         shouldSpeak && // TODO: Should build `webChatActivitySchema`.
-        /* @__PURE__ */ import_react321.default.createElement(Speak_default, { activity }),
-        /* @__PURE__ */ import_react321.default.createElement(TranscriptFocusContentOverlay_default, null, !android && /* @__PURE__ */ import_react321.default.createElement(
+        /* @__PURE__ */ import_react325.default.createElement(Speak_default, { activity }),
+        /* @__PURE__ */ import_react325.default.createElement(TranscriptFocusContentOverlay_default, null, !android && /* @__PURE__ */ import_react325.default.createElement(
           TranscriptFocusContentActiveDescendant_default,
           {
             "aria-labelledby": descendantLabelId,
@@ -157904,8 +158099,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
             id: descendantId,
             role: "article"
           },
-          /* @__PURE__ */ import_react321.default.createElement(ScreenReaderText_default, { "aria-hidden": true, id: descendantLabelId, text: accessibleName })
-        ), /* @__PURE__ */ import_react321.default.createElement(TranscriptFocusIndicator_default, { type: "content" }))
+          /* @__PURE__ */ import_react325.default.createElement(ScreenReaderText_default, { "aria-hidden": true, id: descendantLabelId, text: accessibleName })
+        ), /* @__PURE__ */ import_react325.default.createElement(TranscriptFocusIndicator_default, { type: "content" }))
       )
     );
   });
@@ -157924,7 +158119,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     }).isRequired,
     children: import_prop_types27.default.any
   };
-  var ActivityRow_default = (0, import_react321.memo)(ActivityRow);
+  var ActivityRow_default = (0, import_react325.memo)(ActivityRow);
   var { useStyleOptions: useStyleOptions43 } = hook_exports;
   var webChatActivitySchema2 = custom((value) => safeParse(object({}), value).success);
   var legacyActivityComposerPropsSchema = pipe(
@@ -157967,23 +158162,23 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     } else {
       showCallout = true;
     }
-    const context9 = (0, import_react325.useMemo)(
+    const context9 = (0, import_react329.useMemo)(
       () => Object.freeze({
         hideTimestamp,
         showCallout
       }),
       [hideTimestamp, showCallout]
     );
-    return /* @__PURE__ */ import_react325.default.createElement(LegacyActivityContextProvider, { value: context9 }, children);
+    return /* @__PURE__ */ import_react329.default.createElement(LegacyActivityContextProvider, { value: context9 }, children);
   }
-  var LegacyActivityBridgeComposer_default = (0, import_react325.memo)(LegacyActivityBridgeComposer);
+  var LegacyActivityBridgeComposer_default = (0, import_react329.memo)(LegacyActivityBridgeComposer);
   var { useGetKeyByActivity: useGetKeyByActivity32 } = hook_exports;
   function RenderActivity({ activity }) {
     var _a29;
     const activityElementMapRef = useActivityElementMapRef();
     const getKeyByActivity = useGetKeyByActivity32();
-    const activityKey = (0, import_react320.useMemo)(() => getKeyByActivity(activity), [activity, getKeyByActivity]);
-    const activityCallbackRef = (0, import_react320.useCallback)(
+    const activityKey = (0, import_react324.useMemo)(() => getKeyByActivity(activity), [activity, getKeyByActivity]);
+    const activityCallbackRef = (0, import_react324.useCallback)(
       (activityElement) => {
         activityElement ? activityElementMapRef.current.set(activityKey, activityElement) : activityElementMapRef.current.delete(activityKey);
       },
@@ -157991,9 +158186,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     );
     const [activityRendererMap] = useActivityRendererMap();
     const activityNode = (_a29 = activityRendererMap.get(activity)) == null ? void 0 : _a29({});
-    return /* @__PURE__ */ import_react320.default.createElement(ActivityRow_default, { activity, ref: activityCallbackRef }, /* @__PURE__ */ import_react320.default.createElement(LegacyActivityBridgeComposer_default, { activity }, activityNode));
+    return /* @__PURE__ */ import_react324.default.createElement(ActivityRow_default, { activity, ref: activityCallbackRef }, /* @__PURE__ */ import_react324.default.createElement(LegacyActivityBridgeComposer_default, { activity }, activityNode));
   }
-  var RenderActivity_default = (0, import_react320.memo)(RenderActivity);
+  var RenderActivity_default = (0, import_react324.memo)(RenderActivity);
   var { useGetKeyByActivity: useGetKeyByActivity4 } = hook_exports;
   var renderActivityGroupingPropsSchema = pipe(
     object({
@@ -158005,13 +158200,13 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const { activities: activities2 } = validateProps2(renderActivityGroupingPropsSchema, props);
     const [activityRendererMap] = useActivityRendererMap();
     const getKeyByActivity = useGetKeyByActivity4();
-    return /* @__PURE__ */ import_react319.default.createElement(import_react319.Fragment, null, activities2.map((activity) => {
+    return /* @__PURE__ */ import_react323.default.createElement(import_react323.Fragment, null, activities2.map((activity) => {
       var _a29;
       const children = (_a29 = activityRendererMap.get(activity)) == null ? void 0 : _a29({});
-      return children && /* @__PURE__ */ import_react319.default.createElement(RenderActivity_default, { activity, key: getKeyByActivity(activity) });
+      return children && /* @__PURE__ */ import_react323.default.createElement(RenderActivity_default, { activity, key: getKeyByActivity(activity) });
     }));
   }
-  var RenderActivityGrouping_default = (0, import_react319.memo)(RenderActivityGrouping);
+  var RenderActivityGrouping_default = (0, import_react323.memo)(RenderActivityGrouping);
   var senderGroupingPropsSchema = pipe(
     object({
       activities: pipe(
@@ -158032,17 +158227,17 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const { activities: activities2, children } = parse(senderGroupingPropsSchema, props);
     const firstActivity = activities2[0];
     const lastActivity = activities2.at(-1);
-    const context9 = (0, import_react326.useMemo)(
+    const context9 = (0, import_react330.useMemo)(
       () => Object.freeze({
         firstActivityState: Object.freeze([firstActivity]),
         lastActivityState: Object.freeze([lastActivity])
       }),
       [firstActivity, lastActivity]
     );
-    return /* @__PURE__ */ import_react326.default.createElement(SenderGroupingContext_default.Provider, { value: context9 }, children);
+    return /* @__PURE__ */ import_react330.default.createElement(SenderGroupingContext_default.Provider, { value: context9 }, children);
   };
   SenderGrouping.displayName = "SenderGrouping";
-  var SenderGrouping_default = (0, import_react326.memo)(SenderGrouping);
+  var SenderGrouping_default = (0, import_react330.memo)(SenderGrouping);
   var statusGroupingPropsSchema = pipe(
     object({
       activities: pipe(
@@ -158063,17 +158258,17 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const { activities: activities2, children } = parse(statusGroupingPropsSchema, props);
     const firstActivity = activities2[0];
     const lastActivity = activities2.at(-1);
-    const context9 = (0, import_react327.useMemo)(
+    const context9 = (0, import_react331.useMemo)(
       () => Object.freeze({
         firstActivityState: Object.freeze([firstActivity]),
         lastActivityState: Object.freeze([lastActivity])
       }),
       [firstActivity, lastActivity]
     );
-    return /* @__PURE__ */ import_react327.default.createElement(StatusGroupingContext_default.Provider, { value: context9 }, children);
+    return /* @__PURE__ */ import_react331.default.createElement(StatusGroupingContext_default.Provider, { value: context9 }, children);
   };
   StatusGrouping.displayName = "StatusGrouping";
-  var StatusGrouping_default = (0, import_react327.memo)(StatusGrouping);
+  var StatusGrouping_default = (0, import_react331.memo)(StatusGrouping);
   function createDefaultActivityGroupingDecoratorMiddleware() {
     return Object.freeze([
       createActivityGroupingMiddleware(
@@ -158083,9 +158278,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
   var middleware2 = Object.freeze([...createDefaultActivityGroupingDecoratorMiddleware()]);
   function BuiltInDecorator({ children }) {
-    return /* @__PURE__ */ import_react318.default.createElement(LowPriorityDecoratorComposer_default, { middleware: middleware2 }, children);
+    return /* @__PURE__ */ import_react322.default.createElement(LowPriorityDecoratorComposer_default, { middleware: middleware2 }, children);
   }
-  var BuiltInDecorator_default = (0, import_react318.memo)(BuiltInDecorator);
+  var BuiltInDecorator_default = (0, import_react322.memo)(BuiltInDecorator);
   function useResumeAudioContext() {
     const [{ resumeAudioContext }] = useWebSpeechPonyfill();
     return () => resumeAudioContext && resumeAudioContext();
@@ -158122,7 +158317,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const setDictateState2 = useSetDictateState();
     const stopDictate2 = useStopDictate3();
     const submitSendBox3 = useSubmitSendBox2();
-    const handleDictate = (0, import_react328.useCallback)(
+    const handleDictate = (0, import_react332.useCallback)(
       ({ result: { confidence, transcript } = {} }) => {
         if (dictateState2 === DICTATING3 || dictateState2 === STARTING3) {
           setDictateInterims2([]);
@@ -158135,7 +158330,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       },
       [dictateState2, setDictateInterims2, setSendBox2, submitSendBox3, setShouldSpeakIncomingActivity]
     );
-    const handleDictating = (0, import_react328.useCallback)(
+    const handleDictating = (0, import_react332.useCallback)(
       ({ abortable, results = [] }) => {
         if (dictateState2 === DICTATING3 || dictateState2 === STARTING3) {
           const interims = results.map(({ transcript }) => transcript);
@@ -158147,11 +158342,11 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       },
       [dictateState2, emitTypingIndicator2, sendTypingIndicator2, setDictateAbortable, setDictateInterims2, setDictateState2]
     );
-    const handleEnd = (0, import_react328.useCallback)(() => {
+    const handleEnd = (0, import_react332.useCallback)(() => {
       dictateState2 !== IDLE2 && setDictateState2(IDLE2);
       (dictateState2 === DICTATING3 || dictateState2 === STARTING3) && stopDictate2();
     }, [dictateState2, setDictateState2, stopDictate2]);
-    const handleError = (0, import_react328.useCallback)(
+    const handleError = (0, import_react332.useCallback)(
       (event2) => {
         dictateState2 !== IDLE2 && setDictateState2(IDLE2);
         (dictateState2 === DICTATING3 || dictateState2 === STARTING3) && stopDictate2();
@@ -158159,11 +158354,11 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       },
       [dictateState2, onError, setDictateState2, stopDictate2]
     );
-    (0, import_react328.useEffect)(() => {
+    (0, import_react332.useEffect)(() => {
       window.addEventListener("pointerdown", resumeAudioContext);
       return () => window.removeEventListener("pointerdown", resumeAudioContext);
     }, [resumeAudioContext]);
-    return /* @__PURE__ */ import_react328.default.createElement(
+    return /* @__PURE__ */ import_react332.default.createElement(
       Composer_default4,
       {
         continuous: speechRecognitionContinuous,
@@ -158370,7 +158565,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const trackDimension = useTrackDimension2();
     const speechRecognitionCapability = !!webSpeechPonyfill.SpeechRecognition;
     const speechSynthesisCapability = webSpeechPonyfill.speechSynthesis && webSpeechPonyfill.speechSynthesis !== speechSynthesis;
-    (0, import_react329.useEffect)(() => {
+    (0, import_react333.useEffect)(() => {
       trackDimension("capability:downscaleImage:workerType", checkSupport() ? "web worker" : "main");
       trackDimension("capability:renderer", "html");
       trackDimension("prop:speechRecognition", !!speechRecognitionCapability + "");
@@ -158379,16 +158574,16 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     return null;
   };
   var UITracker_default = Tracker2;
-  var classes10 = { "bubble--hide-nub": "wS0r5AW_bubble--hide-nub", "bubble": "wS0r5AW_bubble", "bubble__nub-pad": "wS0r5AW_bubble__nub-pad", "bubble--from-user": "wS0r5AW_bubble--from-user", "bubble__nub-outline": "wS0r5AW_bubble__nub-outline", "bubble__nub": "wS0r5AW_bubble__nub", "bubble--show-nub": "wS0r5AW_bubble--show-nub", "bubble--nub-on-top": "wS0r5AW_bubble--nub-on-top", "bubble__content": "wS0r5AW_bubble__content" };
+  var classes10 = { "bubble__nub": "wS0r5AW_bubble__nub", "bubble__nub-outline": "wS0r5AW_bubble__nub-outline", "bubble--hide-nub": "wS0r5AW_bubble--hide-nub", "bubble__nub-pad": "wS0r5AW_bubble__nub-pad", "bubble--show-nub": "wS0r5AW_bubble--show-nub", "bubble--nub-on-top": "wS0r5AW_bubble--nub-on-top", "bubble--from-user": "wS0r5AW_bubble--from-user", "bubble": "wS0r5AW_bubble", "bubble__content": "wS0r5AW_bubble__content" };
   var Bubble_module_default = classes10;
-  var _bubble__hide_nub0 = classes10["bubble--hide-nub"];
-  var _bubble0 = classes10["bubble"];
-  var _bubble__nub_pad0 = classes10["bubble__nub-pad"];
-  var _bubble__from_user0 = classes10["bubble--from-user"];
-  var _bubble__nub_outline0 = classes10["bubble__nub-outline"];
   var _bubble__nub0 = classes10["bubble__nub"];
+  var _bubble__nub_outline0 = classes10["bubble__nub-outline"];
+  var _bubble__hide_nub0 = classes10["bubble--hide-nub"];
+  var _bubble__nub_pad0 = classes10["bubble__nub-pad"];
   var _bubble__show_nub0 = classes10["bubble--show-nub"];
   var _bubble__nub_on_top0 = classes10["bubble--nub-on-top"];
+  var _bubble__from_user0 = classes10["bubble--from-user"];
+  var _bubble0 = classes10["bubble"];
   var _bubble__content0 = classes10["bubble__content"];
   var { useStyleOptions: useStyleOptions62 } = hook_exports;
   function acuteNubSVG(nubSize, strokeWidth, side, upSideDown = false, classNames31) {
@@ -158402,7 +158597,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const p1 = [nubSize, halfStrokeWidth].join(" ");
     const p22 = [strokeWidth, halfStrokeWidth].join(" ");
     const p3 = [nubSize + strokeWidth, nubSize + halfStrokeWidth].join(" ");
-    return /* @__PURE__ */ import_react333.default.createElement(
+    return /* @__PURE__ */ import_react337.default.createElement(
       "svg",
       {
         className: classNames31["bubble__nub"],
@@ -158410,7 +158605,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         viewBox: `0 0 ${nubSize} ${nubSize}`,
         xmlns: "http://www.w3.org/2000/svg"
       },
-      /* @__PURE__ */ import_react333.default.createElement("g", { transform: `${horizontalTransform} ${verticalTransform}` }, /* @__PURE__ */ import_react333.default.createElement("path", { className: classNames31["bubble__nub-outline"], d: `M${p1} L${p22} L${p3}` }))
+      /* @__PURE__ */ import_react337.default.createElement("g", { transform: `${horizontalTransform} ${verticalTransform}` }, /* @__PURE__ */ import_react337.default.createElement("path", { className: classNames31["bubble__nub-outline"], d: `M${p1} L${p22} L${p3}` }))
     );
   }
   var bubblePropsSchema = pipe(
@@ -158453,7 +158648,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       nubSize: bubbleNubSize,
       side: "bot"
     };
-    return /* @__PURE__ */ import_react333.default.createElement(
+    return /* @__PURE__ */ import_react337.default.createElement(
       "div",
       {
         "aria-hidden": ariaHidden,
@@ -158468,20 +158663,20 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           className
         )
       },
-      /* @__PURE__ */ import_react333.default.createElement("div", { className: classNames31["bubble__nub-pad"] }),
-      /* @__PURE__ */ import_react333.default.createElement("div", { className: classNames31["bubble__content"] }, children),
+      /* @__PURE__ */ import_react337.default.createElement("div", { className: classNames31["bubble__nub-pad"] }),
+      /* @__PURE__ */ import_react337.default.createElement("div", { className: classNames31["bubble__content"] }, children),
       nub === true && acuteNubSVG(nubSize, borderWidth, side, !isZeroOrPositive(nubOffset), classNames31)
     );
   }
-  var Bubble_default = (0, import_react333.memo)(Bubble);
-  var classes11 = { "carousel-filmstrip-attachment--show-avatar": "wC3CBRG_carousel-filmstrip-attachment--show-avatar", "carousel-filmstrip-attachment--hide-nub": "wC3CBRG_carousel-filmstrip-attachment--hide-nub", "carousel-filmstrip-attachment--hide-avatar": "wC3CBRG_carousel-filmstrip-attachment--hide-avatar", "carousel-filmstrip-attachment--show-nub": "wC3CBRG_carousel-filmstrip-attachment--show-nub", "carousel-filmstrip-attachment": "wC3CBRG_carousel-filmstrip-attachment", "carousel-filmstrip-attachment--focus": "wC3CBRG_carousel-filmstrip-attachment--focus" };
+  var Bubble_default = (0, import_react337.memo)(Bubble);
+  var classes11 = { "carousel-filmstrip-attachment--focus": "wC3CBRG_carousel-filmstrip-attachment--focus", "carousel-filmstrip-attachment--show-nub": "wC3CBRG_carousel-filmstrip-attachment--show-nub", "carousel-filmstrip-attachment--hide-avatar": "wC3CBRG_carousel-filmstrip-attachment--hide-avatar", "carousel-filmstrip-attachment--show-avatar": "wC3CBRG_carousel-filmstrip-attachment--show-avatar", "carousel-filmstrip-attachment--hide-nub": "wC3CBRG_carousel-filmstrip-attachment--hide-nub", "carousel-filmstrip-attachment": "wC3CBRG_carousel-filmstrip-attachment" };
   var CarouselFilmStripAttachment_module_default = classes11;
+  var _carousel_filmstrip_attachment__focus0 = classes11["carousel-filmstrip-attachment--focus"];
+  var _carousel_filmstrip_attachment__show_nub0 = classes11["carousel-filmstrip-attachment--show-nub"];
+  var _carousel_filmstrip_attachment__hide_avatar0 = classes11["carousel-filmstrip-attachment--hide-avatar"];
   var _carousel_filmstrip_attachment__show_avatar0 = classes11["carousel-filmstrip-attachment--show-avatar"];
   var _carousel_filmstrip_attachment__hide_nub0 = classes11["carousel-filmstrip-attachment--hide-nub"];
-  var _carousel_filmstrip_attachment__hide_avatar0 = classes11["carousel-filmstrip-attachment--hide-avatar"];
-  var _carousel_filmstrip_attachment__show_nub0 = classes11["carousel-filmstrip-attachment--show-nub"];
   var _carousel_filmstrip_attachment0 = classes11["carousel-filmstrip-attachment"];
-  var _carousel_filmstrip_attachment__focus0 = classes11["carousel-filmstrip-attachment--focus"];
   var { useLocalizer: useLocalizer14 } = hook_exports;
   var CarouselFilmStripAttachment = ({
     activity,
@@ -158498,7 +158693,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const localize2 = useLocalizer14();
     const classNames31 = useStyles_default(CarouselFilmStripAttachment_module_default);
     const attachedAlt = localize2(fromUser ? "ACTIVITY_YOU_ATTACHED_ALT" : "ACTIVITY_BOT_ATTACHED_ALT");
-    return /* @__PURE__ */ import_react334.default.createElement(
+    return /* @__PURE__ */ import_react338.default.createElement(
       "li",
       {
         "aria-roledescription": "attachment",
@@ -158516,8 +158711,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         role: "listitem",
         tabIndex: 0
       },
-      /* @__PURE__ */ import_react334.default.createElement(ScreenReaderText_default, { text: attachedAlt }),
-      /* @__PURE__ */ import_react334.default.createElement(Bubble_default, { fromUser, key: index2, nub: false }, renderAttachment({ activity, attachment }), /* @__PURE__ */ import_react334.default.createElement("div", { className: classNames31["carousel-filmstrip-attachment--focus"] }))
+      /* @__PURE__ */ import_react338.default.createElement(ScreenReaderText_default, { text: attachedAlt }),
+      /* @__PURE__ */ import_react338.default.createElement(Bubble_default, { fromUser, key: index2, nub: false }, renderAttachment({ activity, attachment }), /* @__PURE__ */ import_react338.default.createElement("div", { className: classNames31["carousel-filmstrip-attachment--focus"] }))
     );
   };
   CarouselFilmStripAttachment.defaultProps = {
@@ -158546,29 +158741,29 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     showNub: import_prop_types31.default.bool.isRequired
   };
   var CarouselFilmStripAttachment_default = CarouselFilmStripAttachment;
-  var classes12 = { "carousel-filmstrip--top-callout": "w1RU2Zq_carousel-filmstrip--top-callout", "carousel-filmstrip__message": "w1RU2Zq_carousel-filmstrip__message", "carousel-filmstrip--show-avatar": "w1RU2Zq_carousel-filmstrip--show-avatar", "carousel-filmstrip__filler": "w1RU2Zq_carousel-filmstrip__filler", "carousel-filmstrip__nub-pad": "w1RU2Zq_carousel-filmstrip__nub-pad", "carousel-filmstrip__main": "w1RU2Zq_carousel-filmstrip__main", "carousel-filmstrip__complimentary": "w1RU2Zq_carousel-filmstrip__complimentary", "carousel-filmstrip--hide-avatar": "w1RU2Zq_carousel-filmstrip--hide-avatar", "carousel-filmstrip--no-message": "w1RU2Zq_carousel-filmstrip--no-message", "carousel-filmstrip--hide-nub": "w1RU2Zq_carousel-filmstrip--hide-nub", "carousel-filmstrip--show-nub": "w1RU2Zq_carousel-filmstrip--show-nub", "carousel-filmstrip__alignment-pad": "w1RU2Zq_carousel-filmstrip__alignment-pad", "carousel-filmstrip__content": "w1RU2Zq_carousel-filmstrip__content", "carousel-filmstrip__attachments": "w1RU2Zq_carousel-filmstrip__attachments", "carousel-filmstrip__avatar": "w1RU2Zq_carousel-filmstrip__avatar", "carousel-filmstrip__avatar-gutter": "w1RU2Zq_carousel-filmstrip__avatar-gutter", "carousel-filmstrip__complimentary-content": "w1RU2Zq_carousel-filmstrip__complimentary-content", "carousel-filmstrip__status": "w1RU2Zq_carousel-filmstrip__status", "carousel-filmstrip": "w1RU2Zq_carousel-filmstrip", "carousel-filmstrip__bubble": "w1RU2Zq_carousel-filmstrip__bubble", "carousel-filmstrip--extra-trailing": "w1RU2Zq_carousel-filmstrip--extra-trailing" };
+  var classes12 = { "carousel-filmstrip__content": "w1RU2Zq_carousel-filmstrip__content", "carousel-filmstrip": "w1RU2Zq_carousel-filmstrip", "carousel-filmstrip--hide-nub": "w1RU2Zq_carousel-filmstrip--hide-nub", "carousel-filmstrip--show-nub": "w1RU2Zq_carousel-filmstrip--show-nub", "carousel-filmstrip__bubble": "w1RU2Zq_carousel-filmstrip__bubble", "carousel-filmstrip--show-avatar": "w1RU2Zq_carousel-filmstrip--show-avatar", "carousel-filmstrip__alignment-pad": "w1RU2Zq_carousel-filmstrip__alignment-pad", "carousel-filmstrip--top-callout": "w1RU2Zq_carousel-filmstrip--top-callout", "carousel-filmstrip__nub-pad": "w1RU2Zq_carousel-filmstrip__nub-pad", "carousel-filmstrip__avatar": "w1RU2Zq_carousel-filmstrip__avatar", "carousel-filmstrip__filler": "w1RU2Zq_carousel-filmstrip__filler", "carousel-filmstrip__avatar-gutter": "w1RU2Zq_carousel-filmstrip__avatar-gutter", "carousel-filmstrip__message": "w1RU2Zq_carousel-filmstrip__message", "carousel-filmstrip--extra-trailing": "w1RU2Zq_carousel-filmstrip--extra-trailing", "carousel-filmstrip--hide-avatar": "w1RU2Zq_carousel-filmstrip--hide-avatar", "carousel-filmstrip__complimentary-content": "w1RU2Zq_carousel-filmstrip__complimentary-content", "carousel-filmstrip__status": "w1RU2Zq_carousel-filmstrip__status", "carousel-filmstrip__main": "w1RU2Zq_carousel-filmstrip__main", "carousel-filmstrip--no-message": "w1RU2Zq_carousel-filmstrip--no-message", "carousel-filmstrip__attachments": "w1RU2Zq_carousel-filmstrip__attachments", "carousel-filmstrip__complimentary": "w1RU2Zq_carousel-filmstrip__complimentary" };
   var CarouselFilmStrip_module_default = classes12;
-  var _carousel_filmstrip__top_callout0 = classes12["carousel-filmstrip--top-callout"];
-  var _carousel_filmstrip__message0 = classes12["carousel-filmstrip__message"];
-  var _carousel_filmstrip__show_avatar0 = classes12["carousel-filmstrip--show-avatar"];
-  var _carousel_filmstrip__filler0 = classes12["carousel-filmstrip__filler"];
-  var _carousel_filmstrip__nub_pad0 = classes12["carousel-filmstrip__nub-pad"];
-  var _carousel_filmstrip__main0 = classes12["carousel-filmstrip__main"];
-  var _carousel_filmstrip__complimentary0 = classes12["carousel-filmstrip__complimentary"];
-  var _carousel_filmstrip__hide_avatar0 = classes12["carousel-filmstrip--hide-avatar"];
-  var _carousel_filmstrip__no_message0 = classes12["carousel-filmstrip--no-message"];
+  var _carousel_filmstrip__content0 = classes12["carousel-filmstrip__content"];
+  var _carousel_filmstrip0 = classes12["carousel-filmstrip"];
   var _carousel_filmstrip__hide_nub0 = classes12["carousel-filmstrip--hide-nub"];
   var _carousel_filmstrip__show_nub0 = classes12["carousel-filmstrip--show-nub"];
+  var _carousel_filmstrip__bubble0 = classes12["carousel-filmstrip__bubble"];
+  var _carousel_filmstrip__show_avatar0 = classes12["carousel-filmstrip--show-avatar"];
   var _carousel_filmstrip__alignment_pad0 = classes12["carousel-filmstrip__alignment-pad"];
-  var _carousel_filmstrip__content0 = classes12["carousel-filmstrip__content"];
-  var _carousel_filmstrip__attachments0 = classes12["carousel-filmstrip__attachments"];
+  var _carousel_filmstrip__top_callout0 = classes12["carousel-filmstrip--top-callout"];
+  var _carousel_filmstrip__nub_pad0 = classes12["carousel-filmstrip__nub-pad"];
   var _carousel_filmstrip__avatar0 = classes12["carousel-filmstrip__avatar"];
+  var _carousel_filmstrip__filler0 = classes12["carousel-filmstrip__filler"];
   var _carousel_filmstrip__avatar_gutter0 = classes12["carousel-filmstrip__avatar-gutter"];
+  var _carousel_filmstrip__message0 = classes12["carousel-filmstrip__message"];
+  var _carousel_filmstrip__extra_trailing0 = classes12["carousel-filmstrip--extra-trailing"];
+  var _carousel_filmstrip__hide_avatar0 = classes12["carousel-filmstrip--hide-avatar"];
   var _carousel_filmstrip__complimentary_content0 = classes12["carousel-filmstrip__complimentary-content"];
   var _carousel_filmstrip__status0 = classes12["carousel-filmstrip__status"];
-  var _carousel_filmstrip0 = classes12["carousel-filmstrip"];
-  var _carousel_filmstrip__bubble0 = classes12["carousel-filmstrip__bubble"];
-  var _carousel_filmstrip__extra_trailing0 = classes12["carousel-filmstrip--extra-trailing"];
+  var _carousel_filmstrip__main0 = classes12["carousel-filmstrip__main"];
+  var _carousel_filmstrip__no_message0 = classes12["carousel-filmstrip--no-message"];
+  var _carousel_filmstrip__attachments0 = classes12["carousel-filmstrip__attachments"];
+  var _carousel_filmstrip__complimentary0 = classes12["carousel-filmstrip__complimentary"];
   var { useAvatarForBot: useAvatarForBot22, useAvatarForUser: useAvatarForUser2, useLocalizer: useLocalizer15, useStyleOptions: useStyleOptions72 } = hook_exports;
   var CarouselFilmStrip = ({
     activity,
@@ -158611,7 +158806,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const showAvatar = showCallout && hasAvatar && !!renderAvatar;
     const showNub = showCallout && hasNub && (topAlignedCallout || !attachments.length);
     const hideNub = hasNub && !showNub;
-    return /* @__PURE__ */ import_react332.default.createElement(
+    return /* @__PURE__ */ import_react336.default.createElement(
       "div",
       {
         className: (0, import_classnames59.default)(
@@ -158630,7 +158825,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         ),
         ref: scrollableCallbackRef
       },
-      /* @__PURE__ */ import_react332.default.createElement("div", { className: classNames31["carousel-filmstrip__main"] }, /* @__PURE__ */ import_react332.default.createElement("div", { className: classNames31["carousel-filmstrip__avatar-gutter"] }, showAvatar && renderAvatar({ activity })), /* @__PURE__ */ import_react332.default.createElement("div", { className: classNames31["carousel-filmstrip__content"] }, !!activityDisplayText && /* @__PURE__ */ import_react332.default.createElement("div", { "aria-roledescription": "message", className: classNames31["carousel-filmstrip__message"], role: "group" }, /* @__PURE__ */ import_react332.default.createElement(ScreenReaderText_default, { text: greetingAlt }), /* @__PURE__ */ import_react332.default.createElement(
+      /* @__PURE__ */ import_react336.default.createElement("div", { className: classNames31["carousel-filmstrip__main"] }, /* @__PURE__ */ import_react336.default.createElement("div", { className: classNames31["carousel-filmstrip__avatar-gutter"] }, showAvatar && renderAvatar({ activity })), /* @__PURE__ */ import_react336.default.createElement("div", { className: classNames31["carousel-filmstrip__content"] }, !!activityDisplayText && /* @__PURE__ */ import_react336.default.createElement("div", { "aria-roledescription": "message", className: classNames31["carousel-filmstrip__message"], role: "group" }, /* @__PURE__ */ import_react336.default.createElement(ScreenReaderText_default, { text: greetingAlt }), /* @__PURE__ */ import_react336.default.createElement(
         Bubble_default,
         {
           className: classNames31["carousel-filmstrip__bubble"],
@@ -158644,13 +158839,13 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
             contentType: textFormatToContentType(textFormat)
           }
         })
-      ), /* @__PURE__ */ import_react332.default.createElement("div", { className: classNames31["carousel-filmstrip__filler"] })), /* @__PURE__ */ import_react332.default.createElement("div", { className: classNames31["carousel-filmstrip__complimentary"] }, /* @__PURE__ */ import_react332.default.createElement("div", { className: classNames31["carousel-filmstrip__nub-pad"] }), /* @__PURE__ */ import_react332.default.createElement("div", { className: classNames31["carousel-filmstrip__complimentary-content"] }, /* @__PURE__ */ import_react332.default.createElement(
+      ), /* @__PURE__ */ import_react336.default.createElement("div", { className: classNames31["carousel-filmstrip__filler"] })), /* @__PURE__ */ import_react336.default.createElement("div", { className: classNames31["carousel-filmstrip__complimentary"] }, /* @__PURE__ */ import_react336.default.createElement("div", { className: classNames31["carousel-filmstrip__nub-pad"] }), /* @__PURE__ */ import_react336.default.createElement("div", { className: classNames31["carousel-filmstrip__complimentary-content"] }, /* @__PURE__ */ import_react336.default.createElement(
         "ul",
         {
           className: (0, import_classnames59.default)(classNames31["carousel-filmstrip__attachments"], "react-film__filmstrip__list"),
           ref: itemContainerCallbackRef
         },
-        attachments.map((attachment, index2) => /* @__PURE__ */ import_react332.default.createElement(
+        attachments.map((attachment, index2) => /* @__PURE__ */ import_react336.default.createElement(
           CarouselFilmStripAttachment_default,
           {
             activity,
@@ -158665,8 +158860,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
             showNub
           }
         ))
-      )))), /* @__PURE__ */ import_react332.default.createElement("div", { className: classNames31["carousel-filmstrip__alignment-pad"] })),
-      showActivityStatus && /* @__PURE__ */ import_react332.default.createElement("div", { className: classNames31["carousel-filmstrip__status"] }, /* @__PURE__ */ import_react332.default.createElement("div", { className: classNames31["carousel-filmstrip__avatar-gutter"] }), /* @__PURE__ */ import_react332.default.createElement("div", { className: classNames31["carousel-filmstrip__nub-pad"] }), renderActivityStatus({ hideTimestamp }))
+      )))), /* @__PURE__ */ import_react336.default.createElement("div", { className: classNames31["carousel-filmstrip__alignment-pad"] })),
+      showActivityStatus && /* @__PURE__ */ import_react336.default.createElement("div", { className: classNames31["carousel-filmstrip__status"] }, /* @__PURE__ */ import_react336.default.createElement("div", { className: classNames31["carousel-filmstrip__avatar-gutter"] }), /* @__PURE__ */ import_react336.default.createElement("div", { className: classNames31["carousel-filmstrip__nub-pad"] }), renderActivityStatus({ hideTimestamp }))
     );
   };
   CarouselFilmStrip.defaultProps = {
@@ -158723,7 +158918,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const previousAlt = localize2("CAROUSEL_FLIPPER_PREVIOUS_ALT");
     const leftFlipperAriaLabel = direction === "rtl" ? nextAlt : previousAlt;
     const rightFlipperAriaLabel = direction === "rtl" ? previousAlt : nextAlt;
-    return /* @__PURE__ */ import_react331.default.createElement("div", { className: (0, import_classnames58.default)(classNames31["carousel-layout"], filmRootClassName) }, /* @__PURE__ */ import_react331.default.createElement("div", { className: (0, import_classnames58.default)("react-film__main", { "react-film__main--scrolling": scrolling }) }, /* @__PURE__ */ import_react331.default.createElement(
+    return /* @__PURE__ */ import_react335.default.createElement("div", { className: (0, import_classnames58.default)(classNames31["carousel-layout"], filmRootClassName) }, /* @__PURE__ */ import_react335.default.createElement("div", { className: (0, import_classnames58.default)("react-film__main", { "react-film__main--scrolling": scrolling }) }, /* @__PURE__ */ import_react335.default.createElement(
       CarouselFilmStrip_default,
       {
         activity,
@@ -158733,7 +158928,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         renderAvatar,
         showCallout
       }
-    ), scrollBarWidth !== "100%" && /* @__PURE__ */ import_react331.default.createElement(import_react331.default.Fragment, null, /* @__PURE__ */ import_react331.default.createElement(Flipper_default, { "aria-label": leftFlipperAriaLabel, blurFocusOnClick: true, mode: "left" }, leftSideFlipper), /* @__PURE__ */ import_react331.default.createElement(Flipper_default, { "aria-label": rightFlipperAriaLabel, blurFocusOnClick: true, mode: "right" }, rightSideFlipper))));
+    ), scrollBarWidth !== "100%" && /* @__PURE__ */ import_react335.default.createElement(import_react335.default.Fragment, null, /* @__PURE__ */ import_react335.default.createElement(Flipper_default, { "aria-label": leftFlipperAriaLabel, blurFocusOnClick: true, mode: "left" }, leftSideFlipper), /* @__PURE__ */ import_react335.default.createElement(Flipper_default, { "aria-label": rightFlipperAriaLabel, blurFocusOnClick: true, mode: "right" }, rightSideFlipper))));
   };
   CarouselLayoutCore.defaultProps = {
     hideTimestamp: false,
@@ -158755,10 +158950,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const { activity: { attachments = [] } = {} } = props;
     const [direction] = useDirection23();
     const [nonce] = useNonce();
-    const filmStyleSet = (0, import_react331.useMemo)(() => createBasicStyleSet({ cursor: null }), []);
+    const filmStyleSet = (0, import_react335.useMemo)(() => createBasicStyleSet({ cursor: null }), []);
     const [{ stylesRoot }] = useStyleOptions82();
-    const styleOptions = (0, import_react331.useMemo)(() => ({ stylesRoot }), [stylesRoot]);
-    return /* @__PURE__ */ import_react331.default.createElement(
+    const styleOptions = (0, import_react335.useMemo)(() => ({ stylesRoot }), [stylesRoot]);
+    return /* @__PURE__ */ import_react335.default.createElement(
       Composer_default2,
       {
         dir: direction,
@@ -158767,7 +158962,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         styleOptions,
         styleSet: filmStyleSet
       },
-      /* @__PURE__ */ import_react331.default.createElement(CarouselLayoutCore, { ...props })
+      /* @__PURE__ */ import_react335.default.createElement(CarouselLayoutCore, { ...props })
     );
   };
   CarouselLayout.defaultProps = {
@@ -158776,7 +158971,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   CarouselLayout.propTypes = {
     ...CarouselLayoutCore.propTypes
   };
-  var CarouselLayout_default = (0, import_react331.memo)(CarouselLayout);
+  var CarouselLayout_default = (0, import_react335.memo)(CarouselLayout);
   var attachmentRowPropsSchema = pipe(
     object({
       attachedAlt: string(),
@@ -158798,7 +158993,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       showBubble = true
     } = validateProps2(attachmentRowPropsSchema, props);
     const classNames31 = useStyles_default(StackedLayout_module_default);
-    return /* @__PURE__ */ import_react336.default.createElement("div", { "aria-roledescription": "attachment", className: classNames31["stacked-layout__attachment-row"], role: "group" }, /* @__PURE__ */ import_react336.default.createElement(ScreenReaderText_default, { text: attachedAlt }), showBubble ? /* @__PURE__ */ import_react336.default.createElement(
+    return /* @__PURE__ */ import_react340.default.createElement("div", { "aria-roledescription": "attachment", className: classNames31["stacked-layout__attachment-row"], role: "group" }, /* @__PURE__ */ import_react340.default.createElement(ScreenReaderText_default, { text: attachedAlt }), showBubble ? /* @__PURE__ */ import_react340.default.createElement(
       Bubble_default,
       {
         className: classNames31["stacked-layout__attachment"],
@@ -158806,15 +159001,15 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         nub: hasAvatar || hasNub ? "hidden" : false
       },
       children
-    ) : /* @__PURE__ */ import_react336.default.createElement("div", { className: (0, import_classnames63.default)(classNames31["stacked-layout__attachment"]) }, children));
+    ) : /* @__PURE__ */ import_react340.default.createElement("div", { className: (0, import_classnames63.default)(classNames31["stacked-layout__attachment"]) }, children));
   }
-  var AttachmentRow_default = (0, import_react336.memo)(AttachmentRow);
-  var classes14 = { "code-block-content": "w_R1nMW_code-block-content", "code-block-content__title": "w_R1nMW_code-block-content__title", "code-block-content__code-block": "w_R1nMW_code-block-content__code-block", "code-block-content__header": "w_R1nMW_code-block-content__header" };
+  var AttachmentRow_default = (0, import_react340.memo)(AttachmentRow);
+  var classes14 = { "code-block-content__header": "w_R1nMW_code-block-content__header", "code-block-content__title": "w_R1nMW_code-block-content__title", "code-block-content__code-block": "w_R1nMW_code-block-content__code-block", "code-block-content": "w_R1nMW_code-block-content" };
   var CodeBlockContent_module_default = classes14;
-  var _code_block_content0 = classes14["code-block-content"];
+  var _code_block_content__header0 = classes14["code-block-content__header"];
   var _code_block_content__title0 = classes14["code-block-content__title"];
   var _code_block_content__code_block0 = classes14["code-block-content__code-block"];
-  var _code_block_content__header0 = classes14["code-block-content__header"];
+  var _code_block_content0 = classes14["code-block-content"];
   var codeBlockContentPropsSchema = pipe(
     object({
       code: string(),
@@ -158827,16 +159022,16 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const { code: code2, language: language2, title } = validateProps2(codeBlockContentPropsSchema, props);
     const classNames31 = useStyles_default(CodeBlockContent_module_default);
     const [, CodeBlock2] = useCodeBlockTag();
-    return /* @__PURE__ */ import_react337.default.createElement("div", { className: classNames31["code-block-content"] }, title && /* @__PURE__ */ import_react337.default.createElement("div", { className: (0, import_classnames64.default)(classNames31["code-block-content__header"]) }, /* @__PURE__ */ import_react337.default.createElement("div", { className: (0, import_classnames64.default)(classNames31["code-block-content__title"]) }, title)), /* @__PURE__ */ import_react337.default.createElement(CodeBlock2, { className: (0, import_classnames64.default)(classNames31["code-block-content__code-block"]), language: language2 }, /* @__PURE__ */ import_react337.default.createElement("code", null, code2)));
+    return /* @__PURE__ */ import_react341.default.createElement("div", { className: classNames31["code-block-content"] }, title && /* @__PURE__ */ import_react341.default.createElement("div", { className: (0, import_classnames64.default)(classNames31["code-block-content__header"]) }, /* @__PURE__ */ import_react341.default.createElement("div", { className: (0, import_classnames64.default)(classNames31["code-block-content__title"]) }, title)), /* @__PURE__ */ import_react341.default.createElement(CodeBlock2, { className: (0, import_classnames64.default)(classNames31["code-block-content__code-block"]), language: language2 }, /* @__PURE__ */ import_react341.default.createElement("code", null, code2)));
   }
-  var CodeBlockContent_default = (0, import_react337.memo)(CodeBlockContent);
-  var classes15 = { "collapsible-content": "wwif4Va_collapsible-content", "collapsible-content__summary": "wwif4Va_collapsible-content__summary", "collapsible-content__summary-text": "wwif4Va_collapsible-content__summary-text", "collapsible-content__content": "wwif4Va_collapsible-content__content", "collapsible-content__chevron": "wwif4Va_collapsible-content__chevron" };
+  var CodeBlockContent_default = (0, import_react341.memo)(CodeBlockContent);
+  var classes15 = { "collapsible-content__content": "wwif4Va_collapsible-content__content", "collapsible-content__chevron": "wwif4Va_collapsible-content__chevron", "collapsible-content": "wwif4Va_collapsible-content", "collapsible-content__summary": "wwif4Va_collapsible-content__summary", "collapsible-content__summary-text": "wwif4Va_collapsible-content__summary-text" };
   var CollapsibleContent_module_default = classes15;
+  var _collapsible_content__content0 = classes15["collapsible-content__content"];
+  var _collapsible_content__chevron0 = classes15["collapsible-content__chevron"];
   var _collapsible_content0 = classes15["collapsible-content"];
   var _collapsible_content__summary0 = classes15["collapsible-content__summary"];
   var _collapsible_content__summary_text0 = classes15["collapsible-content__summary-text"];
-  var _collapsible_content__content0 = classes15["collapsible-content__content"];
-  var _collapsible_content__chevron0 = classes15["collapsible-content__chevron"];
   var collapsibleContentPropsSchema = pipe(
     object({
       children: reactNode_default(),
@@ -158850,10 +159045,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
   function CollapsibleContent(props) {
     const { children, summary, summaryClassName } = validateProps2(collapsibleContentPropsSchema, props);
-    const [id] = (0, import_react338.useState)(() => `webchat-collapsible-content-${uniqueId22()}`);
+    const [id] = (0, import_react342.useState)(() => `webchat-collapsible-content-${uniqueId22()}`);
     const classNames31 = useStyles_default(CollapsibleContent_module_default);
-    const summaryRef = (0, import_react338.useRef)(null);
-    const handleToggle = (0, import_react338.useCallback)((event2) => {
+    const summaryRef = (0, import_react342.useRef)(null);
+    const handleToggle = (0, import_react342.useCallback)((event2) => {
       const summary2 = summaryRef.current;
       const details = event2.target;
       if (summary2 && details && details instanceof HTMLDetailsElement) {
@@ -158864,7 +159059,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     }, []);
     return (
       // eslint-disable-next-line react/forbid-dom-props
-      /* @__PURE__ */ import_react338.default.createElement("details", { className: (0, import_classnames65.default)(classNames31["collapsible-content"]), id, onToggle: handleToggle }, /* @__PURE__ */ import_react338.default.createElement(
+      /* @__PURE__ */ import_react342.default.createElement("details", { className: (0, import_classnames65.default)(classNames31["collapsible-content"]), id, onToggle: handleToggle }, /* @__PURE__ */ import_react342.default.createElement(
         "summary",
         {
           "aria-controls": id,
@@ -158874,14 +159069,14 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           ref: summaryRef,
           role: "button"
         },
-        summary && /* @__PURE__ */ import_react338.default.createElement("span", { className: classNames31["collapsible-content__summary-text"] }, summary),
-        /* @__PURE__ */ import_react338.default.createElement(ComponentIcon_default, { appearance: "text", className: classNames31["collapsible-content__chevron"], icon: "chevron" })
-      ), /* @__PURE__ */ import_react338.default.createElement("div", { className: classNames31["collapsible-content__content"] }, children))
+        summary && /* @__PURE__ */ import_react342.default.createElement("span", { className: classNames31["collapsible-content__summary-text"] }, summary),
+        /* @__PURE__ */ import_react342.default.createElement(ComponentIcon_default, { appearance: "text", className: classNames31["collapsible-content__chevron"], icon: "chevron" })
+      ), /* @__PURE__ */ import_react342.default.createElement("div", { className: classNames31["collapsible-content__content"] }, children))
     );
   }
-  var CollapsibleContent_default = (0, import_react338.memo)(CollapsibleContent);
+  var CollapsibleContent_default = (0, import_react342.memo)(CollapsibleContent);
   var { useAvatarForBot: useAvatarForBot32, useAvatarForUser: useAvatarForUser22, useLocalizer: useLocalizer17, useGetKeyByActivity: useGetKeyByActivity5, useStyleOptions: useStyleOptions92 } = hook_exports;
-  var StackedLayoutInner = (0, import_react335.memo)(
+  var StackedLayoutInner = (0, import_react339.memo)(
     ({
       activity,
       children,
@@ -158898,9 +159093,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       const [{ initials: botInitials }] = useAvatarForBot32();
       const localize2 = useLocalizer17();
       const classNames31 = useStyles_default(StackedLayout_module_default);
-      const messageThing = (0, import_react335.useMemo)(() => getOrgSchemaMessage(activity.entities), [activity]);
+      const messageThing = (0, import_react339.useMemo)(() => getOrgSchemaMessage(activity.entities), [activity]);
       const greetingAlt = (fromUser ? localize2("ACTIVITY_YOU_SAID_ALT") : localize2("ACTIVITY_BOT_SAID_ALT", botInitials || "")).replace(/\s{2,}/gu, " ");
-      return /* @__PURE__ */ import_react335.default.createElement(StackedLayoutMain_default, { avatar: showAvatar && renderAvatar && renderAvatar() }, !!(hasDisplayText || (messageThing == null ? void 0 : messageThing.abstract)) && /* @__PURE__ */ import_react335.default.createElement(
+      return /* @__PURE__ */ import_react339.default.createElement(StackedLayoutMain_default, { avatar: showAvatar && renderAvatar && renderAvatar() }, !!(hasDisplayText || (messageThing == null ? void 0 : messageThing.abstract)) && /* @__PURE__ */ import_react339.default.createElement(
         "div",
         {
           "aria-roledescription": "message",
@@ -158908,17 +159103,17 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           id,
           role: "group"
         },
-        /* @__PURE__ */ import_react335.default.createElement(ScreenReaderText_default, { text: greetingAlt }),
-        /* @__PURE__ */ import_react335.default.createElement(
+        /* @__PURE__ */ import_react339.default.createElement(ScreenReaderText_default, { text: greetingAlt }),
+        /* @__PURE__ */ import_react339.default.createElement(
           Bubble_default,
           {
             className: classNames31["stacked-layout__message"],
             fromUser,
             nub: showNub || (hasAvatar || hasNub ? "hidden" : false)
           },
-          /* @__PURE__ */ import_react335.default.createElement(ActivityBorderDecorator_default, { activity }, renderBubbleContent(messageThing == null ? void 0 : messageThing.abstract))
+          /* @__PURE__ */ import_react339.default.createElement(ActivityBorderDecorator_default, { activity }, renderBubbleContent(messageThing == null ? void 0 : messageThing.abstract))
         )
-      ), /* @__PURE__ */ import_react335.default.createElement("div", { className: classNames31["stacked-layout__attachment-list"] }, children));
+      ), /* @__PURE__ */ import_react339.default.createElement("div", { className: classNames31["stacked-layout__attachment-list"] }, children));
     }
   );
   StackedLayoutInner.displayName = "StackedLayoutInner";
@@ -158939,11 +159134,11 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const classNames31 = useStyles_default(StackedLayout_module_default);
     const { bubbleNubOffset, bubbleNubSize, bubbleFromUserNubOffset, bubbleFromUserNubSize } = styleOptions;
     const isMessageOrTyping = activity.type === "message" || activity.type === "typing";
-    const attachments = (0, import_react335.useMemo)(() => isMessageOrTyping && activity.attachments || [], [activity, isMessageOrTyping]);
+    const attachments = (0, import_react339.useMemo)(() => isMessageOrTyping && activity.attachments || [], [activity, isMessageOrTyping]);
     const fromUser = activity.from.role === "user" || getVoiceActivityRole_default(activity) === "user";
     const messageBackDisplayText = isMessageOrTyping && ((_b4 = (_a29 = activity.channelData) == null ? void 0 : _a29.messageBack) == null ? void 0 : _b4.displayText) || "";
-    const messageThing = (0, import_react335.useMemo)(() => getOrgSchemaMessage(activity.entities), [activity]);
-    const isCollapsible = (0, import_react335.useMemo)(() => {
+    const messageThing = (0, import_react339.useMemo)(() => getOrgSchemaMessage(activity.entities), [activity]);
+    const isCollapsible = (0, import_react339.useMemo)(() => {
       var _a30;
       return (_a30 = messageThing == null ? void 0 : messageThing.keywords) == null ? void 0 : _a30.includes("Collapsible");
     }, [messageThing]);
@@ -158965,8 +159160,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const showAvatar = showCallout && hasAvatar && !!renderAvatar;
     const showNub = !isInGroup && showCallout && hasNub && (topAlignedCallout || !(attachments == null ? void 0 : attachments.length));
     const showStatus = !!(messageThing == null ? void 0 : messageThing.creativeWorkStatus) || isInGroup;
-    const renderMainBubbleContent = (0, import_react335.useCallback)(
-      (title = "", withStatus = true) => /* @__PURE__ */ import_react335.default.createElement("div", { className: classNames31["stacked-layout__bubble"] }, withStatus && showStatus && /* @__PURE__ */ import_react335.default.createElement(StackedLayoutMessageStatus_default, { creativeWorkStatus: messageThing == null ? void 0 : messageThing.creativeWorkStatus }), title && /* @__PURE__ */ import_react335.default.createElement("div", { className: classNames31["stacked-layout__title"] }, title), activityDisplayText && renderAttachment({
+    const renderMainBubbleContent = (0, import_react339.useCallback)(
+      (title = "", withStatus = true) => /* @__PURE__ */ import_react339.default.createElement("div", { className: classNames31["stacked-layout__bubble"] }, withStatus && showStatus && /* @__PURE__ */ import_react339.default.createElement(StackedLayoutMessageStatus_default, { creativeWorkStatus: messageThing == null ? void 0 : messageThing.creativeWorkStatus }), title && /* @__PURE__ */ import_react339.default.createElement("div", { className: classNames31["stacked-layout__title"] }, title), activityDisplayText && renderAttachment({
         activity,
         attachment: {
           content: activityDisplayText,
@@ -158975,7 +159170,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       })),
       [activity, activityDisplayText, classNames31, messageThing == null ? void 0 : messageThing.creativeWorkStatus, renderAttachment, showStatus]
     );
-    const attachmentChildren = (0, import_react335.useMemo)(() => {
+    const attachmentChildren = (0, import_react339.useMemo)(() => {
       const syntheticAttachments = [];
       const attachmentAlt = localize2(
         fromUser ? "ACTIVITY_YOU_ATTACHED_ALT" : "ACTIVITY_BOT_ATTACHED_ALT",
@@ -158983,7 +159178,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       );
       if (isCollapsible && "text" in activity && activity.text) {
         syntheticAttachments.push(
-          /* @__PURE__ */ import_react335.default.createElement(
+          /* @__PURE__ */ import_react339.default.createElement(
             AttachmentRow_default,
             {
               attachedAlt: attachmentAlt,
@@ -158999,7 +159194,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       }
       if (isCollapsible && isBasedOnSoftwareSourceCode(messageThing)) {
         syntheticAttachments.push(
-          /* @__PURE__ */ import_react335.default.createElement(
+          /* @__PURE__ */ import_react339.default.createElement(
             AttachmentRow_default,
             {
               attachedAlt: attachmentAlt,
@@ -159009,7 +159204,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
               key: syntheticAttachments.length,
               showBubble: false
             },
-            /* @__PURE__ */ import_react335.default.createElement(
+            /* @__PURE__ */ import_react339.default.createElement(
               CodeBlockContent_default,
               {
                 code: messageThing.isBasedOn.text,
@@ -159022,7 +159217,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         );
       }
       return syntheticAttachments.concat(
-        attachments.map((attachment, index2) => /* @__PURE__ */ import_react335.default.createElement(
+        attachments.map((attachment, index2) => /* @__PURE__ */ import_react339.default.createElement(
           AttachmentRow_default,
           {
             attachedAlt: attachmentAlt,
@@ -159048,19 +159243,19 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       renderAttachment,
       renderMainBubbleContent
     ]);
-    const renderCollapsibleBubbleContent = (0, import_react335.useCallback)(
-      (title = "") => /* @__PURE__ */ import_react335.default.createElement("div", { className: classNames31["stacked-layout__bubble"] }, showStatus && /* @__PURE__ */ import_react335.default.createElement(StackedLayoutMessageStatus_default, { creativeWorkStatus: messageThing == null ? void 0 : messageThing.creativeWorkStatus }), /* @__PURE__ */ import_react335.default.createElement(
+    const renderCollapsibleBubbleContent = (0, import_react339.useCallback)(
+      (title = "") => /* @__PURE__ */ import_react339.default.createElement("div", { className: classNames31["stacked-layout__bubble"] }, showStatus && /* @__PURE__ */ import_react339.default.createElement(StackedLayoutMessageStatus_default, { creativeWorkStatus: messageThing == null ? void 0 : messageThing.creativeWorkStatus }), /* @__PURE__ */ import_react339.default.createElement(
         CollapsibleContent_default,
         {
           summary: title,
           summaryClassName: (0, import_classnames62.default)(classNames31["stacked-layout__title"], classNames31["stacked-layout__title--collapsible"])
         },
-        /* @__PURE__ */ import_react335.default.createElement("div", { className: classNames31["stacked-layout__attachment-list"] }, attachmentChildren)
+        /* @__PURE__ */ import_react339.default.createElement("div", { className: classNames31["stacked-layout__attachment-list"] }, attachmentChildren)
       )),
       [attachmentChildren, classNames31, messageThing == null ? void 0 : messageThing.creativeWorkStatus, showStatus]
     );
     const renderBubbleContent = isCollapsible ? renderCollapsibleBubbleContent : renderMainBubbleContent;
-    return /* @__PURE__ */ import_react335.default.createElement(
+    return /* @__PURE__ */ import_react339.default.createElement(
       StackedLayoutRoot_default,
       {
         ariaLabelId: activityDisplayText ? ariaLabelId : void 0,
@@ -159074,7 +159269,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         showNub,
         topCallout: topAlignedCallout
       },
-      /* @__PURE__ */ import_react335.default.createElement(
+      /* @__PURE__ */ import_react339.default.createElement(
         StackedLayoutInner,
         {
           activity,
@@ -159090,11 +159285,11 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         },
         !isCollapsible && attachmentChildren.length > 0 && attachmentChildren
       ),
-      renderActivityStatus && !isInGroup && /* @__PURE__ */ import_react335.default.createElement(StackedLayoutStatus_default, null, renderActivityStatus({ hideTimestamp }))
+      renderActivityStatus && !isInGroup && /* @__PURE__ */ import_react339.default.createElement(StackedLayoutStatus_default, null, renderActivityStatus({ hideTimestamp }))
     );
   };
   StackedLayout.displayName = "StackedLayout";
-  var StackedLayout_default = (0, import_react335.memo)(StackedLayout);
+  var StackedLayout_default = (0, import_react339.memo)(StackedLayout);
   function shouldFilterActivity(activity, messageThing) {
     var _a29, _b4, _c3, _d2, _e3;
     const { type: type2 } = activity;
@@ -159122,14 +159317,14 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
               typeof props === "undefined" && console.warn(
                 "botframework-webchat: One or more arguments were missing after passing through the activity middleware. Please check your custom activity middleware to make sure it passes all arguments."
               );
-              return /* @__PURE__ */ import_react330.default.createElement(CarouselLayout_default, { activity, renderAttachment, ...props });
+              return /* @__PURE__ */ import_react334.default.createElement(CarouselLayout_default, { activity, renderAttachment, ...props });
             };
           }
           return function renderStackedLayout(renderAttachment, props) {
             typeof props === "undefined" && console.warn(
               "botframework-webchat: One or more arguments were missing after passing through the activity middleware. Please check your custom activity middleware to make sure it passes all arguments."
             );
-            return /* @__PURE__ */ import_react330.default.createElement(StackedLayout_default, { activity, renderAttachment, ...props });
+            return /* @__PURE__ */ import_react334.default.createElement(StackedLayout_default, { activity, renderAttachment, ...props });
           };
         }
         return next2(...args);
@@ -159203,7 +159398,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const [markdownIt2] = useInternalMarkdownIt_default();
     const [{ accent: accent2 }] = useStyleOptions102();
     const styleToClassName2 = useStyleToEmotionObject();
-    const className = (0, import_react342.useMemo)(
+    const className = (0, import_react346.useMemo)(
       () => styleToClassName2({
         "& button[data-markdown-href]": {
           appearance: "none",
@@ -159235,7 +159430,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       },
       { hrefToRef: {}, refToHref: {} }
     );
-    const html5 = (0, import_react342.useMemo)(() => {
+    const html5 = (0, import_react346.useMemo)(() => {
       const tree = markdownIt2.parseInline(children, {
         references: references.reduce(
           (references2, key2) => (
@@ -159249,7 +159444,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       const updatedTree = replaceAnchorWithButton(tree);
       return { __html: markdownIt2.renderer.render(updatedTree) };
     }, [children, refToHref, markdownIt2, references]);
-    const handleClick = (0, import_react342.useCallback)(
+    const handleClick = (0, import_react346.useCallback)(
       (event2) => {
         event2.stopPropagation();
         const href = event2.target.getAttribute("data-markdown-href");
@@ -159264,7 +159459,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       },
       [hrefToRef, onReference]
     );
-    return /* @__PURE__ */ import_react342.default.createElement("span", { className, dangerouslySetInnerHTML: html5, onClick: handleClick });
+    return /* @__PURE__ */ import_react346.default.createElement("span", { className, dangerouslySetInnerHTML: html5, onClick: handleClick });
   };
   InlineMarkdown.defaultProps = {
     children: "",
@@ -159280,22 +159475,22 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   var { useLocalizer: useLocalizer18 } = hook_exports;
   var MARKDOWN_REFERENCES = ["RETRY"];
   var SendFailedRetry = ({ onRetryClick }) => {
-    const handleReference = (0, import_react341.useCallback)(({ data }) => data === "RETRY" && onRetryClick(), [onRetryClick]);
+    const handleReference = (0, import_react345.useCallback)(({ data }) => data === "RETRY" && onRetryClick(), [onRetryClick]);
     const localize2 = useLocalizer18();
     const sendFailedText = localize2("ACTIVITY_STATUS_SEND_FAILED_RETRY");
-    return /* @__PURE__ */ import_react341.default.createElement(InlineMarkdown_default, { onReference: handleReference, references: MARKDOWN_REFERENCES }, sendFailedText);
+    return /* @__PURE__ */ import_react345.default.createElement(InlineMarkdown_default, { onReference: handleReference, references: MARKDOWN_REFERENCES }, sendFailedText);
   };
   SendFailedRetry.propTypes = {
     onRetryClick: import_prop_types32.default.func.isRequired
   };
   var SendFailedRetry_default = SendFailedRetry;
-  var classes16 = { "activity-status__originator": "wlpDjkW_activity-status__originator", "activity-status__originator--has-link": "wlpDjkW_activity-status__originator--has-link", "activity-status": "wlpDjkW_activity-status", "activity-status-slot": "wlpDjkW_activity-status-slot", "activity-status--slotted": "wlpDjkW_activity-status--slotted" };
+  var classes16 = { "activity-status-slot": "wlpDjkW_activity-status-slot", "activity-status__originator--has-link": "wlpDjkW_activity-status__originator--has-link", "activity-status__originator": "wlpDjkW_activity-status__originator", "activity-status--slotted": "wlpDjkW_activity-status--slotted", "activity-status": "wlpDjkW_activity-status" };
   var ActivityStatus_module_default = classes16;
-  var _activity_status__originator0 = classes16["activity-status__originator"];
-  var _activity_status__originator__has_link0 = classes16["activity-status__originator--has-link"];
-  var _activity_status0 = classes16["activity-status"];
   var _activity_status_slot0 = classes16["activity-status-slot"];
+  var _activity_status__originator__has_link0 = classes16["activity-status__originator--has-link"];
+  var _activity_status__originator0 = classes16["activity-status__originator"];
   var _activity_status__slotted0 = classes16["activity-status--slotted"];
+  var _activity_status0 = classes16["activity-status"];
   var { useLocalizer: useLocalizer19, usePostActivity: usePostActivity22 } = hook_exports;
   var sendStatusPropsSchema = pipe(
     object({
@@ -159310,20 +159505,20 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const localize2 = useLocalizer19();
     const postActivity3 = usePostActivity22();
     const classNames31 = useStyles_default(ActivityStatus_module_default);
-    const handleRetryClick = (0, import_react340.useCallback)(() => {
+    const handleRetryClick = (0, import_react344.useCallback)(() => {
       postActivity3(activity);
       focus("sendBoxWithoutKeyboard");
     }, [activity, focus, postActivity3]);
     const sendingText = localize2("ACTIVITY_STATUS_SEND_STATUS_ALT_SENDING");
-    return /* @__PURE__ */ import_react340.default.createElement(import_react340.default.Fragment, null, /* @__PURE__ */ import_react340.default.createElement("span", { className: classNames31["activity-status"] }, sendStatus === SENDING3 ? sendingText : sendStatus === SEND_FAILED3 ? /* @__PURE__ */ import_react340.default.createElement(SendFailedRetry_default, { onRetryClick: handleRetryClick }) : false));
+    return /* @__PURE__ */ import_react344.default.createElement(import_react344.default.Fragment, null, /* @__PURE__ */ import_react344.default.createElement("span", { className: classNames31["activity-status"] }, sendStatus === SENDING3 ? sendingText : sendStatus === SEND_FAILED3 ? /* @__PURE__ */ import_react344.default.createElement(SendFailedRetry_default, { onRetryClick: handleRetryClick }) : false));
   }
-  var SendStatus_default = (0, import_react340.memo)(SendStatus);
+  var SendStatus_default = (0, import_react344.memo)(SendStatus);
   function createSendStatusMiddleware() {
     return () => (next2) => ({ activity, sendState, ...args }) => {
       switch (sendState) {
         case SENDING3:
         case SEND_FAILED3:
-          return /* @__PURE__ */ import_react339.default.createElement(SendStatus_default, { activity, sendStatus: sendState });
+          return /* @__PURE__ */ import_react343.default.createElement(SendStatus_default, { activity, sendStatus: sendState });
         default:
           return next2({ activity, sendState, ...args });
       }
@@ -159342,7 +159537,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const localize2 = useLocalizer20();
     const formatDate = useDateFormatter2();
     const absoluteTime = formatDate(value);
-    return /* @__PURE__ */ import_react344.default.createElement(import_react344.Fragment, null, /* @__PURE__ */ import_react344.default.createElement(ScreenReaderText_default, { text: localize2("ACTIVITY_STATUS_SEND_STATUS_ALT_SENT_AT", absoluteTime) }), !hide && /* @__PURE__ */ import_react344.default.createElement("span", { "aria-hidden": true }, absoluteTime));
+    return /* @__PURE__ */ import_react348.default.createElement(import_react348.Fragment, null, /* @__PURE__ */ import_react348.default.createElement(ScreenReaderText_default, { text: localize2("ACTIVITY_STATUS_SEND_STATUS_ALT_SENT_AT", absoluteTime) }), !hide && /* @__PURE__ */ import_react348.default.createElement("span", { "aria-hidden": true }, absoluteTime));
   };
   var AbsoluteTime_default = AbsoluteTime;
   var __create9 = Object.create;
@@ -161677,7 +161872,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     }),
     readonly()
   );
-  var Originator = (0, import_react346.memo)(function Originator2(props) {
+  var Originator = (0, import_react350.memo)(function Originator2(props) {
     const {
       project: { name, slogan, url: url2 }
     } = validateProps2(originatorPropsSchema, props);
@@ -161688,7 +161883,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     return sanitizedHref ? (
       // Link is sanitized.
       // eslint-disable-next-line react/forbid-elements
-      /* @__PURE__ */ import_react346.default.createElement(
+      /* @__PURE__ */ import_react350.default.createElement(
         "a",
         {
           className: (0, import_classnames67.default)(classNames31["activity-status__originator"], classNames31["activity-status__originator--has-link"]),
@@ -161698,19 +161893,19 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         },
         text6
       )
-    ) : /* @__PURE__ */ import_react346.default.createElement("span", { className: classNames31["activity-status__originator"] }, text6);
+    ) : /* @__PURE__ */ import_react350.default.createElement("span", { className: classNames31["activity-status__originator"] }, text6);
   });
   var Originator_default = Originator;
   var StatusSlot = ({ children, className }) => {
     const classNames31 = useStyles_default(ActivityStatus_module_default);
-    return /* @__PURE__ */ import_react347.default.createElement("span", { className: (0, import_classnames68.default)(classNames31["activity-status-slot"], className) }, children);
+    return /* @__PURE__ */ import_react351.default.createElement("span", { className: (0, import_classnames68.default)(classNames31["activity-status-slot"], className) }, children);
   };
   StatusSlot.displayName = "StatusSlot";
-  var StatusSlot_default = (0, import_react347.memo)(StatusSlot);
+  var StatusSlot_default = (0, import_react351.memo)(StatusSlot);
   var { usePonyfill: usePonyfill23 } = hook_exports;
   function useTimer2(at2, fn) {
     const [{ clearTimeout: clearTimeout2, Date: Date2, setTimeout: setTimeout2 }] = usePonyfill23();
-    (0, import_react351.useEffect)(() => {
+    (0, import_react355.useEffect)(() => {
       if (typeof at2 === "number") {
         const ms = Math.max(0, at2 - Date2.now());
         if (ms) {
@@ -161729,8 +161924,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
   function useForceRenderAtInterval(origin, interval, fn) {
     const [ponyfill2] = usePonyfill32();
-    const [timer, setTimer] = (0, import_react350.useState)(nextTimer(origin, interval, ponyfill2));
-    const handler = (0, import_react350.useCallback)(() => {
+    const [timer, setTimer] = (0, import_react354.useState)(nextTimer(origin, interval, ponyfill2));
+    const handler = (0, import_react354.useCallback)(() => {
       fn && fn();
       setTimer(nextTimer(origin, interval, ponyfill2) + (0, import_math_random14.default)());
     }, [fn, origin, interval, ponyfill2]);
@@ -161753,7 +161948,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const localize2 = useLocalizer21();
     const dateValue = new Date2(value);
     useForceRenderAtInterval(dateValue, TIMER_INTERVAL);
-    return /* @__PURE__ */ import_react349.default.createElement(import_react349.Fragment, null, /* @__PURE__ */ import_react349.default.createElement(ScreenReaderText_default, { text: localize2("ACTIVITY_STATUS_SEND_STATUS_ALT_SENT_AT", formatDate(dateValue)) }), /* @__PURE__ */ import_react349.default.createElement("span", { "aria-hidden": true }, formatRelativeTime(dateValue)));
+    return /* @__PURE__ */ import_react353.default.createElement(import_react353.Fragment, null, /* @__PURE__ */ import_react353.default.createElement(ScreenReaderText_default, { text: localize2("ACTIVITY_STATUS_SEND_STATUS_ALT_SENT_AT", formatDate(dateValue)) }), /* @__PURE__ */ import_react353.default.createElement("span", { "aria-hidden": true }, formatRelativeTime(dateValue)));
   };
   var RelativeTime_default = RelativeTime;
   var { useStyleOptions: useStyleOptions11 } = hook_exports;
@@ -161767,20 +161962,20 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function Timestamp(props) {
     const { timestamp } = validateProps2(timestampPropsSchema, props);
     const [{ timestampFormat }] = useStyleOptions11();
-    return timestampFormat === "relative" ? /* @__PURE__ */ import_react348.default.createElement(RelativeTime_default, { value: timestamp }) : /* @__PURE__ */ import_react348.default.createElement(AbsoluteTime_default, { value: timestamp });
+    return timestampFormat === "relative" ? /* @__PURE__ */ import_react352.default.createElement(RelativeTime_default, { value: timestamp }) : /* @__PURE__ */ import_react352.default.createElement(AbsoluteTime_default, { value: timestamp });
   }
-  var Timestamp_default = (0, import_react348.memo)(Timestamp);
+  var Timestamp_default = (0, import_react352.memo)(Timestamp);
   var { useStyleOptions: useStyleOptions12 } = hook_exports;
   var warnRootLevelThings = warnOnce5(
     'Root-level things are being deprecated, please relate all things to `entities[@id=""]` instead. This feature will be removed in 2025-03-06.'
   );
-  var OthersActivityStatus = (0, import_react345.memo)(({ activity, className, slotted }) => {
+  var OthersActivityStatus = (0, import_react349.memo)(({ activity, className, slotted }) => {
     const [{ feedbackActionsPlacement }] = useStyleOptions12();
     const classNames31 = useStyles_default(ActivityStatus_module_default);
     const { timestamp } = activity;
-    const graph = (0, import_react345.useMemo)(() => dereferenceBlankNodes(activity.entities || []), [activity.entities]);
-    const messageThing = (0, import_react345.useMemo)(() => getOrgSchemaMessage(graph), [graph]);
-    const claimInterpreter = (0, import_react345.useMemo)(() => {
+    const graph = (0, import_react349.useMemo)(() => dereferenceBlankNodes(activity.entities || []), [activity.entities]);
+    const messageThing = (0, import_react349.useMemo)(() => getOrgSchemaMessage(graph), [graph]);
+    const claimInterpreter = (0, import_react349.useMemo)(() => {
       var _a29;
       try {
         if (messageThing) {
@@ -161799,27 +161994,27 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       } catch {
       }
     }, [graph, messageThing]);
-    return /* @__PURE__ */ import_react345.default.createElement(
+    return /* @__PURE__ */ import_react349.default.createElement(
       "span",
       {
         className: (0, import_classnames66.default)(classNames31["activity-status"], { [classNames31["activity-status--slotted"]]: slotted }, className)
       },
-      timestamp && /* @__PURE__ */ import_react345.default.createElement(StatusSlot_default, null, /* @__PURE__ */ import_react345.default.createElement(Timestamp_default, { key: "timestamp", timestamp })),
-      claimInterpreter && /* @__PURE__ */ import_react345.default.createElement(StatusSlot_default, null, /* @__PURE__ */ import_react345.default.createElement(Originator_default, { key: "originator", project: claimInterpreter })),
-      feedbackActionsPlacement === "activity-status" && /* @__PURE__ */ import_react345.default.createElement(StatusSlot_default, null, /* @__PURE__ */ import_react345.default.createElement(ActivityFeedback_default, { activity, key: "feedback" }))
+      timestamp && /* @__PURE__ */ import_react349.default.createElement(StatusSlot_default, null, /* @__PURE__ */ import_react349.default.createElement(Timestamp_default, { key: "timestamp", timestamp })),
+      claimInterpreter && /* @__PURE__ */ import_react349.default.createElement(StatusSlot_default, null, /* @__PURE__ */ import_react349.default.createElement(Originator_default, { key: "originator", project: claimInterpreter })),
+      feedbackActionsPlacement === "activity-status" && /* @__PURE__ */ import_react349.default.createElement(StatusSlot_default, null, /* @__PURE__ */ import_react349.default.createElement(ActivityFeedback_default, { activity, key: "feedback" }))
     );
   });
   OthersActivityStatus.displayName = "OthersActivityStatus";
   var OthersActivityStatus_default = OthersActivityStatus;
-  var SelftActivityStatus = (0, import_react352.memo)(({ activity, className, slotted }) => {
+  var SelftActivityStatus = (0, import_react356.memo)(({ activity, className, slotted }) => {
     const classNames31 = useStyles_default(ActivityStatus_module_default);
     const { timestamp } = activity;
-    return timestamp ? /* @__PURE__ */ import_react352.default.createElement(
+    return timestamp ? /* @__PURE__ */ import_react356.default.createElement(
       "span",
       {
         className: (0, import_classnames69.default)(classNames31["activity-status"], { [classNames31["activity-status--slotted"]]: slotted }, className)
       },
-      /* @__PURE__ */ import_react352.default.createElement(Timestamp_default, { timestamp })
+      /* @__PURE__ */ import_react356.default.createElement(Timestamp_default, { timestamp })
     ) : null;
   });
   SelftActivityStatus.displayName = "SelftActivityStatus";
@@ -161828,13 +162023,13 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     return () => () => (...args) => {
       const [{ activity, hideTimestamp }] = args;
       if (typeof activity.timestamp === "undefined") {
-        return /* @__PURE__ */ import_react343.default.createElement(import_react343.Fragment, null);
+        return /* @__PURE__ */ import_react347.default.createElement(import_react347.Fragment, null);
       } else if (hideTimestamp) {
-        return /* @__PURE__ */ import_react343.default.createElement(AbsoluteTime_default, { hide: true, value: activity.timestamp });
+        return /* @__PURE__ */ import_react347.default.createElement(AbsoluteTime_default, { hide: true, value: activity.timestamp });
       } else if (activity.from.role === "bot") {
-        return /* @__PURE__ */ import_react343.default.createElement(OthersActivityStatus_default, { activity, slotted: true });
+        return /* @__PURE__ */ import_react347.default.createElement(OthersActivityStatus_default, { activity, slotted: true });
       }
-      return /* @__PURE__ */ import_react343.default.createElement(SelfActivityStatus_default, { activity, slotted: true });
+      return /* @__PURE__ */ import_react347.default.createElement(SelfActivityStatus_default, { activity, slotted: true });
     };
   }
   function createCoreMiddleware3() {
@@ -161844,14 +162039,14 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   var AudioAttachment2 = () => {
     const localize2 = useLocalizer222();
     const label = localize2("ATTACHMENT_AUDIO");
-    return /* @__PURE__ */ import_react354.default.createElement("article", null, label);
+    return /* @__PURE__ */ import_react358.default.createElement("article", null, label);
   };
   var AudioAttachment_default2 = AudioAttachment2;
   var { useLocalizer: useLocalizer232 } = hook_exports;
   var FileAttachment2 = ({ attachment: { name = "" } = {} }) => {
     const localize2 = useLocalizer232();
     const label = localize2("ATTACHMENT_FILE", name);
-    return /* @__PURE__ */ import_react355.default.createElement("article", null, label);
+    return /* @__PURE__ */ import_react359.default.createElement("article", null, label);
   };
   FileAttachment2.propTypes = {
     attachment: import_prop_types34.default.shape({
@@ -161863,14 +162058,14 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   var ImageAttachment3 = () => {
     const localize2 = useLocalizer242();
     const label = localize2("ATTACHMENT_IMAGE");
-    return /* @__PURE__ */ import_react356.default.createElement("article", null, label);
+    return /* @__PURE__ */ import_react360.default.createElement("article", null, label);
   };
   var ImageAttachment_default2 = ImageAttachment3;
   var { useLocalizer: useLocalizer25 } = hook_exports;
   var TextAttachment2 = ({ attachment: { content: content3 = "" } = {} }) => {
     const localize2 = useLocalizer25();
     const label = localize2("ATTACHMENT_TEXT", content3);
-    return /* @__PURE__ */ import_react357.default.createElement("article", null, label);
+    return /* @__PURE__ */ import_react361.default.createElement("article", null, label);
   };
   TextAttachment2.propTypes = {
     attachment: import_prop_types35.default.shape({
@@ -161882,7 +162077,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   var VideoAttachment2 = () => {
     const localize2 = useLocalizer26();
     const label = localize2("ATTACHMENT_VIDEO");
-    return /* @__PURE__ */ import_react358.default.createElement("article", null, label);
+    return /* @__PURE__ */ import_react362.default.createElement("article", null, label);
   };
   var VideoAttachment_default2 = VideoAttachment2;
   function createCoreMiddleware4() {
@@ -161896,7 +162091,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           }
         ] = args;
         const isText = /^text\//u.test(contentType);
-        return (isText ? !attachment.content : role === "user" && !thumbnailUrl) ? () => /* @__PURE__ */ import_react353.default.createElement(FileAttachment_default2, { attachment }) : /^audio\//u.test(contentType) ? () => /* @__PURE__ */ import_react353.default.createElement(AudioAttachment_default2, null) : /^image\//u.test(contentType) ? () => /* @__PURE__ */ import_react353.default.createElement(ImageAttachment_default2, null) : /^video\//u.test(contentType) ? () => /* @__PURE__ */ import_react353.default.createElement(VideoAttachment_default2, null) : contentUrl || contentType === "application/octet-stream" ? () => /* @__PURE__ */ import_react353.default.createElement(FileAttachment_default2, { attachment }) : isText ? () => /* @__PURE__ */ import_react353.default.createElement(TextAttachment_default2, { attachment }) : next2(...args);
+        return (isText ? !attachment.content : role === "user" && !thumbnailUrl) ? () => /* @__PURE__ */ import_react357.default.createElement(FileAttachment_default2, { attachment }) : /^audio\//u.test(contentType) ? () => /* @__PURE__ */ import_react357.default.createElement(AudioAttachment_default2, null) : /^image\//u.test(contentType) ? () => /* @__PURE__ */ import_react357.default.createElement(ImageAttachment_default2, null) : /^video\//u.test(contentType) ? () => /* @__PURE__ */ import_react357.default.createElement(VideoAttachment_default2, null) : contentUrl || contentType === "application/octet-stream" ? () => /* @__PURE__ */ import_react357.default.createElement(FileAttachment_default2, { attachment }) : isText ? () => /* @__PURE__ */ import_react357.default.createElement(TextAttachment_default2, { attachment }) : next2(...args);
       }
     ];
   }
@@ -161920,9 +162115,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const [{ imageAvatar: imageAvatarStyleSet }] = useStyleSet();
     const rootClassName = useStyleToEmotionObject()(ROOT_STYLE42) + "";
     const avatarImage = fromUser ? avatarImageForUser : avatarImageForBot;
-    return !!avatarImage && /* @__PURE__ */ import_react360.default.createElement("div", { className: (0, import_classnames71.default)("webchat__imageAvatar", rootClassName, imageAvatarStyleSet + "") }, /* @__PURE__ */ import_react360.default.createElement("img", { alt: "", className: "webchat__imageAvatar__image", src: fromUser ? avatarImageForUser : avatarImageForBot }));
+    return !!avatarImage && /* @__PURE__ */ import_react364.default.createElement("div", { className: (0, import_classnames71.default)("webchat__imageAvatar", rootClassName, imageAvatarStyleSet + "") }, /* @__PURE__ */ import_react364.default.createElement("img", { alt: "", className: "webchat__imageAvatar__image", src: fromUser ? avatarImageForUser : avatarImageForBot }));
   };
-  var ImageAvatar_default = (0, import_react360.memo)(ImageAvatar);
+  var ImageAvatar_default = (0, import_react364.memo)(ImageAvatar);
   var { useAvatarForBot: useAvatarForBot5, useAvatarForUser: useAvatarForUser4 } = hook_exports;
   var ROOT_STYLE52 = {
     alignItems: "center",
@@ -161943,7 +162138,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const [{ initials: avatarInitialsForUser }] = useAvatarForUser4();
     const [{ initialsAvatar: initialsAvatarStyleSet }] = useStyleSet();
     const rootClassName = useStyleToEmotionObject()(ROOT_STYLE52) + "";
-    return /* @__PURE__ */ import_react361.default.createElement(
+    return /* @__PURE__ */ import_react365.default.createElement(
       "div",
       {
         className: (0, import_classnames72.default)(
@@ -161955,10 +162150,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           initialsAvatarStyleSet + ""
         )
       },
-      /* @__PURE__ */ import_react361.default.createElement("div", { className: "webchat__initialsAvatar__initials" }, fromUser ? avatarInitialsForUser : avatarInitialsForBot)
+      /* @__PURE__ */ import_react365.default.createElement("div", { className: "webchat__initialsAvatar__initials" }, fromUser ? avatarInitialsForUser : avatarInitialsForBot)
     );
   }
-  var InitialsAvatar_default = (0, import_react361.memo)(InitialsAvatar);
+  var InitialsAvatar_default = (0, import_react365.memo)(InitialsAvatar);
   var ROOT_STYLE62 = {
     overflow: ["hidden", "clip"],
     position: "relative",
@@ -161980,7 +162175,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const { "aria-hidden": ariaHidden = true, className, fromUser } = validateProps2(defaultAvatarPropsSchema, props);
     const [{ avatar: avatarStyleSet }] = useStyleSet();
     const rootClassName = useStyleToEmotionObject()(ROOT_STYLE62) + "";
-    return /* @__PURE__ */ import_react359.default.createElement(
+    return /* @__PURE__ */ import_react363.default.createElement(
       "div",
       {
         "aria-hidden": ariaHidden,
@@ -161992,8 +162187,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           className
         )
       },
-      /* @__PURE__ */ import_react359.default.createElement(InitialsAvatar_default, { fromUser }),
-      /* @__PURE__ */ import_react359.default.createElement(ImageAvatar_default, { fromUser })
+      /* @__PURE__ */ import_react363.default.createElement(InitialsAvatar_default, { fromUser }),
+      /* @__PURE__ */ import_react363.default.createElement(ImageAvatar_default, { fromUser })
     );
   }
   function createCoreAvatarMiddleware() {
@@ -162001,13 +162196,13 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       () => () => ({ fromUser, styleOptions }) => {
         const { botAvatarImage, botAvatarInitials, userAvatarImage, userAvatarInitials } = styleOptions;
         if (fromUser ? userAvatarImage || userAvatarInitials : botAvatarImage || botAvatarInitials) {
-          return () => /* @__PURE__ */ import_react359.default.createElement(DefaultAvatar, { fromUser });
+          return () => /* @__PURE__ */ import_react363.default.createElement(DefaultAvatar, { fromUser });
         }
         return false;
       }
     ];
   }
-  var MemoizedDefaultAvatar = (0, import_react359.memo)(DefaultAvatar);
+  var MemoizedDefaultAvatar = (0, import_react363.memo)(DefaultAvatar);
   function getScheme(href) {
     href = href.replace(/[\x00-\x20]+/gu, "");
     href = href.replace(/<!--.*?-->/gu, "");
@@ -162068,7 +162263,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   var { useLocalizer: useLocalizer27, useStyleOptions: useStyleOptions13 } = hook_exports;
   var newMessagesAccessKey = "U u \xDC \xFC";
   var ScrollToEndButton = ({ onClick: onClick2 }) => {
-    const focusRef = (0, import_react362.useRef)(null);
+    const focusRef = (0, import_react366.useRef)(null);
     const [{ scrollToEndButton: scrollToEndButtonStyleSet }] = useStyleSet();
     const [{ scrollToEndButtonBehavior }] = useStyleOptions13();
     const localize2 = useLocalizer27();
@@ -162082,10 +162277,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     );
     useFocusAccessKeyEffect(shouldShowNewMessagesButton ? newMessagesAccessKey : "", focusRef);
     useLiveRegion(
-      () => shouldShowNewMessagesButton && /* @__PURE__ */ import_react362.default.createElement("div", { className: "webchat__scroll-to-end-button__status" }, liveRegionText),
+      () => shouldShowNewMessagesButton && /* @__PURE__ */ import_react366.default.createElement("div", { className: "webchat__scroll-to-end-button__status" }, liveRegionText),
       [liveRegionText, shouldShowNewMessagesButton]
     );
-    return /* @__PURE__ */ import_react362.default.createElement(
+    return /* @__PURE__ */ import_react366.default.createElement(
       "button",
       {
         "aria-keyshortcuts": shouldShowNewMessagesButton ? localizeAccessKey(newMessagesAccessKey) : void 0,
@@ -162115,7 +162310,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       )
     ];
   }
-  var DismissIcon = ({ className }) => /* @__PURE__ */ import_react365.default.createElement(
+  var DismissIcon = ({ className }) => /* @__PURE__ */ import_react369.default.createElement(
     "svg",
     {
       className: (className || "") + "",
@@ -162126,7 +162321,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       width: "14",
       xmlns: "http://www.w3.org/2000/svg"
     },
-    /* @__PURE__ */ import_react365.default.createElement("path", { d: "M7.71094 7L13.1016 12.3984L12.3984 13.1016L7 7.71094L1.60156 13.1016L0.898438 12.3984L6.28906 7L0.898438 1.60156L1.60156 0.898438L7 6.28906L12.3984 0.898438L13.1016 1.60156L7.71094 7Z" })
+    /* @__PURE__ */ import_react369.default.createElement("path", { d: "M7.71094 7L13.1016 12.3984L12.3984 13.1016L7 7.71094L1.60156 13.1016L0.898438 12.3984L6.28906 7L0.898438 1.60156L1.60156 0.898438L7 6.28906L12.3984 0.898438L13.1016 1.60156L7.71094 7Z" })
   );
   DismissIcon.defaultProps = {
     className: void 0
@@ -162135,7 +162330,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     className: import_prop_types37.default.string
   };
   var DismissIcon_default = DismissIcon;
-  var CheckMarkIcon = ({ "aria-label": ariaLabel, className }) => /* @__PURE__ */ import_react367.default.createElement(
+  var CheckMarkIcon = ({ "aria-label": ariaLabel, className }) => /* @__PURE__ */ import_react371.default.createElement(
     "svg",
     {
       "aria-label": ariaLabel,
@@ -162146,7 +162341,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       width: "20",
       xmlns: "http://www.w3.org/2000/svg"
     },
-    /* @__PURE__ */ import_react367.default.createElement(
+    /* @__PURE__ */ import_react371.default.createElement(
       "path",
       {
         d: "M14.5605 5.81055L15.4395 6.68945L8.125 14.0039L4.56055 10.4395L5.43945 9.56055L8.125 12.2461L14.5605 5.81055ZM10 0C10.918 0 11.8034 0.120443 12.6562 0.361328C13.5091 0.595703 14.3066 0.93099 15.0488 1.36719C15.791 1.79688 16.4648 2.31771 17.0703 2.92969C17.6823 3.53516 18.2031 4.20898 18.6328 4.95117C19.069 5.69336 19.4043 6.49089 19.6387 7.34375C19.8796 8.19661 20 9.08203 20 10C20 10.918 19.8796 11.8034 19.6387 12.6562C19.4043 13.5091 19.069 14.3066 18.6328 15.0488C18.2031 15.791 17.6823 16.4681 17.0703 17.0801C16.4648 17.6855 15.791 18.2064 15.0488 18.6426C14.3066 19.0723 13.5091 19.4076 12.6562 19.6484C11.8034 19.8828 10.918 20 10 20C9.08203 20 8.19661 19.8828 7.34375 19.6484C6.49089 19.4076 5.69336 19.0723 4.95117 18.6426C4.20898 18.2064 3.5319 17.6855 2.91992 17.0801C2.31445 16.4681 1.79362 15.791 1.35742 15.0488C0.927734 14.3066 0.592448 13.5124 0.351562 12.666C0.117188 11.8132 0 10.9245 0 10C0 9.08203 0.117188 8.19661 0.351562 7.34375C0.592448 6.49089 0.927734 5.69336 1.35742 4.95117C1.79362 4.20898 2.31445 3.53516 2.91992 2.92969C3.5319 2.31771 4.20898 1.79688 4.95117 1.36719C5.69336 0.93099 6.48763 0.595703 7.33398 0.361328C8.18685 0.120443 9.07552 0 10 0ZM10 18.75C10.8008 18.75 11.5723 18.6458 12.3145 18.4375C13.0632 18.2292 13.7598 17.9362 14.4043 17.5586C15.0553 17.1745 15.6478 16.7155 16.1816 16.1816C16.7155 15.6478 17.1712 15.0586 17.5488 14.4141C17.9329 13.763 18.2292 13.0664 18.4375 12.3242C18.6458 11.582 18.75 10.8073 18.75 10C18.75 9.19922 18.6458 8.42773 18.4375 7.68555C18.2292 6.93685 17.9329 6.24023 17.5488 5.5957C17.1712 4.94466 16.7155 4.35221 16.1816 3.81836C15.6478 3.28451 15.0553 2.82878 14.4043 2.45117C13.7598 2.06706 13.0632 1.77083 12.3145 1.5625C11.5723 1.35417 10.8008 1.25 10 1.25C9.19922 1.25 8.42448 1.35417 7.67578 1.5625C6.93359 1.77083 6.23698 2.06706 5.58594 2.45117C4.94141 2.82878 4.35221 3.28451 3.81836 3.81836C3.28451 4.35221 2.82552 4.94466 2.44141 5.5957C2.0638 6.24023 1.77083 6.93685 1.5625 7.68555C1.35417 8.42773 1.25 9.19922 1.25 10C1.25 10.8008 1.35417 11.5755 1.5625 12.3242C1.77083 13.0664 2.0638 13.763 2.44141 14.4141C2.82552 15.0586 3.28451 15.6478 3.81836 16.1816C4.35221 16.7155 4.94141 17.1745 5.58594 17.5586C6.23698 17.9362 6.93359 18.2292 7.67578 18.4375C8.41797 18.6458 9.19271 18.75 10 18.75Z",
@@ -162163,7 +162358,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     className: import_prop_types39.default.string
   };
   var CheckMarkIcon_default = CheckMarkIcon;
-  var ExclamationMarkIcon = ({ "aria-label": ariaLabel, className }) => /* @__PURE__ */ import_react368.default.createElement(
+  var ExclamationMarkIcon = ({ "aria-label": ariaLabel, className }) => /* @__PURE__ */ import_react372.default.createElement(
     "svg",
     {
       "aria-label": ariaLabel,
@@ -162173,7 +162368,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       width: "19",
       xmlns: "http://www.w3.org/2000/svg"
     },
-    /* @__PURE__ */ import_react368.default.createElement("path", { d: "M9.375 0C10.2409 0 11.071 0.110677 11.8652 0.332031C12.666 0.553385 13.4147 0.869141 14.1113 1.2793C14.8079 1.68294 15.4395 2.17122 16.0059 2.74414C16.5788 3.31055 17.0671 3.94206 17.4707 4.63867C17.8809 5.33529 18.1966 6.08398 18.418 6.88477C18.6393 7.67904 18.75 8.50911 18.75 9.375C18.75 10.2409 18.6393 11.0742 18.418 11.875C18.1966 12.6693 17.8809 13.4147 17.4707 14.1113C17.0671 14.8079 16.5788 15.4427 16.0059 16.0156C15.4395 16.582 14.8079 17.0703 14.1113 17.4805C13.4147 17.8841 12.666 18.1966 11.8652 18.418C11.071 18.6393 10.2409 18.75 9.375 18.75C8.50911 18.75 7.67578 18.6393 6.875 18.418C6.08073 18.1966 5.33529 17.8841 4.63867 17.4805C3.94206 17.0703 3.30729 16.582 2.73438 16.0156C2.16797 15.4427 1.67969 14.8079 1.26953 14.1113C0.865885 13.4147 0.553385 12.6693 0.332031 11.875C0.110677 11.0742 0 10.2409 0 9.375C0 8.50911 0.110677 7.67904 0.332031 6.88477C0.553385 6.08398 0.865885 5.33529 1.26953 4.63867C1.67969 3.94206 2.16797 3.31055 2.73438 2.74414C3.30729 2.17122 3.94206 1.68294 4.63867 1.2793C5.33529 0.869141 6.08073 0.553385 6.875 0.332031C7.67578 0.110677 8.50911 0 9.375 0ZM9.375 17.5C10.1172 17.5 10.8333 17.4023 11.5234 17.207C12.2201 17.0117 12.8678 16.7383 13.4668 16.3867C14.0723 16.0352 14.6224 15.612 15.1172 15.1172C15.612 14.6224 16.0352 14.0755 16.3867 13.4766C16.7383 12.8711 17.0117 12.2233 17.207 11.5332C17.4023 10.8431 17.5 10.1237 17.5 9.375C17.5 8.63281 17.4023 7.91667 17.207 7.22656C17.0117 6.52995 16.7383 5.88216 16.3867 5.2832C16.0352 4.67773 15.612 4.1276 15.1172 3.63281C14.6224 3.13802 14.0723 2.71484 13.4668 2.36328C12.8678 2.01172 12.2201 1.73828 11.5234 1.54297C10.8333 1.34766 10.1172 1.25 9.375 1.25C8.6263 1.25 7.9069 1.34766 7.2168 1.54297C6.52669 1.73828 5.87891 2.01172 5.27344 2.36328C4.67448 2.71484 4.1276 3.13802 3.63281 3.63281C3.13802 4.1276 2.71484 4.67773 2.36328 5.2832C2.01172 5.88216 1.73828 6.52995 1.54297 7.22656C1.34766 7.91667 1.25 8.63281 1.25 9.375C1.25 10.1172 1.34766 10.8366 1.54297 11.5332C1.73828 12.2233 2.01172 12.8711 2.36328 13.4766C2.71484 14.0755 3.13802 14.6224 3.63281 15.1172C4.1276 15.612 4.67448 16.0352 5.27344 16.3867C5.87891 16.7383 6.52669 17.0117 7.2168 17.207C7.9069 17.4023 8.6263 17.5 9.375 17.5ZM8.75 5H10V11.25H8.75V5ZM8.75 12.5H10V13.75H8.75V12.5Z" })
+    /* @__PURE__ */ import_react372.default.createElement("path", { d: "M9.375 0C10.2409 0 11.071 0.110677 11.8652 0.332031C12.666 0.553385 13.4147 0.869141 14.1113 1.2793C14.8079 1.68294 15.4395 2.17122 16.0059 2.74414C16.5788 3.31055 17.0671 3.94206 17.4707 4.63867C17.8809 5.33529 18.1966 6.08398 18.418 6.88477C18.6393 7.67904 18.75 8.50911 18.75 9.375C18.75 10.2409 18.6393 11.0742 18.418 11.875C18.1966 12.6693 17.8809 13.4147 17.4707 14.1113C17.0671 14.8079 16.5788 15.4427 16.0059 16.0156C15.4395 16.582 14.8079 17.0703 14.1113 17.4805C13.4147 17.8841 12.666 18.1966 11.8652 18.418C11.071 18.6393 10.2409 18.75 9.375 18.75C8.50911 18.75 7.67578 18.6393 6.875 18.418C6.08073 18.1966 5.33529 17.8841 4.63867 17.4805C3.94206 17.0703 3.30729 16.582 2.73438 16.0156C2.16797 15.4427 1.67969 14.8079 1.26953 14.1113C0.865885 13.4147 0.553385 12.6693 0.332031 11.875C0.110677 11.0742 0 10.2409 0 9.375C0 8.50911 0.110677 7.67904 0.332031 6.88477C0.553385 6.08398 0.865885 5.33529 1.26953 4.63867C1.67969 3.94206 2.16797 3.31055 2.73438 2.74414C3.30729 2.17122 3.94206 1.68294 4.63867 1.2793C5.33529 0.869141 6.08073 0.553385 6.875 0.332031C7.67578 0.110677 8.50911 0 9.375 0ZM9.375 17.5C10.1172 17.5 10.8333 17.4023 11.5234 17.207C12.2201 17.0117 12.8678 16.7383 13.4668 16.3867C14.0723 16.0352 14.6224 15.612 15.1172 15.1172C15.612 14.6224 16.0352 14.0755 16.3867 13.4766C16.7383 12.8711 17.0117 12.2233 17.207 11.5332C17.4023 10.8431 17.5 10.1237 17.5 9.375C17.5 8.63281 17.4023 7.91667 17.207 7.22656C17.0117 6.52995 16.7383 5.88216 16.3867 5.2832C16.0352 4.67773 15.612 4.1276 15.1172 3.63281C14.6224 3.13802 14.0723 2.71484 13.4668 2.36328C12.8678 2.01172 12.2201 1.73828 11.5234 1.54297C10.8333 1.34766 10.1172 1.25 9.375 1.25C8.6263 1.25 7.9069 1.34766 7.2168 1.54297C6.52669 1.73828 5.87891 2.01172 5.27344 2.36328C4.67448 2.71484 4.1276 3.13802 3.63281 3.63281C3.13802 4.1276 2.71484 4.67773 2.36328 5.2832C2.01172 5.88216 1.73828 6.52995 1.54297 7.22656C1.34766 7.91667 1.25 8.63281 1.25 9.375C1.25 10.1172 1.34766 10.8366 1.54297 11.5332C1.73828 12.2233 2.01172 12.8711 2.36328 13.4766C2.71484 14.0755 3.13802 14.6224 3.63281 15.1172C4.1276 15.612 4.67448 16.0352 5.27344 16.3867C5.87891 16.7383 6.52669 17.0117 7.2168 17.207C7.9069 17.4023 8.6263 17.5 9.375 17.5ZM8.75 5H10V11.25H8.75V5ZM8.75 12.5H10V13.75H8.75V12.5Z" })
   );
   ExclamationMarkIcon.defaultProps = {
     "aria-label": void 0,
@@ -162194,7 +162389,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       warn: localize2("TOAST_ALT_WARN")
     };
     const prefix2 = !isForbiddenPropertyName(level) && prefixes[level] || "";
-    return /* @__PURE__ */ import_react366.default.createElement(import_react366.default.Fragment, null, level === "success" ? /* @__PURE__ */ import_react366.default.createElement(CheckMarkIcon_default, { "aria-label": prefix2, className }) : /* @__PURE__ */ import_react366.default.createElement(ExclamationMarkIcon_default, { "aria-label": prefix2, className }));
+    return /* @__PURE__ */ import_react370.default.createElement(import_react370.default.Fragment, null, level === "success" ? /* @__PURE__ */ import_react370.default.createElement(CheckMarkIcon_default, { "aria-label": prefix2, className }) : /* @__PURE__ */ import_react370.default.createElement(ExclamationMarkIcon_default, { "aria-label": prefix2, className }));
   };
   NotificationIcon.defaultProps = {
     className: void 0
@@ -162218,14 +162413,14 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   };
   var BasicToast = ({ notification: { alt, id, level, message = "" } }) => {
     const [{ toast: toastStyleSet }] = useStyleSet();
-    const contentId = (0, import_react364.useMemo)(() => `webchat__toast__${randomId2()}`, []);
+    const contentId = (0, import_react368.useMemo)(() => `webchat__toast__${randomId2()}`, []);
     const localize2 = useLocalizer29();
     const dismissNotification2 = useDismissNotification2();
     const renderMarkdownInline = useInternalRenderMarkdownInline_default();
     const rootClassName = useStyleToEmotionObject()(ROOT_STYLE72) + "";
-    const handleDismiss = (0, import_react364.useCallback)(() => dismissNotification2(id), [dismissNotification2, id]);
-    const html5 = (0, import_react364.useMemo)(() => ({ __html: renderMarkdownInline(message) }), [message, renderMarkdownInline]);
-    return /* @__PURE__ */ import_react364.default.createElement(
+    const handleDismiss = (0, import_react368.useCallback)(() => dismissNotification2(id), [dismissNotification2, id]);
+    const html5 = (0, import_react368.useMemo)(() => ({ __html: renderMarkdownInline(message) }), [message, renderMarkdownInline]);
+    return /* @__PURE__ */ import_react368.default.createElement(
       "div",
       {
         "aria-describedby": contentId,
@@ -162243,10 +162438,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         ),
         role: "dialog"
       },
-      /* @__PURE__ */ import_react364.default.createElement("div", { className: "webchat__toast__iconBox" }, /* @__PURE__ */ import_react364.default.createElement(NotificationIcon_default, { className: "webchat__toast__icon", level })),
-      !!alt && /* @__PURE__ */ import_react364.default.createElement(ScreenReaderText_default, { text: alt }),
-      /* @__PURE__ */ import_react364.default.createElement("div", { "aria-hidden": !!alt, className: "webchat__toast__text", dangerouslySetInnerHTML: html5, id: contentId }),
-      /* @__PURE__ */ import_react364.default.createElement(
+      /* @__PURE__ */ import_react368.default.createElement("div", { className: "webchat__toast__iconBox" }, /* @__PURE__ */ import_react368.default.createElement(NotificationIcon_default, { className: "webchat__toast__icon", level })),
+      !!alt && /* @__PURE__ */ import_react368.default.createElement(ScreenReaderText_default, { text: alt }),
+      /* @__PURE__ */ import_react368.default.createElement("div", { "aria-hidden": !!alt, className: "webchat__toast__text", dangerouslySetInnerHTML: html5, id: contentId }),
+      /* @__PURE__ */ import_react368.default.createElement(
         "button",
         {
           "aria-label": localize2("TOAST_DISMISS_BUTTON"),
@@ -162254,7 +162449,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           onClick: handleDismiss,
           type: "button"
         },
-        /* @__PURE__ */ import_react364.default.createElement("div", { "aria-hidden": true, className: "webchat__toast__dismissButtonFocus" }, /* @__PURE__ */ import_react364.default.createElement(DismissIcon_default, null))
+        /* @__PURE__ */ import_react368.default.createElement("div", { "aria-hidden": true, className: "webchat__toast__dismissButtonFocus" }, /* @__PURE__ */ import_react368.default.createElement(DismissIcon_default, null))
       )
     );
   };
@@ -162268,7 +162463,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   };
   var BasicToast_default = BasicToast;
   function createToastMiddleware() {
-    return () => () => ({ notification }) => /* @__PURE__ */ import_react363.default.createElement(BasicToast_default, { notification });
+    return () => () => ({ notification }) => /* @__PURE__ */ import_react367.default.createElement(BasicToast_default, { notification });
   }
   var createToastMiddleware_default = createToastMiddleware;
   function createCoreMiddleware5() {
@@ -162294,7 +162489,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const [direction] = useDirection32();
     const localize2 = useLocalizer30();
     const rootClassName = useStyleToEmotionObject()(ROOT_STYLE82) + "";
-    return /* @__PURE__ */ import_react370.default.createElement(import_react370.default.Fragment, null, /* @__PURE__ */ import_react370.default.createElement(ScreenReaderText_default, { text: localize2("TYPING_INDICATOR_ALT") }), /* @__PURE__ */ import_react370.default.createElement(
+    return /* @__PURE__ */ import_react374.default.createElement(import_react374.default.Fragment, null, /* @__PURE__ */ import_react374.default.createElement(ScreenReaderText_default, { text: localize2("TYPING_INDICATOR_ALT") }), /* @__PURE__ */ import_react374.default.createElement(
       "div",
       {
         "aria-hidden": true,
@@ -162316,19 +162511,19 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const [{ typingIndicator: typingIndicatorStyleSet }] = useStyleSet();
     const [direction] = useDirection42();
     const localize2 = useLocalizer31();
-    return /* @__PURE__ */ import_react369.default.createElement("div", { className: (0, import_classnames75.default)(typingIndicatorStyleSet + "", direction === "rtl" && "webchat__typing-indicator--rtl") }, /* @__PURE__ */ import_react369.default.createElement(TypingAnimation_default, { "aria-label": localize2("TYPING_INDICATOR_ALT") }));
+    return /* @__PURE__ */ import_react373.default.createElement("div", { className: (0, import_classnames75.default)(typingIndicatorStyleSet + "", direction === "rtl" && "webchat__typing-indicator--rtl") }, /* @__PURE__ */ import_react373.default.createElement(TypingAnimation_default, { "aria-label": localize2("TYPING_INDICATOR_ALT") }));
   };
   function createCoreMiddleware6() {
     return [
-      () => () => ({ visible }) => visible && /* @__PURE__ */ import_react369.default.createElement(DotIndicator, null)
+      () => () => ({ visible }) => visible && /* @__PURE__ */ import_react373.default.createElement(DotIndicator, null)
     ];
   }
-  var classes17 = { "code-block": "wqvreca_code-block", "code-block__theme--github-dark-default": "wqvreca_code-block__theme--github-dark-default", "code-block__theme--github-light-default": "wqvreca_code-block__theme--github-light-default", "code-block__body": "wqvreca_code-block__body" };
+  var classes17 = { "code-block__theme--github-light-default": "wqvreca_code-block__theme--github-light-default", "code-block__body": "wqvreca_code-block__body", "code-block": "wqvreca_code-block", "code-block__theme--github-dark-default": "wqvreca_code-block__theme--github-dark-default" };
   var CodeBlock_module_default = classes17;
-  var _code_block0 = classes17["code-block"];
-  var _code_block__theme__github_dark_default0 = classes17["code-block__theme--github-dark-default"];
   var _code_block__theme__github_light_default0 = classes17["code-block__theme--github-light-default"];
   var _code_block__body0 = classes17["code-block__body"];
+  var _code_block0 = classes17["code-block"];
+  var _code_block__theme__github_dark_default0 = classes17["code-block__theme--github-dark-default"];
   var { useStyleOptions: useStyleOptions14, useLocalizer: useLocalizer322 } = hook_exports;
   var _a11, _connected, _originalFragment, _updateTask;
   var CodeBlock = (_a11 = class extends HTMLElement {
@@ -162406,9 +162601,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const [{ codeBlockTheme }] = useStyleOptions14();
     const copyButtonAltCopied = localize2("COPY_BUTTON_COPIED_TEXT");
     const copyButtonAltCopy = localize2("COPY_BUTTON_TEXT");
-    const propsChangedEventTarget = (0, import_react372.useMemo)(() => new EventTarget(), []);
-    const propsRef = (0, import_react372.useRef)();
-    (0, import_react372.useMemo)(() => {
+    const propsChangedEventTarget = (0, import_react376.useMemo)(() => new EventTarget(), []);
+    const propsRef = (0, import_react376.useRef)();
+    (0, import_react376.useMemo)(() => {
       propsRef.current = Object.freeze({
         codeBlockTheme,
         copyButtonAltCopied,
@@ -162425,7 +162620,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       highlightCode,
       propsChangedEventTarget
     ]);
-    return (0, import_react372.useMemo)(
+    return (0, import_react376.useMemo)(
       () => Object.freeze([propsChangedEventTarget, propsRef]),
       [propsChangedEventTarget, propsRef]
     );
@@ -162433,7 +162628,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function useReactCodeBlockClass(copyButtonTagName) {
     const [codeBlockTarget, codeBlockPropsRef] = useCodeBlockProps(copyButtonTagName);
     const classNames31 = useStyles_default(CodeBlock_module_default);
-    return (0, import_react372.useMemo)(
+    return (0, import_react376.useMemo)(
       () => {
         var _a29, _prevProps, _ReactCodeBlock_instances, props_get, _handlePropsChange;
         return _a29 = class extends CodeBlock {
@@ -162528,10 +162723,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         const areEqual = prevProps.size === __privateGet(this, _propMap).size && Array.from(new Set(prevProps.keys()).union(new Set(__privateGet(this, _propMap)))).every(
           (key2) => Object.is(prevProps.get(key2), __privateGet(this, _propMap).get(key2))
         );
-        !areEqual && __privateGet(this, _connected2) === ConnectionState.CONNECTED && (0, import_react_dom3.render)((0, import_react374.createElement)(component, __privateMethod(this, _ReactWrapper_instances, getProps_fn).call(this)), this);
+        !areEqual && __privateGet(this, _connected2) === ConnectionState.CONNECTED && (0, import_react_dom3.render)((0, import_react378.createElement)(component, __privateMethod(this, _ReactWrapper_instances, getProps_fn).call(this)), this);
       }
       connectedCallback() {
-        __privateGet(this, _connected2) !== ConnectionState.PENDING && (0, import_react_dom3.render)((0, import_react374.createElement)(component, __privateMethod(this, _ReactWrapper_instances, getProps_fn).call(this)), this);
+        __privateGet(this, _connected2) !== ConnectionState.PENDING && (0, import_react_dom3.render)((0, import_react378.createElement)(component, __privateMethod(this, _ReactWrapper_instances, getProps_fn).call(this)), this);
         __privateSet(this, _connected2, ConnectionState.CONNECTED);
       }
       async disconnectedCallback() {
@@ -162548,13 +162743,13 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       return Object.freeze(Object.fromEntries(propEntries));
     }, _a29;
   }
-  var classes18 = { "code-block-copy-button--copied": "wMGtala_code-block-copy-button--copied", "code-block-copy-button": "wMGtala_code-block-copy-button", "code-block-copy-button__icon--copied": "wMGtala_code-block-copy-button__icon--copied", "code-block-copy-button__icon": "wMGtala_code-block-copy-button__icon" };
+  var classes18 = { "code-block-copy-button": "wMGtala_code-block-copy-button", "code-block-copy-button__icon": "wMGtala_code-block-copy-button__icon", "code-block-copy-button--copied": "wMGtala_code-block-copy-button--copied", "code-block-copy-button__icon--copied": "wMGtala_code-block-copy-button__icon--copied" };
   var CodeBlockCopyButton_module_default = classes18;
-  var _code_block_copy_button__copied0 = classes18["code-block-copy-button--copied"];
   var _code_block_copy_button0 = classes18["code-block-copy-button"];
-  var _code_block_copy_button__icon__copied0 = classes18["code-block-copy-button__icon--copied"];
   var _code_block_copy_button__icon0 = classes18["code-block-copy-button__icon"];
-  var CodeBlockCopyButton = (0, import_react373.memo)(
+  var _code_block_copy_button__copied0 = classes18["code-block-copy-button--copied"];
+  var _code_block_copy_button__icon__copied0 = classes18["code-block-copy-button__icon--copied"];
+  var CodeBlockCopyButton = (0, import_react377.memo)(
     ({
       className,
       "data-alt-copied": copiedAlt,
@@ -162563,9 +162758,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     }) => {
       const classNames31 = useStyles_default(CodeBlockCopyButton_module_default);
       const [disabled, setDisabled, disabledRef] = useStateWithRef(false);
-      const [pressed, setPressed] = (0, import_react373.useState)(false);
+      const [pressed, setPressed] = (0, import_react377.useState)(false);
       const valueRef = useRefFrom(value);
-      const handleClick = (0, import_react373.useCallback)(() => {
+      const handleClick = (0, import_react377.useCallback)(() => {
         if (disabledRef.current) {
           return;
         }
@@ -162592,8 +162787,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           obsoleted = true;
         };
       }, [disabledRef, setDisabled, setPressed, valueRef]);
-      const handleAnimationEnd = (0, import_react373.useCallback)(() => setPressed(false), [setPressed]);
-      return /* @__PURE__ */ import_react373.default.createElement(
+      const handleAnimationEnd = (0, import_react377.useCallback)(() => setPressed(false), [setPressed]);
+      return /* @__PURE__ */ import_react377.default.createElement(
         "button",
         {
           "aria-disabled": disabled,
@@ -162607,7 +162802,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           onClick: handleClick,
           type: "button"
         },
-        /* @__PURE__ */ import_react373.default.createElement(
+        /* @__PURE__ */ import_react377.default.createElement(
           ComponentIcon_default,
           {
             "aria-hidden": pressed ? "true" : void 0,
@@ -162617,7 +162812,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
             role: "img"
           }
         ),
-        /* @__PURE__ */ import_react373.default.createElement(
+        /* @__PURE__ */ import_react377.default.createElement(
           "div",
           {
             "aria-hidden": pressed ? void 0 : "true",
@@ -162637,8 +162832,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     "data-value"
   ]);
   var CustomElementsComposer = ({ children }) => {
-    const hash2 = (0, import_react371.useMemo)(() => (0, import_math_random15.default)().toString(36).substring(2, 7), []);
-    const registerCustomElement = (0, import_react371.useCallback)(
+    const hash2 = (0, import_react375.useMemo)(() => (0, import_math_random15.default)().toString(36).substring(2, 7), []);
+    const registerCustomElement = (0, import_react375.useCallback)(
       (tagName, customElementConstructor) => {
         const fullTagName = `webchat-${hash2}--${tagName}`;
         customElements.define(
@@ -162655,24 +162850,24 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       },
       [hash2]
     );
-    const codeBlockCopyButtonTagName = (0, import_react371.useMemo)(
+    const codeBlockCopyButtonTagName = (0, import_react375.useMemo)(
       () => registerCustomElement("code-block-copy-button", CodeBlockCopyButtonElement),
       [registerCustomElement]
     );
     const CodeBlockClass = useReactCodeBlockClass(codeBlockCopyButtonTagName);
-    const codeBlockTagName = (0, import_react371.useMemo)(
+    const codeBlockTagName = (0, import_react375.useMemo)(
       () => registerCustomElement("code-block", CodeBlockClass),
       [CodeBlockClass, registerCustomElement]
     );
-    const context9 = (0, import_react371.useMemo)(
+    const context9 = (0, import_react375.useMemo)(
       () => Object.freeze({ codeBlockTagName, codeBlockCopyButtonTagName }),
       [codeBlockTagName, codeBlockCopyButtonTagName]
     );
-    return /* @__PURE__ */ import_react371.default.createElement(CustomElementsContext_default.Provider, { value: context9 }, children);
+    return /* @__PURE__ */ import_react375.default.createElement(CustomElementsContext_default.Provider, { value: context9 }, children);
   };
-  var CustomElementsComposer_default = (0, import_react371.memo)(CustomElementsComposer);
-  var HTMLContentTransformComposer = (0, import_react375.memo)(({ children, middleware: middleware22 }) => {
-    const transform3 = (0, import_react375.useMemo)(() => {
+  var CustomElementsComposer_default = (0, import_react375.memo)(CustomElementsComposer);
+  var HTMLContentTransformComposer = (0, import_react379.memo)(({ children, middleware: middleware22 }) => {
+    const transform3 = (0, import_react379.useMemo)(() => {
       const enhancers = (middleware22 || []).map((enhancer) => enhancer()).reverse();
       return enhancers.reduce(
         (chain, fn) => fn(chain),
@@ -162685,8 +162880,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         }
       );
     }, [middleware22]);
-    const context9 = (0, import_react375.useMemo)(() => Object.freeze({ transform: transform3 }), [transform3]);
-    return /* @__PURE__ */ import_react375.default.createElement(HTMLContentTransformContext_default.Provider, { value: context9 }, children);
+    const context9 = (0, import_react379.useMemo)(() => Object.freeze({ transform: transform3 }), [transform3]);
+    return /* @__PURE__ */ import_react379.default.createElement(HTMLContentTransformContext_default.Provider, { value: context9 }, children);
   });
   HTMLContentTransformComposer.displayName = "HTMLContentTransformComposer";
   var HTMLContentTransformComposer_default = HTMLContentTransformComposer;
@@ -162711,7 +162906,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   var SendBoxComposer = ({ children }) => {
     const [attachments] = useSendBoxAttachments3();
     const [connectivityStatus2] = useConnectivityStatus2();
-    const [error2, setError] = (0, import_react376.useState)(false);
+    const [error2, setError] = (0, import_react380.useState)(false);
     const [sendBoxValue2] = useSendBoxValue23();
     const apiSubmitSendBox = useSubmitSendBox22();
     const focus = useFocus();
@@ -162719,7 +162914,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const scrollToEnd2 = useScrollToEnd();
     const styleToEmotionObject = useStyleToEmotionObject();
     const submitErrorMessageId = useUniqueId("webchat__send-box__error-message-id");
-    const errorMessageStringMap = (0, import_react376.useMemo)(
+    const errorMessageStringMap = (0, import_react380.useMemo)(
       () => Object.freeze(
         (/* @__PURE__ */ new Map()).set("empty", localize2("SEND_BOX_IS_EMPTY_TOOLTIP_ALT")).set("offline", localize2("CONNECTIVITY_STATUS_ALT_FATAL"))
       ),
@@ -162728,14 +162923,14 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const focusRef = useRefFrom(focus);
     const scrollToEndRef = useRefFrom(scrollToEnd2);
     const submitErrorMessageClassName = styleToEmotionObject(SUBMIT_ERROR_MESSAGE_STYLE) + "";
-    const submitErrorMessageIdState = (0, import_react376.useMemo)(
+    const submitErrorMessageIdState = (0, import_react380.useMemo)(
       () => Object.freeze([error2 ? submitErrorMessageId : void 0]),
       [error2, submitErrorMessageId]
     );
     const submitErrorRef = useRefFrom(
       connectivityStatus2 !== "connected" && connectivityStatus2 !== "reconnected" ? "offline" : !sendBoxValue2 && !attachments.length ? "empty" : void 0
     );
-    const submit = (0, import_react376.useCallback)(
+    const submit = (0, import_react380.useCallback)(
       ({ setFocus } = {}) => {
         var _a29, _b4;
         (setFocus === "main" || setFocus === "sendBox" || setFocus === "sendBoxWithoutKeyboard") && ((_a29 = focusRef.current) == null ? void 0 : _a29.call(focusRef, setFocus === "main" || setFocus === "sendBox" ? setFocus : "sendBoxWithoutKeyboard"));
@@ -162748,7 +162943,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       },
       [apiSubmitSendBox, focusRef, scrollToEndRef, submitErrorRef]
     );
-    const context9 = (0, import_react376.useMemo)(
+    const context9 = (0, import_react380.useMemo)(
       () => ({
         submit,
         submitErrorMessageIdState
@@ -162756,17 +162951,17 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       [submit, submitErrorMessageIdState]
     );
     const hasValue = !!(sendBoxValue2 == null ? void 0 : sendBoxValue2.trim());
-    (0, import_react376.useEffect)(() => {
+    (0, import_react380.useEffect)(() => {
       if (error2 === "empty" && hasValue) {
         setError(false);
       }
     }, [error2, hasValue]);
     const errorMessage = error2 && errorMessageStringMap.get(error2);
     useLiveRegion(
-      () => errorMessage && /* @__PURE__ */ import_react376.default.createElement("div", { className: (0, import_classnames78.default)("webchat__submit-error-message__status") }, errorMessage),
+      () => errorMessage && /* @__PURE__ */ import_react380.default.createElement("div", { className: (0, import_classnames78.default)("webchat__submit-error-message__status") }, errorMessage),
       [errorMessage]
     );
-    return /* @__PURE__ */ import_react376.default.createElement(Context_default23.Provider, { value: context9 }, children, /* @__PURE__ */ import_react376.default.createElement(
+    return /* @__PURE__ */ import_react380.default.createElement(Context_default23.Provider, { value: context9 }, children, /* @__PURE__ */ import_react380.default.createElement(
       "span",
       {
         className: (0, import_classnames78.default)("webchat__submit-error-message", submitErrorMessageClassName),
@@ -162776,23 +162971,23 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     ));
   };
   SendBoxComposer.displayName = "SendBoxComposer";
-  var SendBoxComposer_default = (0, import_react376.memo)(SendBoxComposer);
+  var SendBoxComposer_default = (0, import_react380.memo)(SendBoxComposer);
   var { useLocalizer: useLocalizer34 } = hook_exports;
-  var ModalDialog = (0, import_react378.memo)(
+  var ModalDialog = (0, import_react382.memo)(
     ({ "aria-label": ariaLabel, "aria-labelledby": ariaLabelledBy, children, className, onDismiss }) => {
       const [{ modalDialog: modalDialogStyleSet }] = useStyleSet();
-      const dialogRef = (0, import_react378.useRef)(null);
+      const dialogRef = (0, import_react382.useRef)(null);
       const localize2 = useLocalizer34();
       const closeButtonAlt = localize2("CLOSE_BUTTON_ALT");
-      const handleCloseButtonClick = (0, import_react378.useCallback)(() => {
+      const handleCloseButtonClick = (0, import_react382.useCallback)(() => {
         var _a29;
         return (_a29 = dialogRef.current) == null ? void 0 : _a29.close();
       }, [dialogRef]);
-      (0, import_react378.useLayoutEffect)(() => {
+      (0, import_react382.useLayoutEffect)(() => {
         var _a29;
         return (_a29 = dialogRef.current) == null ? void 0 : _a29.showModal();
       }, [dialogRef]);
-      return /* @__PURE__ */ import_react378.default.createElement(
+      return /* @__PURE__ */ import_react382.default.createElement(
         "dialog",
         {
           "aria-label": !ariaLabelledBy ? ariaLabel : void 0,
@@ -162803,7 +162998,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           ref: dialogRef,
           role: "dialog"
         },
-        /* @__PURE__ */ import_react378.default.createElement("div", { className: "webchat__modal-dialog__box" }, /* @__PURE__ */ import_react378.default.createElement("div", { className: "webchat__modal-dialog__close-button-layout" }, /* @__PURE__ */ import_react378.default.createElement(
+        /* @__PURE__ */ import_react382.default.createElement("div", { className: "webchat__modal-dialog__box" }, /* @__PURE__ */ import_react382.default.createElement("div", { className: "webchat__modal-dialog__close-button-layout" }, /* @__PURE__ */ import_react382.default.createElement(
           "button",
           {
             "aria-label": closeButtonAlt,
@@ -162811,23 +163006,23 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
             onClick: handleCloseButtonClick,
             type: "button"
           },
-          /* @__PURE__ */ import_react378.default.createElement(ComponentIcon_default, { appearance: "text", className: "webchat__modal-dialog__close-button-icon", icon: "dismiss" })
-        )), /* @__PURE__ */ import_react378.default.createElement("div", { className: "webchat__modal-dialog__body" }, children))
+          /* @__PURE__ */ import_react382.default.createElement(ComponentIcon_default, { appearance: "text", className: "webchat__modal-dialog__close-button-icon", icon: "dismiss" })
+        )), /* @__PURE__ */ import_react382.default.createElement("div", { className: "webchat__modal-dialog__body" }, children))
       );
     }
   );
   ModalDialog.displayName = "ModalDialog";
   var Popover_default = ModalDialog;
-  var ModalDialogComposer = (0, import_react377.memo)(({ children }) => {
+  var ModalDialogComposer = (0, import_react381.memo)(({ children }) => {
     var _a29, _b4, _c3;
-    const [renderFunctionAndDialogInit, setRenderFunctionAndDialogInit] = (0, import_react377.useState)();
-    const close2 = (0, import_react377.useCallback)(() => setRenderFunctionAndDialogInit(void 0), [setRenderFunctionAndDialogInit]);
-    const showModal = (0, import_react377.useCallback)(
+    const [renderFunctionAndDialogInit, setRenderFunctionAndDialogInit] = (0, import_react381.useState)();
+    const close2 = (0, import_react381.useCallback)(() => setRenderFunctionAndDialogInit(void 0), [setRenderFunctionAndDialogInit]);
+    const showModal = (0, import_react381.useCallback)(
       (render22, init) => setRenderFunctionAndDialogInit(Object.freeze([render22, init])),
       [setRenderFunctionAndDialogInit]
     );
-    const context9 = (0, import_react377.useMemo)(() => Object.freeze({ close: close2, showModal }), [close2, showModal]);
-    return /* @__PURE__ */ import_react377.default.createElement(Context_default52.Provider, { value: context9 }, children, renderFunctionAndDialogInit && /* @__PURE__ */ import_react377.default.createElement(
+    const context9 = (0, import_react381.useMemo)(() => Object.freeze({ close: close2, showModal }), [close2, showModal]);
+    return /* @__PURE__ */ import_react381.default.createElement(Context_default52.Provider, { value: context9 }, children, renderFunctionAndDialogInit && /* @__PURE__ */ import_react381.default.createElement(
       Popover_default,
       {
         "aria-label": (_a29 = renderFunctionAndDialogInit[1]) == null ? void 0 : _a29["aria-label"],
@@ -162840,27 +163035,27 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   });
   ModalDialogComposer.displayName = "ModalDialogComposer";
   var ModalDialogComposer_default = ModalDialogComposer;
-  var ReducedMotionComposer = (0, import_react379.memo)(({ children }) => {
-    const shouldReduceMotionQueryList = (0, import_react379.useMemo)(() => matchMedia == null ? void 0 : matchMedia("(prefers-reduced-motion: reduce)"), []);
-    const [shouldReduceMotion, setShouldReduceMotion] = (0, import_react379.useState)(
+  var ReducedMotionComposer = (0, import_react383.memo)(({ children }) => {
+    const shouldReduceMotionQueryList = (0, import_react383.useMemo)(() => matchMedia == null ? void 0 : matchMedia("(prefers-reduced-motion: reduce)"), []);
+    const [shouldReduceMotion, setShouldReduceMotion] = (0, import_react383.useState)(
       () => {
         var _a29;
         return (_a29 = shouldReduceMotionQueryList == null ? void 0 : shouldReduceMotionQueryList.matches) != null ? _a29 : false;
       }
     );
-    const shouldReduceMotionState = (0, import_react379.useMemo)(() => Object.freeze([shouldReduceMotion]), [shouldReduceMotion]);
-    const context9 = (0, import_react379.useMemo)(() => Object.freeze({ shouldReduceMotionState }), [shouldReduceMotionState]);
-    (0, import_react379.useEffect)(() => {
+    const shouldReduceMotionState = (0, import_react383.useMemo)(() => Object.freeze([shouldReduceMotion]), [shouldReduceMotion]);
+    const context9 = (0, import_react383.useMemo)(() => Object.freeze({ shouldReduceMotionState }), [shouldReduceMotionState]);
+    (0, import_react383.useEffect)(() => {
       const handleChange = ({ matches: matches2 }) => setShouldReduceMotion(matches2);
       shouldReduceMotionQueryList.addEventListener("change", handleChange);
       return () => shouldReduceMotionQueryList.removeEventListener("change", handleChange);
     }, [setShouldReduceMotion, shouldReduceMotionQueryList]);
-    return /* @__PURE__ */ import_react379.default.createElement(Context_default4.Provider, { value: context9 }, children);
+    return /* @__PURE__ */ import_react383.default.createElement(Context_default4.Provider, { value: context9 }, children);
   });
   ReducedMotionComposer.displayName = "ReducedMotionComposer";
   var ReducedMotionComposer_default = ReducedMotionComposer;
   var EMPTY_ARRAY8 = Object.freeze([]);
-  var Context_default62 = (0, import_react381.createContext)({
+  var Context_default62 = (0, import_react385.createContext)({
     activityMiddleware: EMPTY_ARRAY8,
     activityStatusMiddleware: EMPTY_ARRAY8,
     attachmentForScreenReaderMiddleware: EMPTY_ARRAY8,
@@ -162876,12 +163071,12 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     typingIndicatorMiddleware: EMPTY_ARRAY8
   });
   function useTheme() {
-    return (0, import_react380.useContext)(Context_default62);
+    return (0, import_react384.useContext)(Context_default62);
   }
   var { useStyleOptions: useStyleOptions15 } = hook_exports;
   var HideableSendBox = ({ className }) => {
     const [{ hideSendBox }] = useStyleOptions15();
-    return hideSendBox ? null : /* @__PURE__ */ import_react382.default.createElement(BasicSendBox_default, { className });
+    return hideSendBox ? null : /* @__PURE__ */ import_react386.default.createElement(BasicSendBox_default, { className });
   };
   var createMiddleware = () => Object.freeze([() => () => () => HideableSendBox]);
   var createMiddleware_default = createMiddleware;
@@ -162909,7 +163104,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   };
   var AttachmentIcon = ({ checked }) => {
     const rootClassName = useStyleToEmotionObject()(ROOT_STYLE92) + "";
-    return /* @__PURE__ */ import_react385.default.createElement(
+    return /* @__PURE__ */ import_react389.default.createElement(
       "div",
       {
         className: (0, import_classnames81.default)(
@@ -162918,7 +163113,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           rootClassName
         )
       },
-      /* @__PURE__ */ import_react385.default.createElement(
+      /* @__PURE__ */ import_react389.default.createElement(
         ComponentIcon_default,
         {
           appearance: "text",
@@ -162956,11 +163151,11 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const { className } = validateProps2(uploadButtonPropsSchema, props);
     const [{ sendAttachmentOn, uploadAccept, uploadMultiple }] = useStyleOptions16();
     const [{ uploadButton: uploadButtonStyleSet }] = useStyleSet();
-    const [inputKey, setInputKey] = (0, import_react384.useState)(0);
+    const [inputKey, setInputKey] = (0, import_react388.useState)(0);
     const [sendBoxAttachments3, setSendBoxAttachments2] = useSendBoxAttachments22();
     const [uiState] = useUIState42();
     const focus = useFocus();
-    const inputRef = (0, import_react384.useRef)(null);
+    const inputRef = (0, import_react388.useRef)(null);
     const localize2 = useLocalizer35();
     const makeThumbnail2 = useMakeThumbnail();
     const rootClassName = useStyleToEmotionObject()(ROOT_STYLE102) + "";
@@ -162969,11 +163164,11 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const sendAttachmentOnRef = useRefFrom(sendAttachmentOn);
     const sendBoxAttachmentsRef = useRefFrom(sendBoxAttachments3);
     const uploadFileString = localize2("TEXT_INPUT_UPLOAD_BUTTON_ALT");
-    const handleClick = (0, import_react384.useCallback)(() => {
+    const handleClick = (0, import_react388.useCallback)(() => {
       var _a29;
       return (_a29 = inputRef.current) == null ? void 0 : _a29.click();
     }, [inputRef]);
-    const handleFileChange = (0, import_react384.useCallback)(
+    const handleFileChange = (0, import_react388.useCallback)(
       ({ currentTarget }) => {
         focus("sendBox");
         (async function() {
@@ -162998,7 +163193,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       },
       [focus, makeThumbnail2, sendBoxAttachmentsRef, sendAttachmentOnRef, setInputKey, setSendBoxAttachments2, submit]
     );
-    return /* @__PURE__ */ import_react384.default.createElement("div", { className: (0, import_classnames80.default)(rootClassName, "webchat__upload-button", uploadButtonStyleSet + "", className) }, /* @__PURE__ */ import_react384.default.createElement(
+    return /* @__PURE__ */ import_react388.default.createElement("div", { className: (0, import_classnames80.default)(rootClassName, "webchat__upload-button", uploadButtonStyleSet + "", className) }, /* @__PURE__ */ import_react388.default.createElement(
       "input",
       {
         accept: uploadAccept,
@@ -163015,15 +163210,15 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         tabIndex: -1,
         type: "file"
       }
-    ), /* @__PURE__ */ import_react384.default.createElement(IconButton_default, { alt: uploadFileString, "aria-label": uploadFileString, disabled, onClick: handleClick }, /* @__PURE__ */ import_react384.default.createElement(AttachmentIcon_default, { checked: !!sendBoxAttachments3.length })));
+    ), /* @__PURE__ */ import_react388.default.createElement(IconButton_default, { alt: uploadFileString, "aria-label": uploadFileString, disabled, onClick: handleClick }, /* @__PURE__ */ import_react388.default.createElement(AttachmentIcon_default, { checked: !!sendBoxAttachments3.length })));
   }
-  var UploadButton_default = (0, import_react384.memo)(UploadButton);
+  var UploadButton_default = (0, import_react388.memo)(UploadButton);
   var { useStyleOptions: useStyleOptions17 } = hook_exports;
   function BasicSendBoxToolbar({ className }) {
     const [{ disableFileUpload }] = useStyleOptions17();
-    return !disableFileUpload && /* @__PURE__ */ import_react383.default.createElement(UploadButton_default, { className });
+    return !disableFileUpload && /* @__PURE__ */ import_react387.default.createElement(UploadButton_default, { className });
   }
-  var BasicSendBoxToolbar_default = (0, import_react383.memo)(BasicSendBoxToolbar);
+  var BasicSendBoxToolbar_default = (0, import_react387.memo)(BasicSendBoxToolbar);
   var createMiddleware2 = () => Object.freeze([() => () => () => BasicSendBoxToolbar_default]);
   var createMiddleware_default2 = createMiddleware2;
   function createActivitiesStyle() {
@@ -165470,7 +165665,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function CustomPropertiesContainer(props, ref) {
     const { children, className, nonce } = validateProps2(customPropertiesContainerPropsSchema, props);
     const [styleOptions] = useStyleOptions();
-    const [styleElements22, classNameState] = (0, import_react386.useMemo)(() => {
+    const [styleElements22, classNameState] = (0, import_react390.useMemo)(() => {
       const {
         accent: accent2,
         avatarSize,
@@ -165607,10 +165802,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       const [style] = makeCreateStyles(contents)(`component/CustomPropertiesContainer-${uniqueId32()}`);
       return [Object.freeze([style]), Object.freeze([`${webchatCustomPropertiesClass} ${randomClass}`])];
     }, [styleOptions]);
-    return /* @__PURE__ */ import_react386.default.createElement("div", { className: (0, import_classnames82.default)(className, classNameState[0]), ref }, /* @__PURE__ */ import_react386.default.createElement(InjectStyleElements_default, { at: styleOptions.stylesRoot, nonce, styleElements: styleElements22 }), children);
+    return /* @__PURE__ */ import_react390.default.createElement("div", { className: (0, import_classnames82.default)(className, classNameState[0]), ref }, /* @__PURE__ */ import_react390.default.createElement(InjectStyleElements_default, { at: styleOptions.stylesRoot, nonce, styleElements: styleElements22 }), children);
   }
   CustomPropertiesContainer.displayName = "CustomPropertiesContainer";
-  var CSSCustomPropertiesContainer_default = (0, import_react386.memo)((0, import_react386.forwardRef)(CustomPropertiesContainer));
+  var CSSCustomPropertiesContainer_default = (0, import_react390.memo)((0, import_react390.forwardRef)(CustomPropertiesContainer));
   var componentStyleContent = `/* unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/component/src/Icon/ComponentIcon.module_built.css */
 .webchat .w1GPAoW_component-icon {
   min-width: var(--webchat__component-icon--size, 1em);
@@ -167389,10 +167584,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function ComponentStylesheet(props) {
     const { nonce } = validateProps2(componentStylesheetPropsSchema, props);
     const [{ stylesRoot }] = useStyleOptions();
-    return /* @__PURE__ */ import_react387.default.createElement(InjectStyleElements_default, { at: stylesRoot, nonce, styleElements });
+    return /* @__PURE__ */ import_react391.default.createElement(InjectStyleElements_default, { at: stylesRoot, nonce, styleElements });
   }
   ComponentStylesheet.displayName = "ComponentStylesheet";
-  var ComponentStylesheet_default = (0, import_react387.memo)(ComponentStylesheet);
+  var ComponentStylesheet_default = (0, import_react391.memo)(ComponentStylesheet);
   function updateMarkdownItAttrs(token3, updater) {
     return (0, import_simple_update_in10.default)(token3, ["attrs"], (attrs) => {
       const map3 = Object.fromEntries(attrs);
@@ -167448,12 +167643,12 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       }
     }
   };
-  var ComposerCoreUI = (0, import_react273.memo)(({ children, nonce, storeDebugAPI }) => {
+  var ComposerCoreUI = (0, import_react277.memo)(({ children, nonce, storeDebugAPI }) => {
     const [{ internalLiveRegionFadeAfter }] = useStyleOptions20();
     const rootClassName = useStyleToEmotionObject()(ROOT_STYLE112) + "";
-    const rootRef = (0, import_react273.useRef)(null);
+    const rootRef = (0, import_react277.useRef)(null);
     const trackException = useTrackException2();
-    const dictationOnError = (0, import_react273.useCallback)(
+    const dictationOnError = (0, import_react277.useCallback)(
       (errorEvent) => {
         if (errorEvent.error !== "aborted") {
           const nativeError = new Error("Speech recognition failed");
@@ -167464,7 +167659,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       },
       [trackException]
     );
-    (0, import_react273.useEffect)(() => {
+    (0, import_react277.useEffect)(() => {
       const { current: current2 } = rootRef;
       if (current2) {
         current2["webChat"] = storeDebugAPI;
@@ -167473,14 +167668,14 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       return () => {
       };
     }, [storeDebugAPI]);
-    return /* @__PURE__ */ import_react273.default.createElement(
+    return /* @__PURE__ */ import_react277.default.createElement(
       CSSCustomPropertiesContainer_default,
       {
         className: (0, import_classnames40.default)("webchat", "webchat__css-custom-properties", rootClassName),
         nonce,
         ref: rootRef
       },
-      /* @__PURE__ */ import_react273.default.createElement(CustomElementsComposer_default, null, /* @__PURE__ */ import_react273.default.createElement(FocusSendBoxScope, null, /* @__PURE__ */ import_react273.default.createElement(ScrollRelativeTranscriptScope, null, /* @__PURE__ */ import_react273.default.createElement(LiveRegionTwinComposer_default, { className: "webchat__live-region", fadeAfter: internalLiveRegionFadeAfter }, /* @__PURE__ */ import_react273.default.createElement(ModalDialogComposer_default, null, /* @__PURE__ */ import_react273.default.createElement(SendBoxComposer_default, null, /* @__PURE__ */ import_react273.default.createElement(ActivityLogicalGroupingComposer_default, null, children), /* @__PURE__ */ import_react273.default.createElement(Dictation_default, { onError: dictationOnError })))))))
+      /* @__PURE__ */ import_react277.default.createElement(CustomElementsComposer_default, null, /* @__PURE__ */ import_react277.default.createElement(FocusSendBoxScope, null, /* @__PURE__ */ import_react277.default.createElement(ScrollRelativeTranscriptScope, null, /* @__PURE__ */ import_react277.default.createElement(LiveRegionTwinComposer_default, { className: "webchat__live-region", fadeAfter: internalLiveRegionFadeAfter }, /* @__PURE__ */ import_react277.default.createElement(ModalDialogComposer_default, null, /* @__PURE__ */ import_react277.default.createElement(SendBoxComposer_default, null, /* @__PURE__ */ import_react277.default.createElement(ActivityLogicalGroupingComposer_default, null, children), /* @__PURE__ */ import_react277.default.createElement(Dictation_default, { onError: dictationOnError })))))))
     );
   });
   ComposerCoreUI.displayName = "ComposerCoreUI";
@@ -167494,14 +167689,14 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     suggestedActionsAccessKey,
     webSpeechPonyfillFactory
   }) => {
-    const [dictateAbortable, setDictateAbortable] = (0, import_react273.useState)();
+    const [dictateAbortable, setDictateAbortable] = (0, import_react277.useState)();
     const [referenceGrammarID2] = useReferenceGrammarID2();
     const [styleOptions] = useStyleOptions20();
-    const focusTranscriptCallbacksRef = (0, import_react273.useRef)([]);
-    const internalMarkdownIt2 = (0, import_react273.useMemo)(() => new import_markdown_it.default(), []);
-    const scrollToCallbacksRef = (0, import_react273.useRef)([]);
-    const scrollToEndCallbacksRef = (0, import_react273.useRef)([]);
-    const internalRenderMarkdownInline = (0, import_react273.useMemo)(
+    const focusTranscriptCallbacksRef = (0, import_react277.useRef)([]);
+    const internalMarkdownIt2 = (0, import_react277.useMemo)(() => new import_markdown_it.default(), []);
+    const scrollToCallbacksRef = (0, import_react277.useRef)([]);
+    const scrollToEndCallbacksRef = (0, import_react277.useRef)([]);
+    const internalRenderMarkdownInline = (0, import_react277.useMemo)(
       () => (markdown) => {
         const tree = internalMarkdownIt2.parseInline(markdown);
         const patchedTree = addTargetBlankToHyperlinksMarkdown(tree);
@@ -167510,14 +167705,14 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       [internalMarkdownIt2]
     );
     const styleToEmotionObject = useStyleToEmotionObject();
-    const patchedStyleSet = (0, import_react273.useMemo)(
+    const patchedStyleSet = (0, import_react277.useMemo)(
       () => styleSetToEmotionObjects(styleToEmotionObject, {
         ...styleSet || createStyleSet(styleOptions),
         ...extraStyleSet
       }),
       [extraStyleSet, styleOptions, styleSet, styleToEmotionObject]
     );
-    const webSpeechPonyfill = (0, import_react273.useMemo)(() => {
+    const webSpeechPonyfill = (0, import_react277.useMemo)(() => {
       const ponyfill2 = webSpeechPonyfillFactory && webSpeechPonyfillFactory({ referenceGrammarID: referenceGrammarID2 });
       const { speechSynthesis: speechSynthesis2, SpeechSynthesisUtterance: SpeechSynthesisUtterance22 } = ponyfill2 || {};
       return {
@@ -167526,12 +167721,12 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         SpeechSynthesisUtterance: SpeechSynthesisUtterance22 || SpeechSynthesisUtterance
       };
     }, [referenceGrammarID2, webSpeechPonyfillFactory]);
-    const scrollPositionObserversRef = (0, import_react273.useRef)([]);
-    const dispatchScrollPosition = (0, import_react273.useCallback)(
+    const scrollPositionObserversRef = (0, import_react277.useRef)([]);
+    const dispatchScrollPosition = (0, import_react277.useCallback)(
       (event2) => scrollPositionObserversRef.current.forEach((observer) => observer(event2)),
       [scrollPositionObserversRef]
     );
-    const observeScrollPosition = (0, import_react273.useCallback)(
+    const observeScrollPosition = (0, import_react277.useCallback)(
       (observer) => {
         scrollPositionObserversRef.current = [...scrollPositionObserversRef.current, observer];
         return () => {
@@ -167540,10 +167735,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       },
       [scrollPositionObserversRef]
     );
-    const transcriptFocusObserversRef = (0, import_react273.useRef)([]);
-    const [numTranscriptFocusObservers, setNumTranscriptFocusObservers] = (0, import_react273.useState)(0);
+    const transcriptFocusObserversRef = (0, import_react277.useRef)([]);
+    const [numTranscriptFocusObservers, setNumTranscriptFocusObservers] = (0, import_react277.useState)(0);
     const getActivityByKey = useGetActivityByKey2();
-    const dispatchTranscriptFocusByActivityKey = (0, import_react273.useMemo)(() => {
+    const dispatchTranscriptFocusByActivityKey = (0, import_react277.useMemo)(() => {
       let prevActivityKey = /* @__PURE__ */ Symbol();
       return (activityKey) => {
         if (activityKey !== prevActivityKey) {
@@ -167553,7 +167748,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         }
       };
     }, [getActivityByKey, transcriptFocusObserversRef]);
-    const observeTranscriptFocus = (0, import_react273.useCallback)(
+    const observeTranscriptFocus = (0, import_react277.useCallback)(
       (observer) => {
         transcriptFocusObserversRef.current = [...transcriptFocusObserversRef.current, observer];
         setNumTranscriptFocusObservers(transcriptFocusObserversRef.current.length);
@@ -167564,7 +167759,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       },
       [transcriptFocusObserversRef, setNumTranscriptFocusObservers]
     );
-    const context9 = (0, import_react273.useMemo)(
+    const context9 = (0, import_react277.useMemo)(
       () => ({
         dictateAbortable,
         dispatchScrollPosition,
@@ -167604,7 +167799,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         webSpeechPonyfill
       ]
     );
-    return /* @__PURE__ */ import_react273.default.createElement(Composer_default3, { ponyfill: webSpeechPonyfill }, /* @__PURE__ */ import_react273.default.createElement(WebChatUIContext_default.Provider, { value: context9 }, /* @__PURE__ */ import_react273.default.createElement(ComposerCoreUI, { nonce, storeDebugAPI }, children)));
+    return /* @__PURE__ */ import_react277.default.createElement(Composer_default3, { ponyfill: webSpeechPonyfill }, /* @__PURE__ */ import_react277.default.createElement(WebChatUIContext_default.Provider, { value: context9 }, /* @__PURE__ */ import_react277.default.createElement(ComposerCoreUI, { nonce, storeDebugAPI }, children)));
   };
   ComposerCore2.defaultProps = {
     extraStyleSet: void 0,
@@ -167648,11 +167843,11 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }) => {
     const { nonce, onTelemetry } = composerProps;
     const theme = useTheme();
-    const patchedActivityMiddleware = (0, import_react273.useMemo)(
+    const patchedActivityMiddleware = (0, import_react277.useMemo)(
       () => [...singleToArray(activityMiddleware), ...theme.activityMiddleware, ...createCoreMiddleware2()],
       [activityMiddleware, theme.activityMiddleware]
     );
-    const patchedActivityStatusMiddleware = (0, import_react273.useMemo)(
+    const patchedActivityStatusMiddleware = (0, import_react277.useMemo)(
       () => [
         ...singleToArray(activityStatusMiddleware),
         ...theme.activityStatusMiddleware,
@@ -167660,7 +167855,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       ],
       [activityStatusMiddleware, theme.activityStatusMiddleware]
     );
-    const patchedAttachmentForScreenReaderMiddleware = (0, import_react273.useMemo)(
+    const patchedAttachmentForScreenReaderMiddleware = (0, import_react277.useMemo)(
       () => [
         ...singleToArray(attachmentForScreenReaderMiddleware),
         ...theme.attachmentForScreenReaderMiddleware,
@@ -167668,7 +167863,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       ],
       [attachmentForScreenReaderMiddleware, theme.attachmentForScreenReaderMiddleware]
     );
-    const patchedAttachmentMiddleware = (0, import_react273.useMemo)(
+    const patchedAttachmentMiddleware = (0, import_react277.useMemo)(
       () => [
         ...singleToArray(attachmentMiddleware),
         ...theme.attachmentMiddleware,
@@ -167676,11 +167871,11 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       ],
       [attachmentMiddleware, theme.attachmentMiddleware]
     );
-    const patchedAvatarMiddleware = (0, import_react273.useMemo)(
+    const patchedAvatarMiddleware = (0, import_react277.useMemo)(
       () => [...singleToArray(avatarMiddleware), ...theme.avatarMiddleware, ...createCoreAvatarMiddleware()],
       [avatarMiddleware, theme.avatarMiddleware]
     );
-    const patchedCardActionMiddleware = (0, import_react273.useMemo)(
+    const patchedCardActionMiddleware = (0, import_react277.useMemo)(
       () => [
         ...singleToArray(cardActionMiddleware),
         ...theme.cardActionMiddleware,
@@ -167688,15 +167883,15 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       ],
       [cardActionMiddleware, theme.cardActionMiddleware]
     );
-    const patchedPolymiddleware = (0, import_react273.useMemo)(
+    const patchedPolymiddleware = (0, import_react277.useMemo)(
       () => Object.freeze([...polymiddleware || [], ...theme.polymiddleware]),
       [polymiddleware, theme.polymiddleware]
     );
-    const patchedToastMiddleware = (0, import_react273.useMemo)(
+    const patchedToastMiddleware = (0, import_react277.useMemo)(
       () => [...singleToArray(toastMiddleware), ...theme.toastMiddleware, ...createCoreMiddleware_default()],
       [toastMiddleware, theme.toastMiddleware]
     );
-    const patchedTypingIndicatorMiddleware = (0, import_react273.useMemo)(
+    const patchedTypingIndicatorMiddleware = (0, import_react277.useMemo)(
       () => [
         ...singleToArray(typingIndicatorMiddleware),
         ...theme.typingIndicatorMiddleware,
@@ -167704,8 +167899,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       ],
       [typingIndicatorMiddleware, theme.typingIndicatorMiddleware]
     );
-    const defaultScrollToEndButtonMiddleware = (0, import_react273.useMemo)(() => createScrollToEndButtonMiddleware(), []);
-    const patchedScrollToEndButtonMiddleware = (0, import_react273.useMemo)(
+    const defaultScrollToEndButtonMiddleware = (0, import_react277.useMemo)(() => createScrollToEndButtonMiddleware(), []);
+    const patchedScrollToEndButtonMiddleware = (0, import_react277.useMemo)(
       () => [
         ...singleToArray(scrollToEndButtonMiddleware),
         ...theme.scrollToEndButtonMiddleware,
@@ -167713,7 +167908,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       ],
       [defaultScrollToEndButtonMiddleware, scrollToEndButtonMiddleware, theme.scrollToEndButtonMiddleware]
     );
-    const sendBoxMiddleware = (0, import_react273.useMemo)(
+    const sendBoxMiddleware = (0, import_react277.useMemo)(
       () => Object.freeze([
         ...extractSendBoxMiddleware(sendBoxMiddlewareFromProps),
         ...extractSendBoxMiddleware(theme.sendBoxMiddleware),
@@ -167721,7 +167916,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       ]),
       [sendBoxMiddlewareFromProps, theme.sendBoxMiddleware]
     );
-    const sendBoxToolbarMiddleware = (0, import_react273.useMemo)(
+    const sendBoxToolbarMiddleware = (0, import_react277.useMemo)(
       () => Object.freeze([
         ...extractSendBoxToolbarMiddleware(sendBoxToolbarMiddlewareFromProps),
         ...extractSendBoxToolbarMiddleware(theme.sendBoxToolbarMiddleware),
@@ -167729,8 +167924,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       ]),
       [sendBoxToolbarMiddlewareFromProps, theme.sendBoxToolbarMiddleware]
     );
-    const storeDebugAPI = (0, import_react273.useMemo)(() => StoreDebugAPIRegistry_default.get(composerProps.store), [composerProps.store]);
-    return /* @__PURE__ */ import_react273.default.createElement(
+    const storeDebugAPI = (0, import_react277.useMemo)(() => StoreDebugAPIRegistry_default.get(composerProps.store), [composerProps.store]);
+    return /* @__PURE__ */ import_react277.default.createElement(
       Composer_default,
       {
         activityMiddleware: patchedActivityMiddleware,
@@ -167750,8 +167945,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         typingIndicatorMiddleware: patchedTypingIndicatorMiddleware,
         ...composerProps
       },
-      /* @__PURE__ */ import_react273.default.createElement(ComponentStylesheet_default, { nonce }),
-      /* @__PURE__ */ import_react273.default.createElement(StyleToEmotionObjectComposer, { nonce }, /* @__PURE__ */ import_react273.default.createElement(HTMLContentTransformComposer_default, { middleware: htmlContentTransformMiddleware }, /* @__PURE__ */ import_react273.default.createElement(ReducedMotionComposer_default, null, /* @__PURE__ */ import_react273.default.createElement(BuiltInDecorator_default, null, /* @__PURE__ */ import_react273.default.createElement(DecoratorComposer_default, { middleware: decoratorMiddleware }, /* @__PURE__ */ import_react273.default.createElement(
+      /* @__PURE__ */ import_react277.default.createElement(ComponentStylesheet_default, { nonce }),
+      /* @__PURE__ */ import_react277.default.createElement(StyleToEmotionObjectComposer, { nonce }, /* @__PURE__ */ import_react277.default.createElement(HTMLContentTransformComposer_default, { middleware: htmlContentTransformMiddleware }, /* @__PURE__ */ import_react277.default.createElement(ReducedMotionComposer_default, null, /* @__PURE__ */ import_react277.default.createElement(BuiltInDecorator_default, null, /* @__PURE__ */ import_react277.default.createElement(DecoratorComposer_default, { middleware: decoratorMiddleware }, /* @__PURE__ */ import_react277.default.createElement(
         ComposerCore2,
         {
           extraStyleSet,
@@ -167763,7 +167958,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           webSpeechPonyfillFactory
         },
         children,
-        onTelemetry && /* @__PURE__ */ import_react273.default.createElement(UITracker_default, null)
+        onTelemetry && /* @__PURE__ */ import_react277.default.createElement(UITracker_default, null)
       ))))))
     );
   };
@@ -167781,26 +167976,26 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   var { useLocalizer: useLocalizer36 } = hook_exports;
   var ConnectivityStatusConnected = () => {
     const localize2 = useLocalizer36();
-    return /* @__PURE__ */ import_react391.default.createElement(ScreenReaderText_default, { text: localize2("CONNECTIVITY_STATUS_ALT", localize2("CONNECTIVITY_STATUS_ALT_CONNECTED")) });
+    return /* @__PURE__ */ import_react395.default.createElement(ScreenReaderText_default, { text: localize2("CONNECTIVITY_STATUS_ALT", localize2("CONNECTIVITY_STATUS_ALT_CONNECTED")) });
   };
   var Connected_default = ConnectivityStatusConnected;
   function useForceRender2() {
-    const [, setForceRender] = (0, import_react393.useState)();
-    return (0, import_react393.useCallback)(() => setForceRender({}), [setForceRender]);
+    const [, setForceRender] = (0, import_react397.useState)();
+    return (0, import_react397.useCallback)(() => setForceRender({}), [setForceRender]);
   }
   var useForceRender_default2 = useForceRender2;
   var { useDirection: useDirection52 } = hook_exports;
   var SpinnerAnimation = () => {
     const [{ spinnerAnimation: spinnerAnimationStyleSet }] = useStyleSet();
     const [direction] = useDirection52();
-    return /* @__PURE__ */ import_react394.default.createElement("div", { className: (0, import_classnames85.default)(spinnerAnimationStyleSet + "", direction === "rtl" && "webchat__spinner--rtl") });
+    return /* @__PURE__ */ import_react398.default.createElement("div", { className: (0, import_classnames85.default)(spinnerAnimationStyleSet + "", direction === "rtl" && "webchat__spinner--rtl") });
   };
   var SpinnerAnimation_default = SpinnerAnimation;
   var { useDirection: useDirection6 } = hook_exports;
   var ICON_SIZE_FACTOR = 16;
   var WarningNotificationIcon = ({ className, size }) => {
     const [direction] = useDirection6();
-    return /* @__PURE__ */ import_react395.default.createElement(
+    return /* @__PURE__ */ import_react399.default.createElement(
       "svg",
       {
         alt: "",
@@ -167809,7 +168004,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         viewBox: "0 0 13.1 13.1",
         width: ICON_SIZE_FACTOR * size
       },
-      /* @__PURE__ */ import_react395.default.createElement("path", { d: "M13.1,13.1H0L6.6,0L13.1,13.1z M7,10.5H6.1v0.9H7V10.5z M7,9.7V5.2H6.1v4.4L7,9.7z", fillRule: "evenodd" })
+      /* @__PURE__ */ import_react399.default.createElement("path", { d: "M13.1,13.1H0L6.6,0L13.1,13.1z M7,10.5H6.1v0.9H7V10.5z M7,9.7V5.2H6.1v4.4L7,9.7z", fillRule: "evenodd" })
     );
   };
   WarningNotificationIcon.defaultProps = {
@@ -167836,7 +168031,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       { connectivityNotification: connectivityNotificationStyleSet, warningNotification: warningNotificationStyleSet }
     ] = useStyleSet();
     const [direction] = useDirection7();
-    const [initialRenderAt] = (0, import_react392.useState)(() => Date2.now());
+    const [initialRenderAt] = (0, import_react396.useState)(() => Date2.now());
     const forceRender = useForceRender_default2();
     const localize2 = useLocalizer37();
     const initialConnectionText = localize2("CONNECTIVITY_STATUS_ALT_CONNECTING");
@@ -167845,37 +168040,37 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     useTimer2(initialRenderAt + slowConnectionAfter, forceRender);
     const now2 = Date2.now();
     const slow = now2 >= initialRenderAt + slowConnectionAfter;
-    return slow ? /* @__PURE__ */ import_react392.default.createElement(import_react392.Fragment, null, /* @__PURE__ */ import_react392.default.createElement(ScreenReaderText_default, { text: localize2("CONNECTIVITY_STATUS_ALT", slowConnectionText) }), /* @__PURE__ */ import_react392.default.createElement(
+    return slow ? /* @__PURE__ */ import_react396.default.createElement(import_react396.Fragment, null, /* @__PURE__ */ import_react396.default.createElement(ScreenReaderText_default, { text: localize2("CONNECTIVITY_STATUS_ALT", slowConnectionText) }), /* @__PURE__ */ import_react396.default.createElement(
       "div",
       {
         "aria-hidden": true,
         className: (0, import_classnames84.default)("webchat__connectivityStatus", warningNotificationStyleSet + ""),
         dir: direction
       },
-      /* @__PURE__ */ import_react392.default.createElement(WarningNotificationIcon_default, null),
+      /* @__PURE__ */ import_react396.default.createElement(WarningNotificationIcon_default, null),
       slowConnectionText
-    )) : /* @__PURE__ */ import_react392.default.createElement(import_react392.Fragment, null, /* @__PURE__ */ import_react392.default.createElement(
+    )) : /* @__PURE__ */ import_react396.default.createElement(import_react396.Fragment, null, /* @__PURE__ */ import_react396.default.createElement(
       ScreenReaderText_default,
       {
         text: localize2("CONNECTIVITY_STATUS_ALT", reconnect ? interruptedConnectionText : initialConnectionText)
       }
-    ), /* @__PURE__ */ import_react392.default.createElement(
+    ), /* @__PURE__ */ import_react396.default.createElement(
       "div",
       {
         "aria-hidden": true,
         className: (0, import_classnames84.default)("webchat__connectivityStatus", connectivityNotificationStyleSet + ""),
         dir: direction
       },
-      /* @__PURE__ */ import_react392.default.createElement(SpinnerAnimation_default, null),
+      /* @__PURE__ */ import_react396.default.createElement(SpinnerAnimation_default, null),
       reconnect ? interruptedConnectionText : initialConnectionText
     ));
   }
-  var Connecting_default = (0, import_react392.memo)(ConnectivityStatusConnecting);
+  var Connecting_default = (0, import_react396.memo)(ConnectivityStatusConnecting);
   var { useDirection: useDirection8 } = hook_exports;
   var ICON_SIZE_FACTOR2 = 16;
   var ErrorNotificationIcon = ({ className, size }) => {
     const [direction] = useDirection8();
-    return /* @__PURE__ */ import_react397.default.createElement(
+    return /* @__PURE__ */ import_react401.default.createElement(
       "svg",
       {
         alt: "",
@@ -167884,7 +168079,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         viewBox: "0 0 13.1 13.1",
         width: ICON_SIZE_FACTOR2 * size
       },
-      /* @__PURE__ */ import_react397.default.createElement(
+      /* @__PURE__ */ import_react401.default.createElement(
         "path",
         {
           d: "M6.5,13C2.9,13,0,10.1,0,6.5S2.9,0,6.5,0S13,2.9,13,6.5S10.1,13,6.5,13z M6.1,3.5v4.3h0.9V3.5H6.1z M6.1,8.7v0.9h0.9V8.7H6.1z",
@@ -167908,14 +168103,14 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const [direction] = useDirection9();
     const localize2 = useLocalizer38();
     const failedConnectionText = localize2("CONNECTIVITY_STATUS_ALT_FATAL");
-    return /* @__PURE__ */ import_react396.default.createElement(import_react396.default.Fragment, null, /* @__PURE__ */ import_react396.default.createElement(ScreenReaderText_default, { text: localize2("CONNECTIVITY_STATUS_ALT", failedConnectionText) }), /* @__PURE__ */ import_react396.default.createElement(
+    return /* @__PURE__ */ import_react400.default.createElement(import_react400.default.Fragment, null, /* @__PURE__ */ import_react400.default.createElement(ScreenReaderText_default, { text: localize2("CONNECTIVITY_STATUS_ALT", failedConnectionText) }), /* @__PURE__ */ import_react400.default.createElement(
       "div",
       {
         "aria-hidden": true,
         className: (0, import_classnames87.default)("webchat__connectivityStatus", errorNotificationStyleSet + ""),
         dir: direction
       },
-      /* @__PURE__ */ import_react396.default.createElement(ErrorNotificationIcon_default, null),
+      /* @__PURE__ */ import_react400.default.createElement(ErrorNotificationIcon_default, null),
       failedConnectionText
     ));
   };
@@ -167926,14 +168121,14 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const [direction] = useDirection10();
     const localize2 = useLocalizer39();
     const renderErrorNotificationText = localize2("CONNECTIVITY_STATUS_ALT_RENDER_ERROR");
-    return /* @__PURE__ */ import_react398.default.createElement(import_react398.default.Fragment, null, /* @__PURE__ */ import_react398.default.createElement(ScreenReaderText_default, { text: localize2("CONNECTIVITY_STATUS_ALT", renderErrorNotificationText) }), /* @__PURE__ */ import_react398.default.createElement(
+    return /* @__PURE__ */ import_react402.default.createElement(import_react402.default.Fragment, null, /* @__PURE__ */ import_react402.default.createElement(ScreenReaderText_default, { text: localize2("CONNECTIVITY_STATUS_ALT", renderErrorNotificationText) }), /* @__PURE__ */ import_react402.default.createElement(
       "div",
       {
         "aria-hidden": true,
         className: (0, import_classnames89.default)("webchat__connectivityStatus", errorNotificationStyleSet + ""),
         dir: direction
       },
-      /* @__PURE__ */ import_react398.default.createElement(ErrorNotificationIcon_default, null),
+      /* @__PURE__ */ import_react402.default.createElement(ErrorNotificationIcon_default, null),
       renderErrorNotificationText
     ));
   };
@@ -167946,20 +168141,20 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     }
     switch (connectivityStatus2.message) {
       case "connecting":
-        return /* @__PURE__ */ import_react390.default.createElement(Connecting_default, { className });
+        return /* @__PURE__ */ import_react394.default.createElement(Connecting_default, { className });
       case "javascripterror":
-        return /* @__PURE__ */ import_react390.default.createElement(JavaScriptError_default, { className });
+        return /* @__PURE__ */ import_react394.default.createElement(JavaScriptError_default, { className });
       case "failedtoconnect":
-        return /* @__PURE__ */ import_react390.default.createElement(FailedToConnect_default, { className });
+        return /* @__PURE__ */ import_react394.default.createElement(FailedToConnect_default, { className });
       case "reconnecting":
-        return /* @__PURE__ */ import_react390.default.createElement(Connecting_default, { className, reconnect: true });
+        return /* @__PURE__ */ import_react394.default.createElement(Connecting_default, { className, reconnect: true });
       case "connected":
       default:
-        return /* @__PURE__ */ import_react390.default.createElement(Connected_default, { className });
+        return /* @__PURE__ */ import_react394.default.createElement(Connected_default, { className });
     }
   };
   var BasicConnectivityStatus_default = BasicConnectivityStatus;
-  var CollapseIcon = ({ className }) => /* @__PURE__ */ import_react400.default.createElement(
+  var CollapseIcon = ({ className }) => /* @__PURE__ */ import_react404.default.createElement(
     "svg",
     {
       className: (className || "") + "",
@@ -167970,7 +168165,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       width: "16",
       xmlns: "http://www.w3.org/2000/svg"
     },
-    /* @__PURE__ */ import_react400.default.createElement("path", { d: "M15.2734 8.97656L8 1.71094L0.726563 8.97656L0.0234375 8.27344L8 0.289062L15.9766 8.27344L15.2734 8.97656Z" })
+    /* @__PURE__ */ import_react404.default.createElement("path", { d: "M15.2734 8.97656L8 1.71094L0.726563 8.97656L0.0234375 8.27344L8 0.289062L15.9766 8.27344L15.2734 8.97656Z" })
   );
   CollapseIcon.defaultProps = {
     className: void 0
@@ -167979,7 +168174,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     className: import_prop_types44.default.string
   };
   var CollapseIcon_default = CollapseIcon;
-  var ExpandIcon = ({ className }) => /* @__PURE__ */ import_react401.default.createElement(
+  var ExpandIcon = ({ className }) => /* @__PURE__ */ import_react405.default.createElement(
     "svg",
     {
       className: (className || "") + "",
@@ -167990,7 +168185,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       width: "16",
       xmlns: "http://www.w3.org/2000/svg"
     },
-    /* @__PURE__ */ import_react401.default.createElement("path", { d: "M15.1484 0.648437L15.8516 1.35156L8 9.20312L0.148438 1.35156L0.851563 0.648438L8 7.79687L15.1484 0.648437Z" })
+    /* @__PURE__ */ import_react405.default.createElement("path", { d: "M15.1484 0.648437L15.8516 1.35156L8 9.20312L0.148438 1.35156L0.851563 0.648438L8 7.79687L15.1484 0.648437Z" })
   );
   ExpandIcon.defaultProps = {
     className: void 0
@@ -168039,17 +168234,17 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     other: "TOAST_ACCORDION_OTHER"
   };
   var BasicToaster = ({ className }) => {
-    const instanceId = (0, import_react399.useMemo)(() => randomId2(), []);
+    const instanceId = (0, import_react403.useMemo)(() => randomId2(), []);
     const [{ toaster: toasterStyleSet }] = useStyleSet();
     const [debouncedNotifications] = useDebouncedNotifications22();
-    const [expanded, setExpanded] = (0, import_react399.useState)(false);
+    const [expanded, setExpanded] = (0, import_react403.useState)(false);
     const localizeWithPlural = useLocalizer40({ plural: true });
     const renderToast = useRenderToast2();
     const renderMarkdownInline = useInternalRenderMarkdownInline_default();
     const rootClassName = useStyleToEmotionObject()(ROOT_STYLE12) + "";
-    const handleToggleExpand = (0, import_react399.useCallback)(() => setExpanded(!expanded), [expanded, setExpanded]);
-    const sortedNotifications = (0, import_react399.useMemo)(() => sortNotifications(debouncedNotifications), [debouncedNotifications]);
-    const sortedNotificationsWithChildren = (0, import_react399.useMemo)(
+    const handleToggleExpand = (0, import_react403.useCallback)(() => setExpanded(!expanded), [expanded, setExpanded]);
+    const sortedNotifications = (0, import_react403.useMemo)(() => sortNotifications(debouncedNotifications), [debouncedNotifications]);
+    const sortedNotificationsWithChildren = (0, import_react403.useMemo)(
       () => sortedNotifications.map((notification) => {
         const children = renderToast({ notification });
         return children && { children, notification };
@@ -168058,18 +168253,18 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     );
     const expandable = sortedNotificationsWithChildren.length > 1;
     const [highestLevel] = sortedNotificationsWithChildren.map(({ notification: { level } }) => level).sort(compareLevel);
-    const expandableElementId = (0, import_react399.useMemo)(
+    const expandableElementId = (0, import_react403.useMemo)(
       () => !expandable || expanded ? `webchat__toaster__list__${instanceId}` : void 0,
       [expandable, expanded, instanceId]
     );
-    const headerElementId = (0, import_react399.useMemo)(
+    const headerElementId = (0, import_react403.useMemo)(
       () => expandable ? `webchat__toaster__header__${instanceId}` : void 0,
       [expandable, instanceId]
     );
-    (0, import_react399.useEffect)(() => {
+    (0, import_react403.useEffect)(() => {
       !expandable && setExpanded(false);
     }, [expandable]);
-    const notifiedElements = (0, import_react399.useRef)(/* @__PURE__ */ new Set());
+    const notifiedElements = (0, import_react403.useRef)(/* @__PURE__ */ new Set());
     useLiveRegion(() => {
       var _a29;
       const toAnnounce = [];
@@ -168077,7 +168272,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         if (!notifiedElements.current.has(notification.id)) {
           notifiedElements.current.add(notification.id);
           toAnnounce.push(
-            notification.alt ? /* @__PURE__ */ import_react399.default.createElement("div", { "aria-atomic": true, className: "webchat__toaster__notifications", key: notification.id }, notification.alt) : /* @__PURE__ */ import_react399.default.createElement(
+            notification.alt ? /* @__PURE__ */ import_react403.default.createElement("div", { "aria-atomic": true, className: "webchat__toaster__notifications", key: notification.id }, notification.alt) : /* @__PURE__ */ import_react403.default.createElement(
               "div",
               {
                 "aria-atomic": true,
@@ -168091,9 +168286,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           );
         }
       }
-      return toAnnounce.length > 0 && /* @__PURE__ */ import_react399.default.createElement(import_react399.Fragment, null, toAnnounce);
+      return toAnnounce.length > 0 && /* @__PURE__ */ import_react403.default.createElement(import_react403.Fragment, null, toAnnounce);
     }, [renderMarkdownInline, sortedNotifications]);
-    return /* @__PURE__ */ import_react399.default.createElement(
+    return /* @__PURE__ */ import_react403.default.createElement(
       "div",
       {
         "aria-labelledby": headerElementId,
@@ -168114,7 +168309,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         ),
         role: "log"
       },
-      expandable && /* @__PURE__ */ import_react399.default.createElement(
+      expandable && /* @__PURE__ */ import_react403.default.createElement(
         "button",
         {
           "aria-controls": expandableElementId,
@@ -168124,15 +168319,15 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           onClick: handleToggleExpand,
           type: "button"
         },
-        /* @__PURE__ */ import_react399.default.createElement("div", { "aria-hidden": true, className: "webchat__toaster__expandLevelIconBox" }, /* @__PURE__ */ import_react399.default.createElement(NotificationIcon_default, { className: "webchat__toaster__expandLevelIcon", level: highestLevel })),
-        /* @__PURE__ */ import_react399.default.createElement("div", { className: "webchat__toaster__expandText" }, localizeWithPlural(TOAST_ACCORDION_IDS, sortedNotificationsWithChildren.length)),
-        /* @__PURE__ */ import_react399.default.createElement("div", { "aria-hidden": true, className: "webchat__toaster__expandIcon" }, /* @__PURE__ */ import_react399.default.createElement("div", { className: "webchat__toaster__expandIconFocus" }, expanded ? /* @__PURE__ */ import_react399.default.createElement(CollapseIcon_default, null) : /* @__PURE__ */ import_react399.default.createElement(ExpandIcon_default, null)))
+        /* @__PURE__ */ import_react403.default.createElement("div", { "aria-hidden": true, className: "webchat__toaster__expandLevelIconBox" }, /* @__PURE__ */ import_react403.default.createElement(NotificationIcon_default, { className: "webchat__toaster__expandLevelIcon", level: highestLevel })),
+        /* @__PURE__ */ import_react403.default.createElement("div", { className: "webchat__toaster__expandText" }, localizeWithPlural(TOAST_ACCORDION_IDS, sortedNotificationsWithChildren.length)),
+        /* @__PURE__ */ import_react403.default.createElement("div", { "aria-hidden": true, className: "webchat__toaster__expandIcon" }, /* @__PURE__ */ import_react403.default.createElement("div", { className: "webchat__toaster__expandIconFocus" }, expanded ? /* @__PURE__ */ import_react403.default.createElement(CollapseIcon_default, null) : /* @__PURE__ */ import_react403.default.createElement(ExpandIcon_default, null)))
       ),
-      (!expandable || expanded) && /* @__PURE__ */ import_react399.default.createElement("div", { "aria-labelledby": headerElementId, className: "webchat__toaster__list", id: expandableElementId }, sortedNotificationsWithChildren.map(({ children, notification: { id } }) => /* @__PURE__ */ import_react399.default.createElement("div", { className: "webchat__toaster__listItem", key: id }, children)))
+      (!expandable || expanded) && /* @__PURE__ */ import_react403.default.createElement("div", { "aria-labelledby": headerElementId, className: "webchat__toaster__list", id: expandableElementId }, sortedNotificationsWithChildren.map(({ children, notification: { id } }) => /* @__PURE__ */ import_react403.default.createElement("div", { className: "webchat__toaster__listItem", key: id }, children)))
     );
   };
   BasicToaster.displayName = "BasicToaster";
-  var BasicToaster_default = (0, import_react399.memo)(BasicToaster);
+  var BasicToaster_default = (0, import_react403.memo)(BasicToaster);
   var chatHistoryBoxPropsSchema = pipe(
     object({
       children: optional(reactNode_default()),
@@ -168143,9 +168338,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function ChatHistoryBox(props) {
     const { children, className } = validateProps2(chatHistoryBoxPropsSchema, props);
     const [{ chatHistoryBox }] = useStyleSet();
-    return /* @__PURE__ */ import_react403.default.createElement("div", { className: (0, import_classnames92.default)("webchat__chat-history-box", className, chatHistoryBox) }, children);
+    return /* @__PURE__ */ import_react407.default.createElement("div", { className: (0, import_classnames92.default)("webchat__chat-history-box", className, chatHistoryBox) }, children);
   }
-  var ChatHistoryBox_default = (0, import_react403.memo)(ChatHistoryBox);
+  var ChatHistoryBox_default = (0, import_react407.memo)(ChatHistoryBox);
   var { useDirection: useDirection11 } = hook_exports;
   var chatHistoryToolbarPropsSchema = pipe(
     object({
@@ -168156,7 +168351,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function ChatHistoryToolbar(props) {
     const { children } = validateProps2(chatHistoryToolbarPropsSchema, props);
     const [direction] = useDirection11();
-    return /* @__PURE__ */ import_react404.default.createElement(
+    return /* @__PURE__ */ import_react408.default.createElement(
       "div",
       {
         className: (0, import_classnames93.default)(
@@ -168167,7 +168362,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       children
     );
   }
-  var ChatHistoryToolbar_default = (0, import_react404.memo)(ChatHistoryToolbar);
+  var ChatHistoryToolbar_default = (0, import_react408.memo)(ChatHistoryToolbar);
   function useRenderingActivityKeys() {
     return useContext46().renderingActivityKeysState;
   }
@@ -168183,7 +168378,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const markActivityKeyAsRead = useMarkActivityKeyAsRead2();
     const scrollToEnd2 = useScrollToEnd2();
     const renderingActivityKeysRef = useRefFrom(renderingActivityKeys);
-    const nextUnreadActivityKeys = (0, import_react405.useMemo)(() => {
+    const nextUnreadActivityKeys = (0, import_react409.useMemo)(() => {
       if (sticky && unreadActivityKeys.length) {
         markActivityKeyAsRead(unreadActivityKeys[unreadActivityKeys.length - 1]);
         return [];
@@ -168191,11 +168386,11 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       return unreadActivityKeys;
     }, [markActivityKeyAsRead, sticky, unreadActivityKeys]);
     const nextUnreadActivityKeysRef = useRefFrom(nextUnreadActivityKeys);
-    const unread = (0, import_react405.useMemo)(
+    const unread = (0, import_react409.useMemo)(
       () => nextUnreadActivityKeys.some((key2) => renderingActivityKeys.includes(key2)),
       [renderingActivityKeys, nextUnreadActivityKeys]
     );
-    const handleScrollToEndButtonClick = (0, import_react405.useCallback)(() => {
+    const handleScrollToEndButtonClick = (0, import_react409.useCallback)(() => {
       var _a29;
       scrollToEnd2({ behavior: "smooth" });
       const { current: renderingActivityKeys2 } = renderingActivityKeysRef;
@@ -168217,9 +168412,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   };
   function ScrollToEndButton2({ terminatorRef }) {
     const children = useScrollToEndRenderResult(terminatorRef);
-    return /* @__PURE__ */ import_react405.default.createElement(import_react405.Fragment, null, children);
+    return /* @__PURE__ */ import_react409.default.createElement(import_react409.Fragment, null, children);
   }
-  var ScrollToEndButton_default2 = (0, import_react405.memo)(ScrollToEndButton2);
+  var ScrollToEndButton_default2 = (0, import_react409.memo)(ScrollToEndButton2);
   var { contextComponentType: contextComponentType22, useContext: useContext65 } = createContextAndHook(
     "GroupedRenderingActivitiesContext"
   );
@@ -168227,14 +168422,14 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function useGroupedRenderingActivities() {
     return useContext65().groupedRenderingActivitiesState;
   }
-  var ActivityTreeGroup = (0, import_react406.memo)(({ group }) => /* @__PURE__ */ import_react406.default.createElement(ActivityGroupingDecorator_default, { activities: group.activities, groupingName: group.groupingName }, group.children.map((child) => /* @__PURE__ */ import_react406.default.createElement(ActivityTreeGroup, { group: child, key: child.key }))));
+  var ActivityTreeGroup = (0, import_react410.memo)(({ group }) => /* @__PURE__ */ import_react410.default.createElement(ActivityGroupingDecorator_default, { activities: group.activities, groupingName: group.groupingName }, group.children.map((child) => /* @__PURE__ */ import_react410.default.createElement(ActivityTreeGroup, { group: child, key: child.key }))));
   ActivityTreeGroup.displayName = "ActivityTreeGroup";
   var ActivityTree = () => {
     const [group] = useGroupedRenderingActivities();
-    return /* @__PURE__ */ import_react406.default.createElement(import_react406.Fragment, null, group.map((child) => /* @__PURE__ */ import_react406.default.createElement(ActivityTreeGroup, { group: child, key: child.key })));
+    return /* @__PURE__ */ import_react410.default.createElement(import_react410.Fragment, null, group.map((child) => /* @__PURE__ */ import_react410.default.createElement(ActivityTreeGroup, { group: child, key: child.key })));
   };
   ActivityTree.displayName = "ActivityTree";
-  var ActivityTree_default = (0, import_react406.memo)(ActivityTree);
+  var ActivityTree_default = (0, import_react410.memo)(ActivityTree);
   var { useCreateAttachmentForScreenReaderRenderer: useCreateAttachmentForScreenReaderRenderer2, useLocalizer: useLocalizer41 } = hook_exports;
   var ACTIVITY_NUM_ATTACHMENTS_ALT_IDS2 = {
     few: "ACTIVITY_NUM_ATTACHMENTS_FEW_ALT",
@@ -168250,11 +168445,11 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const attachmentForScreenReaderRenderers = attachments.map((attachment) => createAttachmentForScreenReaderRenderer({ activity, attachment })).filter(Boolean);
     const numGenericAttachments = attachments.length - attachmentForScreenReaderRenderers.length;
     const numAttachmentsAlt = !!numGenericAttachments && localizeWithPlural(ACTIVITY_NUM_ATTACHMENTS_ALT_IDS2, numGenericAttachments);
-    return /* @__PURE__ */ import_react409.default.createElement(import_react409.Fragment, null, attachmentForScreenReaderRenderers.map((render22, index2) => (
+    return /* @__PURE__ */ import_react413.default.createElement(import_react413.Fragment, null, attachmentForScreenReaderRenderers.map((render22, index2) => (
       // Direct Line does not have key for attachment other than index.
       // eslint-disable-next-line react/no-array-index-key
-      /* @__PURE__ */ import_react409.default.createElement("div", { key: index2 }, typeof render22 === "function" && render22())
-    )), numAttachmentsAlt && /* @__PURE__ */ import_react409.default.createElement("p", null, numAttachmentsAlt));
+      /* @__PURE__ */ import_react413.default.createElement("div", { key: index2 }, typeof render22 === "function" && render22())
+    )), numAttachmentsAlt && /* @__PURE__ */ import_react413.default.createElement("p", null, numAttachmentsAlt));
   };
   var LiveRegionAttachments_default = LiveRegionAttachments;
   var liveRegionSuggestedActionsPropSchema = pipe(
@@ -168272,13 +168467,13 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function LiveRegionSuggestedActions(props) {
     var _a29;
     const { suggestedActions: suggestedActions2 } = validateProps2(liveRegionSuggestedActionsPropSchema, props);
-    return ((_a29 = suggestedActions2.actions) == null ? void 0 : _a29.length) && /* @__PURE__ */ import_react410.default.createElement("p", { className: "webchat__live-region-activity__suggested-actions" }, suggestedActions2.actions.map((action2, index2) => (
+    return ((_a29 = suggestedActions2.actions) == null ? void 0 : _a29.length) && /* @__PURE__ */ import_react414.default.createElement("p", { className: "webchat__live-region-activity__suggested-actions" }, suggestedActions2.actions.map((action2, index2) => (
       // Direct Line schema does not have key other than index.
       // eslint-disable-next-line react/no-array-index-key
-      /* @__PURE__ */ import_react410.default.createElement("button", { className: "webchat__live-region-activity__suggested-action", key: index2, tabIndex: -1, type: "button" }, computeSuggestedActionText(action2))
+      /* @__PURE__ */ import_react414.default.createElement("button", { className: "webchat__live-region-activity__suggested-action", key: index2, tabIndex: -1, type: "button" }, computeSuggestedActionText(action2))
     )));
   }
-  var LiveRegionSuggestedActions_default = (0, import_react410.memo)(LiveRegionSuggestedActions);
+  var LiveRegionSuggestedActions_default = (0, import_react414.memo)(LiveRegionSuggestedActions);
   var { useAvatarForBot: useAvatarForBot6, useLocalizer: useLocalizer422 } = hook_exports;
   var ROOT_STYLE13 = {
     "&.webchat__live-region-activity": {
@@ -168309,15 +168504,15 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const localize2 = useLocalizer422();
     const renderMarkdownAsHTML = useRenderMarkdownAsHTML("accessible name");
     const rootClassName = useStyleToEmotionObject()(ROOT_STYLE13) + "";
-    const textAlt = (0, import_react408.useMemo)(() => activityAltText(activity, renderMarkdownAsHTML), [activity, renderMarkdownAsHTML]);
+    const textAlt = (0, import_react412.useMemo)(() => activityAltText(activity, renderMarkdownAsHTML), [activity, renderMarkdownAsHTML]);
     const greetingAlt = (role === "user" ? localize2("ACTIVITY_YOU_SAID_ALT") : localize2("ACTIVITY_BOT_SAID_ALT", botInitials || "")).replace(/\s{2,}/gu, " ");
     const validFallbackText = fallbackText && typeof fallbackText === "string";
-    return /* @__PURE__ */ import_react408.default.createElement("article", { "aria-atomic": true, className: (0, import_classnames94.default)("webchat__live-region-activity", rootClassName) }, /* @__PURE__ */ import_react408.default.createElement("div", null, greetingAlt), validFallbackText ? /* @__PURE__ */ import_react408.default.createElement("div", null, fallbackText) : /* @__PURE__ */ import_react408.default.createElement(import_react408.Fragment, null, /* @__PURE__ */ import_react408.default.createElement("div", null, textAlt), type2 === "message" && /* @__PURE__ */ import_react408.default.createElement(import_react408.Fragment, null, !!activity.suggestedActions && /* @__PURE__ */ import_react408.default.createElement(LiveRegionSuggestedActions_default, { suggestedActions: activity.suggestedActions }), /* @__PURE__ */ import_react408.default.createElement(LiveRegionAttachments_default, { activity }))));
+    return /* @__PURE__ */ import_react412.default.createElement("article", { "aria-atomic": true, className: (0, import_classnames94.default)("webchat__live-region-activity", rootClassName) }, /* @__PURE__ */ import_react412.default.createElement("div", null, greetingAlt), validFallbackText ? /* @__PURE__ */ import_react412.default.createElement("div", null, fallbackText) : /* @__PURE__ */ import_react412.default.createElement(import_react412.Fragment, null, /* @__PURE__ */ import_react412.default.createElement("div", null, textAlt), type2 === "message" && /* @__PURE__ */ import_react412.default.createElement(import_react412.Fragment, null, !!activity.suggestedActions && /* @__PURE__ */ import_react412.default.createElement(LiveRegionSuggestedActions_default, { suggestedActions: activity.suggestedActions }), /* @__PURE__ */ import_react412.default.createElement(LiveRegionAttachments_default, { activity }))));
   }
   var LiveRegionActivity_default = LiveRegionActivity;
   function usePrevious3(value) {
-    const ref = (0, import_react412.useRef)();
-    (0, import_react412.useEffect)(() => {
+    const ref = (0, import_react416.useRef)();
+    (0, import_react416.useEffect)(() => {
       ref.current = value;
     });
     return ref.current;
@@ -168339,7 +168534,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const [sendStatusByActivityKey] = useSendStatusByActivityKey2();
     const getActivityByKey = useGetActivityByKey22();
     const localize2 = useLocalizer43();
-    const activityKeysOfSendFailed = (0, import_react411.useMemo)(
+    const activityKeysOfSendFailed = (0, import_react415.useMemo)(
       () => Array.from(sendStatusByActivityKey).reduce(
         (activityKeysOfSendFailed2, [key2, sendStatus]) => sendStatus === SEND_FAILED3 && !isPresentational(getActivityByKey(key2)) ? activityKeysOfSendFailed2.add(key2) : activityKeysOfSendFailed2,
         /* @__PURE__ */ new Set()
@@ -168348,7 +168543,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     );
     const liveRegionSendFailedAlt = localize2("TRANSCRIPT_LIVE_REGION_SEND_FAILED_ALT");
     const prevActivityKeysOfSendFailed = usePrevious3(activityKeysOfSendFailed);
-    const hasNewSendFailed = (0, import_react411.useMemo)(() => {
+    const hasNewSendFailed = (0, import_react415.useMemo)(() => {
       if (activityKeysOfSendFailed === prevActivityKeysOfSendFailed) {
         return false;
       }
@@ -168363,14 +168558,14 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     return null;
   };
   LiveRegionSendFailed.displayName = "LiveRegionSendFailed";
-  var SendFailed_default = (0, import_react411.memo)(LiveRegionSendFailed);
+  var SendFailed_default = (0, import_react415.memo)(LiveRegionSendFailed);
   var { useActiveTyping: useActiveTyping3 } = hook_exports;
   function arrayEquals(x, y) {
     return x.length === y.length && x.every((value, index2) => y[+index2] === value);
   }
   function useTypistNames() {
     const [activeTyping] = useActiveTyping3();
-    const prevTypistNamesStateRef = (0, import_react413.useRef)(
+    const prevTypistNamesStateRef = (0, import_react417.useRef)(
       Object.freeze([Object.freeze([])])
     );
     const activeTypingFromOthersValues = Object.values(activeTyping).filter(({ role }) => role !== "user");
@@ -168380,7 +168575,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     ]);
     const { current: prevTypistNamesState } = prevTypistNamesStateRef;
     const nextTypistNamesState = arrayEquals(typistNamesState[0], prevTypistNamesState[0]) ? prevTypistNamesState : typistNamesState;
-    (0, import_react413.useEffect)(() => {
+    (0, import_react417.useEffect)(() => {
       prevTypistNamesStateRef.current = nextTypistNamesState;
     }, [prevTypistNamesStateRef, nextTypistNamesState]);
     return nextTypistNamesState;
@@ -168404,7 +168599,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       "TRANSCRIPT_LIVE_REGION_SUGGESTED_ACTIONS_WITH_ACCESS_KEY_LABEL_ALT",
       localizeAccessKeyAsAccessibleName(accessKey)
     ) : localize2("TRANSCRIPT_LIVE_REGION_SUGGESTED_ACTIONS_LABEL_ALT");
-    const keyedActivities = (0, import_react407.useMemo)(
+    const keyedActivities = (0, import_react411.useMemo)(
       () => Object.freeze(
         activities2.reduce((intermediate, activity) => {
           if (activity.type === "message") {
@@ -168415,8 +168610,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       ),
       [activities2, getKeyByActivity]
     );
-    const prevRenderingActivitiesRef = (0, import_react407.useRef)();
-    (0, import_react407.useEffect)(() => {
+    const prevRenderingActivitiesRef = (0, import_react411.useRef)();
+    (0, import_react411.useEffect)(() => {
       const { current: prevRenderingActivities } = prevRenderingActivitiesRef;
       const appendedActivities = [];
       for (const [key2, activity] of Array.from(keyedActivities.entries()).reverse()) {
@@ -168424,7 +168619,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           break;
         }
         appendedActivities.unshift({ activity, key: key2 });
-        isPresentational(activity) || queueStaticElement(/* @__PURE__ */ import_react407.default.createElement(LiveRegionActivity_default, { activity }));
+        isPresentational(activity) || queueStaticElement(/* @__PURE__ */ import_react411.default.createElement(LiveRegionActivity_default, { activity }));
       }
       const hasNewLink = appendedActivities.some(({ key: key2 }) => {
         var _a29;
@@ -168446,12 +168641,12 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       );
       if (hasNewLink || hasNewWidget) {
         queueStaticElement(
-          /* @__PURE__ */ import_react407.default.createElement("div", { className: "webchat__live-region-transcript__note", role: "note" }, hasNewLink ? liveRegionInteractiveWithLinkLabelAlt : liveRegionInteractiveLabelAlt)
+          /* @__PURE__ */ import_react411.default.createElement("div", { className: "webchat__live-region-transcript__note", role: "note" }, hasNewLink ? liveRegionInteractiveWithLinkLabelAlt : liveRegionInteractiveLabelAlt)
         );
       }
       if (hasSuggestedActions) {
         queueStaticElement(
-          /* @__PURE__ */ import_react407.default.createElement("div", { className: "webchat__live-region-transcript__note", role: "note" }, liveRegionSuggestedActionsLabelAlt)
+          /* @__PURE__ */ import_react411.default.createElement("div", { className: "webchat__live-region-transcript__note", role: "note" }, liveRegionSuggestedActionsLabelAlt)
         );
       }
       prevRenderingActivitiesRef.current = keyedActivities;
@@ -168464,11 +168659,11 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       queueStaticElement,
       keyedActivities
     ]);
-    (0, import_react407.useMemo)(() => typingIndicator && queueStaticElement(typingIndicator), [queueStaticElement, typingIndicator]);
-    return /* @__PURE__ */ import_react407.default.createElement(SendFailed_default, null);
+    (0, import_react411.useMemo)(() => typingIndicator && queueStaticElement(typingIndicator), [queueStaticElement, typingIndicator]);
+    return /* @__PURE__ */ import_react411.default.createElement(SendFailed_default, null);
   };
   LiveRegionTranscript.displayName = "LiveRegionTranscript";
-  var LiveRegionTranscript_default = (0, import_react407.memo)(LiveRegionTranscript);
+  var LiveRegionTranscript_default = (0, import_react411.memo)(LiveRegionTranscript);
   function mutableRefObject(baseSchema, message) {
     return pipe(
       any(),
@@ -168486,12 +168681,12 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   );
   function FocusRedirector(props) {
     const { className, onFocus, redirectRef } = validateProps2(focusRedirectorPropsSchema, props);
-    const handleFocus = (0, import_react414.useCallback)(() => {
+    const handleFocus = (0, import_react418.useCallback)(() => {
       var _a29;
       (_a29 = redirectRef == null ? void 0 : redirectRef.current) == null ? void 0 : _a29.focus();
       onFocus && onFocus();
     }, [onFocus, redirectRef]);
-    return /* @__PURE__ */ import_react414.default.createElement("div", { className, onFocus: handleFocus, tabIndex: 0 });
+    return /* @__PURE__ */ import_react418.default.createElement("div", { className, onFocus: handleFocus, tabIndex: 0 });
   }
   var FocusRedirector_default = FocusRedirector;
   var INPUTTABLE_KEY = {
@@ -168526,7 +168721,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
   function useRegisterFocusTranscript(callback) {
     const { focusTranscriptCallbacksRef } = useWebChatUIContext();
-    (0, import_react415.useEffect)(() => {
+    (0, import_react419.useEffect)(() => {
       if (callback) {
         const { current: focusTranscriptCallbacks } = focusTranscriptCallbacksRef;
         focusTranscriptCallbacks.push(callback);
@@ -168536,7 +168731,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
   function useRegisterScrollTo(callback) {
     const { scrollToCallbacksRef } = useWebChatUIContext();
-    (0, import_react416.useEffect)(() => {
+    (0, import_react420.useEffect)(() => {
       if (callback) {
         const { current: scrollToCallbacks } = scrollToCallbacksRef;
         scrollToCallbacks.push(callback);
@@ -168546,19 +168741,19 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
   function useRegisterScrollTo2(callback) {
     const { scrollToEndCallbacksRef } = useWebChatUIContext();
-    (0, import_react417.useEffect)(() => {
+    (0, import_react421.useEffect)(() => {
       const { current: scrollToEndCallbacks } = scrollToEndCallbacksRef;
       scrollToEndCallbacks.push(callback);
       return () => removeInline2(scrollToEndCallbacks, callback);
     }, [callback, scrollToEndCallbacksRef]);
   }
   var ChatHistoryDOMComposer = ({ children }) => {
-    const activityElementRef = (0, import_react418.useRef)(/* @__PURE__ */ new Map());
-    const context9 = (0, import_react418.useMemo)(() => ({ activityElementRef }), [activityElementRef]);
-    return /* @__PURE__ */ import_react418.default.createElement(ChatHistoryDOMContext_default.Provider, { value: context9 }, children);
+    const activityElementRef = (0, import_react422.useRef)(/* @__PURE__ */ new Map());
+    const context9 = (0, import_react422.useMemo)(() => ({ activityElementRef }), [activityElementRef]);
+    return /* @__PURE__ */ import_react422.default.createElement(ChatHistoryDOMContext_default.Provider, { value: context9 }, children);
   };
   ChatHistoryDOMComposer.displayName = "ChatHistoryDOMComposer";
-  var ChatHistoryDOMComposer_default = (0, import_react418.memo)(ChatHistoryDOMComposer);
+  var ChatHistoryDOMComposer_default = (0, import_react422.memo)(ChatHistoryDOMComposer);
   function useRenderingActivities() {
     return useContext46().renderingActivitiesState;
   }
@@ -168575,11 +168770,11 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const [activities2] = useRenderingActivities();
     const getKeyByActivity = useGetKeyByActivity7();
     const groupActivitiesByName = useGroupActivitiesByName();
-    const numRenderingActivitiesState = (0, import_react419.useMemo)(
+    const numRenderingActivitiesState = (0, import_react423.useMemo)(
       () => Object.freeze([activities2.length]),
       [activities2]
     );
-    const groupedRenderingActivitiesState = (0, import_react419.useMemo)(() => {
+    const groupedRenderingActivitiesState = (0, import_react423.useMemo)(() => {
       const run = (activities22, groups) => {
         const [name, ...nextNames] = groups;
         if (typeof name === "undefined") {
@@ -168605,17 +168800,17 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       };
       return Object.freeze([run(activities2, groupActivitiesBy)]);
     }, [activities2, getKeyByActivity, groupActivitiesBy, groupActivitiesByName]);
-    const context9 = (0, import_react419.useMemo)(
+    const context9 = (0, import_react423.useMemo)(
       () => Object.freeze({
         groupedRenderingActivitiesState,
         numRenderingActivitiesState
       }),
       [groupedRenderingActivitiesState, numRenderingActivitiesState]
     );
-    return /* @__PURE__ */ import_react419.default.createElement(GroupedRenderingActivitiesContext_default.Provider, { value: context9 }, children);
+    return /* @__PURE__ */ import_react423.default.createElement(GroupedRenderingActivitiesContext_default.Provider, { value: context9 }, children);
   };
   GroupedRenderingActivitiesComposer.displayName = "GroupedRenderingActivitiesComposer";
-  var GroupedRenderingActivitiesComposer_default = (0, import_react419.memo)(GroupedRenderingActivitiesComposer);
+  var GroupedRenderingActivitiesComposer_default = (0, import_react423.memo)(GroupedRenderingActivitiesComposer);
   function useNumRenderingActivities() {
     return useContext65().numRenderingActivitiesState;
   }
@@ -168625,7 +168820,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const activityKeys = useActivityKeys2();
     const getActivitiesByKey = useGetActivitiesByKey2();
     const getKeyByActivity = useGetKeyByActivity8();
-    const activitiesOfLatestRevision = (0, import_react420.useMemo)(() => {
+    const activitiesOfLatestRevision = (0, import_react424.useMemo)(() => {
       const activitiesOfLatestRevision2 = [];
       if (!activityKeys) {
         return activities2;
@@ -168639,7 +168834,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const renderActivity = useBuildRenderActivityCallback();
     const activityRendererMap = useReduceMemo_default(
       activitiesOfLatestRevision,
-      (0, import_react420.useCallback)(
+      (0, import_react424.useCallback)(
         (activityRendererMap2, activity) => {
           const renderer = renderActivity({ activity });
           return renderer ? Object.freeze(new Map(activityRendererMap2).set(activity, renderer)) : activityRendererMap2;
@@ -168648,22 +168843,22 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       ),
       /* @__PURE__ */ new Map()
     );
-    const activityRendererMapState = (0, import_react420.useMemo)(
+    const activityRendererMapState = (0, import_react424.useMemo)(
       () => Object.freeze([Object.freeze(activityRendererMap)]),
       [activityRendererMap]
     );
-    const renderingActivitiesState = (0, import_react420.useMemo)(
+    const renderingActivitiesState = (0, import_react424.useMemo)(
       () => Object.freeze([Object.freeze(Array.from(activityRendererMapState[0].keys()))]),
       [activityRendererMapState]
     );
-    const renderingActivityKeysState = (0, import_react420.useMemo)(() => {
+    const renderingActivityKeysState = (0, import_react424.useMemo)(() => {
       const keys2 = Object.freeze(renderingActivitiesState[0].map((activity) => getKeyByActivity(activity)));
       if (keys2.some((key2) => !key2)) {
         throw new Error("botframework-webchat internal: activityRendererMap[].activity must have activity key");
       }
       return Object.freeze([keys2]);
     }, [getKeyByActivity, renderingActivitiesState]);
-    const contextValue = (0, import_react420.useMemo)(
+    const contextValue = (0, import_react424.useMemo)(
       () => ({
         activityRendererMapState,
         renderingActivitiesState,
@@ -168671,14 +168866,14 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       }),
       [activityRendererMapState, renderingActivitiesState, renderingActivityKeysState]
     );
-    return /* @__PURE__ */ import_react420.default.createElement(RenderingActivitiesContext_default.Provider, { value: contextValue }, children);
+    return /* @__PURE__ */ import_react424.default.createElement(RenderingActivitiesContext_default.Provider, { value: contextValue }, children);
   };
   RenderingActivitiesComposer.displayName = "RenderingActivitiesComposer";
-  var RenderingActivitiesComposer_default = (0, import_react420.memo)(RenderingActivitiesComposer);
+  var RenderingActivitiesComposer_default = (0, import_react424.memo)(RenderingActivitiesComposer);
   function useStateRef3(initialValue) {
-    const [_2, forceRender] = (0, import_react422.useState)();
-    const valueRef = (0, import_react422.useRef)(initialValue);
-    const setter = (0, import_react422.useCallback)(
+    const [_2, forceRender] = (0, import_react426.useState)();
+    const valueRef = (0, import_react426.useRef)(initialValue);
+    const setter = (0, import_react426.useCallback)(
       (value) => {
         const { current: current2 } = valueRef;
         value = value instanceof Function ? value(current2) : value;
@@ -168712,16 +168907,16 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const getGroupBoundaries = useGetLogicalGroupBoundaries();
     const getGroupKeyByActivityKey = useGetLogicalGroupKey();
     const getGroupState = useGetGroupState();
-    const prefix2 = (0, import_react421.useMemo)(() => uniqueId4(3), []);
-    const getDescendantIdByActivityKey = (0, import_react421.useCallback)(
+    const prefix2 = (0, import_react425.useMemo)(() => uniqueId4(3), []);
+    const getDescendantIdByActivityKey = (0, import_react425.useCallback)(
       (activityKey) => activityKey && `webchat__transcript-focus-${prefix2}__activity-${activityKey}`,
       [prefix2]
     );
-    const getGroupDescendantIdByGroupKey = (0, import_react421.useCallback)(
+    const getGroupDescendantIdByGroupKey = (0, import_react425.useCallback)(
       (groupKey) => groupKey && `webchat__transcript-focus-${prefix2}__group-${groupKey}`,
       [prefix2]
     );
-    const getGroupDescendantIdByActivityKey = (0, import_react421.useCallback)(
+    const getGroupDescendantIdByActivityKey = (0, import_react425.useCallback)(
       (activityKey) => activityKey && getGroupDescendantIdByGroupKey(getGroupKeyByActivityKey(activityKey)),
       [getGroupDescendantIdByGroupKey, getGroupKeyByActivityKey]
     );
@@ -168731,20 +168926,20 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       rawFocusedActivityKeyRef.current = void 0;
     }
     const { current: rawFocusedActivityKey } = rawFocusedActivityKeyRef;
-    const focusedActivityKey = (0, import_react421.useMemo)(
+    const focusedActivityKey = (0, import_react425.useMemo)(
       () => renderingActivityKeys.includes(rawFocusedActivityKey) ? rawFocusedActivityKey : renderingActivityKeys.at(-1),
       [renderingActivityKeys, rawFocusedActivityKey]
     );
     const focusedActivityKeyRef = useValueRef2(focusedActivityKey);
-    const activeDescendantId = (0, import_react421.useMemo)(
+    const activeDescendantId = (0, import_react425.useMemo)(
       () => getDescendantIdByActivityKey(focusedActivityKey),
       [getDescendantIdByActivityKey, focusedActivityKey]
     );
-    const activeGroupDescendantId = (0, import_react421.useMemo)(
+    const activeGroupDescendantId = (0, import_react425.useMemo)(
       () => getGroupDescendantIdByGroupKey(rawFocusedActivityGroupKey),
       [getGroupDescendantIdByGroupKey, rawFocusedActivityGroupKey]
     );
-    const handleFocus = (0, import_react421.useCallback)(
+    const handleFocus = (0, import_react425.useCallback)(
       (activeDescendantId2) => {
         var _a30;
         (_a30 = containerRef.current) == null ? void 0 : _a30.focus();
@@ -168755,7 +168950,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       },
       [containerRef]
     );
-    const focusByGroupKey = (0, import_react421.useCallback)(
+    const focusByGroupKey = (0, import_react425.useCallback)(
       (groupKey, withFocus = true) => {
         if (!groupKey) {
           setRawFocusedActivityGroupKey(void 0);
@@ -168767,7 +168962,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       },
       [getGroupDescendantIdByGroupKey, handleFocus, setRawFocusedActivityGroupKey]
     );
-    const focusByActivityKey = (0, import_react421.useCallback)(
+    const focusByActivityKey = (0, import_react425.useCallback)(
       (activityKey, withFocus = true) => {
         if (activityKey === false) {
           setRawFocusedActivityKey(void 0);
@@ -168811,7 +169006,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         setRawFocusedActivityKey
       ]
     );
-    const getNextActivityLinear = (0, import_react421.useCallback)(
+    const getNextActivityLinear = (0, import_react425.useCallback)(
       (currentActivityKey, direction) => {
         const { current: orderedActivityKeys } = renderingActivityKeysRef;
         const currentIndex = orderedActivityKeys.indexOf(currentActivityKey);
@@ -168827,7 +169022,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       },
       [renderingActivityKeysRef]
     );
-    const handleHeaderTransition = (0, import_react421.useCallback)(
+    const handleHeaderTransition = (0, import_react425.useCallback)(
       (direction) => {
         const { current: currentGroupKey } = rawFocusedActivityGroupKeyRef;
         const { current: orderedActivityKeys } = renderingActivityKeysRef;
@@ -168875,7 +169070,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         renderingActivityKeysRef
       ]
     );
-    const handleGroupTransition = (0, import_react421.useCallback)(
+    const handleGroupTransition = (0, import_react425.useCallback)(
       (currentActivityKey, nextActivityKey, direction) => {
         const currentGroupKey = getGroupKeyByActivityKey(currentActivityKey);
         const nextGroupKey = getGroupKeyByActivityKey(nextActivityKey);
@@ -168896,7 +169091,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       },
       [focusByActivityKey, focusByGroupKey, getGroupBoundaries, getGroupKeyByActivityKey, getGroupState]
     );
-    const handleDeltaNavigation = (0, import_react421.useCallback)(
+    const handleDeltaNavigation = (0, import_react425.useCallback)(
       (delta) => {
         const { current: orderedActivityKeys } = renderingActivityKeysRef;
         const { current: focusedActivityKey2 } = focusedActivityKeyRef;
@@ -168920,7 +169115,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       },
       [focusByActivityKey, focusedActivityKeyRef, renderingActivityKeysRef]
     );
-    const focusRelativeActivity = (0, import_react421.useCallback)(
+    const focusRelativeActivity = (0, import_react425.useCallback)(
       (delta) => {
         const { current: orderedActivityKeys } = renderingActivityKeysRef;
         const { current: rawFocusedActivityGroupKey2 } = rawFocusedActivityGroupKeyRef;
@@ -168982,7 +169177,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         renderingActivityKeysRef
       ]
     );
-    const contextValue = (0, import_react421.useMemo)(
+    const contextValue = (0, import_react425.useMemo)(
       () => ({
         activeDescendantIdState: Object.freeze([activeDescendantId]),
         activeGroupDescendantIdState: Object.freeze([activeGroupDescendantId]),
@@ -169008,7 +169203,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         rawFocusedActivityKey
       ]
     );
-    return /* @__PURE__ */ import_react421.default.createElement(Context_default5.Provider, { value: contextValue }, children);
+    return /* @__PURE__ */ import_react425.default.createElement(Context_default5.Provider, { value: contextValue }, children);
   };
   TranscriptFocusComposer.displayName = "TranscriptFocusComposer";
   TranscriptFocusComposer.propTypes = {
@@ -169018,7 +169213,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       current: import_prop_types46.default.instanceOf(HTMLElement)
     }).isRequired
   };
-  var TranscriptFocusComposer_default = (0, import_react421.memo)(TranscriptFocusComposer);
+  var TranscriptFocusComposer_default = (0, import_react425.memo)(TranscriptFocusComposer);
   function useFocusRelativeActivity() {
     return useTranscriptFocusContext().focusRelativeActivity;
   }
@@ -169066,7 +169261,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       }
     }
   };
-  var InternalTranscript = (0, import_react402.forwardRef)(
+  var InternalTranscript = (0, import_react406.forwardRef)(
     ({ className, terminatorRef }, ref) => {
       const [activeDescendantId] = useActiveDescendantId();
       const [direction] = useDirection12();
@@ -169080,10 +169275,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       const getKeyByActivityId = useGetKeyByActivityId2();
       const localize2 = useLocalizer45();
       const rootClassName = useStyleToEmotionObject()(ROOT_STYLE14) + "";
-      const rootElementRef = (0, import_react402.useRef)(null);
+      const rootElementRef = (0, import_react406.useRef)(null);
       const focusedKeyRef = useValueRef2(focusedKey);
       const transcriptAriaLabel = localize2("TRANSCRIPT_ARIA_LABEL_ALT");
-      const callbackRef = (0, import_react402.useCallback)(
+      const callbackRef = (0, import_react406.useCallback)(
         (element3) => {
           if (typeof ref === "function") {
             ref(element3);
@@ -169097,7 +169292,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       const [numRenderingActivities] = useNumRenderingActivities();
       const scrollToBottomScrollTo = useScrollTo3();
       const scrollToBottomScrollToEnd = useScrollToEnd2();
-      const scrollTo2 = (0, import_react402.useCallback)(
+      const scrollTo2 = (0, import_react406.useCallback)(
         (position3, { behavior = "auto" } = {}) => {
           var _a29;
           if (!position3) {
@@ -169126,11 +169321,11 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         },
         [focusElementMapRef, getKeyByActivityId, rootElementRef, scrollToBottomScrollTo]
       );
-      const scrollToEnd2 = (0, import_react402.useCallback)(
+      const scrollToEnd2 = (0, import_react406.useCallback)(
         () => scrollToBottomScrollToEnd({ behavior: "smooth" }),
         [scrollToBottomScrollToEnd]
       );
-      const scrollRelative = (0, import_react402.useCallback)(
+      const scrollRelative = (0, import_react406.useCallback)(
         ({ direction: direction2, displacement }) => {
           const { current: rootElement } = rootElementRef;
           if (!rootElement) {
@@ -169157,7 +169352,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       useRegisterScrollRelativeTranscript(scrollRelative);
       const markActivityKeyAsRead = useMarkActivityKeyAsRead22();
       const dispatchScrollPositionWithActivityId = useDispatchScrollPosition();
-      const handleScrollPosition = (0, import_react402.useCallback)(
+      const handleScrollPosition = (0, import_react406.useCallback)(
         ({ scrollTop }) => {
           var _a29;
           const { current: rootElement } = rootElementRef;
@@ -169190,7 +169385,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         ]
       );
       useObserveScrollPosition2(handleScrollPosition);
-      const handleTranscriptKeyDown = (0, import_react402.useCallback)(
+      const handleTranscriptKeyDown = (0, import_react406.useCallback)(
         (event2) => {
           var _a29, _b4;
           const { target } = event2;
@@ -169234,7 +169429,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         },
         [focusElementMapRef, focus, focusedKeyRef, focusRelativeActivity, terminatorRef]
       );
-      const handleTranscriptKeyDownCapture = (0, import_react402.useCallback)(
+      const handleTranscriptKeyDownCapture = (0, import_react406.useCallback)(
         (event2) => {
           const { altKey, ctrlKey, key: key2, metaKey, target } = event2;
           if (altKey || ctrlKey && key2 !== "v" && key2 !== "V" || metaKey || !inputtableKey(key2) && key2 !== "Backspace") {
@@ -169247,25 +169442,25 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         },
         [focus, terminatorRef]
       );
-      useRegisterFocusTranscript((0, import_react402.useCallback)(() => focusByActivityKey(void 0), [focusByActivityKey]));
+      useRegisterFocusTranscript((0, import_react406.useCallback)(() => focusByActivityKey(void 0), [focusByActivityKey]));
       const dispatchTranscriptFocusByActivityKey = useDispatchTranscriptFocusByActivityKey();
-      (0, import_react402.useMemo)(
+      (0, import_react406.useMemo)(
         () => dispatchTranscriptFocusByActivityKey(focusedExplicitly ? focusedKey : void 0),
         [dispatchTranscriptFocusByActivityKey, focusedKey, focusedExplicitly]
       );
-      const handleFocus = (0, import_react402.useCallback)(
+      const handleFocus = (0, import_react406.useCallback)(
         // We call "focusByActivityKey" with activity key of "true".
         // It means, tries to focus on anything.
         ({ currentTarget, target }) => target === currentTarget && focusByActivityKey(true, false),
         [focusByActivityKey]
       );
-      const handleFocusFiller = (0, import_react402.useCallback)(() => focusByActivityKey(void 0), [focusByActivityKey]);
+      const handleFocusFiller = (0, import_react406.useCallback)(() => focusByActivityKey(void 0), [focusByActivityKey]);
       useObserveFocusVisible(
         rootElementRef,
-        (0, import_react402.useCallback)(() => focusByActivityKey(void 0), [focusByActivityKey])
+        (0, import_react406.useCallback)(() => focusByActivityKey(void 0), [focusByActivityKey])
       );
       const hasAnyChild = !!numRenderingActivities;
-      return /* @__PURE__ */ import_react402.default.createElement(
+      return /* @__PURE__ */ import_react406.default.createElement(
         TranscriptFocusArea_default,
         {
           "aria-activedescendant": android ? void 0 : activeDescendantId,
@@ -169279,10 +169474,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           role: "group",
           tabIndex: 0
         },
-        /* @__PURE__ */ import_react402.default.createElement(LiveRegionTranscript_default, { activityElementMapRef: focusElementMapRef }),
-        hasAnyChild && /* @__PURE__ */ import_react402.default.createElement(FocusRedirector_default, { redirectRef: terminatorRef }),
-        /* @__PURE__ */ import_react402.default.createElement(InternalTranscriptScrollable, { onFocusFiller: handleFocusFiller }, hasAnyChild && /* @__PURE__ */ import_react402.default.createElement(ActivityTree_default, null)),
-        hasAnyChild && /* @__PURE__ */ import_react402.default.createElement(import_react402.Fragment, null, /* @__PURE__ */ import_react402.default.createElement(FocusRedirector_default, { redirectRef: rootElementRef }), /* @__PURE__ */ import_react402.default.createElement(TranscriptFocusTerminator_default, { ref: terminatorRef, role: "note", tabIndex: 0 }))
+        /* @__PURE__ */ import_react406.default.createElement(LiveRegionTranscript_default, { activityElementMapRef: focusElementMapRef }),
+        hasAnyChild && /* @__PURE__ */ import_react406.default.createElement(FocusRedirector_default, { redirectRef: terminatorRef }),
+        /* @__PURE__ */ import_react406.default.createElement(InternalTranscriptScrollable, { onFocusFiller: handleFocusFiller }, hasAnyChild && /* @__PURE__ */ import_react406.default.createElement(ActivityTree_default, null)),
+        hasAnyChild && /* @__PURE__ */ import_react406.default.createElement(import_react406.Fragment, null, /* @__PURE__ */ import_react406.default.createElement(FocusRedirector_default, { redirectRef: rootElementRef }), /* @__PURE__ */ import_react406.default.createElement(TranscriptFocusTerminator_default, { ref: terminatorRef, role: "note", tabIndex: 0 }))
       );
     }
   );
@@ -169295,15 +169490,15 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const prevSticky = usePrevious3(sticky);
     const transcriptRoleDescription = localize2("TRANSCRIPT_ARIA_ROLE_ALT");
     const stickyChangedToTrue = prevSticky !== sticky && sticky;
-    (0, import_react402.useMemo)(
+    (0, import_react406.useMemo)(
       () => stickyChangedToTrue && // TODO: [P2] Both `markActivityKeyAsRead` and `markAllAsAcknowledged` hook are setters of useState.
       //       This means, in a render loop, we will be calling setter and will cause another re-render.
       //       This is not trivial but we should think if there is a way to avoid this.
       markAllAsAcknowledged(),
       [markAllAsAcknowledged, stickyChangedToTrue]
     );
-    const hasAnyChild = !!children && !!import_react402.default.Children.count(children);
-    return /* @__PURE__ */ import_react402.default.createElement(import_react402.default.Fragment, null, /* @__PURE__ */ import_react402.default.createElement(Panel_default, { className: "webchat__basic-transcript__scrollable" }, /* @__PURE__ */ import_react402.default.createElement("div", { "aria-hidden": true, className: "webchat__basic-transcript__filler", onFocus: onFocusFiller }), hasAnyChild && /* @__PURE__ */ import_react402.default.createElement(
+    const hasAnyChild = !!children && !!import_react406.default.Children.count(children);
+    return /* @__PURE__ */ import_react406.default.createElement(import_react406.default.Fragment, null, /* @__PURE__ */ import_react406.default.createElement(Panel_default, { className: "webchat__basic-transcript__scrollable" }, /* @__PURE__ */ import_react406.default.createElement("div", { "aria-hidden": true, className: "webchat__basic-transcript__filler", onFocus: onFocusFiller }), hasAnyChild && /* @__PURE__ */ import_react406.default.createElement(
       TranscriptActivityList_default,
       {
         "aria-roledescription": transcriptRoleDescription,
@@ -169311,7 +169506,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         role: "feed"
       },
       children
-    ), /* @__PURE__ */ import_react402.default.createElement(BasicTypingIndicator_default, null)));
+    ), /* @__PURE__ */ import_react406.default.createElement(BasicTypingIndicator_default, null)));
   };
   var useScroller = (activityElementMapRef) => {
     const [activityKeys] = useActivityKeys22();
@@ -169320,7 +169515,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const activityKeysRef = useValueRef2(activityKeys);
     const lastAcknowledgedActivityKeyRef = useValueRef2(lastAcknowledgedActivityKey);
     const styleOptionsRef = useValueRef2(styleOptions);
-    return (0, import_react402.useCallback)(
+    return (0, import_react406.useCallback)(
       ({ offsetHeight, scrollTop }) => {
         const {
           current: {
@@ -169389,13 +169584,13 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const [{ stylesRoot }] = useStyleOptions242();
     const [nonce] = useNonce();
     const activityElementMapRef = useActivityElementMapRef();
-    const containerRef = (0, import_react402.useRef)(null);
-    const terminatorRef = (0, import_react402.useRef)(null);
+    const containerRef = (0, import_react406.useRef)(null);
+    const terminatorRef = (0, import_react406.useRef)(null);
     const scroller = useScroller(activityElementMapRef);
-    const styleOptions = (0, import_react402.useMemo)(() => ({ stylesRoot }), [stylesRoot]);
-    return /* @__PURE__ */ import_react402.default.createElement(ChatHistoryBox_default, { className }, /* @__PURE__ */ import_react402.default.createElement(RenderingActivitiesComposer_default, null, /* @__PURE__ */ import_react402.default.createElement(TranscriptFocusComposer_default, { containerRef }, /* @__PURE__ */ import_react402.default.createElement(Composer_default5, { nonce, scroller, styleOptions }, /* @__PURE__ */ import_react402.default.createElement(ChatHistoryToolbar_default, null, /* @__PURE__ */ import_react402.default.createElement(ScrollToEndButton_default2, { terminatorRef })), /* @__PURE__ */ import_react402.default.createElement(GroupedRenderingActivitiesComposer_default, null, /* @__PURE__ */ import_react402.default.createElement(InternalTranscript, { ref: containerRef, terminatorRef }))))));
+    const styleOptions = (0, import_react406.useMemo)(() => ({ stylesRoot }), [stylesRoot]);
+    return /* @__PURE__ */ import_react406.default.createElement(ChatHistoryBox_default, { className }, /* @__PURE__ */ import_react406.default.createElement(RenderingActivitiesComposer_default, null, /* @__PURE__ */ import_react406.default.createElement(TranscriptFocusComposer_default, { containerRef }, /* @__PURE__ */ import_react406.default.createElement(Composer_default5, { nonce, scroller, styleOptions }, /* @__PURE__ */ import_react406.default.createElement(ChatHistoryToolbar_default, null, /* @__PURE__ */ import_react406.default.createElement(ScrollToEndButton_default2, { terminatorRef })), /* @__PURE__ */ import_react406.default.createElement(GroupedRenderingActivitiesComposer_default, null, /* @__PURE__ */ import_react406.default.createElement(InternalTranscript, { ref: containerRef, terminatorRef }))))));
   };
-  var BasicTranscript_default = wrapWith_default(ChatHistoryDOMComposer_default)((0, import_react402.memo)(BasicTranscript));
+  var BasicTranscript_default = wrapWith_default(ChatHistoryDOMComposer_default)((0, import_react406.memo)(BasicTranscript));
   var {
     navigator: { userAgent: userAgent3 }
   } = window;
@@ -169458,11 +169653,11 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     }),
     readonly()
   );
-  var Surface = (0, import_react423.forwardRef)((props, ref) => {
+  var Surface = (0, import_react427.forwardRef)((props, ref) => {
     const { children, className, role } = validateProps2(surfacePropsSchema, props);
     const [{ apple }] = useNavigatorPlatform();
-    const contextRef = (0, import_react423.useRef)({ focii: [] });
-    const handleKeyUp = (0, import_react423.useCallback)(
+    const contextRef = (0, import_react427.useRef)({ focii: [] });
+    const handleKeyUp = (0, import_react427.useCallback)(
       (event2) => {
         const { altKey, ctrlKey, key: key2, shiftKey } = event2;
         if (altKey && (apple ? ctrlKey : shiftKey)) {
@@ -169481,7 +169676,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       },
       [apple]
     );
-    return /* @__PURE__ */ import_react423.default.createElement(Context_default42.Provider, { value: contextRef.current }, /* @__PURE__ */ import_react423.default.createElement("div", { className, onKeyUp: handleKeyUp, ref, role }, children));
+    return /* @__PURE__ */ import_react427.default.createElement(Context_default42.Provider, { value: contextRef.current }, /* @__PURE__ */ import_react427.default.createElement("div", { className, onKeyUp: handleKeyUp, ref, role }, children));
   });
   var Surface_default = Surface;
   var { useStyleOptions: useStyleOptions25 } = hook_exports;
@@ -169512,7 +169707,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   );
   function BasicWebChat(props) {
     const { className, role } = validateProps2(basicWebChatPropsSchema, props, "strict");
-    const rootRef = (0, import_react389.useRef)(null);
+    const rootRef = (0, import_react393.useRef)(null);
     const [{ root: rootStyleSet }] = useStyleSet();
     const [options] = useStyleOptions25();
     const styleToEmotionObject = useStyleToEmotionObject();
@@ -169521,21 +169716,21 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const sendBoxClassName = styleToEmotionObject(SEND_BOX_CSS) + "";
     const toasterClassName = styleToEmotionObject(TOASTER_STYLE) + "";
     const transcriptClassName = styleToEmotionObject(TRANSCRIPT_STYLE) + "";
-    return /* @__PURE__ */ import_react389.default.createElement(
+    return /* @__PURE__ */ import_react393.default.createElement(
       Surface_default,
       {
         className: (0, import_classnames83.default)("webchat__surface", rootClassName, rootStyleSet + "", className),
         ref: rootRef,
         role
       },
-      !options.hideToaster && /* @__PURE__ */ import_react389.default.createElement(BasicToaster_default, { className: toasterClassName }),
-      /* @__PURE__ */ import_react389.default.createElement(BasicTranscript_default, { className: transcriptClassName }),
-      /* @__PURE__ */ import_react389.default.createElement(BasicConnectivityStatus_default, { className: connectivityStatusClassName }),
-      /* @__PURE__ */ import_react389.default.createElement(SendBoxMiddlewareProxy, { className: sendBoxClassName, request: void 0 })
+      !options.hideToaster && /* @__PURE__ */ import_react393.default.createElement(BasicToaster_default, { className: toasterClassName }),
+      /* @__PURE__ */ import_react393.default.createElement(BasicTranscript_default, { className: transcriptClassName }),
+      /* @__PURE__ */ import_react393.default.createElement(BasicConnectivityStatus_default, { className: connectivityStatusClassName }),
+      /* @__PURE__ */ import_react393.default.createElement(SendBoxMiddlewareProxy, { className: sendBoxClassName, request: void 0 })
     );
   }
-  var BasicWebChat_default = (0, import_react389.memo)(BasicWebChat);
-  var ReactWebChat = ({ className, role, ...composerProps }) => /* @__PURE__ */ import_react388.default.createElement(Composer_default6, { ...composerProps }, /* @__PURE__ */ import_react388.default.createElement(BasicWebChat_default, { className, role }));
+  var BasicWebChat_default = (0, import_react393.memo)(BasicWebChat);
+  var ReactWebChat = ({ className, role, ...composerProps }) => /* @__PURE__ */ import_react392.default.createElement(Composer_default6, { ...composerProps }, /* @__PURE__ */ import_react392.default.createElement(BasicWebChat_default, { className, role }));
   ReactWebChat.defaultProps = {
     className: void 0,
     role: void 0,
@@ -169565,9 +169760,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     console.warn(
       "botframework-webchat: <Avatar> component is deprecated and will be removed on or after 2022-02-25. Please use `useRenderAvatar` hook instead."
     );
-    return /* @__PURE__ */ import_react424.default.createElement(MemoizedDefaultAvatar, { "aria-hidden": ariaHidden, className, fromUser });
+    return /* @__PURE__ */ import_react428.default.createElement(MemoizedDefaultAvatar, { "aria-hidden": ariaHidden, className, fromUser });
   }
-  var Avatar_default = (0, import_react424.memo)(Avatar);
+  var Avatar_default = (0, import_react428.memo)(Avatar);
   var { useLocalizer: useLocalizer46, useTrackException: useTrackException22 } = hook_exports;
   var errorBoxPropsSchema = pipe(
     object({
@@ -169581,7 +169776,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const [{ errorBox: errorBoxStyleSet }] = useStyleSet();
     const localize2 = useLocalizer46();
     const trackException = useTrackException22();
-    (0, import_react425.useEffect)(() => {
+    (0, import_react429.useEffect)(() => {
       let rectifiedError;
       if (error2 instanceof Error) {
         rectifiedError = error2;
@@ -169591,12 +169786,12 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       }
       trackException(rectifiedError, false);
     }, [error2, trackException]);
-    return /* @__PURE__ */ import_react425.default.createElement(import_react425.Fragment, null, /* @__PURE__ */ import_react425.default.createElement(ScreenReaderText_default, { text: localize2("ACTIVITY_ERROR_BOX_TITLE") }), /* @__PURE__ */ import_react425.default.createElement("div", { className: errorBoxStyleSet }, /* @__PURE__ */ import_react425.default.createElement("div", null, type2), error2 instanceof Error ? /* @__PURE__ */ import_react425.default.createElement("details", null, /* @__PURE__ */ import_react425.default.createElement("summary", null, error2.message), /* @__PURE__ */ import_react425.default.createElement("pre", null, error2.stack)) : (
+    return /* @__PURE__ */ import_react429.default.createElement(import_react429.Fragment, null, /* @__PURE__ */ import_react429.default.createElement(ScreenReaderText_default, { text: localize2("ACTIVITY_ERROR_BOX_TITLE") }), /* @__PURE__ */ import_react429.default.createElement("div", { className: errorBoxStyleSet }, /* @__PURE__ */ import_react429.default.createElement("div", null, type2), error2 instanceof Error ? /* @__PURE__ */ import_react429.default.createElement("details", null, /* @__PURE__ */ import_react429.default.createElement("summary", null, error2.message), /* @__PURE__ */ import_react429.default.createElement("pre", null, error2.stack)) : (
       // eslint-disable-next-line no-magic-numbers
-      /* @__PURE__ */ import_react425.default.createElement("pre", null, JSON.stringify(error2, null, 2))
+      /* @__PURE__ */ import_react429.default.createElement("pre", null, JSON.stringify(error2, null, 2))
     )));
   }
-  var ErrorBox_default = (0, import_react425.memo)(ErrorBox);
+  var ErrorBox_default = (0, import_react429.memo)(ErrorBox);
   var themeProviderPropsSchema = pipe(
     object({
       children: optional(reactNode_default()),
@@ -169655,63 +169850,63 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       toastMiddleware,
       typingIndicatorMiddleware
     } = validateProps2(themeProviderPropsSchema, props);
-    const existingContext = (0, import_react426.useContext)(Context_default62);
-    const mergedActivityMiddleware = (0, import_react426.useMemo)(
+    const existingContext = (0, import_react430.useContext)(Context_default62);
+    const mergedActivityMiddleware = (0, import_react430.useMemo)(
       () => Object.freeze([...activityMiddleware || [], ...existingContext.activityMiddleware]),
       [activityMiddleware, existingContext.activityMiddleware]
     );
-    const mergedActivityStatusMiddleware = (0, import_react426.useMemo)(
+    const mergedActivityStatusMiddleware = (0, import_react430.useMemo)(
       () => Object.freeze([...activityStatusMiddleware || EMPTY_ARRAY23, ...existingContext.activityStatusMiddleware]),
       [activityStatusMiddleware, existingContext.activityStatusMiddleware]
     );
-    const mergedAttachmentForScreenReaderMiddleware = (0, import_react426.useMemo)(
+    const mergedAttachmentForScreenReaderMiddleware = (0, import_react430.useMemo)(
       () => Object.freeze([
         ...attachmentForScreenReaderMiddleware || EMPTY_ARRAY23,
         ...existingContext.attachmentForScreenReaderMiddleware
       ]),
       [attachmentForScreenReaderMiddleware, existingContext.attachmentForScreenReaderMiddleware]
     );
-    const mergedAttachmentMiddleware = (0, import_react426.useMemo)(
+    const mergedAttachmentMiddleware = (0, import_react430.useMemo)(
       () => Object.freeze([...attachmentMiddleware || EMPTY_ARRAY23, ...existingContext.attachmentMiddleware]),
       [attachmentMiddleware, existingContext.attachmentMiddleware]
     );
-    const mergedAvatarMiddleware = (0, import_react426.useMemo)(
+    const mergedAvatarMiddleware = (0, import_react430.useMemo)(
       () => Object.freeze([...avatarMiddleware || EMPTY_ARRAY23, ...existingContext.avatarMiddleware]),
       [avatarMiddleware, existingContext.avatarMiddleware]
     );
-    const mergedCardActionMiddleware = (0, import_react426.useMemo)(
+    const mergedCardActionMiddleware = (0, import_react430.useMemo)(
       () => Object.freeze([...cardActionMiddleware || EMPTY_ARRAY23, ...existingContext.cardActionMiddleware]),
       [cardActionMiddleware, existingContext.cardActionMiddleware]
     );
-    const mergedGroupActivitiesMiddleware = (0, import_react426.useMemo)(
+    const mergedGroupActivitiesMiddleware = (0, import_react430.useMemo)(
       () => Object.freeze([...groupActivitiesMiddleware || EMPTY_ARRAY23, ...existingContext.groupActivitiesMiddleware]),
       [groupActivitiesMiddleware, existingContext.groupActivitiesMiddleware]
     );
-    const mergedPolymiddleware = (0, import_react426.useMemo)(
+    const mergedPolymiddleware = (0, import_react430.useMemo)(
       () => Object.freeze([...polymiddleware || EMPTY_ARRAY23, ...existingContext.polymiddleware]),
       [polymiddleware, existingContext.polymiddleware]
     );
-    const mergedScrollToEndButtonMiddleware = (0, import_react426.useMemo)(
+    const mergedScrollToEndButtonMiddleware = (0, import_react430.useMemo)(
       () => Object.freeze([...scrollToEndButtonMiddleware || EMPTY_ARRAY23, ...existingContext.scrollToEndButtonMiddleware]),
       [scrollToEndButtonMiddleware, existingContext.scrollToEndButtonMiddleware]
     );
-    const mergedSendBoxMiddleware = (0, import_react426.useMemo)(
+    const mergedSendBoxMiddleware = (0, import_react430.useMemo)(
       () => Object.freeze([...sendBoxMiddleware || EMPTY_ARRAY23, ...existingContext.sendBoxMiddleware]),
       [sendBoxMiddleware, existingContext.sendBoxMiddleware]
     );
-    const mergedSendBoxToolbarMiddleware = (0, import_react426.useMemo)(
+    const mergedSendBoxToolbarMiddleware = (0, import_react430.useMemo)(
       () => Object.freeze([...sendBoxToolbarMiddleware || EMPTY_ARRAY23, ...existingContext.sendBoxToolbarMiddleware]),
       [sendBoxToolbarMiddleware, existingContext.sendBoxToolbarMiddleware]
     );
-    const mergedToastMiddleware = (0, import_react426.useMemo)(
+    const mergedToastMiddleware = (0, import_react430.useMemo)(
       () => Object.freeze([...toastMiddleware || EMPTY_ARRAY23, ...existingContext.toastMiddleware]),
       [toastMiddleware, existingContext.toastMiddleware]
     );
-    const mergedTypingIndicatorMiddleware = (0, import_react426.useMemo)(
+    const mergedTypingIndicatorMiddleware = (0, import_react430.useMemo)(
       () => Object.freeze([...typingIndicatorMiddleware || EMPTY_ARRAY23, ...existingContext.typingIndicatorMiddleware]),
       [typingIndicatorMiddleware, existingContext.typingIndicatorMiddleware]
     );
-    const context9 = (0, import_react426.useMemo)(
+    const context9 = (0, import_react430.useMemo)(
       () => ({
         activityMiddleware: mergedActivityMiddleware,
         activityStatusMiddleware: mergedActivityStatusMiddleware,
@@ -169743,12 +169938,12 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         mergedTypingIndicatorMiddleware
       ]
     );
-    return /* @__PURE__ */ import_react426.default.createElement(StyleOptionsComposer_default, { styleOptions }, /* @__PURE__ */ import_react426.default.createElement(Context_default62.Provider, { value: context9 }, children));
+    return /* @__PURE__ */ import_react430.default.createElement(StyleOptionsComposer_default, { styleOptions }, /* @__PURE__ */ import_react430.default.createElement(Context_default62.Provider, { value: context9 }, children));
   };
   ThemeProvider.displayName = "ThemeProvider";
-  var ThemeProvider_default = (0, import_react426.memo)(ThemeProvider);
+  var ThemeProvider_default = (0, import_react430.memo)(ThemeProvider);
 
-  // ../component/dist/chunk-SC7O6TE2.mjs
+  // ../component/dist/chunk-CQSHJADV.mjs
   var hook_exports2 = {};
   __export2(hook_exports2, {
     useActiveTyping: () => useActiveTyping_default,
@@ -170009,10 +170204,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
 
   // src/renderWebChat.tsx
-  var import_react427 = __toESM(require_react());
+  var import_react431 = __toESM(require_react());
   var import_react_dom4 = __toESM(require_react_dom());
   function renderWebChat(ReactWebChat2, props, element3) {
-    import_react_dom4.default.render(/* @__PURE__ */ import_react427.default.createElement(ReactWebChat2, { ...props }), element3);
+    import_react_dom4.default.render(/* @__PURE__ */ import_react431.default.createElement(ReactWebChat2, { ...props }), element3);
   }
 
   // src/boot/actual/renderWebChat/minimal.ts
@@ -170038,11 +170233,11 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   });
 
   // ../component/dist/botframework-webchat-component.decorator.mjs
-  var import_react428 = __toESM(require_react(), 1);
-  var import_react429 = __toESM(require_react(), 1);
-  var import_react430 = __toESM(require_react(), 1);
+  var import_react432 = __toESM(require_react(), 1);
+  var import_react433 = __toESM(require_react(), 1);
+  var import_react434 = __toESM(require_react(), 1);
   var import_classnames95 = __toESM(require_classnames(), 1);
-  var import_react431 = __toESM(require_react(), 1);
+  var import_react435 = __toESM(require_react(), 1);
   var decoratorStyleContent = '/* unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/component/src/decorator/private/BorderFlair.module_built.css */\n@property --webchat-decorator-borderFlair-animated-angle { syntax: "<number>"; inherits: true; initial-value: 0; }\n@property --webchat-decorator-borderFlair-animated-color1 { syntax: "<color>"; inherits: true; initial-value: #0000; }\n@property --webchat-decorator-borderFlair-animated-color2 { syntax: "<color>"; inherits: true; initial-value: #0000; }\n@property --webchat-decorator-borderFlair-animated-color3 { syntax: "<color>"; inherits: true; initial-value: #0000; }\n@keyframes borderAnimation-angle {\n  0% {\n    --webchat-decorator-borderFlair-animated-angle: .75;\n  }\n  100% {\n    --webchat-decorator-borderFlair-animated-angle: 2.75;\n  }\n}\n@keyframes borderAnimation-color1 {\n  0% {\n    --webchat-decorator-borderFlair-animated-color1: var(--webchat-decorator-borderFlair-color1Fade);\n  }\n  33% {\n    --webchat-decorator-borderFlair-animated-color1: var(--webchat-decorator-borderFlair-color1);\n  }\n  83% {\n    --webchat-decorator-borderFlair-animated-color1: var(--webchat-decorator-borderFlair-color1);\n  }\n  100% {\n    --webchat-decorator-borderFlair-animated-color1: var(--webchat-decorator-borderFlair-color1Fade);\n  }\n}\n@keyframes borderAnimation-color2 {\n  0% {\n    --webchat-decorator-borderFlair-animated-color2: var(--webchat-decorator-borderFlair-color2Fade);\n  }\n  33% {\n    --webchat-decorator-borderFlair-animated-color2: var(--webchat-decorator-borderFlair-color2);\n  }\n  83% {\n    --webchat-decorator-borderFlair-animated-color2: var(--webchat-decorator-borderFlair-color2);\n  }\n  100% {\n    --webchat-decorator-borderFlair-animated-color2: var(--webchat-decorator-borderFlair-color2Fade);\n  }\n}\n@keyframes borderAnimation-color3 {\n  0% {\n    --webchat-decorator-borderFlair-animated-color3: var(--webchat-decorator-borderFlair-color3Fade);\n  }\n  33% {\n    --webchat-decorator-borderFlair-animated-color3: var(--webchat-decorator-borderFlair-color3);\n  }\n  83% {\n    --webchat-decorator-borderFlair-animated-color3: var(--webchat-decorator-borderFlair-color3);\n  }\n  100% {\n    --webchat-decorator-borderFlair-animated-color3: var(--webchat-decorator-borderFlair-color3Fade);\n  }\n}\n.webchat .wEa7pCG_border-flair {\n  --webchat-decorator-borderFlair-color1: var(--webchat-borderFlair-color1, var(--webchat__border-animation--color-1));\n  --webchat-decorator-borderFlair-color2: var(--webchat-borderFlair-color2, var(--webchat__border-animation--color-2));\n  --webchat-decorator-borderFlair-color3: var(--webchat-borderFlair-color3, var(--webchat__border-animation--color-3));\n  --webchat-decorator-borderFlair-color1Fade: var(--webchat-borderFlair-color1Fade, transparent);\n  --webchat-decorator-borderFlair-color2Fade: var(--webchat-borderFlair-color2Fade, transparent);\n  --webchat-decorator-borderFlair-color3Fade: var(--webchat-borderFlair-color1Fade, transparent);\n  --webchat-decorator-borderFlair-borderSize: var(--webchat-borderFlair-borderSize, 2px);\n  --webchat-decorator-borderFlair-backgroundSize: calc(100% + (2 * var(--webchat-decorator-borderFlair-borderSize)));\n  --webchat-decorator-borderFlair-borderGradient:\n    linear-gradient(\n      calc(var(--webchat-decorator-borderFlair-animated-angle) * 180deg + 45deg),\n      var(--webchat-decorator-borderFlair-animated-color1),\n      var(--webchat-decorator-borderFlair-animated-color2),\n      var(--webchat-decorator-borderFlair-animated-color3));\n  --webchat-decorator-borderFlair-borderMask: linear-gradient(#fff0, #fff0) padding-box, linear-gradient(#fff, #fff) border-box;\n  background: var(--webchat-decorator-borderFlair-borderGradient) center center / var(--webchat-decorator-borderFlair-backgroundSize) var(--webchat-decorator-borderFlair-backgroundSize);\n  border: var(--webchat-decorator-borderFlair-borderSize) solid transparent;\n  border-radius: inherit;\n  isolation: isolate;\n  -webkit-mask: var(--webchat-decorator-borderFlair-borderMask);\n  -webkit-mask-composite: clear;\n  mask: var(--webchat-decorator-borderFlair-borderMask);\n  pointer-events: none;\n  animation:\n    2s linear forwards borderAnimation-angle,\n    1.2s linear forwards borderAnimation-color1,\n    1.2s linear .2s forwards borderAnimation-color2,\n    1.2s linear .4s forwards borderAnimation-color3;\n  position: absolute;\n  inset: 0;\n  mask-composite: intersect;\n}\n.webchat .wEa7pCG_border-flair--complete {\n  animation-play-state: paused;\n}\n@supports ((-moz-appearance: none)) {\n  @keyframes borderFlair-animation {\n    0% {\n      --webchat-decorator-borderFlair-animated: 0;\n    }\n    1% {\n      --webchat-decorator-borderFlair-animated: .01;\n    }\n    2% {\n      --webchat-decorator-borderFlair-animated: .02;\n    }\n    3% {\n      --webchat-decorator-borderFlair-animated: .03;\n    }\n    4% {\n      --webchat-decorator-borderFlair-animated: .04;\n    }\n    5% {\n      --webchat-decorator-borderFlair-animated: .05;\n    }\n    6% {\n      --webchat-decorator-borderFlair-animated: .06;\n    }\n    7% {\n      --webchat-decorator-borderFlair-animated: .07;\n    }\n    8% {\n      --webchat-decorator-borderFlair-animated: .08;\n    }\n    9% {\n      --webchat-decorator-borderFlair-animated: .09;\n    }\n    10% {\n      --webchat-decorator-borderFlair-animated: .1;\n    }\n    11% {\n      --webchat-decorator-borderFlair-animated: .11;\n    }\n    12% {\n      --webchat-decorator-borderFlair-animated: .12;\n    }\n    13% {\n      --webchat-decorator-borderFlair-animated: .13;\n    }\n    14% {\n      --webchat-decorator-borderFlair-animated: .14;\n    }\n    15% {\n      --webchat-decorator-borderFlair-animated: .15;\n    }\n    16% {\n      --webchat-decorator-borderFlair-animated: .16;\n    }\n    17% {\n      --webchat-decorator-borderFlair-animated: .17;\n    }\n    18% {\n      --webchat-decorator-borderFlair-animated: .18;\n    }\n    19% {\n      --webchat-decorator-borderFlair-animated: .19;\n    }\n    20% {\n      --webchat-decorator-borderFlair-animated: .2;\n    }\n    21% {\n      --webchat-decorator-borderFlair-animated: .21;\n    }\n    22% {\n      --webchat-decorator-borderFlair-animated: .22;\n    }\n    23% {\n      --webchat-decorator-borderFlair-animated: .23;\n    }\n    24% {\n      --webchat-decorator-borderFlair-animated: .24;\n    }\n    25% {\n      --webchat-decorator-borderFlair-animated: .25;\n    }\n    26% {\n      --webchat-decorator-borderFlair-animated: .26;\n    }\n    27% {\n      --webchat-decorator-borderFlair-animated: .27;\n    }\n    28% {\n      --webchat-decorator-borderFlair-animated: .28;\n    }\n    29% {\n      --webchat-decorator-borderFlair-animated: .29;\n    }\n    30% {\n      --webchat-decorator-borderFlair-animated: .3;\n    }\n    31% {\n      --webchat-decorator-borderFlair-animated: .31;\n    }\n    32% {\n      --webchat-decorator-borderFlair-animated: .32;\n    }\n    33% {\n      --webchat-decorator-borderFlair-animated: .33;\n    }\n    34% {\n      --webchat-decorator-borderFlair-animated: .34;\n    }\n    35% {\n      --webchat-decorator-borderFlair-animated: .35;\n    }\n    36% {\n      --webchat-decorator-borderFlair-animated: .36;\n    }\n    37% {\n      --webchat-decorator-borderFlair-animated: .37;\n    }\n    38% {\n      --webchat-decorator-borderFlair-animated: .38;\n    }\n    39% {\n      --webchat-decorator-borderFlair-animated: .39;\n    }\n    40% {\n      --webchat-decorator-borderFlair-animated: .4;\n    }\n    41% {\n      --webchat-decorator-borderFlair-animated: .41;\n    }\n    42% {\n      --webchat-decorator-borderFlair-animated: .42;\n    }\n    43% {\n      --webchat-decorator-borderFlair-animated: .43;\n    }\n    44% {\n      --webchat-decorator-borderFlair-animated: .44;\n    }\n    45% {\n      --webchat-decorator-borderFlair-animated: .45;\n    }\n    46% {\n      --webchat-decorator-borderFlair-animated: .46;\n    }\n    47% {\n      --webchat-decorator-borderFlair-animated: .47;\n    }\n    48% {\n      --webchat-decorator-borderFlair-animated: .48;\n    }\n    49% {\n      --webchat-decorator-borderFlair-animated: .49;\n    }\n    50% {\n      --webchat-decorator-borderFlair-animated: .5;\n    }\n    51% {\n      --webchat-decorator-borderFlair-animated: .51;\n    }\n    52% {\n      --webchat-decorator-borderFlair-animated: .52;\n    }\n    53% {\n      --webchat-decorator-borderFlair-animated: .53;\n    }\n    54% {\n      --webchat-decorator-borderFlair-animated: .54;\n    }\n    55% {\n      --webchat-decorator-borderFlair-animated: .55;\n    }\n    56% {\n      --webchat-decorator-borderFlair-animated: .56;\n    }\n    57% {\n      --webchat-decorator-borderFlair-animated: .57;\n    }\n    58% {\n      --webchat-decorator-borderFlair-animated: .58;\n    }\n    59% {\n      --webchat-decorator-borderFlair-animated: .59;\n    }\n    60% {\n      --webchat-decorator-borderFlair-animated: .6;\n    }\n    61% {\n      --webchat-decorator-borderFlair-animated: .61;\n    }\n    62% {\n      --webchat-decorator-borderFlair-animated: .62;\n    }\n    63% {\n      --webchat-decorator-borderFlair-animated: .63;\n    }\n    64% {\n      --webchat-decorator-borderFlair-animated: .64;\n    }\n    65% {\n      --webchat-decorator-borderFlair-animated: .65;\n    }\n    66% {\n      --webchat-decorator-borderFlair-animated: .66;\n    }\n    67% {\n      --webchat-decorator-borderFlair-animated: .67;\n    }\n    68% {\n      --webchat-decorator-borderFlair-animated: .68;\n    }\n    69% {\n      --webchat-decorator-borderFlair-animated: .69;\n    }\n    70% {\n      --webchat-decorator-borderFlair-animated: .7;\n    }\n    71% {\n      --webchat-decorator-borderFlair-animated: .71;\n    }\n    72% {\n      --webchat-decorator-borderFlair-animated: .72;\n    }\n    73% {\n      --webchat-decorator-borderFlair-animated: .73;\n    }\n    74% {\n      --webchat-decorator-borderFlair-animated: .74;\n    }\n    75% {\n      --webchat-decorator-borderFlair-animated: .75;\n    }\n    76% {\n      --webchat-decorator-borderFlair-animated: .76;\n    }\n    77% {\n      --webchat-decorator-borderFlair-animated: .77;\n    }\n    78% {\n      --webchat-decorator-borderFlair-animated: .78;\n    }\n    79% {\n      --webchat-decorator-borderFlair-animated: .79;\n    }\n    80% {\n      --webchat-decorator-borderFlair-animated: .8;\n    }\n    81% {\n      --webchat-decorator-borderFlair-animated: .81;\n    }\n    82% {\n      --webchat-decorator-borderFlair-animated: .82;\n    }\n    83% {\n      --webchat-decorator-borderFlair-animated: .83;\n    }\n    84% {\n      --webchat-decorator-borderFlair-animated: .84;\n    }\n    85% {\n      --webchat-decorator-borderFlair-animated: .85;\n    }\n    86% {\n      --webchat-decorator-borderFlair-animated: .86;\n    }\n    87% {\n      --webchat-decorator-borderFlair-animated: .87;\n    }\n    88% {\n      --webchat-decorator-borderFlair-animated: .88;\n    }\n    89% {\n      --webchat-decorator-borderFlair-animated: .89;\n    }\n    90% {\n      --webchat-decorator-borderFlair-animated: .9;\n    }\n    91% {\n      --webchat-decorator-borderFlair-animated: .91;\n    }\n    92% {\n      --webchat-decorator-borderFlair-animated: .92;\n    }\n    93% {\n      --webchat-decorator-borderFlair-animated: .93;\n    }\n    94% {\n      --webchat-decorator-borderFlair-animated: .94;\n    }\n    95% {\n      --webchat-decorator-borderFlair-animated: .95;\n    }\n    96% {\n      --webchat-decorator-borderFlair-animated: .96;\n    }\n    97% {\n      --webchat-decorator-borderFlair-animated: .97;\n    }\n    98% {\n      --webchat-decorator-borderFlair-animated: .98;\n    }\n    99% {\n      --webchat-decorator-borderFlair-animated: .99;\n    }\n    100% {\n      --webchat-decorator-borderFlair-animated: 1;\n    }\n  }\n  .webchat .wEa7pCG_border-flair {\n    --webchat-decorator-borderFlair-animated-angle: calc(.75 + 2 * var(--webchat-decorator-borderFlair-animated));\n    --webchat-decorator-borderFlair-animated-color1: color-mix(in srgb, var(--webchat-decorator-borderFlair-color1) calc((1 - abs(var(--webchat-decorator-borderFlair-animated) * 3 - 1.5)) * 100%), var(--webchat-decorator-borderFlair-color1Fade));\n    --webchat-decorator-borderFlair-animated-color2: color-mix(in srgb, var(--webchat-decorator-borderFlair-color2) calc((1 - abs(var(--webchat-decorator-borderFlair-animated) * 3 - 1.75)) * 100%), var(--webchat-decorator-borderFlair-color2Fade));\n    --webchat-decorator-borderFlair-animated-color3: color-mix(in srgb, var(--webchat-decorator-borderFlair-color3) calc((1 - abs(var(--webchat-decorator-borderFlair-animated) * 3 - 2)) * 100%), var(--webchat-decorator-borderFlair-color3Fade));\n    animation: 2s linear forwards borderFlair-animation;\n  }\n}\n\n/* unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/component/src/decorator/private/BorderLoader.module_built.css */\n@keyframes borderAnimation-position {\n  0% {\n    width: 33%;\n    left: -33%;\n  }\n  100% {\n    width: 33%;\n    left: 100%;\n  }\n}\n.webchat .wO9qNnq_border-loader__track {\n  --webchat-decorator-borderLoader-borderSize: var(--webchat-borderLoader-borderSize, 4px);\n  background-color: var(--webchat-colorNeutralBackground6, #e6e6e6);\n  height: var(--webchat-decorator-borderLoader-borderSize);\n  width: 100%;\n  position: relative;\n}\n.webchat .wO9qNnq_border-loader__loader {\n  --webchat-decorator-borderLoader-color1: var(--webchat-borderLoader-color1, var(--webchat__border-animation--color-1));\n  --webchat-decorator-borderLoader-color2: var(--webchat-borderLoader-color2, var(--webchat__border-animation--color-2));\n  --webchat-decorator-borderLoader-color3: var(--webchat-borderLoader-color3, var(--webchat__border-animation--color-3));\n  --webchat-decorator-borderLoader-color1Fade: var(--webchat-borderLoader-color1Fade, transparent);\n  --webchat-decorator-borderLoader-color3Fade: var(--webchat-borderLoader-color1Fade, transparent);\n  background:\n    linear-gradient(\n      90deg,\n      var(--webchat-decorator-borderLoader-color1Fade) 0%,\n      var(--webchat-decorator-borderLoader-color1) 35%,\n      var(--webchat-decorator-borderLoader-color2) 70%,\n      var(--webchat-decorator-borderLoader-color3) 92%,\n      var(--webchat-decorator-borderLoader-color3Fade)) no-repeat;\n  height: var(--webchat-decorator-borderLoader-borderSize);\n  isolation: isolate;\n  width: 100%;\n  animation: 3s linear infinite borderAnimation-position;\n  position: absolute;\n  inset: 0;\n}\n';
   var createDecoratorStyleElements = makeCreateStyles(decoratorStyleContent);
   var createDecoratorStyleElements_default = createDecoratorStyleElements;
@@ -170057,10 +170252,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function DecoratorStylesheet(props) {
     const { nonce } = validateProps2(decoratorStylesheetPropsSchema, props);
     const [{ stylesRoot }] = useStyleOptions();
-    return /* @__PURE__ */ import_react429.default.createElement(InjectStyleElements_default, { at: stylesRoot, nonce, styleElements: styleElements2 });
+    return /* @__PURE__ */ import_react433.default.createElement(InjectStyleElements_default, { at: stylesRoot, nonce, styleElements: styleElements2 });
   }
   DecoratorStylesheet.displayName = "DecoratorStylesheet";
-  var DecoratorStylesheet_default = (0, import_react429.memo)(DecoratorStylesheet);
+  var DecoratorStylesheet_default = (0, import_react433.memo)(DecoratorStylesheet);
   var classes19 = { "border-flair": "wEa7pCG_border-flair", "border-flair--complete": "wEa7pCG_border-flair--complete" };
   var BorderFlair_module_default = classes19;
   var _border_flair0 = classes19["border-flair"];
@@ -170070,15 +170265,15 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     showFlair = true
   }) {
     const classNames31 = useStyles_default(BorderFlair_module_default);
-    const [isComplete, setComplete] = (0, import_react430.useState)(false);
-    const handleAnimationEnd = (0, import_react430.useCallback)(
+    const [isComplete, setComplete] = (0, import_react434.useState)(false);
+    const handleAnimationEnd = (0, import_react434.useCallback)(
       (event2) => (event2.animationName === BorderFlair_module_default["borderAnimation-angle"] || event2.animationName === BorderFlair_module_default["borderFlair-animation"]) && setComplete(true),
       []
     );
     if (!showFlair && isComplete) {
       setComplete(false);
     }
-    return /* @__PURE__ */ import_react430.default.createElement(import_react430.Fragment, null, children, showFlair && /* @__PURE__ */ import_react430.default.createElement(
+    return /* @__PURE__ */ import_react434.default.createElement(import_react434.Fragment, null, children, showFlair && /* @__PURE__ */ import_react434.default.createElement(
       "div",
       {
         className: (0, import_classnames95.default)(classNames31["border-flair"], isComplete && classNames31["border-flair--complete"]),
@@ -170086,7 +170281,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       }
     ));
   }
-  var BorderFlair_default = (0, import_react430.memo)(BorderFlair);
+  var BorderFlair_default = (0, import_react434.memo)(BorderFlair);
   var classes25 = { "border-loader__track": "wO9qNnq_border-loader__track", "border-loader__loader": "wO9qNnq_border-loader__loader" };
   var BorderLoader_module_default = classes25;
   var _border_loader__track0 = classes25["border-loader__track"];
@@ -170096,17 +170291,17 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     showLoader = true
   }) {
     const classNames31 = useStyles_default(BorderLoader_module_default);
-    return /* @__PURE__ */ import_react431.default.createElement(import_react431.Fragment, null, children, showLoader && /* @__PURE__ */ import_react431.default.createElement("div", { className: classNames31["border-loader__track"] }, /* @__PURE__ */ import_react431.default.createElement("div", { className: classNames31["border-loader__loader"] })));
+    return /* @__PURE__ */ import_react435.default.createElement(import_react435.Fragment, null, children, showLoader && /* @__PURE__ */ import_react435.default.createElement("div", { className: classNames31["border-loader__track"] }, /* @__PURE__ */ import_react435.default.createElement("div", { className: classNames31["border-loader__loader"] })));
   }
-  var BorderLoader_default = (0, import_react431.memo)(BorderLoader);
+  var BorderLoader_default = (0, import_react435.memo)(BorderLoader);
   var middleware3 = Object.freeze([
     createActivityBorderMiddleware(function BorderFlairDecorator({ request: request2, Next, ...props }) {
       var _a29;
-      return /* @__PURE__ */ import_react428.default.createElement(BorderFlair_default, { showFlair: (_a29 = props.showFlair) != null ? _a29 : request2.livestreamingState === "completing" }, /* @__PURE__ */ import_react428.default.createElement(Next, { ...props, showFlair: false }));
+      return /* @__PURE__ */ import_react432.default.createElement(BorderFlair_default, { showFlair: (_a29 = props.showFlair) != null ? _a29 : request2.livestreamingState === "completing" }, /* @__PURE__ */ import_react432.default.createElement(Next, { ...props, showFlair: false }));
     }),
     createActivityBorderMiddleware(function BorderLoaderDecorator({ request: request2, Next, ...props }) {
       var _a29;
-      return /* @__PURE__ */ import_react428.default.createElement(BorderLoader_default, { showLoader: (_a29 = props.showLoader) != null ? _a29 : request2.livestreamingState === "preparing" }, /* @__PURE__ */ import_react428.default.createElement(Next, { ...props, showLoader: false }));
+      return /* @__PURE__ */ import_react432.default.createElement(BorderLoader_default, { showLoader: (_a29 = props.showLoader) != null ? _a29 : request2.livestreamingState === "preparing" }, /* @__PURE__ */ import_react432.default.createElement(Next, { ...props, showLoader: false }));
     })
   ]);
   var webChatDecoratorPropsSchema = pipe(
@@ -170118,9 +170313,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   );
   function WebChatDecorator(props) {
     const { children, nonce } = validateProps2(webChatDecoratorPropsSchema, props);
-    return /* @__PURE__ */ import_react428.default.createElement(import_react428.Fragment, null, /* @__PURE__ */ import_react428.default.createElement(DecoratorStylesheet_default, { nonce }), /* @__PURE__ */ import_react428.default.createElement(DecoratorComposer_default, { middleware: middleware3 }, children));
+    return /* @__PURE__ */ import_react432.default.createElement(import_react432.Fragment, null, /* @__PURE__ */ import_react432.default.createElement(DecoratorStylesheet_default, { nonce }), /* @__PURE__ */ import_react432.default.createElement(DecoratorComposer_default, { middleware: middleware3 }, children));
   }
-  var WebChatDecorator_default = (0, import_react428.memo)(WebChatDecorator);
+  var WebChatDecorator_default = (0, import_react432.memo)(WebChatDecorator);
 
   // src/boot/actual/hook/minimal.ts
   var minimal_exports2 = {};
@@ -170234,7 +170429,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     ScreenReaderText: () => ScreenReaderText_default,
     createIconComponent: () => createIconComponent,
     getOrgSchemaMessage: () => getOrgSchemaMessage,
+    getVoiceActivityRole: () => getVoiceActivityRole_default,
     injectStyleElementsPropsSchema: () => injectStyleElementsPropsSchema,
+    isVoiceTranscriptActivity: () => isVoiceTranscriptActivity_default,
     parseDocumentFragmentFromString: () => parseDocumentFragmentFromString,
     serializeDocumentFragmentIntoString: () => serializeDocumentFragmentIntoString,
     useCodeHighlighter: () => useCodeHighlighter,
@@ -170454,22 +170651,22 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
 
   // src/adaptiveCards/Attachment/AdaptiveCardContent.tsx
-  var import_react449 = __toESM(require_react());
+  var import_react453 = __toESM(require_react());
 
   // src/adaptiveCards/hooks/internal/useParseAdaptiveCardJSON.ts
-  var import_react434 = __toESM(require_react());
+  var import_react438 = __toESM(require_react());
 
   // src/adaptiveCards/hooks/internal/useAdaptiveCardsContext.ts
-  var import_react433 = __toESM(require_react());
+  var import_react437 = __toESM(require_react());
 
   // src/adaptiveCards/AdaptiveCardsContext.ts
-  var import_react432 = __toESM(require_react());
-  var AdaptiveCardsContext = (0, import_react432.createContext)(void 0);
+  var import_react436 = __toESM(require_react());
+  var AdaptiveCardsContext = (0, import_react436.createContext)(void 0);
   var AdaptiveCardsContext_default = AdaptiveCardsContext;
 
   // src/adaptiveCards/hooks/internal/useAdaptiveCardsContext.ts
   function useAdaptiveCardsContext() {
-    const context9 = (0, import_react433.useContext)(AdaptiveCardsContext_default);
+    const context9 = (0, import_react437.useContext)(AdaptiveCardsContext_default);
     if (!context9) {
       throw new Error("This hook can only be used on component that is decendants of <ComposerWithAdaptiveCards>");
     }
@@ -170507,7 +170704,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const [direction] = useDirection13();
     const [{ adaptiveCardsParserMaxVersion }] = useStyleOptions18();
     const { AdaptiveCard: AdaptiveCard2, SerializationContext: SerializationContext2, Version: Version2 } = adaptiveCardsPackage;
-    const maxVersion = (0, import_react434.useMemo)(() => {
+    const maxVersion = (0, import_react438.useMemo)(() => {
       const maxVersion2 = Version2.parse(adaptiveCardsParserMaxVersion, new SerializationContext2());
       if (maxVersion2 && !maxVersion2.isValid) {
         console.warn('botframework-webchat: "adaptiveCardsParserMaxVersion" specified is not a valid version.');
@@ -170515,7 +170712,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       }
       return maxVersion2;
     }, [adaptiveCardsParserMaxVersion, SerializationContext2, Version2]);
-    return (0, import_react434.useCallback)(
+    return (0, import_react438.useCallback)(
       (content3, { ignoreErrors = false } = {}) => {
         if (!content3) {
           return;
@@ -170540,8 +170737,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
 
   // ../styles/dist/botframework-webchat-styles.react.mjs
-  var import_react435 = __toESM(require_react(), 1);
-  var import_react436 = __toESM(require_react(), 1);
+  var import_react439 = __toESM(require_react(), 1);
+  var import_react440 = __toESM(require_react(), 1);
   var __create10 = Object.create;
   var __defProp11 = Object.defineProperty;
   var __getOwnPropDesc10 = Object.getOwnPropertyDescriptor;
@@ -172798,7 +172995,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   var EMOJI_REGEX3 = new RegExp("^(?:[\\u{1F1E6}-\\u{1F1FF}]{2}|\\u{1F3F4}[\\u{E0061}-\\u{E007A}]{2}[\\u{E0030}-\\u{E0039}\\u{E0061}-\\u{E007A}]{1,3}\\u{E007F}|(?:\\p{Emoji}\\uFE0F\\u20E3?|\\p{Emoji_Modifier_Base}\\p{Emoji_Modifier}?|(?![\\p{Emoji_Modifier_Base}\\u{1F1E6}-\\u{1F1FF}])\\p{Emoji_Presentation})(?:\\u200D(?:\\p{Emoji}\\uFE0F\\u20E3?|\\p{Emoji_Modifier_Base}\\p{Emoji_Modifier}?|(?![\\p{Emoji_Modifier_Base}\\u{1F1E6}-\\u{1F1FF}])\\p{Emoji_Presentation}))*)+$", "u");
   var warnNonce2 = warnOnce6('The elements passing to <InjectStyleElements> should not have "nonce" attribute set');
   function useStyles2(styles2) {
-    return (0, import_react436.useMemo)(
+    return (0, import_react440.useMemo)(
       () => Object.freeze(
         Object.fromEntries(
           Object.entries(styles2).map(([baseClassName, resultClassName]) => [
@@ -172813,10 +173010,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   var useStyles_default2 = useStyles2;
 
   // src/adaptiveCards/Attachment/AdaptiveCardRenderer.tsx
-  var import_react448 = __toESM(require_react());
+  var import_react452 = __toESM(require_react());
 
   // src/adaptiveCards/hooks/useAdaptiveCardsHostConfig.ts
-  var import_react437 = __toESM(require_react());
+  var import_react441 = __toESM(require_react());
 
   // src/adaptiveCards/Styles/adaptiveCardHostConfig.ts
   function createAdaptiveCardsHostConfig(styleOptions) {
@@ -172957,7 +173154,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function useAdaptiveCardsHostConfig() {
     const { hostConfigFromProps } = useAdaptiveCardsContext();
     const [styleOptions] = useStyleOptions18();
-    const patchedHostConfig = (0, import_react437.useMemo)(
+    const patchedHostConfig = (0, import_react441.useMemo)(
       () => hostConfigFromProps || createAdaptiveCardsHostConfig(styleOptions),
       [hostConfigFromProps, styleOptions]
     );
@@ -172965,15 +173162,15 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
 
   // src/adaptiveCards/Attachment/AdaptiveCardHacks/private/useValueRef.ts
-  var import_react438 = __toESM(require_react());
+  var import_react442 = __toESM(require_react());
   function useValueRef3(value) {
-    const ref = (0, import_react438.useRef)(value);
+    const ref = (0, import_react442.useRef)(value);
     ref.current = value;
     return ref;
   }
 
   // src/adaptiveCards/Attachment/AdaptiveCardHacks/useActionShouldBePushButtonModEffect.ts
-  var import_react442 = __toESM(require_react());
+  var import_react446 = __toESM(require_react());
 
   // src/adaptiveCards/DOMManipulationWithUndo/private/noOp.ts
   var noOp = () => {
@@ -173083,13 +173280,13 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
 
   // src/adaptiveCards/Attachment/AdaptiveCardHacks/private/useAdaptiveCardModEffect.ts
-  var import_react440 = __toESM(require_react());
+  var import_react444 = __toESM(require_react());
 
   // src/adaptiveCards/Attachment/AdaptiveCardHacks/private/useLazyRef.ts
-  var import_react439 = __toESM(require_react());
+  var import_react443 = __toESM(require_react());
   var UNINITIALIZED2 = /* @__PURE__ */ Symbol();
   function useLazyRef(refInit) {
-    const ref = (0, import_react439.useRef)(UNINITIALIZED2);
+    const ref = (0, import_react443.useRef)(UNINITIALIZED2);
     if (ref.current === UNINITIALIZED2) {
       ref.current = refInit();
     }
@@ -173121,21 +173318,21 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   _undo = new WeakMap();
   function useAdaptiveCardModEffect(modder, adaptiveCard) {
     const adaptiveCardRef = useValueRef3(adaptiveCard);
-    const mod = (0, import_react440.useMemo)(() => new Mod(modder), [modder]);
-    const reapplyRef = (0, import_react440.useRef)();
+    const mod = (0, import_react444.useMemo)(() => new Mod(modder), [modder]);
+    const reapplyRef = (0, import_react444.useRef)();
     const observerRef = useLazyRef(
       () => new MutationObserver(() => {
         var _a29;
         (_a29 = reapplyRef.current) == null ? void 0 : _a29.call(reapplyRef);
       })
     );
-    (0, import_react440.useEffect)(
+    (0, import_react444.useEffect)(
       () => () => {
         observerRef.current.disconnect();
       },
       [observerRef]
     );
-    const handleApply = (0, import_react440.useCallback)(
+    const handleApply = (0, import_react444.useCallback)(
       (cardElement, ...args) => {
         if (adaptiveCardRef.current && cardElement) {
           (reapplyRef.current = () => mod.apply(adaptiveCardRef.current, cardElement, ...args))();
@@ -173146,21 +173343,21 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       },
       [adaptiveCardRef, observerRef, mod]
     );
-    const handleUndo = (0, import_react440.useCallback)(() => {
+    const handleUndo = (0, import_react444.useCallback)(() => {
       mod.undo();
       reapplyRef.current = void 0;
     }, [mod, reapplyRef]);
-    return (0, import_react440.useMemo)(
+    return (0, import_react444.useMemo)(
       () => Object.freeze([handleApply, handleUndo]),
       [handleApply, handleUndo]
     );
   }
 
   // src/adaptiveCards/Attachment/AdaptiveCardHacks/private/usePrevious.ts
-  var import_react441 = __toESM(require_react());
+  var import_react445 = __toESM(require_react());
   function usePrevious4(value) {
-    const ref = (0, import_react441.useRef)();
-    (0, import_react441.useEffect)(() => {
+    const ref = (0, import_react445.useRef)();
+    (0, import_react445.useEffect)(() => {
       ref.current = value;
     });
     return ref.current;
@@ -173169,9 +173366,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   // src/adaptiveCards/Attachment/AdaptiveCardHacks/useActionShouldBePushButtonModEffect.ts
   function useActionShouldBePushButtonModEffect(adaptiveCard) {
     const prevAdaptiveCard = usePrevious4(adaptiveCard);
-    const pushedCardObjectsRef = (0, import_react442.useRef)(/* @__PURE__ */ new Set());
+    const pushedCardObjectsRef = (0, import_react446.useRef)(/* @__PURE__ */ new Set());
     prevAdaptiveCard === adaptiveCard || pushedCardObjectsRef.current.clear();
-    const modder = (0, import_react442.useMemo)(
+    const modder = (0, import_react446.useMemo)(
       () => (adaptiveCard2, cardElement, actionPerformedClassName) => {
         const undoStack = [];
         Array.from(cardElement.querySelectorAll("button.ac-pushButton")).forEach(
@@ -173225,14 +173422,14 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
 
   // src/adaptiveCards/Attachment/AdaptiveCardHacks/useActiveElementModEffect.ts
-  var import_react443 = __toESM(require_react());
+  var import_react447 = __toESM(require_react());
   function useActiveElementModEffect(adaptiveCard) {
-    const activeCardObjectRef = (0, import_react443.useRef)();
+    const activeCardObjectRef = (0, import_react447.useRef)();
     const prevAdaptiveCard = usePrevious4(adaptiveCard);
     if (prevAdaptiveCard !== adaptiveCard) {
       activeCardObjectRef.current = void 0;
     }
-    const modder = (0, import_react443.useMemo)(
+    const modder = (0, import_react447.useMemo)(
       () => (adaptiveCard2) => {
         var _a29, _b4, _c3;
         (_c3 = (_b4 = (_a29 = activeCardObjectRef.current) == null ? void 0 : _a29.renderedElement) == null ? void 0 : _b4.focus) == null ? void 0 : _c3.call(_b4);
@@ -173246,7 +173443,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
 
   // src/adaptiveCards/Attachment/AdaptiveCardHacks/useDisabledModEffect.ts
-  var import_react444 = __toESM(require_react());
+  var import_react448 = __toESM(require_react());
 
   // src/adaptiveCards/DOMManipulationWithUndo/durableDisableInputElementAccessiblyWithUndo.ts
   function disabledHandler(event2) {
@@ -173297,7 +173494,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   };
   var INPUT_ELEMENT_SELECTOR = "button:not([aria-expanded]), input, select, textarea";
   function useDisabledModEffect(adaptiveCard) {
-    const modder = (0, import_react444.useMemo)(
+    const modder = (0, import_react448.useMemo)(
       () => (_2, cardElement, disabled) => {
         if (!disabled) {
           return NO_OP;
@@ -173313,7 +173510,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
 
   // src/adaptiveCards/Attachment/AdaptiveCardHacks/usePersistValuesModEffect.ts
-  var import_react445 = __toESM(require_react());
+  var import_react449 = __toESM(require_react());
   function getUserValues(element3) {
     if (!element3) {
       return /* @__PURE__ */ new Set();
@@ -173360,9 +173557,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
   function usePersistValuesModEffect(adaptiveCard) {
     const prevAdaptiveCard = usePrevious4(adaptiveCard);
-    const valuesMapRef = (0, import_react445.useRef)(/* @__PURE__ */ new Map());
+    const valuesMapRef = (0, import_react449.useRef)(/* @__PURE__ */ new Map());
     prevAdaptiveCard === adaptiveCard || valuesMapRef.current.clear();
-    const modder = (0, import_react445.useMemo)(
+    const modder = (0, import_react449.useMemo)(
       () => (adaptiveCard2) => {
         const { current: valuesMap } = valuesMapRef;
         adaptiveCard2.getAllInputs().forEach((cardObject) => {
@@ -173381,9 +173578,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
 
   // src/adaptiveCards/Attachment/AdaptiveCardHacks/useRoleModEffect.ts
-  var import_react446 = __toESM(require_react());
+  var import_react450 = __toESM(require_react());
   function useRoleModEffect(adaptiveCard) {
-    const modder = (0, import_react446.useMemo)(
+    const modder = (0, import_react450.useMemo)(
       () => (_2, cardElement) => setOrRemoveAttributeIfFalseWithUndo(
         cardElement,
         "role",
@@ -173580,7 +173777,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const [{ GlobalSettings: GlobalSettings2, HostConfig: HostConfig2 }] = useAdaptiveCardsPackage();
     const [adaptiveCardsHostConfig] = useAdaptiveCardsHostConfig();
     const [uiState] = useUIState6();
-    const contentRef = (0, import_react448.useRef)();
+    const contentRef = (0, import_react452.useRef)();
     const localize2 = useLocalizer47();
     const performCardAction = usePerformCardAction3();
     const renderMarkdownAsHTML = useRenderMarkdownAsHTML2("adaptive cards");
@@ -173589,7 +173786,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const disabled = uiState === "disabled" || disabledFromProps;
     const tapActionRef = useValueRef3(tapAction);
     const disabledRef = useValueRef3(disabled);
-    const handleClickAndKeyPress = (0, import_react448.useCallback)(
+    const handleClickAndKeyPress = (0, import_react452.useCallback)(
       (event2) => {
         const { key: key2, type: type2 } = event2;
         const target = event2.target;
@@ -173618,7 +173815,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       [contentRef, performCardAction, scrollToEnd2, tapActionRef]
     );
     const handleClickAndKeyPressForTapAction = !disabled && tapAction ? handleClickAndKeyPress : void 0;
-    const handleExecuteAction = (0, import_react448.useCallback)(
+    const handleExecuteAction = (0, import_react452.useCallback)(
       (action2) => {
         if (disabledRef.current) {
           return;
@@ -173668,7 +173865,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const [applyDisabledMod, undoDisabledMod] = useDisabledModEffect(adaptiveCard);
     const [applyPersistValuesMod, undoPersistValuesMod] = usePersistValuesModEffect(adaptiveCard);
     const [applyRoleMod, undoRoleMod] = useRoleModEffect(adaptiveCard);
-    const { element: element3, errors: errors2 } = (0, import_react448.useMemo)(() => {
+    const { element: element3, errors: errors2 } = (0, import_react452.useMemo)(() => {
       undoActionShouldBePushButtonMod();
       undoActiveElementMod();
       undoDisabledMod();
@@ -173693,19 +173890,19 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       undoPersistValuesMod,
       undoRoleMod
     ]);
-    (0, import_react448.useMemo)(() => {
+    (0, import_react452.useMemo)(() => {
       adaptiveCard.onExecuteAction = handleExecuteAction;
     }, [adaptiveCard, handleExecuteAction]);
-    (0, import_react448.useLayoutEffect)(() => {
+    (0, import_react452.useLayoutEffect)(() => {
       var _a29;
       (_a29 = contentRef.current) == null ? void 0 : _a29.replaceChildren(element3);
     }, [contentRef, element3]);
     const elementRef = useRefFrom(element3);
-    (0, import_react448.useEffect)(() => () => {
+    (0, import_react452.useEffect)(() => () => {
       var _a29;
       return (_a29 = elementRef.current) == null ? void 0 : _a29.remove();
     }, [elementRef]);
-    (0, import_react448.useLayoutEffect)(() => {
+    (0, import_react452.useLayoutEffect)(() => {
       if (element3) {
         applyActionShouldBePushButtonMod(element3, actionPerformedClassName);
         applyActiveElementMod(element3);
@@ -173724,7 +173921,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       element3
     ]);
     (errors2 == null ? void 0 : errors2.length) && console.warn("botframework-webchat: Failed to render Adaptive Cards.", errors2);
-    return (errors2 == null ? void 0 : errors2.length) ? /* @__PURE__ */ import_react448.default.createElement(ErrorBoxPolymiddlewareProxy, { error: errors2[0], where: localize2("ADAPTIVE_CARD_ERROR_BOX_TITLE_RENDER") }) : /* @__PURE__ */ import_react448.default.createElement(
+    return (errors2 == null ? void 0 : errors2.length) ? /* @__PURE__ */ import_react452.default.createElement(ErrorBoxPolymiddlewareProxy, { error: errors2[0], where: localize2("ADAPTIVE_CARD_ERROR_BOX_TITLE_RENDER") }) : /* @__PURE__ */ import_react452.default.createElement(
       "div",
       {
         className: classNames31["adaptive-card-renderer"],
@@ -173734,7 +173931,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       }
     );
   }
-  var AdaptiveCardRenderer_default2 = (0, import_react448.memo)(AdaptiveCardRenderer);
+  var AdaptiveCardRenderer_default2 = (0, import_react452.memo)(AdaptiveCardRenderer);
 
   // src/adaptiveCards/Attachment/AdaptiveCardContent.tsx
   function stripSubmitAction(card) {
@@ -173755,7 +173952,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function AdaptiveCardContent(props) {
     const { actionPerformedClassName, content: content3, disabled } = validateProps7(adaptiveCardContentPropsSchema, props);
     const parseAdaptiveCardJSON = useParseAdaptiveCardJSON();
-    const card = (0, import_react449.useMemo)(
+    const card = (0, import_react453.useMemo)(
       () => parseAdaptiveCardJSON(
         stripSubmitAction({
           version: "1.0",
@@ -173765,7 +173962,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       ),
       [content3, parseAdaptiveCardJSON]
     );
-    return !!card && /* @__PURE__ */ import_react449.default.createElement(
+    return !!card && /* @__PURE__ */ import_react453.default.createElement(
       AdaptiveCardRenderer_default2,
       {
         actionPerformedClassName,
@@ -173774,14 +173971,14 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       }
     );
   }
-  var AdaptiveCardContent_default = (0, import_react449.memo)(AdaptiveCardContent);
+  var AdaptiveCardContent_default = (0, import_react453.memo)(AdaptiveCardContent);
 
   // src/adaptiveCards/Attachment/AnimationCardContent.tsx
-  var import_react452 = __toESM(require_react());
+  var import_react456 = __toESM(require_react());
 
   // src/adaptiveCards/Attachment/CommonCard.js
   var import_prop_types47 = __toESM(require_prop_types());
-  var import_react450 = __toESM(require_react());
+  var import_react454 = __toESM(require_react());
 
   // ../../node_modules/adaptivecards/lib/adaptivecards.js
   var adaptivecards_exports = {};
@@ -191458,14 +191655,14 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const [adaptiveCardsPackage] = useAdaptiveCardsPackage();
     const [direction] = useDirection14();
     const [styleOptions] = useStyleOptions18();
-    const builtCard = (0, import_react450.useMemo)(() => {
+    const builtCard = (0, import_react454.useMemo)(() => {
       if (content3) {
         const builder = new AdaptiveCardBuilder(adaptiveCardsPackage, styleOptions, direction);
         builder.addCommon(content3);
         return builder.card;
       }
     }, [adaptiveCardsPackage, content3, direction, styleOptions]);
-    return /* @__PURE__ */ import_react450.default.createElement(
+    return /* @__PURE__ */ import_react454.default.createElement(
       AdaptiveCardRenderer_default2,
       {
         actionPerformedClassName,
@@ -191507,12 +191704,12 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const { actionPerformedClassName, content: content3, disabled } = validateProps7(animationCardContentPropsSchema, props);
     const { media = [] } = content3;
     const classNames31 = useStyles_default2(AnimationCardContent_module_default);
-    return /* @__PURE__ */ import_react452.default.createElement("div", { className: classNames31["animation-card-attachment"] }, /* @__PURE__ */ import_react452.default.createElement("ul", { className: "media-list" }, media.map(({ profile = "", url: url2 }, index2) => /* @__PURE__ */ import_react452.default.createElement("li", { key: index2 }, /\.gif$/iu.test(url2) ? /* @__PURE__ */ import_react452.default.createElement(ImageContent2, { alt: profile, src: url2 }) : /* @__PURE__ */ import_react452.default.createElement(VideoContent2, { alt: profile, src: url2 })))), /* @__PURE__ */ import_react452.default.createElement(CommonCard_default, { actionPerformedClassName, content: content3, disabled }));
+    return /* @__PURE__ */ import_react456.default.createElement("div", { className: classNames31["animation-card-attachment"] }, /* @__PURE__ */ import_react456.default.createElement("ul", { className: "media-list" }, media.map(({ profile = "", url: url2 }, index2) => /* @__PURE__ */ import_react456.default.createElement("li", { key: index2 }, /\.gif$/iu.test(url2) ? /* @__PURE__ */ import_react456.default.createElement(ImageContent2, { alt: profile, src: url2 }) : /* @__PURE__ */ import_react456.default.createElement(VideoContent2, { alt: profile, src: url2 })))), /* @__PURE__ */ import_react456.default.createElement(CommonCard_default, { actionPerformedClassName, content: content3, disabled }));
   }
-  var AnimationCardContent_default = (0, import_react452.memo)(AnimationCardContent);
+  var AnimationCardContent_default = (0, import_react456.memo)(AnimationCardContent);
 
   // src/adaptiveCards/Attachment/AudioCardContent.tsx
-  var import_react454 = __toESM(require_react());
+  var import_react458 = __toESM(require_react());
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/bundle/src/adaptiveCards/Attachment/AudioCardContent.module.css?css_module
   var classes27 = { "audio-card-attachment": "wsuNaRW_audio-card-attachment" };
@@ -191533,12 +191730,12 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const { actionPerformedClassName, content: content3, disabled } = validateProps7(audioCardContentPropsSchema, props);
     const { autostart = false, autoloop = false, image: { url: imageURL = "" } = {}, media = [] } = content3;
     const classNames31 = useStyles_default2(AudioCardContent_module_default);
-    return /* @__PURE__ */ import_react454.default.createElement("div", { className: classNames31["audio-card-attachment"] }, /* @__PURE__ */ import_react454.default.createElement("ul", { className: "media-list" }, media.map(({ url: url2 }, index2) => /* @__PURE__ */ import_react454.default.createElement("li", { key: index2 }, /* @__PURE__ */ import_react454.default.createElement(AudioContent3, { autoPlay: autostart, loop: autoloop, poster: imageURL, src: url2 })))), /* @__PURE__ */ import_react454.default.createElement(CommonCard_default, { actionPerformedClassName, content: content3, disabled }));
+    return /* @__PURE__ */ import_react458.default.createElement("div", { className: classNames31["audio-card-attachment"] }, /* @__PURE__ */ import_react458.default.createElement("ul", { className: "media-list" }, media.map(({ url: url2 }, index2) => /* @__PURE__ */ import_react458.default.createElement("li", { key: index2 }, /* @__PURE__ */ import_react458.default.createElement(AudioContent3, { autoPlay: autostart, loop: autoloop, poster: imageURL, src: url2 })))), /* @__PURE__ */ import_react458.default.createElement(CommonCard_default, { actionPerformedClassName, content: content3, disabled }));
   }
-  var AudioCardContent_default = (0, import_react454.memo)(AudioCardContent);
+  var AudioCardContent_default = (0, import_react458.memo)(AudioCardContent);
 
   // src/adaptiveCards/Attachment/HeroCardContent.tsx
-  var import_react455 = __toESM(require_react());
+  var import_react459 = __toESM(require_react());
   var { useDirection: useDirection15 } = hook_exports2;
   var heroCardContentPropsSchema = pipe(
     object({
@@ -191553,7 +191750,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const [adaptiveCardsPackage] = useAdaptiveCardsPackage();
     const [styleOptions] = useStyleOptions18();
     const [direction] = useDirection15();
-    const builtCard = (0, import_react455.useMemo)(() => {
+    const builtCard = (0, import_react459.useMemo)(() => {
       const builder = new AdaptiveCardBuilder(adaptiveCardsPackage, styleOptions, direction);
       if (content3) {
         (content3.images || []).forEach(
@@ -191563,7 +191760,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         return builder.card;
       }
     }, [adaptiveCardsPackage, content3, direction, styleOptions]);
-    return /* @__PURE__ */ import_react455.default.createElement(
+    return /* @__PURE__ */ import_react459.default.createElement(
       AdaptiveCardRenderer_default2,
       {
         actionPerformedClassName,
@@ -191573,10 +191770,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       }
     );
   }
-  var HeroCardContent_default = (0, import_react455.memo)(HeroCardContent);
+  var HeroCardContent_default = (0, import_react459.memo)(HeroCardContent);
 
   // src/adaptiveCards/Attachment/OAuthCardContent.tsx
-  var import_react456 = __toESM(require_react());
+  var import_react460 = __toESM(require_react());
   var { useDirection: useDirection16 } = hook_exports2;
   var oauthCardContentPropsSchema = pipe(
     object({
@@ -191591,7 +191788,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const [adaptiveCardsPackage] = useAdaptiveCardsPackage();
     const [direction] = useDirection16();
     const [styleOptions] = useStyleOptions18();
-    const builtCard = (0, import_react456.useMemo)(() => {
+    const builtCard = (0, import_react460.useMemo)(() => {
       if (content3) {
         const builder = new AdaptiveCardBuilder(adaptiveCardsPackage, styleOptions, direction);
         builder.addCommonHeaders(content3);
@@ -191599,7 +191796,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         return builder.card;
       }
     }, [adaptiveCardsPackage, content3, direction, styleOptions]);
-    return /* @__PURE__ */ import_react456.default.createElement(
+    return /* @__PURE__ */ import_react460.default.createElement(
       AdaptiveCardRenderer_default2,
       {
         actionPerformedClassName,
@@ -191608,10 +191805,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       }
     );
   }
-  var OAuthCardContent_default = (0, import_react456.memo)(OAuthCardContent);
+  var OAuthCardContent_default = (0, import_react460.memo)(OAuthCardContent);
 
   // src/adaptiveCards/Attachment/ReceiptCardContent.tsx
-  var import_react457 = __toESM(require_react());
+  var import_react461 = __toESM(require_react());
   var { useDirection: useDirection17, useLocalizer: useLocalizer48 } = hook_exports2;
   function nullOrUndefined(obj) {
     return obj === null || typeof obj === "undefined";
@@ -191633,7 +191830,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const taxText = localize2("RECEIPT_CARD_TAX");
     const totalText = localize2("RECEIPT_CARD_TOTAL");
     const vatText = localize2("RECEIPT_CARD_VAT");
-    const builtCard = (0, import_react457.useMemo)(() => {
+    const builtCard = (0, import_react461.useMemo)(() => {
       const builder = new AdaptiveCardBuilder(adaptiveCardsPackage, styleOptions, direction);
       const { HorizontalAlignment: HorizontalAlignment2, TextSize: TextSize2, TextWeight: TextWeight2 } = adaptiveCardsPackage;
       const { buttons, facts, items, tax, title, total, vat } = content3;
@@ -191695,7 +191892,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         return builder.card;
       }
     }, [adaptiveCardsPackage, content3, direction, styleOptions, taxText, totalText, vatText]);
-    return /* @__PURE__ */ import_react457.default.createElement(
+    return /* @__PURE__ */ import_react461.default.createElement(
       AdaptiveCardRenderer_default2,
       {
         actionPerformedClassName,
@@ -191705,10 +191902,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       }
     );
   }
-  var ReceiptCardContent_default = (0, import_react457.memo)(ReceiptCardContent);
+  var ReceiptCardContent_default = (0, import_react461.memo)(ReceiptCardContent);
 
   // src/adaptiveCards/Attachment/SignInCardContent.tsx
-  var import_react459 = __toESM(require_react());
+  var import_react463 = __toESM(require_react());
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/bundle/src/adaptiveCards/Attachment/SignInCardContent.module.css?css_module
   var classes28 = { "sign-in-card-attachment": "wDXAKka_sign-in-card-attachment" };
@@ -191727,12 +191924,12 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function SignInCardContent(props) {
     const { actionPerformedClassName, content: content3, disabled } = validateProps7(signInCardContentPropsSchema, props);
     const classNames31 = useStyles_default2(SignInCardContent_module_default);
-    return /* @__PURE__ */ import_react459.default.createElement("div", { className: classNames31["sign-in-card-attachment"] }, /* @__PURE__ */ import_react459.default.createElement(CommonCard_default, { actionPerformedClassName, content: content3, disabled }));
+    return /* @__PURE__ */ import_react463.default.createElement("div", { className: classNames31["sign-in-card-attachment"] }, /* @__PURE__ */ import_react463.default.createElement(CommonCard_default, { actionPerformedClassName, content: content3, disabled }));
   }
-  var SignInCardContent_default = (0, import_react459.memo)(SignInCardContent);
+  var SignInCardContent_default = (0, import_react463.memo)(SignInCardContent);
 
   // src/adaptiveCards/Attachment/ThumbnailCardContent.tsx
-  var import_react460 = __toESM(require_react());
+  var import_react464 = __toESM(require_react());
   var { useDirection: useDirection18 } = hook_exports2;
   var thumbnailCardContentPropsSchema = pipe(
     object({
@@ -191747,7 +191944,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const [adaptiveCardsPackage] = useAdaptiveCardsPackage();
     const [direction] = useDirection18();
     const [styleOptions] = useStyleOptions18();
-    const builtCard = (0, import_react460.useMemo)(() => {
+    const builtCard = (0, import_react464.useMemo)(() => {
       if (content3) {
         const builder = new AdaptiveCardBuilder(adaptiveCardsPackage, styleOptions, direction);
         const { TextSize: TextSize2, TextWeight: TextWeight2 } = adaptiveCardsPackage;
@@ -191771,7 +191968,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         return builder.card;
       }
     }, [adaptiveCardsPackage, direction, content3, styleOptions]);
-    return /* @__PURE__ */ import_react460.default.createElement(
+    return /* @__PURE__ */ import_react464.default.createElement(
       AdaptiveCardRenderer_default2,
       {
         actionPerformedClassName,
@@ -191781,10 +191978,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       }
     );
   }
-  var ThumbnailCardContent_default = (0, import_react460.memo)(ThumbnailCardContent);
+  var ThumbnailCardContent_default = (0, import_react464.memo)(ThumbnailCardContent);
 
   // src/adaptiveCards/Attachment/VideoCardContent.tsx
-  var import_react462 = __toESM(require_react());
+  var import_react466 = __toESM(require_react());
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/bundle/src/adaptiveCards/Attachment/VideoCardContent.module.css?css_module
   var classes29 = { "video-card-attachment": "wvhPRLq_video-card-attachment" };
@@ -191805,40 +192002,40 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const { actionPerformedClassName, content: content3, disabled } = parse(videoCardContentPropsSchema, props);
     const { autoloop, autostart, image: { url: imageURL } = { url: void 0 }, media } = content3;
     const classNames31 = useStyles_default2(VideoCardContent_module_default);
-    return /* @__PURE__ */ import_react462.default.createElement("div", { className: classNames31["video-card-attachment"] }, /* @__PURE__ */ import_react462.default.createElement("ul", { className: "media-list" }, media.map(({ url: url2 }, index2) => /* @__PURE__ */ import_react462.default.createElement("li", { key: index2 }, /* @__PURE__ */ import_react462.default.createElement(VideoContent3, { autoPlay: autostart, loop: autoloop, poster: imageURL, src: url2 })))), /* @__PURE__ */ import_react462.default.createElement(CommonCard_default, { actionPerformedClassName, content: content3, disabled }));
+    return /* @__PURE__ */ import_react466.default.createElement("div", { className: classNames31["video-card-attachment"] }, /* @__PURE__ */ import_react466.default.createElement("ul", { className: "media-list" }, media.map(({ url: url2 }, index2) => /* @__PURE__ */ import_react466.default.createElement("li", { key: index2 }, /* @__PURE__ */ import_react466.default.createElement(VideoContent3, { autoPlay: autostart, loop: autoloop, poster: imageURL, src: url2 })))), /* @__PURE__ */ import_react466.default.createElement(CommonCard_default, { actionPerformedClassName, content: content3, disabled }));
   }
-  var VideoCardContent_default = (0, import_react462.memo)(VideoCardContent);
+  var VideoCardContent_default = (0, import_react466.memo)(VideoCardContent);
 
   // src/FullReactWebChat.tsx
-  var import_react482 = __toESM(require_react());
+  var import_react486 = __toESM(require_react());
 
   // src/AddFullBundle.tsx
-  var import_react481 = __toESM(require_react());
+  var import_react485 = __toESM(require_react());
 
   // src/adaptiveCards/AdaptiveCardsComposer.tsx
-  var import_react463 = __toESM(require_react());
+  var import_react467 = __toESM(require_react());
   var AdaptiveCardsComposer = ({
     adaptiveCardsHostConfig,
     adaptiveCardsPackage,
     children
   }) => {
-    const patchedAdaptiveCardsPackage = (0, import_react463.useMemo)(
+    const patchedAdaptiveCardsPackage = (0, import_react467.useMemo)(
       () => adaptiveCardsPackage || adaptivecards_exports,
       [adaptiveCardsPackage]
     );
-    const adaptiveCardsContext = (0, import_react463.useMemo)(
+    const adaptiveCardsContext = (0, import_react467.useMemo)(
       () => ({
         adaptiveCardsPackage: patchedAdaptiveCardsPackage,
         hostConfigFromProps: adaptiveCardsHostConfig
       }),
       [adaptiveCardsHostConfig, patchedAdaptiveCardsPackage]
     );
-    return /* @__PURE__ */ import_react463.default.createElement(AdaptiveCardsContext_default.Provider, { value: adaptiveCardsContext }, children);
+    return /* @__PURE__ */ import_react467.default.createElement(AdaptiveCardsContext_default.Provider, { value: adaptiveCardsContext }, children);
   };
   var AdaptiveCardsComposer_default = AdaptiveCardsComposer;
 
   // src/codeHighlighter/ShikiComposer.tsx
-  var import_react464 = __toESM(require_react());
+  var import_react468 = __toESM(require_react());
 
   // ../../node_modules/@shikijs/types/dist/index.mjs
   var ShikiError = class extends Error {
@@ -203425,8 +203622,8 @@ XID_Start XIDS`.split(/\s/)
     theme: options.theme
   });
   function ShikiComposer({ children }) {
-    const [highlightProps, setHighlightProps] = (0, import_react464.useState)();
-    (0, import_react464.useEffect)(() => {
+    const [highlightProps, setHighlightProps] = (0, import_react468.useState)();
+    (0, import_react468.useEffect)(() => {
       let isMounted = true;
       (async () => isMounted && setHighlightProps(
         Object.freeze({
@@ -203437,12 +203634,12 @@ XID_Start XIDS`.split(/\s/)
         isMounted = false;
       };
     }, []);
-    return /* @__PURE__ */ import_react464.default.createElement(CodeHighlighterComposer, { ...highlightProps }, children);
+    return /* @__PURE__ */ import_react468.default.createElement(CodeHighlighterComposer, { ...highlightProps }, children);
   }
-  var ShikiComposer_default = (0, import_react464.memo)(ShikiComposer);
+  var ShikiComposer_default = (0, import_react468.memo)(ShikiComposer);
 
   // src/stylesheet/BundleStylesheet.tsx
-  var import_react465 = __toESM(require_react());
+  var import_react469 = __toESM(require_react());
 
   // ../styles/dist/botframework-webchat-styles.mjs
   function createStyle2(content3, origin) {
@@ -203480,26 +203677,26 @@ XID_Start XIDS`.split(/\s/)
   function BundleStylesheet(props) {
     const { nonce, at: at2 } = validateProps7(bundleStylesheetPropsSchema, props);
     const [{ stylesRoot }] = useStyleOptions();
-    return /* @__PURE__ */ import_react465.default.createElement(InjectStyleElements_default, { at: at2 != null ? at2 : stylesRoot, nonce, styleElements: styleElements3 });
+    return /* @__PURE__ */ import_react469.default.createElement(InjectStyleElements_default, { at: at2 != null ? at2 : stylesRoot, nonce, styleElements: styleElements3 });
   }
   BundleStylesheet.displayName = "BundleStylesheet";
-  var BundleStylesheet_default = (0, import_react465.memo)(BundleStylesheet);
+  var BundleStylesheet_default = (0, import_react469.memo)(BundleStylesheet);
 
   // src/useComposerProps.ts
-  var import_react480 = __toESM(require_react());
+  var import_react484 = __toESM(require_react());
 
   // src/adaptiveCards/createAdaptiveCardsAttachmentForScreenReaderMiddleware.tsx
-  var import_react469 = __toESM(require_react());
+  var import_react473 = __toESM(require_react());
 
   // src/adaptiveCards/AttachmentForScreenReader/AdaptiveCardAttachment.js
   var import_prop_types48 = __toESM(require_prop_types());
-  var import_react467 = __toESM(require_react());
+  var import_react471 = __toESM(require_react());
 
   // src/adaptiveCards/hooks/internal/useUniqueId.ts
-  var import_react466 = __toESM(require_react());
+  var import_react470 = __toESM(require_react());
   var import_math_random19 = __toESM(require_browser());
   function useUniqueId2(prefix2) {
-    const id = (0, import_react466.useMemo)(() => (0, import_math_random19.default)().toString(36).substr(2, 5), []);
+    const id = (0, import_react470.useMemo)(() => (0, import_math_random19.default)().toString(36).substr(2, 5), []);
     prefix2 = prefix2 ? `${prefix2}--` : "";
     return `${prefix2}${id}`;
   }
@@ -203522,7 +203719,7 @@ XID_Start XIDS`.split(/\s/)
   var AdaptiveCardChoiceSetInput = ({ input: { choices, defaultValue, label } }) => {
     const labelId = useUniqueId2("webchat__id");
     const defaultChoice = choices.find(({ value }) => defaultValue === value || !defaultValue && !value);
-    return /* @__PURE__ */ import_react467.default.createElement("div", null, /* @__PURE__ */ import_react467.default.createElement(
+    return /* @__PURE__ */ import_react471.default.createElement("div", null, /* @__PURE__ */ import_react471.default.createElement(
       "select",
       {
         "aria-label": label,
@@ -203530,7 +203727,7 @@ XID_Start XIDS`.split(/\s/)
         defaultValue,
         tabIndex: -1
       },
-      choices.map((choice) => /* @__PURE__ */ import_react467.default.createElement("option", { id: !label && choice === defaultChoice ? labelId : void 0, key: choice.value, value: choice.value }, choice.title))
+      choices.map((choice) => /* @__PURE__ */ import_react471.default.createElement("option", { id: !label && choice === defaultChoice ? labelId : void 0, key: choice.value, value: choice.value }, choice.title))
     ));
   };
   AdaptiveCardChoiceSetInput.propTypes = {
@@ -203562,8 +203759,8 @@ XID_Start XIDS`.split(/\s/)
         ToggleInput: ToggleInput2
       }
     ] = useAdaptiveCardsPackage();
-    const card = (0, import_react467.useMemo)(() => parseAdaptiveCardJSON(content3, { ignoreErrors: true }), [content3, parseAdaptiveCardJSON]);
-    const inputs = (0, import_react467.useMemo)(() => {
+    const card = (0, import_react471.useMemo)(() => parseAdaptiveCardJSON(content3, { ignoreErrors: true }), [content3, parseAdaptiveCardJSON]);
+    const inputs = (0, import_react471.useMemo)(() => {
       const inputs2 = [];
       walkAllItems(card, (node3) => {
         if (node3 instanceof ChoiceSetInput2 || node3 instanceof DateInput2 || node3 instanceof NumberInput2 || node3 instanceof OpenUrlAction2 || node3 instanceof ShowCardAction2 || node3 instanceof SubmitAction2 || node3 instanceof TextInput2 || node3 instanceof TimeInput2 || node3 instanceof ToggleInput2) {
@@ -203584,8 +203781,8 @@ XID_Start XIDS`.split(/\s/)
       ToggleInput2
     ]);
     const cardLabel = localize2("ATTACHMENT_CARD", card.speak || "", "", "");
-    return /* @__PURE__ */ import_react467.default.createElement("article", null, /* @__PURE__ */ import_react467.default.createElement("div", null, cardLabel), inputs.map(
-      (input, index2) => input instanceof ChoiceSetInput2 ? /* @__PURE__ */ import_react467.default.createElement(AdaptiveCardChoiceSetInput, { input, key: index2 }) : input instanceof DateInput2 ? /* @__PURE__ */ import_react467.default.createElement("label", { key: index2 }, input.title, /* @__PURE__ */ import_react467.default.createElement("input", { placeholder: input.placeholder, tabIndex: -1, type: "date" })) : input instanceof NumberInput2 ? /* @__PURE__ */ import_react467.default.createElement("label", { key: index2 }, input.title, /* @__PURE__ */ import_react467.default.createElement("input", { placeholder: input.placeholder, tabIndex: -1, type: "number" })) : input instanceof OpenUrlAction2 || input instanceof ShowCardAction2 || input instanceof SubmitAction2 ? /* @__PURE__ */ import_react467.default.createElement("div", { key: index2 }, /* @__PURE__ */ import_react467.default.createElement("button", { tabIndex: -1, type: "button" }, input.title)) : input instanceof TextInput2 ? /* @__PURE__ */ import_react467.default.createElement("label", { key: index2 }, input.title, /* @__PURE__ */ import_react467.default.createElement("input", { placeholder: input.placeholder, tabIndex: -1, type: "text" })) : input instanceof TimeInput2 ? /* @__PURE__ */ import_react467.default.createElement("label", { key: index2 }, input.title, /* @__PURE__ */ import_react467.default.createElement("input", { placeholder: input.placeholder, tabIndex: -1, type: "time" })) : input instanceof ToggleInput2 ? /* @__PURE__ */ import_react467.default.createElement("label", { key: index2 }, input.title, /* @__PURE__ */ import_react467.default.createElement("input", { defaultChecked: input.value === input.valueOn, tabIndex: -1, type: "checkbox" })) : false
+    return /* @__PURE__ */ import_react471.default.createElement("article", null, /* @__PURE__ */ import_react471.default.createElement("div", null, cardLabel), inputs.map(
+      (input, index2) => input instanceof ChoiceSetInput2 ? /* @__PURE__ */ import_react471.default.createElement(AdaptiveCardChoiceSetInput, { input, key: index2 }) : input instanceof DateInput2 ? /* @__PURE__ */ import_react471.default.createElement("label", { key: index2 }, input.title, /* @__PURE__ */ import_react471.default.createElement("input", { placeholder: input.placeholder, tabIndex: -1, type: "date" })) : input instanceof NumberInput2 ? /* @__PURE__ */ import_react471.default.createElement("label", { key: index2 }, input.title, /* @__PURE__ */ import_react471.default.createElement("input", { placeholder: input.placeholder, tabIndex: -1, type: "number" })) : input instanceof OpenUrlAction2 || input instanceof ShowCardAction2 || input instanceof SubmitAction2 ? /* @__PURE__ */ import_react471.default.createElement("div", { key: index2 }, /* @__PURE__ */ import_react471.default.createElement("button", { tabIndex: -1, type: "button" }, input.title)) : input instanceof TextInput2 ? /* @__PURE__ */ import_react471.default.createElement("label", { key: index2 }, input.title, /* @__PURE__ */ import_react471.default.createElement("input", { placeholder: input.placeholder, tabIndex: -1, type: "text" })) : input instanceof TimeInput2 ? /* @__PURE__ */ import_react471.default.createElement("label", { key: index2 }, input.title, /* @__PURE__ */ import_react471.default.createElement("input", { placeholder: input.placeholder, tabIndex: -1, type: "time" })) : input instanceof ToggleInput2 ? /* @__PURE__ */ import_react471.default.createElement("label", { key: index2 }, input.title, /* @__PURE__ */ import_react471.default.createElement("input", { defaultChecked: input.value === input.valueOn, tabIndex: -1, type: "checkbox" })) : false
     ));
   };
   AdaptiveCardAttachment.propTypes = {
@@ -203595,7 +203792,7 @@ XID_Start XIDS`.split(/\s/)
 
   // src/adaptiveCards/AttachmentForScreenReader/RichCardAttachment.js
   var import_prop_types49 = __toESM(require_prop_types());
-  var import_react468 = __toESM(require_react());
+  var import_react472 = __toESM(require_react());
   var { useLocalizer: useLocalizer50 } = hook_exports2;
   var RichCardAttachment = ({ content: content3 = {} }) => {
     const localize2 = useLocalizer50();
@@ -203604,7 +203801,7 @@ XID_Start XIDS`.split(/\s/)
     const totalLabel = localize2("RECEIPT_CARD_TOTAL");
     const vatLabel = localize2("RECEIPT_CARD_VAT");
     const cardLabel = localize2("ATTACHMENT_CARD", title || "", subtitle || "", text6 || "");
-    return /* @__PURE__ */ import_react468.default.createElement("article", null, /* @__PURE__ */ import_react468.default.createElement("div", null, cardLabel), !!image && !!image.alt && /* @__PURE__ */ import_react468.default.createElement("img", { alt: image.alt }), !!images && !!images.length && images.map(({ alt }, index2) => /* @__PURE__ */ import_react468.default.createElement("img", { alt, key: index2 })), !!facts && !!facts.length && /* @__PURE__ */ import_react468.default.createElement("dl", null, facts.map(({ key: key2, value }, index2) => /* @__PURE__ */ import_react468.default.createElement(import_react468.default.Fragment, { key: index2 }, /* @__PURE__ */ import_react468.default.createElement("dt", null, key2), /* @__PURE__ */ import_react468.default.createElement("dd", null, value)))), !!items && !!items.length && /* @__PURE__ */ import_react468.default.createElement("ul", null, items.map(({ image: image2, price, quantity, subtitle: subtitle2, text: text7, title: title2 }, index2) => /* @__PURE__ */ import_react468.default.createElement("li", { key: index2 }, !!image2 && !!image2.alt && /* @__PURE__ */ import_react468.default.createElement("img", { alt: image2.alt }), !!title2 && /* @__PURE__ */ import_react468.default.createElement("p", null, title2), !!subtitle2 && /* @__PURE__ */ import_react468.default.createElement("p", null, subtitle2), !!text7 && /* @__PURE__ */ import_react468.default.createElement("p", null, text7), !!quantity && /* @__PURE__ */ import_react468.default.createElement("p", null, quantity), !!price && /* @__PURE__ */ import_react468.default.createElement("p", null, price)))), !!vat && /* @__PURE__ */ import_react468.default.createElement("p", null, vatLabel, " ", vat), !!tax && /* @__PURE__ */ import_react468.default.createElement("p", null, taxLabel, " ", tax), !!total && /* @__PURE__ */ import_react468.default.createElement("p", null, totalLabel, " ", total), !!buttons && !!buttons.length && /* @__PURE__ */ import_react468.default.createElement("div", null, buttons.map(({ title: title2 }, index2) => /* @__PURE__ */ import_react468.default.createElement("button", { key: index2, tabIndex: -1, type: "button" }, title2))));
+    return /* @__PURE__ */ import_react472.default.createElement("article", null, /* @__PURE__ */ import_react472.default.createElement("div", null, cardLabel), !!image && !!image.alt && /* @__PURE__ */ import_react472.default.createElement("img", { alt: image.alt }), !!images && !!images.length && images.map(({ alt }, index2) => /* @__PURE__ */ import_react472.default.createElement("img", { alt, key: index2 })), !!facts && !!facts.length && /* @__PURE__ */ import_react472.default.createElement("dl", null, facts.map(({ key: key2, value }, index2) => /* @__PURE__ */ import_react472.default.createElement(import_react472.default.Fragment, { key: index2 }, /* @__PURE__ */ import_react472.default.createElement("dt", null, key2), /* @__PURE__ */ import_react472.default.createElement("dd", null, value)))), !!items && !!items.length && /* @__PURE__ */ import_react472.default.createElement("ul", null, items.map(({ image: image2, price, quantity, subtitle: subtitle2, text: text7, title: title2 }, index2) => /* @__PURE__ */ import_react472.default.createElement("li", { key: index2 }, !!image2 && !!image2.alt && /* @__PURE__ */ import_react472.default.createElement("img", { alt: image2.alt }), !!title2 && /* @__PURE__ */ import_react472.default.createElement("p", null, title2), !!subtitle2 && /* @__PURE__ */ import_react472.default.createElement("p", null, subtitle2), !!text7 && /* @__PURE__ */ import_react472.default.createElement("p", null, text7), !!quantity && /* @__PURE__ */ import_react472.default.createElement("p", null, quantity), !!price && /* @__PURE__ */ import_react472.default.createElement("p", null, price)))), !!vat && /* @__PURE__ */ import_react472.default.createElement("p", null, vatLabel, " ", vat), !!tax && /* @__PURE__ */ import_react472.default.createElement("p", null, taxLabel, " ", tax), !!total && /* @__PURE__ */ import_react472.default.createElement("p", null, totalLabel, " ", total), !!buttons && !!buttons.length && /* @__PURE__ */ import_react472.default.createElement("div", null, buttons.map(({ title: title2 }, index2) => /* @__PURE__ */ import_react472.default.createElement("button", { key: index2, tabIndex: -1, type: "button" }, title2))));
   };
   RichCardAttachment.propTypes = {
     content: import_prop_types49.default.any.isRequired
@@ -203629,15 +203826,15 @@ XID_Start XIDS`.split(/\s/)
           attachment: { content: content3, contentType }
         }
       ] = args;
-      return content3 && RICH_CARD_CONTENT_TYPES.includes(contentType) ? () => /* @__PURE__ */ import_react469.default.createElement(RichCardAttachment_default, { content: content3 }) : content3 && contentType === "application/vnd.microsoft.card.adaptive" ? () => /* @__PURE__ */ import_react469.default.createElement(AdaptiveCardAttachment_default, { content: content3 }) : next2(...args);
+      return content3 && RICH_CARD_CONTENT_TYPES.includes(contentType) ? () => /* @__PURE__ */ import_react473.default.createElement(RichCardAttachment_default, { content: content3 }) : content3 && contentType === "application/vnd.microsoft.card.adaptive" ? () => /* @__PURE__ */ import_react473.default.createElement(AdaptiveCardAttachment_default, { content: content3 }) : next2(...args);
     };
   }
 
   // src/adaptiveCards/createAdaptiveCardsAttachmentMiddleware.tsx
-  var import_react479 = __toESM(require_react());
+  var import_react483 = __toESM(require_react());
 
   // src/adaptiveCards/Attachment/AdaptiveCardAttachment.tsx
-  var import_react470 = __toESM(require_react());
+  var import_react474 = __toESM(require_react());
   var adaptiveCardAttachmentPropsSchema = pipe(
     object({
       attachment: pipe(
@@ -203655,14 +203852,14 @@ XID_Start XIDS`.split(/\s/)
       attachment: { content: content3 },
       disabled
     } = validateProps7(adaptiveCardAttachmentPropsSchema, props);
-    return /* @__PURE__ */ import_react470.default.createElement(AdaptiveCardContent_default, { content: content3, disabled });
+    return /* @__PURE__ */ import_react474.default.createElement(AdaptiveCardContent_default, { content: content3, disabled });
   }
-  var AdaptiveCardAttachment_default2 = (0, import_react470.memo)(AdaptiveCardAttachment2);
+  var AdaptiveCardAttachment_default2 = (0, import_react474.memo)(AdaptiveCardAttachment2);
 
   // src/adaptiveCards/Attachment/AnimationCardAttachment.js
   var import_prop_types50 = __toESM(require_prop_types());
-  var import_react471 = __toESM(require_react());
-  var AnimationCardAttachment2 = ({ attachment: { content: content3 }, disabled }) => /* @__PURE__ */ import_react471.default.createElement(AnimationCardContent_default, { content: content3, disabled });
+  var import_react475 = __toESM(require_react());
+  var AnimationCardAttachment2 = ({ attachment: { content: content3 }, disabled }) => /* @__PURE__ */ import_react475.default.createElement(AnimationCardContent_default, { content: content3, disabled });
   AnimationCardAttachment2.defaultProps = {
     disabled: void 0
   };
@@ -203683,8 +203880,8 @@ XID_Start XIDS`.split(/\s/)
 
   // src/adaptiveCards/Attachment/AudioCardAttachment.js
   var import_prop_types51 = __toESM(require_prop_types());
-  var import_react472 = __toESM(require_react());
-  var AudioCardAttachment2 = ({ attachment: { content: content3 }, disabled }) => /* @__PURE__ */ import_react472.default.createElement(AudioCardContent_default, { content: content3, disabled });
+  var import_react476 = __toESM(require_react());
+  var AudioCardAttachment2 = ({ attachment: { content: content3 }, disabled }) => /* @__PURE__ */ import_react476.default.createElement(AudioCardContent_default, { content: content3, disabled });
   AudioCardAttachment2.defaultProps = {
     disabled: void 0
   };
@@ -203709,8 +203906,8 @@ XID_Start XIDS`.split(/\s/)
 
   // src/adaptiveCards/Attachment/HeroCardAttachment.js
   var import_prop_types52 = __toESM(require_prop_types());
-  var import_react473 = __toESM(require_react());
-  var HeroCardAttachment = ({ attachment: { content: content3 } = {}, disabled }) => !!content3 && /* @__PURE__ */ import_react473.default.createElement(HeroCardContent_default, { content: content3, disabled });
+  var import_react477 = __toESM(require_react());
+  var HeroCardAttachment = ({ attachment: { content: content3 } = {}, disabled }) => !!content3 && /* @__PURE__ */ import_react477.default.createElement(HeroCardContent_default, { content: content3, disabled });
   HeroCardAttachment.defaultProps = {
     disabled: void 0
   };
@@ -203737,8 +203934,8 @@ XID_Start XIDS`.split(/\s/)
 
   // src/adaptiveCards/Attachment/OAuthCardAttachment.js
   var import_prop_types53 = __toESM(require_prop_types());
-  var import_react474 = __toESM(require_react());
-  var OAuthCardAttachment = ({ attachment: { content: content3 } = {}, disabled }) => /* @__PURE__ */ import_react474.default.createElement(OAuthCardContent_default, { content: content3, disabled });
+  var import_react478 = __toESM(require_react());
+  var OAuthCardAttachment = ({ attachment: { content: content3 } = {}, disabled }) => /* @__PURE__ */ import_react478.default.createElement(OAuthCardContent_default, { content: content3, disabled });
   OAuthCardAttachment.defaultProps = {
     disabled: void 0
   };
@@ -203754,8 +203951,8 @@ XID_Start XIDS`.split(/\s/)
 
   // src/adaptiveCards/Attachment/ReceiptCardAttachment.js
   var import_prop_types54 = __toESM(require_prop_types());
-  var import_react475 = __toESM(require_react());
-  var ReceiptCardAttachment = ({ attachment: { content: content3 }, disabled }) => /* @__PURE__ */ import_react475.default.createElement(ReceiptCardContent_default, { content: content3, disabled });
+  var import_react479 = __toESM(require_react());
+  var ReceiptCardAttachment = ({ attachment: { content: content3 }, disabled }) => /* @__PURE__ */ import_react479.default.createElement(ReceiptCardContent_default, { content: content3, disabled });
   ReceiptCardAttachment.defaultProps = {
     disabled: void 0
   };
@@ -203797,8 +203994,8 @@ XID_Start XIDS`.split(/\s/)
 
   // src/adaptiveCards/Attachment/SignInCardAttachment.js
   var import_prop_types55 = __toESM(require_prop_types());
-  var import_react476 = __toESM(require_react());
-  var SignInCardAttachment = ({ attachment: { content: content3 }, disabled }) => /* @__PURE__ */ import_react476.default.createElement(SignInCardContent_default, { content: content3, disabled });
+  var import_react480 = __toESM(require_react());
+  var SignInCardAttachment = ({ attachment: { content: content3 }, disabled }) => /* @__PURE__ */ import_react480.default.createElement(SignInCardContent_default, { content: content3, disabled });
   SignInCardAttachment.defaultProps = {
     disabled: void 0
   };
@@ -203812,8 +204009,8 @@ XID_Start XIDS`.split(/\s/)
 
   // src/adaptiveCards/Attachment/ThumbnailCardAttachment.js
   var import_prop_types56 = __toESM(require_prop_types());
-  var import_react477 = __toESM(require_react());
-  var ThumbnailCardAttachment = ({ attachment: { content: content3 }, disabled }) => /* @__PURE__ */ import_react477.default.createElement(ThumbnailCardContent_default, { content: content3, disabled });
+  var import_react481 = __toESM(require_react());
+  var ThumbnailCardAttachment = ({ attachment: { content: content3 }, disabled }) => /* @__PURE__ */ import_react481.default.createElement(ThumbnailCardContent_default, { content: content3, disabled });
   ThumbnailCardAttachment.defaultProps = {
     disabled: void 0
   };
@@ -203840,8 +204037,8 @@ XID_Start XIDS`.split(/\s/)
 
   // src/adaptiveCards/Attachment/VideoCardAttachment.js
   var import_prop_types57 = __toESM(require_prop_types());
-  var import_react478 = __toESM(require_react());
-  var VideoCardAttachment = ({ attachment: { content: content3 }, disabled }) => /* @__PURE__ */ import_react478.default.createElement(VideoCardContent_default, { content: content3, disabled });
+  var import_react482 = __toESM(require_react());
+  var VideoCardAttachment = ({ attachment: { content: content3 }, disabled }) => /* @__PURE__ */ import_react482.default.createElement(VideoCardContent_default, { content: content3, disabled });
   VideoCardAttachment.defaultProps = {
     disabled: void 0
   };
@@ -203869,7 +204066,7 @@ XID_Start XIDS`.split(/\s/)
   function createAdaptiveCardsAttachmentMiddleware2() {
     return () => (next2) => (...args) => {
       const [{ attachment }] = args;
-      return attachment.contentType === "application/vnd.microsoft.card.hero" ? /* @__PURE__ */ import_react479.default.createElement(HeroCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.adaptive" ? /* @__PURE__ */ import_react479.default.createElement(AdaptiveCardAttachment_default2, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.animation" ? /* @__PURE__ */ import_react479.default.createElement(AnimationCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.audio" ? /* @__PURE__ */ import_react479.default.createElement(AudioCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.oauth" ? /* @__PURE__ */ import_react479.default.createElement(OAuthCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.receipt" ? /* @__PURE__ */ import_react479.default.createElement(ReceiptCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.signin" ? /* @__PURE__ */ import_react479.default.createElement(SignInCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.thumbnail" ? /* @__PURE__ */ import_react479.default.createElement(ThumbnailCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.video" ? /* @__PURE__ */ import_react479.default.createElement(VideoCardAttachment_default, { attachment }) : next2(...args);
+      return attachment.contentType === "application/vnd.microsoft.card.hero" ? /* @__PURE__ */ import_react483.default.createElement(HeroCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.adaptive" ? /* @__PURE__ */ import_react483.default.createElement(AdaptiveCardAttachment_default2, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.animation" ? /* @__PURE__ */ import_react483.default.createElement(AnimationCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.audio" ? /* @__PURE__ */ import_react483.default.createElement(AudioCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.oauth" ? /* @__PURE__ */ import_react483.default.createElement(OAuthCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.receipt" ? /* @__PURE__ */ import_react483.default.createElement(ReceiptCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.signin" ? /* @__PURE__ */ import_react483.default.createElement(SignInCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.thumbnail" ? /* @__PURE__ */ import_react483.default.createElement(ThumbnailCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.video" ? /* @__PURE__ */ import_react483.default.createElement(VideoCardAttachment_default, { attachment }) : next2(...args);
     };
   }
 
@@ -220390,23 +220587,23 @@ XID_Start XIDS`.split(/\s/)
     styleOptions,
     styleSet
   }) {
-    const patchedAttachmentMiddleware = (0, import_react480.useMemo)(
+    const patchedAttachmentMiddleware = (0, import_react484.useMemo)(
       () => [...attachmentMiddleware, createAdaptiveCardsAttachmentMiddleware2()],
       [attachmentMiddleware]
     );
-    const patchedAttachmentForScreenReaderMiddleware = (0, import_react480.useMemo)(
+    const patchedAttachmentForScreenReaderMiddleware = (0, import_react484.useMemo)(
       () => [...attachmentForScreenReaderMiddleware, createAdaptiveCardsAttachmentMiddleware()],
       [attachmentForScreenReaderMiddleware]
     );
-    const extraStyleSet = (0, import_react480.useMemo)(
+    const extraStyleSet = (0, import_react484.useMemo)(
       () => styleSet ? void 0 : createAdaptiveCardsStyleSet(styleOptions),
       [styleOptions, styleSet]
     );
-    const patchedRenderMarkdown = (0, import_react480.useMemo)(
+    const patchedRenderMarkdown = (0, import_react484.useMemo)(
       () => typeof renderMarkdown === "undefined" ? render5 : renderMarkdown,
       [renderMarkdown]
     );
-    const patchedHTMLContentTransformMiddleware = (0, import_react480.useMemo)(
+    const patchedHTMLContentTransformMiddleware = (0, import_react484.useMemo)(
       () => Object.freeze([...htmlContentTransformMiddleware || [], ...createHTMLContentTransformMiddleware()]),
       [htmlContentTransformMiddleware]
     );
@@ -220445,27 +220642,27 @@ XID_Start XIDS`.split(/\s/)
       styleOptions,
       styleSet
     });
-    return /* @__PURE__ */ import_react481.default.createElement(ShikiComposer_default, null, /* @__PURE__ */ import_react481.default.createElement(
+    return /* @__PURE__ */ import_react485.default.createElement(ShikiComposer_default, null, /* @__PURE__ */ import_react485.default.createElement(
       AdaptiveCardsComposer_default,
       {
         adaptiveCardsHostConfig: adaptiveCardHostConfig || adaptiveCardsHostConfig,
         adaptiveCardsPackage
       },
-      /* @__PURE__ */ import_react481.default.createElement(BundleStylesheet_default, { at: styleOptions == null ? void 0 : styleOptions.stylesRoot, nonce }),
+      /* @__PURE__ */ import_react485.default.createElement(BundleStylesheet_default, { at: styleOptions == null ? void 0 : styleOptions.stylesRoot, nonce }),
       children(patchedProps)
     ));
   }
-  var AddFullBundle_default = (0, import_react481.memo)(AddFullBundle);
+  var AddFullBundle_default = (0, import_react485.memo)(AddFullBundle);
 
   // src/FullReactWebChat.tsx
-  var FullReactWebChat = (props) => /* @__PURE__ */ import_react482.default.createElement(AddFullBundle_default, { ...props }, (extraProps) => /* @__PURE__ */ import_react482.default.createElement(ReactWebChat_default, { ...props, ...extraProps }));
+  var FullReactWebChat = (props) => /* @__PURE__ */ import_react486.default.createElement(AddFullBundle_default, { ...props }, (extraProps) => /* @__PURE__ */ import_react486.default.createElement(ReactWebChat_default, { ...props, ...extraProps }));
   var FullReactWebChat_default = FullReactWebChat;
 
   // src/FullComposer.tsx
   var import_prop_types58 = __toESM(require_prop_types());
-  var import_react483 = __toESM(require_react());
+  var import_react487 = __toESM(require_react());
   var { Composer: Composer8 } = component_exports;
-  var FullComposer = (props) => /* @__PURE__ */ import_react483.default.createElement(AddFullBundle_default, { ...props }, (extraProps) => /* @__PURE__ */ import_react483.default.createElement(Composer8, { ...props, ...extraProps }, props.children));
+  var FullComposer = (props) => /* @__PURE__ */ import_react487.default.createElement(AddFullBundle_default, { ...props }, (extraProps) => /* @__PURE__ */ import_react487.default.createElement(Composer8, { ...props, ...extraProps }, props.children));
   FullComposer.defaultProps = {
     ...Composer8.defaultProps,
     adaptiveCardsHostConfig: void 0,
