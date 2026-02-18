@@ -71,21 +71,15 @@
         <div class="form-check">
           <input class="form-check-input" type="radio" name="chatMode" id="mcsTestPane" value="mcs" onchange="toggleChatMode()">
           <label class="form-check-label" for="mcsTestPane">
-            MCS test pane skin
+            Multi modal mode
           </label>
         </div>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="chatMode" id="enableS2S" value="s2s" onchange="toggleChatMode()">
-          <label class="form-check-label" for="enableS2S">
-            S2S mode (standalone)
-          </label>
-        </div>
-        <div class="form-check">
+        <!-- <div class="form-check">
           <input class="form-check-input" type="radio" name="chatMode" id="mcsCcv2" value="ccv2" onchange="toggleChatMode()">
           <label class="form-check-label" for="mcsCcv2">
             MCS-CCV2
           </label>
-        </div>
+        </div> -->
       </div>
       <div class="mt-3">
         <button class="btn btn-warning" onclick="startOver()">Start Over</button>
@@ -160,7 +154,7 @@
           // Only create new DirectLine if we don't have one yet
           if (!currentDirectLine) {
             if (isCcv2Enabled && ccv2SocketUrl) {
-              currentDirectLine = window.WebChat.createCcv2Adapter({ streamUrl: ccv2SocketUrl });
+              currentDirectLine = window.WebChat.createCcv2Adapter({ streamUrl: ccv2SocketUrl, connectionStrategy: 'eager', });
             } else if (!isCcv2Enabled && secret) {
               // Step 1: Generate DirectLine token
               const res = await fetch(
@@ -198,8 +192,14 @@
 
               // const reverseProxy = "wss://custom-reverse-proxy-voice-live-seasia-g6hhfwfxh6e8fadd.southeastasia-01.azurewebsites.net/voice-live/realtime?api-version=2025-05-01-preview&model=gpt-4.1";
               let streamUrl = originalStreamUrl;
-              if (botSchema && environmentId) {
-                streamUrl = `${streamUrl}&ppFqdn=${environmentId}&botSchemaName=${botSchema}`;
+              
+              const isMCSTestPane = localStorage.getItem('mcs_test_pane') === 'true';
+              const ppFqdn = environmentId || 'defaultc2983f0e34ee4b438abcc2f460fd26b.e.environment.api.preprod.powerplatform.com';
+              const botSchemaName = botSchema || 'cr924_copilotWeatherBot';
+              streamUrl = `${streamUrl}&ppFqdn=${ppFqdn}&botSchemaName=${botSchemaName}`;
+              
+              if (isMCSTestPane) {
+                streamUrl = `${streamUrl}&mode=voice`;
               }
               
               // Step 3: Create DirectLine instance for WebChat
@@ -219,15 +219,12 @@
           const { ReactWebChat, FluentThemeProvider } = window.WebChat;
           
           const isMCSTestPane = localStorage.getItem('mcs_test_pane') === 'true';
-          const isS2SEnabled = localStorage.getItem('enable_s2s') === 'true';
           
           const styleOptions = {
             ...((isMCSTestPane || isCcv2Enabled) && {
               disableFileUpload: true,
               hideTelephoneKeypadButton: false,
-              showMicrophoneButton: true,
             }),
-            enableSpeech2SpeechMode: isS2SEnabled
           };
           
           currentWebChatProps = {
@@ -283,14 +280,11 @@
         
         // Clear previous settings
         localStorage.removeItem('mcs_test_pane');
-        localStorage.removeItem('enable_s2s');
         localStorage.removeItem('mcs_ccv2');
         
         // Set new mode
         if (selectedMode === 'mcs') {
           localStorage.setItem('mcs_test_pane', 'true');
-        } else if (selectedMode === 's2s') {
-          localStorage.setItem('enable_s2s', 'true');
         } else if (selectedMode === 'ccv2') {
           localStorage.setItem('mcs_ccv2', 'true');
         }
@@ -310,13 +304,10 @@
 
         // Initialize radio button states
         const mcsTestPane = localStorage.getItem('mcs_test_pane') === 'true';
-        const enableS2S = localStorage.getItem('enable_s2s') === 'true';
         const enableCcv2 = localStorage.getItem('mcs_ccv2') === 'true';
         
         if (mcsTestPane) {
           document.getElementById('mcsTestPane').checked = true;
-        } else if (enableS2S) {
-          document.getElementById('enableS2S').checked = true;
         } else if (enableCcv2) {
           document.getElementById('mcsCcv2').checked = true;
         } else {
