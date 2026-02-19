@@ -315,8 +315,7 @@
         }
 
         if ((enableCcv2 && !ccv2SocketUrl) || (!enableCcv2 && !secret)) {
-          const defaultSecret = "FiZmWzeLCL4Q6JqsrP09MA07KofMTu8ce5b0X5kG0l7MO2TqPkt6JQQJ99BJAC5RqLJAArohAAABAZBS1itA.10cHBsk7isAOcR7oiMoY9dAWiXWYB3J7sqPB4bKHapZviYLC0KaPJQQJ99BJAC5RqLJAArohAAABAZBS1a5L";
-          document.getElementById('secret').value = secret || defaultSecret;
+          document.getElementById('secret').value = secret || '';
           document.getElementById('botSchema').value = botSchema || "cr924_copilotWeatherBot";
           document.getElementById('environmentId').value = environmentId || "defaultc2983f0e34ee4b438abcc2f460fd26b.e.environment.api.preprod.powerplatform.com";
           if(ccv2SocketUrl) document.getElementById('ccv2SocketUrl').value = ccv2SocketUrl;

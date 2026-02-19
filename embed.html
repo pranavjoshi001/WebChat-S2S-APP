@@ -49,22 +49,20 @@
         const urlParams = new URLSearchParams(window.location.search);
         const botSchemaName = urlParams.get('botSchemaName');
         const ppFqdn = urlParams.get('ppFqdn');
+        const secret = urlParams.get('secret');
 
         // Validate required parameters
-        if (!botSchemaName || !ppFqdn) {
+        if (!botSchemaName || !ppFqdn || !secret) {
           document.getElementById('webchat').innerHTML = `
             <div class="error-container">
               <div>
                 <h2>Missing Required Parameters</h2>
-                <p>Please provide <strong>botSchemaName</strong> and <strong>ppFqdn</strong> query parameters.</p>
+                <p>Please provide <strong>secret</strong>, <strong>botSchemaName</strong>, and <strong>ppFqdn</strong> query parameters.</p>
               </div>
             </div>
           `;
           return;
         }
-
-        // Hardcoded DirectLine secret for testing
-        const secret = "FiZmWzeLCL4Q6JqsrP09MA07KofMTu8ce5b0X5kG0l7MO2TqPkt6JQQJ99BJAC5RqLJAArohAAABAZBS1itA.10cHBsk7isAOcR7oiMoY9dAWiXWYB3J7sqPB4bKHapZviYLC0KaPJQQJ99BJAC5RqLJAArohAAABAZBS1a5L";
 
         try {
           // Step 1: Generate DirectLine token
