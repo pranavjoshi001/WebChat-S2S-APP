@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <title>Web Chat Embed</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script crossorigin="anonymous" src="https://unpkg.com/@babel/standalone@7.8.7/babel.min.js"></script>
+    <script crossorigin="anonymous" src="https://unpkg.com/react@16.8.6/umd/react.development.js"></script>
+    <script crossorigin="anonymous" src="https://unpkg.com/react-dom@16.8.6/umd/react-dom.development.js"></script>
+    <script crossorigin src="./releases/webchat-es5.js"></script>
+    <script crossorigin src="./releases/webchat-fluent-theme.js"></script>
+    
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+      #webchat {
+        height: 100%;
+        width: 100%;
+      }
+      .error-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        font-family: 'Segoe UI', Arial, sans-serif;
+        color: #d32f2f;
+        text-align: center;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+      .error-container h2 {
+        margin: 0 0 10px 0;
+      }
+      .error-container p {
+        margin: 0;
+        color: #666;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="webchat" role="main"></div>
+
+    <script type="text/babel" data-presets="es2015,react,stage-3">
+      (async function () {
+        // Parse query parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const botSchemaName = urlParams.get('botSchemaName');
+        const ppFqdn = urlParams.get('ppFqdn');
+
+        // Validate required parameters
+        if (!botSchemaName || !ppFqdn) {
+          document.getElementById('webchat').innerHTML = `
+            <div class="error-container">
+              <div>
+                <h2>Missing Required Parameters</h2>
+                <p>Please provide <strong>botSchemaName</strong> and <strong>ppFqdn</strong> query parameters.</p>
+              </div>
+            </div>
+          `;
+          return;
+        }
+
+        // Hardcoded DirectLine secret for testing
+        const secret = "FiZmWzeLCL4Q6JqsrP09MA07KofMTu8ce5b0X5kG0l7MO2TqPkt6JQQJ99BJAC5RqLJAArohAAABAZBS1itA.10cHBsk7isAOcR7oiMoY9dAWiXWYB3J7sqPB4bKHapZviYLC0KaPJQQJ99BJAC5RqLJAArohAAABAZBS1a5L";
+
+        try {
+          // Step 1: Generate DirectLine token
+          const res = await fetch(
+            `https://directline.scratch.botframework.com/v3/directline/tokens/generate`,
+            { 
+              method: 'POST',
+              headers: {
+                'Authorization': `Bearer ${secret}`
+              }
+            }
+          );
+          
+          if (!res.ok) {
+            throw new Error(`Failed to generate token: ${res.status} ${res.statusText}`);
+          }
+          
+          const { token } = await res.json();
+          
+          // Step 2: Create DirectLine conversation
+          const conRes = await fetch(
+            `https://directline.scratch.botframework.com/v3/directline/conversations`,
+            { 
+              method: 'POST',
+              headers: {
+                'Authorization': `Bearer ${token}`
+              }
+            }
+          );
+          
+          if (!conRes.ok) {
+            throw new Error(`Failed to create conversation: ${conRes.status} ${conRes.statusText}`);
+          }
+          
+          const { conversationId, streamUrl: originalStreamUrl } = await conRes.json();
+
+          // Build streamUrl with required parameters and hardcoded mode=voice
+          let streamUrl = `${originalStreamUrl}&ppFqdn=${ppFqdn}&botSchemaName=${botSchemaName}&mode=voice`;
+          
+          // Step 3: Create DirectLine instance for WebChat
+          const domain = "https://directline.scratch.botframework.com/v3/directline";
+          const directLine = window.WebChat.createDirectLine({ 
+            streamUrl, 
+            token, 
+            domain, 
+            conversationId 
+          });
+
+          const { ReactWebChat, FluentThemeProvider } = window.WebChat;
+          
+          const styleOptions = {
+            disableFileUpload: true,
+            hideTelephoneKeypadButton: true,
+          };
+          
+          const webChatProps = {
+            directLine: directLine,
+            styleOptions: styleOptions,
+          };
+
+          window.ReactDOM.render(
+            <div style={{backgroundColor: 'white', height: '100%', width: '100%'}}>
+              <FluentThemeProvider variant="fluent">
+                <ReactWebChat {...webChatProps} />
+              </FluentThemeProvider>
+            </div>,
+            document.getElementById('webchat')
+          );
+
+          // Focus on webchat
+          setTimeout(() => {
+            const webChatElement = document.querySelector('#webchat > *');
+            if (webChatElement) {
+              webChatElement.focus();
+            }
+          }, 100);
+          
+        } catch (error) {
+          document.getElementById('webchat').innerHTML = `
+            <div class="error-container">
+              <div>
+                <h2>Connection Failed</h2>
+                <p>${error.message}</p>
+              </div>
+            </div>
+          `;
+          console.error(error);
+        }
+      })();
+    </script>
+  </body>
+</html>
