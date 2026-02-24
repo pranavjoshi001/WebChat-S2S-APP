@@ -44,6 +44,57 @@
     <div id="webchat" role="main"></div>
 
     <script type="text/babel" data-presets="es2015,react,stage-3">
+      // Processing audio middleware - plays a .wav file in loop during 'processing' state
+      const createProcessingAudioMiddleware = (audioUrl) => {
+        let audio = null;
+        let isPlaying = false;
+
+        const startLoop = () => {
+          if (!audioUrl || isPlaying) return;
+          
+          if (!audio) {
+            audio = new Audio(audioUrl);
+            audio.loop = true;
+          }
+          audio.currentTime = 0;
+          audio.play()
+            .then(() => { isPlaying = true; })
+            .catch(() => {});
+        };
+
+        const stopLoop = () => {
+          if (!audio || !isPlaying) return;
+          
+          audio.pause();
+          audio.currentTime = 0;
+          isPlaying = false;
+        };
+
+        return store => next => action => {
+          const result = next(action);
+          // Watch for voice state changes
+          if (action.type === 'WEB_CHAT/VOICE_SET_STATE') {
+            const newVoiceState = action.payload.voiceState;
+            
+            if (newVoiceState === 'processing') {
+              startLoop();
+            } else {
+              stopLoop();
+            }
+          }
+
+          // Also stop when recording stops
+          if (action.type === 'WEB_CHAT/STOP_VOICE_RECORDING') {
+            stopLoop();
+          }
+
+          return result;
+        };
+      };
+
+      // Processing audio URL - relative to embed.html location
+      const processingAudioUrl = './asset/Percolation.wav';
+
       (async function () {
         // Parse query parameters
         const urlParams = new URLSearchParams(window.location.search);
@@ -118,9 +169,17 @@
             hideTelephoneKeypadButton: true,
           };
           
+          // Create store with processing audio middleware
+          const store = window.WebChat.createStore(
+            {},
+            ({ dispatch }) => next => action => next(action),
+            createProcessingAudioMiddleware(processingAudioUrl)
+          );
+          
           const webChatProps = {
             directLine: directLine,
             styleOptions: styleOptions,
+            store: store,
           };
 
           window.ReactDOM.render(
@@ -149,7 +208,6 @@
               </div>
             </div>
           `;
-          console.error(error);
         }
       })();
     </script>

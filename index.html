@@ -132,6 +132,57 @@
       let currentDirectLine = null;
       let currentWebChatProps = null;
 
+      // Processing audio middleware - plays a .wav file in loop during 'processing' state
+      const createProcessingAudioMiddleware = (audioUrl) => {
+        let audio = null;
+        let isPlaying = false;
+
+        const startLoop = () => {
+          if (!audioUrl || isPlaying) return;
+          
+          if (!audio) {
+            audio = new Audio(audioUrl);
+            audio.loop = true;
+          }
+          audio.currentTime = 0;
+          audio.play()
+            .then(() => { isPlaying = true; })
+            .catch(() => {});
+        };
+
+        const stopLoop = () => {
+          if (!audio || !isPlaying) return;
+          
+          audio.pause();
+          audio.currentTime = 0;
+          isPlaying = false;
+        };
+
+        return store => next => action => {
+          const result = next(action);
+          // Watch for voice state changes
+          if (action.type === 'WEB_CHAT/VOICE_SET_STATE') {
+            const newVoiceState = action.payload.voiceState;
+            
+            if (newVoiceState === 'processing') {
+              startLoop();
+            } else {
+              stopLoop();
+            }
+          }
+
+          // Also stop when recording stops
+          if (action.type === 'WEB_CHAT/STOP_VOICE_RECORDING') {
+            stopLoop();
+          }
+
+          return result;
+        };
+      };
+
+      // Processing audio URL - relative to index.html location
+      const processingAudioUrl = './asset/Percolation.wav';
+
       async function renderWebChat() {
         // Always clear the existing webchat before re-rendering
         const webChatContainer = document.getElementById('webchat');
@@ -227,10 +278,18 @@
             }),
           };
           
+          // Create store with processing audio middleware
+          const store = window.WebChat.createStore(
+            {},
+            ({ dispatch }) => next => action => next(action),
+            createProcessingAudioMiddleware(processingAudioUrl)
+          );
+          
           currentWebChatProps = {
             directLine: currentDirectLine,
             className: 'chatBot',
             styleOptions: styleOptions,
+            store: store,
           };
 
           const webChatElement = (isMCSTestPane || isCcv2Enabled) ? (
@@ -271,7 +330,6 @@
           const errorMessage = document.getElementById('errorMessage');
           errorMessage.innerText = `Connection failed: ${error.message}. Please check your DirectLine secret and try again.`;
           errContainer.style.display = 'block';
-          console.error(error);
         }
       }
 
