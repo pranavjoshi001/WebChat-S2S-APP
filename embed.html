@@ -102,13 +102,13 @@
         const ppFqdn = urlParams.get('ppFqdn');
         const secret = urlParams.get('secret');
 
-        // Validate required parameters
-        if (!botSchemaName || !ppFqdn || !secret) {
+        // Validate required parameters (only secret is required)
+        if (!secret) {
           document.getElementById('webchat').innerHTML = `
             <div class="error-container">
               <div>
                 <h2>Missing Required Parameters</h2>
-                <p>Please provide <strong>secret</strong>, <strong>botSchemaName</strong>, and <strong>ppFqdn</strong> query parameters.</p>
+                <p>Please provide <strong>secret</strong> query parameter. <strong>botSchemaName</strong> and <strong>ppFqdn</strong> are optional.</p>
               </div>
             </div>
           `;
@@ -150,8 +150,10 @@
           
           const { conversationId, streamUrl: originalStreamUrl } = await conRes.json();
 
-          // Build streamUrl with required parameters and hardcoded mode=voice
-          let streamUrl = `${originalStreamUrl}&ppFqdn=${ppFqdn}&botSchemaName=${botSchemaName}&mode=voice`;
+          // Build streamUrl with mode=voice and optional parameters
+          let streamUrl = `${originalStreamUrl}&mode=voice`;
+          if (ppFqdn) streamUrl += `&ppFqdn=${ppFqdn}`;
+          if (botSchemaName) streamUrl += `&botSchemaName=${botSchemaName}`;
           
           // Step 3: Create DirectLine instance for WebChat
           const domain = "https://directline.scratch.botframework.com/v3/directline";
