@@ -12,84 +12,159 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <style>
+      *, *::before, *::after {
+        box-sizing: border-box;
+      }
       html, body {
         height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
       }
       body {
-        margin: 0;
+        font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
         background: linear-gradient(to right, #6a11cb, #2575fc);
       }
-      .container {
-        font-family: 'Arial', sans-serif;
+      
+      .page-layout {
+        display: grid;
+        grid-template-columns: 250px 1fr;
+        height: 100%;
+        padding: 20px;
+        gap: 40px;
+      }
+      
+      @media (max-width: 900px) {
+        .page-layout {
+          grid-template-columns: 1fr;
+          grid-template-rows: auto 1fr;
+        }
+      }
+      
+      .controls-panel {
         color: white;
-        text-align: left;
-        max-width: 800px;
-        margin: auto;
-        padding: 50px 20px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
       }
-      h1 {
-        font-size: 2.5rem;
+      
+      .controls-panel h1 {
+        font-size: 2rem;
         font-weight: bold;
+        margin: 0 0 20px 0;
+        line-height: 1.2;
       }
+      
+      /* Chat Container */
+      .chat-area {
+        display: flex;
+        justify-content: flex-end;
+        align-items: stretch;
+        min-height: 0;
+        padding-right: 20px;
+      }
+      
+      .chat-container {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+        width: min(480px, 100%);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      
+      .chat-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 16px;
+        border-bottom: 1px solid #e0e0e0;
+        background: #f9f9f9;
+      }
+      
+      .chat-header-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #242424;
+        flex: 1;
+      }
+      
       #webchat {
-        height: auto;
-        width: auto;
-        position: fixed;
-        bottom: 10px;
-        right: 10px;
+        flex: 1;
+        overflow: hidden;
+        min-height: 0;
       }
-      .chatBot.webchat__surface {
-        height: 500px;
-        max-height: calc(100vh - 50px);
-        width: 350px;
-        border: 1px solid black;
-      }
+      
       .error-bar {
         display: none;
-        background-color: red;
+        background-color: #d32f2f;
         color: white;
         text-align: center;
-        padding: 10px;
-        font-weight: bold;
+        padding: 12px 16px;
+        font-weight: 500;
         position: fixed;
         top: 0;
-        width: 100%;
+        left: 0;
+        right: 0;
         z-index: 1000;
+      }
+      
+      /* Modal Overrides */
+      .modal-content {
+        border-radius: 12px;
+        border: none;
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.14);
+      }
+      .modal-header {
+        border-bottom: 1px solid #e0e0e0;
+        padding: 16px 20px;
+      }
+      .modal-body {
+        padding: 20px;
+      }
+      .modal-title {
+        font-weight: 600;
       }
     </style>
   </head>
   <body>
-    <div class="container">
-      <h1>S2S Demo Website</h1>
-      <div class="mb-3">
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="chatMode" id="defaultMode" value="default" onchange="toggleChatMode()" checked>
-          <label class="form-check-label" for="defaultMode">
-            Default mode
-          </label>
+    <div class="page-layout">
+      <div class="controls-panel">
+        <h1>S2S Demo Website</h1>
+        <div class="mb-3">
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="chatMode" id="defaultMode" value="default" onchange="toggleChatMode()" checked>
+            <label class="form-check-label" for="defaultMode">
+              Default mode
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="chatMode" id="mcsTestPane" value="mcs" onchange="toggleChatMode()">
+            <label class="form-check-label" for="mcsTestPane">
+              Multi modal mode
+            </label>
+          </div>
         </div>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="chatMode" id="mcsTestPane" value="mcs" onchange="toggleChatMode()">
-          <label class="form-check-label" for="mcsTestPane">
-            Multi modal mode
-          </label>
+        <div class="mt-3">
+          <button class="btn btn-warning" onclick="startOver()">Start Over</button>
         </div>
-        <!-- <div class="form-check">
-          <input class="form-check-input" type="radio" name="chatMode" id="mcsCcv2" value="ccv2" onchange="toggleChatMode()">
-          <label class="form-check-label" for="mcsCcv2">
-            MCS-CCV2
-          </label>
-        </div> -->
       </div>
-      <div class="mt-3">
-        <button class="btn btn-warning" onclick="startOver()">Start Over</button>
+      
+      <div class="chat-area">
+        <div class="chat-container">
+          <div class="chat-header">
+            <span class="chat-header-title">Agent</span>
+          </div>
+          <div id="webchat" role="main"></div>
+        </div>
       </div>
     </div>
-    <div></div>
-    <div id="webchat" role="main"></div>
+    
     <div id="errorContainer" class="error-bar">
       <span id="errorMessage"></span>
-      <button class="btn btn-light btn-sm" onclick="retryFetch()">Retry</button>
+      <button class="btn btn-light btn-sm ms-2" onclick="retryFetch()">Retry</button>
     </div>
     <div class="modal fade" id="configModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="configModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -114,11 +189,6 @@
                 <label for="environmentId" class="form-label">Environment ID (Optional)</label>
                 <input type="text" class="form-control" id="environmentId" placeholder="defaultc2983f0e34ee4b438abcc2f460fd26b.e.environment.api.preprod.powerplatform.com">
                 <div class="form-text">It will connect to given env and bot</div>
-              </div>
-              <div class="mb-3">
-                <label for="ccv2SocketUrl" class="form-label">CCV2 Web Socket URL (Optional)</label>
-                <input type="text" class="form-control" id="ccv2SocketUrl" placeholder="e.g., wss://...">
-                <div class="form-text">Provide the CCV2 Web Socket URL if you are using MCS-CCV2 mode.</div>
               </div>
               <button type="submit" class="btn btn-primary">Connect</button>
             </form>
@@ -193,20 +263,11 @@
         let secret = localStorage.getItem('directline_secret');
         let botSchema = localStorage.getItem('bot_schema');
         let environmentId = localStorage.getItem('environment_id');
-        let ccv2SocketUrl = localStorage.getItem('ccv2_socket_url');
-        const isCcv2Enabled = localStorage.getItem('mcs_ccv2') === 'true';
-
-        if (isCcv2Enabled && !ccv2SocketUrl) {
-          modal.show();
-          return;
-        }
         
         try {
           // Only create new DirectLine if we don't have one yet
           if (!currentDirectLine) {
-            if (isCcv2Enabled && ccv2SocketUrl) {
-              currentDirectLine = window.WebChat.createCcv2Adapter({ streamUrl: ccv2SocketUrl, connectionStrategy: 'eager', });
-            } else if (!isCcv2Enabled && secret) {
+            if (secret) {
               // Step 1: Generate DirectLine token
               const res = await fetch(
                 `https://directline.scratch.botframework.com/v3/directline/tokens/generate`,
@@ -275,7 +336,7 @@
           const isMCSTestPane = localStorage.getItem('mcs_test_pane') === 'true';
           
           const styleOptions = {
-            ...((isMCSTestPane || isCcv2Enabled) && {
+            ...(isMCSTestPane && {
               disableFileUpload: true,
               hideTelephoneKeypadButton: true,
             }),
@@ -290,12 +351,11 @@
           
           currentWebChatProps = {
             directLine: currentDirectLine,
-            className: 'chatBot',
             styleOptions: styleOptions,
             store: store,
           };
 
-          const webChatElement = (isMCSTestPane || isCcv2Enabled) ? (
+          const webChatElement = isMCSTestPane ? (
             <div style={{backgroundColor: 'white', height: '100%', width: '100%'}}>
               <FluentThemeProvider variant="fluent">
                 <ReactWebChat {...currentWebChatProps} />
@@ -313,7 +373,7 @@
           );
           
           // Small delay to ensure proper initialization when MCS test pane is enabled
-          if (isMCSTestPane || isCcv2Enabled) {
+          if (isMCSTestPane) {
             setTimeout(() => {
               const webChatElement = document.querySelector('#webchat > *');
               if (webChatElement) {
@@ -328,7 +388,6 @@
           localStorage.removeItem('directline_secret');
           localStorage.removeItem('bot_schema');
           localStorage.removeItem('environment_id');
-          localStorage.removeItem('ccv2_socket_url');
           const errContainer = document.getElementById('errorContainer');
           const errorMessage = document.getElementById('errorMessage');
           errorMessage.innerText = `Connection failed: ${error.message}. Please check your DirectLine secret and try again.`;
@@ -341,13 +400,10 @@
         
         // Clear previous settings
         localStorage.removeItem('mcs_test_pane');
-        localStorage.removeItem('mcs_ccv2');
         
         // Set new mode
         if (selectedMode === 'mcs') {
           localStorage.setItem('mcs_test_pane', 'true');
-        } else if (selectedMode === 'ccv2') {
-          localStorage.setItem('mcs_ccv2', 'true');
         }
         // Default mode doesn't need any localStorage values
         
@@ -361,57 +417,40 @@
         let secret = localStorage.getItem('directline_secret');
         let botSchema = localStorage.getItem('bot_schema');
         let environmentId = localStorage.getItem('environment_id');
-        let ccv2SocketUrl = localStorage.getItem('ccv2_socket_url');
 
         // Initialize radio button states
         const mcsTestPane = localStorage.getItem('mcs_test_pane') === 'true';
-        const enableCcv2 = localStorage.getItem('mcs_ccv2') === 'true';
         
         if (mcsTestPane) {
           document.getElementById('mcsTestPane').checked = true;
-        } else if (enableCcv2) {
-          document.getElementById('mcsCcv2').checked = true;
         } else {
           document.getElementById('defaultMode').checked = true;
         }
 
-        if ((enableCcv2 && !ccv2SocketUrl) || (!enableCcv2 && !secret)) {
+        if (!secret) {
           document.getElementById('secret').value = secret || '';
           document.getElementById('botSchema').value = botSchema || "cr924_copilotWeatherBot";
           document.getElementById('environmentId').value = environmentId || "defaultc2983f0e34ee4b438abcc2f460fd26b.e.environment.api.preprod.powerplatform.com";
-          if(ccv2SocketUrl) document.getElementById('ccv2SocketUrl').value = ccv2SocketUrl;
           
           modal.show();
-
-          if (enableCcv2 && !ccv2SocketUrl) {
-            document.getElementById('ccv2SocketUrl').focus();
-          }
           
           function validateForm() {
             const secretValue = document.getElementById('secret').value.trim();
-            const ccv2UrlValue = document.getElementById('ccv2SocketUrl').value.trim();
-            const isCcv2Enabled = document.getElementById('mcsCcv2').checked;
             let isValid = secretValue.length > 0;
-            if(isCcv2Enabled){
-              isValid = ccv2UrlValue.length > 0;
-            }
             document.getElementById('modalCloseButton').disabled = !isValid;
           }
 
           document.getElementById('secret').addEventListener('input', validateForm);
-          document.getElementById('ccv2SocketUrl').addEventListener('input', validateForm);
           
           document.getElementById('configForm').addEventListener('submit', function (event) {
             event.preventDefault();
             secret = document.getElementById('secret').value;
             botSchema = document.getElementById('botSchema').value;
             environmentId = document.getElementById('environmentId').value;
-            ccv2SocketUrl = document.getElementById('ccv2SocketUrl').value;
 
             localStorage.setItem('directline_secret', secret);
             if (botSchema) localStorage.setItem('bot_schema', botSchema);
             if (environmentId) localStorage.setItem('environment_id', environmentId);
-            if (ccv2SocketUrl) localStorage.setItem('ccv2_socket_url', ccv2SocketUrl);
             
             modal.hide();
             renderWebChat();
@@ -438,7 +477,6 @@
         localStorage.removeItem('directline_secret');
         localStorage.removeItem('bot_schema');
         localStorage.removeItem('environment_id');
-        localStorage.removeItem('ccv2_socket_url');
         
         // Refresh the page
         window.location.reload();
