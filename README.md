@@ -8,7 +8,7 @@ Add this snippet to your HTML:
 
 ```html
 <iframe 
-  src="https://pranavjoshi001.github.io/WebChat-S2S-APP/embed.html?secret=YOUR_DIRECTLINE_SECRET&botSchemaName=YOUR_BOT_SCHEMA&ppFqdn=YOUR_ENVIRONMENT_FQDN" 
+  src="https://pranavjoshi001.github.io/WebChat-S2S-APP/embed.html?token=YOUR_TOKEN" 
   frameborder="0" 
   style="width: 400px; height: 600px;">
 </iframe>
@@ -27,7 +27,7 @@ Add this snippet to your HTML:
   </style>
 </head>
 <body>
-  <iframe src="https://pranavjoshi001.github.io/WebChat-S2S-APP/embed.html?secret=YOUR_SECRET&botSchemaName=cr924_copilotWeatherBot&ppFqdn=defaultc2983f0e34ee4b438abcc2f460fd26b.e.environment.api.preprod.powerplatform.com"></iframe>
+  <iframe src="https://pranavjoshi001.github.io/WebChat-S2S-APP/embed.html?token=YOUR_TOKEN"></iframe>
 </body>
 </html>
 ```
@@ -58,7 +58,7 @@ Add this snippet to your HTML:
   
   <iframe 
     class="chat-widget"
-    src="https://pranavjoshi001.github.io/WebChat-S2S-APP/embed.html?secret=YOUR_SECRET&botSchemaName=cr924_copilotWeatherBot&ppFqdn=defaultc2983f0e34ee4b438abcc2f460fd26b.e.environment.api.preprod.powerplatform.com">
+    src="https://pranavjoshi001.github.io/WebChat-S2S-APP/embed.html?token=YOUR_TOKEN">
   </iframe>
 </body>
 </html>
@@ -66,19 +66,9 @@ Add this snippet to your HTML:
 
 ## Parameters
 
-### Required Parameters
-
-| Parameter | Description | Example |
-|-----------|-------------|---------|
-| `secret` | DirectLine channel secret from Azure Bot Service | `your-directline-secret` |
-| `botSchemaName` | The schema name of your Copilot bot | `cr924_copilotWeatherBot` |
-| `ppFqdn` | The Power Platform environment FQDN | `defaultc2983f0e34ee4b438abcc2f460fd26b.e.environment.api.preprod.powerplatform.com` |
-
-### How to Find Your Parameters
-
-1. **secret**: Found in Azure Bot Service under DirectLine channel configuration
-2. **botSchemaName**: Found in Power Platform Copilot Studio under your bot's settings
-3. **ppFqdn**: Your Power Platform environment FQDN (Fully Qualified Domain Name)
+| Parameter | Required | Description |
+|-----------|----------|-------------|
+| `token` | Yes | DirectLine token for bot authentication |
 
 ## Features
 
@@ -87,14 +77,12 @@ Add this snippet to your HTML:
 
 ## Troubleshooting
 
-### "Missing Required Parameters" Error
-Ensure `secret`, `botSchemaName`, and `ppFqdn` are all provided in the URL query string.
+### "Missing Required Parameter" Error
+Ensure `token` is provided in the URL query string.
 
 ### Connection Failed
-- Verify your DirectLine secret is valid
+- Verify your token is valid
 - Verify your bot is published and accessible
-- Check that the environment FQDN is correct
-- Ensure the bot schema name matches exactly
 
 ## Demo
 

@@ -98,17 +98,15 @@
       (async function () {
         // Parse query parameters
         const urlParams = new URLSearchParams(window.location.search);
-        const botSchemaName = urlParams.get('botSchemaName');
-        const ppFqdn = urlParams.get('ppFqdn');
-        const secret = urlParams.get('secret');
+        const token = urlParams.get('token');
 
-        // Validate required parameters (only secret is required)
-        if (!secret) {
+        // Validate required parameters
+        if (!token) {
           document.getElementById('webchat').innerHTML = `
             <div class="error-container">
               <div>
                 <h2>Missing Required Parameter</h2>
-                <p>Please provide <strong>secret</strong> query parameter.</p>
+                <p>Please provide <strong>token</strong> query parameter.</p>
               </div>
             </div>
           `;
@@ -116,13 +114,13 @@
         }
 
         try {
-          // Step 1: Generate DirectLine token
+          // Step 1: Generate DirectLine token from the provided secret (passed as 'token' param)
           const res = await fetch(
             `https://directline.scratch.botframework.com/v3/directline/tokens/generate`,
             { 
               method: 'POST',
               headers: {
-                'Authorization': `Bearer ${secret}`
+                'Authorization': `Bearer ${token}`
               }
             }
           );
@@ -131,7 +129,7 @@
             throw new Error(`Failed to generate token: ${res.status} ${res.statusText}`);
           }
           
-          const { token } = await res.json();
+          const { token: directLineToken } = await res.json();
           
           // Step 2: Create DirectLine conversation
           const conRes = await fetch(
@@ -139,7 +137,7 @@
             { 
               method: 'POST',
               headers: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${directLineToken}`
               }
             }
           );
@@ -150,16 +148,14 @@
           
           const { conversationId, streamUrl: originalStreamUrl } = await conRes.json();
 
-          // Build streamUrl with mode=voice and optional parameters
-          let streamUrl = `${originalStreamUrl}&mode=voice`;
-          if (ppFqdn) streamUrl += `&ppFqdn=${ppFqdn}`;
-          if (botSchemaName) streamUrl += `&botSchemaName=${botSchemaName}`;
+          // Build streamUrl with mode=voice
+          const streamUrl = `${originalStreamUrl}&mode=voice`;
           
-          // Step 3: Create DirectLine instance for WebChat
+          // Create DirectLine instance for WebChat
           const domain = "https://directline.scratch.botframework.com/v3/directline";
           const directLine = window.WebChat.createDirectLine({ 
             streamUrl, 
-            token, 
+            token: directLineToken, 
             domain, 
             conversationId 
           });

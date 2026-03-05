@@ -349,11 +349,12 @@
           <div class="modal-body">
             <form id="configForm">
               <div class="mb-3">
-                <label for="secret" class="form-label">DirectLine Secret <span class="text-danger">*</span></label>
+                <label for="secret" class="form-label">DirectLine Token <span class="text-danger">*</span></label>
                 <input class="form-control" id="secret" required>
-                <div class="form-text">Your agent secret → MCS agent setting → security → web channel security</div>
+                <div class="form-text">Get it from your Agent's channel page</div>
+                <!-- <div class="form-text">Your agent secret → MCS agent setting → security → web channel security</div> -->
               </div>
-              <div class="mb-3">
+              <!-- <div class="mb-3">
                 <label for="botSchema" class="form-label">Bot Schema Name (Optional)</label>
                 <input type="text" class="form-control" id="botSchema">
                 <div class="form-text">MCS agent setting → Advanced → Metadata</div>
@@ -362,7 +363,7 @@
                 <label for="environmentId" class="form-label">Environment ID (Optional)</label>
                 <input type="text" class="form-control" id="environmentId">
                 <div class="form-text">Power Platform environment FQDN</div>
-              </div>
+              </div> -->
               <button type="submit" class="btn btn-primary w-100">Connect</button>
             </form>
           </div>
@@ -539,9 +540,9 @@
         
         document.getElementById('configForm').addEventListener('submit', function (event) {
           event.preventDefault();
-          const secret = document.getElementById('secret').value.trim();
-          const botSchema = document.getElementById('botSchema').value.trim();
-          const environmentId = document.getElementById('environmentId').value.trim();
+          const secret = document.getElementById('secret')?.value?.trim();
+          const botSchema = document.getElementById('botSchema')?.value?.trim();
+          const environmentId = document.getElementById('environmentId')?.value?.trim();
           
           modal.hide();
           connectAndRender(secret, botSchema, environmentId);
