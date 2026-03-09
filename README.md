@@ -8,6 +8,7 @@ Add this snippet to your HTML:
 
 ```html
 <iframe 
+  allow="microphone"
   src="https://pranavjoshi001.github.io/WebChat-S2S-APP/embed.html?token=YOUR_TOKEN" 
   frameborder="0" 
   style="width: 400px; height: 600px;">
@@ -27,7 +28,7 @@ Add this snippet to your HTML:
   </style>
 </head>
 <body>
-  <iframe src="https://pranavjoshi001.github.io/WebChat-S2S-APP/embed.html?token=YOUR_TOKEN"></iframe>
+  <iframe allow="microphone" src="https://pranavjoshi001.github.io/WebChat-S2S-APP/embed.html?token=YOUR_TOKEN"></iframe>
 </body>
 </html>
 ```
@@ -57,6 +58,7 @@ Add this snippet to your HTML:
   <p>Your content here...</p>
   
   <iframe 
+    allow="microphone"
     class="chat-widget"
     src="https://pranavjoshi001.github.io/WebChat-S2S-APP/embed.html?token=YOUR_TOKEN">
   </iframe>
