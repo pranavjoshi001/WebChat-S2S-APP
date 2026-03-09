@@ -455,19 +455,20 @@
         currentCredentials = { secret, botSchema, environmentId };
         
         try {
-          const res = await fetch(
-            `https://directline.scratch.botframework.com/v3/directline/tokens/generate`,
-            { 
-              method: 'POST',
-              headers: { 'Authorization': `Bearer ${secret}` }
-            }
-          );
+          // const res = await fetch(
+          //   `https://directline.scratch.botframework.com/v3/directline/tokens/generate`,
+          //   { 
+          //     method: 'POST',
+          //     headers: { 'Authorization': `Bearer ${secret}` }
+          //   }
+          // );
           
-          if (!res.ok) {
-            throw new Error(`Failed to generate token: ${res.status} ${res.statusText}`);
-          }
+          // if (!res.ok) {
+          //   throw new Error(`Failed to generate token: ${res.status} ${res.statusText}`);
+          // }
           
-          const { token } = await res.json();
+          // const { token } = await res.json();
+          const token = secret;
           
           const conRes = await fetch(
             `https://directline.scratch.botframework.com/v3/directline/conversations`,

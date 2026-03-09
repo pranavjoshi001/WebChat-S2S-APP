@@ -115,21 +115,22 @@
 
         try {
           // Step 1: Generate DirectLine token from the provided secret (passed as 'token' param)
-          const res = await fetch(
-            `https://directline.scratch.botframework.com/v3/directline/tokens/generate`,
-            { 
-              method: 'POST',
-              headers: {
-                'Authorization': `Bearer ${token}`
-              }
-            }
-          );
+          // const res = await fetch(
+          //   `https://directline.scratch.botframework.com/v3/directline/tokens/generate`,
+          //   { 
+          //     method: 'POST',
+          //     headers: {
+          //       'Authorization': `Bearer ${token}`
+          //     }
+          //   }
+          // );
           
-          if (!res.ok) {
-            throw new Error(`Failed to generate token: ${res.status} ${res.statusText}`);
-          }
+          // if (!res.ok) {
+          //   throw new Error(`Failed to generate token: ${res.status} ${res.statusText}`);
+          // }
           
-          const { token: directLineToken } = await res.json();
+          //const { token: directLineToken } = await res.json();
+          const directLineToken = token;
           
           // Step 2: Create DirectLine conversation
           const conRes = await fetch(
