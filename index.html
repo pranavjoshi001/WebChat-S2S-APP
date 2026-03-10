@@ -471,7 +471,7 @@
           const token = secret;
           
           const conRes = await fetch(
-            `https://directline.scratch.botframework.com/v3/directline/conversations`,
+            `https://europe.directline.scratch.botframework.com/v3/directline/conversations`,
             { 
               method: 'POST',
               headers: { 'Authorization': `Bearer ${token}` }
@@ -488,7 +488,7 @@
           if (environmentId) streamUrl += `&ppFqdn=${environmentId}`;
           if (botSchema) streamUrl += `&botSchemaName=${botSchema}`;
           
-          const domain = "https://directline.scratch.botframework.com/v3/directline";
+          const domain = "https://europe.directline.scratch.botframework.com/v3/directline";
           const directLine = window.WebChat.createDirectLine({ 
             streamUrl, 
             token, 
