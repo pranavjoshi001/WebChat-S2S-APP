@@ -51501,13 +51501,14 @@
             if (DirectLine3.isVoiceEventActivity(activity, this.streamUrl)) {
               return this.checkConnection(true).flatMap(function(_2) {
                 return _Observable.Observable.create(function(subscriber) {
-                  var transformedActivity = DirectLine3.transformVoiceActivity(activity);
+                  // activity.valueType = "application/vnd.microsoft.activity.azure.directline.audio.chunk";
+                  // var transformedActivity = DirectLine3.transformVoiceActivity(activity);
                   var envelope = {
-                    activities: [transformedActivity]
+                    activities: [activity]
                   };
                   try {
-                    _this6.webSocketConnection.send(JSON.stringify(envelope));
-                    subscriber.next(envelope);
+                    _this6.webSocketConnection.send(JSON.stringify(activity));
+                    subscriber.next(activity);
                     subscriber.complete();
                   } catch (e3) {
                     subscriber.error(e3);
@@ -114673,17 +114674,23 @@ and ensure you are accounting for this risk.
   function* observeActivity({ directLine, userID }) {
     yield observeEachEffect(directLine.activity$, function* observeActivity2(activity) {
       var _a29, _b4;
-      activity = transformVoiceLiveEventToStandardActivity(activity);
+      // activity = transformVoiceLiveEventToStandardActivity(activity);
       if (isVoiceActivity_default(activity) && !isVoiceTranscriptActivity_default(activity)) {
-        const { recording, voiceHandlers } = yield select((state) => ({
-          recording: state.voice.voiceState !== "idle",
+        const { voiceState, voiceHandlers } = yield select((state) => ({
+          voiceState: state.voice.voiceState,
           voiceHandlers: state.voice.voiceHandlers
         }));
-        if (!recording) {
+         if (voiceState === "idle") {
           return;
         }
         switch (activity.name) {
           case "media.chunk": {
+            // if (voiceState === "user_speaking") {
+            //   return;
+            // }
+            // if (voiceState === "processing") {
+            //   yield put(setVoiceState_default("bot_speaking"));
+            // }
             const audioContent = (_a29 = activity == null ? void 0 : activity.value) == null ? void 0 : _a29.content;
             if (audioContent) {
               voiceHandlers.forEach((handler) => handler.queueAudio(audioContent));
@@ -135308,6 +135315,12 @@ and ensure you are accounting for this risk.
     const stopVoice = (0, import_react78.useCallback)(() => {
       voiceHandlers.forEach((handler) => handler.stopAllAudio());
       dispatch(stopVoiceRecording_default());
+      // dispatch(
+      //   postVoiceActivity_default({
+      //     type: "event",
+      //     value: { voiceLiveEvent: { type: "response.cancel" } }
+      //   })
+      // );
     }, [dispatch, voiceHandlers]);
     const patchedLocalizedStrings = (0, import_react78.useMemo)(
       () => mergeStringsOverrides(getAllLocalizedStrings_default()[normalizeLanguage(locale)], locale, overrideLocalizedStrings),
