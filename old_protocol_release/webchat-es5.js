@@ -51502,13 +51502,13 @@
               return this.checkConnection(true).flatMap(function(_2) {
                 return _Observable.Observable.create(function(subscriber) {
                   // activity.valueType = "application/vnd.microsoft.activity.azure.directline.audio.chunk";
-                  var transformedActivity = DirectLine3.transformVoiceActivity(activity);
+                  // var transformedActivity = DirectLine3.transformVoiceActivity(activity);
                   var envelope = {
-                    activities: [transformedActivity]
+                    activities: [activity]
                   };
                   try {
-                    _this6.webSocketConnection.send(JSON.stringify(envelope));
-                    subscriber.next(envelope);
+                    _this6.webSocketConnection.send(JSON.stringify(activity));
+                    subscriber.next(activity);
                     subscriber.complete();
                   } catch (e3) {
                     subscriber.error(e3);
@@ -114674,7 +114674,7 @@ and ensure you are accounting for this risk.
   function* observeActivity({ directLine, userID }) {
     yield observeEachEffect(directLine.activity$, function* observeActivity2(activity) {
       var _a29, _b4;
-      activity = transformVoiceLiveEventToStandardActivity(activity);
+      // activity = transformVoiceLiveEventToStandardActivity(activity);
       if (isVoiceActivity_default(activity) && !isVoiceTranscriptActivity_default(activity)) {
         const { voiceState, voiceHandlers } = yield select((state) => ({
           voiceState: state.voice.voiceState,

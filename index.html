@@ -470,30 +470,30 @@
           // const { token } = await res.json();
           const token = secret;
           
-          const conRes = await fetch(
-            `https://directline.scratch.botframework.com/v3/directline/conversations`,
-            { 
-              method: 'POST',
-              headers: { 'Authorization': `Bearer ${token}` }
-            }
-          );
+          // const conRes = await fetch(
+          //   `https://directline.scratch.botframework.com/v3/directline/conversations`,
+          //   { 
+          //     method: 'POST',
+          //     headers: { 'Authorization': `Bearer ${token}` }
+          //   }
+          // );
           
-          if (!conRes.ok) {
-            throw new Error(`Failed to create conversation: ${conRes.status} ${conRes.statusText}`);
-          }
+          // if (!conRes.ok) {
+          //   throw new Error(`Failed to create conversation: ${conRes.status} ${conRes.statusText}`);
+          // }
           
-          const { conversationId, streamUrl: originalStreamUrl } = await conRes.json();
+          // const { conversationId, streamUrl: originalStreamUrl } = await conRes.json();
 
-          let streamUrl = `${originalStreamUrl}&mode=voice`;
-          if (environmentId) streamUrl += `&ppFqdn=${environmentId}`;
-          if (botSchema) streamUrl += `&botSchemaName=${botSchema}`;
+          // const multimodalStreamUrl = originalStreamUrl.replace('/stream?', '/stream/multimodal?');
+          // let streamUrl = `${originalStreamUrl}&mode=voice`;
+          // if (environmentId) streamUrl += `&ppFqdn=${environmentId}`;
+          // if (botSchema) streamUrl += `&botSchemaName=${botSchema}`;
           
           const domain = "https://directline.scratch.botframework.com/v3/directline";
           const directLine = window.WebChat.createDirectLine({ 
-            streamUrl, 
             token, 
-            domain, 
-            conversationId 
+            domain,
+            enableVoiceMode: true,
           });
 
           const { ReactWebChat, FluentThemeProvider } = window.WebChat;
