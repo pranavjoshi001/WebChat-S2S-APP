@@ -354,6 +354,10 @@
                 <div class="form-text">Get it from your Agent's channel page</div>
                 <!-- <div class="form-text">Your agent secret → MCS agent setting → security → web channel security</div> -->
               </div>
+              <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="enableVoiceMode" checked>
+                <label class="form-check-label" for="enableVoiceMode">Enable Voice Mode</label>
+              </div>
               <!-- <div class="mb-3">
                 <label for="botSchema" class="form-label">Bot Schema Name (Optional)</label>
                 <input type="text" class="form-control" id="botSchema">
@@ -421,7 +425,7 @@
       const processingAudioUrl = './asset/Percolation.wav';
 
       // Store credentials for reconnection
-      let currentCredentials = { secret: '', botSchema: '', environmentId: '' };
+      let currentCredentials = { secret: '', botSchema: '', environmentId: '', enableVoiceMode: true };
 
       // Send starter prompt
       window.sendStarterPrompt = (text) => {
@@ -435,7 +439,7 @@
 
       // Reconnect function
       window.reconnect = () => {
-        const { secret, botSchema, environmentId } = currentCredentials;
+        const { secret, botSchema, environmentId, enableVoiceMode } = currentCredentials;
         if (secret) {
           // Clear existing webchat
           const webChatContainer = document.getElementById('webchat');
@@ -446,13 +450,13 @@
           // Hide any error
           document.getElementById('errorContainer').style.display = 'none';
           // Reconnect
-          connectAndRender(secret, botSchema, environmentId);
+          connectAndRender(secret, botSchema, environmentId, enableVoiceMode);
         }
       };
 
-      async function connectAndRender(secret, botSchema, environmentId) {
+      async function connectAndRender(secret, botSchema, environmentId, enableVoiceMode = true) {
         // Store credentials for reconnection
-        currentCredentials = { secret, botSchema, environmentId };
+        currentCredentials = { secret, botSchema, environmentId, enableVoiceMode };
         
         try {
           // const res = await fetch(
@@ -493,7 +497,7 @@
           const directLine = window.WebChat.createDirectLine({ 
             token, 
             domain,
-            enableVoiceMode: true,
+            ...(enableVoiceMode && { enableVoiceMode: true }),
           });
 
           const { ReactWebChat, FluentThemeProvider } = window.WebChat;
@@ -544,9 +548,10 @@
           const secret = document.getElementById('secret')?.value?.trim();
           const botSchema = document.getElementById('botSchema')?.value?.trim();
           const environmentId = document.getElementById('environmentId')?.value?.trim();
+          const enableVoiceMode = document.getElementById('enableVoiceMode')?.checked ?? true;
           
           modal.hide();
-          connectAndRender(secret, botSchema, environmentId);
+          connectAndRender(secret, botSchema, environmentId, enableVoiceMode);
         });
       })();
     </script>
