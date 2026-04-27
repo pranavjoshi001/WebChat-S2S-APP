@@ -16020,7 +16020,7 @@
   });
 
   // ../core/node_modules/core-js-pure/internals/to-absolute-index.js
-  var require_to_absolute_index3 = __commonJS({
+  var require_to_absolute_index7 = __commonJS({
     "../core/node_modules/core-js-pure/internals/to-absolute-index.js"(exports2, module) {
       "use strict";
       var toIntegerOrInfinity4 = require_to_integer_or_infinity7();
@@ -16038,7 +16038,7 @@
     "../core/node_modules/core-js-pure/internals/array-includes.js"(exports2, module) {
       "use strict";
       var toIndexedObject = require_to_indexed_object7();
-      var toAbsoluteIndex = require_to_absolute_index3();
+      var toAbsoluteIndex = require_to_absolute_index7();
       var lengthOfArrayLike = require_length_of_array_like7();
       var createMethod = function(IS_INCLUDES) {
         return function($this, el, fromIndex) {
@@ -16575,7 +16575,7 @@
   });
 
   // ../core/node_modules/core-js-pure/internals/add-to-unscopables.js
-  var require_add_to_unscopables3 = __commonJS({
+  var require_add_to_unscopables7 = __commonJS({
     "../core/node_modules/core-js-pure/internals/add-to-unscopables.js"(exports2, module) {
       "use strict";
       module.exports = function() {
@@ -16588,7 +16588,7 @@
     "../core/node_modules/core-js-pure/modules/es.array.iterator.js"(exports2, module) {
       "use strict";
       var toIndexedObject = require_to_indexed_object7();
-      var addToUnscopables = require_add_to_unscopables3();
+      var addToUnscopables = require_add_to_unscopables7();
       var Iterators = require_iterators7();
       var InternalStateModule = require_internal_state7();
       var defineProperty2 = require_object_define_property7().f;
@@ -17696,7 +17696,7 @@
   });
 
   // ../core/node_modules/core-js-pure/internals/create-property.js
-  var require_create_property3 = __commonJS({
+  var require_create_property7 = __commonJS({
     "../core/node_modules/core-js-pure/internals/create-property.js"(exports2, module) {
       "use strict";
       var DESCRIPTORS2 = require_descriptors7();
@@ -17720,7 +17720,7 @@
       var isCallable2 = require_is_callable7();
       var getPrototypeOf = require_object_get_prototype_of3();
       var defineBuiltInAccessor = require_define_built_in_accessor7();
-      var createProperty = require_create_property3();
+      var createProperty = require_create_property7();
       var fails3 = require_fails7();
       var hasOwn = require_has_own_property7();
       var wellKnownSymbol2 = require_well_known_symbol7();
@@ -17840,7 +17840,7 @@
   });
 
   // ../core/node_modules/core-js-pure/internals/entry-unbind.js
-  var require_entry_unbind3 = __commonJS({
+  var require_entry_unbind7 = __commonJS({
     "../core/node_modules/core-js-pure/internals/entry-unbind.js"(exports2, module) {
       "use strict";
       var getBuiltIn = require_get_built_in7();
@@ -17855,7 +17855,7 @@
       require_es_object_to_string3();
       require_es_iterator_constructor2();
       require_es_iterator_every2();
-      var entryUnbind = require_entry_unbind3();
+      var entryUnbind = require_entry_unbind7();
       module.exports = entryUnbind("Iterator", "every");
     }
   });
@@ -17924,117 +17924,6 @@
           return crypto2.getRandomValues(u32)[0] / max2;
         };
       })(require_crypto());
-    }
-  });
-
-  // ../core/node_modules/core-js-pure/internals/does-not-exceed-safe-integer.js
-  var require_does_not_exceed_safe_integer2 = __commonJS({
-    "../core/node_modules/core-js-pure/internals/does-not-exceed-safe-integer.js"(exports2, module) {
-      "use strict";
-      var $TypeError = TypeError;
-      var MAX_SAFE_INTEGER = 9007199254740991;
-      module.exports = function(it) {
-        if (it > MAX_SAFE_INTEGER) throw $TypeError("Maximum allowed index exceeded");
-        return it;
-      };
-    }
-  });
-
-  // ../core/node_modules/core-js-pure/modules/es.array.to-spliced.js
-  var require_es_array_to_spliced = __commonJS({
-    "../core/node_modules/core-js-pure/modules/es.array.to-spliced.js"() {
-      "use strict";
-      var $3 = require_export7();
-      var addToUnscopables = require_add_to_unscopables3();
-      var doesNotExceedSafeInteger = require_does_not_exceed_safe_integer2();
-      var lengthOfArrayLike = require_length_of_array_like7();
-      var toAbsoluteIndex = require_to_absolute_index3();
-      var toIndexedObject = require_to_indexed_object7();
-      var toIntegerOrInfinity4 = require_to_integer_or_infinity7();
-      var createProperty = require_create_property3();
-      var $Array = Array;
-      var max2 = Math.max;
-      var min2 = Math.min;
-      $3({ target: "Array", proto: true }, {
-        toSpliced: function toSpliced2(start, deleteCount) {
-          var O = toIndexedObject(this);
-          var len = lengthOfArrayLike(O);
-          var actualStart = toAbsoluteIndex(start, len);
-          var argumentsLength = arguments.length;
-          var k = 0;
-          var insertCount, actualDeleteCount, newLen, A;
-          if (argumentsLength === 0) {
-            insertCount = actualDeleteCount = 0;
-          } else if (argumentsLength === 1) {
-            insertCount = 0;
-            actualDeleteCount = len - actualStart;
-          } else {
-            insertCount = argumentsLength - 2;
-            actualDeleteCount = min2(max2(toIntegerOrInfinity4(deleteCount), 0), len - actualStart);
-          }
-          newLen = doesNotExceedSafeInteger(len + insertCount - actualDeleteCount);
-          A = $Array(newLen);
-          for (; k < actualStart; k++) createProperty(A, k, O[k]);
-          for (; k < actualStart + insertCount; k++) createProperty(A, k, arguments[k - actualStart + 2]);
-          for (; k < newLen; k++) createProperty(A, k, O[k + actualDeleteCount - insertCount]);
-          return A;
-        }
-      });
-      addToUnscopables("toSpliced");
-    }
-  });
-
-  // ../core/node_modules/core-js-pure/es/array/to-spliced.js
-  var require_to_spliced = __commonJS({
-    "../core/node_modules/core-js-pure/es/array/to-spliced.js"(exports2, module) {
-      "use strict";
-      require_es_array_to_spliced();
-      var entryUnbind = require_entry_unbind3();
-      module.exports = entryUnbind("Array", "toSpliced");
-    }
-  });
-
-  // ../core/node_modules/core-js-pure/stable/array/to-spliced.js
-  var require_to_spliced2 = __commonJS({
-    "../core/node_modules/core-js-pure/stable/array/to-spliced.js"(exports2, module) {
-      "use strict";
-      var parent = require_to_spliced();
-      module.exports = parent;
-    }
-  });
-
-  // ../core/node_modules/core-js-pure/modules/esnext.array.to-spliced.js
-  var require_esnext_array_to_spliced = __commonJS({
-    "../core/node_modules/core-js-pure/modules/esnext.array.to-spliced.js"() {
-      "use strict";
-      require_es_array_to_spliced();
-    }
-  });
-
-  // ../core/node_modules/core-js-pure/actual/array/to-spliced.js
-  var require_to_spliced3 = __commonJS({
-    "../core/node_modules/core-js-pure/actual/array/to-spliced.js"(exports2, module) {
-      "use strict";
-      var parent = require_to_spliced2();
-      require_esnext_array_to_spliced();
-      module.exports = parent;
-    }
-  });
-
-  // ../core/node_modules/core-js-pure/full/array/to-spliced.js
-  var require_to_spliced4 = __commonJS({
-    "../core/node_modules/core-js-pure/full/array/to-spliced.js"(exports2, module) {
-      "use strict";
-      var parent = require_to_spliced3();
-      module.exports = parent;
-    }
-  });
-
-  // ../core/node_modules/core-js-pure/features/array/to-spliced.js
-  var require_to_spliced5 = __commonJS({
-    "../core/node_modules/core-js-pure/features/array/to-spliced.js"(exports2, module) {
-      "use strict";
-      module.exports = require_to_spliced4();
     }
   });
 
@@ -19744,7 +19633,7 @@
   });
 
   // ../../node_modules/core-js-pure/internals/to-absolute-index.js
-  var require_to_absolute_index4 = __commonJS({
+  var require_to_absolute_index9 = __commonJS({
     "../../node_modules/core-js-pure/internals/to-absolute-index.js"(exports2, module) {
       "use strict";
       var toIntegerOrInfinity4 = require_to_integer_or_infinity9();
@@ -19762,7 +19651,7 @@
     "../../node_modules/core-js-pure/internals/array-includes.js"(exports2, module) {
       "use strict";
       var toIndexedObject = require_to_indexed_object9();
-      var toAbsoluteIndex = require_to_absolute_index4();
+      var toAbsoluteIndex = require_to_absolute_index9();
       var lengthOfArrayLike = require_length_of_array_like9();
       var createMethod = function(IS_INCLUDES) {
         return function($this, el, fromIndex) {
@@ -20299,7 +20188,7 @@
   });
 
   // ../../node_modules/core-js-pure/internals/add-to-unscopables.js
-  var require_add_to_unscopables4 = __commonJS({
+  var require_add_to_unscopables9 = __commonJS({
     "../../node_modules/core-js-pure/internals/add-to-unscopables.js"(exports2, module) {
       "use strict";
       module.exports = function() {
@@ -20312,7 +20201,7 @@
     "../../node_modules/core-js-pure/modules/es.array.iterator.js"(exports2, module) {
       "use strict";
       var toIndexedObject = require_to_indexed_object9();
-      var addToUnscopables = require_add_to_unscopables4();
+      var addToUnscopables = require_add_to_unscopables9();
       var Iterators = require_iterators9();
       var InternalStateModule = require_internal_state9();
       var defineProperty2 = require_object_define_property9().f;
@@ -21420,7 +21309,7 @@
   });
 
   // ../../node_modules/core-js-pure/internals/create-property.js
-  var require_create_property4 = __commonJS({
+  var require_create_property9 = __commonJS({
     "../../node_modules/core-js-pure/internals/create-property.js"(exports2, module) {
       "use strict";
       var DESCRIPTORS2 = require_descriptors9();
@@ -21444,7 +21333,7 @@
       var isCallable2 = require_is_callable9();
       var getPrototypeOf = require_object_get_prototype_of4();
       var defineBuiltInAccessor = require_define_built_in_accessor9();
-      var createProperty = require_create_property4();
+      var createProperty = require_create_property9();
       var fails3 = require_fails9();
       var hasOwn = require_has_own_property9();
       var wellKnownSymbol2 = require_well_known_symbol9();
@@ -21564,7 +21453,7 @@
   });
 
   // ../../node_modules/core-js-pure/internals/entry-unbind.js
-  var require_entry_unbind4 = __commonJS({
+  var require_entry_unbind9 = __commonJS({
     "../../node_modules/core-js-pure/internals/entry-unbind.js"(exports2, module) {
       "use strict";
       var getBuiltIn = require_get_built_in9();
@@ -21579,7 +21468,7 @@
       require_es_object_to_string4();
       require_es_iterator_constructor3();
       require_es_iterator_find();
-      var entryUnbind = require_entry_unbind4();
+      var entryUnbind = require_entry_unbind9();
       module.exports = entryUnbind("Iterator", "find");
     }
   });
@@ -22476,7 +22365,7 @@
   });
 
   // ../../node_modules/@babel/runtime-corejs3/node_modules/core-js-pure/internals/to-absolute-index.js
-  var require_to_absolute_index5 = __commonJS({
+  var require_to_absolute_index11 = __commonJS({
     "../../node_modules/@babel/runtime-corejs3/node_modules/core-js-pure/internals/to-absolute-index.js"(exports2, module) {
       "use strict";
       var toIntegerOrInfinity4 = require_to_integer_or_infinity11();
@@ -22518,7 +22407,7 @@
     "../../node_modules/@babel/runtime-corejs3/node_modules/core-js-pure/internals/array-includes.js"(exports2, module) {
       "use strict";
       var toIndexedObject = require_to_indexed_object11();
-      var toAbsoluteIndex = require_to_absolute_index5();
+      var toAbsoluteIndex = require_to_absolute_index11();
       var lengthOfArrayLike = require_length_of_array_like11();
       var createMethod = function(IS_INCLUDES) {
         return function($this, el, fromIndex) {
@@ -30800,7 +30689,7 @@
   });
 
   // ../../node_modules/@babel/runtime-corejs3/node_modules/core-js-pure/internals/create-property.js
-  var require_create_property5 = __commonJS({
+  var require_create_property11 = __commonJS({
     "../../node_modules/@babel/runtime-corejs3/node_modules/core-js-pure/internals/create-property.js"(exports2, module) {
       "use strict";
       var DESCRIPTORS2 = require_descriptors11();
@@ -30822,7 +30711,7 @@
       var toObject = require_to_object11();
       var lengthOfArrayLike = require_length_of_array_like11();
       var arraySpeciesCreate = require_array_species_create3();
-      var createProperty = require_create_property5();
+      var createProperty = require_create_property11();
       var createMethod = function(TYPE) {
         var IS_MAP = TYPE === 1;
         var IS_FILTER = TYPE === 2;
@@ -31761,7 +31650,7 @@
   });
 
   // ../../node_modules/@babel/runtime-corejs3/node_modules/core-js-pure/internals/does-not-exceed-safe-integer.js
-  var require_does_not_exceed_safe_integer3 = __commonJS({
+  var require_does_not_exceed_safe_integer8 = __commonJS({
     "../../node_modules/@babel/runtime-corejs3/node_modules/core-js-pure/internals/does-not-exceed-safe-integer.js"(exports2, module) {
       "use strict";
       var $TypeError = TypeError;
@@ -31781,7 +31670,7 @@
       var toObject = require_to_object11();
       var lengthOfArrayLike = require_length_of_array_like11();
       var setArrayLength = require_array_set_length2();
-      var doesNotExceedSafeInteger = require_does_not_exceed_safe_integer3();
+      var doesNotExceedSafeInteger = require_does_not_exceed_safe_integer8();
       var fails3 = require_fails11();
       var INCORRECT_TO_LENGTH = fails3(function() {
         return [].push.call({ length: 4294967296 }, 1) !== 4294967297;
@@ -32011,7 +31900,7 @@
       var ownKeys3 = require_own_keys2();
       var toIndexedObject = require_to_indexed_object11();
       var getOwnPropertyDescriptorModule = require_object_get_own_property_descriptor11();
-      var createProperty = require_create_property5();
+      var createProperty = require_create_property11();
       $3({ target: "Object", stat: true, sham: !DESCRIPTORS2 }, {
         getOwnPropertyDescriptors: function getOwnPropertyDescriptors(object3) {
           var O = toIndexedObject(object3);
@@ -32209,8 +32098,8 @@
       var isObject4 = require_is_object11();
       var toObject = require_to_object11();
       var lengthOfArrayLike = require_length_of_array_like11();
-      var doesNotExceedSafeInteger = require_does_not_exceed_safe_integer3();
-      var createProperty = require_create_property5();
+      var doesNotExceedSafeInteger = require_does_not_exceed_safe_integer8();
+      var createProperty = require_create_property11();
       var setArrayLength = require_array_set_length2();
       var arraySpeciesCreate = require_array_species_create3();
       var arrayMethodHasSpeciesSupport = require_array_method_has_species_support2();
@@ -32459,7 +32348,7 @@
   });
 
   // ../../node_modules/@babel/runtime-corejs3/node_modules/core-js-pure/internals/add-to-unscopables.js
-  var require_add_to_unscopables5 = __commonJS({
+  var require_add_to_unscopables11 = __commonJS({
     "../../node_modules/@babel/runtime-corejs3/node_modules/core-js-pure/internals/add-to-unscopables.js"(exports2, module) {
       "use strict";
       module.exports = function() {
@@ -32788,7 +32677,7 @@
     "../../node_modules/@babel/runtime-corejs3/node_modules/core-js-pure/modules/es.array.iterator.js"(exports2, module) {
       "use strict";
       var toIndexedObject = require_to_indexed_object11();
-      var addToUnscopables = require_add_to_unscopables5();
+      var addToUnscopables = require_add_to_unscopables11();
       var Iterators = require_iterators11();
       var InternalStateModule = require_internal_state11();
       var defineProperty2 = require_object_define_property11().f;
@@ -33517,7 +33406,7 @@
       var isArrayIteratorMethod = require_is_array_iterator_method11();
       var isConstructor = require_is_constructor11();
       var lengthOfArrayLike = require_length_of_array_like11();
-      var createProperty = require_create_property5();
+      var createProperty = require_create_property11();
       var setArrayLength = require_array_set_length2();
       var getIterator = require_get_iterator11();
       var getIteratorMethod = require_get_iterator_method11();
@@ -33675,10 +33564,10 @@
       var isArray = require_is_array3();
       var isConstructor = require_is_constructor11();
       var isObject4 = require_is_object11();
-      var toAbsoluteIndex = require_to_absolute_index5();
+      var toAbsoluteIndex = require_to_absolute_index11();
       var lengthOfArrayLike = require_length_of_array_like11();
       var toIndexedObject = require_to_indexed_object11();
-      var createProperty = require_create_property5();
+      var createProperty = require_create_property11();
       var setArrayLength = require_array_set_length2();
       var wellKnownSymbol2 = require_well_known_symbol11();
       var arrayMethodHasSpeciesSupport = require_array_method_has_species_support2();
@@ -34111,7 +34000,7 @@
       var $3 = require_export11();
       var $includes = require_array_includes5().includes;
       var fails3 = require_fails11();
-      var addToUnscopables = require_add_to_unscopables5();
+      var addToUnscopables = require_add_to_unscopables11();
       var BROKEN_ON_SPARSE = fails3(function() {
         return !Array(1).includes();
       });
@@ -35713,7 +35602,7 @@
   });
 
   // ../../node_modules/react-scroll-to-bottom/node_modules/core-js/internals/to-absolute-index.js
-  var require_to_absolute_index6 = __commonJS({
+  var require_to_absolute_index12 = __commonJS({
     "../../node_modules/react-scroll-to-bottom/node_modules/core-js/internals/to-absolute-index.js"(exports2, module) {
       var toIntegerOrInfinity4 = require_to_integer_or_infinity12();
       var max2 = Math.max;
@@ -35750,7 +35639,7 @@
   var require_array_includes6 = __commonJS({
     "../../node_modules/react-scroll-to-bottom/node_modules/core-js/internals/array-includes.js"(exports2, module) {
       var toIndexedObject = require_to_indexed_object12();
-      var toAbsoluteIndex = require_to_absolute_index6();
+      var toAbsoluteIndex = require_to_absolute_index12();
       var lengthOfArrayLike = require_length_of_array_like12();
       var createMethod = function(IS_INCLUDES) {
         return function($this, el, fromIndex) {
@@ -36589,13 +36478,13 @@
       "use strict";
       var $3 = require_export11();
       var toObject = require_to_object11();
-      var toAbsoluteIndex = require_to_absolute_index5();
+      var toAbsoluteIndex = require_to_absolute_index11();
       var toIntegerOrInfinity4 = require_to_integer_or_infinity11();
       var lengthOfArrayLike = require_length_of_array_like11();
       var setArrayLength = require_array_set_length2();
-      var doesNotExceedSafeInteger = require_does_not_exceed_safe_integer3();
+      var doesNotExceedSafeInteger = require_does_not_exceed_safe_integer8();
       var arraySpeciesCreate = require_array_species_create3();
-      var createProperty = require_create_property5();
+      var createProperty = require_create_property11();
       var deletePropertyOrThrow = require_delete_property_or_throw();
       var arrayMethodHasSpeciesSupport = require_array_method_has_species_support2();
       var HAS_SPECIES_SUPPORT = arrayMethodHasSpeciesSupport("splice");
@@ -36872,7 +36761,7 @@
       "use strict";
       var $3 = require_export11();
       var $find = require_array_iteration3().find;
-      var addToUnscopables = require_add_to_unscopables5();
+      var addToUnscopables = require_add_to_unscopables11();
       var FIND = "find";
       var SKIPS_HOLES = true;
       if (FIND in []) Array(1)[FIND](function() {
@@ -38039,7 +37928,7 @@
   });
 
   // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/to-absolute-index.js
-  var require_to_absolute_index7 = __commonJS({
+  var require_to_absolute_index14 = __commonJS({
     "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/to-absolute-index.js"(exports2, module) {
       var toInteger = require_to_integer();
       var max2 = Math.max;
@@ -38056,7 +37945,7 @@
     "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/array-includes.js"(exports2, module) {
       var toIndexedObject = require_to_indexed_object14();
       var toLength2 = require_to_length14();
-      var toAbsoluteIndex = require_to_absolute_index7();
+      var toAbsoluteIndex = require_to_absolute_index14();
       var createMethod = function(IS_INCLUDES) {
         return function($this, el, fromIndex) {
           var O = toIndexedObject($this);
@@ -39880,7 +39769,7 @@
   });
 
   // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/add-to-unscopables.js
-  var require_add_to_unscopables6 = __commonJS({
+  var require_add_to_unscopables13 = __commonJS({
     "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/add-to-unscopables.js"(exports2, module) {
       var wellKnownSymbol2 = require_well_known_symbol14();
       var create3 = require_object_create7();
@@ -39904,7 +39793,7 @@
     "../../../BotFramework-DirectLineJS/node_modules/core-js/modules/es.array.iterator.js"(exports2, module) {
       "use strict";
       var toIndexedObject = require_to_indexed_object14();
-      var addToUnscopables = require_add_to_unscopables6();
+      var addToUnscopables = require_add_to_unscopables13();
       var Iterators = require_iterators13();
       var InternalStateModule = require_internal_state14();
       var defineIterator = require_define_iterator();
@@ -56441,42 +56330,45 @@
                   _context3.prev = 2;
                   doc = document;
                   if (!(doc.permissionsPolicy && typeof doc.permissionsPolicy.allowsFeature === "function")) {
-                    _context3.next = 6;
+                    _context3.next = 7;
                     break;
                   }
+                  console.log("Checking microphone permission via Permissions Policy API");
                   return _context3.abrupt("return", doc.permissionsPolicy.allowsFeature("microphone"));
-                case 6:
+                case 7:
                   if (!(doc.featurePolicy && typeof doc.featurePolicy.allowsFeature === "function")) {
-                    _context3.next = 8;
+                    _context3.next = 10;
                     break;
                   }
+                  console.log("Checking microphone permission via Feature Policy API");
                   return _context3.abrupt("return", doc.featurePolicy.allowsFeature("microphone"));
-                case 8:
+                case 10:
                   if (!(typeof navigator !== "undefined" && navigator.permissions)) {
-                    _context3.next = 13;
+                    _context3.next = 16;
                     break;
                   }
-                  _context3.next = 11;
+                  console.log("Checking microphone permission via mic API");
+                  _context3.next = 14;
                   return navigator.permissions.query({
                     name: "microphone"
                   });
-                case 11:
+                case 14:
                   result = _context3.sent;
                   return _context3.abrupt("return", result.state !== "denied");
-                case 13:
-                  _context3.next = 17;
+                case 16:
+                  _context3.next = 20;
                   break;
-                case 15:
-                  _context3.prev = 15;
-                  _context3.t0 = _context3["catch"](2);
-                case 17:
-                  return _context3.abrupt("return", false);
                 case 18:
+                  _context3.prev = 18;
+                  _context3.t0 = _context3["catch"](2);
+                case 20:
+                  return _context3.abrupt("return", false);
+                case 21:
                 case "end":
                   return _context3.stop();
               }
             }
-          }, _callee, null, [[2, 15]]);
+          }, _callee, null, [[2, 18]]);
         }));
         return function hasIframeMicrophonePermission2() {
           return _ref.apply(this, arguments);
@@ -91819,6 +91711,180 @@ and ensure you are accounting for this risk.
       };
     }
   });
+  var require_add_to_unscopables2 = __commonJS2({
+    "node_modules/core-js-pure/internals/add-to-unscopables.js"(exports2, module) {
+      "use strict";
+      module.exports = function() {
+      };
+    }
+  });
+  var require_does_not_exceed_safe_integer2 = __commonJS2({
+    "node_modules/core-js-pure/internals/does-not-exceed-safe-integer.js"(exports2, module) {
+      "use strict";
+      var $TypeError = TypeError;
+      var MAX_SAFE_INTEGER = 9007199254740991;
+      module.exports = function(it) {
+        if (it > MAX_SAFE_INTEGER) throw $TypeError("Maximum allowed index exceeded");
+        return it;
+      };
+    }
+  });
+  var require_math_trunc2 = __commonJS2({
+    "node_modules/core-js-pure/internals/math-trunc.js"(exports2, module) {
+      "use strict";
+      var ceil = Math.ceil;
+      var floor2 = Math.floor;
+      module.exports = Math.trunc || function trunc(x) {
+        var n3 = +x;
+        return (n3 > 0 ? floor2 : ceil)(n3);
+      };
+    }
+  });
+  var require_to_integer_or_infinity2 = __commonJS2({
+    "node_modules/core-js-pure/internals/to-integer-or-infinity.js"(exports2, module) {
+      "use strict";
+      var trunc = require_math_trunc2();
+      module.exports = function(argument) {
+        var number3 = +argument;
+        return number3 !== number3 || number3 === 0 ? 0 : trunc(number3);
+      };
+    }
+  });
+  var require_to_length2 = __commonJS2({
+    "node_modules/core-js-pure/internals/to-length.js"(exports2, module) {
+      "use strict";
+      var toIntegerOrInfinity4 = require_to_integer_or_infinity2();
+      var min2 = Math.min;
+      module.exports = function(argument) {
+        var len = toIntegerOrInfinity4(argument);
+        return len > 0 ? min2(len, 9007199254740991) : 0;
+      };
+    }
+  });
+  var require_length_of_array_like2 = __commonJS2({
+    "node_modules/core-js-pure/internals/length-of-array-like.js"(exports2, module) {
+      "use strict";
+      var toLength2 = require_to_length2();
+      module.exports = function(obj) {
+        return toLength2(obj.length);
+      };
+    }
+  });
+  var require_to_absolute_index2 = __commonJS2({
+    "node_modules/core-js-pure/internals/to-absolute-index.js"(exports2, module) {
+      "use strict";
+      var toIntegerOrInfinity4 = require_to_integer_or_infinity2();
+      var max2 = Math.max;
+      var min2 = Math.min;
+      module.exports = function(index2, length2) {
+        var integer2 = toIntegerOrInfinity4(index2);
+        return integer2 < 0 ? max2(integer2 + length2, 0) : min2(integer2, length2);
+      };
+    }
+  });
+  var require_create_property2 = __commonJS2({
+    "node_modules/core-js-pure/internals/create-property.js"(exports2, module) {
+      "use strict";
+      var DESCRIPTORS2 = require_descriptors2();
+      var definePropertyModule = require_object_define_property2();
+      var createPropertyDescriptor = require_create_property_descriptor2();
+      module.exports = function(object3, key2, value) {
+        if (DESCRIPTORS2) definePropertyModule.f(object3, key2, createPropertyDescriptor(0, value));
+        else object3[key2] = value;
+      };
+    }
+  });
+  var require_es_array_to_spliced = __commonJS2({
+    "node_modules/core-js-pure/modules/es.array.to-spliced.js"() {
+      "use strict";
+      var $3 = require_export2();
+      var addToUnscopables = require_add_to_unscopables2();
+      var doesNotExceedSafeInteger = require_does_not_exceed_safe_integer2();
+      var lengthOfArrayLike = require_length_of_array_like2();
+      var toAbsoluteIndex = require_to_absolute_index2();
+      var toIndexedObject = require_to_indexed_object2();
+      var toIntegerOrInfinity4 = require_to_integer_or_infinity2();
+      var createProperty = require_create_property2();
+      var $Array = Array;
+      var max2 = Math.max;
+      var min2 = Math.min;
+      $3({ target: "Array", proto: true }, {
+        toSpliced: function toSpliced2(start, deleteCount) {
+          var O = toIndexedObject(this);
+          var len = lengthOfArrayLike(O);
+          var actualStart = toAbsoluteIndex(start, len);
+          var argumentsLength = arguments.length;
+          var k = 0;
+          var insertCount, actualDeleteCount, newLen, A;
+          if (argumentsLength === 0) {
+            insertCount = actualDeleteCount = 0;
+          } else if (argumentsLength === 1) {
+            insertCount = 0;
+            actualDeleteCount = len - actualStart;
+          } else {
+            insertCount = argumentsLength - 2;
+            actualDeleteCount = min2(max2(toIntegerOrInfinity4(deleteCount), 0), len - actualStart);
+          }
+          newLen = doesNotExceedSafeInteger(len + insertCount - actualDeleteCount);
+          A = $Array(newLen);
+          for (; k < actualStart; k++) createProperty(A, k, O[k]);
+          for (; k < actualStart + insertCount; k++) createProperty(A, k, arguments[k - actualStart + 2]);
+          for (; k < newLen; k++) createProperty(A, k, O[k + actualDeleteCount - insertCount]);
+          return A;
+        }
+      });
+      addToUnscopables("toSpliced");
+    }
+  });
+  var require_entry_unbind2 = __commonJS2({
+    "node_modules/core-js-pure/internals/entry-unbind.js"(exports2, module) {
+      "use strict";
+      var getBuiltIn = require_get_built_in2();
+      module.exports = getBuiltIn;
+    }
+  });
+  var require_to_spliced = __commonJS2({
+    "node_modules/core-js-pure/es/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      require_es_array_to_spliced();
+      var entryUnbind = require_entry_unbind2();
+      module.exports = entryUnbind("Array", "toSpliced");
+    }
+  });
+  var require_to_spliced2 = __commonJS2({
+    "node_modules/core-js-pure/stable/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      var parent = require_to_spliced();
+      module.exports = parent;
+    }
+  });
+  var require_esnext_array_to_spliced = __commonJS2({
+    "node_modules/core-js-pure/modules/esnext.array.to-spliced.js"() {
+      "use strict";
+      require_es_array_to_spliced();
+    }
+  });
+  var require_to_spliced3 = __commonJS2({
+    "node_modules/core-js-pure/actual/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      var parent = require_to_spliced2();
+      require_esnext_array_to_spliced();
+      module.exports = parent;
+    }
+  });
+  var require_to_spliced4 = __commonJS2({
+    "node_modules/core-js-pure/full/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      var parent = require_to_spliced3();
+      module.exports = parent;
+    }
+  });
+  var require_to_spliced5 = __commonJS2({
+    "node_modules/core-js-pure/features/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      module.exports = require_to_spliced4();
+    }
+  });
   var require_environment2 = __commonJS2({
     "node_modules/core-js-pure/internals/environment.js"(exports2, module) {
       "use strict";
@@ -92845,47 +92911,6 @@ and ensure you are accounting for this risk.
       };
     }
   });
-  var require_math_trunc2 = __commonJS2({
-    "node_modules/core-js-pure/internals/math-trunc.js"(exports2, module) {
-      "use strict";
-      var ceil = Math.ceil;
-      var floor2 = Math.floor;
-      module.exports = Math.trunc || function trunc(x) {
-        var n3 = +x;
-        return (n3 > 0 ? floor2 : ceil)(n3);
-      };
-    }
-  });
-  var require_to_integer_or_infinity2 = __commonJS2({
-    "node_modules/core-js-pure/internals/to-integer-or-infinity.js"(exports2, module) {
-      "use strict";
-      var trunc = require_math_trunc2();
-      module.exports = function(argument) {
-        var number3 = +argument;
-        return number3 !== number3 || number3 === 0 ? 0 : trunc(number3);
-      };
-    }
-  });
-  var require_to_length2 = __commonJS2({
-    "node_modules/core-js-pure/internals/to-length.js"(exports2, module) {
-      "use strict";
-      var toIntegerOrInfinity4 = require_to_integer_or_infinity2();
-      var min2 = Math.min;
-      module.exports = function(argument) {
-        var len = toIntegerOrInfinity4(argument);
-        return len > 0 ? min2(len, 9007199254740991) : 0;
-      };
-    }
-  });
-  var require_length_of_array_like2 = __commonJS2({
-    "node_modules/core-js-pure/internals/length-of-array-like.js"(exports2, module) {
-      "use strict";
-      var toLength2 = require_to_length2();
-      module.exports = function(obj) {
-        return toLength2(obj.length);
-      };
-    }
-  });
   var require_get_iterator_method2 = __commonJS2({
     "node_modules/core-js-pure/internals/get-iterator-method.js"(exports2, module) {
       "use strict";
@@ -93415,6 +93440,7 @@ and ensure you are accounting for this risk.
   function singleToArray(singleOrArray) {
     return typeof singleOrArray === "undefined" ? EMPTY_ARRAY : Object.freeze(Array.isArray(singleOrArray) ? [...singleOrArray] : [singleOrArray]);
   }
+  var import_to_spliced = __toESM2(require_to_spliced5());
   var import_with_resolvers = __toESM2(require_with_resolvers5());
 
   // src/buildInfo.ts
@@ -93472,7 +93498,7 @@ and ensure you are accounting for this risk.
     };
   }
 
-  // ../component/dist/chunk-6BO2EU3M.mjs
+  // ../component/dist/chunk-AMLLND6Q.mjs
   var import_react = __toESM(require_react(), 1);
   var import_react2 = __toESM(require_react(), 1);
 
@@ -94810,7 +94836,7 @@ and ensure you are accounting for this risk.
     };
   }
 
-  // ../component/dist/chunk-6BO2EU3M.mjs
+  // ../component/dist/chunk-AMLLND6Q.mjs
   var __defProp3 = Object.defineProperty;
   var __export2 = (target, all4) => {
     for (var name in all4)
@@ -95562,6 +95588,180 @@ and ensure you are accounting for this risk.
           }
         }
       };
+    }
+  });
+  var require_add_to_unscopables3 = __commonJS3({
+    "node_modules/core-js-pure/internals/add-to-unscopables.js"(exports2, module) {
+      "use strict";
+      module.exports = function() {
+      };
+    }
+  });
+  var require_does_not_exceed_safe_integer3 = __commonJS3({
+    "node_modules/core-js-pure/internals/does-not-exceed-safe-integer.js"(exports2, module) {
+      "use strict";
+      var $TypeError = TypeError;
+      var MAX_SAFE_INTEGER = 9007199254740991;
+      module.exports = function(it) {
+        if (it > MAX_SAFE_INTEGER) throw $TypeError("Maximum allowed index exceeded");
+        return it;
+      };
+    }
+  });
+  var require_math_trunc3 = __commonJS3({
+    "node_modules/core-js-pure/internals/math-trunc.js"(exports2, module) {
+      "use strict";
+      var ceil = Math.ceil;
+      var floor2 = Math.floor;
+      module.exports = Math.trunc || function trunc(x) {
+        var n3 = +x;
+        return (n3 > 0 ? floor2 : ceil)(n3);
+      };
+    }
+  });
+  var require_to_integer_or_infinity3 = __commonJS3({
+    "node_modules/core-js-pure/internals/to-integer-or-infinity.js"(exports2, module) {
+      "use strict";
+      var trunc = require_math_trunc3();
+      module.exports = function(argument) {
+        var number3 = +argument;
+        return number3 !== number3 || number3 === 0 ? 0 : trunc(number3);
+      };
+    }
+  });
+  var require_to_length3 = __commonJS3({
+    "node_modules/core-js-pure/internals/to-length.js"(exports2, module) {
+      "use strict";
+      var toIntegerOrInfinity4 = require_to_integer_or_infinity3();
+      var min2 = Math.min;
+      module.exports = function(argument) {
+        var len = toIntegerOrInfinity4(argument);
+        return len > 0 ? min2(len, 9007199254740991) : 0;
+      };
+    }
+  });
+  var require_length_of_array_like3 = __commonJS3({
+    "node_modules/core-js-pure/internals/length-of-array-like.js"(exports2, module) {
+      "use strict";
+      var toLength2 = require_to_length3();
+      module.exports = function(obj) {
+        return toLength2(obj.length);
+      };
+    }
+  });
+  var require_to_absolute_index3 = __commonJS3({
+    "node_modules/core-js-pure/internals/to-absolute-index.js"(exports2, module) {
+      "use strict";
+      var toIntegerOrInfinity4 = require_to_integer_or_infinity3();
+      var max2 = Math.max;
+      var min2 = Math.min;
+      module.exports = function(index2, length2) {
+        var integer2 = toIntegerOrInfinity4(index2);
+        return integer2 < 0 ? max2(integer2 + length2, 0) : min2(integer2, length2);
+      };
+    }
+  });
+  var require_create_property3 = __commonJS3({
+    "node_modules/core-js-pure/internals/create-property.js"(exports2, module) {
+      "use strict";
+      var DESCRIPTORS2 = require_descriptors3();
+      var definePropertyModule = require_object_define_property3();
+      var createPropertyDescriptor = require_create_property_descriptor3();
+      module.exports = function(object22, key2, value) {
+        if (DESCRIPTORS2) definePropertyModule.f(object22, key2, createPropertyDescriptor(0, value));
+        else object22[key2] = value;
+      };
+    }
+  });
+  var require_es_array_to_spliced2 = __commonJS3({
+    "node_modules/core-js-pure/modules/es.array.to-spliced.js"() {
+      "use strict";
+      var $3 = require_export3();
+      var addToUnscopables = require_add_to_unscopables3();
+      var doesNotExceedSafeInteger = require_does_not_exceed_safe_integer3();
+      var lengthOfArrayLike = require_length_of_array_like3();
+      var toAbsoluteIndex = require_to_absolute_index3();
+      var toIndexedObject = require_to_indexed_object3();
+      var toIntegerOrInfinity4 = require_to_integer_or_infinity3();
+      var createProperty = require_create_property3();
+      var $Array = Array;
+      var max2 = Math.max;
+      var min2 = Math.min;
+      $3({ target: "Array", proto: true }, {
+        toSpliced: function toSpliced2(start, deleteCount) {
+          var O = toIndexedObject(this);
+          var len = lengthOfArrayLike(O);
+          var actualStart = toAbsoluteIndex(start, len);
+          var argumentsLength = arguments.length;
+          var k = 0;
+          var insertCount, actualDeleteCount, newLen, A;
+          if (argumentsLength === 0) {
+            insertCount = actualDeleteCount = 0;
+          } else if (argumentsLength === 1) {
+            insertCount = 0;
+            actualDeleteCount = len - actualStart;
+          } else {
+            insertCount = argumentsLength - 2;
+            actualDeleteCount = min2(max2(toIntegerOrInfinity4(deleteCount), 0), len - actualStart);
+          }
+          newLen = doesNotExceedSafeInteger(len + insertCount - actualDeleteCount);
+          A = $Array(newLen);
+          for (; k < actualStart; k++) createProperty(A, k, O[k]);
+          for (; k < actualStart + insertCount; k++) createProperty(A, k, arguments[k - actualStart + 2]);
+          for (; k < newLen; k++) createProperty(A, k, O[k + actualDeleteCount - insertCount]);
+          return A;
+        }
+      });
+      addToUnscopables("toSpliced");
+    }
+  });
+  var require_entry_unbind3 = __commonJS3({
+    "node_modules/core-js-pure/internals/entry-unbind.js"(exports2, module) {
+      "use strict";
+      var getBuiltIn = require_get_built_in3();
+      module.exports = getBuiltIn;
+    }
+  });
+  var require_to_spliced6 = __commonJS3({
+    "node_modules/core-js-pure/es/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      require_es_array_to_spliced2();
+      var entryUnbind = require_entry_unbind3();
+      module.exports = entryUnbind("Array", "toSpliced");
+    }
+  });
+  var require_to_spliced22 = __commonJS3({
+    "node_modules/core-js-pure/stable/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      var parent = require_to_spliced6();
+      module.exports = parent;
+    }
+  });
+  var require_esnext_array_to_spliced2 = __commonJS3({
+    "node_modules/core-js-pure/modules/esnext.array.to-spliced.js"() {
+      "use strict";
+      require_es_array_to_spliced2();
+    }
+  });
+  var require_to_spliced32 = __commonJS3({
+    "node_modules/core-js-pure/actual/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      var parent = require_to_spliced22();
+      require_esnext_array_to_spliced2();
+      module.exports = parent;
+    }
+  });
+  var require_to_spliced42 = __commonJS3({
+    "node_modules/core-js-pure/full/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      var parent = require_to_spliced32();
+      module.exports = parent;
+    }
+  });
+  var require_to_spliced52 = __commonJS3({
+    "node_modules/core-js-pure/features/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      module.exports = require_to_spliced42();
     }
   });
   var require_environment3 = __commonJS3({
@@ -96590,47 +96790,6 @@ and ensure you are accounting for this risk.
       };
     }
   });
-  var require_math_trunc3 = __commonJS3({
-    "node_modules/core-js-pure/internals/math-trunc.js"(exports2, module) {
-      "use strict";
-      var ceil = Math.ceil;
-      var floor2 = Math.floor;
-      module.exports = Math.trunc || function trunc(x) {
-        var n3 = +x;
-        return (n3 > 0 ? floor2 : ceil)(n3);
-      };
-    }
-  });
-  var require_to_integer_or_infinity3 = __commonJS3({
-    "node_modules/core-js-pure/internals/to-integer-or-infinity.js"(exports2, module) {
-      "use strict";
-      var trunc = require_math_trunc3();
-      module.exports = function(argument) {
-        var number3 = +argument;
-        return number3 !== number3 || number3 === 0 ? 0 : trunc(number3);
-      };
-    }
-  });
-  var require_to_length3 = __commonJS3({
-    "node_modules/core-js-pure/internals/to-length.js"(exports2, module) {
-      "use strict";
-      var toIntegerOrInfinity4 = require_to_integer_or_infinity3();
-      var min2 = Math.min;
-      module.exports = function(argument) {
-        var len = toIntegerOrInfinity4(argument);
-        return len > 0 ? min2(len, 9007199254740991) : 0;
-      };
-    }
-  });
-  var require_length_of_array_like3 = __commonJS3({
-    "node_modules/core-js-pure/internals/length-of-array-like.js"(exports2, module) {
-      "use strict";
-      var toLength2 = require_to_length3();
-      module.exports = function(obj) {
-        return toLength2(obj.length);
-      };
-    }
-  });
   var require_get_iterator_method3 = __commonJS3({
     "node_modules/core-js-pure/internals/get-iterator-method.js"(exports2, module) {
       "use strict";
@@ -97069,6 +97228,7 @@ and ensure you are accounting for this risk.
     )
   );
   var EMPTY_ARRAY2 = Object.freeze([]);
+  var import_to_spliced2 = __toESM3(require_to_spliced52());
   var import_with_resolvers2 = __toESM3(require_with_resolvers52());
   var store$42;
   // @__NO_SIDE_EFFECTS__
@@ -97632,7 +97792,7 @@ and ensure you are accounting for this risk.
     }
   }
 
-  // ../component/dist/chunk-BNIMYCI7.mjs
+  // ../component/dist/chunk-7PUXM63Z.mjs
   var import_classnames = __toESM(require_classnames(), 1);
   var import_react108 = __toESM(require_react(), 1);
   var import_react109 = __toESM(require_react(), 1);
@@ -97647,11 +97807,11 @@ and ensure you are accounting for this risk.
     return readOnlyRef;
   }
 
-  // ../component/dist/chunk-BNIMYCI7.mjs
+  // ../component/dist/chunk-7PUXM63Z.mjs
   var import_react110 = __toESM(require_react(), 1);
   var import_react111 = __toESM(require_react(), 1);
 
-  // ../api/dist/chunk-2N3FFERW.mjs
+  // ../api/dist/chunk-AFLCQH7H.mjs
   var __create4 = Object.create;
   var __defProp4 = Object.defineProperty;
   var __getOwnPropDesc4 = Object.getOwnPropertyDescriptor;
@@ -98398,6 +98558,180 @@ and ensure you are accounting for this risk.
           }
         }
       };
+    }
+  });
+  var require_add_to_unscopables4 = __commonJS4({
+    "node_modules/core-js-pure/internals/add-to-unscopables.js"(exports2, module) {
+      "use strict";
+      module.exports = function() {
+      };
+    }
+  });
+  var require_does_not_exceed_safe_integer4 = __commonJS4({
+    "node_modules/core-js-pure/internals/does-not-exceed-safe-integer.js"(exports2, module) {
+      "use strict";
+      var $TypeError = TypeError;
+      var MAX_SAFE_INTEGER = 9007199254740991;
+      module.exports = function(it) {
+        if (it > MAX_SAFE_INTEGER) throw $TypeError("Maximum allowed index exceeded");
+        return it;
+      };
+    }
+  });
+  var require_math_trunc4 = __commonJS4({
+    "node_modules/core-js-pure/internals/math-trunc.js"(exports2, module) {
+      "use strict";
+      var ceil = Math.ceil;
+      var floor2 = Math.floor;
+      module.exports = Math.trunc || function trunc(x) {
+        var n3 = +x;
+        return (n3 > 0 ? floor2 : ceil)(n3);
+      };
+    }
+  });
+  var require_to_integer_or_infinity4 = __commonJS4({
+    "node_modules/core-js-pure/internals/to-integer-or-infinity.js"(exports2, module) {
+      "use strict";
+      var trunc = require_math_trunc4();
+      module.exports = function(argument) {
+        var number3 = +argument;
+        return number3 !== number3 || number3 === 0 ? 0 : trunc(number3);
+      };
+    }
+  });
+  var require_to_length4 = __commonJS4({
+    "node_modules/core-js-pure/internals/to-length.js"(exports2, module) {
+      "use strict";
+      var toIntegerOrInfinity4 = require_to_integer_or_infinity4();
+      var min2 = Math.min;
+      module.exports = function(argument) {
+        var len = toIntegerOrInfinity4(argument);
+        return len > 0 ? min2(len, 9007199254740991) : 0;
+      };
+    }
+  });
+  var require_length_of_array_like4 = __commonJS4({
+    "node_modules/core-js-pure/internals/length-of-array-like.js"(exports2, module) {
+      "use strict";
+      var toLength2 = require_to_length4();
+      module.exports = function(obj) {
+        return toLength2(obj.length);
+      };
+    }
+  });
+  var require_to_absolute_index4 = __commonJS4({
+    "node_modules/core-js-pure/internals/to-absolute-index.js"(exports2, module) {
+      "use strict";
+      var toIntegerOrInfinity4 = require_to_integer_or_infinity4();
+      var max2 = Math.max;
+      var min2 = Math.min;
+      module.exports = function(index2, length2) {
+        var integer2 = toIntegerOrInfinity4(index2);
+        return integer2 < 0 ? max2(integer2 + length2, 0) : min2(integer2, length2);
+      };
+    }
+  });
+  var require_create_property4 = __commonJS4({
+    "node_modules/core-js-pure/internals/create-property.js"(exports2, module) {
+      "use strict";
+      var DESCRIPTORS2 = require_descriptors4();
+      var definePropertyModule = require_object_define_property4();
+      var createPropertyDescriptor = require_create_property_descriptor4();
+      module.exports = function(object3, key2, value) {
+        if (DESCRIPTORS2) definePropertyModule.f(object3, key2, createPropertyDescriptor(0, value));
+        else object3[key2] = value;
+      };
+    }
+  });
+  var require_es_array_to_spliced3 = __commonJS4({
+    "node_modules/core-js-pure/modules/es.array.to-spliced.js"() {
+      "use strict";
+      var $3 = require_export4();
+      var addToUnscopables = require_add_to_unscopables4();
+      var doesNotExceedSafeInteger = require_does_not_exceed_safe_integer4();
+      var lengthOfArrayLike = require_length_of_array_like4();
+      var toAbsoluteIndex = require_to_absolute_index4();
+      var toIndexedObject = require_to_indexed_object4();
+      var toIntegerOrInfinity4 = require_to_integer_or_infinity4();
+      var createProperty = require_create_property4();
+      var $Array = Array;
+      var max2 = Math.max;
+      var min2 = Math.min;
+      $3({ target: "Array", proto: true }, {
+        toSpliced: function toSpliced2(start, deleteCount) {
+          var O = toIndexedObject(this);
+          var len = lengthOfArrayLike(O);
+          var actualStart = toAbsoluteIndex(start, len);
+          var argumentsLength = arguments.length;
+          var k = 0;
+          var insertCount, actualDeleteCount, newLen, A;
+          if (argumentsLength === 0) {
+            insertCount = actualDeleteCount = 0;
+          } else if (argumentsLength === 1) {
+            insertCount = 0;
+            actualDeleteCount = len - actualStart;
+          } else {
+            insertCount = argumentsLength - 2;
+            actualDeleteCount = min2(max2(toIntegerOrInfinity4(deleteCount), 0), len - actualStart);
+          }
+          newLen = doesNotExceedSafeInteger(len + insertCount - actualDeleteCount);
+          A = $Array(newLen);
+          for (; k < actualStart; k++) createProperty(A, k, O[k]);
+          for (; k < actualStart + insertCount; k++) createProperty(A, k, arguments[k - actualStart + 2]);
+          for (; k < newLen; k++) createProperty(A, k, O[k + actualDeleteCount - insertCount]);
+          return A;
+        }
+      });
+      addToUnscopables("toSpliced");
+    }
+  });
+  var require_entry_unbind4 = __commonJS4({
+    "node_modules/core-js-pure/internals/entry-unbind.js"(exports2, module) {
+      "use strict";
+      var getBuiltIn = require_get_built_in4();
+      module.exports = getBuiltIn;
+    }
+  });
+  var require_to_spliced7 = __commonJS4({
+    "node_modules/core-js-pure/es/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      require_es_array_to_spliced3();
+      var entryUnbind = require_entry_unbind4();
+      module.exports = entryUnbind("Array", "toSpliced");
+    }
+  });
+  var require_to_spliced23 = __commonJS4({
+    "node_modules/core-js-pure/stable/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      var parent = require_to_spliced7();
+      module.exports = parent;
+    }
+  });
+  var require_esnext_array_to_spliced3 = __commonJS4({
+    "node_modules/core-js-pure/modules/esnext.array.to-spliced.js"() {
+      "use strict";
+      require_es_array_to_spliced3();
+    }
+  });
+  var require_to_spliced33 = __commonJS4({
+    "node_modules/core-js-pure/actual/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      var parent = require_to_spliced23();
+      require_esnext_array_to_spliced3();
+      module.exports = parent;
+    }
+  });
+  var require_to_spliced43 = __commonJS4({
+    "node_modules/core-js-pure/full/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      var parent = require_to_spliced33();
+      module.exports = parent;
+    }
+  });
+  var require_to_spliced53 = __commonJS4({
+    "node_modules/core-js-pure/features/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      module.exports = require_to_spliced43();
     }
   });
   var require_environment4 = __commonJS4({
@@ -99426,47 +99760,6 @@ and ensure you are accounting for this risk.
       };
     }
   });
-  var require_math_trunc4 = __commonJS4({
-    "node_modules/core-js-pure/internals/math-trunc.js"(exports2, module) {
-      "use strict";
-      var ceil = Math.ceil;
-      var floor2 = Math.floor;
-      module.exports = Math.trunc || function trunc(x) {
-        var n3 = +x;
-        return (n3 > 0 ? floor2 : ceil)(n3);
-      };
-    }
-  });
-  var require_to_integer_or_infinity4 = __commonJS4({
-    "node_modules/core-js-pure/internals/to-integer-or-infinity.js"(exports2, module) {
-      "use strict";
-      var trunc = require_math_trunc4();
-      module.exports = function(argument) {
-        var number3 = +argument;
-        return number3 !== number3 || number3 === 0 ? 0 : trunc(number3);
-      };
-    }
-  });
-  var require_to_length4 = __commonJS4({
-    "node_modules/core-js-pure/internals/to-length.js"(exports2, module) {
-      "use strict";
-      var toIntegerOrInfinity4 = require_to_integer_or_infinity4();
-      var min2 = Math.min;
-      module.exports = function(argument) {
-        var len = toIntegerOrInfinity4(argument);
-        return len > 0 ? min2(len, 9007199254740991) : 0;
-      };
-    }
-  });
-  var require_length_of_array_like4 = __commonJS4({
-    "node_modules/core-js-pure/internals/length-of-array-like.js"(exports2, module) {
-      "use strict";
-      var toLength2 = require_to_length4();
-      module.exports = function(obj) {
-        return toLength2(obj.length);
-      };
-    }
-  });
   var require_get_iterator_method4 = __commonJS4({
     "node_modules/core-js-pure/internals/get-iterator-method.js"(exports2, module) {
       "use strict";
@@ -99971,9 +100264,10 @@ and ensure you are accounting for this risk.
   function singleToArray2(singleOrArray) {
     return typeof singleOrArray === "undefined" ? EMPTY_ARRAY3 : Object.freeze(Array.isArray(singleOrArray) ? [...singleOrArray] : [singleOrArray]);
   }
+  var import_to_spliced3 = __toESM4(require_to_spliced53());
   var import_with_resolvers3 = __toESM4(require_with_resolvers53());
 
-  // ../api/dist/chunk-QVZPXQC6.mjs
+  // ../api/dist/chunk-G3W5D4VH.mjs
   var import_react5 = __toESM(require_react(), 1);
 
   // ../../node_modules/handler-chain/dist/handler-chain.mjs
@@ -100120,7 +100414,7 @@ and ensure you are accounting for this risk.
   }
   var createChainOfResponsibility_default = createChainOfResponsibility;
 
-  // ../api/dist/chunk-QVZPXQC6.mjs
+  // ../api/dist/chunk-G3W5D4VH.mjs
   var arrayOfFunctionSchema = array(function_());
   var middlewareFactoryMarker = /* @__PURE__ */ Symbol();
   var isArrayOfFunction = (middleware4) => safeParse(arrayOfFunctionSchema, middleware4).success;
@@ -100166,7 +100460,7 @@ and ensure you are accounting for this risk.
   }
   var templateMiddleware_default = templateMiddleware;
 
-  // ../api/dist/chunk-J45WN2UK.mjs
+  // ../api/dist/chunk-6EPSLO6H.mjs
   var import_react6 = __toESM(require_react(), 1);
   var import_react7 = __toESM(require_react(), 1);
   var __create5 = Object.create;
@@ -101727,7 +102021,7 @@ and ensure you are accounting for this risk.
       };
     }
   });
-  var require_to_absolute_index2 = __commonJS5({
+  var require_to_absolute_index5 = __commonJS5({
     "../core/node_modules/core-js-pure/internals/to-absolute-index.js"(exports2, module) {
       "use strict";
       var toIntegerOrInfinity22 = require_to_integer_or_infinity5();
@@ -101743,7 +102037,7 @@ and ensure you are accounting for this risk.
     "../core/node_modules/core-js-pure/internals/array-includes.js"(exports2, module) {
       "use strict";
       var toIndexedObject = require_to_indexed_object5();
-      var toAbsoluteIndex = require_to_absolute_index2();
+      var toAbsoluteIndex = require_to_absolute_index5();
       var lengthOfArrayLike = require_length_of_array_like5();
       var createMethod = function(IS_INCLUDES) {
         return function($this, el, fromIndex) {
@@ -102240,7 +102534,7 @@ and ensure you are accounting for this risk.
       });
     }
   });
-  var require_add_to_unscopables2 = __commonJS5({
+  var require_add_to_unscopables5 = __commonJS5({
     "../core/node_modules/core-js-pure/internals/add-to-unscopables.js"(exports2, module) {
       "use strict";
       module.exports = function() {
@@ -102251,7 +102545,7 @@ and ensure you are accounting for this risk.
     "../core/node_modules/core-js-pure/modules/es.array.iterator.js"(exports2, module) {
       "use strict";
       var toIndexedObject = require_to_indexed_object5();
-      var addToUnscopables = require_add_to_unscopables2();
+      var addToUnscopables = require_add_to_unscopables5();
       var Iterators = require_iterators5();
       var InternalStateModule = require_internal_state5();
       var defineProperty2 = require_object_define_property5().f;
@@ -103285,7 +103579,7 @@ and ensure you are accounting for this risk.
       module.exports = parent;
     }
   });
-  var require_create_property2 = __commonJS5({
+  var require_create_property5 = __commonJS5({
     "../core/node_modules/core-js-pure/internals/create-property.js"(exports2, module) {
       "use strict";
       var DESCRIPTORS2 = require_descriptors5();
@@ -103307,7 +103601,7 @@ and ensure you are accounting for this risk.
       var isCallable2 = require_is_callable5();
       var getPrototypeOf = require_object_get_prototype_of2();
       var defineBuiltInAccessor = require_define_built_in_accessor5();
-      var createProperty = require_create_property2();
+      var createProperty = require_create_property5();
       var fails3 = require_fails5();
       var hasOwn = require_has_own_property5();
       var wellKnownSymbol2 = require_well_known_symbol5();
@@ -103419,7 +103713,7 @@ and ensure you are accounting for this risk.
       });
     }
   });
-  var require_entry_unbind2 = __commonJS5({
+  var require_entry_unbind5 = __commonJS5({
     "../core/node_modules/core-js-pure/internals/entry-unbind.js"(exports2, module) {
       "use strict";
       var getBuiltIn = require_get_built_in5();
@@ -103432,7 +103726,7 @@ and ensure you are accounting for this risk.
       require_es_object_to_string2();
       require_es_iterator_constructor();
       require_es_iterator_every();
-      var entryUnbind = require_entry_unbind2();
+      var entryUnbind = require_entry_unbind5();
       module.exports = entryUnbind("Iterator", "every");
     }
   });
@@ -103669,7 +103963,7 @@ and ensure you are accounting for this risk.
       var toObject = require_to_object5();
       var lengthOfArrayLike = require_length_of_array_like5();
       var arraySpeciesCreate = require_array_species_create2();
-      var createProperty = require_create_property2();
+      var createProperty = require_create_property5();
       var createMethod = function(TYPE) {
         var IS_MAP = TYPE === 1;
         var IS_FILTER = TYPE === 2;
@@ -104210,7 +104504,7 @@ and ensure you are accounting for this risk.
       "use strict";
       require_es_set2();
       require_es_set_difference_v22();
-      var entryUnbind = require_entry_unbind2();
+      var entryUnbind = require_entry_unbind5();
       module.exports = entryUnbind("Set", "difference");
     }
   });
@@ -104291,7 +104585,7 @@ and ensure you are accounting for this risk.
       require_es_string_iterator2();
       require_esnext_set_difference2();
       require_web_dom_collections_iterator2();
-      var entryUnbind = require_entry_unbind2();
+      var entryUnbind = require_entry_unbind5();
       module.exports = entryUnbind("Set", "difference");
     }
   });
@@ -105155,16 +105449,16 @@ and ensure you are accounting for this risk.
         setOrderedActivityNodes(EMPTY_ARRAY5);
       };
     }, [graph, setOrderedActivityNodes]);
-    const orderedActivitiesState = (0, import_react6.useMemo)(
-      () => Object.freeze([
-        Object.freeze(
-          orderedActivityNodes.map(
-            (node3) => node3["urn:microsoft:webchat:direct-line-activity:raw-json"][0]["@value"]
-          )
-        )
-      ]),
-      [orderedActivityNodes]
-    );
+    const orderedActivitiesState = (0, import_react6.useMemo)(() => {
+      const { activities: storeActivities } = store.getState();
+      const validActivitySet = new Set(storeActivities);
+      const activities2 = [];
+      for (const node3 of orderedActivityNodes) {
+        const activity = node3["urn:microsoft:webchat:direct-line-activity:raw-json"][0]["@value"];
+        validActivitySet.has(activity) && activities2.push(activity);
+      }
+      return Object.freeze([Object.freeze(activities2)]);
+    }, [orderedActivityNodes, store]);
     const context9 = (0, import_react6.useMemo)(
       () => parse(graphContextSchema, {
         orderedActivitiesState
@@ -105179,7 +105473,7 @@ and ensure you are accounting for this risk.
     return useGraphContext().orderedActivitiesState;
   }
 
-  // ../api/dist/chunk-TLRGSVGM.mjs
+  // ../api/dist/chunk-YIQ2YLCI.mjs
   var import_react16 = __toESM(require_react(), 1);
   var import_react17 = __toESM(require_react(), 1);
   var import_react18 = __toESM(require_react(), 1);
@@ -105365,7 +105659,7 @@ and ensure you are accounting for this risk.
   }
   var createChainOfResponsibilityAsRenderCallback_default = createChainOfResponsibility2;
 
-  // ../api/dist/chunk-TLRGSVGM.mjs
+  // ../api/dist/chunk-YIQ2YLCI.mjs
   var import_react25 = __toESM(require_react(), 1);
   var import_react26 = __toESM(require_react(), 1);
   var import_react27 = __toESM(require_react(), 1);
@@ -105722,7 +106016,7 @@ and ensure you are accounting for this risk.
   // ../../node_modules/react-redux/es/index.js
   setBatch(import_react_dom.unstable_batchedUpdates);
 
-  // ../api/dist/chunk-TLRGSVGM.mjs
+  // ../api/dist/chunk-YIQ2YLCI.mjs
   var import_react30 = __toESM(require_react(), 1);
   var import_react31 = __toESM(require_react(), 1);
   var CapabilitiesContext = (0, import_react18.createContext)(void 0);
@@ -107013,6 +107307,180 @@ and ensure you are accounting for this risk.
       };
     }
   });
+  var require_add_to_unscopables6 = __commonJS6({
+    "node_modules/core-js-pure/internals/add-to-unscopables.js"(exports2, module) {
+      "use strict";
+      module.exports = function() {
+      };
+    }
+  });
+  var require_does_not_exceed_safe_integer5 = __commonJS6({
+    "node_modules/core-js-pure/internals/does-not-exceed-safe-integer.js"(exports2, module) {
+      "use strict";
+      var $TypeError = TypeError;
+      var MAX_SAFE_INTEGER = 9007199254740991;
+      module.exports = function(it) {
+        if (it > MAX_SAFE_INTEGER) throw $TypeError("Maximum allowed index exceeded");
+        return it;
+      };
+    }
+  });
+  var require_math_trunc6 = __commonJS6({
+    "node_modules/core-js-pure/internals/math-trunc.js"(exports2, module) {
+      "use strict";
+      var ceil = Math.ceil;
+      var floor2 = Math.floor;
+      module.exports = Math.trunc || function trunc(x) {
+        var n3 = +x;
+        return (n3 > 0 ? floor2 : ceil)(n3);
+      };
+    }
+  });
+  var require_to_integer_or_infinity6 = __commonJS6({
+    "node_modules/core-js-pure/internals/to-integer-or-infinity.js"(exports2, module) {
+      "use strict";
+      var trunc = require_math_trunc6();
+      module.exports = function(argument) {
+        var number3 = +argument;
+        return number3 !== number3 || number3 === 0 ? 0 : trunc(number3);
+      };
+    }
+  });
+  var require_to_length6 = __commonJS6({
+    "node_modules/core-js-pure/internals/to-length.js"(exports2, module) {
+      "use strict";
+      var toIntegerOrInfinity4 = require_to_integer_or_infinity6();
+      var min2 = Math.min;
+      module.exports = function(argument) {
+        var len = toIntegerOrInfinity4(argument);
+        return len > 0 ? min2(len, 9007199254740991) : 0;
+      };
+    }
+  });
+  var require_length_of_array_like6 = __commonJS6({
+    "node_modules/core-js-pure/internals/length-of-array-like.js"(exports2, module) {
+      "use strict";
+      var toLength2 = require_to_length6();
+      module.exports = function(obj) {
+        return toLength2(obj.length);
+      };
+    }
+  });
+  var require_to_absolute_index6 = __commonJS6({
+    "node_modules/core-js-pure/internals/to-absolute-index.js"(exports2, module) {
+      "use strict";
+      var toIntegerOrInfinity4 = require_to_integer_or_infinity6();
+      var max2 = Math.max;
+      var min2 = Math.min;
+      module.exports = function(index2, length2) {
+        var integer2 = toIntegerOrInfinity4(index2);
+        return integer2 < 0 ? max2(integer2 + length2, 0) : min2(integer2, length2);
+      };
+    }
+  });
+  var require_create_property6 = __commonJS6({
+    "node_modules/core-js-pure/internals/create-property.js"(exports2, module) {
+      "use strict";
+      var DESCRIPTORS2 = require_descriptors6();
+      var definePropertyModule = require_object_define_property6();
+      var createPropertyDescriptor = require_create_property_descriptor6();
+      module.exports = function(object5, key2, value) {
+        if (DESCRIPTORS2) definePropertyModule.f(object5, key2, createPropertyDescriptor(0, value));
+        else object5[key2] = value;
+      };
+    }
+  });
+  var require_es_array_to_spliced4 = __commonJS6({
+    "node_modules/core-js-pure/modules/es.array.to-spliced.js"() {
+      "use strict";
+      var $3 = require_export6();
+      var addToUnscopables = require_add_to_unscopables6();
+      var doesNotExceedSafeInteger = require_does_not_exceed_safe_integer5();
+      var lengthOfArrayLike = require_length_of_array_like6();
+      var toAbsoluteIndex = require_to_absolute_index6();
+      var toIndexedObject = require_to_indexed_object6();
+      var toIntegerOrInfinity4 = require_to_integer_or_infinity6();
+      var createProperty = require_create_property6();
+      var $Array = Array;
+      var max2 = Math.max;
+      var min2 = Math.min;
+      $3({ target: "Array", proto: true }, {
+        toSpliced: function toSpliced2(start, deleteCount) {
+          var O = toIndexedObject(this);
+          var len = lengthOfArrayLike(O);
+          var actualStart = toAbsoluteIndex(start, len);
+          var argumentsLength = arguments.length;
+          var k = 0;
+          var insertCount, actualDeleteCount, newLen, A;
+          if (argumentsLength === 0) {
+            insertCount = actualDeleteCount = 0;
+          } else if (argumentsLength === 1) {
+            insertCount = 0;
+            actualDeleteCount = len - actualStart;
+          } else {
+            insertCount = argumentsLength - 2;
+            actualDeleteCount = min2(max2(toIntegerOrInfinity4(deleteCount), 0), len - actualStart);
+          }
+          newLen = doesNotExceedSafeInteger(len + insertCount - actualDeleteCount);
+          A = $Array(newLen);
+          for (; k < actualStart; k++) createProperty(A, k, O[k]);
+          for (; k < actualStart + insertCount; k++) createProperty(A, k, arguments[k - actualStart + 2]);
+          for (; k < newLen; k++) createProperty(A, k, O[k + actualDeleteCount - insertCount]);
+          return A;
+        }
+      });
+      addToUnscopables("toSpliced");
+    }
+  });
+  var require_entry_unbind6 = __commonJS6({
+    "node_modules/core-js-pure/internals/entry-unbind.js"(exports2, module) {
+      "use strict";
+      var getBuiltIn = require_get_built_in6();
+      module.exports = getBuiltIn;
+    }
+  });
+  var require_to_spliced8 = __commonJS6({
+    "node_modules/core-js-pure/es/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      require_es_array_to_spliced4();
+      var entryUnbind = require_entry_unbind6();
+      module.exports = entryUnbind("Array", "toSpliced");
+    }
+  });
+  var require_to_spliced24 = __commonJS6({
+    "node_modules/core-js-pure/stable/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      var parent = require_to_spliced8();
+      module.exports = parent;
+    }
+  });
+  var require_esnext_array_to_spliced4 = __commonJS6({
+    "node_modules/core-js-pure/modules/esnext.array.to-spliced.js"() {
+      "use strict";
+      require_es_array_to_spliced4();
+    }
+  });
+  var require_to_spliced34 = __commonJS6({
+    "node_modules/core-js-pure/actual/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      var parent = require_to_spliced24();
+      require_esnext_array_to_spliced4();
+      module.exports = parent;
+    }
+  });
+  var require_to_spliced44 = __commonJS6({
+    "node_modules/core-js-pure/full/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      var parent = require_to_spliced34();
+      module.exports = parent;
+    }
+  });
+  var require_to_spliced54 = __commonJS6({
+    "node_modules/core-js-pure/features/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      module.exports = require_to_spliced44();
+    }
+  });
   var require_environment6 = __commonJS6({
     "node_modules/core-js-pure/internals/environment.js"(exports2, module) {
       "use strict";
@@ -108039,47 +108507,6 @@ and ensure you are accounting for this risk.
       };
     }
   });
-  var require_math_trunc6 = __commonJS6({
-    "node_modules/core-js-pure/internals/math-trunc.js"(exports2, module) {
-      "use strict";
-      var ceil = Math.ceil;
-      var floor2 = Math.floor;
-      module.exports = Math.trunc || function trunc(x) {
-        var n3 = +x;
-        return (n3 > 0 ? floor2 : ceil)(n3);
-      };
-    }
-  });
-  var require_to_integer_or_infinity6 = __commonJS6({
-    "node_modules/core-js-pure/internals/to-integer-or-infinity.js"(exports2, module) {
-      "use strict";
-      var trunc = require_math_trunc6();
-      module.exports = function(argument) {
-        var number3 = +argument;
-        return number3 !== number3 || number3 === 0 ? 0 : trunc(number3);
-      };
-    }
-  });
-  var require_to_length6 = __commonJS6({
-    "node_modules/core-js-pure/internals/to-length.js"(exports2, module) {
-      "use strict";
-      var toIntegerOrInfinity4 = require_to_integer_or_infinity6();
-      var min2 = Math.min;
-      module.exports = function(argument) {
-        var len = toIntegerOrInfinity4(argument);
-        return len > 0 ? min2(len, 9007199254740991) : 0;
-      };
-    }
-  });
-  var require_length_of_array_like6 = __commonJS6({
-    "node_modules/core-js-pure/internals/length-of-array-like.js"(exports2, module) {
-      "use strict";
-      var toLength2 = require_to_length6();
-      module.exports = function(obj) {
-        return toLength2(obj.length);
-      };
-    }
-  });
   var require_get_iterator_method6 = __commonJS6({
     "node_modules/core-js-pure/internals/get-iterator-method.js"(exports2, module) {
       "use strict";
@@ -108518,6 +108945,7 @@ and ensure you are accounting for this risk.
     )
   );
   var EMPTY_ARRAY6 = Object.freeze([]);
+  var import_to_spliced4 = __toESM6(require_to_spliced54());
   var import_with_resolvers5 = __toESM6(require_with_resolvers54());
   var arrayOfFunctionSchema2 = array(function_());
   var isArrayOfFunction2 = (middleware4) => safeParse(arrayOfFunctionSchema2, middleware4).success;
@@ -109512,6 +109940,180 @@ and ensure you are accounting for this risk.
           }
         }
       };
+    }
+  });
+  var require_add_to_unscopables22 = __commonJS22({
+    "node_modules/core-js-pure/internals/add-to-unscopables.js"(exports2, module) {
+      "use strict";
+      module.exports = function() {
+      };
+    }
+  });
+  var require_does_not_exceed_safe_integer22 = __commonJS22({
+    "node_modules/core-js-pure/internals/does-not-exceed-safe-integer.js"(exports2, module) {
+      "use strict";
+      var $TypeError = TypeError;
+      var MAX_SAFE_INTEGER = 9007199254740991;
+      module.exports = function(it) {
+        if (it > MAX_SAFE_INTEGER) throw $TypeError("Maximum allowed index exceeded");
+        return it;
+      };
+    }
+  });
+  var require_math_trunc22 = __commonJS22({
+    "node_modules/core-js-pure/internals/math-trunc.js"(exports2, module) {
+      "use strict";
+      var ceil = Math.ceil;
+      var floor2 = Math.floor;
+      module.exports = Math.trunc || function trunc(x) {
+        var n3 = +x;
+        return (n3 > 0 ? floor2 : ceil)(n3);
+      };
+    }
+  });
+  var require_to_integer_or_infinity22 = __commonJS22({
+    "node_modules/core-js-pure/internals/to-integer-or-infinity.js"(exports2, module) {
+      "use strict";
+      var trunc = require_math_trunc22();
+      module.exports = function(argument) {
+        var number3 = +argument;
+        return number3 !== number3 || number3 === 0 ? 0 : trunc(number3);
+      };
+    }
+  });
+  var require_to_length22 = __commonJS22({
+    "node_modules/core-js-pure/internals/to-length.js"(exports2, module) {
+      "use strict";
+      var toIntegerOrInfinity4 = require_to_integer_or_infinity22();
+      var min2 = Math.min;
+      module.exports = function(argument) {
+        var len = toIntegerOrInfinity4(argument);
+        return len > 0 ? min2(len, 9007199254740991) : 0;
+      };
+    }
+  });
+  var require_length_of_array_like22 = __commonJS22({
+    "node_modules/core-js-pure/internals/length-of-array-like.js"(exports2, module) {
+      "use strict";
+      var toLength2 = require_to_length22();
+      module.exports = function(obj) {
+        return toLength2(obj.length);
+      };
+    }
+  });
+  var require_to_absolute_index22 = __commonJS22({
+    "node_modules/core-js-pure/internals/to-absolute-index.js"(exports2, module) {
+      "use strict";
+      var toIntegerOrInfinity4 = require_to_integer_or_infinity22();
+      var max2 = Math.max;
+      var min2 = Math.min;
+      module.exports = function(index2, length2) {
+        var integer2 = toIntegerOrInfinity4(index2);
+        return integer2 < 0 ? max2(integer2 + length2, 0) : min2(integer2, length2);
+      };
+    }
+  });
+  var require_create_property22 = __commonJS22({
+    "node_modules/core-js-pure/internals/create-property.js"(exports2, module) {
+      "use strict";
+      var DESCRIPTORS2 = require_descriptors22();
+      var definePropertyModule = require_object_define_property22();
+      var createPropertyDescriptor = require_create_property_descriptor22();
+      module.exports = function(object5, key2, value) {
+        if (DESCRIPTORS2) definePropertyModule.f(object5, key2, createPropertyDescriptor(0, value));
+        else object5[key2] = value;
+      };
+    }
+  });
+  var require_es_array_to_spliced22 = __commonJS22({
+    "node_modules/core-js-pure/modules/es.array.to-spliced.js"() {
+      "use strict";
+      var $3 = require_export22();
+      var addToUnscopables = require_add_to_unscopables22();
+      var doesNotExceedSafeInteger = require_does_not_exceed_safe_integer22();
+      var lengthOfArrayLike = require_length_of_array_like22();
+      var toAbsoluteIndex = require_to_absolute_index22();
+      var toIndexedObject = require_to_indexed_object22();
+      var toIntegerOrInfinity4 = require_to_integer_or_infinity22();
+      var createProperty = require_create_property22();
+      var $Array = Array;
+      var max2 = Math.max;
+      var min2 = Math.min;
+      $3({ target: "Array", proto: true }, {
+        toSpliced: function toSpliced2(start, deleteCount) {
+          var O = toIndexedObject(this);
+          var len = lengthOfArrayLike(O);
+          var actualStart = toAbsoluteIndex(start, len);
+          var argumentsLength = arguments.length;
+          var k = 0;
+          var insertCount, actualDeleteCount, newLen, A;
+          if (argumentsLength === 0) {
+            insertCount = actualDeleteCount = 0;
+          } else if (argumentsLength === 1) {
+            insertCount = 0;
+            actualDeleteCount = len - actualStart;
+          } else {
+            insertCount = argumentsLength - 2;
+            actualDeleteCount = min2(max2(toIntegerOrInfinity4(deleteCount), 0), len - actualStart);
+          }
+          newLen = doesNotExceedSafeInteger(len + insertCount - actualDeleteCount);
+          A = $Array(newLen);
+          for (; k < actualStart; k++) createProperty(A, k, O[k]);
+          for (; k < actualStart + insertCount; k++) createProperty(A, k, arguments[k - actualStart + 2]);
+          for (; k < newLen; k++) createProperty(A, k, O[k + actualDeleteCount - insertCount]);
+          return A;
+        }
+      });
+      addToUnscopables("toSpliced");
+    }
+  });
+  var require_entry_unbind22 = __commonJS22({
+    "node_modules/core-js-pure/internals/entry-unbind.js"(exports2, module) {
+      "use strict";
+      var getBuiltIn = require_get_built_in22();
+      module.exports = getBuiltIn;
+    }
+  });
+  var require_to_spliced62 = __commonJS22({
+    "node_modules/core-js-pure/es/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      require_es_array_to_spliced22();
+      var entryUnbind = require_entry_unbind22();
+      module.exports = entryUnbind("Array", "toSpliced");
+    }
+  });
+  var require_to_spliced222 = __commonJS22({
+    "node_modules/core-js-pure/stable/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      var parent = require_to_spliced62();
+      module.exports = parent;
+    }
+  });
+  var require_esnext_array_to_spliced22 = __commonJS22({
+    "node_modules/core-js-pure/modules/esnext.array.to-spliced.js"() {
+      "use strict";
+      require_es_array_to_spliced22();
+    }
+  });
+  var require_to_spliced322 = __commonJS22({
+    "node_modules/core-js-pure/actual/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      var parent = require_to_spliced222();
+      require_esnext_array_to_spliced22();
+      module.exports = parent;
+    }
+  });
+  var require_to_spliced422 = __commonJS22({
+    "node_modules/core-js-pure/full/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      var parent = require_to_spliced322();
+      module.exports = parent;
+    }
+  });
+  var require_to_spliced522 = __commonJS22({
+    "node_modules/core-js-pure/features/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      module.exports = require_to_spliced422();
     }
   });
   var require_environment22 = __commonJS22({
@@ -110540,47 +111142,6 @@ and ensure you are accounting for this risk.
       };
     }
   });
-  var require_math_trunc22 = __commonJS22({
-    "node_modules/core-js-pure/internals/math-trunc.js"(exports2, module) {
-      "use strict";
-      var ceil = Math.ceil;
-      var floor2 = Math.floor;
-      module.exports = Math.trunc || function trunc(x) {
-        var n3 = +x;
-        return (n3 > 0 ? floor2 : ceil)(n3);
-      };
-    }
-  });
-  var require_to_integer_or_infinity22 = __commonJS22({
-    "node_modules/core-js-pure/internals/to-integer-or-infinity.js"(exports2, module) {
-      "use strict";
-      var trunc = require_math_trunc22();
-      module.exports = function(argument) {
-        var number3 = +argument;
-        return number3 !== number3 || number3 === 0 ? 0 : trunc(number3);
-      };
-    }
-  });
-  var require_to_length22 = __commonJS22({
-    "node_modules/core-js-pure/internals/to-length.js"(exports2, module) {
-      "use strict";
-      var toIntegerOrInfinity4 = require_to_integer_or_infinity22();
-      var min2 = Math.min;
-      module.exports = function(argument) {
-        var len = toIntegerOrInfinity4(argument);
-        return len > 0 ? min2(len, 9007199254740991) : 0;
-      };
-    }
-  });
-  var require_length_of_array_like22 = __commonJS22({
-    "node_modules/core-js-pure/internals/length-of-array-like.js"(exports2, module) {
-      "use strict";
-      var toLength2 = require_to_length22();
-      module.exports = function(obj) {
-        return toLength2(obj.length);
-      };
-    }
-  });
   var require_get_iterator_method22 = __commonJS22({
     "node_modules/core-js-pure/internals/get-iterator-method.js"(exports2, module) {
       "use strict";
@@ -111027,6 +111588,7 @@ and ensure you are accounting for this risk.
     return false;
   }
   var EMPTY_ARRAY32 = Object.freeze([]);
+  var import_to_spliced22 = __toESM22(require_to_spliced522());
   var import_with_resolvers22 = __toESM22(require_with_resolvers522());
   function useMemoWithPrevious(factory, deps) {
     const prevValueRef = (0, import_react27.useRef)();
@@ -111090,7 +111652,7 @@ and ensure you are accounting for this risk.
     return context32;
   }
 
-  // ../api/dist/chunk-EKDTKODC.mjs
+  // ../api/dist/chunk-K5ERXNF5.mjs
   var import_react33 = __toESM(require_react(), 1);
   var import_react34 = __toESM(require_react(), 1);
   var import_react35 = __toESM(require_react(), 1);
@@ -111121,7 +111683,7 @@ and ensure you are accounting for this risk.
     return readOnlyRef;
   }
 
-  // ../api/dist/chunk-EKDTKODC.mjs
+  // ../api/dist/chunk-K5ERXNF5.mjs
   var import_react52 = __toESM(require_react(), 1);
   var import_react53 = __toESM(require_react(), 1);
   var import_react54 = __toESM(require_react(), 1);
@@ -113381,7 +113943,6 @@ and ensure you are accounting for this risk.
   // ../core/dist/botframework-webchat-core.mjs
   var import_simple_update_in2 = __toESM(require_simple_update_in_production_min(), 1);
   var import_simple_update_in3 = __toESM(require_simple_update_in_production_min(), 1);
-  var import_to_spliced = __toESM(require_to_spliced5(), 1);
   var import_simple_update_in4 = __toESM(require_simple_update_in_production_min(), 1);
   var import_simple_update_in5 = __toESM(require_simple_update_in_production_min(), 1);
 
@@ -115808,6 +116369,180 @@ and ensure you are accounting for this risk.
       };
     }
   });
+  var require_add_to_unscopables8 = __commonJS7({
+    "node_modules/core-js-pure/internals/add-to-unscopables.js"(exports2, module) {
+      "use strict";
+      module.exports = function() {
+      };
+    }
+  });
+  var require_does_not_exceed_safe_integer6 = __commonJS7({
+    "node_modules/core-js-pure/internals/does-not-exceed-safe-integer.js"(exports2, module) {
+      "use strict";
+      var $TypeError = TypeError;
+      var MAX_SAFE_INTEGER = 9007199254740991;
+      module.exports = function(it) {
+        if (it > MAX_SAFE_INTEGER) throw $TypeError("Maximum allowed index exceeded");
+        return it;
+      };
+    }
+  });
+  var require_math_trunc8 = __commonJS7({
+    "node_modules/core-js-pure/internals/math-trunc.js"(exports2, module) {
+      "use strict";
+      var ceil = Math.ceil;
+      var floor2 = Math.floor;
+      module.exports = Math.trunc || function trunc(x) {
+        var n3 = +x;
+        return (n3 > 0 ? floor2 : ceil)(n3);
+      };
+    }
+  });
+  var require_to_integer_or_infinity8 = __commonJS7({
+    "node_modules/core-js-pure/internals/to-integer-or-infinity.js"(exports2, module) {
+      "use strict";
+      var trunc = require_math_trunc8();
+      module.exports = function(argument) {
+        var number4 = +argument;
+        return number4 !== number4 || number4 === 0 ? 0 : trunc(number4);
+      };
+    }
+  });
+  var require_to_length8 = __commonJS7({
+    "node_modules/core-js-pure/internals/to-length.js"(exports2, module) {
+      "use strict";
+      var toIntegerOrInfinity4 = require_to_integer_or_infinity8();
+      var min2 = Math.min;
+      module.exports = function(argument) {
+        var len = toIntegerOrInfinity4(argument);
+        return len > 0 ? min2(len, 9007199254740991) : 0;
+      };
+    }
+  });
+  var require_length_of_array_like8 = __commonJS7({
+    "node_modules/core-js-pure/internals/length-of-array-like.js"(exports2, module) {
+      "use strict";
+      var toLength2 = require_to_length8();
+      module.exports = function(obj) {
+        return toLength2(obj.length);
+      };
+    }
+  });
+  var require_to_absolute_index8 = __commonJS7({
+    "node_modules/core-js-pure/internals/to-absolute-index.js"(exports2, module) {
+      "use strict";
+      var toIntegerOrInfinity4 = require_to_integer_or_infinity8();
+      var max2 = Math.max;
+      var min2 = Math.min;
+      module.exports = function(index2, length2) {
+        var integer2 = toIntegerOrInfinity4(index2);
+        return integer2 < 0 ? max2(integer2 + length2, 0) : min2(integer2, length2);
+      };
+    }
+  });
+  var require_create_property8 = __commonJS7({
+    "node_modules/core-js-pure/internals/create-property.js"(exports2, module) {
+      "use strict";
+      var DESCRIPTORS2 = require_descriptors8();
+      var definePropertyModule = require_object_define_property8();
+      var createPropertyDescriptor = require_create_property_descriptor8();
+      module.exports = function(object10, key2, value) {
+        if (DESCRIPTORS2) definePropertyModule.f(object10, key2, createPropertyDescriptor(0, value));
+        else object10[key2] = value;
+      };
+    }
+  });
+  var require_es_array_to_spliced5 = __commonJS7({
+    "node_modules/core-js-pure/modules/es.array.to-spliced.js"() {
+      "use strict";
+      var $3 = require_export8();
+      var addToUnscopables = require_add_to_unscopables8();
+      var doesNotExceedSafeInteger = require_does_not_exceed_safe_integer6();
+      var lengthOfArrayLike = require_length_of_array_like8();
+      var toAbsoluteIndex = require_to_absolute_index8();
+      var toIndexedObject = require_to_indexed_object8();
+      var toIntegerOrInfinity4 = require_to_integer_or_infinity8();
+      var createProperty = require_create_property8();
+      var $Array = Array;
+      var max2 = Math.max;
+      var min2 = Math.min;
+      $3({ target: "Array", proto: true }, {
+        toSpliced: function toSpliced2(start, deleteCount) {
+          var O = toIndexedObject(this);
+          var len = lengthOfArrayLike(O);
+          var actualStart = toAbsoluteIndex(start, len);
+          var argumentsLength = arguments.length;
+          var k = 0;
+          var insertCount, actualDeleteCount, newLen, A;
+          if (argumentsLength === 0) {
+            insertCount = actualDeleteCount = 0;
+          } else if (argumentsLength === 1) {
+            insertCount = 0;
+            actualDeleteCount = len - actualStart;
+          } else {
+            insertCount = argumentsLength - 2;
+            actualDeleteCount = min2(max2(toIntegerOrInfinity4(deleteCount), 0), len - actualStart);
+          }
+          newLen = doesNotExceedSafeInteger(len + insertCount - actualDeleteCount);
+          A = $Array(newLen);
+          for (; k < actualStart; k++) createProperty(A, k, O[k]);
+          for (; k < actualStart + insertCount; k++) createProperty(A, k, arguments[k - actualStart + 2]);
+          for (; k < newLen; k++) createProperty(A, k, O[k + actualDeleteCount - insertCount]);
+          return A;
+        }
+      });
+      addToUnscopables("toSpliced");
+    }
+  });
+  var require_entry_unbind8 = __commonJS7({
+    "node_modules/core-js-pure/internals/entry-unbind.js"(exports2, module) {
+      "use strict";
+      var getBuiltIn = require_get_built_in8();
+      module.exports = getBuiltIn;
+    }
+  });
+  var require_to_spliced9 = __commonJS7({
+    "node_modules/core-js-pure/es/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      require_es_array_to_spliced5();
+      var entryUnbind = require_entry_unbind8();
+      module.exports = entryUnbind("Array", "toSpliced");
+    }
+  });
+  var require_to_spliced25 = __commonJS7({
+    "node_modules/core-js-pure/stable/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      var parent = require_to_spliced9();
+      module.exports = parent;
+    }
+  });
+  var require_esnext_array_to_spliced5 = __commonJS7({
+    "node_modules/core-js-pure/modules/esnext.array.to-spliced.js"() {
+      "use strict";
+      require_es_array_to_spliced5();
+    }
+  });
+  var require_to_spliced35 = __commonJS7({
+    "node_modules/core-js-pure/actual/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      var parent = require_to_spliced25();
+      require_esnext_array_to_spliced5();
+      module.exports = parent;
+    }
+  });
+  var require_to_spliced45 = __commonJS7({
+    "node_modules/core-js-pure/full/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      var parent = require_to_spliced35();
+      module.exports = parent;
+    }
+  });
+  var require_to_spliced55 = __commonJS7({
+    "node_modules/core-js-pure/features/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      module.exports = require_to_spliced45();
+    }
+  });
   var require_environment8 = __commonJS7({
     "node_modules/core-js-pure/internals/environment.js"(exports2, module) {
       "use strict";
@@ -116834,47 +117569,6 @@ and ensure you are accounting for this risk.
       };
     }
   });
-  var require_math_trunc8 = __commonJS7({
-    "node_modules/core-js-pure/internals/math-trunc.js"(exports2, module) {
-      "use strict";
-      var ceil = Math.ceil;
-      var floor2 = Math.floor;
-      module.exports = Math.trunc || function trunc(x) {
-        var n3 = +x;
-        return (n3 > 0 ? floor2 : ceil)(n3);
-      };
-    }
-  });
-  var require_to_integer_or_infinity8 = __commonJS7({
-    "node_modules/core-js-pure/internals/to-integer-or-infinity.js"(exports2, module) {
-      "use strict";
-      var trunc = require_math_trunc8();
-      module.exports = function(argument) {
-        var number4 = +argument;
-        return number4 !== number4 || number4 === 0 ? 0 : trunc(number4);
-      };
-    }
-  });
-  var require_to_length8 = __commonJS7({
-    "node_modules/core-js-pure/internals/to-length.js"(exports2, module) {
-      "use strict";
-      var toIntegerOrInfinity4 = require_to_integer_or_infinity8();
-      var min2 = Math.min;
-      module.exports = function(argument) {
-        var len = toIntegerOrInfinity4(argument);
-        return len > 0 ? min2(len, 9007199254740991) : 0;
-      };
-    }
-  });
-  var require_length_of_array_like8 = __commonJS7({
-    "node_modules/core-js-pure/internals/length-of-array-like.js"(exports2, module) {
-      "use strict";
-      var toLength2 = require_to_length8();
-      module.exports = function(obj) {
-        return toLength2(obj.length);
-      };
-    }
-  });
   var require_get_iterator_method8 = __commonJS7({
     "node_modules/core-js-pure/internals/get-iterator-method.js"(exports2, module) {
       "use strict";
@@ -117367,6 +118061,10 @@ and ensure you are accounting for this risk.
     return FORBIDDEN_PROPERTY_NAMES5.includes(propertyName);
   }
   var EMPTY_ARRAY7 = Object.freeze([]);
+  var import_to_spliced5 = __toESM7(require_to_spliced55());
+  function toSpliced(array6, start, deleteCount, ...items) {
+    return (0, import_to_spliced5.default)(array6, start, deleteCount, ...items);
+  }
   var import_with_resolvers7 = __toESM7(require_with_resolvers55());
   function withResolvers3() {
     return (0, import_with_resolvers7.default)();
@@ -117401,6 +118099,16 @@ and ensure you are accounting for this risk.
       void 0
     );
   }
+  function* yieldSessionActivities(session, activityMap) {
+    if (session.finalized) {
+      const lastEntry = session.activities.at(-1);
+      lastEntry && (yield activityMap.get(lastEntry.activityLocalId).activity);
+    } else {
+      for (const activityEntry of session.activities) {
+        yield activityMap.get(activityEntry.activityLocalId).activity;
+      }
+    }
+  }
   function computeSortedActivities(temporalState) {
     const { activityMap, howToGroupingMap, livestreamSessionMap, sortedChatHistoryList } = temporalState;
     return Array.from(
@@ -117415,16 +118123,12 @@ and ensure you are accounting for this risk.
                 yield activityMap.get(howToPartEntry.activityLocalId).activity;
               } else {
                 howToPartEntry.type;
-                for (const activityEntry of livestreamSessionMap.get(howToPartEntry.livestreamSessionId).activities) {
-                  yield activityMap.get(activityEntry.activityLocalId).activity;
-                }
+                yield* yieldSessionActivities(livestreamSessionMap.get(howToPartEntry.livestreamSessionId), activityMap);
               }
             }
           } else {
             sortedEntry.type;
-            for (const activityEntry of livestreamSessionMap.get(sortedEntry.livestreamSessionId).activities) {
-              yield activityMap.get(activityEntry.activityLocalId).activity;
-            }
+            yield* yieldSessionActivities(livestreamSessionMap.get(sortedEntry.livestreamSessionId), activityMap);
           }
         }
       })()
@@ -117889,13 +118593,11 @@ and ensure you are accounting for this risk.
     return metadataMap;
   }
   var getPartGroupingMetadataMap_default = getPartGroupingMetadataMap;
-  function toSpliced(array6, start, deleteCount, ...items) {
-    return (0, import_to_spliced.default)(array6, start, deleteCount, ...items);
-  }
   function insertSorted(sortedArray, item, compareFn) {
     const indexToInsert = sortedArray.findIndex((i3) => compareFn(i3, item) > 0);
     return toSpliced(sortedArray, ~indexToInsert ? indexToInsert : sortedArray.length, 0, item);
   }
+  var POSITION_INCREMENT = 1e3;
   var INITIAL_STATE = Object.freeze({
     activityIdToLocalIdMap: Object.freeze(/* @__PURE__ */ new Map()),
     activityMap: Object.freeze(/* @__PURE__ */ new Map()),
@@ -117906,14 +118608,101 @@ and ensure you are accounting for this risk.
     sortedChatHistoryList: Object.freeze([])
   });
   function upsert(ponyfill2, state, activity) {
+    var _a28;
+    const activityLocalId = getLocalIdFromActivity2(activity);
+    const logicalTimestamp = getLogicalTimestamp(activity, ponyfill2);
+    const activityLivestreamingMetadata = getActivityLivestreamingMetadata(activity);
+    if (activityLivestreamingMetadata) {
+      const sessionId = activityLivestreamingMetadata.sessionId;
+      const existingSession = state.livestreamSessionMap.get(sessionId);
+      const finalized = activityLivestreamingMetadata.type === "final activity";
+      if (existingSession && !existingSession.finalized && !finalized && !getPartGroupingMetadataMap_default(activity).has("HowTo")) {
+        const nextSessionEntry = {
+          activities: Object.freeze(
+            insertSorted(
+              existingSession.activities,
+              Object.freeze({
+                activityLocalId,
+                logicalTimestamp,
+                sequenceNumber: activityLivestreamingMetadata.sequenceNumber,
+                type: "activity"
+              }),
+              ({ sequenceNumber: x }, { sequenceNumber: y }) => typeof x === "undefined" || typeof y === "undefined" ? (
+                // eslint-disable-next-line no-magic-numbers
+                -1
+              ) : x - y
+            )
+          ),
+          finalized: false,
+          logicalTimestamp: existingSession.logicalTimestamp
+        };
+        const newIndexInSession = nextSessionEntry.activities.findIndex(
+          (entry) => entry.activityLocalId === activityLocalId
+        );
+        const successorInSession = newIndexInSession + 1 < nextSessionEntry.activities.length ? nextSessionEntry.activities[newIndexInSession + 1] : void 0;
+        let insertIndex = state.sortedActivities.length;
+        if (successorInSession) {
+          for (let i3 = 0; i3 < state.sortedActivities.length; i3++) {
+            if (getLocalIdFromActivity2(state.sortedActivities[i3]) === successorInSession.activityLocalId) {
+              insertIndex = i3;
+              break;
+            }
+          }
+        } else {
+          const prevLastSessionActivity = existingSession.activities.at(-1);
+          if (prevLastSessionActivity) {
+            for (let i3 = state.sortedActivities.length - 1; i3 >= 0; i3--) {
+              if (getLocalIdFromActivity2(state.sortedActivities[i3]) === prevLastSessionActivity.activityLocalId) {
+                insertIndex = i3 + 1;
+                break;
+              }
+            }
+          }
+        }
+        const prevPosition = insertIndex > 0 ? (_a28 = queryPositionFromActivity(state.sortedActivities[insertIndex - 1])) != null ? _a28 : 0 : 0;
+        const nextSiblingPosition = insertIndex < state.sortedActivities.length ? queryPositionFromActivity(state.sortedActivities[+insertIndex]) : void 0;
+        let newPosition = prevPosition + POSITION_INCREMENT;
+        if (typeof nextSiblingPosition !== "undefined" && newPosition >= nextSiblingPosition) {
+          newPosition = prevPosition + 1;
+        }
+        if (typeof nextSiblingPosition === "undefined" || newPosition < nextSiblingPosition) {
+          const positionedActivity = setPositionInActivity(activity, newPosition);
+          let nextActivityIdToLocalIdMap2 = state.activityIdToLocalIdMap;
+          if (typeof activity.id !== "undefined") {
+            nextActivityIdToLocalIdMap2 = new Map(state.activityIdToLocalIdMap);
+            nextActivityIdToLocalIdMap2.set(activity.id, activityLocalId);
+          }
+          const nextActivityMap2 = new Map(state.activityMap);
+          nextActivityMap2.set(
+            activityLocalId,
+            Object.freeze({ activity: positionedActivity, activityLocalId, logicalTimestamp, type: "activity" })
+          );
+          const { clientActivityID: clientActivityID2 } = activity.channelData;
+          let nextClientActivityIdToLocalIdMap2 = state.clientActivityIdToLocalIdMap;
+          if (typeof clientActivityID2 !== "undefined") {
+            nextClientActivityIdToLocalIdMap2 = new Map(state.clientActivityIdToLocalIdMap);
+            nextClientActivityIdToLocalIdMap2.set(clientActivityID2, activityLocalId);
+          }
+          const nextLivestreamSessionMap2 = new Map(state.livestreamSessionMap);
+          nextLivestreamSessionMap2.set(sessionId, Object.freeze(nextSessionEntry));
+          return Object.freeze({
+            activityIdToLocalIdMap: Object.freeze(nextActivityIdToLocalIdMap2),
+            activityMap: Object.freeze(nextActivityMap2),
+            clientActivityIdToLocalIdMap: Object.freeze(nextClientActivityIdToLocalIdMap2),
+            howToGroupingMap: state.howToGroupingMap,
+            livestreamSessionMap: Object.freeze(nextLivestreamSessionMap2),
+            sortedActivities: Object.freeze(toSpliced(state.sortedActivities, insertIndex, 0, positionedActivity)),
+            sortedChatHistoryList: state.sortedChatHistoryList
+          });
+        }
+      }
+    }
     const nextActivityIdToLocalIdMap = new Map(state.activityIdToLocalIdMap);
     const nextActivityMap = new Map(state.activityMap);
     const nextClientActivityIdToLocalIdMap = new Map(state.clientActivityIdToLocalIdMap);
     const nextLivestreamSessionMap = new Map(state.livestreamSessionMap);
     const nextHowToGroupingMap = new Map(state.howToGroupingMap);
     let nextSortedChatHistoryList = Array.from(state.sortedChatHistoryList);
-    const activityLocalId = getLocalIdFromActivity2(activity);
-    const logicalTimestamp = getLogicalTimestamp(activity, ponyfill2);
     if (typeof activity.id !== "undefined") {
       nextActivityIdToLocalIdMap.set(activity.id, activityLocalId);
     }
@@ -117935,7 +118724,6 @@ and ensure you are accounting for this risk.
       logicalTimestamp,
       type: "activity"
     };
-    const activityLivestreamingMetadata = getActivityLivestreamingMetadata(activity);
     if (activityLivestreamingMetadata) {
       const sessionId = activityLivestreamingMetadata.sessionId;
       const livestreamSessionMapEntry = nextLivestreamSessionMap.get(sessionId);
@@ -118046,7 +118834,6 @@ and ensure you are accounting for this risk.
       sortedChatHistoryList: nextSortedChatHistoryList
     });
     let lastPosition = 0;
-    const POSITION_INCREMENT = 1e3;
     for (let index2 = 0, { length: nextSortedActivitiesLength } = nextSortedActivities; index2 < nextSortedActivitiesLength; index2++) {
       const currentActivity = nextSortedActivities[+index2];
       const currentActivityId = getLocalIdFromActivity2(currentActivity);
@@ -118498,19 +119285,16 @@ and ensure you are accounting for this risk.
   }
   var suggestedActionsOriginActivity_default = suggestedActionsOriginActivity;
   var DEFAULT_STATE16 = {
+    microphoneMuted: false,
     voiceState: "idle",
     voiceHandlers: /* @__PURE__ */ new Map()
   };
   function voiceActivity(state = DEFAULT_STATE16, action2) {
     switch (action2.type) {
       case VOICE_MUTE_RECORDING:
-        if (state.voiceState !== "listening") {
-          console.warn(`botframework-webchat: Cannot mute from "${state.voiceState}" state, must be "listening"`);
-          return state;
-        }
         return {
           ...state,
-          voiceState: "muted"
+          microphoneMuted: true
         };
       case VOICE_REGISTER_HANDLER: {
         const newHandlers = new Map(state.voiceHandlers);
@@ -118539,20 +119323,19 @@ and ensure you are accounting for this risk.
         }
         return {
           ...state,
+          microphoneMuted: false,
           voiceState: "listening"
         };
       case VOICE_STOP_RECORDING:
         return {
           ...state,
+          microphoneMuted: false,
           voiceState: "idle"
         };
       case VOICE_UNMUTE_RECORDING:
-        if (state.voiceState !== "muted") {
-          console.warn(`botframework-webchat: Should not transit from "${state.voiceState}" to "listening"`);
-        }
         return {
           ...state,
-          voiceState: "listening"
+          microphoneMuted: false
         };
       default:
         return state;
@@ -119100,11 +119883,11 @@ and ensure you are accounting for this risk.
     yield observeEachEffect(directLine.activity$, function* observeActivity2(activity) {
       var _a28, _b4;
       if (isVoiceActivity_default(activity) && !isVoiceTranscriptActivity_default(activity)) {
-        const { voiceState, voiceHandlers } = yield select((state) => ({
-          voiceState: state.voice.voiceState,
+        const { recording, voiceHandlers } = yield select((state) => ({
+          recording: state.voice.voiceState !== "idle",
           voiceHandlers: state.voice.voiceHandlers
         }));
-        if (voiceState === "idle") {
+        if (!recording) {
           return;
         }
         switch (activity.name) {
@@ -119211,9 +119994,9 @@ and ensure you are accounting for this risk.
   function isVoiceEnabled(directLine) {
     if (typeof directLine.getIsVoiceModeEnabled === "function") {
       try {
-        const isVoiceEnabled2 = directLine.getIsVoiceModeEnabled();
-        console.log("botframework-webchat: DirectLine adapter voice mode enabled:", isVoiceEnabled2);
-        return Boolean(isVoiceEnabled2);
+        const isVoiceEnabled3 = directLine.getIsVoiceModeEnabled();
+        console.log("botframework-webchat: DirectLine adapter voice mode enabled:", isVoiceEnabled3);
+        return Boolean(isVoiceEnabled3);
       } catch {
         return false;
       }
@@ -119228,6 +120011,7 @@ and ensure you are accounting for this risk.
     const now2 = new ponyfill2.Date();
     let outgoingActivity = {
       ...deleteKey(activity, "id"),
+      ...!waitForEchoBack ? { timestamp: now2.toISOString() } : {},
       channelData: {
         // `channelData.state` is being deprecated in favor of `channelData['webchat:send-status']`.
         // Please refer to #4362 for details. Remove on or after 2024-07-31.
@@ -119361,6 +120145,16 @@ and ensure you are accounting for this risk.
   }
   var activityFromBot_default = (activity) => activity && activity.from.role === "bot";
   var REPLY_TIMEOUT = 5e3;
+  function isVoiceEnabled2(directLine) {
+    if (typeof directLine.getIsVoiceModeEnabled === "function") {
+      try {
+        return Boolean(directLine.getIsVoiceModeEnabled());
+      } catch {
+        return false;
+      }
+    }
+    return false;
+  }
   function* takeEveryAndSelect(actionType, selector, fn) {
     while (!(yield cancelled())) {
       const action2 = yield take(actionType);
@@ -119384,14 +120178,15 @@ and ensure you are accounting for this risk.
       activities2 = yield select(activities_default);
     }
   }
-  function* queueIncomingActivity2({ userID }, ponyfill2) {
+  function* queueIncomingActivity2({ directLine, userID }, ponyfill2) {
+    const voiceModeEnabled = isVoiceEnabled2(directLine);
     yield takeEveryAndSelect(
       QUEUE_INCOMING_ACTIVITY,
       activities_default,
       function* queueIncomingActivity3({ payload: { activity } }, initialActivities) {
         const { replyToId } = activity;
         const initialBotActivities = initialActivities.filter(({ from: { role } }) => role === "bot");
-        if (replyToId && initialBotActivities.length) {
+        if (replyToId && initialBotActivities.length && !voiceModeEnabled) {
           const result = yield race({
             _: waitForActivityId(replyToId, initialActivities),
             timeout: call(sleep, REPLY_TIMEOUT, ponyfill2)
@@ -119880,7 +120675,7 @@ and ensure you are accounting for this risk.
   var Constants = { ActivityClientState: ActivityClientState_exports, DictateState: DictateState_exports };
   var { object: buildInfoObject, version } = buildInfo_default2;
 
-  // ../api/dist/chunk-EKDTKODC.mjs
+  // ../api/dist/chunk-K5ERXNF5.mjs
   var import_react58 = __toESM(require_react(), 1);
   var import_react59 = __toESM(require_react(), 1);
   var import_react60 = __toESM(require_react(), 1);
@@ -127547,7 +128342,7 @@ and ensure you are accounting for this risk.
   }
   function useVoiceRecordingMuted() {
     const dispatch = useDispatch2();
-    const value = useSelector2(({ voice }) => voice.voiceState === "muted");
+    const value = useSelector2(({ voice }) => voice.microphoneMuted);
     const setter = (0, import_react75.useCallback)(
       (muted) => {
         dispatch(muted ? muteVoiceRecording_default() : unmuteVoiceRecording_default());
@@ -127620,7 +128415,7 @@ and ensure you are accounting for this risk.
     mod
   ));
 
-  // ../api/dist/chunk-CZBCJXGR.mjs
+  // ../api/dist/chunk-F5IYVYBM.mjs
   var hook_exports = {};
   __export4(hook_exports, {
     useActiveTyping: () => useActiveTyping_default,
@@ -127734,7 +128529,7 @@ and ensure you are accounting for this risk.
     }
   }
 
-  // ../api/dist/chunk-4A52RQN7.mjs
+  // ../api/dist/chunk-PAEXWS2W.mjs
   var import_react78 = __toESM(require_react(), 1);
   var import_react79 = __toESM(require_react(), 1);
   function useShouldShowMicrophoneButton() {
@@ -127797,7 +128592,7 @@ and ensure you are accounting for this risk.
   }
   var { Provider: LegacyActivityContextProvider } = LegacyActivityContext;
 
-  // ../api/dist/chunk-7ZL2ZGQI.mjs
+  // ../api/dist/chunk-6XFJI5CX.mjs
   var import_react81 = __toESM(require_react(), 1);
   var import_react82 = __toESM(require_react(), 1);
   function composeEnhancer3(...enhancers) {
@@ -130567,6 +131362,180 @@ and ensure you are accounting for this risk.
       };
     }
   });
+  var require_add_to_unscopables10 = __commonJS23({
+    "node_modules/core-js-pure/internals/add-to-unscopables.js"(exports2, module) {
+      "use strict";
+      module.exports = function() {
+      };
+    }
+  });
+  var require_does_not_exceed_safe_integer7 = __commonJS23({
+    "node_modules/core-js-pure/internals/does-not-exceed-safe-integer.js"(exports2, module) {
+      "use strict";
+      var $TypeError = TypeError;
+      var MAX_SAFE_INTEGER = 9007199254740991;
+      module.exports = function(it) {
+        if (it > MAX_SAFE_INTEGER) throw $TypeError("Maximum allowed index exceeded");
+        return it;
+      };
+    }
+  });
+  var require_math_trunc10 = __commonJS23({
+    "node_modules/core-js-pure/internals/math-trunc.js"(exports2, module) {
+      "use strict";
+      var ceil = Math.ceil;
+      var floor2 = Math.floor;
+      module.exports = Math.trunc || function trunc(x) {
+        var n3 = +x;
+        return (n3 > 0 ? floor2 : ceil)(n3);
+      };
+    }
+  });
+  var require_to_integer_or_infinity10 = __commonJS23({
+    "node_modules/core-js-pure/internals/to-integer-or-infinity.js"(exports2, module) {
+      "use strict";
+      var trunc = require_math_trunc10();
+      module.exports = function(argument) {
+        var number3 = +argument;
+        return number3 !== number3 || number3 === 0 ? 0 : trunc(number3);
+      };
+    }
+  });
+  var require_to_length10 = __commonJS23({
+    "node_modules/core-js-pure/internals/to-length.js"(exports2, module) {
+      "use strict";
+      var toIntegerOrInfinity4 = require_to_integer_or_infinity10();
+      var min2 = Math.min;
+      module.exports = function(argument) {
+        var len = toIntegerOrInfinity4(argument);
+        return len > 0 ? min2(len, 9007199254740991) : 0;
+      };
+    }
+  });
+  var require_length_of_array_like10 = __commonJS23({
+    "node_modules/core-js-pure/internals/length-of-array-like.js"(exports2, module) {
+      "use strict";
+      var toLength2 = require_to_length10();
+      module.exports = function(obj) {
+        return toLength2(obj.length);
+      };
+    }
+  });
+  var require_to_absolute_index10 = __commonJS23({
+    "node_modules/core-js-pure/internals/to-absolute-index.js"(exports2, module) {
+      "use strict";
+      var toIntegerOrInfinity4 = require_to_integer_or_infinity10();
+      var max2 = Math.max;
+      var min2 = Math.min;
+      module.exports = function(index2, length2) {
+        var integer2 = toIntegerOrInfinity4(index2);
+        return integer2 < 0 ? max2(integer2 + length2, 0) : min2(integer2, length2);
+      };
+    }
+  });
+  var require_create_property10 = __commonJS23({
+    "node_modules/core-js-pure/internals/create-property.js"(exports2, module) {
+      "use strict";
+      var DESCRIPTORS2 = require_descriptors10();
+      var definePropertyModule = require_object_define_property10();
+      var createPropertyDescriptor = require_create_property_descriptor10();
+      module.exports = function(object22, key2, value) {
+        if (DESCRIPTORS2) definePropertyModule.f(object22, key2, createPropertyDescriptor(0, value));
+        else object22[key2] = value;
+      };
+    }
+  });
+  var require_es_array_to_spliced6 = __commonJS23({
+    "node_modules/core-js-pure/modules/es.array.to-spliced.js"() {
+      "use strict";
+      var $3 = require_export10();
+      var addToUnscopables = require_add_to_unscopables10();
+      var doesNotExceedSafeInteger = require_does_not_exceed_safe_integer7();
+      var lengthOfArrayLike = require_length_of_array_like10();
+      var toAbsoluteIndex = require_to_absolute_index10();
+      var toIndexedObject = require_to_indexed_object10();
+      var toIntegerOrInfinity4 = require_to_integer_or_infinity10();
+      var createProperty = require_create_property10();
+      var $Array = Array;
+      var max2 = Math.max;
+      var min2 = Math.min;
+      $3({ target: "Array", proto: true }, {
+        toSpliced: function toSpliced2(start, deleteCount) {
+          var O = toIndexedObject(this);
+          var len = lengthOfArrayLike(O);
+          var actualStart = toAbsoluteIndex(start, len);
+          var argumentsLength = arguments.length;
+          var k = 0;
+          var insertCount, actualDeleteCount, newLen, A;
+          if (argumentsLength === 0) {
+            insertCount = actualDeleteCount = 0;
+          } else if (argumentsLength === 1) {
+            insertCount = 0;
+            actualDeleteCount = len - actualStart;
+          } else {
+            insertCount = argumentsLength - 2;
+            actualDeleteCount = min2(max2(toIntegerOrInfinity4(deleteCount), 0), len - actualStart);
+          }
+          newLen = doesNotExceedSafeInteger(len + insertCount - actualDeleteCount);
+          A = $Array(newLen);
+          for (; k < actualStart; k++) createProperty(A, k, O[k]);
+          for (; k < actualStart + insertCount; k++) createProperty(A, k, arguments[k - actualStart + 2]);
+          for (; k < newLen; k++) createProperty(A, k, O[k + actualDeleteCount - insertCount]);
+          return A;
+        }
+      });
+      addToUnscopables("toSpliced");
+    }
+  });
+  var require_entry_unbind10 = __commonJS23({
+    "node_modules/core-js-pure/internals/entry-unbind.js"(exports2, module) {
+      "use strict";
+      var getBuiltIn = require_get_built_in10();
+      module.exports = getBuiltIn;
+    }
+  });
+  var require_to_spliced10 = __commonJS23({
+    "node_modules/core-js-pure/es/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      require_es_array_to_spliced6();
+      var entryUnbind = require_entry_unbind10();
+      module.exports = entryUnbind("Array", "toSpliced");
+    }
+  });
+  var require_to_spliced26 = __commonJS23({
+    "node_modules/core-js-pure/stable/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      var parent = require_to_spliced10();
+      module.exports = parent;
+    }
+  });
+  var require_esnext_array_to_spliced6 = __commonJS23({
+    "node_modules/core-js-pure/modules/esnext.array.to-spliced.js"() {
+      "use strict";
+      require_es_array_to_spliced6();
+    }
+  });
+  var require_to_spliced36 = __commonJS23({
+    "node_modules/core-js-pure/actual/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      var parent = require_to_spliced26();
+      require_esnext_array_to_spliced6();
+      module.exports = parent;
+    }
+  });
+  var require_to_spliced46 = __commonJS23({
+    "node_modules/core-js-pure/full/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      var parent = require_to_spliced36();
+      module.exports = parent;
+    }
+  });
+  var require_to_spliced56 = __commonJS23({
+    "node_modules/core-js-pure/features/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      module.exports = require_to_spliced46();
+    }
+  });
   var require_environment10 = __commonJS23({
     "node_modules/core-js-pure/internals/environment.js"(exports2, module) {
       "use strict";
@@ -131593,47 +132562,6 @@ and ensure you are accounting for this risk.
       };
     }
   });
-  var require_math_trunc10 = __commonJS23({
-    "node_modules/core-js-pure/internals/math-trunc.js"(exports2, module) {
-      "use strict";
-      var ceil = Math.ceil;
-      var floor2 = Math.floor;
-      module.exports = Math.trunc || function trunc(x) {
-        var n3 = +x;
-        return (n3 > 0 ? floor2 : ceil)(n3);
-      };
-    }
-  });
-  var require_to_integer_or_infinity10 = __commonJS23({
-    "node_modules/core-js-pure/internals/to-integer-or-infinity.js"(exports2, module) {
-      "use strict";
-      var trunc = require_math_trunc10();
-      module.exports = function(argument) {
-        var number3 = +argument;
-        return number3 !== number3 || number3 === 0 ? 0 : trunc(number3);
-      };
-    }
-  });
-  var require_to_length10 = __commonJS23({
-    "node_modules/core-js-pure/internals/to-length.js"(exports2, module) {
-      "use strict";
-      var toIntegerOrInfinity4 = require_to_integer_or_infinity10();
-      var min2 = Math.min;
-      module.exports = function(argument) {
-        var len = toIntegerOrInfinity4(argument);
-        return len > 0 ? min2(len, 9007199254740991) : 0;
-      };
-    }
-  });
-  var require_length_of_array_like10 = __commonJS23({
-    "node_modules/core-js-pure/internals/length-of-array-like.js"(exports2, module) {
-      "use strict";
-      var toLength2 = require_to_length10();
-      module.exports = function(obj) {
-        return toLength2(obj.length);
-      };
-    }
-  });
   var require_get_iterator_method10 = __commonJS23({
     "node_modules/core-js-pure/internals/get-iterator-method.js"(exports2, module) {
       "use strict";
@@ -132080,6 +133008,7 @@ and ensure you are accounting for this risk.
     return false;
   }
   var EMPTY_ARRAY9 = Object.freeze([]);
+  var import_to_spliced6 = __toESM23(require_to_spliced56());
   var import_with_resolvers9 = __toESM23(require_with_resolvers56());
   function useMemoWithPrevious2(factory, deps) {
     const prevValueRef = (0, import_react84.useRef)();
@@ -140980,7 +141909,10 @@ and ensure you are accounting for this risk.
   function uniqueId() {
     return (0, import_math_random3.default)().toString(36).substring(2, 7);
   }
+  var FROZEN_CHECK_TIMEOUT = 1e4;
+  var MUTABLE_ACTIVITY_WINDOW = 1e3;
   var ActivityKeyerComposer = ({ children }) => {
+    const [{ cancelIdleCallback: cancelIdleCallback2, clearTimeout: clearTimeout2, requestIdleCallback: requestIdleCallback2, setTimeout: setTimeout2 }] = usePonyfill();
     const existingContext = useActivityKeyerContext(false);
     if (existingContext) {
       throw new Error("botframework-webchat internal: <ActivityKeyerComposer> should not be nested.");
@@ -140994,10 +141926,13 @@ and ensure you are accounting for this risk.
     const prevActivityKeysStateRef = (0, import_react89.useRef)(
       Object.freeze([Object.freeze([])])
     );
+    const pendingFrozenCheckRef = (0, import_react89.useRef)();
+    const warnedPositionsRef = (0, import_react89.useRef)(/* @__PURE__ */ new Set());
     const activityKeysState = (0, import_react89.useMemo)(() => {
       var _a28;
       const prevActivities = prevActivitiesRef.current;
-      let commonPrefixLength = 0;
+      const frozenBoundary = Math.max(0, Math.min(prevActivities.length, activities2.length) - MUTABLE_ACTIVITY_WINDOW);
+      let commonPrefixLength = frozenBoundary;
       const maxPrefix = Math.min(prevActivities.length, activities2.length);
       while (commonPrefixLength < maxPrefix && prevActivities[commonPrefixLength] === activities2[commonPrefixLength]) {
         commonPrefixLength++;
@@ -141007,6 +141942,9 @@ and ensure you are accounting for this risk.
         if (commonPrefixLength === activities2.length) {
           prevActivitiesRef.current = activities2;
           return prevActivityKeysStateRef.current;
+        }
+        if (frozenBoundary) {
+          pendingFrozenCheckRef.current = Object.freeze({ current: activities2, frozenBoundary, prev: prevActivities });
         }
         const { current: activityIdToKeyMap2 } = activityIdToKeyMapRef;
         const { current: activityToKeyMap2 } = activityToKeyMapRef;
@@ -141031,13 +141969,11 @@ and ensure you are accounting for this risk.
           !activitiesForKey && newKeys.push(key2);
         }
         prevActivitiesRef.current = activities2;
-        if (newKeys.length) {
-          const nextKeys2 = Object.freeze([...prevActivityKeysStateRef.current[0], ...newKeys]);
-          const result3 = Object.freeze([nextKeys2]);
-          prevActivityKeysStateRef.current = result3;
-          return result3;
+        if (!newKeys.length) {
+          return Object.freeze([prevActivityKeysStateRef.current[0]]);
         }
-        const result2 = Object.freeze([prevActivityKeysStateRef.current[0]]);
+        const nextKeys2 = Object.freeze([...prevActivityKeysStateRef.current[0], ...newKeys]);
+        const result2 = Object.freeze([nextKeys2]);
         prevActivityKeysStateRef.current = result2;
         return result2;
       }
@@ -141069,6 +142005,8 @@ and ensure you are accounting for this risk.
       clientActivityIdToKeyMapRef.current = nextClientActivityIdToKeyMap;
       keyToActivitiesMapRef.current = nextKeyToActivitiesMap;
       prevActivitiesRef.current = activities2;
+      pendingFrozenCheckRef.current = void 0;
+      warnedPositionsRef.current.clear();
       const nextKeys = Object.freeze([...nextActivityKeys.values()]);
       const result = Object.freeze([nextKeys]);
       prevActivityKeysStateRef.current = result;
@@ -141079,9 +142017,40 @@ and ensure you are accounting for this risk.
       activityToKeyMapRef,
       clientActivityIdToKeyMapRef,
       keyToActivitiesMapRef,
+      pendingFrozenCheckRef,
       prevActivitiesRef,
-      prevActivityKeysStateRef
+      prevActivityKeysStateRef,
+      warnedPositionsRef
     ]);
+    (0, import_react89.useEffect)(() => {
+      const pending = pendingFrozenCheckRef.current;
+      if (!pending) {
+        return;
+      }
+      let idleHandle;
+      const runCheck = () => {
+        const { current: currentActivities, frozenBoundary, prev: prevFrozenActivities } = pending;
+        for (let i3 = 0; i3 < frozenBoundary; i3++) {
+          if (prevFrozenActivities[i3] !== currentActivities[i3] && !warnedPositionsRef.current.has(i3)) {
+            warnedPositionsRef.current.add(i3);
+            console.warn(
+              `botframework-webchat internal: change in activity at position ${i3} was not applied because it is outside the mutable window of ${MUTABLE_ACTIVITY_WINDOW}.`
+            );
+          }
+        }
+      };
+      const timer = setTimeout2(() => {
+        if (requestIdleCallback2) {
+          idleHandle = requestIdleCallback2(runCheck);
+        } else {
+          runCheck();
+        }
+      }, FROZEN_CHECK_TIMEOUT);
+      return () => {
+        clearTimeout2(timer);
+        idleHandle !== void 0 && (cancelIdleCallback2 == null ? void 0 : cancelIdleCallback2(idleHandle));
+      };
+    }, [activities2, cancelIdleCallback2, clearTimeout2, requestIdleCallback2, setTimeout2]);
     const getActivitiesByKey = (0, import_react89.useCallback)(
       (key2) => key2 && keyToActivitiesMapRef.current.get(key2),
       [keyToActivitiesMapRef]
@@ -141369,6 +142338,8 @@ and ensure you are accounting for this risk.
             firstReceivedAt: (_g = (_f = mutableEntry.typingIndicator) == null ? void 0 : _f.firstReceivedAt) != null ? _g : receivedAt,
             lastReceivedAt: receivedAt
           });
+        } else if (isVoiceTranscriptActivity_default(activity)) {
+          mutableEntry.typingIndicator = void 0;
         }
         typingState.set(id, Object.freeze(mutableEntry));
         return Object.freeze(typingState);
@@ -142099,9 +143070,9 @@ and ensure you are accounting for this risk.
     return (0, import_react105.useMemo)(() => ({ mute, record }), [mute, record]);
   }
   function VoiceRecorderBridge() {
+    const [muted] = useVoiceRecordingMuted();
     const [voiceState] = useVoiceState();
     const postVoiceActivity3 = usePostVoiceActivity();
-    const muted = voiceState === "muted";
     const recording = voiceState !== "idle";
     const handleAudioChunk = (0, import_react104.useCallback)(
       (base64, timestamp) => {
@@ -142119,15 +143090,15 @@ and ensure you are accounting for this risk.
     );
     const { mute, record } = useRecorder(handleAudioChunk);
     (0, import_react104.useEffect)(() => {
-      if (muted) {
-        return mute();
-      }
-    }, [muted, mute]);
-    (0, import_react104.useEffect)(() => {
       if (recording) {
         return record();
       }
     }, [record, recording]);
+    (0, import_react104.useEffect)(() => {
+      if (muted) {
+        return mute();
+      }
+    }, [muted, mute]);
     return null;
   }
   var SpeechToSpeechComposer = ({ children }) => /* @__PURE__ */ import_react100.default.createElement(import_react100.default.Fragment, null, /* @__PURE__ */ import_react100.default.createElement(VoiceHandlerBridge, null), /* @__PURE__ */ import_react100.default.createElement(VoiceRecorderBridge, null), children);
@@ -142837,7 +143808,7 @@ and ensure you are accounting for this risk.
   var buildInfo_default3 = buildInfo3;
   var { object: buildInfoObject2, version: version2 } = buildInfo_default3;
 
-  // ../component/dist/chunk-BNIMYCI7.mjs
+  // ../component/dist/chunk-7PUXM63Z.mjs
   var import_react112 = __toESM(require_react(), 1);
   var import_react113 = __toESM(require_react(), 1);
   var import_react114 = __toESM(require_react(), 1);
@@ -143996,7 +144967,7 @@ and ensure you are accounting for this risk.
       var serialized = serializeStyles(args, cache2.registered);
       insertWithoutScoping(cache2, serialized);
     };
-    var cx27 = function cx28() {
+    var cx28 = function cx29() {
       for (var _len4 = arguments.length, args = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
         args[_key4] = arguments[_key4];
       }
@@ -144004,7 +144975,7 @@ and ensure you are accounting for this risk.
     };
     return {
       css: css2,
-      cx: cx27,
+      cx: cx28,
       injectGlobal: injectGlobal2,
       keyframes: keyframes2,
       hydrate: function hydrate2(ids) {
@@ -144058,7 +145029,7 @@ and ensure you are accounting for this risk.
     return cls;
   };
 
-  // ../component/dist/chunk-BNIMYCI7.mjs
+  // ../component/dist/chunk-7PUXM63Z.mjs
   var import_react117 = __toESM(require_react(), 1);
   var import_math_random4 = __toESM(require_browser(), 1);
   var import_classnames2 = __toESM(require_classnames(), 1);
@@ -144113,7 +145084,7 @@ and ensure you are accounting for this risk.
     return fragment;
   }
   function serializeDocumentFragmentIntoString(documentFragment) {
-    return new XMLSerializer().serializeToString(documentFragment).trim();
+    return new XMLSerializer().serializeToString(documentFragment);
   }
   function useMarkAllAsRenderedEffect() {
     const { markAllAsRendered } = useLiveRegionTwinContext();
@@ -144316,29 +145287,29 @@ and ensure you are accounting for this risk.
   }
   var StyleToEmotionObjectComposer = (0, import_react115.memo)(createStyleToEmotionObjectComposer_default(styleToEmotionObjectContext));
   StyleToEmotionObjectComposer.displayName = "StyleToEmotionObjectComposer";
-  var classes = { "icon--download": "w1GPAoW_icon--download", "icon--checkmark-circle": "w1GPAoW_icon--checkmark-circle", "direction--follow": "w1GPAoW_direction--follow", "icon--microphone": "w1GPAoW_icon--microphone", "icon--view-code": "w1GPAoW_icon--view-code", "icon--thumb-up": "w1GPAoW_icon--thumb-up", "icon--send": "w1GPAoW_icon--send", "direction--rtl": "w1GPAoW_direction--rtl", "component-icon": "w1GPAoW_component-icon", "icon--attachment-checkmark": "w1GPAoW_icon--attachment-checkmark", "icon--thumb-down": "w1GPAoW_icon--thumb-down", "icon--thumb-down-filled": "w1GPAoW_icon--thumb-down-filled", "icon--chevron": "w1GPAoW_icon--chevron", "icon--unchecked-circle": "w1GPAoW_icon--unchecked-circle", "icon--copy-code-checkmark": "w1GPAoW_icon--copy-code-checkmark", "icon--dismiss": "w1GPAoW_icon--dismiss", "appearance--text": "w1GPAoW_appearance--text", "icon--attachment": "w1GPAoW_icon--attachment", "icon--copy": "w1GPAoW_icon--copy", "icon--copy-code": "w1GPAoW_icon--copy-code", "icon--thumb-up-filled": "w1GPAoW_icon--thumb-up-filled" };
+  var classes = { "icon--thumb-up-filled": "w1GPAoW_icon--thumb-up-filled", "icon--copy": "w1GPAoW_icon--copy", "icon--checkmark-circle": "w1GPAoW_icon--checkmark-circle", "icon--microphone": "w1GPAoW_icon--microphone", "icon--dismiss": "w1GPAoW_icon--dismiss", "direction--rtl": "w1GPAoW_direction--rtl", "icon--chevron": "w1GPAoW_icon--chevron", "appearance--text": "w1GPAoW_appearance--text", "icon--download": "w1GPAoW_icon--download", "icon--thumb-down-filled": "w1GPAoW_icon--thumb-down-filled", "direction--follow": "w1GPAoW_direction--follow", "icon--copy-code": "w1GPAoW_icon--copy-code", "icon--thumb-up": "w1GPAoW_icon--thumb-up", "icon--unchecked-circle": "w1GPAoW_icon--unchecked-circle", "icon--send": "w1GPAoW_icon--send", "icon--attachment-checkmark": "w1GPAoW_icon--attachment-checkmark", "icon--copy-code-checkmark": "w1GPAoW_icon--copy-code-checkmark", "icon--view-code": "w1GPAoW_icon--view-code", "component-icon": "w1GPAoW_component-icon", "icon--attachment": "w1GPAoW_icon--attachment", "icon--thumb-down": "w1GPAoW_icon--thumb-down" };
   var ComponentIcon_module_default = classes;
-  var _icon__download0 = classes["icon--download"];
-  var _icon__checkmark_circle0 = classes["icon--checkmark-circle"];
-  var _direction__follow0 = classes["direction--follow"];
-  var _icon__microphone0 = classes["icon--microphone"];
-  var _icon__view_code0 = classes["icon--view-code"];
-  var _icon__thumb_up0 = classes["icon--thumb-up"];
-  var _icon__send0 = classes["icon--send"];
-  var _direction__rtl0 = classes["direction--rtl"];
-  var _component_icon0 = classes["component-icon"];
-  var _icon__attachment_checkmark0 = classes["icon--attachment-checkmark"];
-  var _icon__thumb_down0 = classes["icon--thumb-down"];
-  var _icon__thumb_down_filled0 = classes["icon--thumb-down-filled"];
-  var _icon__chevron0 = classes["icon--chevron"];
-  var _icon__unchecked_circle0 = classes["icon--unchecked-circle"];
-  var _icon__copy_code_checkmark0 = classes["icon--copy-code-checkmark"];
-  var _icon__dismiss0 = classes["icon--dismiss"];
-  var _appearance__text0 = classes["appearance--text"];
-  var _icon__attachment0 = classes["icon--attachment"];
-  var _icon__copy0 = classes["icon--copy"];
-  var _icon__copy_code0 = classes["icon--copy-code"];
   var _icon__thumb_up_filled0 = classes["icon--thumb-up-filled"];
+  var _icon__copy0 = classes["icon--copy"];
+  var _icon__checkmark_circle0 = classes["icon--checkmark-circle"];
+  var _icon__microphone0 = classes["icon--microphone"];
+  var _icon__dismiss0 = classes["icon--dismiss"];
+  var _direction__rtl0 = classes["direction--rtl"];
+  var _icon__chevron0 = classes["icon--chevron"];
+  var _appearance__text0 = classes["appearance--text"];
+  var _icon__download0 = classes["icon--download"];
+  var _icon__thumb_down_filled0 = classes["icon--thumb-down-filled"];
+  var _direction__follow0 = classes["direction--follow"];
+  var _icon__copy_code0 = classes["icon--copy-code"];
+  var _icon__thumb_up0 = classes["icon--thumb-up"];
+  var _icon__unchecked_circle0 = classes["icon--unchecked-circle"];
+  var _icon__send0 = classes["icon--send"];
+  var _icon__attachment_checkmark0 = classes["icon--attachment-checkmark"];
+  var _icon__copy_code_checkmark0 = classes["icon--copy-code-checkmark"];
+  var _icon__view_code0 = classes["icon--view-code"];
+  var _component_icon0 = classes["component-icon"];
+  var _icon__attachment0 = classes["icon--attachment"];
+  var _icon__thumb_down0 = classes["icon--thumb-down"];
   var baseComponentIconPropsSchema = pipe(
     object({
       "aria-hidden": optional(literal("true")),
@@ -144381,7 +145352,7 @@ and ensure you are accounting for this risk.
   );
   var ComponentIcon_default = (0, import_react118.memo)(ComponentIcon);
 
-  // ../component/dist/chunk-4HF7EOT7.mjs
+  // ../component/dist/chunk-4LG66G2O.mjs
   var import_react148 = __toESM(require_react(), 1);
   var import_react149 = __toESM(require_react(), 1);
   var import_react150 = __toESM(require_react(), 1);
@@ -144406,7 +145377,7 @@ and ensure you are accounting for this risk.
   var sheet = _createEmotion.sheet;
   var cache = _createEmotion.cache;
 
-  // ../component/dist/chunk-4HF7EOT7.mjs
+  // ../component/dist/chunk-4LG66G2O.mjs
   var import_react156 = __toESM(require_react(), 1);
   var import_react157 = __toESM(require_react(), 1);
   var import_react158 = __toESM(require_react(), 1);
@@ -144488,7 +145459,7 @@ and ensure you are accounting for this risk.
     };
   }
 
-  // ../component/dist/chunk-4HF7EOT7.mjs
+  // ../component/dist/chunk-4LG66G2O.mjs
   var import_react159 = __toESM(require_react(), 1);
   var import_react160 = __toESM(require_react(), 1);
   var import_react161 = __toESM(require_react(), 1);
@@ -144563,7 +145534,7 @@ and ensure you are accounting for this risk.
     return memoized;
   }
 
-  // ../component/dist/chunk-4HF7EOT7.mjs
+  // ../component/dist/chunk-4LG66G2O.mjs
   var import_react176 = __toESM(require_react(), 1);
   var import_classnames10 = __toESM(require_classnames(), 1);
   var import_react177 = __toESM(require_react(), 1);
@@ -145701,7 +146672,7 @@ and ensure you are accounting for this risk.
     document.head.appendChild(meta2);
   }
 
-  // ../component/dist/chunk-4HF7EOT7.mjs
+  // ../component/dist/chunk-4LG66G2O.mjs
   var import_react184 = __toESM(require_react(), 1);
   var import_react185 = __toESM(require_react(), 1);
   var import_react186 = __toESM(require_react(), 1);
@@ -145742,7 +146713,7 @@ and ensure you are accounting for this risk.
     };
   }
 
-  // ../component/dist/chunk-4HF7EOT7.mjs
+  // ../component/dist/chunk-4LG66G2O.mjs
   var import_react198 = __toESM(require_react(), 1);
   var import_react199 = __toESM(require_react(), 1);
   var import_classnames15 = __toESM(require_classnames(), 1);
@@ -145969,11 +146940,11 @@ and ensure you are accounting for this risk.
       [codeBlockTagName, externalLinkAlt2, transform3]
     );
   }
-  var classes2 = { "render-markdown--adaptive-cards": "wOO68XW_render-markdown--adaptive-cards", "render-markdown--message-activity": "wOO68XW_render-markdown--message-activity", "render-markdown": "wOO68XW_render-markdown" };
+  var classes2 = { "render-markdown--message-activity": "wOO68XW_render-markdown--message-activity", "render-markdown": "wOO68XW_render-markdown", "render-markdown--adaptive-cards": "wOO68XW_render-markdown--adaptive-cards" };
   var RenderMarkdown_module_default = classes2;
-  var _render_markdown__adaptive_cards0 = classes2["render-markdown--adaptive-cards"];
   var _render_markdown__message_activity0 = classes2["render-markdown--message-activity"];
   var _render_markdown0 = classes2["render-markdown"];
+  var _render_markdown__adaptive_cards0 = classes2["render-markdown--adaptive-cards"];
   var { useLocalizer: useLocalizer22, useStyleOptions: useStyleOptions4 } = hook_exports;
   function useRenderMarkdownAsHTML(mode = "message activity") {
     const { renderMarkdown } = useWebChatUIContext();
@@ -146462,11 +147433,11 @@ and ensure you are accounting for this risk.
     viewCodeButton: "view code button"
   };
   var testIds_default = testIds;
-  var classes22 = { "send-box-attachment-bar__box": "w7l006a_send-box-attachment-bar__box", "send-box-attachment-bar--as-list-item": "w7l006a_send-box-attachment-bar--as-list-item", "send-box-attachment-bar": "w7l006a_send-box-attachment-bar", "send-box-attachment-bar--as-thumbnail": "w7l006a_send-box-attachment-bar--as-thumbnail" };
+  var classes22 = { "send-box-attachment-bar": "w7l006a_send-box-attachment-bar", "send-box-attachment-bar--as-list-item": "w7l006a_send-box-attachment-bar--as-list-item", "send-box-attachment-bar__box": "w7l006a_send-box-attachment-bar__box", "send-box-attachment-bar--as-thumbnail": "w7l006a_send-box-attachment-bar--as-thumbnail" };
   var AttachmentBar_module_default = classes22;
-  var _send_box_attachment_bar__box0 = classes22["send-box-attachment-bar__box"];
-  var _send_box_attachment_bar__as_list_item0 = classes22["send-box-attachment-bar--as-list-item"];
   var _send_box_attachment_bar0 = classes22["send-box-attachment-bar"];
+  var _send_box_attachment_bar__as_list_item0 = classes22["send-box-attachment-bar--as-list-item"];
+  var _send_box_attachment_bar__box0 = classes22["send-box-attachment-bar__box"];
   var _send_box_attachment_bar__as_thumbnail0 = classes22["send-box-attachment-bar--as-thumbnail"];
   var SendBoxContext = (0, import_react174.createContext)(void 0);
   var Context_default23 = SendBoxContext;
@@ -148140,13 +149111,13 @@ and ensure you are accounting for this risk.
     );
   }
   var BasicSendBox_default = (0, import_react172.memo)(BasicSendBox);
-  var classes3 = { "send-box-attachment-bar-item": "wI2ZoOW_send-box-attachment-bar-item", "send-box-attachment-bar-item__dismiss-icon": "wI2ZoOW_send-box-attachment-bar-item__dismiss-icon", "send-box-attachment-bar-item__preview": "wI2ZoOW_send-box-attachment-bar-item__preview", "send-box-attachment-bar-item--as-thumbnail": "wI2ZoOW_send-box-attachment-bar-item--as-thumbnail", "send-box-attachment-bar-item__delete-button": "wI2ZoOW_send-box-attachment-bar-item__delete-button", "send-box-attachment-bar-item--as-list-item": "wI2ZoOW_send-box-attachment-bar-item--as-list-item" };
+  var classes3 = { "send-box-attachment-bar-item": "wI2ZoOW_send-box-attachment-bar-item", "send-box-attachment-bar-item__preview": "wI2ZoOW_send-box-attachment-bar-item__preview", "send-box-attachment-bar-item--as-thumbnail": "wI2ZoOW_send-box-attachment-bar-item--as-thumbnail", "send-box-attachment-bar-item__delete-button": "wI2ZoOW_send-box-attachment-bar-item__delete-button", "send-box-attachment-bar-item__dismiss-icon": "wI2ZoOW_send-box-attachment-bar-item__dismiss-icon", "send-box-attachment-bar-item--as-list-item": "wI2ZoOW_send-box-attachment-bar-item--as-list-item" };
   var AttachmentBarItem_module_default = classes3;
   var _send_box_attachment_bar_item0 = classes3["send-box-attachment-bar-item"];
-  var _send_box_attachment_bar_item__dismiss_icon0 = classes3["send-box-attachment-bar-item__dismiss-icon"];
   var _send_box_attachment_bar_item__preview0 = classes3["send-box-attachment-bar-item__preview"];
   var _send_box_attachment_bar_item__as_thumbnail0 = classes3["send-box-attachment-bar-item--as-thumbnail"];
   var _send_box_attachment_bar_item__delete_button0 = classes3["send-box-attachment-bar-item__delete-button"];
+  var _send_box_attachment_bar_item__dismiss_icon0 = classes3["send-box-attachment-bar-item__dismiss-icon"];
   var _send_box_attachment_bar_item__as_list_item0 = classes3["send-box-attachment-bar-item--as-list-item"];
   var { useLocalizer: useLocalizer9 } = hook_exports;
   var attachmentDeleteButtonPropsSchema = pipe(
@@ -148199,14 +149170,14 @@ and ensure you are accounting for this risk.
     }),
     readonly()
   );
-  var classes4 = { "send-box-attachment-bar-item-file-preview": "w9ttrMa_send-box-attachment-bar-item-file-preview", "send-box-attachment-bar-item-file-preview--as-list-item": "w9ttrMa_send-box-attachment-bar-item-file-preview--as-list-item", "send-box-attachment-bar-item-file-preview__text": "w9ttrMa_send-box-attachment-bar-item-file-preview__text", "send-box-attachment-bar-item-file-preview--as-thumbnail": "w9ttrMa_send-box-attachment-bar-item-file-preview--as-thumbnail", "send-box-attachment-bar-item-file-preview--is-file": "w9ttrMa_send-box-attachment-bar-item-file-preview--is-file", "send-box-attachment-bar-item-file-preview--is-image": "w9ttrMa_send-box-attachment-bar-item-file-preview--is-image" };
+  var classes4 = { "send-box-attachment-bar-item-file-preview--is-image": "w9ttrMa_send-box-attachment-bar-item-file-preview--is-image", "send-box-attachment-bar-item-file-preview__text": "w9ttrMa_send-box-attachment-bar-item-file-preview__text", "send-box-attachment-bar-item-file-preview--as-thumbnail": "w9ttrMa_send-box-attachment-bar-item-file-preview--as-thumbnail", "send-box-attachment-bar-item-file-preview--is-file": "w9ttrMa_send-box-attachment-bar-item-file-preview--is-file", "send-box-attachment-bar-item-file-preview": "w9ttrMa_send-box-attachment-bar-item-file-preview", "send-box-attachment-bar-item-file-preview--as-list-item": "w9ttrMa_send-box-attachment-bar-item-file-preview--as-list-item" };
   var FilePreview_module_default = classes4;
-  var _send_box_attachment_bar_item_file_preview0 = classes4["send-box-attachment-bar-item-file-preview"];
-  var _send_box_attachment_bar_item_file_preview__as_list_item0 = classes4["send-box-attachment-bar-item-file-preview--as-list-item"];
+  var _send_box_attachment_bar_item_file_preview__is_image0 = classes4["send-box-attachment-bar-item-file-preview--is-image"];
   var _send_box_attachment_bar_item_file_preview__text0 = classes4["send-box-attachment-bar-item-file-preview__text"];
   var _send_box_attachment_bar_item_file_preview__as_thumbnail0 = classes4["send-box-attachment-bar-item-file-preview--as-thumbnail"];
   var _send_box_attachment_bar_item_file_preview__is_file0 = classes4["send-box-attachment-bar-item-file-preview--is-file"];
-  var _send_box_attachment_bar_item_file_preview__is_image0 = classes4["send-box-attachment-bar-item-file-preview--is-image"];
+  var _send_box_attachment_bar_item_file_preview0 = classes4["send-box-attachment-bar-item-file-preview"];
+  var _send_box_attachment_bar_item_file_preview__as_list_item0 = classes4["send-box-attachment-bar-item-file-preview--as-list-item"];
   var sendBoxAttachmentBarItemFileAttachmentPreviewPropsSchema = pipe(
     object({
       attachment: sendBoxAttachmentSchema,
@@ -148413,7 +149384,7 @@ and ensure you are accounting for this risk.
   }
   var AttachmentBar_default = (0, import_react170.memo)(SendBoxAttachmentBar);
 
-  // ../component/dist/chunk-GSKLDVY6.mjs
+  // ../component/dist/chunk-XVZBZZMK.mjs
   var import_react209 = __toESM(require_react(), 1);
   var import_react210 = __toESM(require_react(), 1);
   var import_react211 = __toESM(require_react(), 1);
@@ -148455,7 +149426,7 @@ and ensure you are accounting for this risk.
   AvatarPolymiddlewareProxy22.displayName = "AvatarPolymiddlewareProxy";
   var AvatarPolymiddlewareProxy_default = AvatarPolymiddlewareProxy22;
 
-  // ../component/dist/chunk-GSKLDVY6.mjs
+  // ../component/dist/chunk-XVZBZZMK.mjs
   var import_react221 = __toESM(require_react(), 1);
   var import_react222 = __toESM(require_react(), 1);
   var import_react223 = __toESM(require_react(), 1);
@@ -148515,7 +149486,7 @@ and ensure you are accounting for this risk.
     return Object.freeze([value, setter, useRefFrom4(value)]);
   }
 
-  // ../component/dist/chunk-GSKLDVY6.mjs
+  // ../component/dist/chunk-XVZBZZMK.mjs
   var import_react242 = __toESM(require_react(), 1);
   var import_react243 = __toESM(require_react(), 1);
   var import_react244 = __toESM(require_react(), 1);
@@ -148554,39 +149525,39 @@ and ensure you are accounting for this risk.
     return /* @__PURE__ */ import_react209.default.createElement("div", { "aria-hidden": ariaHidden, className: rootClassName, id, ref }, text6);
   });
   var ScreenReaderText_default = (0, import_react209.memo)(ScreenReaderText);
-  var classes6 = { "stacked-layout__content": "wX4Ui5a_stacked-layout__content", "stacked-layout__message-row": "wX4Ui5a_stacked-layout__message-row", "stacked-layout__title": "wX4Ui5a_stacked-layout__title", "stacked-layout--group": "wX4Ui5a_stacked-layout--group", "stacked-layout__attachment-list": "wX4Ui5a_stacked-layout__attachment-list", "stacked-layout__avatar-gutter": "wX4Ui5a_stacked-layout__avatar-gutter", "stacked-layout__message-status--unset": "wX4Ui5a_stacked-layout__message-status--unset", "stacked-layout__attachment-row": "wX4Ui5a_stacked-layout__attachment-row", "stacked-layout__nub-pad": "wX4Ui5a_stacked-layout__nub-pad", "stacked-layout__attachment": "wX4Ui5a_stacked-layout__attachment", "stacked-layout--hide-nub": "wX4Ui5a_stacked-layout--hide-nub", "stacked-layout": "wX4Ui5a_stacked-layout", "stacked-layout--top-callout": "wX4Ui5a_stacked-layout--top-callout", "stacked-layout__bubble": "wX4Ui5a_stacked-layout__bubble", "stacked-layout__message-status-unset-icon": "wX4Ui5a_stacked-layout__message-status-unset-icon", "stacked-layout__message-status-complete-icon": "wX4Ui5a_stacked-layout__message-status-complete-icon", "stacked-layout__message-status--incomplete": "wX4Ui5a_stacked-layout__message-status--incomplete", "stacked-layout__main": "wX4Ui5a_stacked-layout__main", "stacked-layout__message": "wX4Ui5a_stacked-layout__message", "stacked-layout__message-status--published": "wX4Ui5a_stacked-layout__message-status--published", "stacked-layout__alignment-pad": "wX4Ui5a_stacked-layout__alignment-pad", "stacked-layout--hide-avatar": "wX4Ui5a_stacked-layout--hide-avatar", "stacked-layout--activity": "wX4Ui5a_stacked-layout--activity", "stacked-layout--extra-trailing": "wX4Ui5a_stacked-layout--extra-trailing", "stacked-layout__status": "wX4Ui5a_stacked-layout__status", "stacked-layout--no-message": "wX4Ui5a_stacked-layout--no-message", "stacked-layout--show-nub": "wX4Ui5a_stacked-layout--show-nub", "stacked-layout__message-status": "wX4Ui5a_stacked-layout__message-status", "stacked-layout--show-avatar": "wX4Ui5a_stacked-layout--show-avatar", "stacked-layout--from-user": "wX4Ui5a_stacked-layout--from-user", "stacked-layout__message-status-loader": "wX4Ui5a_stacked-layout__message-status-loader" };
+  var classes6 = { "stacked-layout__message-status--incomplete": "wX4Ui5a_stacked-layout__message-status--incomplete", "stacked-layout--extra-trailing": "wX4Ui5a_stacked-layout--extra-trailing", "stacked-layout__message-status--published": "wX4Ui5a_stacked-layout__message-status--published", "stacked-layout__content": "wX4Ui5a_stacked-layout__content", "stacked-layout--group": "wX4Ui5a_stacked-layout--group", "stacked-layout__alignment-pad": "wX4Ui5a_stacked-layout__alignment-pad", "stacked-layout__title": "wX4Ui5a_stacked-layout__title", "stacked-layout__message-row": "wX4Ui5a_stacked-layout__message-row", "stacked-layout--top-callout": "wX4Ui5a_stacked-layout--top-callout", "stacked-layout__message-status-unset-icon": "wX4Ui5a_stacked-layout__message-status-unset-icon", "stacked-layout__message": "wX4Ui5a_stacked-layout__message", "stacked-layout--activity": "wX4Ui5a_stacked-layout--activity", "stacked-layout--show-nub": "wX4Ui5a_stacked-layout--show-nub", "stacked-layout__nub-pad": "wX4Ui5a_stacked-layout__nub-pad", "stacked-layout__main": "wX4Ui5a_stacked-layout__main", "stacked-layout--hide-avatar": "wX4Ui5a_stacked-layout--hide-avatar", "stacked-layout__message-status-loader": "wX4Ui5a_stacked-layout__message-status-loader", "stacked-layout__bubble": "wX4Ui5a_stacked-layout__bubble", "stacked-layout": "wX4Ui5a_stacked-layout", "stacked-layout--no-message": "wX4Ui5a_stacked-layout--no-message", "stacked-layout__status": "wX4Ui5a_stacked-layout__status", "stacked-layout__message-status": "wX4Ui5a_stacked-layout__message-status", "stacked-layout--show-avatar": "wX4Ui5a_stacked-layout--show-avatar", "stacked-layout--hide-nub": "wX4Ui5a_stacked-layout--hide-nub", "stacked-layout__attachment-row": "wX4Ui5a_stacked-layout__attachment-row", "stacked-layout__message-status--unset": "wX4Ui5a_stacked-layout__message-status--unset", "stacked-layout--from-user": "wX4Ui5a_stacked-layout--from-user", "stacked-layout__message-status-complete-icon": "wX4Ui5a_stacked-layout__message-status-complete-icon", "stacked-layout__avatar-gutter": "wX4Ui5a_stacked-layout__avatar-gutter", "stacked-layout__attachment-list": "wX4Ui5a_stacked-layout__attachment-list", "stacked-layout__attachment": "wX4Ui5a_stacked-layout__attachment" };
   var StackedLayout_module_default = classes6;
-  var _stacked_layout__content0 = classes6["stacked-layout__content"];
-  var _stacked_layout__message_row0 = classes6["stacked-layout__message-row"];
-  var _stacked_layout__title0 = classes6["stacked-layout__title"];
-  var _stacked_layout__group0 = classes6["stacked-layout--group"];
-  var _stacked_layout__attachment_list0 = classes6["stacked-layout__attachment-list"];
-  var _stacked_layout__avatar_gutter0 = classes6["stacked-layout__avatar-gutter"];
-  var _stacked_layout__message_status__unset0 = classes6["stacked-layout__message-status--unset"];
-  var _stacked_layout__attachment_row0 = classes6["stacked-layout__attachment-row"];
-  var _stacked_layout__nub_pad0 = classes6["stacked-layout__nub-pad"];
-  var _stacked_layout__attachment0 = classes6["stacked-layout__attachment"];
-  var _stacked_layout__hide_nub0 = classes6["stacked-layout--hide-nub"];
-  var _stacked_layout0 = classes6["stacked-layout"];
-  var _stacked_layout__top_callout0 = classes6["stacked-layout--top-callout"];
-  var _stacked_layout__bubble0 = classes6["stacked-layout__bubble"];
-  var _stacked_layout__message_status_unset_icon0 = classes6["stacked-layout__message-status-unset-icon"];
-  var _stacked_layout__message_status_complete_icon0 = classes6["stacked-layout__message-status-complete-icon"];
   var _stacked_layout__message_status__incomplete0 = classes6["stacked-layout__message-status--incomplete"];
-  var _stacked_layout__main0 = classes6["stacked-layout__main"];
-  var _stacked_layout__message0 = classes6["stacked-layout__message"];
-  var _stacked_layout__message_status__published0 = classes6["stacked-layout__message-status--published"];
-  var _stacked_layout__alignment_pad0 = classes6["stacked-layout__alignment-pad"];
-  var _stacked_layout__hide_avatar0 = classes6["stacked-layout--hide-avatar"];
-  var _stacked_layout__activity0 = classes6["stacked-layout--activity"];
   var _stacked_layout__extra_trailing0 = classes6["stacked-layout--extra-trailing"];
-  var _stacked_layout__status0 = classes6["stacked-layout__status"];
-  var _stacked_layout__no_message0 = classes6["stacked-layout--no-message"];
+  var _stacked_layout__message_status__published0 = classes6["stacked-layout__message-status--published"];
+  var _stacked_layout__content0 = classes6["stacked-layout__content"];
+  var _stacked_layout__group0 = classes6["stacked-layout--group"];
+  var _stacked_layout__alignment_pad0 = classes6["stacked-layout__alignment-pad"];
+  var _stacked_layout__title0 = classes6["stacked-layout__title"];
+  var _stacked_layout__message_row0 = classes6["stacked-layout__message-row"];
+  var _stacked_layout__top_callout0 = classes6["stacked-layout--top-callout"];
+  var _stacked_layout__message_status_unset_icon0 = classes6["stacked-layout__message-status-unset-icon"];
+  var _stacked_layout__message0 = classes6["stacked-layout__message"];
+  var _stacked_layout__activity0 = classes6["stacked-layout--activity"];
   var _stacked_layout__show_nub0 = classes6["stacked-layout--show-nub"];
+  var _stacked_layout__nub_pad0 = classes6["stacked-layout__nub-pad"];
+  var _stacked_layout__main0 = classes6["stacked-layout__main"];
+  var _stacked_layout__hide_avatar0 = classes6["stacked-layout--hide-avatar"];
+  var _stacked_layout__message_status_loader0 = classes6["stacked-layout__message-status-loader"];
+  var _stacked_layout__bubble0 = classes6["stacked-layout__bubble"];
+  var _stacked_layout0 = classes6["stacked-layout"];
+  var _stacked_layout__no_message0 = classes6["stacked-layout--no-message"];
+  var _stacked_layout__status0 = classes6["stacked-layout__status"];
   var _stacked_layout__message_status0 = classes6["stacked-layout__message-status"];
   var _stacked_layout__show_avatar0 = classes6["stacked-layout--show-avatar"];
+  var _stacked_layout__hide_nub0 = classes6["stacked-layout--hide-nub"];
+  var _stacked_layout__attachment_row0 = classes6["stacked-layout__attachment-row"];
+  var _stacked_layout__message_status__unset0 = classes6["stacked-layout__message-status--unset"];
   var _stacked_layout__from_user0 = classes6["stacked-layout--from-user"];
-  var _stacked_layout__message_status_loader0 = classes6["stacked-layout__message-status-loader"];
+  var _stacked_layout__message_status_complete_icon0 = classes6["stacked-layout__message-status-complete-icon"];
+  var _stacked_layout__avatar_gutter0 = classes6["stacked-layout__avatar-gutter"];
+  var _stacked_layout__attachment_list0 = classes6["stacked-layout__attachment-list"];
+  var _stacked_layout__attachment0 = classes6["stacked-layout__attachment"];
   var stackedLayoutMainPropsSchema = pipe(
     object({
       avatar: optional(reactNode_default()),
@@ -148962,21 +149933,21 @@ and ensure you are accounting for this risk.
     };
   };
   var useRenderActivityProps_default = useRenderActivityProps;
-  var classes32 = { "transcript-focus-area__content-active-descendant": "ws7yAGq_transcript-focus-area__content-active-descendant", "transcript-focus-area__terminator-body": "ws7yAGq_transcript-focus-area__terminator-body", "transcript-focus-area__transcript-indicator": "ws7yAGq_transcript-focus-area__transcript-indicator", "transcript-focus-area__terminator-text": "ws7yAGq_transcript-focus-area__terminator-text", "transcript-focus-area__indicator": "ws7yAGq_transcript-focus-area__indicator", "transcript-focus-area": "ws7yAGq_transcript-focus-area", "transcript-focus-area__root": "ws7yAGq_transcript-focus-area__root", "transcript-focus-area__terminator": "ws7yAGq_transcript-focus-area__terminator", "transcript-focus-area__activity-list": "ws7yAGq_transcript-focus-area__activity-list", "transcript-focus-area__content": "ws7yAGq_transcript-focus-area__content", "transcript-focus-area__content--focused": "ws7yAGq_transcript-focus-area__content--focused", "transcript-focus-area__content-overlay": "ws7yAGq_transcript-focus-area__content-overlay", "transcript-focus-area__content-root": "ws7yAGq_transcript-focus-area__content-root" };
+  var classes32 = { "transcript-focus-area__content--focused": "ws7yAGq_transcript-focus-area__content--focused", "transcript-focus-area": "ws7yAGq_transcript-focus-area", "transcript-focus-area__root": "ws7yAGq_transcript-focus-area__root", "transcript-focus-area__terminator-text": "ws7yAGq_transcript-focus-area__terminator-text", "transcript-focus-area__activity-list": "ws7yAGq_transcript-focus-area__activity-list", "transcript-focus-area__content": "ws7yAGq_transcript-focus-area__content", "transcript-focus-area__transcript-indicator": "ws7yAGq_transcript-focus-area__transcript-indicator", "transcript-focus-area__indicator": "ws7yAGq_transcript-focus-area__indicator", "transcript-focus-area__content-active-descendant": "ws7yAGq_transcript-focus-area__content-active-descendant", "transcript-focus-area__terminator": "ws7yAGq_transcript-focus-area__terminator", "transcript-focus-area__terminator-body": "ws7yAGq_transcript-focus-area__terminator-body", "transcript-focus-area__content-root": "ws7yAGq_transcript-focus-area__content-root", "transcript-focus-area__content-overlay": "ws7yAGq_transcript-focus-area__content-overlay" };
   var TranscriptFocus_module_default = classes32;
-  var _transcript_focus_area__content_active_descendant0 = classes32["transcript-focus-area__content-active-descendant"];
-  var _transcript_focus_area__terminator_body0 = classes32["transcript-focus-area__terminator-body"];
-  var _transcript_focus_area__transcript_indicator0 = classes32["transcript-focus-area__transcript-indicator"];
-  var _transcript_focus_area__terminator_text0 = classes32["transcript-focus-area__terminator-text"];
-  var _transcript_focus_area__indicator0 = classes32["transcript-focus-area__indicator"];
+  var _transcript_focus_area__content__focused0 = classes32["transcript-focus-area__content--focused"];
   var _transcript_focus_area0 = classes32["transcript-focus-area"];
   var _transcript_focus_area__root0 = classes32["transcript-focus-area__root"];
-  var _transcript_focus_area__terminator0 = classes32["transcript-focus-area__terminator"];
+  var _transcript_focus_area__terminator_text0 = classes32["transcript-focus-area__terminator-text"];
   var _transcript_focus_area__activity_list0 = classes32["transcript-focus-area__activity-list"];
   var _transcript_focus_area__content0 = classes32["transcript-focus-area__content"];
-  var _transcript_focus_area__content__focused0 = classes32["transcript-focus-area__content--focused"];
-  var _transcript_focus_area__content_overlay0 = classes32["transcript-focus-area__content-overlay"];
+  var _transcript_focus_area__transcript_indicator0 = classes32["transcript-focus-area__transcript-indicator"];
+  var _transcript_focus_area__indicator0 = classes32["transcript-focus-area__indicator"];
+  var _transcript_focus_area__content_active_descendant0 = classes32["transcript-focus-area__content-active-descendant"];
+  var _transcript_focus_area__terminator0 = classes32["transcript-focus-area__terminator"];
+  var _transcript_focus_area__terminator_body0 = classes32["transcript-focus-area__terminator-body"];
   var _transcript_focus_area__content_root0 = classes32["transcript-focus-area__content-root"];
+  var _transcript_focus_area__content_overlay0 = classes32["transcript-focus-area__content-overlay"];
   var TranscriptActivityList = (0, import_react226.forwardRef)(
     ({ className, ...props }, ref) => {
       const classNames31 = useStyles_default(TranscriptFocus_module_default);
@@ -149098,10 +150069,10 @@ and ensure you are accounting for this risk.
   var edgeUWP2 = /Edge\//u.test(userAgent2);
   var firefox2 = /Firefox\//u.test(userAgent2);
   var ie11 = /Trident\/7.0/u.test(userAgent2);
-  var classes42 = { "activity-button__icon": "wakyRHW_activity-button__icon", "activity-button": "wakyRHW_activity-button" };
+  var classes42 = { "activity-button": "wakyRHW_activity-button", "activity-button__icon": "wakyRHW_activity-button__icon" };
   var ActivityButton_module_default = classes42;
-  var _activity_button__icon0 = classes42["activity-button__icon"];
   var _activity_button0 = classes42["activity-button"];
+  var _activity_button__icon0 = classes42["activity-button__icon"];
   var activityButtonPropsSchema = pipe(
     object({
       "aria-controls": optional(string()),
@@ -149156,17 +150127,17 @@ and ensure you are accounting for this risk.
     );
   });
   var ActivityButton_default = (0, import_react238.memo)(ActivityButton);
-  var classes52 = { "collapsible-grouping__content--open": "w30owfW_collapsible-grouping__content--open", "collapsible-grouping__header": "w30owfW_collapsible-grouping__header", "collapsible-grouping--open": "w30owfW_collapsible-grouping--open", "collapsible-grouping__chevron": "w30owfW_collapsible-grouping__chevron", "collapsible-grouping__content": "w30owfW_collapsible-grouping__content", "collapsible-grouping": "w30owfW_collapsible-grouping", "collapsible-grouping__title": "w30owfW_collapsible-grouping__title", "collapsible-grouping__list": "w30owfW_collapsible-grouping__list", "collapsible-grouping__toggle": "w30owfW_collapsible-grouping__toggle" };
+  var classes52 = { "collapsible-grouping__content": "w30owfW_collapsible-grouping__content", "collapsible-grouping__chevron": "w30owfW_collapsible-grouping__chevron", "collapsible-grouping__title": "w30owfW_collapsible-grouping__title", "collapsible-grouping__header": "w30owfW_collapsible-grouping__header", "collapsible-grouping--open": "w30owfW_collapsible-grouping--open", "collapsible-grouping": "w30owfW_collapsible-grouping", "collapsible-grouping__content--open": "w30owfW_collapsible-grouping__content--open", "collapsible-grouping__toggle": "w30owfW_collapsible-grouping__toggle", "collapsible-grouping__list": "w30owfW_collapsible-grouping__list" };
   var CollapsibleGrouping_module_default = classes52;
-  var _collapsible_grouping__content__open0 = classes52["collapsible-grouping__content--open"];
+  var _collapsible_grouping__content0 = classes52["collapsible-grouping__content"];
+  var _collapsible_grouping__chevron0 = classes52["collapsible-grouping__chevron"];
+  var _collapsible_grouping__title0 = classes52["collapsible-grouping__title"];
   var _collapsible_grouping__header0 = classes52["collapsible-grouping__header"];
   var _collapsible_grouping__open0 = classes52["collapsible-grouping--open"];
-  var _collapsible_grouping__chevron0 = classes52["collapsible-grouping__chevron"];
-  var _collapsible_grouping__content0 = classes52["collapsible-grouping__content"];
   var _collapsible_grouping0 = classes52["collapsible-grouping"];
-  var _collapsible_grouping__title0 = classes52["collapsible-grouping__title"];
-  var _collapsible_grouping__list0 = classes52["collapsible-grouping__list"];
+  var _collapsible_grouping__content__open0 = classes52["collapsible-grouping__content--open"];
   var _collapsible_grouping__toggle0 = classes52["collapsible-grouping__toggle"];
+  var _collapsible_grouping__list0 = classes52["collapsible-grouping__list"];
   var { useLocalizer: useLocalizer23 } = hook_exports;
   var collapsibleGroupingPropsSchema = pipe(
     object({
@@ -149379,13 +150350,13 @@ and ensure you are accounting for this risk.
     return partGroupKey;
   }
   var usePartGroupingLogicalGroup_default = usePartGroupingLogicalGroup;
-  var classes62 = { "part-grouping-activity__message-status": "wKyGLuG_part-grouping-activity__message-status", "part-grouping-activity": "wKyGLuG_part-grouping-activity", "part-grouping-activity__collapsible--open": "wKyGLuG_part-grouping-activity__collapsible--open", "part-grouping-activity__activities": "wKyGLuG_part-grouping-activity__activities", "part-grouping-activity__collapsible": "wKyGLuG_part-grouping-activity__collapsible" };
+  var classes62 = { "part-grouping-activity__collapsible--open": "wKyGLuG_part-grouping-activity__collapsible--open", "part-grouping-activity": "wKyGLuG_part-grouping-activity", "part-grouping-activity__collapsible": "wKyGLuG_part-grouping-activity__collapsible", "part-grouping-activity__activities": "wKyGLuG_part-grouping-activity__activities", "part-grouping-activity__message-status": "wKyGLuG_part-grouping-activity__message-status" };
   var PartGroupingActivity_module_default = classes62;
-  var _part_grouping_activity__message_status0 = classes62["part-grouping-activity__message-status"];
-  var _part_grouping_activity0 = classes62["part-grouping-activity"];
   var _part_grouping_activity__collapsible__open0 = classes62["part-grouping-activity__collapsible--open"];
-  var _part_grouping_activity__activities0 = classes62["part-grouping-activity__activities"];
+  var _part_grouping_activity0 = classes62["part-grouping-activity"];
   var _part_grouping_activity__collapsible0 = classes62["part-grouping-activity__collapsible"];
+  var _part_grouping_activity__activities0 = classes62["part-grouping-activity__activities"];
+  var _part_grouping_activity__message_status0 = classes62["part-grouping-activity__message-status"];
   var { useAvatarForBot: useAvatarForBot2, useGetKeyByActivity: useGetKeyByActivity2, useLocalizer: useLocalizer32, useStyleOptions: useStyleOptions23 } = hook_exports;
   var partGroupingActivityPropsSchema = pipe(
     object({
@@ -149624,7 +150595,7 @@ and ensure you are accounting for this risk.
   var CodeHighlighterComposer = (0, import_react244.memo)(createCodeHighlighterComposer_default(CodeHighlighterContext));
   CodeHighlighterComposer.displayName = "CodeHighlighterComposer";
 
-  // ../component/dist/chunk-FFAC7BS5.mjs
+  // ../component/dist/chunk-7UCKFMQT.mjs
   var import_react289 = __toESM(require_react(), 1);
   var import_react290 = __toESM(require_react(), 1);
 
@@ -149809,7 +150780,7 @@ and ensure you are accounting for this risk.
   }
   var ActivityGroupingDecorator_default = (0, import_react254.memo)(ActivityGroupingDecorator);
 
-  // ../component/dist/chunk-FFAC7BS5.mjs
+  // ../component/dist/chunk-7UCKFMQT.mjs
   var import_classnames40 = __toESM(require_classnames(), 1);
   var import_markdown_it = __toESM(require_markdown_it(), 1);
   var import_prop_types22 = __toESM(require_prop_types(), 1);
@@ -150270,7 +151241,7 @@ and ensure you are accounting for this risk.
   var Composer_default3 = Composer3;
   var src_default2 = Say_default;
 
-  // ../component/dist/chunk-FFAC7BS5.mjs
+  // ../component/dist/chunk-7UCKFMQT.mjs
   var import_react292 = __toESM(require_react(), 1);
   var import_prop_types23 = __toESM(require_prop_types(), 1);
   var import_react293 = __toESM(require_react(), 1);
@@ -150287,6 +151258,292 @@ and ensure you are accounting for this risk.
   var import_react300 = __toESM(require_react(), 1);
   var import_react301 = __toESM(require_react(), 1);
   var import_classnames43 = __toESM(require_classnames(), 1);
+  var import_react302 = __toESM(require_react(), 1);
+  var import_react303 = __toESM(require_react(), 1);
+
+  // ../../node_modules/react-wrap-with/lib/esmodules/Extract.js
+  var import_for = __toESM(require_for3());
+  var Extract = (0, import_for.default)("react-wrap-with/Extract");
+  var Extract_default = Extract;
+
+  // ../../node_modules/react-wrap-with/lib/esmodules/Spy.js
+  var import_for2 = __toESM(require_for3());
+  var Spy = (0, import_for2.default)("react-wrap-with/Spy");
+  var Spy_default = Spy;
+
+  // ../../node_modules/@babel/runtime-corejs3/helpers/esm/objectSpread2.js
+  var import_keys = __toESM(require_keys5(), 1);
+  var import_get_own_property_symbols = __toESM(require_get_own_property_symbols5(), 1);
+  var import_filter = __toESM(require_filter6(), 1);
+  var import_get_own_property_descriptor = __toESM(require_get_own_property_descriptor5(), 1);
+  var import_push = __toESM(require_push6(), 1);
+  var import_for_each = __toESM(require_for_each6(), 1);
+  var import_get_own_property_descriptors = __toESM(require_get_own_property_descriptors5(), 1);
+  var import_define_properties = __toESM(require_define_properties5(), 1);
+  var import_define_property2 = __toESM(require_define_property5(), 1);
+
+  // ../../node_modules/@babel/runtime-corejs3/helpers/esm/defineProperty.js
+  var import_define_property = __toESM(require_define_property5(), 1);
+
+  // ../../node_modules/@babel/runtime-corejs3/helpers/esm/typeof.js
+  var import_symbol2 = __toESM(require_symbol10(), 1);
+  var import_iterator2 = __toESM(require_iterator10(), 1);
+  function _typeof(o2) {
+    "@babel/helpers - typeof";
+    return _typeof = "function" == typeof import_symbol2.default && "symbol" == typeof import_iterator2.default ? function(o3) {
+      return typeof o3;
+    } : function(o3) {
+      return o3 && "function" == typeof import_symbol2.default && o3.constructor === import_symbol2.default && o3 !== import_symbol2.default.prototype ? "symbol" : typeof o3;
+    }, _typeof(o2);
+  }
+
+  // ../../node_modules/@babel/runtime-corejs3/helpers/esm/toPrimitive.js
+  var import_to_primitive = __toESM(require_to_primitive16(), 1);
+  function toPrimitive(t3, r6) {
+    if ("object" != _typeof(t3) || !t3) return t3;
+    var e3 = t3[import_to_primitive.default];
+    if (void 0 !== e3) {
+      var i3 = e3.call(t3, r6 || "default");
+      if ("object" != _typeof(i3)) return i3;
+      throw new TypeError("@@toPrimitive must return a primitive value.");
+    }
+    return ("string" === r6 ? String : Number)(t3);
+  }
+
+  // ../../node_modules/@babel/runtime-corejs3/helpers/esm/toPropertyKey.js
+  function toPropertyKey(t3) {
+    var i3 = toPrimitive(t3, "string");
+    return "symbol" == _typeof(i3) ? i3 : i3 + "";
+  }
+
+  // ../../node_modules/@babel/runtime-corejs3/helpers/esm/defineProperty.js
+  function _defineProperty(e3, r6, t3) {
+    return (r6 = toPropertyKey(r6)) in e3 ? (0, import_define_property.default)(e3, r6, {
+      value: t3,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    }) : e3[r6] = t3, e3;
+  }
+
+  // ../../node_modules/@babel/runtime-corejs3/helpers/esm/objectSpread2.js
+  function ownKeys(e3, r6) {
+    var t3 = (0, import_keys.default)(e3);
+    if (import_get_own_property_symbols.default) {
+      var o2 = (0, import_get_own_property_symbols.default)(e3);
+      r6 && (o2 = (0, import_filter.default)(o2).call(o2, function(r7) {
+        return (0, import_get_own_property_descriptor.default)(e3, r7).enumerable;
+      })), (0, import_push.default)(t3).apply(t3, o2);
+    }
+    return t3;
+  }
+  function _objectSpread2(e3) {
+    for (var r6 = 1; r6 < arguments.length; r6++) {
+      var _context3, _context22;
+      var t3 = null != arguments[r6] ? arguments[r6] : {};
+      r6 % 2 ? (0, import_for_each.default)(_context3 = ownKeys(Object(t3), true)).call(_context3, function(r7) {
+        _defineProperty(e3, r7, t3[r7]);
+      }) : import_get_own_property_descriptors.default ? (0, import_define_properties.default)(e3, (0, import_get_own_property_descriptors.default)(t3)) : (0, import_for_each.default)(_context22 = ownKeys(Object(t3))).call(_context22, function(r7) {
+        (0, import_define_property2.default)(e3, r7, (0, import_get_own_property_descriptor.default)(t3, r7));
+      });
+    }
+    return e3;
+  }
+
+  // ../../node_modules/react-wrap-with/lib/esmodules/private/withProps.js
+  var import_react262 = __toESM(require_react());
+
+  // ../../node_modules/@babel/runtime-corejs3/helpers/esm/arrayWithoutHoles.js
+  var import_is_array = __toESM(require_is_array8(), 1);
+
+  // ../../node_modules/@babel/runtime-corejs3/helpers/esm/arrayLikeToArray.js
+  function _arrayLikeToArray(r6, a) {
+    (null == a || a > r6.length) && (a = r6.length);
+    for (var e3 = 0, n3 = Array(a); e3 < a; e3++) n3[e3] = r6[e3];
+    return n3;
+  }
+
+  // ../../node_modules/@babel/runtime-corejs3/helpers/esm/arrayWithoutHoles.js
+  function _arrayWithoutHoles(r6) {
+    if ((0, import_is_array.default)(r6)) return _arrayLikeToArray(r6);
+  }
+
+  // ../../node_modules/@babel/runtime-corejs3/helpers/esm/iterableToArray.js
+  var import_symbol3 = __toESM(require_symbol10(), 1);
+  var import_get_iterator_method = __toESM(require_get_iterator_method16(), 1);
+  var import_from2 = __toESM(require_from10(), 1);
+  function _iterableToArray(r6) {
+    if ("undefined" != typeof import_symbol3.default && null != (0, import_get_iterator_method.default)(r6) || null != r6["@@iterator"]) return (0, import_from2.default)(r6);
+  }
+
+  // ../../node_modules/@babel/runtime-corejs3/helpers/esm/unsupportedIterableToArray.js
+  var import_slice = __toESM(require_slice6(), 1);
+  var import_from3 = __toESM(require_from10(), 1);
+  function _unsupportedIterableToArray(r6, a) {
+    if (r6) {
+      var _context3;
+      if ("string" == typeof r6) return _arrayLikeToArray(r6, a);
+      var t3 = (0, import_slice.default)(_context3 = {}.toString.call(r6)).call(_context3, 8, -1);
+      return "Object" === t3 && r6.constructor && (t3 = r6.constructor.name), "Map" === t3 || "Set" === t3 ? (0, import_from3.default)(r6) : "Arguments" === t3 || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t3) ? _arrayLikeToArray(r6, a) : void 0;
+    }
+  }
+
+  // ../../node_modules/@babel/runtime-corejs3/helpers/esm/nonIterableSpread.js
+  function _nonIterableSpread() {
+    throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+  }
+
+  // ../../node_modules/@babel/runtime-corejs3/helpers/esm/toConsumableArray.js
+  function _toConsumableArray(r6) {
+    return _arrayWithoutHoles(r6) || _iterableToArray(r6) || _unsupportedIterableToArray(r6) || _nonIterableSpread();
+  }
+
+  // ../../node_modules/@babel/runtime-corejs3/helpers/esm/arrayWithHoles.js
+  var import_is_array2 = __toESM(require_is_array8(), 1);
+  function _arrayWithHoles(r6) {
+    if ((0, import_is_array2.default)(r6)) return r6;
+  }
+
+  // ../../node_modules/@babel/runtime-corejs3/helpers/esm/iterableToArrayLimit.js
+  var import_symbol4 = __toESM(require_symbol10(), 1);
+  var import_get_iterator_method2 = __toESM(require_get_iterator_method16(), 1);
+  var import_push2 = __toESM(require_push6(), 1);
+  function _iterableToArrayLimit(r6, l) {
+    var t3 = null == r6 ? null : "undefined" != typeof import_symbol4.default && (0, import_get_iterator_method2.default)(r6) || r6["@@iterator"];
+    if (null != t3) {
+      var e3, n3, i3, u, a = [], f = true, o2 = false;
+      try {
+        if (i3 = (t3 = t3.call(r6)).next, 0 === l) {
+          if (Object(t3) !== t3) return;
+          f = false;
+        } else for (; !(f = (e3 = i3.call(t3)).done) && ((0, import_push2.default)(a).call(a, e3.value), a.length !== l); f = true) ;
+      } catch (r7) {
+        o2 = true, n3 = r7;
+      } finally {
+        try {
+          if (!f && null != t3["return"] && (u = t3["return"](), Object(u) !== u)) return;
+        } finally {
+          if (o2) throw n3;
+        }
+      }
+      return a;
+    }
+  }
+
+  // ../../node_modules/@babel/runtime-corejs3/helpers/esm/nonIterableRest.js
+  function _nonIterableRest() {
+    throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+  }
+
+  // ../../node_modules/@babel/runtime-corejs3/helpers/esm/slicedToArray.js
+  function _slicedToArray(r6, e3) {
+    return _arrayWithHoles(r6) || _iterableToArrayLimit(r6, e3) || _unsupportedIterableToArray(r6, e3) || _nonIterableRest();
+  }
+
+  // ../../node_modules/react-wrap-with/lib/esmodules/private/wrapWith.js
+  var import_map2 = __toESM(require_map9());
+  var import_filter2 = __toESM(require_filter7());
+  var import_entries4 = __toESM(require_entries8());
+  var import_concat = __toESM(require_concat4());
+  var import_react263 = __toESM(require_react());
+
+  // ../../node_modules/react-wrap-with/lib/esmodules/private/util/pick.js
+  var import_reduce = __toESM(require_reduce4());
+  var import_entries2 = __toESM(require_entries8());
+  var import_includes2 = __toESM(require_includes10());
+  function pick(object3, pickedKeys) {
+    var _context3;
+    return (0, import_reduce.default)(_context3 = (0, import_entries2.default)(object3)).call(_context3, function(picked, _ref) {
+      var _ref2 = _slicedToArray(_ref, 2), key2 = _ref2[0], value = _ref2[1];
+      if (key2 !== "__proto__" && key2 !== "constructor" && key2 !== "prototype") {
+        if ((0, import_includes2.default)(pickedKeys).call(pickedKeys, key2)) {
+          picked[key2] = value;
+        }
+      }
+      return picked;
+    }, {});
+  }
+
+  // ../../node_modules/react-wrap-with/lib/esmodules/private/util/pickAndOmit.js
+  var import_reduce2 = __toESM(require_reduce4());
+  var import_entries3 = __toESM(require_entries8());
+  var import_includes3 = __toESM(require_includes10());
+  function pickAndOmit(object3, pickedKeys) {
+    var _context3;
+    return (0, import_reduce2.default)(_context3 = (0, import_entries3.default)(object3)).call(_context3, function(state, _ref) {
+      var _ref2 = _slicedToArray(_ref, 2), key2 = _ref2[0], value = _ref2[1];
+      if (key2 !== "__proto__" && key2 !== "constructor" && key2 !== "prototype") {
+        state[(0, import_includes3.default)(pickedKeys).call(pickedKeys, key2) ? 0 : 1][key2] = value;
+      }
+      return state;
+    }, [{}, {}]);
+  }
+
+  // ../../node_modules/react-wrap-with/lib/esmodules/private/wrapWith.js
+  function wrapWith(containerComponent, how) {
+    var _context3, _context22, _context32, _context4;
+    var extractPropsKeys = (0, import_map2.default)(_context3 = (0, import_filter2.default)(_context22 = (0, import_entries4.default)(how || {})).call(_context22, function(_ref) {
+      var _ref2 = _slicedToArray(_ref, 2), _2 = _ref2[0], value = _ref2[1];
+      return value === Extract_default;
+    })).call(_context3, function(_ref3) {
+      var _ref4 = _slicedToArray(_ref3, 1), key2 = _ref4[0];
+      return key2;
+    });
+    var spyPropsKeys = (0, import_map2.default)(_context32 = (0, import_filter2.default)(_context4 = (0, import_entries4.default)(how || {})).call(_context4, function(_ref5) {
+      var _ref6 = _slicedToArray(_ref5, 2), _2 = _ref6[0], value = _ref6[1];
+      return value === Spy_default;
+    })).call(_context32, function(_ref7) {
+      var _ref8 = _slicedToArray(_ref7, 1), key2 = _ref8[0];
+      return key2;
+    });
+    var isRefExtracted = how && how.ref === Extract_default;
+    return function wrap(contentComponent) {
+      var _context6;
+      var WithContainer = /* @__PURE__ */ (0, import_react263.forwardRef)(function(props, ref) {
+        var _context5;
+        var _pickAndOmit = pickAndOmit(props, extractPropsKeys), _pickAndOmit2 = _slicedToArray(_pickAndOmit, 2), extractedProps = _pickAndOmit2[0], contentProps = _pickAndOmit2[1];
+        var spyProps = pick(props, spyPropsKeys);
+        return import_react263.createElement.apply(void 0, (0, import_concat.default)(_context5 = [containerComponent, _objectSpread2(_objectSpread2(_objectSpread2({}, extractedProps), spyProps), isRefExtracted ? {
+          ref
+        } : {})]).call(_context5, _toConsumableArray(contentComponent ? [/* @__PURE__ */ (0, import_react263.createElement)(contentComponent, _objectSpread2(_objectSpread2({}, contentProps), isRefExtracted ? {} : {
+          ref
+        }))] : [])));
+      });
+      WithContainer.displayName = (0, import_concat.default)(_context6 = "wrapWith(".concat(containerComponent.displayName || "Component", ")(")).call(_context6, (contentComponent || {}).displayName || "Component", ")");
+      return WithContainer;
+    };
+  }
+
+  // ../../node_modules/react-wrap-with/lib/esmodules/wrapWith.js
+  var wrapWith_default = wrapWith;
+
+  // ../component/dist/chunk-7UCKFMQT.mjs
+  var import_react304 = __toESM(require_react(), 1);
+  var import_react305 = __toESM(require_react(), 1);
+  var import_classnames44 = __toESM(require_classnames(), 1);
+  var import_react306 = __toESM(require_react(), 1);
+  var import_react307 = __toESM(require_react(), 1);
+  var import_react308 = __toESM(require_react(), 1);
+  var import_react309 = __toESM(require_react(), 1);
+  var import_react310 = __toESM(require_react(), 1);
+  var import_classnames45 = __toESM(require_classnames(), 1);
+  var import_react311 = __toESM(require_react(), 1);
+  var import_classnames46 = __toESM(require_classnames(), 1);
+  var import_react312 = __toESM(require_react(), 1);
+  var import_react313 = __toESM(require_react(), 1);
+  var import_math_random10 = __toESM(require_browser(), 1);
+  var import_react314 = __toESM(require_react(), 1);
+  var import_deep_freeze_strict = __toESM(require_deep_freeze_strict(), 1);
+  var import_classnames47 = __toESM(require_classnames(), 1);
+  var import_react315 = __toESM(require_react(), 1);
+  var import_react316 = __toESM(require_react(), 1);
+  var import_react317 = __toESM(require_react(), 1);
+  var import_classnames48 = __toESM(require_classnames(), 1);
+  var import_react318 = __toESM(require_react(), 1);
+  var import_classnames49 = __toESM(require_classnames(), 1);
+  var import_math_random11 = __toESM(require_browser(), 1);
+  var import_react319 = __toESM(require_react(), 1);
+  var import_react320 = __toESM(require_react(), 1);
 
   // ../../node_modules/mdast-util-to-string/lib/index.js
   var emptyOptions = {};
@@ -155712,318 +156969,33 @@ and ensure you are accounting for this risk.
     }
   }
 
-  // ../component/dist/chunk-FFAC7BS5.mjs
-  var import_react302 = __toESM(require_react(), 1);
-  var import_react303 = __toESM(require_react(), 1);
-
-  // ../../node_modules/react-wrap-with/lib/esmodules/Extract.js
-  var import_for = __toESM(require_for3());
-  var Extract = (0, import_for.default)("react-wrap-with/Extract");
-  var Extract_default = Extract;
-
-  // ../../node_modules/react-wrap-with/lib/esmodules/Spy.js
-  var import_for2 = __toESM(require_for3());
-  var Spy = (0, import_for2.default)("react-wrap-with/Spy");
-  var Spy_default = Spy;
-
-  // ../../node_modules/@babel/runtime-corejs3/helpers/esm/objectSpread2.js
-  var import_keys = __toESM(require_keys5(), 1);
-  var import_get_own_property_symbols = __toESM(require_get_own_property_symbols5(), 1);
-  var import_filter = __toESM(require_filter6(), 1);
-  var import_get_own_property_descriptor = __toESM(require_get_own_property_descriptor5(), 1);
-  var import_push = __toESM(require_push6(), 1);
-  var import_for_each = __toESM(require_for_each6(), 1);
-  var import_get_own_property_descriptors = __toESM(require_get_own_property_descriptors5(), 1);
-  var import_define_properties = __toESM(require_define_properties5(), 1);
-  var import_define_property2 = __toESM(require_define_property5(), 1);
-
-  // ../../node_modules/@babel/runtime-corejs3/helpers/esm/defineProperty.js
-  var import_define_property = __toESM(require_define_property5(), 1);
-
-  // ../../node_modules/@babel/runtime-corejs3/helpers/esm/typeof.js
-  var import_symbol2 = __toESM(require_symbol10(), 1);
-  var import_iterator2 = __toESM(require_iterator10(), 1);
-  function _typeof(o2) {
-    "@babel/helpers - typeof";
-    return _typeof = "function" == typeof import_symbol2.default && "symbol" == typeof import_iterator2.default ? function(o3) {
-      return typeof o3;
-    } : function(o3) {
-      return o3 && "function" == typeof import_symbol2.default && o3.constructor === import_symbol2.default && o3 !== import_symbol2.default.prototype ? "symbol" : typeof o3;
-    }, _typeof(o2);
-  }
-
-  // ../../node_modules/@babel/runtime-corejs3/helpers/esm/toPrimitive.js
-  var import_to_primitive = __toESM(require_to_primitive16(), 1);
-  function toPrimitive(t3, r6) {
-    if ("object" != _typeof(t3) || !t3) return t3;
-    var e3 = t3[import_to_primitive.default];
-    if (void 0 !== e3) {
-      var i3 = e3.call(t3, r6 || "default");
-      if ("object" != _typeof(i3)) return i3;
-      throw new TypeError("@@toPrimitive must return a primitive value.");
-    }
-    return ("string" === r6 ? String : Number)(t3);
-  }
-
-  // ../../node_modules/@babel/runtime-corejs3/helpers/esm/toPropertyKey.js
-  function toPropertyKey(t3) {
-    var i3 = toPrimitive(t3, "string");
-    return "symbol" == _typeof(i3) ? i3 : i3 + "";
-  }
-
-  // ../../node_modules/@babel/runtime-corejs3/helpers/esm/defineProperty.js
-  function _defineProperty(e3, r6, t3) {
-    return (r6 = toPropertyKey(r6)) in e3 ? (0, import_define_property.default)(e3, r6, {
-      value: t3,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    }) : e3[r6] = t3, e3;
-  }
-
-  // ../../node_modules/@babel/runtime-corejs3/helpers/esm/objectSpread2.js
-  function ownKeys(e3, r6) {
-    var t3 = (0, import_keys.default)(e3);
-    if (import_get_own_property_symbols.default) {
-      var o2 = (0, import_get_own_property_symbols.default)(e3);
-      r6 && (o2 = (0, import_filter.default)(o2).call(o2, function(r7) {
-        return (0, import_get_own_property_descriptor.default)(e3, r7).enumerable;
-      })), (0, import_push.default)(t3).apply(t3, o2);
-    }
-    return t3;
-  }
-  function _objectSpread2(e3) {
-    for (var r6 = 1; r6 < arguments.length; r6++) {
-      var _context3, _context22;
-      var t3 = null != arguments[r6] ? arguments[r6] : {};
-      r6 % 2 ? (0, import_for_each.default)(_context3 = ownKeys(Object(t3), true)).call(_context3, function(r7) {
-        _defineProperty(e3, r7, t3[r7]);
-      }) : import_get_own_property_descriptors.default ? (0, import_define_properties.default)(e3, (0, import_get_own_property_descriptors.default)(t3)) : (0, import_for_each.default)(_context22 = ownKeys(Object(t3))).call(_context22, function(r7) {
-        (0, import_define_property2.default)(e3, r7, (0, import_get_own_property_descriptor.default)(t3, r7));
-      });
-    }
-    return e3;
-  }
-
-  // ../../node_modules/react-wrap-with/lib/esmodules/private/withProps.js
-  var import_react262 = __toESM(require_react());
-
-  // ../../node_modules/@babel/runtime-corejs3/helpers/esm/arrayWithoutHoles.js
-  var import_is_array = __toESM(require_is_array8(), 1);
-
-  // ../../node_modules/@babel/runtime-corejs3/helpers/esm/arrayLikeToArray.js
-  function _arrayLikeToArray(r6, a) {
-    (null == a || a > r6.length) && (a = r6.length);
-    for (var e3 = 0, n3 = Array(a); e3 < a; e3++) n3[e3] = r6[e3];
-    return n3;
-  }
-
-  // ../../node_modules/@babel/runtime-corejs3/helpers/esm/arrayWithoutHoles.js
-  function _arrayWithoutHoles(r6) {
-    if ((0, import_is_array.default)(r6)) return _arrayLikeToArray(r6);
-  }
-
-  // ../../node_modules/@babel/runtime-corejs3/helpers/esm/iterableToArray.js
-  var import_symbol3 = __toESM(require_symbol10(), 1);
-  var import_get_iterator_method = __toESM(require_get_iterator_method16(), 1);
-  var import_from2 = __toESM(require_from10(), 1);
-  function _iterableToArray(r6) {
-    if ("undefined" != typeof import_symbol3.default && null != (0, import_get_iterator_method.default)(r6) || null != r6["@@iterator"]) return (0, import_from2.default)(r6);
-  }
-
-  // ../../node_modules/@babel/runtime-corejs3/helpers/esm/unsupportedIterableToArray.js
-  var import_slice = __toESM(require_slice6(), 1);
-  var import_from3 = __toESM(require_from10(), 1);
-  function _unsupportedIterableToArray(r6, a) {
-    if (r6) {
-      var _context3;
-      if ("string" == typeof r6) return _arrayLikeToArray(r6, a);
-      var t3 = (0, import_slice.default)(_context3 = {}.toString.call(r6)).call(_context3, 8, -1);
-      return "Object" === t3 && r6.constructor && (t3 = r6.constructor.name), "Map" === t3 || "Set" === t3 ? (0, import_from3.default)(r6) : "Arguments" === t3 || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t3) ? _arrayLikeToArray(r6, a) : void 0;
-    }
-  }
-
-  // ../../node_modules/@babel/runtime-corejs3/helpers/esm/nonIterableSpread.js
-  function _nonIterableSpread() {
-    throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-  }
-
-  // ../../node_modules/@babel/runtime-corejs3/helpers/esm/toConsumableArray.js
-  function _toConsumableArray(r6) {
-    return _arrayWithoutHoles(r6) || _iterableToArray(r6) || _unsupportedIterableToArray(r6) || _nonIterableSpread();
-  }
-
-  // ../../node_modules/@babel/runtime-corejs3/helpers/esm/arrayWithHoles.js
-  var import_is_array2 = __toESM(require_is_array8(), 1);
-  function _arrayWithHoles(r6) {
-    if ((0, import_is_array2.default)(r6)) return r6;
-  }
-
-  // ../../node_modules/@babel/runtime-corejs3/helpers/esm/iterableToArrayLimit.js
-  var import_symbol4 = __toESM(require_symbol10(), 1);
-  var import_get_iterator_method2 = __toESM(require_get_iterator_method16(), 1);
-  var import_push2 = __toESM(require_push6(), 1);
-  function _iterableToArrayLimit(r6, l) {
-    var t3 = null == r6 ? null : "undefined" != typeof import_symbol4.default && (0, import_get_iterator_method2.default)(r6) || r6["@@iterator"];
-    if (null != t3) {
-      var e3, n3, i3, u, a = [], f = true, o2 = false;
-      try {
-        if (i3 = (t3 = t3.call(r6)).next, 0 === l) {
-          if (Object(t3) !== t3) return;
-          f = false;
-        } else for (; !(f = (e3 = i3.call(t3)).done) && ((0, import_push2.default)(a).call(a, e3.value), a.length !== l); f = true) ;
-      } catch (r7) {
-        o2 = true, n3 = r7;
-      } finally {
-        try {
-          if (!f && null != t3["return"] && (u = t3["return"](), Object(u) !== u)) return;
-        } finally {
-          if (o2) throw n3;
-        }
-      }
-      return a;
-    }
-  }
-
-  // ../../node_modules/@babel/runtime-corejs3/helpers/esm/nonIterableRest.js
-  function _nonIterableRest() {
-    throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-  }
-
-  // ../../node_modules/@babel/runtime-corejs3/helpers/esm/slicedToArray.js
-  function _slicedToArray(r6, e3) {
-    return _arrayWithHoles(r6) || _iterableToArrayLimit(r6, e3) || _unsupportedIterableToArray(r6, e3) || _nonIterableRest();
-  }
-
-  // ../../node_modules/react-wrap-with/lib/esmodules/private/wrapWith.js
-  var import_map2 = __toESM(require_map9());
-  var import_filter2 = __toESM(require_filter7());
-  var import_entries4 = __toESM(require_entries8());
-  var import_concat = __toESM(require_concat4());
-  var import_react263 = __toESM(require_react());
-
-  // ../../node_modules/react-wrap-with/lib/esmodules/private/util/pick.js
-  var import_reduce = __toESM(require_reduce4());
-  var import_entries2 = __toESM(require_entries8());
-  var import_includes2 = __toESM(require_includes10());
-  function pick(object3, pickedKeys) {
-    var _context3;
-    return (0, import_reduce.default)(_context3 = (0, import_entries2.default)(object3)).call(_context3, function(picked, _ref) {
-      var _ref2 = _slicedToArray(_ref, 2), key2 = _ref2[0], value = _ref2[1];
-      if (key2 !== "__proto__" && key2 !== "constructor" && key2 !== "prototype") {
-        if ((0, import_includes2.default)(pickedKeys).call(pickedKeys, key2)) {
-          picked[key2] = value;
-        }
-      }
-      return picked;
-    }, {});
-  }
-
-  // ../../node_modules/react-wrap-with/lib/esmodules/private/util/pickAndOmit.js
-  var import_reduce2 = __toESM(require_reduce4());
-  var import_entries3 = __toESM(require_entries8());
-  var import_includes3 = __toESM(require_includes10());
-  function pickAndOmit(object3, pickedKeys) {
-    var _context3;
-    return (0, import_reduce2.default)(_context3 = (0, import_entries3.default)(object3)).call(_context3, function(state, _ref) {
-      var _ref2 = _slicedToArray(_ref, 2), key2 = _ref2[0], value = _ref2[1];
-      if (key2 !== "__proto__" && key2 !== "constructor" && key2 !== "prototype") {
-        state[(0, import_includes3.default)(pickedKeys).call(pickedKeys, key2) ? 0 : 1][key2] = value;
-      }
-      return state;
-    }, [{}, {}]);
-  }
-
-  // ../../node_modules/react-wrap-with/lib/esmodules/private/wrapWith.js
-  function wrapWith(containerComponent, how) {
-    var _context3, _context22, _context32, _context4;
-    var extractPropsKeys = (0, import_map2.default)(_context3 = (0, import_filter2.default)(_context22 = (0, import_entries4.default)(how || {})).call(_context22, function(_ref) {
-      var _ref2 = _slicedToArray(_ref, 2), _2 = _ref2[0], value = _ref2[1];
-      return value === Extract_default;
-    })).call(_context3, function(_ref3) {
-      var _ref4 = _slicedToArray(_ref3, 1), key2 = _ref4[0];
-      return key2;
-    });
-    var spyPropsKeys = (0, import_map2.default)(_context32 = (0, import_filter2.default)(_context4 = (0, import_entries4.default)(how || {})).call(_context4, function(_ref5) {
-      var _ref6 = _slicedToArray(_ref5, 2), _2 = _ref6[0], value = _ref6[1];
-      return value === Spy_default;
-    })).call(_context32, function(_ref7) {
-      var _ref8 = _slicedToArray(_ref7, 1), key2 = _ref8[0];
-      return key2;
-    });
-    var isRefExtracted = how && how.ref === Extract_default;
-    return function wrap(contentComponent) {
-      var _context6;
-      var WithContainer = /* @__PURE__ */ (0, import_react263.forwardRef)(function(props, ref) {
-        var _context5;
-        var _pickAndOmit = pickAndOmit(props, extractPropsKeys), _pickAndOmit2 = _slicedToArray(_pickAndOmit, 2), extractedProps = _pickAndOmit2[0], contentProps = _pickAndOmit2[1];
-        var spyProps = pick(props, spyPropsKeys);
-        return import_react263.createElement.apply(void 0, (0, import_concat.default)(_context5 = [containerComponent, _objectSpread2(_objectSpread2(_objectSpread2({}, extractedProps), spyProps), isRefExtracted ? {
-          ref
-        } : {})]).call(_context5, _toConsumableArray(contentComponent ? [/* @__PURE__ */ (0, import_react263.createElement)(contentComponent, _objectSpread2(_objectSpread2({}, contentProps), isRefExtracted ? {} : {
-          ref
-        }))] : [])));
-      });
-      WithContainer.displayName = (0, import_concat.default)(_context6 = "wrapWith(".concat(containerComponent.displayName || "Component", ")(")).call(_context6, (contentComponent || {}).displayName || "Component", ")");
-      return WithContainer;
-    };
-  }
-
-  // ../../node_modules/react-wrap-with/lib/esmodules/wrapWith.js
-  var wrapWith_default = wrapWith;
-
-  // ../component/dist/chunk-FFAC7BS5.mjs
-  var import_react304 = __toESM(require_react(), 1);
-  var import_react305 = __toESM(require_react(), 1);
-  var import_classnames44 = __toESM(require_classnames(), 1);
-  var import_react306 = __toESM(require_react(), 1);
-  var import_react307 = __toESM(require_react(), 1);
-  var import_react308 = __toESM(require_react(), 1);
-  var import_react309 = __toESM(require_react(), 1);
-  var import_react310 = __toESM(require_react(), 1);
-  var import_classnames45 = __toESM(require_classnames(), 1);
-  var import_react311 = __toESM(require_react(), 1);
-  var import_classnames46 = __toESM(require_classnames(), 1);
-  var import_react312 = __toESM(require_react(), 1);
-  var import_react313 = __toESM(require_react(), 1);
-  var import_math_random10 = __toESM(require_browser(), 1);
-  var import_react314 = __toESM(require_react(), 1);
-  var import_deep_freeze_strict = __toESM(require_deep_freeze_strict(), 1);
-  var import_classnames47 = __toESM(require_classnames(), 1);
-  var import_react315 = __toESM(require_react(), 1);
-  var import_react316 = __toESM(require_react(), 1);
-  var import_react317 = __toESM(require_react(), 1);
-  var import_classnames48 = __toESM(require_classnames(), 1);
-  var import_react318 = __toESM(require_react(), 1);
-  var import_classnames49 = __toESM(require_classnames(), 1);
-  var import_math_random11 = __toESM(require_browser(), 1);
-  var import_react319 = __toESM(require_react(), 1);
-  var import_react320 = __toESM(require_react(), 1);
+  // ../component/dist/chunk-7UCKFMQT.mjs
   var import_react321 = __toESM(require_react(), 1);
   var import_react322 = __toESM(require_react(), 1);
-  var import_classnames50 = __toESM(require_classnames(), 1);
   var import_react323 = __toESM(require_react(), 1);
+  var import_classnames50 = __toESM(require_classnames(), 1);
   var import_react324 = __toESM(require_react(), 1);
-  var import_markdown_it2 = __toESM(require_markdown_it(), 1);
   var import_react325 = __toESM(require_react(), 1);
+  var import_markdown_it2 = __toESM(require_markdown_it(), 1);
+  var import_react326 = __toESM(require_react(), 1);
   var import_markdown_it3 = __toESM(require_markdown_it(), 1);
   var import_classnames51 = __toESM(require_classnames(), 1);
-  var import_react326 = __toESM(require_react(), 1);
-  var import_classnames52 = __toESM(require_classnames(), 1);
   var import_react327 = __toESM(require_react(), 1);
-  var import_classnames53 = __toESM(require_classnames(), 1);
+  var import_classnames52 = __toESM(require_classnames(), 1);
   var import_react328 = __toESM(require_react(), 1);
-  var import_classnames54 = __toESM(require_classnames(), 1);
+  var import_classnames53 = __toESM(require_classnames(), 1);
   var import_react329 = __toESM(require_react(), 1);
-  var import_classnames55 = __toESM(require_classnames(), 1);
+  var import_classnames54 = __toESM(require_classnames(), 1);
   var import_react330 = __toESM(require_react(), 1);
+  var import_classnames55 = __toESM(require_classnames(), 1);
+  var import_react331 = __toESM(require_react(), 1);
   var import_classnames56 = __toESM(require_classnames(), 1);
   var import_prop_types25 = __toESM(require_prop_types(), 1);
-  var import_react331 = __toESM(require_react(), 1);
   var import_react332 = __toESM(require_react(), 1);
   var import_react333 = __toESM(require_react(), 1);
   var import_react334 = __toESM(require_react(), 1);
   var import_react335 = __toESM(require_react(), 1);
+  var import_react336 = __toESM(require_react(), 1);
 
   // ../api/dist/botframework-webchat-api.internal.mjs
   var import_react264 = __toESM(require_react(), 1);
@@ -156035,21 +157007,21 @@ and ensure you are accounting for this risk.
     return useWebChatAPIContext().setDictateState;
   }
 
-  // ../component/dist/chunk-FFAC7BS5.mjs
-  var import_react336 = __toESM(require_react(), 1);
+  // ../component/dist/chunk-7UCKFMQT.mjs
   var import_react337 = __toESM(require_react(), 1);
   var import_react338 = __toESM(require_react(), 1);
+  var import_react339 = __toESM(require_react(), 1);
   var import_classnames57 = __toESM(require_classnames(), 1);
   var import_prop_types26 = __toESM(require_prop_types(), 1);
-  var import_react339 = __toESM(require_react(), 1);
   var import_react340 = __toESM(require_react(), 1);
   var import_react341 = __toESM(require_react(), 1);
   var import_react342 = __toESM(require_react(), 1);
   var import_react343 = __toESM(require_react(), 1);
   var import_react344 = __toESM(require_react(), 1);
   var import_react345 = __toESM(require_react(), 1);
-  var import_prop_types27 = __toESM(require_prop_types(), 1);
   var import_react346 = __toESM(require_react(), 1);
+  var import_prop_types27 = __toESM(require_prop_types(), 1);
+  var import_react347 = __toESM(require_react(), 1);
 
   // ../../node_modules/react-dictate-button/dist/react-dictate-button.mjs
   var import_react265 = __toESM(require_react(), 1);
@@ -156378,143 +157350,143 @@ and ensure you are accounting for this risk.
   };
   var Composer_default4 = Composer4;
 
-  // ../component/dist/chunk-FFAC7BS5.mjs
-  var import_react347 = __toESM(require_react(), 1);
+  // ../component/dist/chunk-7UCKFMQT.mjs
   var import_react348 = __toESM(require_react(), 1);
+  var import_react349 = __toESM(require_react(), 1);
   var import_classnames58 = __toESM(require_classnames(), 1);
   var import_prop_types28 = __toESM(require_prop_types(), 1);
-  var import_react349 = __toESM(require_react(), 1);
+  var import_react350 = __toESM(require_react(), 1);
   var import_classnames59 = __toESM(require_classnames(), 1);
   var import_prop_types29 = __toESM(require_prop_types(), 1);
-  var import_react350 = __toESM(require_react(), 1);
-  var import_classnames60 = __toESM(require_classnames(), 1);
   var import_react351 = __toESM(require_react(), 1);
+  var import_classnames60 = __toESM(require_classnames(), 1);
+  var import_react352 = __toESM(require_react(), 1);
   var import_classnames61 = __toESM(require_classnames(), 1);
   var import_prop_types30 = __toESM(require_prop_types(), 1);
-  var import_react352 = __toESM(require_react(), 1);
-  var import_classnames62 = __toESM(require_classnames(), 1);
   var import_react353 = __toESM(require_react(), 1);
-  var import_classnames63 = __toESM(require_classnames(), 1);
+  var import_classnames62 = __toESM(require_classnames(), 1);
   var import_react354 = __toESM(require_react(), 1);
-  var import_classnames64 = __toESM(require_classnames(), 1);
+  var import_classnames63 = __toESM(require_classnames(), 1);
   var import_react355 = __toESM(require_react(), 1);
+  var import_classnames64 = __toESM(require_classnames(), 1);
+  var import_react356 = __toESM(require_react(), 1);
   var import_classnames65 = __toESM(require_classnames(), 1);
   var import_math_random12 = __toESM(require_browser(), 1);
-  var import_react356 = __toESM(require_react(), 1);
   var import_react357 = __toESM(require_react(), 1);
   var import_react358 = __toESM(require_react(), 1);
-  var import_prop_types31 = __toESM(require_prop_types(), 1);
   var import_react359 = __toESM(require_react(), 1);
-  var import_prop_types32 = __toESM(require_prop_types(), 1);
+  var import_prop_types31 = __toESM(require_prop_types(), 1);
   var import_react360 = __toESM(require_react(), 1);
+  var import_prop_types32 = __toESM(require_prop_types(), 1);
+  var import_react361 = __toESM(require_react(), 1);
   var import_simple_update_in9 = __toESM(require_simple_update_in_production_min(), 1);
   var import_math_random13 = __toESM(require_browser(), 1);
-  var import_react361 = __toESM(require_react(), 1);
   var import_react362 = __toESM(require_react(), 1);
-  var import_classnames66 = __toESM(require_classnames(), 1);
   var import_react363 = __toESM(require_react(), 1);
-  var import_classnames67 = __toESM(require_classnames(), 1);
+  var import_classnames66 = __toESM(require_classnames(), 1);
   var import_react364 = __toESM(require_react(), 1);
+  var import_classnames67 = __toESM(require_classnames(), 1);
   var import_react365 = __toESM(require_react(), 1);
-  var import_classnames68 = __toESM(require_classnames(), 1);
   var import_react366 = __toESM(require_react(), 1);
+  var import_classnames68 = __toESM(require_classnames(), 1);
   var import_react367 = __toESM(require_react(), 1);
-  var import_math_random14 = __toESM(require_browser(), 1);
   var import_react368 = __toESM(require_react(), 1);
+  var import_math_random14 = __toESM(require_browser(), 1);
   var import_react369 = __toESM(require_react(), 1);
-  var import_classnames69 = __toESM(require_classnames(), 1);
   var import_react370 = __toESM(require_react(), 1);
+  var import_classnames69 = __toESM(require_classnames(), 1);
   var import_react371 = __toESM(require_react(), 1);
   var import_react372 = __toESM(require_react(), 1);
-  var import_prop_types33 = __toESM(require_prop_types(), 1);
   var import_react373 = __toESM(require_react(), 1);
+  var import_prop_types33 = __toESM(require_prop_types(), 1);
   var import_react374 = __toESM(require_react(), 1);
-  var import_prop_types34 = __toESM(require_prop_types(), 1);
   var import_react375 = __toESM(require_react(), 1);
+  var import_prop_types34 = __toESM(require_prop_types(), 1);
   var import_react376 = __toESM(require_react(), 1);
-  var import_classnames70 = __toESM(require_classnames(), 1);
   var import_react377 = __toESM(require_react(), 1);
-  var import_classnames71 = __toESM(require_classnames(), 1);
+  var import_classnames70 = __toESM(require_classnames(), 1);
   var import_react378 = __toESM(require_react(), 1);
-  var import_classnames72 = __toESM(require_classnames(), 1);
+  var import_classnames71 = __toESM(require_classnames(), 1);
   var import_react379 = __toESM(require_react(), 1);
-  var import_classnames73 = __toESM(require_classnames(), 1);
+  var import_classnames72 = __toESM(require_classnames(), 1);
   var import_react380 = __toESM(require_react(), 1);
+  var import_classnames73 = __toESM(require_classnames(), 1);
   var import_react381 = __toESM(require_react(), 1);
+  var import_react382 = __toESM(require_react(), 1);
   var import_classnames74 = __toESM(require_classnames(), 1);
   var import_prop_types35 = __toESM(require_prop_types(), 1);
-  var import_react382 = __toESM(require_react(), 1);
-  var import_prop_types36 = __toESM(require_prop_types(), 1);
   var import_react383 = __toESM(require_react(), 1);
-  var import_prop_types37 = __toESM(require_prop_types(), 1);
+  var import_prop_types36 = __toESM(require_prop_types(), 1);
   var import_react384 = __toESM(require_react(), 1);
-  var import_prop_types38 = __toESM(require_prop_types(), 1);
+  var import_prop_types37 = __toESM(require_prop_types(), 1);
   var import_react385 = __toESM(require_react(), 1);
-  var import_prop_types39 = __toESM(require_prop_types(), 1);
+  var import_prop_types38 = __toESM(require_prop_types(), 1);
   var import_react386 = __toESM(require_react(), 1);
-  var import_classnames75 = __toESM(require_classnames(), 1);
+  var import_prop_types39 = __toESM(require_prop_types(), 1);
   var import_react387 = __toESM(require_react(), 1);
-  var import_classnames76 = __toESM(require_classnames(), 1);
+  var import_classnames75 = __toESM(require_classnames(), 1);
   var import_react388 = __toESM(require_react(), 1);
-  var import_math_random15 = __toESM(require_browser(), 1);
+  var import_classnames76 = __toESM(require_classnames(), 1);
   var import_react389 = __toESM(require_react(), 1);
+  var import_math_random15 = __toESM(require_browser(), 1);
   var import_react390 = __toESM(require_react(), 1);
-  var import_classnames77 = __toESM(require_classnames(), 1);
   var import_react391 = __toESM(require_react(), 1);
+  var import_classnames77 = __toESM(require_classnames(), 1);
   var import_react392 = __toESM(require_react(), 1);
-  var import_react_dom3 = __toESM(require_react_dom(), 1);
   var import_react393 = __toESM(require_react(), 1);
-  var import_classnames78 = __toESM(require_classnames(), 1);
+  var import_react_dom3 = __toESM(require_react_dom(), 1);
   var import_react394 = __toESM(require_react(), 1);
+  var import_classnames78 = __toESM(require_classnames(), 1);
   var import_react395 = __toESM(require_react(), 1);
-  var import_classnames79 = __toESM(require_classnames(), 1);
   var import_react396 = __toESM(require_react(), 1);
+  var import_classnames79 = __toESM(require_classnames(), 1);
   var import_react397 = __toESM(require_react(), 1);
   var import_react398 = __toESM(require_react(), 1);
   var import_react399 = __toESM(require_react(), 1);
   var import_react400 = __toESM(require_react(), 1);
   var import_react401 = __toESM(require_react(), 1);
+  var import_react402 = __toESM(require_react(), 1);
   var import_classnames80 = __toESM(require_classnames(), 1);
   var import_math_random16 = __toESM(require_browser(), 1);
-  var import_react402 = __toESM(require_react(), 1);
-  var import_classnames81 = __toESM(require_classnames(), 1);
   var import_react403 = __toESM(require_react(), 1);
+  var import_classnames81 = __toESM(require_classnames(), 1);
+  var import_react404 = __toESM(require_react(), 1);
   var import_base64_js2 = __toESM(require_base64_js(), 1);
   var import_base64_js3 = __toESM(require_base64_js(), 1);
   var import_classnames82 = __toESM(require_classnames(), 1);
   var import_math_random17 = __toESM(require_browser(), 1);
-  var import_react404 = __toESM(require_react(), 1);
   var import_react405 = __toESM(require_react(), 1);
+  var import_react406 = __toESM(require_react(), 1);
   var import_simple_update_in10 = __toESM(require_simple_update_in_production_min(), 1);
   var import_prop_types40 = __toESM(require_prop_types(), 1);
-  var import_react406 = __toESM(require_react(), 1);
-  var import_classnames83 = __toESM(require_classnames(), 1);
   var import_react407 = __toESM(require_react(), 1);
+  var import_classnames83 = __toESM(require_classnames(), 1);
   var import_react408 = __toESM(require_react(), 1);
   var import_react409 = __toESM(require_react(), 1);
-  var import_classnames84 = __toESM(require_classnames(), 1);
   var import_react410 = __toESM(require_react(), 1);
+  var import_classnames84 = __toESM(require_classnames(), 1);
   var import_react411 = __toESM(require_react(), 1);
-  var import_classnames85 = __toESM(require_classnames(), 1);
   var import_react412 = __toESM(require_react(), 1);
+  var import_classnames85 = __toESM(require_classnames(), 1);
+  var import_react413 = __toESM(require_react(), 1);
   var import_classnames86 = __toESM(require_classnames(), 1);
   var import_prop_types41 = __toESM(require_prop_types(), 1);
-  var import_react413 = __toESM(require_react(), 1);
-  var import_classnames87 = __toESM(require_classnames(), 1);
   var import_react414 = __toESM(require_react(), 1);
+  var import_classnames87 = __toESM(require_classnames(), 1);
+  var import_react415 = __toESM(require_react(), 1);
   var import_classnames88 = __toESM(require_classnames(), 1);
   var import_prop_types42 = __toESM(require_prop_types(), 1);
-  var import_react415 = __toESM(require_react(), 1);
-  var import_classnames89 = __toESM(require_classnames(), 1);
   var import_react416 = __toESM(require_react(), 1);
-  var import_classnames90 = __toESM(require_classnames(), 1);
+  var import_classnames89 = __toESM(require_classnames(), 1);
   var import_react417 = __toESM(require_react(), 1);
-  var import_prop_types43 = __toESM(require_prop_types(), 1);
+  var import_classnames90 = __toESM(require_classnames(), 1);
   var import_react418 = __toESM(require_react(), 1);
-  var import_prop_types44 = __toESM(require_prop_types(), 1);
+  var import_prop_types43 = __toESM(require_prop_types(), 1);
   var import_react419 = __toESM(require_react(), 1);
-  var import_classnames91 = __toESM(require_classnames(), 1);
+  var import_prop_types44 = __toESM(require_prop_types(), 1);
   var import_react420 = __toESM(require_react(), 1);
+  var import_classnames91 = __toESM(require_classnames(), 1);
+  var import_react421 = __toESM(require_react(), 1);
 
   // ../../node_modules/react-scroll-to-bottom/lib/esm/addVersionToMetaTag.js
   function setMetaTag4(name, content3) {
@@ -157113,7 +158085,7 @@ and ensure you are accounting for this risk.
       var serialized = serializeStyles(args, cache2.registered);
       insertWithoutScoping2(cache2, serialized);
     };
-    var cx27 = function cx28() {
+    var cx28 = function cx29() {
       for (var _len4 = arguments.length, args = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
         args[_key4] = arguments[_key4];
       }
@@ -157121,7 +158093,7 @@ and ensure you are accounting for this risk.
     };
     return {
       css: css2,
-      cx: cx27,
+      cx: cx28,
       injectGlobal: injectGlobal2,
       keyframes: keyframes2,
       hydrate: function hydrate2(ids) {
@@ -157935,16 +158907,15 @@ and ensure you are accounting for this risk.
   // ../../node_modules/react-scroll-to-bottom/lib/esm/index.js
   addVersionToMetaTag();
 
-  // ../component/dist/chunk-FFAC7BS5.mjs
+  // ../component/dist/chunk-7UCKFMQT.mjs
   var import_classnames92 = __toESM(require_classnames(), 1);
-  var import_react421 = __toESM(require_react(), 1);
-  var import_classnames93 = __toESM(require_classnames(), 1);
   var import_react422 = __toESM(require_react(), 1);
+  var import_classnames93 = __toESM(require_classnames(), 1);
   var import_react423 = __toESM(require_react(), 1);
   var import_react424 = __toESM(require_react(), 1);
   var import_react425 = __toESM(require_react(), 1);
-  var import_classnames94 = __toESM(require_classnames(), 1);
   var import_react426 = __toESM(require_react(), 1);
+  var import_classnames94 = __toESM(require_classnames(), 1);
   var import_react427 = __toESM(require_react(), 1);
   var import_react428 = __toESM(require_react(), 1);
   var import_react429 = __toESM(require_react(), 1);
@@ -157957,6 +158928,7 @@ and ensure you are accounting for this risk.
   var import_react436 = __toESM(require_react(), 1);
   var import_react437 = __toESM(require_react(), 1);
   var import_react438 = __toESM(require_react(), 1);
+  var import_react439 = __toESM(require_react(), 1);
 
   // ../../node_modules/use-reduce-memo/dist/use-reduce-memo.mjs
   var import_react288 = __toESM(require_react(), 1);
@@ -158006,11 +158978,11 @@ and ensure you are accounting for this risk.
   }
   var useReduceMemo_default = useReduceMemo;
 
-  // ../component/dist/chunk-FFAC7BS5.mjs
+  // ../component/dist/chunk-7UCKFMQT.mjs
   var import_math_random18 = __toESM(require_browser(), 1);
   var import_prop_types45 = __toESM(require_prop_types(), 1);
-  var import_react439 = __toESM(require_react(), 1);
   var import_react440 = __toESM(require_react(), 1);
+  var import_react441 = __toESM(require_react(), 1);
 
   // ../../node_modules/compute-scroll-into-view/dist/index.mjs
   function t(t3) {
@@ -158066,11 +159038,11 @@ and ensure you are accounting for this risk.
     return T2;
   };
 
-  // ../component/dist/chunk-FFAC7BS5.mjs
-  var import_react441 = __toESM(require_react(), 1);
+  // ../component/dist/chunk-7UCKFMQT.mjs
   var import_react442 = __toESM(require_react(), 1);
   var import_react443 = __toESM(require_react(), 1);
   var import_react444 = __toESM(require_react(), 1);
+  var import_react445 = __toESM(require_react(), 1);
   var component_exports = {};
   __export2(component_exports, {
     AccessKeySinkSurface: () => Surface_default,
@@ -158853,6 +159825,180 @@ and ensure you are accounting for this risk.
           }
         }
       };
+    }
+  });
+  var require_add_to_unscopables12 = __commonJS9({
+    "node_modules/core-js-pure/internals/add-to-unscopables.js"(exports2, module) {
+      "use strict";
+      module.exports = function() {
+      };
+    }
+  });
+  var require_does_not_exceed_safe_integer9 = __commonJS9({
+    "node_modules/core-js-pure/internals/does-not-exceed-safe-integer.js"(exports2, module) {
+      "use strict";
+      var $TypeError = TypeError;
+      var MAX_SAFE_INTEGER = 9007199254740991;
+      module.exports = function(it) {
+        if (it > MAX_SAFE_INTEGER) throw $TypeError("Maximum allowed index exceeded");
+        return it;
+      };
+    }
+  });
+  var require_math_trunc12 = __commonJS9({
+    "node_modules/core-js-pure/internals/math-trunc.js"(exports2, module) {
+      "use strict";
+      var ceil = Math.ceil;
+      var floor2 = Math.floor;
+      module.exports = Math.trunc || function trunc(x) {
+        var n3 = +x;
+        return (n3 > 0 ? floor2 : ceil)(n3);
+      };
+    }
+  });
+  var require_to_integer_or_infinity13 = __commonJS9({
+    "node_modules/core-js-pure/internals/to-integer-or-infinity.js"(exports2, module) {
+      "use strict";
+      var trunc = require_math_trunc12();
+      module.exports = function(argument) {
+        var number5 = +argument;
+        return number5 !== number5 || number5 === 0 ? 0 : trunc(number5);
+      };
+    }
+  });
+  var require_to_length13 = __commonJS9({
+    "node_modules/core-js-pure/internals/to-length.js"(exports2, module) {
+      "use strict";
+      var toIntegerOrInfinity4 = require_to_integer_or_infinity13();
+      var min2 = Math.min;
+      module.exports = function(argument) {
+        var len = toIntegerOrInfinity4(argument);
+        return len > 0 ? min2(len, 9007199254740991) : 0;
+      };
+    }
+  });
+  var require_length_of_array_like13 = __commonJS9({
+    "node_modules/core-js-pure/internals/length-of-array-like.js"(exports2, module) {
+      "use strict";
+      var toLength2 = require_to_length13();
+      module.exports = function(obj) {
+        return toLength2(obj.length);
+      };
+    }
+  });
+  var require_to_absolute_index13 = __commonJS9({
+    "node_modules/core-js-pure/internals/to-absolute-index.js"(exports2, module) {
+      "use strict";
+      var toIntegerOrInfinity4 = require_to_integer_or_infinity13();
+      var max2 = Math.max;
+      var min2 = Math.min;
+      module.exports = function(index2, length2) {
+        var integer2 = toIntegerOrInfinity4(index2);
+        return integer2 < 0 ? max2(integer2 + length2, 0) : min2(integer2, length2);
+      };
+    }
+  });
+  var require_create_property12 = __commonJS9({
+    "node_modules/core-js-pure/internals/create-property.js"(exports2, module) {
+      "use strict";
+      var DESCRIPTORS2 = require_descriptors13();
+      var definePropertyModule = require_object_define_property13();
+      var createPropertyDescriptor = require_create_property_descriptor13();
+      module.exports = function(object61, key2, value) {
+        if (DESCRIPTORS2) definePropertyModule.f(object61, key2, createPropertyDescriptor(0, value));
+        else object61[key2] = value;
+      };
+    }
+  });
+  var require_es_array_to_spliced7 = __commonJS9({
+    "node_modules/core-js-pure/modules/es.array.to-spliced.js"() {
+      "use strict";
+      var $3 = require_export13();
+      var addToUnscopables = require_add_to_unscopables12();
+      var doesNotExceedSafeInteger = require_does_not_exceed_safe_integer9();
+      var lengthOfArrayLike = require_length_of_array_like13();
+      var toAbsoluteIndex = require_to_absolute_index13();
+      var toIndexedObject = require_to_indexed_object13();
+      var toIntegerOrInfinity4 = require_to_integer_or_infinity13();
+      var createProperty = require_create_property12();
+      var $Array = Array;
+      var max2 = Math.max;
+      var min2 = Math.min;
+      $3({ target: "Array", proto: true }, {
+        toSpliced: function toSpliced2(start, deleteCount) {
+          var O = toIndexedObject(this);
+          var len = lengthOfArrayLike(O);
+          var actualStart = toAbsoluteIndex(start, len);
+          var argumentsLength = arguments.length;
+          var k = 0;
+          var insertCount, actualDeleteCount, newLen, A;
+          if (argumentsLength === 0) {
+            insertCount = actualDeleteCount = 0;
+          } else if (argumentsLength === 1) {
+            insertCount = 0;
+            actualDeleteCount = len - actualStart;
+          } else {
+            insertCount = argumentsLength - 2;
+            actualDeleteCount = min2(max2(toIntegerOrInfinity4(deleteCount), 0), len - actualStart);
+          }
+          newLen = doesNotExceedSafeInteger(len + insertCount - actualDeleteCount);
+          A = $Array(newLen);
+          for (; k < actualStart; k++) createProperty(A, k, O[k]);
+          for (; k < actualStart + insertCount; k++) createProperty(A, k, arguments[k - actualStart + 2]);
+          for (; k < newLen; k++) createProperty(A, k, O[k + actualDeleteCount - insertCount]);
+          return A;
+        }
+      });
+      addToUnscopables("toSpliced");
+    }
+  });
+  var require_entry_unbind11 = __commonJS9({
+    "node_modules/core-js-pure/internals/entry-unbind.js"(exports2, module) {
+      "use strict";
+      var getBuiltIn = require_get_built_in13();
+      module.exports = getBuiltIn;
+    }
+  });
+  var require_to_spliced11 = __commonJS9({
+    "node_modules/core-js-pure/es/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      require_es_array_to_spliced7();
+      var entryUnbind = require_entry_unbind11();
+      module.exports = entryUnbind("Array", "toSpliced");
+    }
+  });
+  var require_to_spliced27 = __commonJS9({
+    "node_modules/core-js-pure/stable/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      var parent = require_to_spliced11();
+      module.exports = parent;
+    }
+  });
+  var require_esnext_array_to_spliced7 = __commonJS9({
+    "node_modules/core-js-pure/modules/esnext.array.to-spliced.js"() {
+      "use strict";
+      require_es_array_to_spliced7();
+    }
+  });
+  var require_to_spliced37 = __commonJS9({
+    "node_modules/core-js-pure/actual/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      var parent = require_to_spliced27();
+      require_esnext_array_to_spliced7();
+      module.exports = parent;
+    }
+  });
+  var require_to_spliced47 = __commonJS9({
+    "node_modules/core-js-pure/full/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      var parent = require_to_spliced37();
+      module.exports = parent;
+    }
+  });
+  var require_to_spliced57 = __commonJS9({
+    "node_modules/core-js-pure/features/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      module.exports = require_to_spliced47();
     }
   });
   var require_environment12 = __commonJS9({
@@ -159881,47 +161027,6 @@ and ensure you are accounting for this risk.
       };
     }
   });
-  var require_math_trunc12 = __commonJS9({
-    "node_modules/core-js-pure/internals/math-trunc.js"(exports2, module) {
-      "use strict";
-      var ceil = Math.ceil;
-      var floor2 = Math.floor;
-      module.exports = Math.trunc || function trunc(x) {
-        var n3 = +x;
-        return (n3 > 0 ? floor2 : ceil)(n3);
-      };
-    }
-  });
-  var require_to_integer_or_infinity13 = __commonJS9({
-    "node_modules/core-js-pure/internals/to-integer-or-infinity.js"(exports2, module) {
-      "use strict";
-      var trunc = require_math_trunc12();
-      module.exports = function(argument) {
-        var number5 = +argument;
-        return number5 !== number5 || number5 === 0 ? 0 : trunc(number5);
-      };
-    }
-  });
-  var require_to_length13 = __commonJS9({
-    "node_modules/core-js-pure/internals/to-length.js"(exports2, module) {
-      "use strict";
-      var toIntegerOrInfinity4 = require_to_integer_or_infinity13();
-      var min2 = Math.min;
-      module.exports = function(argument) {
-        var len = toIntegerOrInfinity4(argument);
-        return len > 0 ? min2(len, 9007199254740991) : 0;
-      };
-    }
-  });
-  var require_length_of_array_like13 = __commonJS9({
-    "node_modules/core-js-pure/internals/length-of-array-like.js"(exports2, module) {
-      "use strict";
-      var toLength2 = require_to_length13();
-      module.exports = function(obj) {
-        return toLength2(obj.length);
-      };
-    }
-  });
   var require_get_iterator_method18 = __commonJS9({
     "node_modules/core-js-pure/internals/get-iterator-method.js"(exports2, module) {
       "use strict";
@@ -160426,6 +161531,7 @@ and ensure you are accounting for this risk.
   function singleToArray3(singleOrArray) {
     return typeof singleOrArray === "undefined" ? EMPTY_ARRAY11 : Object.freeze(Array.isArray(singleOrArray) ? [...singleOrArray] : [singleOrArray]);
   }
+  var import_to_spliced7 = __toESM9(require_to_spliced57());
   var import_with_resolvers10 = __toESM9(require_with_resolvers57());
   var __create23 = Object.create;
   var __defProp24 = Object.defineProperty;
@@ -161173,6 +162279,180 @@ and ensure you are accounting for this risk.
           }
         }
       };
+    }
+  });
+  var require_add_to_unscopables23 = __commonJS24({
+    "node_modules/core-js-pure/internals/add-to-unscopables.js"(exports2, module) {
+      "use strict";
+      module.exports = function() {
+      };
+    }
+  });
+  var require_does_not_exceed_safe_integer23 = __commonJS24({
+    "node_modules/core-js-pure/internals/does-not-exceed-safe-integer.js"(exports2, module) {
+      "use strict";
+      var $TypeError = TypeError;
+      var MAX_SAFE_INTEGER = 9007199254740991;
+      module.exports = function(it) {
+        if (it > MAX_SAFE_INTEGER) throw $TypeError("Maximum allowed index exceeded");
+        return it;
+      };
+    }
+  });
+  var require_math_trunc23 = __commonJS24({
+    "node_modules/core-js-pure/internals/math-trunc.js"(exports2, module) {
+      "use strict";
+      var ceil = Math.ceil;
+      var floor2 = Math.floor;
+      module.exports = Math.trunc || function trunc(x) {
+        var n3 = +x;
+        return (n3 > 0 ? floor2 : ceil)(n3);
+      };
+    }
+  });
+  var require_to_integer_or_infinity23 = __commonJS24({
+    "node_modules/core-js-pure/internals/to-integer-or-infinity.js"(exports2, module) {
+      "use strict";
+      var trunc = require_math_trunc23();
+      module.exports = function(argument) {
+        var number5 = +argument;
+        return number5 !== number5 || number5 === 0 ? 0 : trunc(number5);
+      };
+    }
+  });
+  var require_to_length23 = __commonJS24({
+    "node_modules/core-js-pure/internals/to-length.js"(exports2, module) {
+      "use strict";
+      var toIntegerOrInfinity4 = require_to_integer_or_infinity23();
+      var min2 = Math.min;
+      module.exports = function(argument) {
+        var len = toIntegerOrInfinity4(argument);
+        return len > 0 ? min2(len, 9007199254740991) : 0;
+      };
+    }
+  });
+  var require_length_of_array_like23 = __commonJS24({
+    "node_modules/core-js-pure/internals/length-of-array-like.js"(exports2, module) {
+      "use strict";
+      var toLength2 = require_to_length23();
+      module.exports = function(obj) {
+        return toLength2(obj.length);
+      };
+    }
+  });
+  var require_to_absolute_index23 = __commonJS24({
+    "node_modules/core-js-pure/internals/to-absolute-index.js"(exports2, module) {
+      "use strict";
+      var toIntegerOrInfinity4 = require_to_integer_or_infinity23();
+      var max2 = Math.max;
+      var min2 = Math.min;
+      module.exports = function(index2, length2) {
+        var integer2 = toIntegerOrInfinity4(index2);
+        return integer2 < 0 ? max2(integer2 + length2, 0) : min2(integer2, length2);
+      };
+    }
+  });
+  var require_create_property23 = __commonJS24({
+    "node_modules/core-js-pure/internals/create-property.js"(exports2, module) {
+      "use strict";
+      var DESCRIPTORS2 = require_descriptors23();
+      var definePropertyModule = require_object_define_property23();
+      var createPropertyDescriptor = require_create_property_descriptor23();
+      module.exports = function(object61, key2, value) {
+        if (DESCRIPTORS2) definePropertyModule.f(object61, key2, createPropertyDescriptor(0, value));
+        else object61[key2] = value;
+      };
+    }
+  });
+  var require_es_array_to_spliced23 = __commonJS24({
+    "node_modules/core-js-pure/modules/es.array.to-spliced.js"() {
+      "use strict";
+      var $3 = require_export23();
+      var addToUnscopables = require_add_to_unscopables23();
+      var doesNotExceedSafeInteger = require_does_not_exceed_safe_integer23();
+      var lengthOfArrayLike = require_length_of_array_like23();
+      var toAbsoluteIndex = require_to_absolute_index23();
+      var toIndexedObject = require_to_indexed_object23();
+      var toIntegerOrInfinity4 = require_to_integer_or_infinity23();
+      var createProperty = require_create_property23();
+      var $Array = Array;
+      var max2 = Math.max;
+      var min2 = Math.min;
+      $3({ target: "Array", proto: true }, {
+        toSpliced: function toSpliced2(start, deleteCount) {
+          var O = toIndexedObject(this);
+          var len = lengthOfArrayLike(O);
+          var actualStart = toAbsoluteIndex(start, len);
+          var argumentsLength = arguments.length;
+          var k = 0;
+          var insertCount, actualDeleteCount, newLen, A;
+          if (argumentsLength === 0) {
+            insertCount = actualDeleteCount = 0;
+          } else if (argumentsLength === 1) {
+            insertCount = 0;
+            actualDeleteCount = len - actualStart;
+          } else {
+            insertCount = argumentsLength - 2;
+            actualDeleteCount = min2(max2(toIntegerOrInfinity4(deleteCount), 0), len - actualStart);
+          }
+          newLen = doesNotExceedSafeInteger(len + insertCount - actualDeleteCount);
+          A = $Array(newLen);
+          for (; k < actualStart; k++) createProperty(A, k, O[k]);
+          for (; k < actualStart + insertCount; k++) createProperty(A, k, arguments[k - actualStart + 2]);
+          for (; k < newLen; k++) createProperty(A, k, O[k + actualDeleteCount - insertCount]);
+          return A;
+        }
+      });
+      addToUnscopables("toSpliced");
+    }
+  });
+  var require_entry_unbind23 = __commonJS24({
+    "node_modules/core-js-pure/internals/entry-unbind.js"(exports2, module) {
+      "use strict";
+      var getBuiltIn = require_get_built_in23();
+      module.exports = getBuiltIn;
+    }
+  });
+  var require_to_spliced63 = __commonJS24({
+    "node_modules/core-js-pure/es/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      require_es_array_to_spliced23();
+      var entryUnbind = require_entry_unbind23();
+      module.exports = entryUnbind("Array", "toSpliced");
+    }
+  });
+  var require_to_spliced223 = __commonJS24({
+    "node_modules/core-js-pure/stable/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      var parent = require_to_spliced63();
+      module.exports = parent;
+    }
+  });
+  var require_esnext_array_to_spliced23 = __commonJS24({
+    "node_modules/core-js-pure/modules/esnext.array.to-spliced.js"() {
+      "use strict";
+      require_es_array_to_spliced23();
+    }
+  });
+  var require_to_spliced323 = __commonJS24({
+    "node_modules/core-js-pure/actual/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      var parent = require_to_spliced223();
+      require_esnext_array_to_spliced23();
+      module.exports = parent;
+    }
+  });
+  var require_to_spliced423 = __commonJS24({
+    "node_modules/core-js-pure/full/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      var parent = require_to_spliced323();
+      module.exports = parent;
+    }
+  });
+  var require_to_spliced523 = __commonJS24({
+    "node_modules/core-js-pure/features/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      module.exports = require_to_spliced423();
     }
   });
   var require_environment23 = __commonJS24({
@@ -162201,47 +163481,6 @@ and ensure you are accounting for this risk.
       };
     }
   });
-  var require_math_trunc23 = __commonJS24({
-    "node_modules/core-js-pure/internals/math-trunc.js"(exports2, module) {
-      "use strict";
-      var ceil = Math.ceil;
-      var floor2 = Math.floor;
-      module.exports = Math.trunc || function trunc(x) {
-        var n3 = +x;
-        return (n3 > 0 ? floor2 : ceil)(n3);
-      };
-    }
-  });
-  var require_to_integer_or_infinity23 = __commonJS24({
-    "node_modules/core-js-pure/internals/to-integer-or-infinity.js"(exports2, module) {
-      "use strict";
-      var trunc = require_math_trunc23();
-      module.exports = function(argument) {
-        var number5 = +argument;
-        return number5 !== number5 || number5 === 0 ? 0 : trunc(number5);
-      };
-    }
-  });
-  var require_to_length23 = __commonJS24({
-    "node_modules/core-js-pure/internals/to-length.js"(exports2, module) {
-      "use strict";
-      var toIntegerOrInfinity4 = require_to_integer_or_infinity23();
-      var min2 = Math.min;
-      module.exports = function(argument) {
-        var len = toIntegerOrInfinity4(argument);
-        return len > 0 ? min2(len, 9007199254740991) : 0;
-      };
-    }
-  });
-  var require_length_of_array_like23 = __commonJS24({
-    "node_modules/core-js-pure/internals/length-of-array-like.js"(exports2, module) {
-      "use strict";
-      var toLength2 = require_to_length23();
-      module.exports = function(obj) {
-        return toLength2(obj.length);
-      };
-    }
-  });
   var require_get_iterator_method23 = __commonJS24({
     "node_modules/core-js-pure/internals/get-iterator-method.js"(exports2, module) {
       "use strict";
@@ -162688,6 +163927,7 @@ and ensure you are accounting for this risk.
     return false;
   }
   var EMPTY_ARRAY25 = Object.freeze([]);
+  var import_to_spliced23 = __toESM24(require_to_spliced523());
   var import_with_resolvers23 = __toESM24(require_with_resolvers523());
   function useMemoWithPrevious4(factory, deps) {
     const prevValueRef = (0, import_react290.useRef)();
@@ -163064,15 +164304,15 @@ and ensure you are accounting for this risk.
     );
   }
   var Markdownable_default = (0, import_react305.memo)(Markdownable);
-  var classes7 = { "text-area-doppelganger": "wh0cFaa_text-area-doppelganger", "text-area--scroll": "wh0cFaa_text-area--scroll", "text-area--hidden": "wh0cFaa_text-area--hidden", "text-area-shared": "wh0cFaa_text-area-shared", "text-area-input": "wh0cFaa_text-area-input", "text-area--in-completion": "wh0cFaa_text-area--in-completion", "text-area": "wh0cFaa_text-area" };
+  var classes7 = { "text-area--scroll": "wh0cFaa_text-area--scroll", "text-area--in-completion": "wh0cFaa_text-area--in-completion", "text-area-shared": "wh0cFaa_text-area-shared", "text-area-doppelganger": "wh0cFaa_text-area-doppelganger", "text-area": "wh0cFaa_text-area", "text-area--hidden": "wh0cFaa_text-area--hidden", "text-area-input": "wh0cFaa_text-area-input" };
   var TextArea_module_default = classes7;
-  var _text_area_doppelganger0 = classes7["text-area-doppelganger"];
   var _text_area__scroll0 = classes7["text-area--scroll"];
-  var _text_area__hidden0 = classes7["text-area--hidden"];
-  var _text_area_shared0 = classes7["text-area-shared"];
-  var _text_area_input0 = classes7["text-area-input"];
   var _text_area__in_completion0 = classes7["text-area--in-completion"];
+  var _text_area_shared0 = classes7["text-area-shared"];
+  var _text_area_doppelganger0 = classes7["text-area-doppelganger"];
   var _text_area0 = classes7["text-area"];
+  var _text_area__hidden0 = classes7["text-area--hidden"];
+  var _text_area_input0 = classes7["text-area-input"];
   var { useUIState: useUIState5 } = hook_exports;
   var TextArea = (0, import_react306.forwardRef)((props, ref) => {
     var _a28;
@@ -163150,18 +164390,18 @@ and ensure you are accounting for this risk.
   function getDisclaimerFromActivity(action2) {
     return isUserReview(action2.result) ? action2.result.reviewAspect : void 0;
   }
-  var classes24 = { "feedback-form__vote-button-bar": "wBqmrRG_feedback-form__vote-button-bar", "feedback-form__form-header": "wBqmrRG_feedback-form__form-header", "feedback-form": "wBqmrRG_feedback-form", "feedback-form__text-box": "wBqmrRG_feedback-form__text-box", "feedback-form__submission-button-bar": "wBqmrRG_feedback-form__submission-button-bar", "feedback-form__submit-button": "wBqmrRG_feedback-form__submit-button", "feedback-form__cancel-button": "wBqmrRG_feedback-form__cancel-button", "feedback-form__form": "wBqmrRG_feedback-form__form", "feedback-form__text-area": "wBqmrRG_feedback-form__text-area", "feedback-form__form-footer": "wBqmrRG_feedback-form__form-footer" };
+  var classes24 = { "feedback-form__text-box": "wBqmrRG_feedback-form__text-box", "feedback-form__form-header": "wBqmrRG_feedback-form__form-header", "feedback-form__text-area": "wBqmrRG_feedback-form__text-area", "feedback-form__cancel-button": "wBqmrRG_feedback-form__cancel-button", "feedback-form__submission-button-bar": "wBqmrRG_feedback-form__submission-button-bar", "feedback-form__form-footer": "wBqmrRG_feedback-form__form-footer", "feedback-form__vote-button-bar": "wBqmrRG_feedback-form__vote-button-bar", "feedback-form__form": "wBqmrRG_feedback-form__form", "feedback-form": "wBqmrRG_feedback-form", "feedback-form__submit-button": "wBqmrRG_feedback-form__submit-button" };
   var FeedbackForm_module_default = classes24;
-  var _feedback_form__vote_button_bar0 = classes24["feedback-form__vote-button-bar"];
-  var _feedback_form__form_header0 = classes24["feedback-form__form-header"];
-  var _feedback_form0 = classes24["feedback-form"];
   var _feedback_form__text_box0 = classes24["feedback-form__text-box"];
-  var _feedback_form__submission_button_bar0 = classes24["feedback-form__submission-button-bar"];
-  var _feedback_form__submit_button0 = classes24["feedback-form__submit-button"];
-  var _feedback_form__cancel_button0 = classes24["feedback-form__cancel-button"];
-  var _feedback_form__form0 = classes24["feedback-form__form"];
+  var _feedback_form__form_header0 = classes24["feedback-form__form-header"];
   var _feedback_form__text_area0 = classes24["feedback-form__text-area"];
+  var _feedback_form__cancel_button0 = classes24["feedback-form__cancel-button"];
+  var _feedback_form__submission_button_bar0 = classes24["feedback-form__submission-button-bar"];
   var _feedback_form__form_footer0 = classes24["feedback-form__form-footer"];
+  var _feedback_form__vote_button_bar0 = classes24["feedback-form__vote-button-bar"];
+  var _feedback_form__form0 = classes24["feedback-form__form"];
+  var _feedback_form0 = classes24["feedback-form"];
+  var _feedback_form__submit_button0 = classes24["feedback-form__submit-button"];
   var { useLocalizer: useLocalizer24 } = hook_exports;
   function FeedbackForm() {
     const classNames31 = useStyles_default(FeedbackForm_module_default);
@@ -163246,16 +164486,16 @@ and ensure you are accounting for this risk.
   });
   ThumbButtonImage.displayName = "ThumbButtonImage";
   var ThumbButton_Image_default = ThumbButtonImage;
-  var classes33 = { "thumb-button--large": "wIExi9q_thumb-button--large", "thumb-button": "wIExi9q_thumb-button", "thumb-button__tooltip": "wIExi9q_thumb-button__tooltip", "thumb-button__input": "wIExi9q_thumb-button__input", "thumb-button__image--is-filled": "wIExi9q_thumb-button__image--is-filled", "thumb-button__image--is-stroked": "wIExi9q_thumb-button__image--is-stroked", "thumb-button--has-submitted": "wIExi9q_thumb-button--has-submitted", "thumb-button__image": "wIExi9q_thumb-button__image" };
+  var classes33 = { "thumb-button__image--is-stroked": "wIExi9q_thumb-button__image--is-stroked", "thumb-button--has-submitted": "wIExi9q_thumb-button--has-submitted", "thumb-button__input": "wIExi9q_thumb-button__input", "thumb-button__image": "wIExi9q_thumb-button__image", "thumb-button__image--is-filled": "wIExi9q_thumb-button__image--is-filled", "thumb-button--large": "wIExi9q_thumb-button--large", "thumb-button__tooltip": "wIExi9q_thumb-button__tooltip", "thumb-button": "wIExi9q_thumb-button" };
   var ThumbButton_module_default = classes33;
-  var _thumb_button__large0 = classes33["thumb-button--large"];
-  var _thumb_button0 = classes33["thumb-button"];
-  var _thumb_button__tooltip0 = classes33["thumb-button__tooltip"];
-  var _thumb_button__input0 = classes33["thumb-button__input"];
-  var _thumb_button__image__is_filled0 = classes33["thumb-button__image--is-filled"];
   var _thumb_button__image__is_stroked0 = classes33["thumb-button__image--is-stroked"];
   var _thumb_button__has_submitted0 = classes33["thumb-button--has-submitted"];
+  var _thumb_button__input0 = classes33["thumb-button__input"];
   var _thumb_button__image0 = classes33["thumb-button__image"];
+  var _thumb_button__image__is_filled0 = classes33["thumb-button__image--is-filled"];
+  var _thumb_button__large0 = classes33["thumb-button--large"];
+  var _thumb_button__tooltip0 = classes33["thumb-button__tooltip"];
+  var _thumb_button0 = classes33["thumb-button"];
   var { useLocalizer: useLocalizer33 } = hook_exports;
   var thumbButtonPropsSchema = pipe(
     object({
@@ -163837,44 +165077,44 @@ and ensure you are accounting for this risk.
   var ActivityFeedback = wrapWith_default(ActivityFeedbackComposer_default, { activity: Extract_default })(InternalActivityFeedback);
   ActivityFeedback.displayName = "ActivityFeedback";
   var ActivityFeedback_default = (0, import_react303.memo)(ActivityFeedback);
-  var classes43 = { "link-definitions__message-sensitivity-label-icon": "wIcA0ta_link-definitions__message-sensitivity-label-icon", "link-definitions__header-accessory": "wIcA0ta_link-definitions__header-accessory", "link-definitions__message-sensitivity-label": "wIcA0ta_link-definitions__message-sensitivity-label", "link-definitions": "wIcA0ta_link-definitions", "link-definitions__message-sensitivity-label-text": "wIcA0ta_link-definitions__message-sensitivity-label-text", "link-definitions__badge": "wIcA0ta_link-definitions__badge", "link-definitions__list-item-text": "wIcA0ta_link-definitions__list-item-text", "link-definitions__open-in-new-window-icon": "wIcA0ta_link-definitions__open-in-new-window-icon", "link-definitions__list-item": "wIcA0ta_link-definitions__list-item", "link-definitions__list-item-body-main": "wIcA0ta_link-definitions__list-item-body-main", "link-definitions__list-item-box--as-link": "wIcA0ta_link-definitions__list-item-box--as-link", "link-definitions__list-item-main-text": "wIcA0ta_link-definitions__list-item-main-text", "link-definitions__list-item-box--as-button": "wIcA0ta_link-definitions__list-item-box--as-button", "link-definitions__header-section--left": "wIcA0ta_link-definitions__header-section--left", "link-definitions__list-item-box": "wIcA0ta_link-definitions__list-item-box", "link-definitions__list-item-body": "wIcA0ta_link-definitions__list-item-body", "link-definitions__header-chevron": "wIcA0ta_link-definitions__header-chevron", "link-definitions__header-section": "wIcA0ta_link-definitions__header-section", "link-definitions__list-item-badge": "wIcA0ta_link-definitions__list-item-badge", "link-definitions__list": "wIcA0ta_link-definitions__list", "link-definitions__header-text": "wIcA0ta_link-definitions__header-text", "link-definitions__header": "wIcA0ta_link-definitions__header" };
+  var classes43 = { "link-definitions__header-accessory": "wIcA0ta_link-definitions__header-accessory", "link-definitions__list": "wIcA0ta_link-definitions__list", "link-definitions__list-item-main-text": "wIcA0ta_link-definitions__list-item-main-text", "link-definitions__list-item-body-main": "wIcA0ta_link-definitions__list-item-body-main", "link-definitions__header-chevron": "wIcA0ta_link-definitions__header-chevron", "link-definitions": "wIcA0ta_link-definitions", "link-definitions__header": "wIcA0ta_link-definitions__header", "link-definitions__list-item-text": "wIcA0ta_link-definitions__list-item-text", "link-definitions__list-item-box": "wIcA0ta_link-definitions__list-item-box", "link-definitions__header-section--left": "wIcA0ta_link-definitions__header-section--left", "link-definitions__badge": "wIcA0ta_link-definitions__badge", "link-definitions__message-sensitivity-label-icon": "wIcA0ta_link-definitions__message-sensitivity-label-icon", "link-definitions__list-item": "wIcA0ta_link-definitions__list-item", "link-definitions__message-sensitivity-label-text": "wIcA0ta_link-definitions__message-sensitivity-label-text", "link-definitions__list-item-box--as-button": "wIcA0ta_link-definitions__list-item-box--as-button", "link-definitions__message-sensitivity-label": "wIcA0ta_link-definitions__message-sensitivity-label", "link-definitions__list-item-body": "wIcA0ta_link-definitions__list-item-body", "link-definitions__list-item-box--as-link": "wIcA0ta_link-definitions__list-item-box--as-link", "link-definitions__list-item-badge": "wIcA0ta_link-definitions__list-item-badge", "link-definitions__open-in-new-window-icon": "wIcA0ta_link-definitions__open-in-new-window-icon", "link-definitions__header-text": "wIcA0ta_link-definitions__header-text", "link-definitions__header-section": "wIcA0ta_link-definitions__header-section" };
   var LinkDefinitions_module_default = classes43;
-  var _link_definitions__message_sensitivity_label_icon0 = classes43["link-definitions__message-sensitivity-label-icon"];
   var _link_definitions__header_accessory0 = classes43["link-definitions__header-accessory"];
-  var _link_definitions__message_sensitivity_label0 = classes43["link-definitions__message-sensitivity-label"];
-  var _link_definitions0 = classes43["link-definitions"];
-  var _link_definitions__message_sensitivity_label_text0 = classes43["link-definitions__message-sensitivity-label-text"];
-  var _link_definitions__badge0 = classes43["link-definitions__badge"];
-  var _link_definitions__list_item_text0 = classes43["link-definitions__list-item-text"];
-  var _link_definitions__open_in_new_window_icon0 = classes43["link-definitions__open-in-new-window-icon"];
-  var _link_definitions__list_item0 = classes43["link-definitions__list-item"];
-  var _link_definitions__list_item_body_main0 = classes43["link-definitions__list-item-body-main"];
-  var _link_definitions__list_item_box__as_link0 = classes43["link-definitions__list-item-box--as-link"];
-  var _link_definitions__list_item_main_text0 = classes43["link-definitions__list-item-main-text"];
-  var _link_definitions__list_item_box__as_button0 = classes43["link-definitions__list-item-box--as-button"];
-  var _link_definitions__header_section__left0 = classes43["link-definitions__header-section--left"];
-  var _link_definitions__list_item_box0 = classes43["link-definitions__list-item-box"];
-  var _link_definitions__list_item_body0 = classes43["link-definitions__list-item-body"];
-  var _link_definitions__header_chevron0 = classes43["link-definitions__header-chevron"];
-  var _link_definitions__header_section0 = classes43["link-definitions__header-section"];
-  var _link_definitions__list_item_badge0 = classes43["link-definitions__list-item-badge"];
   var _link_definitions__list0 = classes43["link-definitions__list"];
-  var _link_definitions__header_text0 = classes43["link-definitions__header-text"];
+  var _link_definitions__list_item_main_text0 = classes43["link-definitions__list-item-main-text"];
+  var _link_definitions__list_item_body_main0 = classes43["link-definitions__list-item-body-main"];
+  var _link_definitions__header_chevron0 = classes43["link-definitions__header-chevron"];
+  var _link_definitions0 = classes43["link-definitions"];
   var _link_definitions__header0 = classes43["link-definitions__header"];
+  var _link_definitions__list_item_text0 = classes43["link-definitions__list-item-text"];
+  var _link_definitions__list_item_box0 = classes43["link-definitions__list-item-box"];
+  var _link_definitions__header_section__left0 = classes43["link-definitions__header-section--left"];
+  var _link_definitions__badge0 = classes43["link-definitions__badge"];
+  var _link_definitions__message_sensitivity_label_icon0 = classes43["link-definitions__message-sensitivity-label-icon"];
+  var _link_definitions__list_item0 = classes43["link-definitions__list-item"];
+  var _link_definitions__message_sensitivity_label_text0 = classes43["link-definitions__message-sensitivity-label-text"];
+  var _link_definitions__list_item_box__as_button0 = classes43["link-definitions__list-item-box--as-button"];
+  var _link_definitions__message_sensitivity_label0 = classes43["link-definitions__message-sensitivity-label"];
+  var _link_definitions__list_item_body0 = classes43["link-definitions__list-item-body"];
+  var _link_definitions__list_item_box__as_link0 = classes43["link-definitions__list-item-box--as-link"];
+  var _link_definitions__list_item_badge0 = classes43["link-definitions__list-item-badge"];
+  var _link_definitions__open_in_new_window_icon0 = classes43["link-definitions__open-in-new-window-icon"];
+  var _link_definitions__header_text0 = classes43["link-definitions__header-text"];
+  var _link_definitions__header_section0 = classes43["link-definitions__header-section"];
   var Badge = (0, import_react317.memo)(({ value }) => {
     const classNames31 = useStyles_default(LinkDefinitions_module_default);
     return /* @__PURE__ */ import_react317.default.createElement("div", { className: classNames31["link-definitions__badge"], title: value }, value);
   });
   Badge.displayName = "Badge";
   var Badge_default = Badge;
-  var classes53 = { "text-content__markdown": "wukSAJG_text-content__markdown", "text-content__activity-actions": "wukSAJG_text-content__activity-actions", "text-content__open-in-new-window-icon": "wukSAJG_text-content__open-in-new-window-icon", "text-content--is-markdown": "wukSAJG_text-content--is-markdown", "text-content": "wukSAJG_text-content", "text-content__generated-badge": "wukSAJG_text-content__generated-badge" };
+  var classes53 = { "text-content--is-markdown": "wukSAJG_text-content--is-markdown", "text-content__open-in-new-window-icon": "wukSAJG_text-content__open-in-new-window-icon", "text-content__generated-badge": "wukSAJG_text-content__generated-badge", "text-content__markdown": "wukSAJG_text-content__markdown", "text-content": "wukSAJG_text-content", "text-content__activity-actions": "wukSAJG_text-content__activity-actions" };
   var TextContent_module_default = classes53;
-  var _text_content__markdown0 = classes53["text-content__markdown"];
-  var _text_content__activity_actions0 = classes53["text-content__activity-actions"];
-  var _text_content__open_in_new_window_icon0 = classes53["text-content__open-in-new-window-icon"];
   var _text_content__is_markdown0 = classes53["text-content--is-markdown"];
-  var _text_content0 = classes53["text-content"];
+  var _text_content__open_in_new_window_icon0 = classes53["text-content__open-in-new-window-icon"];
   var _text_content__generated_badge0 = classes53["text-content__generated-badge"];
+  var _text_content__markdown0 = classes53["text-content__markdown"];
+  var _text_content0 = classes53["text-content"];
+  var _text_content__activity_actions0 = classes53["text-content__activity-actions"];
   var OpenInNewWindowIcon = ({ className }) => {
     const classNames31 = useStyles_default(TextContent_module_default);
     return /* @__PURE__ */ import_react318.default.createElement(
@@ -164088,6 +165328,109 @@ and ensure you are accounting for this risk.
       [transformHTMLContent]
     );
   }
+  var { useLocalizer: useLocalizer62, useStyleOptions: useStyleOptions33 } = hook_exports;
+  var EMPTY_DEFINITIONS = Object.freeze([]);
+  function useStreamingMarkdownWithDefinitions(containerRef, markdown, finalize = false) {
+    const { renderMarkdown } = useWebChatUIContext();
+    const [styleOptions] = useStyleOptions33();
+    const localize2 = useLocalizer62();
+    const transformHTMLContent = useTransformHTMLContent();
+    const styleOptionsRef = useRefFrom(styleOptions);
+    const classNames31 = useStyles_default(RenderMarkdown_module_default);
+    const externalLinkAlt2 = localize2("MARKDOWN_EXTERNAL_LINK_ALT");
+    const containerClassName = (0, import_react321.useMemo)(
+      () => cx3(classNames31["render-markdown"], {
+        [classNames31["render-markdown--message-activity"]]: true
+      }),
+      [classNames31]
+    );
+    const hasStreamingSupport = !!(renderMarkdown == null ? void 0 : renderMarkdown.createStreamingRenderer);
+    const previousMarkdownRef = (0, import_react321.useRef)("");
+    const streamingRenderer = (0, import_react321.useMemo)(() => {
+      previousMarkdownRef.current = "";
+      if (renderMarkdown == null ? void 0 : renderMarkdown.createStreamingRenderer) {
+        return renderMarkdown.createStreamingRenderer(styleOptionsRef.current, { externalLinkAlt: externalLinkAlt2 });
+      }
+      return void 0;
+    }, [externalLinkAlt2, renderMarkdown, styleOptionsRef]);
+    const [definitions, setDefinitions] = (0, import_react321.useState)(EMPTY_DEFINITIONS);
+    (0, import_react321.useLayoutEffect)(() => {
+      previousMarkdownRef.current = "";
+      setDefinitions(EMPTY_DEFINITIONS);
+    }, [streamingRenderer]);
+    (0, import_react321.useLayoutEffect)(() => {
+      if (!streamingRenderer) {
+        return;
+      }
+      const container = containerRef.current;
+      if (!container) {
+        return;
+      }
+      if (!markdown) {
+        streamingRenderer.reset();
+        previousMarkdownRef.current = "";
+        container.textContent = "";
+        return;
+      }
+      const prev2 = previousMarkdownRef.current;
+      const isAppendOnly = !!prev2 && markdown.startsWith(prev2);
+      if (!isAppendOnly) {
+        streamingRenderer.reset();
+      }
+      const chunk = isAppendOnly ? markdown.slice(prev2.length) : markdown;
+      const options = {
+        container,
+        containerClassName,
+        transformFragment: transformHTMLContent
+      };
+      previousMarkdownRef.current = markdown;
+      if (finalize) {
+        if (chunk) {
+          streamingRenderer.next(chunk, options);
+        }
+        const { definitions: definitions2 } = streamingRenderer.finalize(options);
+        setDefinitions(definitions2);
+      } else {
+        streamingRenderer.next(chunk, options);
+      }
+    }, [containerClassName, containerRef, finalize, markdown, streamingRenderer, transformHTMLContent]);
+    const fallbackHTML = (0, import_react321.useMemo)(() => {
+      if (hasStreamingSupport || !renderMarkdown || !markdown) {
+        return void 0;
+      }
+      return renderMarkdown(markdown, styleOptionsRef.current, { externalLinkAlt: externalLinkAlt2 });
+    }, [externalLinkAlt2, hasStreamingSupport, markdown, renderMarkdown, styleOptionsRef]);
+    const fallbackDefinitions = (0, import_react321.useMemo)(
+      () => hasStreamingSupport ? EMPTY_DEFINITIONS : fromMarkdown(markdown).children.filter((node3) => node3.type === "definition"),
+      [hasStreamingSupport, markdown]
+    );
+    (0, import_react321.useLayoutEffect)(() => {
+      if (streamingRenderer || fallbackHTML === void 0) {
+        return;
+      }
+      const container = containerRef.current;
+      if (!container) {
+        return;
+      }
+      const documentFragment = transformHTMLContent(parseDocumentFragmentFromString(fallbackHTML));
+      const wrapper = document.createElement("div");
+      wrapper.className = containerClassName || "";
+      wrapper.append(...documentFragment.childNodes);
+      container.textContent = "";
+      container.appendChild(wrapper);
+    }, [containerClassName, containerRef, fallbackHTML, streamingRenderer, transformHTMLContent]);
+    (0, import_react321.useLayoutEffect)(() => {
+      if (streamingRenderer || fallbackHTML !== void 0) {
+        return;
+      }
+      const container = containerRef.current;
+      if (!container) {
+        return;
+      }
+      container.textContent = "";
+    }, [containerRef, fallbackHTML, streamingRenderer]);
+    return Object.freeze({ definitions: definitions != null ? definitions : fallbackDefinitions });
+  }
   var defaultContextValue2 = {
     close: {
       get() {
@@ -164100,11 +165443,11 @@ and ensure you are accounting for this risk.
       }
     }
   };
-  var Context4 = (0, import_react322.createContext)(Object.create({}, defaultContextValue2));
+  var Context4 = (0, import_react323.createContext)(Object.create({}, defaultContextValue2));
   Context4.displayName = "ModalDialogComposer";
   var Context_default52 = Context4;
   function useContext39() {
-    return (0, import_react321.useContext)(Context_default52);
+    return (0, import_react322.useContext)(Context_default52);
   }
   function useShowModal() {
     return useContext39().showModal;
@@ -164116,15 +165459,15 @@ and ensure you are accounting for this risk.
     );
   }
   var refObject_default = refObject;
-  var classes63 = { "activity-button__text": "wYnoyiq_activity-button__text", "activity-copy-button": "wYnoyiq_activity-copy-button", "activity-copy-button__copy-announcement": "wYnoyiq_activity-copy-button__copy-announcement", "activity-copy-button--copied": "wYnoyiq_activity-copy-button--copied", "activity-copy-button__copied-text": "wYnoyiq_activity-copy-button__copied-text", "activity-button__icon": "wYnoyiq_activity-button__icon" };
+  var classes63 = { "activity-copy-button": "wYnoyiq_activity-copy-button", "activity-copy-button__copied-text": "wYnoyiq_activity-copy-button__copied-text", "activity-copy-button__copy-announcement": "wYnoyiq_activity-copy-button__copy-announcement", "activity-copy-button--copied": "wYnoyiq_activity-copy-button--copied", "activity-button__icon": "wYnoyiq_activity-button__icon", "activity-button__text": "wYnoyiq_activity-button__text" };
   var ActivityCopyButton_module_default = classes63;
-  var _activity_button__text0 = classes63["activity-button__text"];
   var _activity_copy_button0 = classes63["activity-copy-button"];
+  var _activity_copy_button__copied_text0 = classes63["activity-copy-button__copied-text"];
   var _activity_copy_button__copy_announcement0 = classes63["activity-copy-button__copy-announcement"];
   var _activity_copy_button__copied0 = classes63["activity-copy-button--copied"];
-  var _activity_copy_button__copied_text0 = classes63["activity-copy-button__copied-text"];
   var _activity_button__icon02 = classes63["activity-button__icon"];
-  var { useLocalizer: useLocalizer62, useUIState: useUIState23 } = hook_exports;
+  var _activity_button__text0 = classes63["activity-button__text"];
+  var { useLocalizer: useLocalizer72, useUIState: useUIState23 } = hook_exports;
   var activityCopyButtonPropsSchema = pipe(
     object({
       className: optional(string()),
@@ -164135,15 +165478,15 @@ and ensure you are accounting for this risk.
   var ActivityCopyButton = (props) => {
     const { className, targetRef } = validateProps2(activityCopyButtonPropsSchema, props);
     const classNames31 = useStyles_default(ActivityCopyButton_module_default);
-    const [permissionGranted, setPermissionGranted] = (0, import_react323.useState)(false);
+    const [permissionGranted, setPermissionGranted] = (0, import_react324.useState)(false);
     const [uiState] = useUIState23();
-    const buttonRef = (0, import_react323.useRef)(null);
-    const localize2 = useLocalizer62();
+    const buttonRef = (0, import_react324.useRef)(null);
+    const localize2 = useLocalizer72();
     const queueStaticElement = useQueueStaticElement();
     const copiedText = localize2("COPY_BUTTON_COPIED_TEXT");
     const copyText = localize2("COPY_BUTTON_TEXT");
     const disabled = !permissionGranted || uiState === "disabled";
-    (0, import_react323.useEffect)(() => {
+    (0, import_react324.useEffect)(() => {
       const { current: current2 } = buttonRef;
       if (current2) {
         const handleAnimationEnd = () => current2.classList.remove(...classNames31["activity-copy-button--copied"].split(/\s+/gu));
@@ -164151,7 +165494,7 @@ and ensure you are accounting for this risk.
         return () => current2.removeEventListener("animationend", handleAnimationEnd);
       }
     }, [buttonRef, classNames31]);
-    const handleClick = (0, import_react323.useCallback)(() => {
+    const handleClick = (0, import_react324.useCallback)(() => {
       var _a28, _b4, _c3, _d2, _e2, _f;
       const htmlText2 = (_a28 = targetRef.current) == null ? void 0 : _a28.outerHTML;
       const plainText = (_b4 = targetRef.current) == null ? void 0 : _b4.textContent;
@@ -164164,9 +165507,9 @@ and ensure you are accounting for this risk.
       (_d2 = buttonRef.current) == null ? void 0 : _d2.classList.remove(...classNames31["activity-copy-button--copied"].split(/\s+/gu));
       (_e2 = buttonRef.current) == null ? void 0 : _e2.offsetWidth;
       (_f = buttonRef.current) == null ? void 0 : _f.classList.add(...classNames31["activity-copy-button--copied"].split(/\s+/gu));
-      queueStaticElement(/* @__PURE__ */ import_react323.default.createElement("div", { className: classNames31["activity-copy-button__copy-announcement"] }, copiedText));
+      queueStaticElement(/* @__PURE__ */ import_react324.default.createElement("div", { className: classNames31["activity-copy-button__copy-announcement"] }, copiedText));
     }, [classNames31, copiedText, queueStaticElement, targetRef]);
-    (0, import_react323.useEffect)(() => {
+    (0, import_react324.useEffect)(() => {
       let unmounted = false;
       (async function() {
         if ((await navigator.permissions.query({ name: "clipboard-write" })).state === "granted") {
@@ -164177,7 +165520,7 @@ and ensure you are accounting for this risk.
         unmounted = true;
       };
     }, [setPermissionGranted]);
-    return /* @__PURE__ */ import_react323.default.createElement(
+    return /* @__PURE__ */ import_react324.default.createElement(
       ActivityButton_default,
       {
         className: (0, import_classnames50.default)(classNames31["activity-copy-button"], className),
@@ -164188,11 +165531,11 @@ and ensure you are accounting for this risk.
         ref: buttonRef,
         text: copyText
       },
-      /* @__PURE__ */ import_react323.default.createElement("span", { className: classNames31["activity-copy-button__copied-text"] }, copiedText)
+      /* @__PURE__ */ import_react324.default.createElement("span", { className: classNames31["activity-copy-button__copied-text"] }, copiedText)
     );
   };
   ActivityCopyButton.displayName = "ActivityCopyButton";
-  var ActivityCopyButton_default = (0, import_react323.memo)(ActivityCopyButton);
+  var ActivityCopyButton_default = (0, import_react324.memo)(ActivityCopyButton);
   function iterator3(md, ruleName, tokenType, iterator22) {
     function scan(state) {
       const { env = {} } = state;
@@ -164321,15 +165664,15 @@ and ensure you are accounting for this risk.
     (_c3 = decoration.title) != null ? _c3 : decoration.title = false;
     return decoration;
   };
-  var { useLocalizer: useLocalizer72 } = hook_exports;
+  var { useLocalizer: useLocalizer82 } = hook_exports;
   var markdownIt = new import_markdown_it2.default().use(betterLinks_default);
   function isPlural(props) {
     return typeof props.stringIds !== "string";
   }
   var LocalizedString = (props) => {
     const { className, linkClassName, onDecorateLink = defaultDecorateLink, stringIds, values } = props;
-    const localize2 = useLocalizer72(isPlural(props) && { plural: true });
-    const env = (0, import_react325.useMemo)(
+    const localize2 = useLocalizer82(isPlural(props) && { plural: true });
+    const env = (0, import_react326.useMemo)(
       () => ({
         linkOptions: {
           className: linkClassName
@@ -164338,22 +165681,22 @@ and ensure you are accounting for this risk.
       }),
       [linkClassName, onDecorateLink]
     );
-    const html5 = (0, import_react325.useMemo)(
+    const html5 = (0, import_react326.useMemo)(
       () => ({
         __html: markdownIt.renderer.render(markdownIt.parseInline(localize2(stringIds, ...values != null ? values : []), env), env)
       }),
       [env, localize2, stringIds, values]
     );
-    return /* @__PURE__ */ import_react325.default.createElement("span", { className, dangerouslySetInnerHTML: html5 });
+    return /* @__PURE__ */ import_react326.default.createElement("span", { className, dangerouslySetInnerHTML: html5 });
   };
-  var LocalizedString_default = (0, import_react325.memo)(LocalizedString);
-  var classes72 = { "view-code-dialog__footer": "wzmzsZW_view-code-dialog__footer", "view-code-dialog": "wzmzsZW_view-code-dialog", "view-code-dialog__title": "wzmzsZW_view-code-dialog__title", "view-code-dialog__body": "wzmzsZW_view-code-dialog__body", "view-code-dialog__header": "wzmzsZW_view-code-dialog__header" };
+  var LocalizedString_default = (0, import_react326.memo)(LocalizedString);
+  var classes72 = { "view-code-dialog__title": "wzmzsZW_view-code-dialog__title", "view-code-dialog": "wzmzsZW_view-code-dialog", "view-code-dialog__body": "wzmzsZW_view-code-dialog__body", "view-code-dialog__header": "wzmzsZW_view-code-dialog__header", "view-code-dialog__footer": "wzmzsZW_view-code-dialog__footer" };
   var ViewCodeDialog_module_default = classes72;
-  var _view_code_dialog__footer0 = classes72["view-code-dialog__footer"];
-  var _view_code_dialog0 = classes72["view-code-dialog"];
   var _view_code_dialog__title0 = classes72["view-code-dialog__title"];
+  var _view_code_dialog0 = classes72["view-code-dialog"];
   var _view_code_dialog__body0 = classes72["view-code-dialog__body"];
   var _view_code_dialog__header0 = classes72["view-code-dialog__header"];
+  var _view_code_dialog__footer0 = classes72["view-code-dialog__footer"];
   var codeContentPropsSchema = pipe(
     object({
       children: optional(reactNode_default()),
@@ -164368,10 +165711,10 @@ and ensure you are accounting for this risk.
     const { children, className, code: code2, language: language2, title } = validateProps2(codeContentPropsSchema, props);
     const [, CodeBlock2] = useCodeBlockTag();
     const classNames31 = useStyles_default(ViewCodeDialog_module_default);
-    return /* @__PURE__ */ import_react326.default.createElement(import_react326.Fragment, null, /* @__PURE__ */ import_react326.default.createElement("div", { className: classNames31["view-code-dialog__header"] }, /* @__PURE__ */ import_react326.default.createElement("h2", { className: classNames31["view-code-dialog__title"] }, title)), /* @__PURE__ */ import_react326.default.createElement(CodeBlock2, { className: (0, import_classnames51.default)(classNames31["view-code-dialog__body"], className), language: language2 }, /* @__PURE__ */ import_react326.default.createElement("code", null, code2)), children);
+    return /* @__PURE__ */ import_react327.default.createElement(import_react327.Fragment, null, /* @__PURE__ */ import_react327.default.createElement("div", { className: classNames31["view-code-dialog__header"] }, /* @__PURE__ */ import_react327.default.createElement("h2", { className: classNames31["view-code-dialog__title"] }, title)), /* @__PURE__ */ import_react327.default.createElement(CodeBlock2, { className: (0, import_classnames51.default)(classNames31["view-code-dialog__body"], className), language: language2 }, /* @__PURE__ */ import_react327.default.createElement("code", null, code2)), children);
   }
-  var CodeContent_default = (0, import_react326.memo)(CodeContent);
-  var { useLocalizer: useLocalizer82 } = hook_exports;
+  var CodeContent_default = (0, import_react327.memo)(CodeContent);
+  var { useLocalizer: useLocalizer92 } = hook_exports;
   var activityViewCodeButtonPropsSchema = pipe(
     object({
       className: optional(string()),
@@ -164386,17 +165729,17 @@ and ensure you are accounting for this risk.
     const { className, code: code2, language: language2, title, isAIGenerated } = validateProps2(activityViewCodeButtonPropsSchema, props);
     const classNames31 = useStyles_default(ViewCodeDialog_module_default);
     const showModal = useShowModal();
-    const localize2 = useLocalizer82();
-    const showCodeModal = (0, import_react324.useCallback)(() => {
+    const localize2 = useLocalizer92();
+    const showCodeModal = (0, import_react325.useCallback)(() => {
       showModal(
-        () => /* @__PURE__ */ import_react324.default.createElement(CodeContent_default, { code: code2, language: language2, title }, isAIGenerated && /* @__PURE__ */ import_react324.default.createElement("div", { className: classNames31["view-code-dialog__footer"] }, /* @__PURE__ */ import_react324.default.createElement(LocalizedString_default, { linkClassName: "view-code-dialog__link", stringIds: "ACTIVITY_CODE_CAUTION" }))),
+        () => /* @__PURE__ */ import_react325.default.createElement(CodeContent_default, { code: code2, language: language2, title }, isAIGenerated && /* @__PURE__ */ import_react325.default.createElement("div", { className: classNames31["view-code-dialog__footer"] }, /* @__PURE__ */ import_react325.default.createElement(LocalizedString_default, { linkClassName: "view-code-dialog__link", stringIds: "ACTIVITY_CODE_CAUTION" }))),
         {
           className: classNames31["view-code-dialog"],
           "aria-label": localize2("ACTIVITY_CODE_ALT", title != null ? title : "")
         }
       );
     }, [code2, isAIGenerated, language2, localize2, showModal, title, classNames31]);
-    return /* @__PURE__ */ import_react324.default.createElement(
+    return /* @__PURE__ */ import_react325.default.createElement(
       ActivityButton_default,
       {
         className,
@@ -164407,11 +165750,11 @@ and ensure you are accounting for this risk.
       }
     );
   };
-  var ActivityViewCodeButton_default = (0, import_react324.memo)(ActivityViewCodeButton);
-  var classes8 = { "citation-modal-dialog": "wjSs5NG_citation-modal-dialog", "citation-modal-dialog__body": "wjSs5NG_citation-modal-dialog__body", "citation-modal-dialog__header": "wjSs5NG_citation-modal-dialog__header" };
+  var ActivityViewCodeButton_default = (0, import_react325.memo)(ActivityViewCodeButton);
+  var classes8 = { "citation-modal-dialog__body": "wjSs5NG_citation-modal-dialog__body", "citation-modal-dialog": "wjSs5NG_citation-modal-dialog", "citation-modal-dialog__header": "wjSs5NG_citation-modal-dialog__header" };
   var CitationModal_module_default = classes8;
-  var _citation_modal_dialog0 = classes8["citation-modal-dialog"];
   var _citation_modal_dialog__body0 = classes8["citation-modal-dialog__body"];
+  var _citation_modal_dialog0 = classes8["citation-modal-dialog"];
   var _citation_modal_dialog__header0 = classes8["citation-modal-dialog__header"];
   var citationModalContentPropsSchema = pipe(
     object({
@@ -164424,16 +165767,16 @@ and ensure you are accounting for this risk.
     const { headerText, markdown } = validateProps2(citationModalContentPropsSchema, props);
     const classNames31 = useStyles_default(CitationModal_module_default);
     const renderMarkdownAsHTML = useRenderMarkdownAsHTML("citation modal");
-    const html5 = (0, import_react327.useMemo)(() => ({ __html: renderMarkdownAsHTML(markdown) }), [markdown, renderMarkdownAsHTML]);
-    return /* @__PURE__ */ import_react327.default.createElement(import_react327.Fragment, null, headerText && /* @__PURE__ */ import_react327.default.createElement("h2", { className: classNames31["citation-modal-dialog__header"] }, headerText), renderMarkdownAsHTML ? /* @__PURE__ */ import_react327.default.createElement(
+    const html5 = (0, import_react328.useMemo)(() => ({ __html: renderMarkdownAsHTML(markdown) }), [markdown, renderMarkdownAsHTML]);
+    return /* @__PURE__ */ import_react328.default.createElement(import_react328.Fragment, null, headerText && /* @__PURE__ */ import_react328.default.createElement("h2", { className: classNames31["citation-modal-dialog__header"] }, headerText), renderMarkdownAsHTML ? /* @__PURE__ */ import_react328.default.createElement(
       "div",
       {
         className: (0, import_classnames52.default)(classNames31["citation-modal-dialog__body"], "render-markdown"),
         dangerouslySetInnerHTML: html5
       }
-    ) : /* @__PURE__ */ import_react327.default.createElement("div", { className: "render-markdown" }, markdown));
+    ) : /* @__PURE__ */ import_react328.default.createElement("div", { className: "render-markdown" }, markdown));
   }
-  var CitationModalContent_default = (0, import_react327.memo)(CitationModalContent);
+  var CitationModalContent_default = (0, import_react328.memo)(CitationModalContent);
   var shieldIconPropsSchema = pipe(
     object({
       className: optional(string()),
@@ -164444,7 +165787,7 @@ and ensure you are accounting for this risk.
   );
   function ShieldIcon(props) {
     const { className, fillColor, hasLock } = validateProps2(shieldIconPropsSchema, props);
-    return /* @__PURE__ */ import_react329.default.createElement(
+    return /* @__PURE__ */ import_react330.default.createElement(
       "svg",
       {
         className: (0, import_classnames54.default)(className),
@@ -164453,25 +165796,25 @@ and ensure you are accounting for this risk.
         width: "16",
         xmlns: "http://www.w3.org/2000/svg"
       },
-      hasLock ? /* @__PURE__ */ import_react329.default.createElement(import_react329.Fragment, null, fillColor && /* @__PURE__ */ import_react329.default.createElement(
+      hasLock ? /* @__PURE__ */ import_react330.default.createElement(import_react330.Fragment, null, fillColor && /* @__PURE__ */ import_react330.default.createElement(
         "path",
         {
           d: "M8.35464 2.14678C8.15946 1.95123 7.84268 1.95105 7.64728 2.14638C6.40416 3.38902 5.02923 4 3.5 4C3.22386 4 3 4.22386 3 4.5V7.50126C3 10.4242 4.35378 12.4971 7 13.6523V10C7 9.06808 7.63739 8.28503 8.5 8.06301V8C8.5 6.34315 9.84315 5 11.5 5C12.0464 5 12.5587 5.14609 13 5.40135V4.5C13 4.22386 12.7761 4 12.5 4C10.9689 4 9.5947 3.38913 8.35464 2.14678ZM9.5 9V8C9.5 6.89543 10.3954 6 11.5 6C12.6046 6 13.5 6.89543 13.5 8V9H14C14.5523 9 15 9.44772 15 10V14C15 14.5523 14.5523 15 14 15H9C8.44771 15 8 14.5523 8 14V10C8 9.44772 8.44772 9 9 9H9.5ZM10.5 8V9H12.5V8C12.5 7.44772 12.0523 7 11.5 7C10.9477 7 10.5 7.44772 10.5 8ZM12.25 12C12.25 11.5858 11.9142 11.25 11.5 11.25C11.0858 11.25 10.75 11.5858 10.75 12C10.75 12.4142 11.0858 12.75 11.5 12.75C11.9142 12.75 12.25 12.4142 12.25 12Z",
           fill: fillColor
         }
-      ), /* @__PURE__ */ import_react329.default.createElement(
+      ), /* @__PURE__ */ import_react330.default.createElement(
         "path",
         {
           d: "M7.64728 2.14638C7.84268 1.95105 8.15946 1.95123 8.35464 2.14678C9.5947 3.38913 10.9689 4 12.5 4C12.7761 4 13 4.22386 13 4.5V5.40135C12.6963 5.22567 12.359 5.1017 12 5.04148V4.98121C10.5195 4.86895 9.18521 4.25528 8.00042 3.18917C6.81393 4.25491 5.47941 4.86879 4 4.98118V7.50126C4 8.9349 4.36269 10.0655 5.02127 10.9453C5.49089 11.5727 6.14168 12.1134 7 12.5478V13.6523C4.35378 12.4971 3 10.4242 3 7.50126V4.5C3 4.22386 3.22386 4 3.5 4C5.02923 4 6.40416 3.38902 7.64728 2.14638ZM9.5 8V9H9C8.44772 9 8 9.44772 8 10V14C8 14.5523 8.44771 15 9 15H14C14.5523 15 15 14.5523 15 14V10C15 9.44772 14.5523 9 14 9H13.5V8C13.5 6.89543 12.6046 6 11.5 6C10.3954 6 9.5 6.89543 9.5 8ZM10.5 9V8C10.5 7.44772 10.9477 7 11.5 7C12.0523 7 12.5 7.44772 12.5 8V9H10.5ZM11.5 11.25C11.9142 11.25 12.25 11.5858 12.25 12C12.25 12.4142 11.9142 12.75 11.5 12.75C11.0858 12.75 10.75 12.4142 10.75 12C10.75 11.5858 11.0858 11.25 11.5 11.25Z",
           fill: "currentcolor"
         }
-      )) : /* @__PURE__ */ import_react329.default.createElement(import_react329.Fragment, null, fillColor && /* @__PURE__ */ import_react329.default.createElement(
+      )) : /* @__PURE__ */ import_react330.default.createElement(import_react330.Fragment, null, fillColor && /* @__PURE__ */ import_react330.default.createElement(
         "path",
         {
           d: "M7.64728 2.14638C7.84268 1.95105 8.15946 1.95123 8.35464 2.14678C9.5947 3.38913 10.9689 4 12.5 4C12.7761 4 13 4.22386 13 4.5V7.50126C13 10.7196 11.3587 12.9075 8.15811 13.9743C8.05548 14.0086 7.94452 14.0086 7.84189 13.9743C4.64126 12.9075 3 10.7196 3 7.50126V4.5C3 4.22386 3.22386 4 3.5 4C5.02923 4 6.40416 3.38902 7.64728 2.14638Z",
           fill: fillColor
         }
-      ), /* @__PURE__ */ import_react329.default.createElement(
+      ), /* @__PURE__ */ import_react330.default.createElement(
         "path",
         {
           d: "M7.64728 2.14638C7.84268 1.95105 8.15946 1.95123 8.35464 2.14678C9.5947 3.38913 10.9689 4 12.5 4C12.7761 4 13 4.22386 13 4.5V7.50126C13 10.7196 11.3587 12.9075 8.15811 13.9743C8.05548 14.0086 7.94452 14.0086 7.84189 13.9743C4.64126 12.9075 3 10.7196 3 7.50126V4.5C3 4.22386 3.22386 4 3.5 4C5.02923 4 6.40416 3.38902 7.64728 2.14638ZM8.00042 3.18917C6.81393 4.25491 5.47941 4.86879 4 4.98118V7.50126C4 8.9349 4.36269 10.0655 5.02127 10.9453C5.65858 11.7967 6.62953 12.4885 8 12.9715C9.37047 12.4885 10.3414 11.7967 10.9787 10.9453C11.6373 10.0655 12 8.9349 12 7.50126V4.98121C10.5195 4.86895 9.18521 4.25528 8.00042 3.18917Z",
@@ -164480,7 +165823,7 @@ and ensure you are accounting for this risk.
       ))
     );
   }
-  var ShieldIcon_default = (0, import_react329.memo)(ShieldIcon);
+  var ShieldIcon_default = (0, import_react330.memo)(ShieldIcon);
   var messageSensitivityLabelPropsSchema = pipe(
     object({
       className: optional(string()),
@@ -164494,7 +165837,7 @@ and ensure you are accounting for this risk.
   function MessageSensitivityLabel(props) {
     const { className, color: color2, isEncrypted, name, title } = validateProps2(messageSensitivityLabelPropsSchema, props);
     const classNames31 = useStyles_default(LinkDefinitions_module_default);
-    return /* @__PURE__ */ import_react328.default.createElement(
+    return /* @__PURE__ */ import_react329.default.createElement(
       "div",
       {
         className: (0, import_classnames53.default)(
@@ -164504,9 +165847,9 @@ and ensure you are accounting for this risk.
           },
           className
         ),
-        title: (0, import_react328.useMemo)(() => [name, title].filter(Boolean).join("\n\n"), [name, title])
+        title: (0, import_react329.useMemo)(() => [name, title].filter(Boolean).join("\n\n"), [name, title])
       },
-      /* @__PURE__ */ import_react328.default.createElement(
+      /* @__PURE__ */ import_react329.default.createElement(
         ShieldIcon_default,
         {
           className: classNames31["link-definitions__message-sensitivity-label-icon"],
@@ -164514,10 +165857,10 @@ and ensure you are accounting for this risk.
           hasLock: isEncrypted
         }
       ),
-      /* @__PURE__ */ import_react328.default.createElement("span", { className: classNames31["link-definitions__message-sensitivity-label-text"] }, name)
+      /* @__PURE__ */ import_react329.default.createElement("span", { className: classNames31["link-definitions__message-sensitivity-label-text"] }, name)
     );
   }
-  var MessageSensitivityLabel_default = (0, import_react328.memo)(MessageSensitivityLabel);
+  var MessageSensitivityLabel_default = (0, import_react329.memo)(MessageSensitivityLabel);
   function isBasedOnSoftwareSourceCode(messageEntity) {
     var _a28;
     return ((_a28 = messageEntity == null ? void 0 : messageEntity.isBasedOn) == null ? void 0 : _a28["@type"]) === "SoftwareSourceCode";
@@ -164525,7 +165868,7 @@ and ensure you are accounting for this risk.
   function isHTMLButtonElement(button) {
     return button.matches("button");
   }
-  var { useLocalizer: useLocalizer92, useStyleOptions: useStyleOptions33 } = hook_exports;
+  var { useLocalizer: useLocalizer102, useStyleOptions: useStyleOptions43 } = hook_exports;
   var markdownTextContentPropsSchema = pipe(
     object({
       activity: custom(() => true),
@@ -164546,25 +165889,18 @@ and ensure you are accounting for this risk.
     const { activity, children, markdown } = validateProps2(markdownTextContentPropsSchema, props);
     const citationModalClassNames = useStyles_default(CitationModal_module_default);
     const textContentClassNames = useStyles_default(TextContent_module_default);
-    const [{ feedbackActionsPlacement }] = useStyleOptions33();
+    const [{ feedbackActionsPlacement }] = useStyleOptions43();
     const contentRef = (0, import_react302.useRef)(null);
-    const localize2 = useLocalizer92();
+    const localize2 = useLocalizer102();
     const graph = (0, import_react302.useMemo)(() => dereferenceBlankNodes(activity.entities || []), [activity.entities]);
-    const renderMarkdownAsHTML = useRenderMarkdownAsHTML("message activity");
     const showModal = useShowModal();
+    const { definitions: markdownDefinitions } = useStreamingMarkdownWithDefinitions(
+      contentRef,
+      markdown,
+      activity.type === "message"
+    );
     const messageThing = (0, import_react302.useMemo)(() => getOrgSchemaMessage(graph), [graph]);
     const citationModalDialogLabel = localize2("CITATION_MODEL_DIALOG_ALT");
-    if (!renderMarkdownAsHTML) {
-      throw new Error("botframework-webchat: assert failed for renderMarkdownAsHTML");
-    }
-    const dangerouslySetInnerHTML = (0, import_react302.useMemo)(
-      () => ({ __html: markdown ? renderMarkdownAsHTML(markdown) : "" }),
-      [renderMarkdownAsHTML, markdown]
-    );
-    const markdownDefinitions = (0, import_react302.useMemo)(
-      () => fromMarkdown(markdown).children.filter((node3) => node3.type === "definition"),
-      [markdown]
-    );
     const showClaimModal = (0, import_react302.useCallback)(
       (title, text6, altText) => {
         showModal(() => /* @__PURE__ */ import_react302.default.createElement(CitationModalContent_default, { headerText: title, markdown: text6 }), {
@@ -164697,15 +166033,7 @@ and ensure you are accounting for this risk.
       var _a29, _b5, _c4;
       return (_c4 = (_b5 = (_a29 = entry.claim) == null ? void 0 : _a29.appearance) == null ? void 0 : _b5.usageInfo) == null ? void 0 : _c4.description;
     };
-    return /* @__PURE__ */ import_react302.default.createElement("div", { className: (0, import_classnames43.default)(textContentClassNames["text-content"], textContentClassNames["text-content--is-markdown"]) }, /* @__PURE__ */ import_react302.default.createElement(
-      "div",
-      {
-        className: (0, import_classnames43.default)(textContentClassNames["text-content__markdown"]),
-        dangerouslySetInnerHTML,
-        onClick: handleClick,
-        ref: contentRef
-      }
-    ), children, !!entries.length && /* @__PURE__ */ import_react302.default.createElement(
+    return /* @__PURE__ */ import_react302.default.createElement("div", { className: (0, import_classnames43.default)(textContentClassNames["text-content"], textContentClassNames["text-content--is-markdown"]) }, /* @__PURE__ */ import_react302.default.createElement("div", { className: (0, import_classnames43.default)(textContentClassNames["text-content__markdown"]), onClick: handleClick, ref: contentRef }), children, !!entries.length && /* @__PURE__ */ import_react302.default.createElement(
       LinkDefinitions_default,
       {
         accessoryComponentType: messageSensitivityLabelProps && MessageSensitivityLabel_default,
@@ -164750,10 +166078,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function PlainTextContent(props) {
     const { children, text: text6 } = validateProps2(plainTextContentPropsSchema, props);
     const classNames31 = useStyles_default(TextContent_module_default);
-    return /* @__PURE__ */ import_react330.default.createElement(import_react330.Fragment, null, (text6 || "").split("\n").map((line2) => /* @__PURE__ */ import_react330.default.createElement("p", { className: (0, import_classnames55.default)(classNames31["text-content"]), key: line2 }, line2.trim())), children && /* @__PURE__ */ import_react330.default.createElement("div", { className: classNames31["text-content"] }, children));
+    return /* @__PURE__ */ import_react331.default.createElement(import_react331.Fragment, null, (text6 || "").split("\n").map((line2) => /* @__PURE__ */ import_react331.default.createElement("p", { className: (0, import_classnames55.default)(classNames31["text-content"]), key: line2 }, line2.trim())), children && /* @__PURE__ */ import_react331.default.createElement("div", { className: classNames31["text-content"] }, children));
   }
-  var PlainTextContent_default = (0, import_react330.memo)(PlainTextContent);
-  var { useLocalizer: useLocalizer102 } = hook_exports;
+  var PlainTextContent_default = (0, import_react331.memo)(PlainTextContent);
+  var { useLocalizer: useLocalizer112 } = hook_exports;
   var textContentPropsSchema = pipe(
     object({
       activity: any(),
@@ -164766,7 +166094,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const { activity, contentType = "text/plain", text: text6 } = validateProps2(textContentPropsSchema, props);
     const classNames31 = useStyles_default(TextContent_module_default);
     const supportMarkdown = !!useRenderMarkdownAsHTML("message activity");
-    const localize2 = useLocalizer102();
+    const localize2 = useLocalizer112();
     const generatedBadge = (0, import_react301.useMemo)(
       () => isAIGeneratedActivity(activity) && /* @__PURE__ */ import_react301.default.createElement("div", { className: classNames31["text-content__generated-badge"] }, localize2("ACTIVITY_CONTENT_CAUTION")),
       [activity, classNames31, localize2]
@@ -164818,7 +166146,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function HTMLVideoContent(props) {
     const { alt, autoPlay = false, loop: loop2 = false, poster, src } = validateProps2(htmlVideoContentPropsSchema, props);
     const [{ videoContent: videoContentStyleSet }] = useStyleSet();
-    return /* @__PURE__ */ import_react333.default.createElement(
+    return /* @__PURE__ */ import_react334.default.createElement(
       "video",
       {
         "aria-label": alt,
@@ -164831,8 +166159,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       }
     );
   }
-  var HTMLVideoContent_default = (0, import_react333.memo)(HTMLVideoContent);
-  var { useLocalizer: useLocalizer112 } = hook_exports;
+  var HTMLVideoContent_default = (0, import_react334.memo)(HTMLVideoContent);
+  var { useLocalizer: useLocalizer122 } = hook_exports;
   var vimeoContentPropsSchema = pipe(
     object({
       alt: optional(string()),
@@ -164845,7 +166173,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function VimeoContent(props) {
     const { alt, autoPlay = false, embedID, loop: loop2 = false } = validateProps2(vimeoContentPropsSchema, props);
     const [{ vimeoContent: vimeoContentStyleSet }] = useStyleSet();
-    const localize2 = useLocalizer112();
+    const localize2 = useLocalizer122();
     const search2 = new URLSearchParams({
       autoplay: autoPlay ? "1" : "0",
       badge: "0",
@@ -164855,7 +166183,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       title: "0"
     }).toString();
     const title = localize2("ATTACHMENT_VIDEO");
-    return /* @__PURE__ */ import_react334.default.createElement(
+    return /* @__PURE__ */ import_react335.default.createElement(
       "iframe",
       {
         allowFullScreen: true,
@@ -164867,8 +166195,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       }
     );
   }
-  var VimeoContent_default = (0, import_react334.memo)(VimeoContent);
-  var { useLocalizer: useLocalizer122 } = hook_exports;
+  var VimeoContent_default = (0, import_react335.memo)(VimeoContent);
+  var { useLocalizer: useLocalizer13 } = hook_exports;
   var youTubeContentPropsSchema = pipe(
     object({
       alt: optional(string()),
@@ -164881,7 +166209,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function YouTubeContent(props) {
     const { alt, autoPlay = false, embedID, loop: loop2 = false } = validateProps2(youTubeContentPropsSchema, props);
     const [{ youTubeContent: youTubeContentStyleSet }] = useStyleSet();
-    const localize2 = useLocalizer122();
+    const localize2 = useLocalizer13();
     const search2 = new URLSearchParams({
       autoplay: autoPlay ? "1" : "0",
       loop: loop2 ? "1" : "0",
@@ -164890,7 +166218,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const title = localize2("ATTACHMENT_VIDEO");
     return (
       // TODO: We should encodeURI the URL
-      /* @__PURE__ */ import_react335.default.createElement(
+      /* @__PURE__ */ import_react336.default.createElement(
         "iframe",
         {
           allowFullScreen: true,
@@ -164903,7 +166231,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       )
     );
   }
-  var YouTubeContent_default = (0, import_react335.memo)(YouTubeContent);
+  var YouTubeContent_default = (0, import_react336.memo)(YouTubeContent);
   var YOUTUBE_DOMAIN = "youtube.com";
   var YOUTUBE_WWW_DOMAIN = "www.youtube.com";
   var YOUTUBE_SHORT_DOMAIN = "youtu.be";
@@ -164939,18 +166267,18 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     switch (hostname) {
       case VIMEO_DOMAIN:
       case VIMEO_WWW_DOMAIN:
-        return /* @__PURE__ */ import_react332.default.createElement(VimeoContent_default, { alt, autoPlay, embedID: lastSegment, loop: loop2 });
+        return /* @__PURE__ */ import_react333.default.createElement(VimeoContent_default, { alt, autoPlay, embedID: lastSegment, loop: loop2 });
       case YOUTUBE_DOMAIN:
       case YOUTUBE_WWW_DOMAIN:
-        return /* @__PURE__ */ import_react332.default.createElement(YouTubeContent_default, { alt, autoPlay, embedID: searchParams.get("v"), loop: loop2 });
+        return /* @__PURE__ */ import_react333.default.createElement(YouTubeContent_default, { alt, autoPlay, embedID: searchParams.get("v"), loop: loop2 });
       case YOUTUBE_SHORT_DOMAIN:
       case YOUTUBE_WWW_SHORT_DOMAIN:
-        return /* @__PURE__ */ import_react332.default.createElement(YouTubeContent_default, { alt, autoPlay, embedID: lastSegment, loop: loop2 });
+        return /* @__PURE__ */ import_react333.default.createElement(YouTubeContent_default, { alt, autoPlay, embedID: lastSegment, loop: loop2 });
       default:
-        return /* @__PURE__ */ import_react332.default.createElement(HTMLVideoContent_default, { alt, autoPlay, loop: loop2, poster, src });
+        return /* @__PURE__ */ import_react333.default.createElement(HTMLVideoContent_default, { alt, autoPlay, loop: loop2, poster, src });
     }
   }
-  var VideoContent_default = (0, import_react332.memo)(VideoContent);
+  var VideoContent_default = (0, import_react333.memo)(VideoContent);
   var ROOT_STYLE32 = {
     display: "flex",
     flexDirection: "column"
@@ -164958,7 +166286,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   var VideoAttachment = ({ attachment }) => {
     const [{ videoAttachment: videoAttachmentStyleSet }] = useStyleSet();
     const rootClassName = useStyleToEmotionObject()(ROOT_STYLE32) + "";
-    return /* @__PURE__ */ import_react331.default.createElement("div", { className: (0, import_classnames56.default)(rootClassName, videoAttachmentStyleSet + "") }, /* @__PURE__ */ import_react331.default.createElement(VideoContent_default, { alt: attachment.name, src: attachment.contentUrl }));
+    return /* @__PURE__ */ import_react332.default.createElement("div", { className: (0, import_classnames56.default)(rootClassName, videoAttachmentStyleSet + "") }, /* @__PURE__ */ import_react332.default.createElement(VideoContent_default, { alt: attachment.name, src: attachment.contentUrl }));
   };
   VideoAttachment.propTypes = {
     attachment: import_prop_types25.default.shape({
@@ -165003,10 +166331,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   var SayAlt = (props) => {
     const { speak } = validateProps2(sayAltPropsSchema, props);
     const classNames31 = useStyles_default(SayAlt_module_default);
-    return !!speak && /* @__PURE__ */ import_react341.default.createElement("pre", { className: classNames31["say-alt"] }, speak);
+    return !!speak && /* @__PURE__ */ import_react342.default.createElement("pre", { className: classNames31["say-alt"] }, speak);
   };
-  var SayAlt_default = (0, import_react341.memo)(SayAlt);
-  var { useMarkActivityAsSpoken: useMarkActivityAsSpoken2, useStyleOptions: useStyleOptions43, useVoiceSelector: useVoiceSelector2 } = hook_exports;
+  var SayAlt_default = (0, import_react342.memo)(SayAlt);
+  var { useMarkActivityAsSpoken: useMarkActivityAsSpoken2, useStyleOptions: useStyleOptions52, useVoiceSelector: useVoiceSelector2 } = hook_exports;
   var speakableActivitySchema = pipe(
     object({
       attachments: optional(
@@ -165050,16 +166378,16 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function Speak(props) {
     var _a28;
     const { activity } = validateProps2(speakPropsSchema, props);
-    const [{ showSpokenText }] = useStyleOptions43();
+    const [{ showSpokenText }] = useStyleOptions52();
     const [webSpeechPonyfill] = useWebSpeechPonyfill();
     const activityRef = useRefFrom(activity);
     const markActivityAsSpoken = useMarkActivityAsSpoken2();
     const selectVoice = useVoiceSelector2(activity);
-    const markAsSpoken = (0, import_react340.useCallback)(
+    const markAsSpoken = (0, import_react341.useCallback)(
       () => markActivityAsSpoken(activityRef.current),
       [activityRef, markActivityAsSpoken]
     );
-    const singleLine = (0, import_react340.useMemo)(() => {
+    const singleLine = (0, import_react341.useMemo)(() => {
       if (activity.type !== "message") {
         return false;
       }
@@ -165075,7 +166403,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       ].filter((line2) => line2).join("\r\n");
     }, [activity]);
     const speechSynthesisUtterance = activity.type === "message" && ((_a28 = activity.channelData) == null ? void 0 : _a28.speechSynthesisUtterance);
-    return !!activity && /* @__PURE__ */ import_react340.default.createElement(import_react340.Fragment, null, speechSynthesisUtterance ? /* @__PURE__ */ import_react340.default.createElement(
+    return !!activity && /* @__PURE__ */ import_react341.default.createElement(import_react341.Fragment, null, speechSynthesisUtterance ? /* @__PURE__ */ import_react341.default.createElement(
       SayUtterance_default,
       {
         onEnd: markAsSpoken,
@@ -165083,7 +166411,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         ponyfill: webSpeechPonyfill,
         utterance: speechSynthesisUtterance
       }
-    ) : /* @__PURE__ */ import_react340.default.createElement(
+    ) : /* @__PURE__ */ import_react341.default.createElement(
       src_default2,
       {
         onEnd: markAsSpoken,
@@ -165092,9 +166420,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         text: singleLine,
         voice: selectVoice
       }
-    ), !!showSpokenText && /* @__PURE__ */ import_react340.default.createElement(SayAlt_default, { speak: singleLine }));
+    ), !!showSpokenText && /* @__PURE__ */ import_react341.default.createElement(SayAlt_default, { speak: singleLine }));
   }
-  var Speak_default = (0, import_react340.memo)(Speak);
+  var Speak_default = (0, import_react341.memo)(Speak);
   var BREAKPOINT_NAMES2 = ["render"];
   var RestrictedActivityDebugAPI = class extends RestrictedDebugAPI_default {
     constructor(getActivity) {
@@ -165219,7 +166547,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     }
     return text6;
   }
-  var { useAvatarForBot: useAvatarForBot3, useGetKeyByActivity: useGetKeyByActivity3, useLocalizer: useLocalizer13, useSendStatusByActivityKey } = hook_exports;
+  var { useAvatarForBot: useAvatarForBot3, useGetKeyByActivity: useGetKeyByActivity3, useLocalizer: useLocalizer14, useSendStatusByActivityKey } = hook_exports;
   var ACTIVITY_NUM_ATTACHMENTS_ALT_IDS = {
     few: "ACTIVITY_NUM_ATTACHMENTS_FEW_ALT",
     many: "ACTIVITY_NUM_ATTACHMENTS_MANY_ALT",
@@ -165230,12 +166558,12 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function useActivityAccessibleName(activity, bodyRef) {
     var _a28, _b4;
     const [{ initials: botInitials }] = useAvatarForBot3();
-    const [interactiveType, setInteractiveType] = (0, import_react342.useState)(false);
+    const [interactiveType, setInteractiveType] = (0, import_react343.useState)(false);
     const [sendStatusByActivityKey] = useSendStatusByActivityKey();
     const fromSelf = ((_a28 = activity.from) == null ? void 0 : _a28.role) === "user";
     const getKeyByActivity = useGetKeyByActivity3();
-    const localize2 = useLocalizer13();
-    const localizeWithPlural = useLocalizer13({ plural: true });
+    const localize2 = useLocalizer14();
+    const localizeWithPlural = useLocalizer14({ plural: true });
     const numAttachments = activity.type === "message" ? ((_b4 = activity.attachments) == null ? void 0 : _b4.length) || 0 : 0;
     const renderMarkdownAsHTML = useRenderMarkdownAsHTML();
     const activityInteractiveFootNoteAlt = localize2("ACTIVITY_INTERACTIVE_FOOTNOTE_ALT");
@@ -165244,8 +166572,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     );
     const activityInteractiveReasonLinkAlt = localize2("ACTIVITY_INTERACTIVE_REASON_LINK_ALT");
     const activityInteractiveReasonSendFailedAlt = localize2("ACTIVITY_INTERACTIVE_REASON_SEND_FAILED_ALT");
-    const activityKey = (0, import_react342.useMemo)(() => getKeyByActivity(activity), [activity, getKeyByActivity]);
-    const greetingAlt = (0, import_react342.useMemo)(
+    const activityKey = (0, import_react343.useMemo)(() => getKeyByActivity(activity), [activity, getKeyByActivity]);
+    const greetingAlt = (0, import_react343.useMemo)(
       () => (fromSelf ? localize2("ACTIVITY_YOU_SAID_ALT") : localize2("ACTIVITY_BOT_SAID_ALT", botInitials || "")).replace(
         /\s{2,}/gu,
         " "
@@ -165253,19 +166581,19 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       [botInitials, fromSelf, localize2]
     );
     const interactiveTypeRef = useValueRef2(interactiveType);
-    const messageTextAlt = (0, import_react342.useMemo)(
+    const messageTextAlt = (0, import_react343.useMemo)(
       () => activityAltText(activity, renderMarkdownAsHTML),
       [activity, renderMarkdownAsHTML]
     );
-    const numAttachmentsAlt = (0, import_react342.useMemo)(
+    const numAttachmentsAlt = (0, import_react343.useMemo)(
       () => numAttachments ? localizeWithPlural(ACTIVITY_NUM_ATTACHMENTS_ALT_IDS, numAttachments) : "",
       [localizeWithPlural, numAttachments]
     );
-    const isSendFailed = (0, import_react342.useMemo)(
+    const isSendFailed = (0, import_react343.useMemo)(
       () => sendStatusByActivityKey.get(activityKey) === SEND_FAILED3,
       [activityKey, sendStatusByActivityKey]
     );
-    const accessibleName = (0, import_react342.useMemo)(
+    const accessibleName = (0, import_react343.useMemo)(
       // We are concatenating in a single string for Safari. If we split it up, Safari will only narrate the first section.
       () => [
         greetingAlt,
@@ -165287,7 +166615,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         numAttachmentsAlt
       ]
     );
-    (0, import_react342.useEffect)(() => {
+    (0, import_react343.useEffect)(() => {
       var _a29;
       const hasLinks = !!((_a29 = bodyRef.current) == null ? void 0 : _a29.querySelector("a"));
       const hasWidgets = !!tabbableElements(bodyRef.current).length;
@@ -165298,12 +166626,12 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     return [accessibleName];
   }
   var { useActivityKeysByRead: useActivityKeysByRead2, useGetHasAcknowledgedByActivityKey, useGetKeyByActivity: useGetKeyByActivity22 } = hook_exports;
-  var ActivityRow = (0, import_react339.forwardRef)(({ activity, children }, ref) => {
+  var ActivityRow = (0, import_react340.forwardRef)(({ activity, children }, ref) => {
     var _a28;
     const [activeDescendantId] = useActiveDescendantId();
     const [readActivityKeys] = useActivityKeysByRead2();
     const activityRef = useRefFrom(activity);
-    const bodyRef = (0, import_react339.useRef)();
+    const bodyRef = (0, import_react340.useRef)();
     const focusByActivityKey = useFocusByActivityKey();
     const getKeyByActivity = useGetKeyByActivity22();
     const shouldSpeak = (_a28 = activity.channelData) == null ? void 0 : _a28.speak;
@@ -165315,19 +166643,19 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const descendantLabelId = `webchat__basic-transcript__active-descendant-label--${activityKey}`;
     const isActiveDescendant = descendantId === activeDescendantId;
     const read = readActivityKeys.includes(activityKey);
-    const focusSelf = (0, import_react339.useCallback)(
+    const focusSelf = (0, import_react340.useCallback)(
       (withFocus) => focusByActivityKey(activityKeyRef.current, withFocus),
       [activityKeyRef, focusByActivityKey]
     );
-    const handleDescendantFocus = (0, import_react339.useCallback)(() => focusSelf(false), [focusSelf]);
-    const handleLeaveFocusTrap = (0, import_react339.useCallback)(() => focusSelf(), [focusSelf]);
-    const handleMouseDownCapture = (0, import_react339.useCallback)(() => focusSelf(false), [focusSelf]);
-    const focusTrapChildren = (0, import_react339.useMemo)(
-      () => /* @__PURE__ */ import_react339.default.createElement("div", { className: "webchat__basic-transcript__activity-body", ref: bodyRef }, children),
+    const handleDescendantFocus = (0, import_react340.useCallback)(() => focusSelf(false), [focusSelf]);
+    const handleLeaveFocusTrap = (0, import_react340.useCallback)(() => focusSelf(), [focusSelf]);
+    const handleMouseDownCapture = (0, import_react340.useCallback)(() => focusSelf(false), [focusSelf]);
+    const focusTrapChildren = (0, import_react340.useMemo)(
+      () => /* @__PURE__ */ import_react340.default.createElement("div", { className: "webchat__basic-transcript__activity-body", ref: bodyRef }, children),
       [bodyRef, children]
     );
     const activityIdRef = useRefFrom(activity.id);
-    const handleFormData = (0, import_react339.useCallback)(
+    const handleFormData = (0, import_react340.useCallback)(
       (event2) => {
         var _a29;
         const { webchatIncludeActivityId, webchatIncludeActivityKey } = event2.target.dataset;
@@ -165340,10 +166668,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       },
       [activityKeyRef, activityIdRef]
     );
-    const prevArticleRef = (0, import_react339.useRef)(null);
-    const restrictedDebugAPI = (0, import_react339.useMemo)(() => new RestrictedActivityDebugAPI_default(() => activityRef.current), [activityRef]);
-    const debugAPI = (0, import_react339.useMemo)(() => restrictedDebugAPI.toPublic(), [restrictedDebugAPI]);
-    const wrappedRef = (0, import_react339.useCallback)(
+    const prevArticleRef = (0, import_react340.useRef)(null);
+    const restrictedDebugAPI = (0, import_react340.useMemo)(() => new RestrictedActivityDebugAPI_default(() => activityRef.current), [activityRef]);
+    const debugAPI = (0, import_react340.useMemo)(() => restrictedDebugAPI.toPublic(), [restrictedDebugAPI]);
+    const wrappedRef = (0, import_react340.useCallback)(
       (el) => {
         if (prevArticleRef.current) {
           prevArticleRef.current.removeEventListener("formdata", handleFormData);
@@ -165374,7 +166702,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           However, Android TalkBack 12.1 is buggy when the there is an element with ID of one of the `aria-activedescendant` potential candidates,
           TalkBack will narrate the message content twice (i.e. content of `bodyRef`), regardless whether the ID is currently set as `aria-activedescendant` or not.
           As Android does not support active descendant, we are hiding the whole DOM element altogether. */
-      /* @__PURE__ */ import_react339.default.createElement(
+      /* @__PURE__ */ import_react340.default.createElement(
         TranscriptFocusContent_default,
         {
           className: (0, import_classnames57.default)("webchat__basic-transcript__activity", {
@@ -165386,7 +166714,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           ref: wrappedRef,
           tag: "article"
         },
-        /* @__PURE__ */ import_react339.default.createElement(
+        /* @__PURE__ */ import_react340.default.createElement(
           FocusTrap_default,
           {
             onFocus: handleDescendantFocus,
@@ -165396,8 +166724,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           focusTrapChildren
         ),
         shouldSpeak && // TODO: Should build `webChatActivitySchema`.
-        /* @__PURE__ */ import_react339.default.createElement(Speak_default, { activity }),
-        /* @__PURE__ */ import_react339.default.createElement(TranscriptFocusContentOverlay_default, null, !android && /* @__PURE__ */ import_react339.default.createElement(
+        /* @__PURE__ */ import_react340.default.createElement(Speak_default, { activity }),
+        /* @__PURE__ */ import_react340.default.createElement(TranscriptFocusContentOverlay_default, null, !android && /* @__PURE__ */ import_react340.default.createElement(
           TranscriptFocusContentActiveDescendant_default,
           {
             "aria-labelledby": descendantLabelId,
@@ -165405,8 +166733,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
             id: descendantId,
             role: "article"
           },
-          /* @__PURE__ */ import_react339.default.createElement(ScreenReaderText_default, { "aria-hidden": true, id: descendantLabelId, text: accessibleName })
-        ), /* @__PURE__ */ import_react339.default.createElement(TranscriptFocusIndicator_default, { type: "content" }))
+          /* @__PURE__ */ import_react340.default.createElement(ScreenReaderText_default, { "aria-hidden": true, id: descendantLabelId, text: accessibleName })
+        ), /* @__PURE__ */ import_react340.default.createElement(TranscriptFocusIndicator_default, { type: "content" }))
       )
     );
   });
@@ -165425,8 +166753,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     }).isRequired,
     children: import_prop_types26.default.any
   };
-  var ActivityRow_default = (0, import_react339.memo)(ActivityRow);
-  var { useStyleOptions: useStyleOptions52 } = hook_exports;
+  var ActivityRow_default = (0, import_react340.memo)(ActivityRow);
+  var { useStyleOptions: useStyleOptions62 } = hook_exports;
   var webChatActivitySchema2 = custom((value) => safeParse(object({}), value).success);
   var legacyActivityComposerPropsSchema = pipe(
     object({
@@ -165438,7 +166766,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function LegacyActivityBridgeComposer(props) {
     var _a28;
     const { activity, children } = validateProps2(legacyActivityComposerPropsSchema, props);
-    const [{ bubbleFromUserNubOffset, bubbleNubOffset, groupTimestamp, showAvatarInGroup }] = useStyleOptions52();
+    const [{ bubbleFromUserNubOffset, bubbleNubOffset, groupTimestamp, showAvatarInGroup }] = useStyleOptions62();
     const [firstActivityInSenderGroup] = useFirstActivity();
     const [firstActivityInStatusGroup] = useFirstActivity2();
     const [lastActivityInSenderGroup] = useLastActivity();
@@ -165468,23 +166796,23 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     } else {
       showCallout = true;
     }
-    const context9 = (0, import_react343.useMemo)(
+    const context9 = (0, import_react344.useMemo)(
       () => Object.freeze({
         hideTimestamp,
         showCallout
       }),
       [hideTimestamp, showCallout]
     );
-    return /* @__PURE__ */ import_react343.default.createElement(LegacyActivityContextProvider, { value: context9 }, children);
+    return /* @__PURE__ */ import_react344.default.createElement(LegacyActivityContextProvider, { value: context9 }, children);
   }
-  var LegacyActivityBridgeComposer_default = (0, import_react343.memo)(LegacyActivityBridgeComposer);
+  var LegacyActivityBridgeComposer_default = (0, import_react344.memo)(LegacyActivityBridgeComposer);
   var { useGetKeyByActivity: useGetKeyByActivity32 } = hook_exports;
   function RenderActivity({ activity }) {
     var _a28;
     const activityElementMapRef = useActivityElementMapRef();
     const getKeyByActivity = useGetKeyByActivity32();
-    const activityKey = (0, import_react338.useMemo)(() => getKeyByActivity(activity), [activity, getKeyByActivity]);
-    const activityCallbackRef = (0, import_react338.useCallback)(
+    const activityKey = (0, import_react339.useMemo)(() => getKeyByActivity(activity), [activity, getKeyByActivity]);
+    const activityCallbackRef = (0, import_react339.useCallback)(
       (activityElement) => {
         activityElement ? activityElementMapRef.current.set(activityKey, activityElement) : activityElementMapRef.current.delete(activityKey);
       },
@@ -165492,9 +166820,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     );
     const [activityRendererMap] = useActivityRendererMap();
     const activityNode = (_a28 = activityRendererMap.get(activity)) == null ? void 0 : _a28({});
-    return /* @__PURE__ */ import_react338.default.createElement(ActivityRow_default, { activity, ref: activityCallbackRef }, /* @__PURE__ */ import_react338.default.createElement(LegacyActivityBridgeComposer_default, { activity }, activityNode));
+    return /* @__PURE__ */ import_react339.default.createElement(ActivityRow_default, { activity, ref: activityCallbackRef }, /* @__PURE__ */ import_react339.default.createElement(LegacyActivityBridgeComposer_default, { activity }, activityNode));
   }
-  var RenderActivity_default = (0, import_react338.memo)(RenderActivity);
+  var RenderActivity_default = (0, import_react339.memo)(RenderActivity);
   var { useGetKeyByActivity: useGetKeyByActivity4 } = hook_exports;
   var renderActivityGroupingPropsSchema = pipe(
     object({
@@ -165506,13 +166834,13 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const { activities: activities2 } = validateProps2(renderActivityGroupingPropsSchema, props);
     const [activityRendererMap] = useActivityRendererMap();
     const getKeyByActivity = useGetKeyByActivity4();
-    return /* @__PURE__ */ import_react337.default.createElement(import_react337.Fragment, null, activities2.map((activity) => {
+    return /* @__PURE__ */ import_react338.default.createElement(import_react338.Fragment, null, activities2.map((activity) => {
       var _a28;
       const children = (_a28 = activityRendererMap.get(activity)) == null ? void 0 : _a28({});
-      return children && /* @__PURE__ */ import_react337.default.createElement(RenderActivity_default, { activity, key: getKeyByActivity(activity) });
+      return children && /* @__PURE__ */ import_react338.default.createElement(RenderActivity_default, { activity, key: getKeyByActivity(activity) });
     }));
   }
-  var RenderActivityGrouping_default = (0, import_react337.memo)(RenderActivityGrouping);
+  var RenderActivityGrouping_default = (0, import_react338.memo)(RenderActivityGrouping);
   var senderGroupingPropsSchema = pipe(
     object({
       activities: pipe(
@@ -165533,17 +166861,17 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const { activities: activities2, children } = parse(senderGroupingPropsSchema, props);
     const firstActivity = activities2[0];
     const lastActivity = activities2.at(-1);
-    const context9 = (0, import_react344.useMemo)(
+    const context9 = (0, import_react345.useMemo)(
       () => Object.freeze({
         firstActivityState: Object.freeze([firstActivity]),
         lastActivityState: Object.freeze([lastActivity])
       }),
       [firstActivity, lastActivity]
     );
-    return /* @__PURE__ */ import_react344.default.createElement(SenderGroupingContext_default.Provider, { value: context9 }, children);
+    return /* @__PURE__ */ import_react345.default.createElement(SenderGroupingContext_default.Provider, { value: context9 }, children);
   };
   SenderGrouping.displayName = "SenderGrouping";
-  var SenderGrouping_default = (0, import_react344.memo)(SenderGrouping);
+  var SenderGrouping_default = (0, import_react345.memo)(SenderGrouping);
   var statusGroupingPropsSchema = pipe(
     object({
       activities: pipe(
@@ -165564,17 +166892,17 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const { activities: activities2, children } = parse(statusGroupingPropsSchema, props);
     const firstActivity = activities2[0];
     const lastActivity = activities2.at(-1);
-    const context9 = (0, import_react345.useMemo)(
+    const context9 = (0, import_react346.useMemo)(
       () => Object.freeze({
         firstActivityState: Object.freeze([firstActivity]),
         lastActivityState: Object.freeze([lastActivity])
       }),
       [firstActivity, lastActivity]
     );
-    return /* @__PURE__ */ import_react345.default.createElement(StatusGroupingContext_default.Provider, { value: context9 }, children);
+    return /* @__PURE__ */ import_react346.default.createElement(StatusGroupingContext_default.Provider, { value: context9 }, children);
   };
   StatusGrouping.displayName = "StatusGrouping";
-  var StatusGrouping_default = (0, import_react345.memo)(StatusGrouping);
+  var StatusGrouping_default = (0, import_react346.memo)(StatusGrouping);
   function createDefaultActivityGroupingDecoratorMiddleware() {
     return Object.freeze([
       createActivityGroupingMiddleware(
@@ -165584,9 +166912,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
   var middleware2 = Object.freeze([...createDefaultActivityGroupingDecoratorMiddleware()]);
   function BuiltInDecorator({ children }) {
-    return /* @__PURE__ */ import_react336.default.createElement(LowPriorityDecoratorComposer_default, { middleware: middleware2 }, children);
+    return /* @__PURE__ */ import_react337.default.createElement(LowPriorityDecoratorComposer_default, { middleware: middleware2 }, children);
   }
-  var BuiltInDecorator_default = (0, import_react336.memo)(BuiltInDecorator);
+  var BuiltInDecorator_default = (0, import_react337.memo)(BuiltInDecorator);
   function useResumeAudioContext() {
     const [{ resumeAudioContext }] = useWebSpeechPonyfill();
     return () => resumeAudioContext && resumeAudioContext();
@@ -165600,7 +166928,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     useSendTypingIndicator: useSendTypingIndicator2,
     useShouldSpeakIncomingActivity: useShouldSpeakIncomingActivity3,
     useStopDictate: useStopDictate3,
-    useStyleOptions: useStyleOptions62,
+    useStyleOptions: useStyleOptions72,
     useSubmitSendBox: useSubmitSendBox2,
     useUIState: useUIState32
   } = hook_exports;
@@ -165613,7 +166941,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const [, setSendBox2] = useSendBoxValue3();
     const [, setShouldSpeakIncomingActivity] = useShouldSpeakIncomingActivity3();
     const [{ SpeechGrammarList: SpeechGrammarList2, SpeechRecognition } = {}] = useWebSpeechPonyfill();
-    const [{ speechRecognitionContinuous }] = useStyleOptions62();
+    const [{ speechRecognitionContinuous }] = useStyleOptions72();
     const [dictateState2] = useDictateState4();
     const [sendTypingIndicator2] = useSendTypingIndicator2();
     const [speechLanguage] = useLanguage2("speech");
@@ -165623,7 +166951,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const setDictateState2 = useSetDictateState();
     const stopDictate2 = useStopDictate3();
     const submitSendBox3 = useSubmitSendBox2();
-    const handleDictate = (0, import_react346.useCallback)(
+    const handleDictate = (0, import_react347.useCallback)(
       ({ result: { confidence, transcript } = {} }) => {
         if (dictateState2 === DICTATING3 || dictateState2 === STARTING3) {
           setDictateInterims2([]);
@@ -165636,7 +166964,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       },
       [dictateState2, setDictateInterims2, setSendBox2, submitSendBox3, setShouldSpeakIncomingActivity]
     );
-    const handleDictating = (0, import_react346.useCallback)(
+    const handleDictating = (0, import_react347.useCallback)(
       ({ abortable, results = [] }) => {
         if (dictateState2 === DICTATING3 || dictateState2 === STARTING3) {
           const interims = results.map(({ transcript }) => transcript);
@@ -165648,11 +166976,11 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       },
       [dictateState2, emitTypingIndicator2, sendTypingIndicator2, setDictateAbortable, setDictateInterims2, setDictateState2]
     );
-    const handleEnd = (0, import_react346.useCallback)(() => {
+    const handleEnd = (0, import_react347.useCallback)(() => {
       dictateState2 !== IDLE2 && setDictateState2(IDLE2);
       (dictateState2 === DICTATING3 || dictateState2 === STARTING3) && stopDictate2();
     }, [dictateState2, setDictateState2, stopDictate2]);
-    const handleError = (0, import_react346.useCallback)(
+    const handleError = (0, import_react347.useCallback)(
       (event2) => {
         dictateState2 !== IDLE2 && setDictateState2(IDLE2);
         (dictateState2 === DICTATING3 || dictateState2 === STARTING3) && stopDictate2();
@@ -165660,11 +166988,11 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       },
       [dictateState2, onError, setDictateState2, stopDictate2]
     );
-    (0, import_react346.useEffect)(() => {
+    (0, import_react347.useEffect)(() => {
       window.addEventListener("pointerdown", resumeAudioContext);
       return () => window.removeEventListener("pointerdown", resumeAudioContext);
     }, [resumeAudioContext]);
-    return /* @__PURE__ */ import_react346.default.createElement(
+    return /* @__PURE__ */ import_react347.default.createElement(
       Composer_default4,
       {
         continuous: speechRecognitionContinuous,
@@ -165871,7 +167199,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const trackDimension = useTrackDimension2();
     const speechRecognitionCapability = !!webSpeechPonyfill.SpeechRecognition;
     const speechSynthesisCapability = webSpeechPonyfill.speechSynthesis && webSpeechPonyfill.speechSynthesis !== speechSynthesis;
-    (0, import_react347.useEffect)(() => {
+    (0, import_react348.useEffect)(() => {
       trackDimension("capability:downscaleImage:workerType", checkSupport() ? "web worker" : "main");
       trackDimension("capability:renderer", "html");
       trackDimension("prop:speechRecognition", !!speechRecognitionCapability + "");
@@ -165880,18 +167208,18 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     return null;
   };
   var UITracker_default = Tracker2;
-  var classes10 = { "bubble--nub-on-top": "wS0r5AW_bubble--nub-on-top", "bubble__nub-outline": "wS0r5AW_bubble__nub-outline", "bubble--from-user": "wS0r5AW_bubble--from-user", "bubble__nub": "wS0r5AW_bubble__nub", "bubble__nub-pad": "wS0r5AW_bubble__nub-pad", "bubble": "wS0r5AW_bubble", "bubble__content": "wS0r5AW_bubble__content", "bubble--hide-nub": "wS0r5AW_bubble--hide-nub", "bubble--show-nub": "wS0r5AW_bubble--show-nub" };
+  var classes10 = { "bubble--from-user": "wS0r5AW_bubble--from-user", "bubble--nub-on-top": "wS0r5AW_bubble--nub-on-top", "bubble__content": "wS0r5AW_bubble__content", "bubble--hide-nub": "wS0r5AW_bubble--hide-nub", "bubble__nub-outline": "wS0r5AW_bubble__nub-outline", "bubble": "wS0r5AW_bubble", "bubble__nub-pad": "wS0r5AW_bubble__nub-pad", "bubble--show-nub": "wS0r5AW_bubble--show-nub", "bubble__nub": "wS0r5AW_bubble__nub" };
   var Bubble_module_default = classes10;
-  var _bubble__nub_on_top0 = classes10["bubble--nub-on-top"];
-  var _bubble__nub_outline0 = classes10["bubble__nub-outline"];
   var _bubble__from_user0 = classes10["bubble--from-user"];
-  var _bubble__nub0 = classes10["bubble__nub"];
-  var _bubble__nub_pad0 = classes10["bubble__nub-pad"];
-  var _bubble0 = classes10["bubble"];
+  var _bubble__nub_on_top0 = classes10["bubble--nub-on-top"];
   var _bubble__content0 = classes10["bubble__content"];
   var _bubble__hide_nub0 = classes10["bubble--hide-nub"];
+  var _bubble__nub_outline0 = classes10["bubble__nub-outline"];
+  var _bubble0 = classes10["bubble"];
+  var _bubble__nub_pad0 = classes10["bubble__nub-pad"];
   var _bubble__show_nub0 = classes10["bubble--show-nub"];
-  var { useStyleOptions: useStyleOptions72 } = hook_exports;
+  var _bubble__nub0 = classes10["bubble__nub"];
+  var { useStyleOptions: useStyleOptions82 } = hook_exports;
   function acuteNubSVG(nubSize, strokeWidth, side, upSideDown = false, classNames31) {
     if (typeof nubSize !== "number") {
       return false;
@@ -165903,7 +167231,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const p1 = [nubSize, halfStrokeWidth].join(" ");
     const p2 = [strokeWidth, halfStrokeWidth].join(" ");
     const p3 = [nubSize + strokeWidth, nubSize + halfStrokeWidth].join(" ");
-    return /* @__PURE__ */ import_react351.default.createElement(
+    return /* @__PURE__ */ import_react352.default.createElement(
       "svg",
       {
         className: classNames31["bubble__nub"],
@@ -165911,7 +167239,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         viewBox: `0 0 ${nubSize} ${nubSize}`,
         xmlns: "http://www.w3.org/2000/svg"
       },
-      /* @__PURE__ */ import_react351.default.createElement("g", { transform: `${horizontalTransform} ${verticalTransform}` }, /* @__PURE__ */ import_react351.default.createElement("path", { className: classNames31["bubble__nub-outline"], d: `M${p1} L${p2} L${p3}` }))
+      /* @__PURE__ */ import_react352.default.createElement("g", { transform: `${horizontalTransform} ${verticalTransform}` }, /* @__PURE__ */ import_react352.default.createElement("path", { className: classNames31["bubble__nub-outline"], d: `M${p1} L${p2} L${p3}` }))
     );
   }
   var bubblePropsSchema = pipe(
@@ -165941,7 +167269,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         bubbleNubOffset,
         bubbleFromUserNubOffset
       }
-    ] = useStyleOptions72();
+    ] = useStyleOptions82();
     const classNames31 = useStyles_default(Bubble_module_default);
     const { borderWidth, nubOffset, nubSize, side } = fromUser ? {
       borderWidth: bubbleFromUserBorderWidth,
@@ -165954,7 +167282,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       nubSize: bubbleNubSize,
       side: "bot"
     };
-    return /* @__PURE__ */ import_react351.default.createElement(
+    return /* @__PURE__ */ import_react352.default.createElement(
       "div",
       {
         "aria-hidden": ariaHidden,
@@ -165969,21 +167297,21 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           className
         )
       },
-      /* @__PURE__ */ import_react351.default.createElement("div", { className: classNames31["bubble__nub-pad"] }),
-      /* @__PURE__ */ import_react351.default.createElement("div", { className: classNames31["bubble__content"] }, children),
+      /* @__PURE__ */ import_react352.default.createElement("div", { className: classNames31["bubble__nub-pad"] }),
+      /* @__PURE__ */ import_react352.default.createElement("div", { className: classNames31["bubble__content"] }, children),
       nub === true && acuteNubSVG(nubSize, borderWidth, side, !isZeroOrPositive(nubOffset), classNames31)
     );
   }
-  var Bubble_default = (0, import_react351.memo)(Bubble);
-  var classes11 = { "carousel-filmstrip-attachment--focus": "wC3CBRG_carousel-filmstrip-attachment--focus", "carousel-filmstrip-attachment": "wC3CBRG_carousel-filmstrip-attachment", "carousel-filmstrip-attachment--show-nub": "wC3CBRG_carousel-filmstrip-attachment--show-nub", "carousel-filmstrip-attachment--hide-nub": "wC3CBRG_carousel-filmstrip-attachment--hide-nub", "carousel-filmstrip-attachment--show-avatar": "wC3CBRG_carousel-filmstrip-attachment--show-avatar", "carousel-filmstrip-attachment--hide-avatar": "wC3CBRG_carousel-filmstrip-attachment--hide-avatar" };
+  var Bubble_default = (0, import_react352.memo)(Bubble);
+  var classes11 = { "carousel-filmstrip-attachment--hide-avatar": "wC3CBRG_carousel-filmstrip-attachment--hide-avatar", "carousel-filmstrip-attachment--hide-nub": "wC3CBRG_carousel-filmstrip-attachment--hide-nub", "carousel-filmstrip-attachment--focus": "wC3CBRG_carousel-filmstrip-attachment--focus", "carousel-filmstrip-attachment--show-avatar": "wC3CBRG_carousel-filmstrip-attachment--show-avatar", "carousel-filmstrip-attachment--show-nub": "wC3CBRG_carousel-filmstrip-attachment--show-nub", "carousel-filmstrip-attachment": "wC3CBRG_carousel-filmstrip-attachment" };
   var CarouselFilmStripAttachment_module_default = classes11;
-  var _carousel_filmstrip_attachment__focus0 = classes11["carousel-filmstrip-attachment--focus"];
-  var _carousel_filmstrip_attachment0 = classes11["carousel-filmstrip-attachment"];
-  var _carousel_filmstrip_attachment__show_nub0 = classes11["carousel-filmstrip-attachment--show-nub"];
-  var _carousel_filmstrip_attachment__hide_nub0 = classes11["carousel-filmstrip-attachment--hide-nub"];
-  var _carousel_filmstrip_attachment__show_avatar0 = classes11["carousel-filmstrip-attachment--show-avatar"];
   var _carousel_filmstrip_attachment__hide_avatar0 = classes11["carousel-filmstrip-attachment--hide-avatar"];
-  var { useLocalizer: useLocalizer14 } = hook_exports;
+  var _carousel_filmstrip_attachment__hide_nub0 = classes11["carousel-filmstrip-attachment--hide-nub"];
+  var _carousel_filmstrip_attachment__focus0 = classes11["carousel-filmstrip-attachment--focus"];
+  var _carousel_filmstrip_attachment__show_avatar0 = classes11["carousel-filmstrip-attachment--show-avatar"];
+  var _carousel_filmstrip_attachment__show_nub0 = classes11["carousel-filmstrip-attachment--show-nub"];
+  var _carousel_filmstrip_attachment0 = classes11["carousel-filmstrip-attachment"];
+  var { useLocalizer: useLocalizer15 } = hook_exports;
   var CarouselFilmStripAttachment = ({
     activity,
     attachment,
@@ -165996,10 +167324,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     showAvatar,
     showNub
   }) => {
-    const localize2 = useLocalizer14();
+    const localize2 = useLocalizer15();
     const classNames31 = useStyles_default(CarouselFilmStripAttachment_module_default);
     const attachedAlt = localize2(fromUser ? "ACTIVITY_YOU_ATTACHED_ALT" : "ACTIVITY_BOT_ATTACHED_ALT");
-    return /* @__PURE__ */ import_react352.default.createElement(
+    return /* @__PURE__ */ import_react353.default.createElement(
       "li",
       {
         "aria-roledescription": "attachment",
@@ -166017,8 +167345,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         role: "listitem",
         tabIndex: 0
       },
-      /* @__PURE__ */ import_react352.default.createElement(ScreenReaderText_default, { text: attachedAlt }),
-      /* @__PURE__ */ import_react352.default.createElement(Bubble_default, { fromUser, key: index2, nub: false }, renderAttachment({ activity, attachment }), /* @__PURE__ */ import_react352.default.createElement("div", { className: classNames31["carousel-filmstrip-attachment--focus"] }))
+      /* @__PURE__ */ import_react353.default.createElement(ScreenReaderText_default, { text: attachedAlt }),
+      /* @__PURE__ */ import_react353.default.createElement(Bubble_default, { fromUser, key: index2, nub: false }, renderAttachment({ activity, attachment }), /* @__PURE__ */ import_react353.default.createElement("div", { className: classNames31["carousel-filmstrip-attachment--focus"] }))
     );
   };
   CarouselFilmStripAttachment.defaultProps = {
@@ -166047,30 +167375,30 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     showNub: import_prop_types30.default.bool.isRequired
   };
   var CarouselFilmStripAttachment_default = CarouselFilmStripAttachment;
-  var classes12 = { "carousel-filmstrip__alignment-pad": "w1RU2Zq_carousel-filmstrip__alignment-pad", "carousel-filmstrip--hide-avatar": "w1RU2Zq_carousel-filmstrip--hide-avatar", "carousel-filmstrip__attachments": "w1RU2Zq_carousel-filmstrip__attachments", "carousel-filmstrip__message": "w1RU2Zq_carousel-filmstrip__message", "carousel-filmstrip__complimentary-content": "w1RU2Zq_carousel-filmstrip__complimentary-content", "carousel-filmstrip--show-nub": "w1RU2Zq_carousel-filmstrip--show-nub", "carousel-filmstrip--show-avatar": "w1RU2Zq_carousel-filmstrip--show-avatar", "carousel-filmstrip__nub-pad": "w1RU2Zq_carousel-filmstrip__nub-pad", "carousel-filmstrip__status": "w1RU2Zq_carousel-filmstrip__status", "carousel-filmstrip--extra-trailing": "w1RU2Zq_carousel-filmstrip--extra-trailing", "carousel-filmstrip__avatar": "w1RU2Zq_carousel-filmstrip__avatar", "carousel-filmstrip--top-callout": "w1RU2Zq_carousel-filmstrip--top-callout", "carousel-filmstrip__main": "w1RU2Zq_carousel-filmstrip__main", "carousel-filmstrip__avatar-gutter": "w1RU2Zq_carousel-filmstrip__avatar-gutter", "carousel-filmstrip__complimentary": "w1RU2Zq_carousel-filmstrip__complimentary", "carousel-filmstrip--hide-nub": "w1RU2Zq_carousel-filmstrip--hide-nub", "carousel-filmstrip__bubble": "w1RU2Zq_carousel-filmstrip__bubble", "carousel-filmstrip--no-message": "w1RU2Zq_carousel-filmstrip--no-message", "carousel-filmstrip__content": "w1RU2Zq_carousel-filmstrip__content", "carousel-filmstrip__filler": "w1RU2Zq_carousel-filmstrip__filler", "carousel-filmstrip": "w1RU2Zq_carousel-filmstrip" };
+  var classes12 = { "carousel-filmstrip--show-avatar": "w1RU2Zq_carousel-filmstrip--show-avatar", "carousel-filmstrip": "w1RU2Zq_carousel-filmstrip", "carousel-filmstrip--hide-nub": "w1RU2Zq_carousel-filmstrip--hide-nub", "carousel-filmstrip__filler": "w1RU2Zq_carousel-filmstrip__filler", "carousel-filmstrip__message": "w1RU2Zq_carousel-filmstrip__message", "carousel-filmstrip__status": "w1RU2Zq_carousel-filmstrip__status", "carousel-filmstrip__content": "w1RU2Zq_carousel-filmstrip__content", "carousel-filmstrip--hide-avatar": "w1RU2Zq_carousel-filmstrip--hide-avatar", "carousel-filmstrip__complimentary-content": "w1RU2Zq_carousel-filmstrip__complimentary-content", "carousel-filmstrip--show-nub": "w1RU2Zq_carousel-filmstrip--show-nub", "carousel-filmstrip__alignment-pad": "w1RU2Zq_carousel-filmstrip__alignment-pad", "carousel-filmstrip__nub-pad": "w1RU2Zq_carousel-filmstrip__nub-pad", "carousel-filmstrip--top-callout": "w1RU2Zq_carousel-filmstrip--top-callout", "carousel-filmstrip--no-message": "w1RU2Zq_carousel-filmstrip--no-message", "carousel-filmstrip__avatar": "w1RU2Zq_carousel-filmstrip__avatar", "carousel-filmstrip__avatar-gutter": "w1RU2Zq_carousel-filmstrip__avatar-gutter", "carousel-filmstrip__main": "w1RU2Zq_carousel-filmstrip__main", "carousel-filmstrip__complimentary": "w1RU2Zq_carousel-filmstrip__complimentary", "carousel-filmstrip__attachments": "w1RU2Zq_carousel-filmstrip__attachments", "carousel-filmstrip__bubble": "w1RU2Zq_carousel-filmstrip__bubble", "carousel-filmstrip--extra-trailing": "w1RU2Zq_carousel-filmstrip--extra-trailing" };
   var CarouselFilmStrip_module_default = classes12;
-  var _carousel_filmstrip__alignment_pad0 = classes12["carousel-filmstrip__alignment-pad"];
-  var _carousel_filmstrip__hide_avatar0 = classes12["carousel-filmstrip--hide-avatar"];
-  var _carousel_filmstrip__attachments0 = classes12["carousel-filmstrip__attachments"];
+  var _carousel_filmstrip__show_avatar0 = classes12["carousel-filmstrip--show-avatar"];
+  var _carousel_filmstrip0 = classes12["carousel-filmstrip"];
+  var _carousel_filmstrip__hide_nub0 = classes12["carousel-filmstrip--hide-nub"];
+  var _carousel_filmstrip__filler0 = classes12["carousel-filmstrip__filler"];
   var _carousel_filmstrip__message0 = classes12["carousel-filmstrip__message"];
+  var _carousel_filmstrip__status0 = classes12["carousel-filmstrip__status"];
+  var _carousel_filmstrip__content0 = classes12["carousel-filmstrip__content"];
+  var _carousel_filmstrip__hide_avatar0 = classes12["carousel-filmstrip--hide-avatar"];
   var _carousel_filmstrip__complimentary_content0 = classes12["carousel-filmstrip__complimentary-content"];
   var _carousel_filmstrip__show_nub0 = classes12["carousel-filmstrip--show-nub"];
-  var _carousel_filmstrip__show_avatar0 = classes12["carousel-filmstrip--show-avatar"];
+  var _carousel_filmstrip__alignment_pad0 = classes12["carousel-filmstrip__alignment-pad"];
   var _carousel_filmstrip__nub_pad0 = classes12["carousel-filmstrip__nub-pad"];
-  var _carousel_filmstrip__status0 = classes12["carousel-filmstrip__status"];
-  var _carousel_filmstrip__extra_trailing0 = classes12["carousel-filmstrip--extra-trailing"];
-  var _carousel_filmstrip__avatar0 = classes12["carousel-filmstrip__avatar"];
   var _carousel_filmstrip__top_callout0 = classes12["carousel-filmstrip--top-callout"];
-  var _carousel_filmstrip__main0 = classes12["carousel-filmstrip__main"];
-  var _carousel_filmstrip__avatar_gutter0 = classes12["carousel-filmstrip__avatar-gutter"];
-  var _carousel_filmstrip__complimentary0 = classes12["carousel-filmstrip__complimentary"];
-  var _carousel_filmstrip__hide_nub0 = classes12["carousel-filmstrip--hide-nub"];
-  var _carousel_filmstrip__bubble0 = classes12["carousel-filmstrip__bubble"];
   var _carousel_filmstrip__no_message0 = classes12["carousel-filmstrip--no-message"];
-  var _carousel_filmstrip__content0 = classes12["carousel-filmstrip__content"];
-  var _carousel_filmstrip__filler0 = classes12["carousel-filmstrip__filler"];
-  var _carousel_filmstrip0 = classes12["carousel-filmstrip"];
-  var { useAvatarForBot: useAvatarForBot22, useAvatarForUser: useAvatarForUser2, useLocalizer: useLocalizer15, useStyleOptions: useStyleOptions82 } = hook_exports;
+  var _carousel_filmstrip__avatar0 = classes12["carousel-filmstrip__avatar"];
+  var _carousel_filmstrip__avatar_gutter0 = classes12["carousel-filmstrip__avatar-gutter"];
+  var _carousel_filmstrip__main0 = classes12["carousel-filmstrip__main"];
+  var _carousel_filmstrip__complimentary0 = classes12["carousel-filmstrip__complimentary"];
+  var _carousel_filmstrip__attachments0 = classes12["carousel-filmstrip__attachments"];
+  var _carousel_filmstrip__bubble0 = classes12["carousel-filmstrip__bubble"];
+  var _carousel_filmstrip__extra_trailing0 = classes12["carousel-filmstrip--extra-trailing"];
+  var { useAvatarForBot: useAvatarForBot22, useAvatarForUser: useAvatarForUser2, useLocalizer: useLocalizer16, useStyleOptions: useStyleOptions92 } = hook_exports;
   var CarouselFilmStrip = ({
     activity,
     className,
@@ -166080,10 +167408,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     renderAvatar,
     showCallout
   }) => {
-    const [{ bubbleNubOffset, bubbleNubSize, bubbleFromUserNubOffset, bubbleFromUserNubSize }] = useStyleOptions82();
+    const [{ bubbleNubOffset, bubbleNubSize, bubbleFromUserNubOffset, bubbleFromUserNubSize }] = useStyleOptions92();
     const [{ initials: botInitials }] = useAvatarForBot22();
     const [{ initials: userInitials }] = useAvatarForUser2();
-    const localize2 = useLocalizer15();
+    const localize2 = useLocalizer16();
     const showActivityStatus = typeof renderActivityStatus === "function";
     const classNames31 = useStyles_default(CarouselFilmStrip_module_default);
     const itemContainerCallbackRef = useItemContainerCallbackRef();
@@ -166112,7 +167440,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const showAvatar = showCallout && hasAvatar && !!renderAvatar;
     const showNub = showCallout && hasNub && (topAlignedCallout || !attachments.length);
     const hideNub = hasNub && !showNub;
-    return /* @__PURE__ */ import_react350.default.createElement(
+    return /* @__PURE__ */ import_react351.default.createElement(
       "div",
       {
         className: (0, import_classnames59.default)(
@@ -166131,7 +167459,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         ),
         ref: scrollableCallbackRef
       },
-      /* @__PURE__ */ import_react350.default.createElement("div", { className: classNames31["carousel-filmstrip__main"] }, /* @__PURE__ */ import_react350.default.createElement("div", { className: classNames31["carousel-filmstrip__avatar-gutter"] }, showAvatar && renderAvatar({ activity })), /* @__PURE__ */ import_react350.default.createElement("div", { className: classNames31["carousel-filmstrip__content"] }, !!activityDisplayText && /* @__PURE__ */ import_react350.default.createElement("div", { "aria-roledescription": "message", className: classNames31["carousel-filmstrip__message"], role: "group" }, /* @__PURE__ */ import_react350.default.createElement(ScreenReaderText_default, { text: greetingAlt }), /* @__PURE__ */ import_react350.default.createElement(
+      /* @__PURE__ */ import_react351.default.createElement("div", { className: classNames31["carousel-filmstrip__main"] }, /* @__PURE__ */ import_react351.default.createElement("div", { className: classNames31["carousel-filmstrip__avatar-gutter"] }, showAvatar && renderAvatar({ activity })), /* @__PURE__ */ import_react351.default.createElement("div", { className: classNames31["carousel-filmstrip__content"] }, !!activityDisplayText && /* @__PURE__ */ import_react351.default.createElement("div", { "aria-roledescription": "message", className: classNames31["carousel-filmstrip__message"], role: "group" }, /* @__PURE__ */ import_react351.default.createElement(ScreenReaderText_default, { text: greetingAlt }), /* @__PURE__ */ import_react351.default.createElement(
         Bubble_default,
         {
           className: classNames31["carousel-filmstrip__bubble"],
@@ -166145,13 +167473,13 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
             contentType: textFormatToContentType(textFormat)
           }
         })
-      ), /* @__PURE__ */ import_react350.default.createElement("div", { className: classNames31["carousel-filmstrip__filler"] })), /* @__PURE__ */ import_react350.default.createElement("div", { className: classNames31["carousel-filmstrip__complimentary"] }, /* @__PURE__ */ import_react350.default.createElement("div", { className: classNames31["carousel-filmstrip__nub-pad"] }), /* @__PURE__ */ import_react350.default.createElement("div", { className: classNames31["carousel-filmstrip__complimentary-content"] }, /* @__PURE__ */ import_react350.default.createElement(
+      ), /* @__PURE__ */ import_react351.default.createElement("div", { className: classNames31["carousel-filmstrip__filler"] })), /* @__PURE__ */ import_react351.default.createElement("div", { className: classNames31["carousel-filmstrip__complimentary"] }, /* @__PURE__ */ import_react351.default.createElement("div", { className: classNames31["carousel-filmstrip__nub-pad"] }), /* @__PURE__ */ import_react351.default.createElement("div", { className: classNames31["carousel-filmstrip__complimentary-content"] }, /* @__PURE__ */ import_react351.default.createElement(
         "ul",
         {
           className: (0, import_classnames59.default)(classNames31["carousel-filmstrip__attachments"], "react-film__filmstrip__list"),
           ref: itemContainerCallbackRef
         },
-        attachments.map((attachment, index2) => /* @__PURE__ */ import_react350.default.createElement(
+        attachments.map((attachment, index2) => /* @__PURE__ */ import_react351.default.createElement(
           CarouselFilmStripAttachment_default,
           {
             activity,
@@ -166166,8 +167494,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
             showNub
           }
         ))
-      )))), /* @__PURE__ */ import_react350.default.createElement("div", { className: classNames31["carousel-filmstrip__alignment-pad"] })),
-      showActivityStatus && /* @__PURE__ */ import_react350.default.createElement("div", { className: classNames31["carousel-filmstrip__status"] }, /* @__PURE__ */ import_react350.default.createElement("div", { className: classNames31["carousel-filmstrip__avatar-gutter"] }), /* @__PURE__ */ import_react350.default.createElement("div", { className: classNames31["carousel-filmstrip__nub-pad"] }), renderActivityStatus({ hideTimestamp }))
+      )))), /* @__PURE__ */ import_react351.default.createElement("div", { className: classNames31["carousel-filmstrip__alignment-pad"] })),
+      showActivityStatus && /* @__PURE__ */ import_react351.default.createElement("div", { className: classNames31["carousel-filmstrip__status"] }, /* @__PURE__ */ import_react351.default.createElement("div", { className: classNames31["carousel-filmstrip__avatar-gutter"] }), /* @__PURE__ */ import_react351.default.createElement("div", { className: classNames31["carousel-filmstrip__nub-pad"] }), renderActivityStatus({ hideTimestamp }))
     );
   };
   CarouselFilmStrip.defaultProps = {
@@ -166203,7 +167531,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   var classes13 = { "carousel-layout": "wf8uRvG_carousel-layout" };
   var CarouselLayout_module_default = classes13;
   var _carousel_layout0 = classes13["carousel-layout"];
-  var { useDirection: useDirection23, useLocalizer: useLocalizer16, useStyleOptions: useStyleOptions92 } = hook_exports;
+  var { useDirection: useDirection23, useLocalizer: useLocalizer17, useStyleOptions: useStyleOptions102 } = hook_exports;
   var CarouselLayoutCore = ({
     activity,
     hideTimestamp,
@@ -166217,14 +167545,14 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const [scrollBarWidth] = useScrollBarWidth();
     const [scrolling] = useScrolling();
     const leftSideFlipper = direction === "rtl" ? ">" : "<";
-    const localize2 = useLocalizer16();
+    const localize2 = useLocalizer17();
     const rightSideFlipper = direction === "rtl" ? "<" : ">";
     const classNames31 = useStyles_default(CarouselLayout_module_default);
     const nextAlt = localize2("CAROUSEL_FLIPPER_NEXT_ALT");
     const previousAlt = localize2("CAROUSEL_FLIPPER_PREVIOUS_ALT");
     const leftFlipperAriaLabel = direction === "rtl" ? nextAlt : previousAlt;
     const rightFlipperAriaLabel = direction === "rtl" ? previousAlt : nextAlt;
-    return /* @__PURE__ */ import_react349.default.createElement("div", { className: (0, import_classnames58.default)(classNames31["carousel-layout"], filmRootClassName) }, /* @__PURE__ */ import_react349.default.createElement("div", { className: (0, import_classnames58.default)("react-film__main", { "react-film__main--scrolling": scrolling }) }, /* @__PURE__ */ import_react349.default.createElement(
+    return /* @__PURE__ */ import_react350.default.createElement("div", { className: (0, import_classnames58.default)(classNames31["carousel-layout"], filmRootClassName) }, /* @__PURE__ */ import_react350.default.createElement("div", { className: (0, import_classnames58.default)("react-film__main", { "react-film__main--scrolling": scrolling }) }, /* @__PURE__ */ import_react350.default.createElement(
       CarouselFilmStrip_default,
       {
         activity,
@@ -166234,7 +167562,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         renderAvatar,
         showCallout
       }
-    ), scrollBarWidth !== "100%" && /* @__PURE__ */ import_react349.default.createElement(import_react349.default.Fragment, null, /* @__PURE__ */ import_react349.default.createElement(Flipper_default, { "aria-label": leftFlipperAriaLabel, blurFocusOnClick: true, mode: "left" }, leftSideFlipper), /* @__PURE__ */ import_react349.default.createElement(Flipper_default, { "aria-label": rightFlipperAriaLabel, blurFocusOnClick: true, mode: "right" }, rightSideFlipper))));
+    ), scrollBarWidth !== "100%" && /* @__PURE__ */ import_react350.default.createElement(import_react350.default.Fragment, null, /* @__PURE__ */ import_react350.default.createElement(Flipper_default, { "aria-label": leftFlipperAriaLabel, blurFocusOnClick: true, mode: "left" }, leftSideFlipper), /* @__PURE__ */ import_react350.default.createElement(Flipper_default, { "aria-label": rightFlipperAriaLabel, blurFocusOnClick: true, mode: "right" }, rightSideFlipper))));
   };
   CarouselLayoutCore.defaultProps = {
     hideTimestamp: false,
@@ -166256,10 +167584,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const { activity: { attachments = [] } = {} } = props;
     const [direction] = useDirection23();
     const [nonce] = useNonce();
-    const filmStyleSet = (0, import_react349.useMemo)(() => createBasicStyleSet({ cursor: null }), []);
-    const [{ stylesRoot }] = useStyleOptions92();
-    const styleOptions = (0, import_react349.useMemo)(() => ({ stylesRoot }), [stylesRoot]);
-    return /* @__PURE__ */ import_react349.default.createElement(
+    const filmStyleSet = (0, import_react350.useMemo)(() => createBasicStyleSet({ cursor: null }), []);
+    const [{ stylesRoot }] = useStyleOptions102();
+    const styleOptions = (0, import_react350.useMemo)(() => ({ stylesRoot }), [stylesRoot]);
+    return /* @__PURE__ */ import_react350.default.createElement(
       Composer_default2,
       {
         dir: direction,
@@ -166268,7 +167596,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         styleOptions,
         styleSet: filmStyleSet
       },
-      /* @__PURE__ */ import_react349.default.createElement(CarouselLayoutCore, { ...props })
+      /* @__PURE__ */ import_react350.default.createElement(CarouselLayoutCore, { ...props })
     );
   };
   CarouselLayout.defaultProps = {
@@ -166277,7 +167605,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   CarouselLayout.propTypes = {
     ...CarouselLayoutCore.propTypes
   };
-  var CarouselLayout_default = (0, import_react349.memo)(CarouselLayout);
+  var CarouselLayout_default = (0, import_react350.memo)(CarouselLayout);
   var attachmentRowPropsSchema = pipe(
     object({
       attachedAlt: string(),
@@ -166299,7 +167627,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       showBubble = true
     } = validateProps2(attachmentRowPropsSchema, props);
     const classNames31 = useStyles_default(StackedLayout_module_default);
-    return /* @__PURE__ */ import_react354.default.createElement("div", { "aria-roledescription": "attachment", className: classNames31["stacked-layout__attachment-row"], role: "group" }, /* @__PURE__ */ import_react354.default.createElement(ScreenReaderText_default, { text: attachedAlt }), showBubble ? /* @__PURE__ */ import_react354.default.createElement(
+    return /* @__PURE__ */ import_react355.default.createElement("div", { "aria-roledescription": "attachment", className: classNames31["stacked-layout__attachment-row"], role: "group" }, /* @__PURE__ */ import_react355.default.createElement(ScreenReaderText_default, { text: attachedAlt }), showBubble ? /* @__PURE__ */ import_react355.default.createElement(
       Bubble_default,
       {
         className: classNames31["stacked-layout__attachment"],
@@ -166307,15 +167635,15 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         nub: hasAvatar || hasNub ? "hidden" : false
       },
       children
-    ) : /* @__PURE__ */ import_react354.default.createElement("div", { className: (0, import_classnames63.default)(classNames31["stacked-layout__attachment"]) }, children));
+    ) : /* @__PURE__ */ import_react355.default.createElement("div", { className: (0, import_classnames63.default)(classNames31["stacked-layout__attachment"]) }, children));
   }
-  var AttachmentRow_default = (0, import_react354.memo)(AttachmentRow);
-  var classes14 = { "code-block-content__header": "w_R1nMW_code-block-content__header", "code-block-content__title": "w_R1nMW_code-block-content__title", "code-block-content__code-block": "w_R1nMW_code-block-content__code-block", "code-block-content": "w_R1nMW_code-block-content" };
+  var AttachmentRow_default = (0, import_react355.memo)(AttachmentRow);
+  var classes14 = { "code-block-content__header": "w_R1nMW_code-block-content__header", "code-block-content": "w_R1nMW_code-block-content", "code-block-content__code-block": "w_R1nMW_code-block-content__code-block", "code-block-content__title": "w_R1nMW_code-block-content__title" };
   var CodeBlockContent_module_default = classes14;
   var _code_block_content__header0 = classes14["code-block-content__header"];
-  var _code_block_content__title0 = classes14["code-block-content__title"];
-  var _code_block_content__code_block0 = classes14["code-block-content__code-block"];
   var _code_block_content0 = classes14["code-block-content"];
+  var _code_block_content__code_block0 = classes14["code-block-content__code-block"];
+  var _code_block_content__title0 = classes14["code-block-content__title"];
   var codeBlockContentPropsSchema = pipe(
     object({
       code: string(),
@@ -166328,16 +167656,16 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const { code: code2, language: language2, title } = validateProps2(codeBlockContentPropsSchema, props);
     const classNames31 = useStyles_default(CodeBlockContent_module_default);
     const [, CodeBlock2] = useCodeBlockTag();
-    return /* @__PURE__ */ import_react355.default.createElement("div", { className: classNames31["code-block-content"] }, title && /* @__PURE__ */ import_react355.default.createElement("div", { className: (0, import_classnames64.default)(classNames31["code-block-content__header"]) }, /* @__PURE__ */ import_react355.default.createElement("div", { className: (0, import_classnames64.default)(classNames31["code-block-content__title"]) }, title)), /* @__PURE__ */ import_react355.default.createElement(CodeBlock2, { className: (0, import_classnames64.default)(classNames31["code-block-content__code-block"]), language: language2 }, /* @__PURE__ */ import_react355.default.createElement("code", null, code2)));
+    return /* @__PURE__ */ import_react356.default.createElement("div", { className: classNames31["code-block-content"] }, title && /* @__PURE__ */ import_react356.default.createElement("div", { className: (0, import_classnames64.default)(classNames31["code-block-content__header"]) }, /* @__PURE__ */ import_react356.default.createElement("div", { className: (0, import_classnames64.default)(classNames31["code-block-content__title"]) }, title)), /* @__PURE__ */ import_react356.default.createElement(CodeBlock2, { className: (0, import_classnames64.default)(classNames31["code-block-content__code-block"]), language: language2 }, /* @__PURE__ */ import_react356.default.createElement("code", null, code2)));
   }
-  var CodeBlockContent_default = (0, import_react355.memo)(CodeBlockContent);
-  var classes15 = { "collapsible-content__summary-text": "wwif4Va_collapsible-content__summary-text", "collapsible-content": "wwif4Va_collapsible-content", "collapsible-content__summary": "wwif4Va_collapsible-content__summary", "collapsible-content__chevron": "wwif4Va_collapsible-content__chevron", "collapsible-content__content": "wwif4Va_collapsible-content__content" };
+  var CodeBlockContent_default = (0, import_react356.memo)(CodeBlockContent);
+  var classes15 = { "collapsible-content__summary-text": "wwif4Va_collapsible-content__summary-text", "collapsible-content__content": "wwif4Va_collapsible-content__content", "collapsible-content": "wwif4Va_collapsible-content", "collapsible-content__summary": "wwif4Va_collapsible-content__summary", "collapsible-content__chevron": "wwif4Va_collapsible-content__chevron" };
   var CollapsibleContent_module_default = classes15;
   var _collapsible_content__summary_text0 = classes15["collapsible-content__summary-text"];
+  var _collapsible_content__content0 = classes15["collapsible-content__content"];
   var _collapsible_content0 = classes15["collapsible-content"];
   var _collapsible_content__summary0 = classes15["collapsible-content__summary"];
   var _collapsible_content__chevron0 = classes15["collapsible-content__chevron"];
-  var _collapsible_content__content0 = classes15["collapsible-content__content"];
   var collapsibleContentPropsSchema = pipe(
     object({
       children: reactNode_default(),
@@ -166351,10 +167679,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
   function CollapsibleContent(props) {
     const { children, summary, summaryClassName } = validateProps2(collapsibleContentPropsSchema, props);
-    const [id] = (0, import_react356.useState)(() => `webchat-collapsible-content-${uniqueId22()}`);
+    const [id] = (0, import_react357.useState)(() => `webchat-collapsible-content-${uniqueId22()}`);
     const classNames31 = useStyles_default(CollapsibleContent_module_default);
-    const summaryRef = (0, import_react356.useRef)(null);
-    const handleToggle = (0, import_react356.useCallback)((event2) => {
+    const summaryRef = (0, import_react357.useRef)(null);
+    const handleToggle = (0, import_react357.useCallback)((event2) => {
       const summary2 = summaryRef.current;
       const details = event2.target;
       if (summary2 && details && details instanceof HTMLDetailsElement) {
@@ -166365,7 +167693,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     }, []);
     return (
       // eslint-disable-next-line react/forbid-dom-props
-      /* @__PURE__ */ import_react356.default.createElement("details", { className: (0, import_classnames65.default)(classNames31["collapsible-content"]), id, onToggle: handleToggle }, /* @__PURE__ */ import_react356.default.createElement(
+      /* @__PURE__ */ import_react357.default.createElement("details", { className: (0, import_classnames65.default)(classNames31["collapsible-content"]), id, onToggle: handleToggle }, /* @__PURE__ */ import_react357.default.createElement(
         "summary",
         {
           "aria-controls": id,
@@ -166375,14 +167703,14 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           ref: summaryRef,
           role: "button"
         },
-        summary && /* @__PURE__ */ import_react356.default.createElement("span", { className: classNames31["collapsible-content__summary-text"] }, summary),
-        /* @__PURE__ */ import_react356.default.createElement(ComponentIcon_default, { appearance: "text", className: classNames31["collapsible-content__chevron"], icon: "chevron" })
-      ), /* @__PURE__ */ import_react356.default.createElement("div", { className: classNames31["collapsible-content__content"] }, children))
+        summary && /* @__PURE__ */ import_react357.default.createElement("span", { className: classNames31["collapsible-content__summary-text"] }, summary),
+        /* @__PURE__ */ import_react357.default.createElement(ComponentIcon_default, { appearance: "text", className: classNames31["collapsible-content__chevron"], icon: "chevron" })
+      ), /* @__PURE__ */ import_react357.default.createElement("div", { className: classNames31["collapsible-content__content"] }, children))
     );
   }
-  var CollapsibleContent_default = (0, import_react356.memo)(CollapsibleContent);
-  var { useAvatarForBot: useAvatarForBot32, useAvatarForUser: useAvatarForUser22, useLocalizer: useLocalizer17, useGetKeyByActivity: useGetKeyByActivity5, useStyleOptions: useStyleOptions102 } = hook_exports;
-  var StackedLayoutInner = (0, import_react353.memo)(
+  var CollapsibleContent_default = (0, import_react357.memo)(CollapsibleContent);
+  var { useAvatarForBot: useAvatarForBot32, useAvatarForUser: useAvatarForUser22, useLocalizer: useLocalizer18, useGetKeyByActivity: useGetKeyByActivity5, useStyleOptions: useStyleOptions11 } = hook_exports;
+  var StackedLayoutInner = (0, import_react354.memo)(
     ({
       activity,
       children,
@@ -166397,11 +167725,11 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       showNub
     }) => {
       const [{ initials: botInitials }] = useAvatarForBot32();
-      const localize2 = useLocalizer17();
+      const localize2 = useLocalizer18();
       const classNames31 = useStyles_default(StackedLayout_module_default);
-      const messageThing = (0, import_react353.useMemo)(() => getOrgSchemaMessage(activity.entities), [activity]);
+      const messageThing = (0, import_react354.useMemo)(() => getOrgSchemaMessage(activity.entities), [activity]);
       const greetingAlt = (fromUser ? localize2("ACTIVITY_YOU_SAID_ALT") : localize2("ACTIVITY_BOT_SAID_ALT", botInitials || "")).replace(/\s{2,}/gu, " ");
-      return /* @__PURE__ */ import_react353.default.createElement(StackedLayoutMain_default, { avatar: showAvatar && renderAvatar && renderAvatar() }, !!(hasDisplayText || (messageThing == null ? void 0 : messageThing.abstract)) && /* @__PURE__ */ import_react353.default.createElement(
+      return /* @__PURE__ */ import_react354.default.createElement(StackedLayoutMain_default, { avatar: showAvatar && renderAvatar && renderAvatar() }, !!(hasDisplayText || (messageThing == null ? void 0 : messageThing.abstract)) && /* @__PURE__ */ import_react354.default.createElement(
         "div",
         {
           "aria-roledescription": "message",
@@ -166409,17 +167737,17 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           id,
           role: "group"
         },
-        /* @__PURE__ */ import_react353.default.createElement(ScreenReaderText_default, { text: greetingAlt }),
-        /* @__PURE__ */ import_react353.default.createElement(
+        /* @__PURE__ */ import_react354.default.createElement(ScreenReaderText_default, { text: greetingAlt }),
+        /* @__PURE__ */ import_react354.default.createElement(
           Bubble_default,
           {
             className: classNames31["stacked-layout__message"],
             fromUser,
             nub: showNub || (hasAvatar || hasNub ? "hidden" : false)
           },
-          /* @__PURE__ */ import_react353.default.createElement(ActivityBorderDecorator_default, { activity }, renderBubbleContent(messageThing == null ? void 0 : messageThing.abstract))
+          /* @__PURE__ */ import_react354.default.createElement(ActivityBorderDecorator_default, { activity }, renderBubbleContent(messageThing == null ? void 0 : messageThing.abstract))
         )
-      ), /* @__PURE__ */ import_react353.default.createElement("div", { className: classNames31["stacked-layout__attachment-list"] }, children));
+      ), /* @__PURE__ */ import_react354.default.createElement("div", { className: classNames31["stacked-layout__attachment-list"] }, children));
     }
   );
   StackedLayoutInner.displayName = "StackedLayoutInner";
@@ -166432,19 +167760,19 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     showCallout
   }) => {
     var _a28, _b4;
-    const [styleOptions] = useStyleOptions102();
+    const [styleOptions] = useStyleOptions11();
     const [{ initials: botInitials }] = useAvatarForBot32();
     const [{ initials: userInitials }] = useAvatarForUser22();
     const ariaLabelId = useUniqueId("webchat__stacked-layout__id");
-    const localize2 = useLocalizer17();
+    const localize2 = useLocalizer18();
     const classNames31 = useStyles_default(StackedLayout_module_default);
     const { bubbleNubOffset, bubbleNubSize, bubbleFromUserNubOffset, bubbleFromUserNubSize } = styleOptions;
     const isMessageOrTyping = activity.type === "message" || activity.type === "typing";
-    const attachments = (0, import_react353.useMemo)(() => isMessageOrTyping && activity.attachments || [], [activity, isMessageOrTyping]);
+    const attachments = (0, import_react354.useMemo)(() => isMessageOrTyping && activity.attachments || [], [activity, isMessageOrTyping]);
     const fromUser = activity.from.role === "user" || getVoiceActivityRole_default(activity) === "user";
     const messageBackDisplayText = isMessageOrTyping && ((_b4 = (_a28 = activity.channelData) == null ? void 0 : _a28.messageBack) == null ? void 0 : _b4.displayText) || "";
-    const messageThing = (0, import_react353.useMemo)(() => getOrgSchemaMessage(activity.entities), [activity]);
-    const isCollapsible = (0, import_react353.useMemo)(() => {
+    const messageThing = (0, import_react354.useMemo)(() => getOrgSchemaMessage(activity.entities), [activity]);
+    const isCollapsible = (0, import_react354.useMemo)(() => {
       var _a29;
       return (_a29 = messageThing == null ? void 0 : messageThing.keywords) == null ? void 0 : _a29.includes("Collapsible");
     }, [messageThing]);
@@ -166466,8 +167794,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const showAvatar = showCallout && hasAvatar && !!renderAvatar;
     const showNub = !isInGroup && showCallout && hasNub && (topAlignedCallout || !(attachments == null ? void 0 : attachments.length));
     const showStatus = !!(messageThing == null ? void 0 : messageThing.creativeWorkStatus) || isInGroup;
-    const renderMainBubbleContent = (0, import_react353.useCallback)(
-      (title = "", withStatus = true) => /* @__PURE__ */ import_react353.default.createElement("div", { className: classNames31["stacked-layout__bubble"] }, withStatus && showStatus && /* @__PURE__ */ import_react353.default.createElement(StackedLayoutMessageStatus_default, { creativeWorkStatus: messageThing == null ? void 0 : messageThing.creativeWorkStatus }), title && /* @__PURE__ */ import_react353.default.createElement("div", { className: classNames31["stacked-layout__title"] }, title), activityDisplayText && renderAttachment({
+    const renderMainBubbleContent = (0, import_react354.useCallback)(
+      (title = "", withStatus = true) => /* @__PURE__ */ import_react354.default.createElement("div", { className: classNames31["stacked-layout__bubble"] }, withStatus && showStatus && /* @__PURE__ */ import_react354.default.createElement(StackedLayoutMessageStatus_default, { creativeWorkStatus: messageThing == null ? void 0 : messageThing.creativeWorkStatus }), title && /* @__PURE__ */ import_react354.default.createElement("div", { className: classNames31["stacked-layout__title"] }, title), activityDisplayText && renderAttachment({
         activity,
         attachment: {
           content: activityDisplayText,
@@ -166476,7 +167804,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       })),
       [activity, activityDisplayText, classNames31, messageThing == null ? void 0 : messageThing.creativeWorkStatus, renderAttachment, showStatus]
     );
-    const attachmentChildren = (0, import_react353.useMemo)(() => {
+    const attachmentChildren = (0, import_react354.useMemo)(() => {
       const syntheticAttachments = [];
       const attachmentAlt = localize2(
         fromUser ? "ACTIVITY_YOU_ATTACHED_ALT" : "ACTIVITY_BOT_ATTACHED_ALT",
@@ -166484,7 +167812,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       );
       if (isCollapsible && "text" in activity && activity.text) {
         syntheticAttachments.push(
-          /* @__PURE__ */ import_react353.default.createElement(
+          /* @__PURE__ */ import_react354.default.createElement(
             AttachmentRow_default,
             {
               attachedAlt: attachmentAlt,
@@ -166500,7 +167828,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       }
       if (isCollapsible && isBasedOnSoftwareSourceCode(messageThing)) {
         syntheticAttachments.push(
-          /* @__PURE__ */ import_react353.default.createElement(
+          /* @__PURE__ */ import_react354.default.createElement(
             AttachmentRow_default,
             {
               attachedAlt: attachmentAlt,
@@ -166510,7 +167838,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
               key: syntheticAttachments.length,
               showBubble: false
             },
-            /* @__PURE__ */ import_react353.default.createElement(
+            /* @__PURE__ */ import_react354.default.createElement(
               CodeBlockContent_default,
               {
                 code: messageThing.isBasedOn.text,
@@ -166523,7 +167851,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         );
       }
       return syntheticAttachments.concat(
-        attachments.map((attachment, index2) => /* @__PURE__ */ import_react353.default.createElement(
+        attachments.map((attachment, index2) => /* @__PURE__ */ import_react354.default.createElement(
           AttachmentRow_default,
           {
             attachedAlt: attachmentAlt,
@@ -166549,19 +167877,19 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       renderAttachment,
       renderMainBubbleContent
     ]);
-    const renderCollapsibleBubbleContent = (0, import_react353.useCallback)(
-      (title = "") => /* @__PURE__ */ import_react353.default.createElement("div", { className: classNames31["stacked-layout__bubble"] }, showStatus && /* @__PURE__ */ import_react353.default.createElement(StackedLayoutMessageStatus_default, { creativeWorkStatus: messageThing == null ? void 0 : messageThing.creativeWorkStatus }), /* @__PURE__ */ import_react353.default.createElement(
+    const renderCollapsibleBubbleContent = (0, import_react354.useCallback)(
+      (title = "") => /* @__PURE__ */ import_react354.default.createElement("div", { className: classNames31["stacked-layout__bubble"] }, showStatus && /* @__PURE__ */ import_react354.default.createElement(StackedLayoutMessageStatus_default, { creativeWorkStatus: messageThing == null ? void 0 : messageThing.creativeWorkStatus }), /* @__PURE__ */ import_react354.default.createElement(
         CollapsibleContent_default,
         {
           summary: title,
           summaryClassName: (0, import_classnames62.default)(classNames31["stacked-layout__title"], classNames31["stacked-layout__title--collapsible"])
         },
-        /* @__PURE__ */ import_react353.default.createElement("div", { className: classNames31["stacked-layout__attachment-list"] }, attachmentChildren)
+        /* @__PURE__ */ import_react354.default.createElement("div", { className: classNames31["stacked-layout__attachment-list"] }, attachmentChildren)
       )),
       [attachmentChildren, classNames31, messageThing == null ? void 0 : messageThing.creativeWorkStatus, showStatus]
     );
     const renderBubbleContent = isCollapsible ? renderCollapsibleBubbleContent : renderMainBubbleContent;
-    return /* @__PURE__ */ import_react353.default.createElement(
+    return /* @__PURE__ */ import_react354.default.createElement(
       StackedLayoutRoot_default,
       {
         ariaLabelId: activityDisplayText ? ariaLabelId : void 0,
@@ -166575,7 +167903,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         showNub,
         topCallout: topAlignedCallout
       },
-      /* @__PURE__ */ import_react353.default.createElement(
+      /* @__PURE__ */ import_react354.default.createElement(
         StackedLayoutInner,
         {
           activity,
@@ -166591,11 +167919,11 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         },
         !isCollapsible && attachmentChildren.length > 0 && attachmentChildren
       ),
-      renderActivityStatus && !isInGroup && /* @__PURE__ */ import_react353.default.createElement(StackedLayoutStatus_default, null, renderActivityStatus({ hideTimestamp }))
+      renderActivityStatus && !isInGroup && /* @__PURE__ */ import_react354.default.createElement(StackedLayoutStatus_default, null, renderActivityStatus({ hideTimestamp }))
     );
   };
   StackedLayout.displayName = "StackedLayout";
-  var StackedLayout_default = (0, import_react353.memo)(StackedLayout);
+  var StackedLayout_default = (0, import_react354.memo)(StackedLayout);
   function shouldFilterActivity(activity, messageThing) {
     var _a28, _b4, _c3, _d2, _e2;
     const { type } = activity;
@@ -166623,14 +167951,14 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
               typeof props === "undefined" && console.warn(
                 "botframework-webchat: One or more arguments were missing after passing through the activity middleware. Please check your custom activity middleware to make sure it passes all arguments."
               );
-              return /* @__PURE__ */ import_react348.default.createElement(CarouselLayout_default, { activity, renderAttachment, ...props });
+              return /* @__PURE__ */ import_react349.default.createElement(CarouselLayout_default, { activity, renderAttachment, ...props });
             };
           }
           return function renderStackedLayout(renderAttachment, props) {
             typeof props === "undefined" && console.warn(
               "botframework-webchat: One or more arguments were missing after passing through the activity middleware. Please check your custom activity middleware to make sure it passes all arguments."
             );
-            return /* @__PURE__ */ import_react348.default.createElement(StackedLayout_default, { activity, renderAttachment, ...props });
+            return /* @__PURE__ */ import_react349.default.createElement(StackedLayout_default, { activity, renderAttachment, ...props });
           };
         }
         return next2(...args);
@@ -166675,7 +168003,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       return token3;
     });
   }
-  var { useStyleOptions: useStyleOptions11 } = hook_exports;
+  var { useStyleOptions: useStyleOptions12 } = hook_exports;
   function replaceAnchorWithButton(markdownTokens) {
     return walkMarkdownTokens(markdownTokens, (markdownToken) => {
       markdownToken = { ...markdownToken };
@@ -166706,9 +168034,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       children = "";
     }
     const [markdownIt2] = useInternalMarkdownIt_default();
-    const [{ accent: accent2 }] = useStyleOptions11();
+    const [{ accent: accent2 }] = useStyleOptions12();
     const styleToClassName2 = useStyleToEmotionObject();
-    const className = (0, import_react360.useMemo)(
+    const className = (0, import_react361.useMemo)(
       () => styleToClassName2({
         "& button[data-markdown-href]": {
           appearance: "none",
@@ -166740,7 +168068,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       },
       { hrefToRef: {}, refToHref: {} }
     );
-    const html5 = (0, import_react360.useMemo)(() => {
+    const html5 = (0, import_react361.useMemo)(() => {
       const tree = markdownIt2.parseInline(children, {
         references: references.reduce(
           (references2, key2) => (
@@ -166754,7 +168082,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       const updatedTree = replaceAnchorWithButton(tree);
       return { __html: markdownIt2.renderer.render(updatedTree) };
     }, [children, refToHref, markdownIt2, references]);
-    const handleClick = (0, import_react360.useCallback)(
+    const handleClick = (0, import_react361.useCallback)(
       (event2) => {
         event2.stopPropagation();
         const href = event2.target.getAttribute("data-markdown-href");
@@ -166769,7 +168097,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       },
       [hrefToRef, onReference]
     );
-    return /* @__PURE__ */ import_react360.default.createElement("span", { className, dangerouslySetInnerHTML: html5, onClick: handleClick });
+    return /* @__PURE__ */ import_react361.default.createElement("span", { className, dangerouslySetInnerHTML: html5, onClick: handleClick });
   };
   InlineMarkdown.defaultProps = {
     children: "",
@@ -166782,26 +168110,26 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     references: import_prop_types32.default.arrayOf(import_prop_types32.default.string)
   };
   var InlineMarkdown_default = InlineMarkdown;
-  var { useLocalizer: useLocalizer18 } = hook_exports;
+  var { useLocalizer: useLocalizer19 } = hook_exports;
   var MARKDOWN_REFERENCES = ["RETRY"];
   var SendFailedRetry = ({ onRetryClick }) => {
-    const handleReference = (0, import_react359.useCallback)(({ data }) => data === "RETRY" && onRetryClick(), [onRetryClick]);
-    const localize2 = useLocalizer18();
+    const handleReference = (0, import_react360.useCallback)(({ data }) => data === "RETRY" && onRetryClick(), [onRetryClick]);
+    const localize2 = useLocalizer19();
     const sendFailedText = localize2("ACTIVITY_STATUS_SEND_FAILED_RETRY");
-    return /* @__PURE__ */ import_react359.default.createElement(InlineMarkdown_default, { onReference: handleReference, references: MARKDOWN_REFERENCES }, sendFailedText);
+    return /* @__PURE__ */ import_react360.default.createElement(InlineMarkdown_default, { onReference: handleReference, references: MARKDOWN_REFERENCES }, sendFailedText);
   };
   SendFailedRetry.propTypes = {
     onRetryClick: import_prop_types31.default.func.isRequired
   };
   var SendFailedRetry_default = SendFailedRetry;
-  var classes16 = { "activity-status-slot": "wlpDjkW_activity-status-slot", "activity-status": "wlpDjkW_activity-status", "activity-status__originator": "wlpDjkW_activity-status__originator", "activity-status__originator--has-link": "wlpDjkW_activity-status__originator--has-link", "activity-status--slotted": "wlpDjkW_activity-status--slotted" };
+  var classes16 = { "activity-status": "wlpDjkW_activity-status", "activity-status-slot": "wlpDjkW_activity-status-slot", "activity-status--slotted": "wlpDjkW_activity-status--slotted", "activity-status__originator": "wlpDjkW_activity-status__originator", "activity-status__originator--has-link": "wlpDjkW_activity-status__originator--has-link" };
   var ActivityStatus_module_default = classes16;
-  var _activity_status_slot0 = classes16["activity-status-slot"];
   var _activity_status0 = classes16["activity-status"];
+  var _activity_status_slot0 = classes16["activity-status-slot"];
+  var _activity_status__slotted0 = classes16["activity-status--slotted"];
   var _activity_status__originator0 = classes16["activity-status__originator"];
   var _activity_status__originator__has_link0 = classes16["activity-status__originator--has-link"];
-  var _activity_status__slotted0 = classes16["activity-status--slotted"];
-  var { useLocalizer: useLocalizer19, usePostActivity: usePostActivity22 } = hook_exports;
+  var { useLocalizer: useLocalizer20, usePostActivity: usePostActivity22 } = hook_exports;
   var sendStatusPropsSchema = pipe(
     object({
       activity: any(),
@@ -166812,29 +168140,29 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function SendStatus(props) {
     const { activity, sendStatus } = validateProps2(sendStatusPropsSchema, props);
     const focus = useFocus();
-    const localize2 = useLocalizer19();
+    const localize2 = useLocalizer20();
     const postActivity3 = usePostActivity22();
     const classNames31 = useStyles_default(ActivityStatus_module_default);
-    const handleRetryClick = (0, import_react358.useCallback)(() => {
+    const handleRetryClick = (0, import_react359.useCallback)(() => {
       postActivity3(activity);
       focus("sendBoxWithoutKeyboard");
     }, [activity, focus, postActivity3]);
     const sendingText = localize2("ACTIVITY_STATUS_SEND_STATUS_ALT_SENDING");
-    return /* @__PURE__ */ import_react358.default.createElement(import_react358.default.Fragment, null, /* @__PURE__ */ import_react358.default.createElement("span", { className: classNames31["activity-status"] }, sendStatus === SENDING3 ? sendingText : sendStatus === SEND_FAILED3 ? /* @__PURE__ */ import_react358.default.createElement(SendFailedRetry_default, { onRetryClick: handleRetryClick }) : false));
+    return /* @__PURE__ */ import_react359.default.createElement(import_react359.default.Fragment, null, /* @__PURE__ */ import_react359.default.createElement("span", { className: classNames31["activity-status"] }, sendStatus === SENDING3 ? sendingText : sendStatus === SEND_FAILED3 ? /* @__PURE__ */ import_react359.default.createElement(SendFailedRetry_default, { onRetryClick: handleRetryClick }) : false));
   }
-  var SendStatus_default = (0, import_react358.memo)(SendStatus);
+  var SendStatus_default = (0, import_react359.memo)(SendStatus);
   function createSendStatusMiddleware() {
     return () => (next2) => ({ activity, sendState, ...args }) => {
       switch (sendState) {
         case SENDING3:
         case SEND_FAILED3:
-          return /* @__PURE__ */ import_react357.default.createElement(SendStatus_default, { activity, sendStatus: sendState });
+          return /* @__PURE__ */ import_react358.default.createElement(SendStatus_default, { activity, sendStatus: sendState });
         default:
           return next2({ activity, sendState, ...args });
       }
     };
   }
-  var { useDateFormatter: useDateFormatter2, useLocalizer: useLocalizer20 } = hook_exports;
+  var { useDateFormatter: useDateFormatter2, useLocalizer: useLocalizer21 } = hook_exports;
   var absoluteTimePropsSchema = pipe(
     object({
       hide: optional(boolean(), false),
@@ -166844,10 +168172,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   );
   var AbsoluteTime = (props) => {
     const { hide, value } = validateProps2(absoluteTimePropsSchema, props);
-    const localize2 = useLocalizer20();
+    const localize2 = useLocalizer21();
     const formatDate = useDateFormatter2();
     const absoluteTime = formatDate(value);
-    return /* @__PURE__ */ import_react362.default.createElement(import_react362.Fragment, null, /* @__PURE__ */ import_react362.default.createElement(ScreenReaderText_default, { text: localize2("ACTIVITY_STATUS_SEND_STATUS_ALT_SENT_AT", absoluteTime) }), !hide && /* @__PURE__ */ import_react362.default.createElement("span", { "aria-hidden": true }, absoluteTime));
+    return /* @__PURE__ */ import_react363.default.createElement(import_react363.Fragment, null, /* @__PURE__ */ import_react363.default.createElement(ScreenReaderText_default, { text: localize2("ACTIVITY_STATUS_SEND_STATUS_ALT_SENT_AT", absoluteTime) }), !hide && /* @__PURE__ */ import_react363.default.createElement("span", { "aria-hidden": true }, absoluteTime));
   };
   var AbsoluteTime_default = AbsoluteTime;
   var originatorPropsSchema = pipe(
@@ -166866,7 +168194,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     }),
     readonly()
   );
-  var Originator = (0, import_react364.memo)(function Originator2(props) {
+  var Originator = (0, import_react365.memo)(function Originator2(props) {
     const {
       project: { name, slogan, url: url2 }
     } = validateProps2(originatorPropsSchema, props);
@@ -166877,7 +168205,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     return sanitizedHref ? (
       // Link is sanitized.
       // eslint-disable-next-line react/forbid-elements
-      /* @__PURE__ */ import_react364.default.createElement(
+      /* @__PURE__ */ import_react365.default.createElement(
         "a",
         {
           className: (0, import_classnames67.default)(classNames31["activity-status__originator"], classNames31["activity-status__originator--has-link"]),
@@ -166887,19 +168215,19 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         },
         text6
       )
-    ) : /* @__PURE__ */ import_react364.default.createElement("span", { className: classNames31["activity-status__originator"] }, text6);
+    ) : /* @__PURE__ */ import_react365.default.createElement("span", { className: classNames31["activity-status__originator"] }, text6);
   });
   var Originator_default = Originator;
   var StatusSlot = ({ children, className }) => {
     const classNames31 = useStyles_default(ActivityStatus_module_default);
-    return /* @__PURE__ */ import_react365.default.createElement("span", { className: (0, import_classnames68.default)(classNames31["activity-status-slot"], className) }, children);
+    return /* @__PURE__ */ import_react366.default.createElement("span", { className: (0, import_classnames68.default)(classNames31["activity-status-slot"], className) }, children);
   };
   StatusSlot.displayName = "StatusSlot";
-  var StatusSlot_default = (0, import_react365.memo)(StatusSlot);
+  var StatusSlot_default = (0, import_react366.memo)(StatusSlot);
   var { usePonyfill: usePonyfill22 } = hook_exports;
   function useTimer2(at, fn) {
     const [{ clearTimeout: clearTimeout2, Date: Date2, setTimeout: setTimeout2 }] = usePonyfill22();
-    (0, import_react369.useEffect)(() => {
+    (0, import_react370.useEffect)(() => {
       if (typeof at === "number") {
         const ms = Math.max(0, at - Date2.now());
         if (ms) {
@@ -166918,15 +168246,15 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
   function useForceRenderAtInterval(origin, interval, fn) {
     const [ponyfill2] = usePonyfill32();
-    const [timer, setTimer] = (0, import_react368.useState)(nextTimer(origin, interval, ponyfill2));
-    const handler = (0, import_react368.useCallback)(() => {
+    const [timer, setTimer] = (0, import_react369.useState)(nextTimer(origin, interval, ponyfill2));
+    const handler = (0, import_react369.useCallback)(() => {
       fn && fn();
       setTimer(nextTimer(origin, interval, ponyfill2) + (0, import_math_random14.default)());
     }, [fn, origin, interval, ponyfill2]);
     useTimer2(timer, handler);
     return [timer, setTimer];
   }
-  var { useDateFormatter: useDateFormatter22, useLocalizer: useLocalizer21, usePonyfill: usePonyfill42, useRelativeTimeFormatter: useRelativeTimeFormatter2 } = hook_exports;
+  var { useDateFormatter: useDateFormatter22, useLocalizer: useLocalizer222, usePonyfill: usePonyfill42, useRelativeTimeFormatter: useRelativeTimeFormatter2 } = hook_exports;
   var TIMER_INTERVAL = 6e4;
   var relativeTimePropsSchema = pipe(
     object({
@@ -166939,13 +168267,13 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const [{ Date: Date2 }] = usePonyfill42();
     const formatDate = useDateFormatter22();
     const formatRelativeTime = useRelativeTimeFormatter2();
-    const localize2 = useLocalizer21();
+    const localize2 = useLocalizer222();
     const dateValue = new Date2(value);
     useForceRenderAtInterval(dateValue, TIMER_INTERVAL);
-    return /* @__PURE__ */ import_react367.default.createElement(import_react367.Fragment, null, /* @__PURE__ */ import_react367.default.createElement(ScreenReaderText_default, { text: localize2("ACTIVITY_STATUS_SEND_STATUS_ALT_SENT_AT", formatDate(dateValue)) }), /* @__PURE__ */ import_react367.default.createElement("span", { "aria-hidden": true }, formatRelativeTime(dateValue)));
+    return /* @__PURE__ */ import_react368.default.createElement(import_react368.Fragment, null, /* @__PURE__ */ import_react368.default.createElement(ScreenReaderText_default, { text: localize2("ACTIVITY_STATUS_SEND_STATUS_ALT_SENT_AT", formatDate(dateValue)) }), /* @__PURE__ */ import_react368.default.createElement("span", { "aria-hidden": true }, formatRelativeTime(dateValue)));
   };
   var RelativeTime_default = RelativeTime;
-  var { useStyleOptions: useStyleOptions12 } = hook_exports;
+  var { useStyleOptions: useStyleOptions13 } = hook_exports;
   var timestampPropsSchema = pipe(
     object({
       timestamp: union([date(), number(), string()])
@@ -166955,21 +168283,21 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   );
   function Timestamp(props) {
     const { timestamp } = validateProps2(timestampPropsSchema, props);
-    const [{ timestampFormat }] = useStyleOptions12();
-    return timestampFormat === "relative" ? /* @__PURE__ */ import_react366.default.createElement(RelativeTime_default, { value: timestamp }) : /* @__PURE__ */ import_react366.default.createElement(AbsoluteTime_default, { value: timestamp });
+    const [{ timestampFormat }] = useStyleOptions13();
+    return timestampFormat === "relative" ? /* @__PURE__ */ import_react367.default.createElement(RelativeTime_default, { value: timestamp }) : /* @__PURE__ */ import_react367.default.createElement(AbsoluteTime_default, { value: timestamp });
   }
-  var Timestamp_default = (0, import_react366.memo)(Timestamp);
-  var { useStyleOptions: useStyleOptions13 } = hook_exports;
+  var Timestamp_default = (0, import_react367.memo)(Timestamp);
+  var { useStyleOptions: useStyleOptions14 } = hook_exports;
   var warnRootLevelThings = warnOnce4(
     'Root-level things are being deprecated, please relate all things to `entities[@id=""]` instead. This feature will be removed in 2025-03-06.'
   );
-  var OthersActivityStatus = (0, import_react363.memo)(({ activity, className, slotted }) => {
-    const [{ feedbackActionsPlacement }] = useStyleOptions13();
+  var OthersActivityStatus = (0, import_react364.memo)(({ activity, className, slotted }) => {
+    const [{ feedbackActionsPlacement }] = useStyleOptions14();
     const classNames31 = useStyles_default(ActivityStatus_module_default);
     const { timestamp } = activity;
-    const graph = (0, import_react363.useMemo)(() => dereferenceBlankNodes(activity.entities || []), [activity.entities]);
-    const messageThing = (0, import_react363.useMemo)(() => getOrgSchemaMessage(graph), [graph]);
-    const claimInterpreter = (0, import_react363.useMemo)(() => {
+    const graph = (0, import_react364.useMemo)(() => dereferenceBlankNodes(activity.entities || []), [activity.entities]);
+    const messageThing = (0, import_react364.useMemo)(() => getOrgSchemaMessage(graph), [graph]);
+    const claimInterpreter = (0, import_react364.useMemo)(() => {
       var _a28;
       try {
         if (messageThing) {
@@ -166988,27 +168316,27 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       } catch {
       }
     }, [graph, messageThing]);
-    return /* @__PURE__ */ import_react363.default.createElement(
+    return /* @__PURE__ */ import_react364.default.createElement(
       "span",
       {
         className: (0, import_classnames66.default)(classNames31["activity-status"], { [classNames31["activity-status--slotted"]]: slotted }, className)
       },
-      timestamp && /* @__PURE__ */ import_react363.default.createElement(StatusSlot_default, null, /* @__PURE__ */ import_react363.default.createElement(Timestamp_default, { key: "timestamp", timestamp })),
-      claimInterpreter && /* @__PURE__ */ import_react363.default.createElement(StatusSlot_default, null, /* @__PURE__ */ import_react363.default.createElement(Originator_default, { key: "originator", project: claimInterpreter })),
-      feedbackActionsPlacement === "activity-status" && /* @__PURE__ */ import_react363.default.createElement(StatusSlot_default, null, /* @__PURE__ */ import_react363.default.createElement(ActivityFeedback_default, { activity, key: "feedback" }))
+      timestamp && /* @__PURE__ */ import_react364.default.createElement(StatusSlot_default, null, /* @__PURE__ */ import_react364.default.createElement(Timestamp_default, { key: "timestamp", timestamp })),
+      claimInterpreter && /* @__PURE__ */ import_react364.default.createElement(StatusSlot_default, null, /* @__PURE__ */ import_react364.default.createElement(Originator_default, { key: "originator", project: claimInterpreter })),
+      feedbackActionsPlacement === "activity-status" && /* @__PURE__ */ import_react364.default.createElement(StatusSlot_default, null, /* @__PURE__ */ import_react364.default.createElement(ActivityFeedback_default, { activity, key: "feedback" }))
     );
   });
   OthersActivityStatus.displayName = "OthersActivityStatus";
   var OthersActivityStatus_default = OthersActivityStatus;
-  var SelftActivityStatus = (0, import_react370.memo)(({ activity, className, slotted }) => {
+  var SelftActivityStatus = (0, import_react371.memo)(({ activity, className, slotted }) => {
     const classNames31 = useStyles_default(ActivityStatus_module_default);
     const { timestamp } = activity;
-    return timestamp ? /* @__PURE__ */ import_react370.default.createElement(
+    return timestamp ? /* @__PURE__ */ import_react371.default.createElement(
       "span",
       {
         className: (0, import_classnames69.default)(classNames31["activity-status"], { [classNames31["activity-status--slotted"]]: slotted }, className)
       },
-      /* @__PURE__ */ import_react370.default.createElement(Timestamp_default, { timestamp })
+      /* @__PURE__ */ import_react371.default.createElement(Timestamp_default, { timestamp })
     ) : null;
   });
   SelftActivityStatus.displayName = "SelftActivityStatus";
@@ -167017,30 +168345,30 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     return () => () => (...args) => {
       const [{ activity, hideTimestamp }] = args;
       if (typeof activity.timestamp === "undefined") {
-        return /* @__PURE__ */ import_react361.default.createElement(import_react361.Fragment, null);
+        return /* @__PURE__ */ import_react362.default.createElement(import_react362.Fragment, null);
       } else if (hideTimestamp) {
-        return /* @__PURE__ */ import_react361.default.createElement(AbsoluteTime_default, { hide: true, value: activity.timestamp });
+        return /* @__PURE__ */ import_react362.default.createElement(AbsoluteTime_default, { hide: true, value: activity.timestamp });
       } else if (activity.from.role === "bot") {
-        return /* @__PURE__ */ import_react361.default.createElement(OthersActivityStatus_default, { activity, slotted: true });
+        return /* @__PURE__ */ import_react362.default.createElement(OthersActivityStatus_default, { activity, slotted: true });
       }
-      return /* @__PURE__ */ import_react361.default.createElement(SelfActivityStatus_default, { activity, slotted: true });
+      return /* @__PURE__ */ import_react362.default.createElement(SelfActivityStatus_default, { activity, slotted: true });
     };
   }
   function createCoreMiddleware2() {
     return [createSendStatusMiddleware(), createTimestampMiddleware()];
   }
-  var { useLocalizer: useLocalizer222 } = hook_exports;
+  var { useLocalizer: useLocalizer232 } = hook_exports;
   var AudioAttachment2 = () => {
-    const localize2 = useLocalizer222();
+    const localize2 = useLocalizer232();
     const label = localize2("ATTACHMENT_AUDIO");
-    return /* @__PURE__ */ import_react372.default.createElement("article", null, label);
+    return /* @__PURE__ */ import_react373.default.createElement("article", null, label);
   };
   var AudioAttachment_default2 = AudioAttachment2;
-  var { useLocalizer: useLocalizer232 } = hook_exports;
+  var { useLocalizer: useLocalizer242 } = hook_exports;
   var FileAttachment2 = ({ attachment: { name = "" } = {} }) => {
-    const localize2 = useLocalizer232();
+    const localize2 = useLocalizer242();
     const label = localize2("ATTACHMENT_FILE", name);
-    return /* @__PURE__ */ import_react373.default.createElement("article", null, label);
+    return /* @__PURE__ */ import_react374.default.createElement("article", null, label);
   };
   FileAttachment2.propTypes = {
     attachment: import_prop_types33.default.shape({
@@ -167048,18 +168376,18 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     }).isRequired
   };
   var FileAttachment_default2 = FileAttachment2;
-  var { useLocalizer: useLocalizer242 } = hook_exports;
+  var { useLocalizer: useLocalizer25 } = hook_exports;
   var ImageAttachment3 = () => {
-    const localize2 = useLocalizer242();
+    const localize2 = useLocalizer25();
     const label = localize2("ATTACHMENT_IMAGE");
-    return /* @__PURE__ */ import_react374.default.createElement("article", null, label);
+    return /* @__PURE__ */ import_react375.default.createElement("article", null, label);
   };
   var ImageAttachment_default2 = ImageAttachment3;
-  var { useLocalizer: useLocalizer25 } = hook_exports;
+  var { useLocalizer: useLocalizer26 } = hook_exports;
   var TextAttachment2 = ({ attachment: { content: content3 = "" } = {} }) => {
-    const localize2 = useLocalizer25();
+    const localize2 = useLocalizer26();
     const label = localize2("ATTACHMENT_TEXT", content3);
-    return /* @__PURE__ */ import_react375.default.createElement("article", null, label);
+    return /* @__PURE__ */ import_react376.default.createElement("article", null, label);
   };
   TextAttachment2.propTypes = {
     attachment: import_prop_types34.default.shape({
@@ -167067,11 +168395,11 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     }).isRequired
   };
   var TextAttachment_default2 = TextAttachment2;
-  var { useLocalizer: useLocalizer26 } = hook_exports;
+  var { useLocalizer: useLocalizer27 } = hook_exports;
   var VideoAttachment2 = () => {
-    const localize2 = useLocalizer26();
+    const localize2 = useLocalizer27();
     const label = localize2("ATTACHMENT_VIDEO");
-    return /* @__PURE__ */ import_react376.default.createElement("article", null, label);
+    return /* @__PURE__ */ import_react377.default.createElement("article", null, label);
   };
   var VideoAttachment_default2 = VideoAttachment2;
   function createCoreMiddleware3() {
@@ -167085,7 +168413,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           }
         ] = args;
         const isText = /^text\//u.test(contentType);
-        return (isText ? !attachment.content : role === "user" && !thumbnailUrl) ? () => /* @__PURE__ */ import_react371.default.createElement(FileAttachment_default2, { attachment }) : /^audio\//u.test(contentType) ? () => /* @__PURE__ */ import_react371.default.createElement(AudioAttachment_default2, null) : /^image\//u.test(contentType) ? () => /* @__PURE__ */ import_react371.default.createElement(ImageAttachment_default2, null) : /^video\//u.test(contentType) ? () => /* @__PURE__ */ import_react371.default.createElement(VideoAttachment_default2, null) : contentUrl || contentType === "application/octet-stream" ? () => /* @__PURE__ */ import_react371.default.createElement(FileAttachment_default2, { attachment }) : isText ? () => /* @__PURE__ */ import_react371.default.createElement(TextAttachment_default2, { attachment }) : next2(...args);
+        return (isText ? !attachment.content : role === "user" && !thumbnailUrl) ? () => /* @__PURE__ */ import_react372.default.createElement(FileAttachment_default2, { attachment }) : /^audio\//u.test(contentType) ? () => /* @__PURE__ */ import_react372.default.createElement(AudioAttachment_default2, null) : /^image\//u.test(contentType) ? () => /* @__PURE__ */ import_react372.default.createElement(ImageAttachment_default2, null) : /^video\//u.test(contentType) ? () => /* @__PURE__ */ import_react372.default.createElement(VideoAttachment_default2, null) : contentUrl || contentType === "application/octet-stream" ? () => /* @__PURE__ */ import_react372.default.createElement(FileAttachment_default2, { attachment }) : isText ? () => /* @__PURE__ */ import_react372.default.createElement(TextAttachment_default2, { attachment }) : next2(...args);
       }
     ];
   }
@@ -167109,9 +168437,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const [{ imageAvatar: imageAvatarStyleSet }] = useStyleSet();
     const rootClassName = useStyleToEmotionObject()(ROOT_STYLE42) + "";
     const avatarImage = fromUser ? avatarImageForUser : avatarImageForBot;
-    return !!avatarImage && /* @__PURE__ */ import_react378.default.createElement("div", { className: (0, import_classnames71.default)("webchat__imageAvatar", rootClassName, imageAvatarStyleSet + "") }, /* @__PURE__ */ import_react378.default.createElement("img", { alt: "", className: "webchat__imageAvatar__image", src: fromUser ? avatarImageForUser : avatarImageForBot }));
+    return !!avatarImage && /* @__PURE__ */ import_react379.default.createElement("div", { className: (0, import_classnames71.default)("webchat__imageAvatar", rootClassName, imageAvatarStyleSet + "") }, /* @__PURE__ */ import_react379.default.createElement("img", { alt: "", className: "webchat__imageAvatar__image", src: fromUser ? avatarImageForUser : avatarImageForBot }));
   };
-  var ImageAvatar_default = (0, import_react378.memo)(ImageAvatar);
+  var ImageAvatar_default = (0, import_react379.memo)(ImageAvatar);
   var { useAvatarForBot: useAvatarForBot5, useAvatarForUser: useAvatarForUser4 } = hook_exports;
   var ROOT_STYLE52 = {
     alignItems: "center",
@@ -167132,7 +168460,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const [{ initials: avatarInitialsForUser }] = useAvatarForUser4();
     const [{ initialsAvatar: initialsAvatarStyleSet }] = useStyleSet();
     const rootClassName = useStyleToEmotionObject()(ROOT_STYLE52) + "";
-    return /* @__PURE__ */ import_react379.default.createElement(
+    return /* @__PURE__ */ import_react380.default.createElement(
       "div",
       {
         className: (0, import_classnames72.default)(
@@ -167144,10 +168472,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           initialsAvatarStyleSet + ""
         )
       },
-      /* @__PURE__ */ import_react379.default.createElement("div", { className: "webchat__initialsAvatar__initials" }, fromUser ? avatarInitialsForUser : avatarInitialsForBot)
+      /* @__PURE__ */ import_react380.default.createElement("div", { className: "webchat__initialsAvatar__initials" }, fromUser ? avatarInitialsForUser : avatarInitialsForBot)
     );
   }
-  var InitialsAvatar_default = (0, import_react379.memo)(InitialsAvatar);
+  var InitialsAvatar_default = (0, import_react380.memo)(InitialsAvatar);
   var ROOT_STYLE62 = {
     overflow: ["hidden", "clip"],
     position: "relative",
@@ -167170,7 +168498,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const { "aria-hidden": ariaHidden, className, fromUser } = validateProps2(defaultAvatarPropsSchema, props, "strict");
     const [{ avatar: avatarStyleSet }] = useStyleSet();
     const rootClassName = useStyleToEmotionObject()(ROOT_STYLE62) + "";
-    return /* @__PURE__ */ import_react377.default.createElement(
+    return /* @__PURE__ */ import_react378.default.createElement(
       "div",
       {
         "aria-hidden": ariaHidden,
@@ -167182,12 +168510,12 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           className
         )
       },
-      /* @__PURE__ */ import_react377.default.createElement(InitialsAvatar_default, { fromUser }),
-      /* @__PURE__ */ import_react377.default.createElement(ImageAvatar_default, { fromUser })
+      /* @__PURE__ */ import_react378.default.createElement(InitialsAvatar_default, { fromUser }),
+      /* @__PURE__ */ import_react378.default.createElement(ImageAvatar_default, { fromUser })
     );
   }
   DefaultAvatar.displayName = "DefaultAvatar";
-  var DefaultAvatar_default = (0, import_react377.memo)(DefaultAvatar);
+  var DefaultAvatar_default = (0, import_react378.memo)(DefaultAvatar);
   function createDefaultAvatarMiddleware(styleOptions) {
     const { botAvatarImage, botAvatarInitials, userAvatarImage, userAvatarInitials } = styleOptions != null ? styleOptions : {};
     return createAvatarPolymiddleware((_next) => ({ activity }) => {
@@ -167254,13 +168582,13 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       }
     ];
   }
-  var { useLocalizer: useLocalizer27, useStyleOptions: useStyleOptions14 } = hook_exports;
+  var { useLocalizer: useLocalizer28, useStyleOptions: useStyleOptions15 } = hook_exports;
   var newMessagesAccessKey = "U u \xDC \xFC";
   var ScrollToEndButton = ({ onClick: onClick2 }) => {
-    const focusRef = (0, import_react380.useRef)(null);
+    const focusRef = (0, import_react381.useRef)(null);
     const [{ scrollToEndButton: scrollToEndButtonStyleSet }] = useStyleSet();
-    const [{ scrollToEndButtonBehavior }] = useStyleOptions14();
-    const localize2 = useLocalizer27();
+    const [{ scrollToEndButtonBehavior }] = useStyleOptions15();
+    const localize2 = useLocalizer28();
     const localizeAccessKey = useLocalizeAccessKey("accessible name");
     const shouldShowNewMessagesButton = scrollToEndButtonBehavior !== "any";
     const text6 = localize2(shouldShowNewMessagesButton ? "TRANSCRIPT_NEW_MESSAGES" : "TRANSCRIPT_MORE_MESSAGES");
@@ -167271,10 +168599,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     );
     useFocusAccessKeyEffect(shouldShowNewMessagesButton ? newMessagesAccessKey : "", focusRef);
     useLiveRegion(
-      () => shouldShowNewMessagesButton && /* @__PURE__ */ import_react380.default.createElement("div", { className: "webchat__scroll-to-end-button__status" }, liveRegionText),
+      () => shouldShowNewMessagesButton && /* @__PURE__ */ import_react381.default.createElement("div", { className: "webchat__scroll-to-end-button__status" }, liveRegionText),
       [liveRegionText, shouldShowNewMessagesButton]
     );
-    return /* @__PURE__ */ import_react380.default.createElement(
+    return /* @__PURE__ */ import_react381.default.createElement(
       "button",
       {
         "aria-keyshortcuts": shouldShowNewMessagesButton ? localizeAccessKey(newMessagesAccessKey) : void 0,
@@ -167304,7 +168632,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       )
     ];
   }
-  var DismissIcon = ({ className }) => /* @__PURE__ */ import_react383.default.createElement(
+  var DismissIcon = ({ className }) => /* @__PURE__ */ import_react384.default.createElement(
     "svg",
     {
       className: (className || "") + "",
@@ -167315,7 +168643,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       width: "14",
       xmlns: "http://www.w3.org/2000/svg"
     },
-    /* @__PURE__ */ import_react383.default.createElement("path", { d: "M7.71094 7L13.1016 12.3984L12.3984 13.1016L7 7.71094L1.60156 13.1016L0.898438 12.3984L6.28906 7L0.898438 1.60156L1.60156 0.898438L7 6.28906L12.3984 0.898438L13.1016 1.60156L7.71094 7Z" })
+    /* @__PURE__ */ import_react384.default.createElement("path", { d: "M7.71094 7L13.1016 12.3984L12.3984 13.1016L7 7.71094L1.60156 13.1016L0.898438 12.3984L6.28906 7L0.898438 1.60156L1.60156 0.898438L7 6.28906L12.3984 0.898438L13.1016 1.60156L7.71094 7Z" })
   );
   DismissIcon.defaultProps = {
     className: void 0
@@ -167324,7 +168652,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     className: import_prop_types36.default.string
   };
   var DismissIcon_default = DismissIcon;
-  var CheckMarkIcon = ({ "aria-label": ariaLabel, className }) => /* @__PURE__ */ import_react385.default.createElement(
+  var CheckMarkIcon = ({ "aria-label": ariaLabel, className }) => /* @__PURE__ */ import_react386.default.createElement(
     "svg",
     {
       "aria-label": ariaLabel,
@@ -167335,7 +168663,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       width: "20",
       xmlns: "http://www.w3.org/2000/svg"
     },
-    /* @__PURE__ */ import_react385.default.createElement(
+    /* @__PURE__ */ import_react386.default.createElement(
       "path",
       {
         d: "M14.5605 5.81055L15.4395 6.68945L8.125 14.0039L4.56055 10.4395L5.43945 9.56055L8.125 12.2461L14.5605 5.81055ZM10 0C10.918 0 11.8034 0.120443 12.6562 0.361328C13.5091 0.595703 14.3066 0.93099 15.0488 1.36719C15.791 1.79688 16.4648 2.31771 17.0703 2.92969C17.6823 3.53516 18.2031 4.20898 18.6328 4.95117C19.069 5.69336 19.4043 6.49089 19.6387 7.34375C19.8796 8.19661 20 9.08203 20 10C20 10.918 19.8796 11.8034 19.6387 12.6562C19.4043 13.5091 19.069 14.3066 18.6328 15.0488C18.2031 15.791 17.6823 16.4681 17.0703 17.0801C16.4648 17.6855 15.791 18.2064 15.0488 18.6426C14.3066 19.0723 13.5091 19.4076 12.6562 19.6484C11.8034 19.8828 10.918 20 10 20C9.08203 20 8.19661 19.8828 7.34375 19.6484C6.49089 19.4076 5.69336 19.0723 4.95117 18.6426C4.20898 18.2064 3.5319 17.6855 2.91992 17.0801C2.31445 16.4681 1.79362 15.791 1.35742 15.0488C0.927734 14.3066 0.592448 13.5124 0.351562 12.666C0.117188 11.8132 0 10.9245 0 10C0 9.08203 0.117188 8.19661 0.351562 7.34375C0.592448 6.49089 0.927734 5.69336 1.35742 4.95117C1.79362 4.20898 2.31445 3.53516 2.91992 2.92969C3.5319 2.31771 4.20898 1.79688 4.95117 1.36719C5.69336 0.93099 6.48763 0.595703 7.33398 0.361328C8.18685 0.120443 9.07552 0 10 0ZM10 18.75C10.8008 18.75 11.5723 18.6458 12.3145 18.4375C13.0632 18.2292 13.7598 17.9362 14.4043 17.5586C15.0553 17.1745 15.6478 16.7155 16.1816 16.1816C16.7155 15.6478 17.1712 15.0586 17.5488 14.4141C17.9329 13.763 18.2292 13.0664 18.4375 12.3242C18.6458 11.582 18.75 10.8073 18.75 10C18.75 9.19922 18.6458 8.42773 18.4375 7.68555C18.2292 6.93685 17.9329 6.24023 17.5488 5.5957C17.1712 4.94466 16.7155 4.35221 16.1816 3.81836C15.6478 3.28451 15.0553 2.82878 14.4043 2.45117C13.7598 2.06706 13.0632 1.77083 12.3145 1.5625C11.5723 1.35417 10.8008 1.25 10 1.25C9.19922 1.25 8.42448 1.35417 7.67578 1.5625C6.93359 1.77083 6.23698 2.06706 5.58594 2.45117C4.94141 2.82878 4.35221 3.28451 3.81836 3.81836C3.28451 4.35221 2.82552 4.94466 2.44141 5.5957C2.0638 6.24023 1.77083 6.93685 1.5625 7.68555C1.35417 8.42773 1.25 9.19922 1.25 10C1.25 10.8008 1.35417 11.5755 1.5625 12.3242C1.77083 13.0664 2.0638 13.763 2.44141 14.4141C2.82552 15.0586 3.28451 15.6478 3.81836 16.1816C4.35221 16.7155 4.94141 17.1745 5.58594 17.5586C6.23698 17.9362 6.93359 18.2292 7.67578 18.4375C8.41797 18.6458 9.19271 18.75 10 18.75Z",
@@ -167352,7 +168680,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     className: import_prop_types38.default.string
   };
   var CheckMarkIcon_default = CheckMarkIcon;
-  var ExclamationMarkIcon = ({ "aria-label": ariaLabel, className }) => /* @__PURE__ */ import_react386.default.createElement(
+  var ExclamationMarkIcon = ({ "aria-label": ariaLabel, className }) => /* @__PURE__ */ import_react387.default.createElement(
     "svg",
     {
       "aria-label": ariaLabel,
@@ -167362,7 +168690,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       width: "19",
       xmlns: "http://www.w3.org/2000/svg"
     },
-    /* @__PURE__ */ import_react386.default.createElement("path", { d: "M9.375 0C10.2409 0 11.071 0.110677 11.8652 0.332031C12.666 0.553385 13.4147 0.869141 14.1113 1.2793C14.8079 1.68294 15.4395 2.17122 16.0059 2.74414C16.5788 3.31055 17.0671 3.94206 17.4707 4.63867C17.8809 5.33529 18.1966 6.08398 18.418 6.88477C18.6393 7.67904 18.75 8.50911 18.75 9.375C18.75 10.2409 18.6393 11.0742 18.418 11.875C18.1966 12.6693 17.8809 13.4147 17.4707 14.1113C17.0671 14.8079 16.5788 15.4427 16.0059 16.0156C15.4395 16.582 14.8079 17.0703 14.1113 17.4805C13.4147 17.8841 12.666 18.1966 11.8652 18.418C11.071 18.6393 10.2409 18.75 9.375 18.75C8.50911 18.75 7.67578 18.6393 6.875 18.418C6.08073 18.1966 5.33529 17.8841 4.63867 17.4805C3.94206 17.0703 3.30729 16.582 2.73438 16.0156C2.16797 15.4427 1.67969 14.8079 1.26953 14.1113C0.865885 13.4147 0.553385 12.6693 0.332031 11.875C0.110677 11.0742 0 10.2409 0 9.375C0 8.50911 0.110677 7.67904 0.332031 6.88477C0.553385 6.08398 0.865885 5.33529 1.26953 4.63867C1.67969 3.94206 2.16797 3.31055 2.73438 2.74414C3.30729 2.17122 3.94206 1.68294 4.63867 1.2793C5.33529 0.869141 6.08073 0.553385 6.875 0.332031C7.67578 0.110677 8.50911 0 9.375 0ZM9.375 17.5C10.1172 17.5 10.8333 17.4023 11.5234 17.207C12.2201 17.0117 12.8678 16.7383 13.4668 16.3867C14.0723 16.0352 14.6224 15.612 15.1172 15.1172C15.612 14.6224 16.0352 14.0755 16.3867 13.4766C16.7383 12.8711 17.0117 12.2233 17.207 11.5332C17.4023 10.8431 17.5 10.1237 17.5 9.375C17.5 8.63281 17.4023 7.91667 17.207 7.22656C17.0117 6.52995 16.7383 5.88216 16.3867 5.2832C16.0352 4.67773 15.612 4.1276 15.1172 3.63281C14.6224 3.13802 14.0723 2.71484 13.4668 2.36328C12.8678 2.01172 12.2201 1.73828 11.5234 1.54297C10.8333 1.34766 10.1172 1.25 9.375 1.25C8.6263 1.25 7.9069 1.34766 7.2168 1.54297C6.52669 1.73828 5.87891 2.01172 5.27344 2.36328C4.67448 2.71484 4.1276 3.13802 3.63281 3.63281C3.13802 4.1276 2.71484 4.67773 2.36328 5.2832C2.01172 5.88216 1.73828 6.52995 1.54297 7.22656C1.34766 7.91667 1.25 8.63281 1.25 9.375C1.25 10.1172 1.34766 10.8366 1.54297 11.5332C1.73828 12.2233 2.01172 12.8711 2.36328 13.4766C2.71484 14.0755 3.13802 14.6224 3.63281 15.1172C4.1276 15.612 4.67448 16.0352 5.27344 16.3867C5.87891 16.7383 6.52669 17.0117 7.2168 17.207C7.9069 17.4023 8.6263 17.5 9.375 17.5ZM8.75 5H10V11.25H8.75V5ZM8.75 12.5H10V13.75H8.75V12.5Z" })
+    /* @__PURE__ */ import_react387.default.createElement("path", { d: "M9.375 0C10.2409 0 11.071 0.110677 11.8652 0.332031C12.666 0.553385 13.4147 0.869141 14.1113 1.2793C14.8079 1.68294 15.4395 2.17122 16.0059 2.74414C16.5788 3.31055 17.0671 3.94206 17.4707 4.63867C17.8809 5.33529 18.1966 6.08398 18.418 6.88477C18.6393 7.67904 18.75 8.50911 18.75 9.375C18.75 10.2409 18.6393 11.0742 18.418 11.875C18.1966 12.6693 17.8809 13.4147 17.4707 14.1113C17.0671 14.8079 16.5788 15.4427 16.0059 16.0156C15.4395 16.582 14.8079 17.0703 14.1113 17.4805C13.4147 17.8841 12.666 18.1966 11.8652 18.418C11.071 18.6393 10.2409 18.75 9.375 18.75C8.50911 18.75 7.67578 18.6393 6.875 18.418C6.08073 18.1966 5.33529 17.8841 4.63867 17.4805C3.94206 17.0703 3.30729 16.582 2.73438 16.0156C2.16797 15.4427 1.67969 14.8079 1.26953 14.1113C0.865885 13.4147 0.553385 12.6693 0.332031 11.875C0.110677 11.0742 0 10.2409 0 9.375C0 8.50911 0.110677 7.67904 0.332031 6.88477C0.553385 6.08398 0.865885 5.33529 1.26953 4.63867C1.67969 3.94206 2.16797 3.31055 2.73438 2.74414C3.30729 2.17122 3.94206 1.68294 4.63867 1.2793C5.33529 0.869141 6.08073 0.553385 6.875 0.332031C7.67578 0.110677 8.50911 0 9.375 0ZM9.375 17.5C10.1172 17.5 10.8333 17.4023 11.5234 17.207C12.2201 17.0117 12.8678 16.7383 13.4668 16.3867C14.0723 16.0352 14.6224 15.612 15.1172 15.1172C15.612 14.6224 16.0352 14.0755 16.3867 13.4766C16.7383 12.8711 17.0117 12.2233 17.207 11.5332C17.4023 10.8431 17.5 10.1237 17.5 9.375C17.5 8.63281 17.4023 7.91667 17.207 7.22656C17.0117 6.52995 16.7383 5.88216 16.3867 5.2832C16.0352 4.67773 15.612 4.1276 15.1172 3.63281C14.6224 3.13802 14.0723 2.71484 13.4668 2.36328C12.8678 2.01172 12.2201 1.73828 11.5234 1.54297C10.8333 1.34766 10.1172 1.25 9.375 1.25C8.6263 1.25 7.9069 1.34766 7.2168 1.54297C6.52669 1.73828 5.87891 2.01172 5.27344 2.36328C4.67448 2.71484 4.1276 3.13802 3.63281 3.63281C3.13802 4.1276 2.71484 4.67773 2.36328 5.2832C2.01172 5.88216 1.73828 6.52995 1.54297 7.22656C1.34766 7.91667 1.25 8.63281 1.25 9.375C1.25 10.1172 1.34766 10.8366 1.54297 11.5332C1.73828 12.2233 2.01172 12.8711 2.36328 13.4766C2.71484 14.0755 3.13802 14.6224 3.63281 15.1172C4.1276 15.612 4.67448 16.0352 5.27344 16.3867C5.87891 16.7383 6.52669 17.0117 7.2168 17.207C7.9069 17.4023 8.6263 17.5 9.375 17.5ZM8.75 5H10V11.25H8.75V5ZM8.75 12.5H10V13.75H8.75V12.5Z" })
   );
   ExclamationMarkIcon.defaultProps = {
     "aria-label": void 0,
@@ -167373,9 +168701,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     className: import_prop_types39.default.string
   };
   var ExclamationMarkIcon_default = ExclamationMarkIcon;
-  var { useLocalizer: useLocalizer28 } = hook_exports;
+  var { useLocalizer: useLocalizer29 } = hook_exports;
   var NotificationIcon = ({ className, level }) => {
-    const localize2 = useLocalizer28();
+    const localize2 = useLocalizer29();
     const prefixes = {
       error: localize2("TOAST_ALT_ERROR"),
       info: localize2("TOAST_ALT_INFO"),
@@ -167383,7 +168711,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       warn: localize2("TOAST_ALT_WARN")
     };
     const prefix2 = !isForbiddenPropertyName(level) && prefixes[level] || "";
-    return /* @__PURE__ */ import_react384.default.createElement(import_react384.default.Fragment, null, level === "success" ? /* @__PURE__ */ import_react384.default.createElement(CheckMarkIcon_default, { "aria-label": prefix2, className }) : /* @__PURE__ */ import_react384.default.createElement(ExclamationMarkIcon_default, { "aria-label": prefix2, className }));
+    return /* @__PURE__ */ import_react385.default.createElement(import_react385.default.Fragment, null, level === "success" ? /* @__PURE__ */ import_react385.default.createElement(CheckMarkIcon_default, { "aria-label": prefix2, className }) : /* @__PURE__ */ import_react385.default.createElement(ExclamationMarkIcon_default, { "aria-label": prefix2, className }));
   };
   NotificationIcon.defaultProps = {
     className: void 0
@@ -167398,7 +168726,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     return internalRenderMarkdownInline;
   }
   var useInternalRenderMarkdownInline_default = useInternalRenderMarkdownInline;
-  var { useDismissNotification: useDismissNotification2, useLocalizer: useLocalizer29 } = hook_exports;
+  var { useDismissNotification: useDismissNotification2, useLocalizer: useLocalizer30 } = hook_exports;
   var ROOT_STYLE72 = {
     display: "flex",
     "& .webchat__toast__text": {
@@ -167407,14 +168735,14 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   };
   var BasicToast = ({ notification: { alt, id, level, message = "" } }) => {
     const [{ toast: toastStyleSet }] = useStyleSet();
-    const contentId = (0, import_react382.useMemo)(() => `webchat__toast__${randomId2()}`, []);
-    const localize2 = useLocalizer29();
+    const contentId = (0, import_react383.useMemo)(() => `webchat__toast__${randomId2()}`, []);
+    const localize2 = useLocalizer30();
     const dismissNotification2 = useDismissNotification2();
     const renderMarkdownInline = useInternalRenderMarkdownInline_default();
     const rootClassName = useStyleToEmotionObject()(ROOT_STYLE72) + "";
-    const handleDismiss = (0, import_react382.useCallback)(() => dismissNotification2(id), [dismissNotification2, id]);
-    const html5 = (0, import_react382.useMemo)(() => ({ __html: renderMarkdownInline(message) }), [message, renderMarkdownInline]);
-    return /* @__PURE__ */ import_react382.default.createElement(
+    const handleDismiss = (0, import_react383.useCallback)(() => dismissNotification2(id), [dismissNotification2, id]);
+    const html5 = (0, import_react383.useMemo)(() => ({ __html: renderMarkdownInline(message) }), [message, renderMarkdownInline]);
+    return /* @__PURE__ */ import_react383.default.createElement(
       "div",
       {
         "aria-describedby": contentId,
@@ -167432,10 +168760,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         ),
         role: "dialog"
       },
-      /* @__PURE__ */ import_react382.default.createElement("div", { className: "webchat__toast__iconBox" }, /* @__PURE__ */ import_react382.default.createElement(NotificationIcon_default, { className: "webchat__toast__icon", level })),
-      !!alt && /* @__PURE__ */ import_react382.default.createElement(ScreenReaderText_default, { text: alt }),
-      /* @__PURE__ */ import_react382.default.createElement("div", { "aria-hidden": !!alt, className: "webchat__toast__text", dangerouslySetInnerHTML: html5, id: contentId }),
-      /* @__PURE__ */ import_react382.default.createElement(
+      /* @__PURE__ */ import_react383.default.createElement("div", { className: "webchat__toast__iconBox" }, /* @__PURE__ */ import_react383.default.createElement(NotificationIcon_default, { className: "webchat__toast__icon", level })),
+      !!alt && /* @__PURE__ */ import_react383.default.createElement(ScreenReaderText_default, { text: alt }),
+      /* @__PURE__ */ import_react383.default.createElement("div", { "aria-hidden": !!alt, className: "webchat__toast__text", dangerouslySetInnerHTML: html5, id: contentId }),
+      /* @__PURE__ */ import_react383.default.createElement(
         "button",
         {
           "aria-label": localize2("TOAST_DISMISS_BUTTON"),
@@ -167443,7 +168771,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           onClick: handleDismiss,
           type: "button"
         },
-        /* @__PURE__ */ import_react382.default.createElement("div", { "aria-hidden": true, className: "webchat__toast__dismissButtonFocus" }, /* @__PURE__ */ import_react382.default.createElement(DismissIcon_default, null))
+        /* @__PURE__ */ import_react383.default.createElement("div", { "aria-hidden": true, className: "webchat__toast__dismissButtonFocus" }, /* @__PURE__ */ import_react383.default.createElement(DismissIcon_default, null))
       )
     );
   };
@@ -167457,7 +168785,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   };
   var BasicToast_default = BasicToast;
   function createToastMiddleware() {
-    return () => () => ({ notification }) => /* @__PURE__ */ import_react381.default.createElement(BasicToast_default, { notification });
+    return () => () => ({ notification }) => /* @__PURE__ */ import_react382.default.createElement(BasicToast_default, { notification });
   }
   var createToastMiddleware_default = createToastMiddleware;
   function createCoreMiddleware4() {
@@ -167474,16 +168802,16 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     ];
   }
   var createCoreMiddleware_default = createCoreMiddleware4;
-  var { useDirection: useDirection32, useLocalizer: useLocalizer30 } = hook_exports;
+  var { useDirection: useDirection32, useLocalizer: useLocalizer31 } = hook_exports;
   var ROOT_STYLE82 = {
     "&.webchat__typing-indicator.webchat__typing-indicator--rtl": { transform: "scale(-1, 1)" }
   };
   var TypingAnimation = () => {
     const [{ typingAnimation: typingAnimationStyleSet }] = useStyleSet();
     const [direction] = useDirection32();
-    const localize2 = useLocalizer30();
+    const localize2 = useLocalizer31();
     const rootClassName = useStyleToEmotionObject()(ROOT_STYLE82) + "";
-    return /* @__PURE__ */ import_react388.default.createElement(import_react388.default.Fragment, null, /* @__PURE__ */ import_react388.default.createElement(ScreenReaderText_default, { text: localize2("TYPING_INDICATOR_ALT") }), /* @__PURE__ */ import_react388.default.createElement(
+    return /* @__PURE__ */ import_react389.default.createElement(import_react389.default.Fragment, null, /* @__PURE__ */ import_react389.default.createElement(ScreenReaderText_default, { text: localize2("TYPING_INDICATOR_ALT") }), /* @__PURE__ */ import_react389.default.createElement(
       "div",
       {
         "aria-hidden": true,
@@ -167500,25 +168828,25 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     ));
   };
   var TypingAnimation_default = TypingAnimation;
-  var { useDirection: useDirection42, useLocalizer: useLocalizer31 } = hook_exports;
+  var { useDirection: useDirection42, useLocalizer: useLocalizer322 } = hook_exports;
   var DotIndicator = () => {
     const [{ typingIndicator: typingIndicatorStyleSet }] = useStyleSet();
     const [direction] = useDirection42();
-    const localize2 = useLocalizer31();
-    return /* @__PURE__ */ import_react387.default.createElement("div", { className: (0, import_classnames75.default)(typingIndicatorStyleSet + "", direction === "rtl" && "webchat__typing-indicator--rtl") }, /* @__PURE__ */ import_react387.default.createElement(TypingAnimation_default, { "aria-label": localize2("TYPING_INDICATOR_ALT") }));
+    const localize2 = useLocalizer322();
+    return /* @__PURE__ */ import_react388.default.createElement("div", { className: (0, import_classnames75.default)(typingIndicatorStyleSet + "", direction === "rtl" && "webchat__typing-indicator--rtl") }, /* @__PURE__ */ import_react388.default.createElement(TypingAnimation_default, { "aria-label": localize2("TYPING_INDICATOR_ALT") }));
   };
   function createCoreMiddleware5() {
     return [
-      () => () => ({ visible }) => visible && /* @__PURE__ */ import_react387.default.createElement(DotIndicator, null)
+      () => () => ({ visible }) => visible && /* @__PURE__ */ import_react388.default.createElement(DotIndicator, null)
     ];
   }
-  var classes17 = { "code-block": "wqvreca_code-block", "code-block__theme--github-dark-default": "wqvreca_code-block__theme--github-dark-default", "code-block__theme--github-light-default": "wqvreca_code-block__theme--github-light-default", "code-block__body": "wqvreca_code-block__body" };
+  var classes17 = { "code-block": "wqvreca_code-block", "code-block__body": "wqvreca_code-block__body", "code-block__theme--github-light-default": "wqvreca_code-block__theme--github-light-default", "code-block__theme--github-dark-default": "wqvreca_code-block__theme--github-dark-default" };
   var CodeBlock_module_default = classes17;
   var _code_block0 = classes17["code-block"];
-  var _code_block__theme__github_dark_default0 = classes17["code-block__theme--github-dark-default"];
-  var _code_block__theme__github_light_default0 = classes17["code-block__theme--github-light-default"];
   var _code_block__body0 = classes17["code-block__body"];
-  var { useStyleOptions: useStyleOptions15, useLocalizer: useLocalizer322 } = hook_exports;
+  var _code_block__theme__github_light_default0 = classes17["code-block__theme--github-light-default"];
+  var _code_block__theme__github_dark_default0 = classes17["code-block__theme--github-dark-default"];
+  var { useStyleOptions: useStyleOptions16, useLocalizer: useLocalizer332 } = hook_exports;
   var _a12, _connected, _originalFragment, _updateTask;
   var CodeBlock = (_a12 = class extends HTMLElement {
     constructor() {
@@ -167591,13 +168919,13 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }, _connected = new WeakMap(), _originalFragment = new WeakMap(), _updateTask = new WeakMap(), __publicField(_a12, "observedAttributes", ["theme", "language"]), _a12);
   var useCodeBlockProps = (copyButtonTagName) => {
     const highlightCode = useCodeHighlighter();
-    const localize2 = useLocalizer322();
-    const [{ codeBlockTheme }] = useStyleOptions15();
+    const localize2 = useLocalizer332();
+    const [{ codeBlockTheme }] = useStyleOptions16();
     const copyButtonAltCopied = localize2("COPY_BUTTON_COPIED_TEXT");
     const copyButtonAltCopy = localize2("COPY_BUTTON_TEXT");
-    const propsChangedEventTarget = (0, import_react390.useMemo)(() => new EventTarget(), []);
-    const propsRef = (0, import_react390.useRef)();
-    (0, import_react390.useMemo)(() => {
+    const propsChangedEventTarget = (0, import_react391.useMemo)(() => new EventTarget(), []);
+    const propsRef = (0, import_react391.useRef)();
+    (0, import_react391.useMemo)(() => {
       propsRef.current = Object.freeze({
         codeBlockTheme,
         copyButtonAltCopied,
@@ -167614,7 +168942,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       highlightCode,
       propsChangedEventTarget
     ]);
-    return (0, import_react390.useMemo)(
+    return (0, import_react391.useMemo)(
       () => Object.freeze([propsChangedEventTarget, propsRef]),
       [propsChangedEventTarget, propsRef]
     );
@@ -167622,7 +168950,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function useReactCodeBlockClass(copyButtonTagName) {
     const [codeBlockTarget, codeBlockPropsRef] = useCodeBlockProps(copyButtonTagName);
     const classNames31 = useStyles_default(CodeBlock_module_default);
-    return (0, import_react390.useMemo)(
+    return (0, import_react391.useMemo)(
       () => {
         var _a28, _prevProps, _ReactCodeBlock_instances, props_get, _handlePropsChange;
         return _a28 = class extends CodeBlock {
@@ -167717,10 +169045,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         const areEqual = prevProps.size === __privateGet(this, _propMap).size && Array.from(new Set(prevProps.keys()).union(new Set(__privateGet(this, _propMap)))).every(
           (key2) => Object.is(prevProps.get(key2), __privateGet(this, _propMap).get(key2))
         );
-        !areEqual && __privateGet(this, _connected2) === ConnectionState.CONNECTED && (0, import_react_dom3.render)((0, import_react392.createElement)(component, __privateMethod(this, _ReactWrapper_instances, getProps_fn).call(this)), this);
+        !areEqual && __privateGet(this, _connected2) === ConnectionState.CONNECTED && (0, import_react_dom3.render)((0, import_react393.createElement)(component, __privateMethod(this, _ReactWrapper_instances, getProps_fn).call(this)), this);
       }
       connectedCallback() {
-        __privateGet(this, _connected2) !== ConnectionState.PENDING && (0, import_react_dom3.render)((0, import_react392.createElement)(component, __privateMethod(this, _ReactWrapper_instances, getProps_fn).call(this)), this);
+        __privateGet(this, _connected2) !== ConnectionState.PENDING && (0, import_react_dom3.render)((0, import_react393.createElement)(component, __privateMethod(this, _ReactWrapper_instances, getProps_fn).call(this)), this);
         __privateSet(this, _connected2, ConnectionState.CONNECTED);
       }
       async disconnectedCallback() {
@@ -167737,13 +169065,13 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       return Object.freeze(Object.fromEntries(propEntries));
     }, _a28;
   }
-  var classes18 = { "code-block-copy-button__icon--copied": "wMGtala_code-block-copy-button__icon--copied", "code-block-copy-button__icon": "wMGtala_code-block-copy-button__icon", "code-block-copy-button--copied": "wMGtala_code-block-copy-button--copied", "code-block-copy-button": "wMGtala_code-block-copy-button" };
+  var classes18 = { "code-block-copy-button": "wMGtala_code-block-copy-button", "code-block-copy-button__icon--copied": "wMGtala_code-block-copy-button__icon--copied", "code-block-copy-button--copied": "wMGtala_code-block-copy-button--copied", "code-block-copy-button__icon": "wMGtala_code-block-copy-button__icon" };
   var CodeBlockCopyButton_module_default = classes18;
-  var _code_block_copy_button__icon__copied0 = classes18["code-block-copy-button__icon--copied"];
-  var _code_block_copy_button__icon0 = classes18["code-block-copy-button__icon"];
-  var _code_block_copy_button__copied0 = classes18["code-block-copy-button--copied"];
   var _code_block_copy_button0 = classes18["code-block-copy-button"];
-  var CodeBlockCopyButton = (0, import_react391.memo)(
+  var _code_block_copy_button__icon__copied0 = classes18["code-block-copy-button__icon--copied"];
+  var _code_block_copy_button__copied0 = classes18["code-block-copy-button--copied"];
+  var _code_block_copy_button__icon0 = classes18["code-block-copy-button__icon"];
+  var CodeBlockCopyButton = (0, import_react392.memo)(
     ({
       className,
       "data-alt-copied": copiedAlt,
@@ -167752,9 +169080,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     }) => {
       const classNames31 = useStyles_default(CodeBlockCopyButton_module_default);
       const [disabled, setDisabled, disabledRef] = useStateWithRef(false);
-      const [pressed, setPressed] = (0, import_react391.useState)(false);
+      const [pressed, setPressed] = (0, import_react392.useState)(false);
       const valueRef = useRefFrom(value);
-      const handleClick = (0, import_react391.useCallback)(() => {
+      const handleClick = (0, import_react392.useCallback)(() => {
         if (disabledRef.current) {
           return;
         }
@@ -167781,8 +169109,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           obsoleted = true;
         };
       }, [disabledRef, setDisabled, setPressed, valueRef]);
-      const handleAnimationEnd = (0, import_react391.useCallback)(() => setPressed(false), [setPressed]);
-      return /* @__PURE__ */ import_react391.default.createElement(
+      const handleAnimationEnd = (0, import_react392.useCallback)(() => setPressed(false), [setPressed]);
+      return /* @__PURE__ */ import_react392.default.createElement(
         "button",
         {
           "aria-disabled": disabled,
@@ -167796,7 +169124,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           onClick: handleClick,
           type: "button"
         },
-        /* @__PURE__ */ import_react391.default.createElement(
+        /* @__PURE__ */ import_react392.default.createElement(
           ComponentIcon_default,
           {
             "aria-hidden": pressed ? "true" : void 0,
@@ -167806,7 +169134,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
             role: "img"
           }
         ),
-        /* @__PURE__ */ import_react391.default.createElement(
+        /* @__PURE__ */ import_react392.default.createElement(
           "div",
           {
             "aria-hidden": pressed ? void 0 : "true",
@@ -167826,8 +169154,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     "data-value"
   ]);
   var CustomElementsComposer = ({ children }) => {
-    const hash2 = (0, import_react389.useMemo)(() => (0, import_math_random15.default)().toString(36).substring(2, 7), []);
-    const registerCustomElement = (0, import_react389.useCallback)(
+    const hash2 = (0, import_react390.useMemo)(() => (0, import_math_random15.default)().toString(36).substring(2, 7), []);
+    const registerCustomElement = (0, import_react390.useCallback)(
       (tagName, customElementConstructor) => {
         const fullTagName = `webchat-${hash2}--${tagName}`;
         customElements.define(
@@ -167844,24 +169172,24 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       },
       [hash2]
     );
-    const codeBlockCopyButtonTagName = (0, import_react389.useMemo)(
+    const codeBlockCopyButtonTagName = (0, import_react390.useMemo)(
       () => registerCustomElement("code-block-copy-button", CodeBlockCopyButtonElement),
       [registerCustomElement]
     );
     const CodeBlockClass = useReactCodeBlockClass(codeBlockCopyButtonTagName);
-    const codeBlockTagName = (0, import_react389.useMemo)(
+    const codeBlockTagName = (0, import_react390.useMemo)(
       () => registerCustomElement("code-block", CodeBlockClass),
       [CodeBlockClass, registerCustomElement]
     );
-    const context9 = (0, import_react389.useMemo)(
+    const context9 = (0, import_react390.useMemo)(
       () => Object.freeze({ codeBlockTagName, codeBlockCopyButtonTagName }),
       [codeBlockTagName, codeBlockCopyButtonTagName]
     );
-    return /* @__PURE__ */ import_react389.default.createElement(CustomElementsContext_default.Provider, { value: context9 }, children);
+    return /* @__PURE__ */ import_react390.default.createElement(CustomElementsContext_default.Provider, { value: context9 }, children);
   };
-  var CustomElementsComposer_default = (0, import_react389.memo)(CustomElementsComposer);
-  var HTMLContentTransformComposer = (0, import_react393.memo)(({ children, middleware: middleware22 }) => {
-    const transform3 = (0, import_react393.useMemo)(() => {
+  var CustomElementsComposer_default = (0, import_react390.memo)(CustomElementsComposer);
+  var HTMLContentTransformComposer = (0, import_react394.memo)(({ children, middleware: middleware22 }) => {
+    const transform3 = (0, import_react394.useMemo)(() => {
       const enhancers = (middleware22 || []).map((enhancer) => enhancer()).reverse();
       return enhancers.reduce(
         (chain, fn) => fn(chain),
@@ -167874,12 +169202,12 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         }
       );
     }, [middleware22]);
-    const context9 = (0, import_react393.useMemo)(() => Object.freeze({ transform: transform3 }), [transform3]);
-    return /* @__PURE__ */ import_react393.default.createElement(HTMLContentTransformContext_default.Provider, { value: context9 }, children);
+    const context9 = (0, import_react394.useMemo)(() => Object.freeze({ transform: transform3 }), [transform3]);
+    return /* @__PURE__ */ import_react394.default.createElement(HTMLContentTransformContext_default.Provider, { value: context9 }, children);
   });
   HTMLContentTransformComposer.displayName = "HTMLContentTransformComposer";
   var HTMLContentTransformComposer_default = HTMLContentTransformComposer;
-  var { useConnectivityStatus: useConnectivityStatus2, useLocalizer: useLocalizer332, useSendBoxAttachments: useSendBoxAttachments3, useSendBoxValue: useSendBoxValue23, useSubmitSendBox: useSubmitSendBox22 } = hook_exports;
+  var { useConnectivityStatus: useConnectivityStatus2, useLocalizer: useLocalizer34, useSendBoxAttachments: useSendBoxAttachments3, useSendBoxValue: useSendBoxValue23, useSubmitSendBox: useSubmitSendBox22 } = hook_exports;
   var SUBMIT_ERROR_MESSAGE_STYLE = {
     "&.webchat__submit-error-message": {
       // .sr-only - This component is intended to be invisible to the visual Web Chat user, but read by the AT when using a screen reader
@@ -167900,15 +169228,15 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   var SendBoxComposer = ({ children }) => {
     const [attachments] = useSendBoxAttachments3();
     const [connectivityStatus2] = useConnectivityStatus2();
-    const [error2, setError] = (0, import_react394.useState)(false);
+    const [error2, setError] = (0, import_react395.useState)(false);
     const [sendBoxValue2] = useSendBoxValue23();
     const apiSubmitSendBox = useSubmitSendBox22();
     const focus = useFocus();
-    const localize2 = useLocalizer332();
+    const localize2 = useLocalizer34();
     const scrollToEnd2 = useScrollToEnd();
     const styleToEmotionObject = useStyleToEmotionObject();
     const submitErrorMessageId = useUniqueId("webchat__send-box__error-message-id");
-    const errorMessageStringMap = (0, import_react394.useMemo)(
+    const errorMessageStringMap = (0, import_react395.useMemo)(
       () => Object.freeze(
         (/* @__PURE__ */ new Map()).set("empty", localize2("SEND_BOX_IS_EMPTY_TOOLTIP_ALT")).set("offline", localize2("CONNECTIVITY_STATUS_ALT_FATAL"))
       ),
@@ -167917,14 +169245,14 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const focusRef = useRefFrom(focus);
     const scrollToEndRef = useRefFrom(scrollToEnd2);
     const submitErrorMessageClassName = styleToEmotionObject(SUBMIT_ERROR_MESSAGE_STYLE) + "";
-    const submitErrorMessageIdState = (0, import_react394.useMemo)(
+    const submitErrorMessageIdState = (0, import_react395.useMemo)(
       () => Object.freeze([error2 ? submitErrorMessageId : void 0]),
       [error2, submitErrorMessageId]
     );
     const submitErrorRef = useRefFrom(
       connectivityStatus2 !== "connected" && connectivityStatus2 !== "reconnected" ? "offline" : !sendBoxValue2 && !attachments.length ? "empty" : void 0
     );
-    const submit = (0, import_react394.useCallback)(
+    const submit = (0, import_react395.useCallback)(
       ({ setFocus } = {}) => {
         var _a28, _b4;
         (setFocus === "main" || setFocus === "sendBox" || setFocus === "sendBoxWithoutKeyboard") && ((_a28 = focusRef.current) == null ? void 0 : _a28.call(focusRef, setFocus === "main" || setFocus === "sendBox" ? setFocus : "sendBoxWithoutKeyboard"));
@@ -167937,7 +169265,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       },
       [apiSubmitSendBox, focusRef, scrollToEndRef, submitErrorRef]
     );
-    const context9 = (0, import_react394.useMemo)(
+    const context9 = (0, import_react395.useMemo)(
       () => ({
         submit,
         submitErrorMessageIdState
@@ -167945,17 +169273,17 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       [submit, submitErrorMessageIdState]
     );
     const hasValue = !!(sendBoxValue2 == null ? void 0 : sendBoxValue2.trim());
-    (0, import_react394.useEffect)(() => {
+    (0, import_react395.useEffect)(() => {
       if (error2 === "empty" && hasValue) {
         setError(false);
       }
     }, [error2, hasValue]);
     const errorMessage = error2 && errorMessageStringMap.get(error2);
     useLiveRegion(
-      () => errorMessage && /* @__PURE__ */ import_react394.default.createElement("div", { className: (0, import_classnames78.default)("webchat__submit-error-message__status") }, errorMessage),
+      () => errorMessage && /* @__PURE__ */ import_react395.default.createElement("div", { className: (0, import_classnames78.default)("webchat__submit-error-message__status") }, errorMessage),
       [errorMessage]
     );
-    return /* @__PURE__ */ import_react394.default.createElement(Context_default23.Provider, { value: context9 }, children, /* @__PURE__ */ import_react394.default.createElement(
+    return /* @__PURE__ */ import_react395.default.createElement(Context_default23.Provider, { value: context9 }, children, /* @__PURE__ */ import_react395.default.createElement(
       "span",
       {
         className: (0, import_classnames78.default)("webchat__submit-error-message", submitErrorMessageClassName),
@@ -167965,23 +169293,23 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     ));
   };
   SendBoxComposer.displayName = "SendBoxComposer";
-  var SendBoxComposer_default = (0, import_react394.memo)(SendBoxComposer);
-  var { useLocalizer: useLocalizer34 } = hook_exports;
-  var ModalDialog = (0, import_react396.memo)(
+  var SendBoxComposer_default = (0, import_react395.memo)(SendBoxComposer);
+  var { useLocalizer: useLocalizer35 } = hook_exports;
+  var ModalDialog = (0, import_react397.memo)(
     ({ "aria-label": ariaLabel, "aria-labelledby": ariaLabelledBy, children, className, onDismiss }) => {
       const [{ modalDialog: modalDialogStyleSet }] = useStyleSet();
-      const dialogRef = (0, import_react396.useRef)(null);
-      const localize2 = useLocalizer34();
+      const dialogRef = (0, import_react397.useRef)(null);
+      const localize2 = useLocalizer35();
       const closeButtonAlt = localize2("CLOSE_BUTTON_ALT");
-      const handleCloseButtonClick = (0, import_react396.useCallback)(() => {
+      const handleCloseButtonClick = (0, import_react397.useCallback)(() => {
         var _a28;
         return (_a28 = dialogRef.current) == null ? void 0 : _a28.close();
       }, [dialogRef]);
-      (0, import_react396.useLayoutEffect)(() => {
+      (0, import_react397.useLayoutEffect)(() => {
         var _a28;
         return (_a28 = dialogRef.current) == null ? void 0 : _a28.showModal();
       }, [dialogRef]);
-      return /* @__PURE__ */ import_react396.default.createElement(
+      return /* @__PURE__ */ import_react397.default.createElement(
         "dialog",
         {
           "aria-label": !ariaLabelledBy ? ariaLabel : void 0,
@@ -167992,7 +169320,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           ref: dialogRef,
           role: "dialog"
         },
-        /* @__PURE__ */ import_react396.default.createElement("div", { className: "webchat__modal-dialog__box" }, /* @__PURE__ */ import_react396.default.createElement("div", { className: "webchat__modal-dialog__close-button-layout" }, /* @__PURE__ */ import_react396.default.createElement(
+        /* @__PURE__ */ import_react397.default.createElement("div", { className: "webchat__modal-dialog__box" }, /* @__PURE__ */ import_react397.default.createElement("div", { className: "webchat__modal-dialog__close-button-layout" }, /* @__PURE__ */ import_react397.default.createElement(
           "button",
           {
             "aria-label": closeButtonAlt,
@@ -168000,23 +169328,23 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
             onClick: handleCloseButtonClick,
             type: "button"
           },
-          /* @__PURE__ */ import_react396.default.createElement(ComponentIcon_default, { appearance: "text", className: "webchat__modal-dialog__close-button-icon", icon: "dismiss" })
-        )), /* @__PURE__ */ import_react396.default.createElement("div", { className: "webchat__modal-dialog__body" }, children))
+          /* @__PURE__ */ import_react397.default.createElement(ComponentIcon_default, { appearance: "text", className: "webchat__modal-dialog__close-button-icon", icon: "dismiss" })
+        )), /* @__PURE__ */ import_react397.default.createElement("div", { className: "webchat__modal-dialog__body" }, children))
       );
     }
   );
   ModalDialog.displayName = "ModalDialog";
   var Popover_default = ModalDialog;
-  var ModalDialogComposer = (0, import_react395.memo)(({ children }) => {
+  var ModalDialogComposer = (0, import_react396.memo)(({ children }) => {
     var _a28, _b4, _c3;
-    const [renderFunctionAndDialogInit, setRenderFunctionAndDialogInit] = (0, import_react395.useState)();
-    const close2 = (0, import_react395.useCallback)(() => setRenderFunctionAndDialogInit(void 0), [setRenderFunctionAndDialogInit]);
-    const showModal = (0, import_react395.useCallback)(
+    const [renderFunctionAndDialogInit, setRenderFunctionAndDialogInit] = (0, import_react396.useState)();
+    const close2 = (0, import_react396.useCallback)(() => setRenderFunctionAndDialogInit(void 0), [setRenderFunctionAndDialogInit]);
+    const showModal = (0, import_react396.useCallback)(
       (render22, init) => setRenderFunctionAndDialogInit(Object.freeze([render22, init])),
       [setRenderFunctionAndDialogInit]
     );
-    const context9 = (0, import_react395.useMemo)(() => Object.freeze({ close: close2, showModal }), [close2, showModal]);
-    return /* @__PURE__ */ import_react395.default.createElement(Context_default52.Provider, { value: context9 }, children, renderFunctionAndDialogInit && /* @__PURE__ */ import_react395.default.createElement(
+    const context9 = (0, import_react396.useMemo)(() => Object.freeze({ close: close2, showModal }), [close2, showModal]);
+    return /* @__PURE__ */ import_react396.default.createElement(Context_default52.Provider, { value: context9 }, children, renderFunctionAndDialogInit && /* @__PURE__ */ import_react396.default.createElement(
       Popover_default,
       {
         "aria-label": (_a28 = renderFunctionAndDialogInit[1]) == null ? void 0 : _a28["aria-label"],
@@ -168029,27 +169357,27 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   });
   ModalDialogComposer.displayName = "ModalDialogComposer";
   var ModalDialogComposer_default = ModalDialogComposer;
-  var ReducedMotionComposer = (0, import_react397.memo)(({ children }) => {
-    const shouldReduceMotionQueryList = (0, import_react397.useMemo)(() => matchMedia == null ? void 0 : matchMedia("(prefers-reduced-motion: reduce)"), []);
-    const [shouldReduceMotion, setShouldReduceMotion] = (0, import_react397.useState)(
+  var ReducedMotionComposer = (0, import_react398.memo)(({ children }) => {
+    const shouldReduceMotionQueryList = (0, import_react398.useMemo)(() => matchMedia == null ? void 0 : matchMedia("(prefers-reduced-motion: reduce)"), []);
+    const [shouldReduceMotion, setShouldReduceMotion] = (0, import_react398.useState)(
       () => {
         var _a28;
         return (_a28 = shouldReduceMotionQueryList == null ? void 0 : shouldReduceMotionQueryList.matches) != null ? _a28 : false;
       }
     );
-    const shouldReduceMotionState = (0, import_react397.useMemo)(() => Object.freeze([shouldReduceMotion]), [shouldReduceMotion]);
-    const context9 = (0, import_react397.useMemo)(() => Object.freeze({ shouldReduceMotionState }), [shouldReduceMotionState]);
-    (0, import_react397.useEffect)(() => {
+    const shouldReduceMotionState = (0, import_react398.useMemo)(() => Object.freeze([shouldReduceMotion]), [shouldReduceMotion]);
+    const context9 = (0, import_react398.useMemo)(() => Object.freeze({ shouldReduceMotionState }), [shouldReduceMotionState]);
+    (0, import_react398.useEffect)(() => {
       const handleChange = ({ matches: matches2 }) => setShouldReduceMotion(matches2);
       shouldReduceMotionQueryList.addEventListener("change", handleChange);
       return () => shouldReduceMotionQueryList.removeEventListener("change", handleChange);
     }, [setShouldReduceMotion, shouldReduceMotionQueryList]);
-    return /* @__PURE__ */ import_react397.default.createElement(Context_default5.Provider, { value: context9 }, children);
+    return /* @__PURE__ */ import_react398.default.createElement(Context_default5.Provider, { value: context9 }, children);
   });
   ReducedMotionComposer.displayName = "ReducedMotionComposer";
   var ReducedMotionComposer_default = ReducedMotionComposer;
   var EMPTY_ARRAY34 = Object.freeze([]);
-  var Context_default62 = (0, import_react399.createContext)({
+  var Context_default62 = (0, import_react400.createContext)({
     activityMiddleware: EMPTY_ARRAY34,
     activityStatusMiddleware: EMPTY_ARRAY34,
     attachmentForScreenReaderMiddleware: EMPTY_ARRAY34,
@@ -168065,12 +169393,12 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     typingIndicatorMiddleware: EMPTY_ARRAY34
   });
   function useTheme() {
-    return (0, import_react398.useContext)(Context_default62);
+    return (0, import_react399.useContext)(Context_default62);
   }
-  var { useStyleOptions: useStyleOptions16 } = hook_exports;
+  var { useStyleOptions: useStyleOptions17 } = hook_exports;
   var HideableSendBox = ({ className }) => {
-    const [{ hideSendBox }] = useStyleOptions16();
-    return hideSendBox ? null : /* @__PURE__ */ import_react400.default.createElement(BasicSendBox_default, { className });
+    const [{ hideSendBox }] = useStyleOptions17();
+    return hideSendBox ? null : /* @__PURE__ */ import_react401.default.createElement(BasicSendBox_default, { className });
   };
   var createMiddleware = () => Object.freeze([() => () => () => HideableSendBox]);
   var createMiddleware_default = createMiddleware;
@@ -168098,7 +169426,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   };
   var AttachmentIcon = ({ checked }) => {
     const rootClassName = useStyleToEmotionObject()(ROOT_STYLE92) + "";
-    return /* @__PURE__ */ import_react403.default.createElement(
+    return /* @__PURE__ */ import_react404.default.createElement(
       "div",
       {
         className: (0, import_classnames81.default)(
@@ -168107,7 +169435,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           rootClassName
         )
       },
-      /* @__PURE__ */ import_react403.default.createElement(
+      /* @__PURE__ */ import_react404.default.createElement(
         ComponentIcon_default,
         {
           appearance: "text",
@@ -168118,7 +169446,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     );
   };
   var AttachmentIcon_default = AttachmentIcon;
-  var { useSendBoxAttachments: useSendBoxAttachments22, useLocalizer: useLocalizer35, useStyleOptions: useStyleOptions17, useUIState: useUIState42 } = hook_exports;
+  var { useSendBoxAttachments: useSendBoxAttachments22, useLocalizer: useLocalizer36, useStyleOptions: useStyleOptions18, useUIState: useUIState42 } = hook_exports;
   var ROOT_STYLE102 = {
     "&.webchat__upload-button": {
       display: "flex",
@@ -168143,14 +169471,14 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   );
   function UploadButton(props) {
     const { className } = validateProps2(uploadButtonPropsSchema, props);
-    const [{ sendAttachmentOn, uploadAccept, uploadMultiple }] = useStyleOptions17();
+    const [{ sendAttachmentOn, uploadAccept, uploadMultiple }] = useStyleOptions18();
     const [{ uploadButton: uploadButtonStyleSet }] = useStyleSet();
-    const [inputKey, setInputKey] = (0, import_react402.useState)(0);
+    const [inputKey, setInputKey] = (0, import_react403.useState)(0);
     const [sendBoxAttachments3, setSendBoxAttachments2] = useSendBoxAttachments22();
     const [uiState] = useUIState42();
     const focus = useFocus();
-    const inputRef = (0, import_react402.useRef)(null);
-    const localize2 = useLocalizer35();
+    const inputRef = (0, import_react403.useRef)(null);
+    const localize2 = useLocalizer36();
     const makeThumbnail2 = useMakeThumbnail();
     const rootClassName = useStyleToEmotionObject()(ROOT_STYLE102) + "";
     const submit = useSubmit();
@@ -168158,11 +169486,11 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const sendAttachmentOnRef = useRefFrom(sendAttachmentOn);
     const sendBoxAttachmentsRef = useRefFrom(sendBoxAttachments3);
     const uploadFileString = localize2("TEXT_INPUT_UPLOAD_BUTTON_ALT");
-    const handleClick = (0, import_react402.useCallback)(() => {
+    const handleClick = (0, import_react403.useCallback)(() => {
       var _a28;
       return (_a28 = inputRef.current) == null ? void 0 : _a28.click();
     }, [inputRef]);
-    const handleFileChange = (0, import_react402.useCallback)(
+    const handleFileChange = (0, import_react403.useCallback)(
       ({ currentTarget }) => {
         focus("sendBox");
         (async function() {
@@ -168187,7 +169515,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       },
       [focus, makeThumbnail2, sendBoxAttachmentsRef, sendAttachmentOnRef, setInputKey, setSendBoxAttachments2, submit]
     );
-    return /* @__PURE__ */ import_react402.default.createElement("div", { className: (0, import_classnames80.default)(rootClassName, "webchat__upload-button", uploadButtonStyleSet + "", className) }, /* @__PURE__ */ import_react402.default.createElement(
+    return /* @__PURE__ */ import_react403.default.createElement("div", { className: (0, import_classnames80.default)(rootClassName, "webchat__upload-button", uploadButtonStyleSet + "", className) }, /* @__PURE__ */ import_react403.default.createElement(
       "input",
       {
         accept: uploadAccept,
@@ -168204,15 +169532,15 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         tabIndex: -1,
         type: "file"
       }
-    ), /* @__PURE__ */ import_react402.default.createElement(IconButton_default, { alt: uploadFileString, "aria-label": uploadFileString, disabled, onClick: handleClick }, /* @__PURE__ */ import_react402.default.createElement(AttachmentIcon_default, { checked: !!sendBoxAttachments3.length })));
+    ), /* @__PURE__ */ import_react403.default.createElement(IconButton_default, { alt: uploadFileString, "aria-label": uploadFileString, disabled, onClick: handleClick }, /* @__PURE__ */ import_react403.default.createElement(AttachmentIcon_default, { checked: !!sendBoxAttachments3.length })));
   }
-  var UploadButton_default = (0, import_react402.memo)(UploadButton);
-  var { useStyleOptions: useStyleOptions18 } = hook_exports;
+  var UploadButton_default = (0, import_react403.memo)(UploadButton);
+  var { useStyleOptions: useStyleOptions19 } = hook_exports;
   function BasicSendBoxToolbar({ className }) {
-    const [{ disableFileUpload }] = useStyleOptions18();
-    return !disableFileUpload && /* @__PURE__ */ import_react401.default.createElement(UploadButton_default, { className });
+    const [{ disableFileUpload }] = useStyleOptions19();
+    return !disableFileUpload && /* @__PURE__ */ import_react402.default.createElement(UploadButton_default, { className });
   }
-  var BasicSendBoxToolbar_default = (0, import_react401.memo)(BasicSendBoxToolbar);
+  var BasicSendBoxToolbar_default = (0, import_react402.memo)(BasicSendBoxToolbar);
   var createMiddleware2 = () => Object.freeze([() => () => () => BasicSendBoxToolbar_default]);
   var createMiddleware_default2 = createMiddleware2;
   function createActivitiesStyle() {
@@ -170659,7 +171987,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function CustomPropertiesContainer(props, ref) {
     const { children, className, nonce } = validateProps2(customPropertiesContainerPropsSchema, props);
     const [styleOptions] = useStyleOptions();
-    const [styleElements22, classNameState] = (0, import_react404.useMemo)(() => {
+    const [styleElements22, classNameState] = (0, import_react405.useMemo)(() => {
       const {
         accent: accent2,
         avatarSize,
@@ -170796,10 +172124,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       const [style] = makeCreateStyles(contents)(`component/CustomPropertiesContainer-${uniqueId32()}`);
       return [Object.freeze([style]), Object.freeze([`${webchatCustomPropertiesClass} ${randomClass}`])];
     }, [styleOptions]);
-    return /* @__PURE__ */ import_react404.default.createElement("div", { className: (0, import_classnames82.default)(className, classNameState[0]), ref }, /* @__PURE__ */ import_react404.default.createElement(InjectStyleElements_default, { at: styleOptions.stylesRoot, nonce, styleElements: styleElements22 }), children);
+    return /* @__PURE__ */ import_react405.default.createElement("div", { className: (0, import_classnames82.default)(className, classNameState[0]), ref }, /* @__PURE__ */ import_react405.default.createElement(InjectStyleElements_default, { at: styleOptions.stylesRoot, nonce, styleElements: styleElements22 }), children);
   }
   CustomPropertiesContainer.displayName = "CustomPropertiesContainer";
-  var CSSCustomPropertiesContainer_default = (0, import_react404.memo)((0, import_react404.forwardRef)(CustomPropertiesContainer));
+  var CSSCustomPropertiesContainer_default = (0, import_react405.memo)((0, import_react405.forwardRef)(CustomPropertiesContainer));
   var componentStyleContent = `/* unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/component/src/Icon/ComponentIcon.module_built.css */
 .webchat .w1GPAoW_component-icon {
   min-width: var(--webchat__component-icon--size, 1em);
@@ -172578,10 +173906,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function ComponentStylesheet(props) {
     const { nonce } = validateProps2(componentStylesheetPropsSchema, props);
     const [{ stylesRoot }] = useStyleOptions();
-    return /* @__PURE__ */ import_react405.default.createElement(InjectStyleElements_default, { at: stylesRoot, nonce, styleElements });
+    return /* @__PURE__ */ import_react406.default.createElement(InjectStyleElements_default, { at: stylesRoot, nonce, styleElements });
   }
   ComponentStylesheet.displayName = "ComponentStylesheet";
-  var ComponentStylesheet_default = (0, import_react405.memo)(ComponentStylesheet);
+  var ComponentStylesheet_default = (0, import_react406.memo)(ComponentStylesheet);
   function updateMarkdownItAttrs(token3, updater) {
     return (0, import_simple_update_in10.default)(token3, ["attrs"], (attrs) => {
       const map3 = Object.fromEntries(attrs);
@@ -172620,7 +173948,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       return result;
     }, {});
   }
-  var { useGetActivityByKey: useGetActivityByKey2, useReferenceGrammarID: useReferenceGrammarID2, useStyleOptions: useStyleOptions21, useTrackException: useTrackException2 } = hook_exports;
+  var { useGetActivityByKey: useGetActivityByKey2, useReferenceGrammarID: useReferenceGrammarID2, useStyleOptions: useStyleOptions222, useTrackException: useTrackException2 } = hook_exports;
   function styleSetToEmotionObjects(styleToEmotionObject, styleSet) {
     return mapMap2(styleSet, (style, key2) => key2 === "options" ? style : styleToEmotionObject(style));
   }
@@ -172638,7 +173966,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     }
   };
   var ComposerCoreUI = (0, import_react291.memo)(({ children, nonce, storeDebugAPI }) => {
-    const [{ internalLiveRegionFadeAfter }] = useStyleOptions21();
+    const [{ internalLiveRegionFadeAfter }] = useStyleOptions222();
     const rootClassName = useStyleToEmotionObject()(ROOT_STYLE112) + "";
     const rootRef = (0, import_react291.useRef)(null);
     const trackException = useTrackException2();
@@ -172685,7 +174013,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }) => {
     const [dictateAbortable, setDictateAbortable] = (0, import_react291.useState)();
     const [referenceGrammarID2] = useReferenceGrammarID2();
-    const [styleOptions] = useStyleOptions21();
+    const [styleOptions] = useStyleOptions222();
     const focusTranscriptCallbacksRef = (0, import_react291.useRef)([]);
     const internalMarkdownIt2 = (0, import_react291.useMemo)(() => new import_markdown_it.default(), []);
     const scrollToCallbacksRef = (0, import_react291.useRef)([]);
@@ -172974,29 +174302,29 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     children: import_prop_types22.default.any
   };
   var Composer_default6 = Composer7;
-  var { useLocalizer: useLocalizer36 } = hook_exports;
+  var { useLocalizer: useLocalizer37 } = hook_exports;
   var ConnectivityStatusConnected = () => {
-    const localize2 = useLocalizer36();
-    return /* @__PURE__ */ import_react409.default.createElement(ScreenReaderText_default, { text: localize2("CONNECTIVITY_STATUS_ALT", localize2("CONNECTIVITY_STATUS_ALT_CONNECTED")) });
+    const localize2 = useLocalizer37();
+    return /* @__PURE__ */ import_react410.default.createElement(ScreenReaderText_default, { text: localize2("CONNECTIVITY_STATUS_ALT", localize2("CONNECTIVITY_STATUS_ALT_CONNECTED")) });
   };
   var Connected_default = ConnectivityStatusConnected;
   function useForceRender2() {
-    const [, setForceRender] = (0, import_react411.useState)();
-    return (0, import_react411.useCallback)(() => setForceRender({}), [setForceRender]);
+    const [, setForceRender] = (0, import_react412.useState)();
+    return (0, import_react412.useCallback)(() => setForceRender({}), [setForceRender]);
   }
   var useForceRender_default2 = useForceRender2;
   var { useDirection: useDirection52 } = hook_exports;
   var SpinnerAnimation = () => {
     const [{ spinnerAnimation: spinnerAnimationStyleSet }] = useStyleSet();
     const [direction] = useDirection52();
-    return /* @__PURE__ */ import_react412.default.createElement("div", { className: (0, import_classnames85.default)(spinnerAnimationStyleSet + "", direction === "rtl" && "webchat__spinner--rtl") });
+    return /* @__PURE__ */ import_react413.default.createElement("div", { className: (0, import_classnames85.default)(spinnerAnimationStyleSet + "", direction === "rtl" && "webchat__spinner--rtl") });
   };
   var SpinnerAnimation_default = SpinnerAnimation;
   var { useDirection: useDirection6 } = hook_exports;
   var ICON_SIZE_FACTOR = 16;
   var WarningNotificationIcon = ({ className, size }) => {
     const [direction] = useDirection6();
-    return /* @__PURE__ */ import_react413.default.createElement(
+    return /* @__PURE__ */ import_react414.default.createElement(
       "svg",
       {
         alt: "",
@@ -173005,7 +174333,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         viewBox: "0 0 13.1 13.1",
         width: ICON_SIZE_FACTOR * size
       },
-      /* @__PURE__ */ import_react413.default.createElement("path", { d: "M13.1,13.1H0L6.6,0L13.1,13.1z M7,10.5H6.1v0.9H7V10.5z M7,9.7V5.2H6.1v4.4L7,9.7z", fillRule: "evenodd" })
+      /* @__PURE__ */ import_react414.default.createElement("path", { d: "M13.1,13.1H0L6.6,0L13.1,13.1z M7,10.5H6.1v0.9H7V10.5z M7,9.7V5.2H6.1v4.4L7,9.7z", fillRule: "evenodd" })
     );
   };
   WarningNotificationIcon.defaultProps = {
@@ -173017,7 +174345,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     size: import_prop_types41.default.number
   };
   var WarningNotificationIcon_default = WarningNotificationIcon;
-  var { useDirection: useDirection7, useLocalizer: useLocalizer37, usePonyfill: usePonyfill5, useStyleOptions: useStyleOptions222 } = hook_exports;
+  var { useDirection: useDirection7, useLocalizer: useLocalizer38, usePonyfill: usePonyfill5, useStyleOptions: useStyleOptions232 } = hook_exports;
   var connectivityStatusConnectingPropsSchema = pipe(
     object({
       reconnect: optional(boolean())
@@ -173027,51 +174355,51 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function ConnectivityStatusConnecting(props) {
     const { reconnect = false } = validateProps2(connectivityStatusConnectingPropsSchema, props);
     const [{ Date: Date2 }] = usePonyfill5();
-    const [{ slowConnectionAfter }] = useStyleOptions222();
+    const [{ slowConnectionAfter }] = useStyleOptions232();
     const [
       { connectivityNotification: connectivityNotificationStyleSet, warningNotification: warningNotificationStyleSet }
     ] = useStyleSet();
     const [direction] = useDirection7();
-    const [initialRenderAt] = (0, import_react410.useState)(() => Date2.now());
+    const [initialRenderAt] = (0, import_react411.useState)(() => Date2.now());
     const forceRender = useForceRender_default2();
-    const localize2 = useLocalizer37();
+    const localize2 = useLocalizer38();
     const initialConnectionText = localize2("CONNECTIVITY_STATUS_ALT_CONNECTING");
     const interruptedConnectionText = localize2("CONNECTIVITY_STATUS_ALT_RECONNECTING");
     const slowConnectionText = localize2("CONNECTIVITY_STATUS_ALT_SLOW_CONNECTION");
     useTimer2(initialRenderAt + slowConnectionAfter, forceRender);
     const now2 = Date2.now();
     const slow = now2 >= initialRenderAt + slowConnectionAfter;
-    return slow ? /* @__PURE__ */ import_react410.default.createElement(import_react410.Fragment, null, /* @__PURE__ */ import_react410.default.createElement(ScreenReaderText_default, { text: localize2("CONNECTIVITY_STATUS_ALT", slowConnectionText) }), /* @__PURE__ */ import_react410.default.createElement(
+    return slow ? /* @__PURE__ */ import_react411.default.createElement(import_react411.Fragment, null, /* @__PURE__ */ import_react411.default.createElement(ScreenReaderText_default, { text: localize2("CONNECTIVITY_STATUS_ALT", slowConnectionText) }), /* @__PURE__ */ import_react411.default.createElement(
       "div",
       {
         "aria-hidden": true,
         className: (0, import_classnames84.default)("webchat__connectivityStatus", warningNotificationStyleSet + ""),
         dir: direction
       },
-      /* @__PURE__ */ import_react410.default.createElement(WarningNotificationIcon_default, null),
+      /* @__PURE__ */ import_react411.default.createElement(WarningNotificationIcon_default, null),
       slowConnectionText
-    )) : /* @__PURE__ */ import_react410.default.createElement(import_react410.Fragment, null, /* @__PURE__ */ import_react410.default.createElement(
+    )) : /* @__PURE__ */ import_react411.default.createElement(import_react411.Fragment, null, /* @__PURE__ */ import_react411.default.createElement(
       ScreenReaderText_default,
       {
         text: localize2("CONNECTIVITY_STATUS_ALT", reconnect ? interruptedConnectionText : initialConnectionText)
       }
-    ), /* @__PURE__ */ import_react410.default.createElement(
+    ), /* @__PURE__ */ import_react411.default.createElement(
       "div",
       {
         "aria-hidden": true,
         className: (0, import_classnames84.default)("webchat__connectivityStatus", connectivityNotificationStyleSet + ""),
         dir: direction
       },
-      /* @__PURE__ */ import_react410.default.createElement(SpinnerAnimation_default, null),
+      /* @__PURE__ */ import_react411.default.createElement(SpinnerAnimation_default, null),
       reconnect ? interruptedConnectionText : initialConnectionText
     ));
   }
-  var Connecting_default = (0, import_react410.memo)(ConnectivityStatusConnecting);
+  var Connecting_default = (0, import_react411.memo)(ConnectivityStatusConnecting);
   var { useDirection: useDirection8 } = hook_exports;
   var ICON_SIZE_FACTOR2 = 16;
   var ErrorNotificationIcon = ({ className, size }) => {
     const [direction] = useDirection8();
-    return /* @__PURE__ */ import_react415.default.createElement(
+    return /* @__PURE__ */ import_react416.default.createElement(
       "svg",
       {
         alt: "",
@@ -173080,7 +174408,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         viewBox: "0 0 13.1 13.1",
         width: ICON_SIZE_FACTOR2 * size
       },
-      /* @__PURE__ */ import_react415.default.createElement(
+      /* @__PURE__ */ import_react416.default.createElement(
         "path",
         {
           d: "M6.5,13C2.9,13,0,10.1,0,6.5S2.9,0,6.5,0S13,2.9,13,6.5S10.1,13,6.5,13z M6.1,3.5v4.3h0.9V3.5H6.1z M6.1,8.7v0.9h0.9V8.7H6.1z",
@@ -173098,38 +174426,38 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     size: import_prop_types42.default.number
   };
   var ErrorNotificationIcon_default = ErrorNotificationIcon;
-  var { useDirection: useDirection9, useLocalizer: useLocalizer38 } = hook_exports;
+  var { useDirection: useDirection9, useLocalizer: useLocalizer39 } = hook_exports;
   var ConnectivityStatusFailedToConnect = () => {
     const [{ errorNotification: errorNotificationStyleSet }] = useStyleSet();
     const [direction] = useDirection9();
-    const localize2 = useLocalizer38();
+    const localize2 = useLocalizer39();
     const failedConnectionText = localize2("CONNECTIVITY_STATUS_ALT_FATAL");
-    return /* @__PURE__ */ import_react414.default.createElement(import_react414.default.Fragment, null, /* @__PURE__ */ import_react414.default.createElement(ScreenReaderText_default, { text: localize2("CONNECTIVITY_STATUS_ALT", failedConnectionText) }), /* @__PURE__ */ import_react414.default.createElement(
+    return /* @__PURE__ */ import_react415.default.createElement(import_react415.default.Fragment, null, /* @__PURE__ */ import_react415.default.createElement(ScreenReaderText_default, { text: localize2("CONNECTIVITY_STATUS_ALT", failedConnectionText) }), /* @__PURE__ */ import_react415.default.createElement(
       "div",
       {
         "aria-hidden": true,
         className: (0, import_classnames87.default)("webchat__connectivityStatus", errorNotificationStyleSet + ""),
         dir: direction
       },
-      /* @__PURE__ */ import_react414.default.createElement(ErrorNotificationIcon_default, null),
+      /* @__PURE__ */ import_react415.default.createElement(ErrorNotificationIcon_default, null),
       failedConnectionText
     ));
   };
   var FailedToConnect_default = ConnectivityStatusFailedToConnect;
-  var { useDirection: useDirection10, useLocalizer: useLocalizer39 } = hook_exports;
+  var { useDirection: useDirection10, useLocalizer: useLocalizer40 } = hook_exports;
   var ConnectivityStatusJavaScriptError = () => {
     const [{ errorNotification: errorNotificationStyleSet }] = useStyleSet();
     const [direction] = useDirection10();
-    const localize2 = useLocalizer39();
+    const localize2 = useLocalizer40();
     const renderErrorNotificationText = localize2("CONNECTIVITY_STATUS_ALT_RENDER_ERROR");
-    return /* @__PURE__ */ import_react416.default.createElement(import_react416.default.Fragment, null, /* @__PURE__ */ import_react416.default.createElement(ScreenReaderText_default, { text: localize2("CONNECTIVITY_STATUS_ALT", renderErrorNotificationText) }), /* @__PURE__ */ import_react416.default.createElement(
+    return /* @__PURE__ */ import_react417.default.createElement(import_react417.default.Fragment, null, /* @__PURE__ */ import_react417.default.createElement(ScreenReaderText_default, { text: localize2("CONNECTIVITY_STATUS_ALT", renderErrorNotificationText) }), /* @__PURE__ */ import_react417.default.createElement(
       "div",
       {
         "aria-hidden": true,
         className: (0, import_classnames89.default)("webchat__connectivityStatus", errorNotificationStyleSet + ""),
         dir: direction
       },
-      /* @__PURE__ */ import_react416.default.createElement(ErrorNotificationIcon_default, null),
+      /* @__PURE__ */ import_react417.default.createElement(ErrorNotificationIcon_default, null),
       renderErrorNotificationText
     ));
   };
@@ -173142,20 +174470,20 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     }
     switch (connectivityStatus2.message) {
       case "connecting":
-        return /* @__PURE__ */ import_react408.default.createElement(Connecting_default, { className });
+        return /* @__PURE__ */ import_react409.default.createElement(Connecting_default, { className });
       case "javascripterror":
-        return /* @__PURE__ */ import_react408.default.createElement(JavaScriptError_default, { className });
+        return /* @__PURE__ */ import_react409.default.createElement(JavaScriptError_default, { className });
       case "failedtoconnect":
-        return /* @__PURE__ */ import_react408.default.createElement(FailedToConnect_default, { className });
+        return /* @__PURE__ */ import_react409.default.createElement(FailedToConnect_default, { className });
       case "reconnecting":
-        return /* @__PURE__ */ import_react408.default.createElement(Connecting_default, { className, reconnect: true });
+        return /* @__PURE__ */ import_react409.default.createElement(Connecting_default, { className, reconnect: true });
       case "connected":
       default:
-        return /* @__PURE__ */ import_react408.default.createElement(Connected_default, { className });
+        return /* @__PURE__ */ import_react409.default.createElement(Connected_default, { className });
     }
   };
   var BasicConnectivityStatus_default = BasicConnectivityStatus;
-  var CollapseIcon = ({ className }) => /* @__PURE__ */ import_react418.default.createElement(
+  var CollapseIcon = ({ className }) => /* @__PURE__ */ import_react419.default.createElement(
     "svg",
     {
       className: (className || "") + "",
@@ -173166,7 +174494,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       width: "16",
       xmlns: "http://www.w3.org/2000/svg"
     },
-    /* @__PURE__ */ import_react418.default.createElement("path", { d: "M15.2734 8.97656L8 1.71094L0.726563 8.97656L0.0234375 8.27344L8 0.289062L15.9766 8.27344L15.2734 8.97656Z" })
+    /* @__PURE__ */ import_react419.default.createElement("path", { d: "M15.2734 8.97656L8 1.71094L0.726563 8.97656L0.0234375 8.27344L8 0.289062L15.9766 8.27344L15.2734 8.97656Z" })
   );
   CollapseIcon.defaultProps = {
     className: void 0
@@ -173175,7 +174503,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     className: import_prop_types43.default.string
   };
   var CollapseIcon_default = CollapseIcon;
-  var ExpandIcon = ({ className }) => /* @__PURE__ */ import_react419.default.createElement(
+  var ExpandIcon = ({ className }) => /* @__PURE__ */ import_react420.default.createElement(
     "svg",
     {
       className: (className || "") + "",
@@ -173186,7 +174514,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       width: "16",
       xmlns: "http://www.w3.org/2000/svg"
     },
-    /* @__PURE__ */ import_react419.default.createElement("path", { d: "M15.1484 0.648437L15.8516 1.35156L8 9.20312L0.148438 1.35156L0.851563 0.648438L8 7.79687L15.1484 0.648437Z" })
+    /* @__PURE__ */ import_react420.default.createElement("path", { d: "M15.1484 0.648437L15.8516 1.35156L8 9.20312L0.148438 1.35156L0.851563 0.648438L8 7.79687L15.1484 0.648437Z" })
   );
   ExpandIcon.defaultProps = {
     className: void 0
@@ -173195,7 +174523,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     className: import_prop_types44.default.string
   };
   var ExpandIcon_default = ExpandIcon;
-  var { useDebouncedNotifications: useDebouncedNotifications22, useLocalizer: useLocalizer40, useRenderToast: useRenderToast2 } = hook_exports;
+  var { useDebouncedNotifications: useDebouncedNotifications22, useLocalizer: useLocalizer41, useRenderToast: useRenderToast2 } = hook_exports;
   var ROOT_STYLE12 = {
     display: "flex",
     flexDirection: "column",
@@ -173235,17 +174563,17 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     other: "TOAST_ACCORDION_OTHER"
   };
   var BasicToaster = ({ className }) => {
-    const instanceId = (0, import_react417.useMemo)(() => randomId2(), []);
+    const instanceId = (0, import_react418.useMemo)(() => randomId2(), []);
     const [{ toaster: toasterStyleSet }] = useStyleSet();
     const [debouncedNotifications] = useDebouncedNotifications22();
-    const [expanded, setExpanded] = (0, import_react417.useState)(false);
-    const localizeWithPlural = useLocalizer40({ plural: true });
+    const [expanded, setExpanded] = (0, import_react418.useState)(false);
+    const localizeWithPlural = useLocalizer41({ plural: true });
     const renderToast = useRenderToast2();
     const renderMarkdownInline = useInternalRenderMarkdownInline_default();
     const rootClassName = useStyleToEmotionObject()(ROOT_STYLE12) + "";
-    const handleToggleExpand = (0, import_react417.useCallback)(() => setExpanded(!expanded), [expanded, setExpanded]);
-    const sortedNotifications = (0, import_react417.useMemo)(() => sortNotifications(debouncedNotifications), [debouncedNotifications]);
-    const sortedNotificationsWithChildren = (0, import_react417.useMemo)(
+    const handleToggleExpand = (0, import_react418.useCallback)(() => setExpanded(!expanded), [expanded, setExpanded]);
+    const sortedNotifications = (0, import_react418.useMemo)(() => sortNotifications(debouncedNotifications), [debouncedNotifications]);
+    const sortedNotificationsWithChildren = (0, import_react418.useMemo)(
       () => sortedNotifications.map((notification) => {
         const children = renderToast({ notification });
         return children && { children, notification };
@@ -173254,18 +174582,18 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     );
     const expandable = sortedNotificationsWithChildren.length > 1;
     const [highestLevel] = sortedNotificationsWithChildren.map(({ notification: { level } }) => level).sort(compareLevel);
-    const expandableElementId = (0, import_react417.useMemo)(
+    const expandableElementId = (0, import_react418.useMemo)(
       () => !expandable || expanded ? `webchat__toaster__list__${instanceId}` : void 0,
       [expandable, expanded, instanceId]
     );
-    const headerElementId = (0, import_react417.useMemo)(
+    const headerElementId = (0, import_react418.useMemo)(
       () => expandable ? `webchat__toaster__header__${instanceId}` : void 0,
       [expandable, instanceId]
     );
-    (0, import_react417.useEffect)(() => {
+    (0, import_react418.useEffect)(() => {
       !expandable && setExpanded(false);
     }, [expandable]);
-    const notifiedElements = (0, import_react417.useRef)(/* @__PURE__ */ new Set());
+    const notifiedElements = (0, import_react418.useRef)(/* @__PURE__ */ new Set());
     useLiveRegion(() => {
       var _a28;
       const toAnnounce = [];
@@ -173273,7 +174601,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         if (!notifiedElements.current.has(notification.id)) {
           notifiedElements.current.add(notification.id);
           toAnnounce.push(
-            notification.alt ? /* @__PURE__ */ import_react417.default.createElement("div", { "aria-atomic": true, className: "webchat__toaster__notifications", key: notification.id }, notification.alt) : /* @__PURE__ */ import_react417.default.createElement(
+            notification.alt ? /* @__PURE__ */ import_react418.default.createElement("div", { "aria-atomic": true, className: "webchat__toaster__notifications", key: notification.id }, notification.alt) : /* @__PURE__ */ import_react418.default.createElement(
               "div",
               {
                 "aria-atomic": true,
@@ -173287,9 +174615,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           );
         }
       }
-      return toAnnounce.length > 0 && /* @__PURE__ */ import_react417.default.createElement(import_react417.Fragment, null, toAnnounce);
+      return toAnnounce.length > 0 && /* @__PURE__ */ import_react418.default.createElement(import_react418.Fragment, null, toAnnounce);
     }, [renderMarkdownInline, sortedNotifications]);
-    return /* @__PURE__ */ import_react417.default.createElement(
+    return /* @__PURE__ */ import_react418.default.createElement(
       "div",
       {
         "aria-labelledby": headerElementId,
@@ -173310,7 +174638,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         ),
         role: "log"
       },
-      expandable && /* @__PURE__ */ import_react417.default.createElement(
+      expandable && /* @__PURE__ */ import_react418.default.createElement(
         "button",
         {
           "aria-controls": expandableElementId,
@@ -173320,15 +174648,15 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           onClick: handleToggleExpand,
           type: "button"
         },
-        /* @__PURE__ */ import_react417.default.createElement("div", { "aria-hidden": true, className: "webchat__toaster__expandLevelIconBox" }, /* @__PURE__ */ import_react417.default.createElement(NotificationIcon_default, { className: "webchat__toaster__expandLevelIcon", level: highestLevel })),
-        /* @__PURE__ */ import_react417.default.createElement("div", { className: "webchat__toaster__expandText" }, localizeWithPlural(TOAST_ACCORDION_IDS, sortedNotificationsWithChildren.length)),
-        /* @__PURE__ */ import_react417.default.createElement("div", { "aria-hidden": true, className: "webchat__toaster__expandIcon" }, /* @__PURE__ */ import_react417.default.createElement("div", { className: "webchat__toaster__expandIconFocus" }, expanded ? /* @__PURE__ */ import_react417.default.createElement(CollapseIcon_default, null) : /* @__PURE__ */ import_react417.default.createElement(ExpandIcon_default, null)))
+        /* @__PURE__ */ import_react418.default.createElement("div", { "aria-hidden": true, className: "webchat__toaster__expandLevelIconBox" }, /* @__PURE__ */ import_react418.default.createElement(NotificationIcon_default, { className: "webchat__toaster__expandLevelIcon", level: highestLevel })),
+        /* @__PURE__ */ import_react418.default.createElement("div", { className: "webchat__toaster__expandText" }, localizeWithPlural(TOAST_ACCORDION_IDS, sortedNotificationsWithChildren.length)),
+        /* @__PURE__ */ import_react418.default.createElement("div", { "aria-hidden": true, className: "webchat__toaster__expandIcon" }, /* @__PURE__ */ import_react418.default.createElement("div", { className: "webchat__toaster__expandIconFocus" }, expanded ? /* @__PURE__ */ import_react418.default.createElement(CollapseIcon_default, null) : /* @__PURE__ */ import_react418.default.createElement(ExpandIcon_default, null)))
       ),
-      (!expandable || expanded) && /* @__PURE__ */ import_react417.default.createElement("div", { "aria-labelledby": headerElementId, className: "webchat__toaster__list", id: expandableElementId }, sortedNotificationsWithChildren.map(({ children, notification: { id } }) => /* @__PURE__ */ import_react417.default.createElement("div", { className: "webchat__toaster__listItem", key: id }, children)))
+      (!expandable || expanded) && /* @__PURE__ */ import_react418.default.createElement("div", { "aria-labelledby": headerElementId, className: "webchat__toaster__list", id: expandableElementId }, sortedNotificationsWithChildren.map(({ children, notification: { id } }) => /* @__PURE__ */ import_react418.default.createElement("div", { className: "webchat__toaster__listItem", key: id }, children)))
     );
   };
   BasicToaster.displayName = "BasicToaster";
-  var BasicToaster_default = (0, import_react417.memo)(BasicToaster);
+  var BasicToaster_default = (0, import_react418.memo)(BasicToaster);
   var chatHistoryBoxPropsSchema = pipe(
     object({
       children: optional(reactNode_default()),
@@ -173339,9 +174667,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function ChatHistoryBox(props) {
     const { children, className } = validateProps2(chatHistoryBoxPropsSchema, props);
     const [{ chatHistoryBox }] = useStyleSet();
-    return /* @__PURE__ */ import_react421.default.createElement("div", { className: (0, import_classnames92.default)("webchat__chat-history-box", className, chatHistoryBox) }, children);
+    return /* @__PURE__ */ import_react422.default.createElement("div", { className: (0, import_classnames92.default)("webchat__chat-history-box", className, chatHistoryBox) }, children);
   }
-  var ChatHistoryBox_default = (0, import_react421.memo)(ChatHistoryBox);
+  var ChatHistoryBox_default = (0, import_react422.memo)(ChatHistoryBox);
   var { useDirection: useDirection11 } = hook_exports;
   var chatHistoryToolbarPropsSchema = pipe(
     object({
@@ -173352,7 +174680,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function ChatHistoryToolbar(props) {
     const { children } = validateProps2(chatHistoryToolbarPropsSchema, props);
     const [direction] = useDirection11();
-    return /* @__PURE__ */ import_react422.default.createElement(
+    return /* @__PURE__ */ import_react423.default.createElement(
       "div",
       {
         className: (0, import_classnames93.default)(
@@ -173363,23 +174691,23 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       children
     );
   }
-  var ChatHistoryToolbar_default = (0, import_react422.memo)(ChatHistoryToolbar);
+  var ChatHistoryToolbar_default = (0, import_react423.memo)(ChatHistoryToolbar);
   function useRenderingActivityKeys() {
     return useContext47().renderingActivityKeysState;
   }
-  var { useActivityKeysByRead: useActivityKeysByRead22, useCreateScrollToEndButtonRenderer: useCreateScrollToEndButtonRenderer2, useMarkActivityKeyAsRead: useMarkActivityKeyAsRead2, useStyleOptions: useStyleOptions232 } = hook_exports;
+  var { useActivityKeysByRead: useActivityKeysByRead22, useCreateScrollToEndButtonRenderer: useCreateScrollToEndButtonRenderer2, useMarkActivityKeyAsRead: useMarkActivityKeyAsRead2, useStyleOptions: useStyleOptions242 } = hook_exports;
   var useScrollToEndRenderResult = (terminatorRef) => {
     const [renderingActivityKeys] = useRenderingActivityKeys();
     const [sticky] = useSticky();
     const [animatingToEnd] = useAnimatingToEnd();
     const [atEnd] = useAtEnd();
     const [, unreadActivityKeys] = useActivityKeysByRead22();
-    const [styleOptions] = useStyleOptions232();
+    const [styleOptions] = useStyleOptions242();
     const focusByActivityKey = useFocusByActivityKey();
     const markActivityKeyAsRead = useMarkActivityKeyAsRead2();
     const scrollToEnd2 = useScrollToEnd2();
     const renderingActivityKeysRef = useRefFrom(renderingActivityKeys);
-    const nextUnreadActivityKeys = (0, import_react423.useMemo)(() => {
+    const nextUnreadActivityKeys = (0, import_react424.useMemo)(() => {
       if (sticky && unreadActivityKeys.length) {
         markActivityKeyAsRead(unreadActivityKeys[unreadActivityKeys.length - 1]);
         return [];
@@ -173387,11 +174715,11 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       return unreadActivityKeys;
     }, [markActivityKeyAsRead, sticky, unreadActivityKeys]);
     const nextUnreadActivityKeysRef = useRefFrom(nextUnreadActivityKeys);
-    const unread = (0, import_react423.useMemo)(
+    const unread = (0, import_react424.useMemo)(
       () => nextUnreadActivityKeys.some((key2) => renderingActivityKeys.includes(key2)),
       [renderingActivityKeys, nextUnreadActivityKeys]
     );
-    const handleScrollToEndButtonClick = (0, import_react423.useCallback)(() => {
+    const handleScrollToEndButtonClick = (0, import_react424.useCallback)(() => {
       var _a28;
       scrollToEnd2({ behavior: "smooth" });
       const { current: renderingActivityKeys2 } = renderingActivityKeysRef;
@@ -173413,9 +174741,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   };
   function ScrollToEndButton2({ terminatorRef }) {
     const children = useScrollToEndRenderResult(terminatorRef);
-    return /* @__PURE__ */ import_react423.default.createElement(import_react423.Fragment, null, children);
+    return /* @__PURE__ */ import_react424.default.createElement(import_react424.Fragment, null, children);
   }
-  var ScrollToEndButton_default2 = (0, import_react423.memo)(ScrollToEndButton2);
+  var ScrollToEndButton_default2 = (0, import_react424.memo)(ScrollToEndButton2);
   var { contextComponentType: contextComponentType22, useContext: useContext65 } = createContextAndHook(
     "GroupedRenderingActivitiesContext"
   );
@@ -173423,15 +174751,15 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function useGroupedRenderingActivities() {
     return useContext65().groupedRenderingActivitiesState;
   }
-  var ActivityTreeGroup = (0, import_react424.memo)(({ group }) => /* @__PURE__ */ import_react424.default.createElement(ActivityGroupingDecorator_default, { activities: group.activities, groupingName: group.groupingName }, group.children.map((child) => /* @__PURE__ */ import_react424.default.createElement(ActivityTreeGroup, { group: child, key: child.key }))));
+  var ActivityTreeGroup = (0, import_react425.memo)(({ group }) => /* @__PURE__ */ import_react425.default.createElement(ActivityGroupingDecorator_default, { activities: group.activities, groupingName: group.groupingName }, group.children.map((child) => /* @__PURE__ */ import_react425.default.createElement(ActivityTreeGroup, { group: child, key: child.key }))));
   ActivityTreeGroup.displayName = "ActivityTreeGroup";
   var ActivityTree = () => {
     const [group] = useGroupedRenderingActivities();
-    return /* @__PURE__ */ import_react424.default.createElement(import_react424.Fragment, null, group.map((child) => /* @__PURE__ */ import_react424.default.createElement(ActivityTreeGroup, { group: child, key: child.key })));
+    return /* @__PURE__ */ import_react425.default.createElement(import_react425.Fragment, null, group.map((child) => /* @__PURE__ */ import_react425.default.createElement(ActivityTreeGroup, { group: child, key: child.key })));
   };
   ActivityTree.displayName = "ActivityTree";
-  var ActivityTree_default = (0, import_react424.memo)(ActivityTree);
-  var { useCreateAttachmentForScreenReaderRenderer: useCreateAttachmentForScreenReaderRenderer2, useLocalizer: useLocalizer41 } = hook_exports;
+  var ActivityTree_default = (0, import_react425.memo)(ActivityTree);
+  var { useCreateAttachmentForScreenReaderRenderer: useCreateAttachmentForScreenReaderRenderer2, useLocalizer: useLocalizer422 } = hook_exports;
   var ACTIVITY_NUM_ATTACHMENTS_ALT_IDS2 = {
     few: "ACTIVITY_NUM_ATTACHMENTS_FEW_ALT",
     many: "ACTIVITY_NUM_ATTACHMENTS_MANY_ALT",
@@ -173442,15 +174770,15 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   var LiveRegionAttachments = ({ activity }) => {
     const { attachments = [] } = activity;
     const createAttachmentForScreenReaderRenderer = useCreateAttachmentForScreenReaderRenderer2();
-    const localizeWithPlural = useLocalizer41({ plural: true });
+    const localizeWithPlural = useLocalizer422({ plural: true });
     const attachmentForScreenReaderRenderers = attachments.map((attachment) => createAttachmentForScreenReaderRenderer({ activity, attachment })).filter(Boolean);
     const numGenericAttachments = attachments.length - attachmentForScreenReaderRenderers.length;
     const numAttachmentsAlt = !!numGenericAttachments && localizeWithPlural(ACTIVITY_NUM_ATTACHMENTS_ALT_IDS2, numGenericAttachments);
-    return /* @__PURE__ */ import_react427.default.createElement(import_react427.Fragment, null, attachmentForScreenReaderRenderers.map((render22, index2) => (
+    return /* @__PURE__ */ import_react428.default.createElement(import_react428.Fragment, null, attachmentForScreenReaderRenderers.map((render22, index2) => (
       // Direct Line does not have key for attachment other than index.
       // eslint-disable-next-line react/no-array-index-key
-      /* @__PURE__ */ import_react427.default.createElement("div", { key: index2 }, typeof render22 === "function" && render22())
-    )), numAttachmentsAlt && /* @__PURE__ */ import_react427.default.createElement("p", null, numAttachmentsAlt));
+      /* @__PURE__ */ import_react428.default.createElement("div", { key: index2 }, typeof render22 === "function" && render22())
+    )), numAttachmentsAlt && /* @__PURE__ */ import_react428.default.createElement("p", null, numAttachmentsAlt));
   };
   var LiveRegionAttachments_default = LiveRegionAttachments;
   var liveRegionSuggestedActionsPropSchema = pipe(
@@ -173468,14 +174796,14 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function LiveRegionSuggestedActions(props) {
     var _a28;
     const { suggestedActions: suggestedActions2 } = validateProps2(liveRegionSuggestedActionsPropSchema, props);
-    return ((_a28 = suggestedActions2.actions) == null ? void 0 : _a28.length) && /* @__PURE__ */ import_react428.default.createElement("p", { className: "webchat__live-region-activity__suggested-actions" }, suggestedActions2.actions.map((action2, index2) => (
+    return ((_a28 = suggestedActions2.actions) == null ? void 0 : _a28.length) && /* @__PURE__ */ import_react429.default.createElement("p", { className: "webchat__live-region-activity__suggested-actions" }, suggestedActions2.actions.map((action2, index2) => (
       // Direct Line schema does not have key other than index.
       // eslint-disable-next-line react/no-array-index-key
-      /* @__PURE__ */ import_react428.default.createElement("button", { className: "webchat__live-region-activity__suggested-action", key: index2, tabIndex: -1, type: "button" }, computeSuggestedActionText(action2))
+      /* @__PURE__ */ import_react429.default.createElement("button", { className: "webchat__live-region-activity__suggested-action", key: index2, tabIndex: -1, type: "button" }, computeSuggestedActionText(action2))
     )));
   }
-  var LiveRegionSuggestedActions_default = (0, import_react428.memo)(LiveRegionSuggestedActions);
-  var { useAvatarForBot: useAvatarForBot6, useLocalizer: useLocalizer422 } = hook_exports;
+  var LiveRegionSuggestedActions_default = (0, import_react429.memo)(LiveRegionSuggestedActions);
+  var { useAvatarForBot: useAvatarForBot6, useLocalizer: useLocalizer43 } = hook_exports;
   var ROOT_STYLE13 = {
     "&.webchat__live-region-activity": {
       color: "transparent",
@@ -173502,18 +174830,18 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       type
     } = activity;
     const fallbackText = type === "message" ? activity.channelData["webchat:fallback-text"] : void 0;
-    const localize2 = useLocalizer422();
+    const localize2 = useLocalizer43();
     const renderMarkdownAsHTML = useRenderMarkdownAsHTML("accessible name");
     const rootClassName = useStyleToEmotionObject()(ROOT_STYLE13) + "";
-    const textAlt = (0, import_react426.useMemo)(() => activityAltText(activity, renderMarkdownAsHTML), [activity, renderMarkdownAsHTML]);
+    const textAlt = (0, import_react427.useMemo)(() => activityAltText(activity, renderMarkdownAsHTML), [activity, renderMarkdownAsHTML]);
     const greetingAlt = (role === "user" ? localize2("ACTIVITY_YOU_SAID_ALT") : localize2("ACTIVITY_BOT_SAID_ALT", botInitials || "")).replace(/\s{2,}/gu, " ");
     const validFallbackText = fallbackText && typeof fallbackText === "string";
-    return /* @__PURE__ */ import_react426.default.createElement("article", { "aria-atomic": true, className: (0, import_classnames94.default)("webchat__live-region-activity", rootClassName) }, /* @__PURE__ */ import_react426.default.createElement("div", null, greetingAlt), validFallbackText ? /* @__PURE__ */ import_react426.default.createElement("div", null, fallbackText) : /* @__PURE__ */ import_react426.default.createElement(import_react426.Fragment, null, /* @__PURE__ */ import_react426.default.createElement("div", null, textAlt), type === "message" && /* @__PURE__ */ import_react426.default.createElement(import_react426.Fragment, null, !!activity.suggestedActions && /* @__PURE__ */ import_react426.default.createElement(LiveRegionSuggestedActions_default, { suggestedActions: activity.suggestedActions }), /* @__PURE__ */ import_react426.default.createElement(LiveRegionAttachments_default, { activity }))));
+    return /* @__PURE__ */ import_react427.default.createElement("article", { "aria-atomic": true, className: (0, import_classnames94.default)("webchat__live-region-activity", rootClassName) }, /* @__PURE__ */ import_react427.default.createElement("div", null, greetingAlt), validFallbackText ? /* @__PURE__ */ import_react427.default.createElement("div", null, fallbackText) : /* @__PURE__ */ import_react427.default.createElement(import_react427.Fragment, null, /* @__PURE__ */ import_react427.default.createElement("div", null, textAlt), type === "message" && /* @__PURE__ */ import_react427.default.createElement(import_react427.Fragment, null, !!activity.suggestedActions && /* @__PURE__ */ import_react427.default.createElement(LiveRegionSuggestedActions_default, { suggestedActions: activity.suggestedActions }), /* @__PURE__ */ import_react427.default.createElement(LiveRegionAttachments_default, { activity }))));
   }
   var LiveRegionActivity_default = LiveRegionActivity;
   function usePrevious3(value) {
-    const ref = (0, import_react430.useRef)();
-    (0, import_react430.useEffect)(() => {
+    const ref = (0, import_react431.useRef)();
+    (0, import_react431.useEffect)(() => {
       ref.current = value;
     });
     return ref.current;
@@ -173530,12 +174858,12 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     }
     return !(((_a28 = channelData == null ? void 0 : channelData.messageBack) == null ? void 0 : _a28.displayText) || activity.text || ((_b4 = activity.attachments) == null ? void 0 : _b4.length) || ((_d2 = (_c3 = activity.suggestedActions) == null ? void 0 : _c3.actions) == null ? void 0 : _d2.length));
   }
-  var { useGetActivityByKey: useGetActivityByKey22, useLocalizer: useLocalizer43, useSendStatusByActivityKey: useSendStatusByActivityKey2 } = hook_exports;
+  var { useGetActivityByKey: useGetActivityByKey22, useLocalizer: useLocalizer44, useSendStatusByActivityKey: useSendStatusByActivityKey2 } = hook_exports;
   var LiveRegionSendFailed = () => {
     const [sendStatusByActivityKey] = useSendStatusByActivityKey2();
     const getActivityByKey = useGetActivityByKey22();
-    const localize2 = useLocalizer43();
-    const activityKeysOfSendFailed = (0, import_react429.useMemo)(
+    const localize2 = useLocalizer44();
+    const activityKeysOfSendFailed = (0, import_react430.useMemo)(
       () => Array.from(sendStatusByActivityKey).reduce(
         (activityKeysOfSendFailed2, [key2, sendStatus]) => sendStatus === SEND_FAILED3 && !isPresentational(getActivityByKey(key2)) ? activityKeysOfSendFailed2.add(key2) : activityKeysOfSendFailed2,
         /* @__PURE__ */ new Set()
@@ -173544,7 +174872,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     );
     const liveRegionSendFailedAlt = localize2("TRANSCRIPT_LIVE_REGION_SEND_FAILED_ALT");
     const prevActivityKeysOfSendFailed = usePrevious3(activityKeysOfSendFailed);
-    const hasNewSendFailed = (0, import_react429.useMemo)(() => {
+    const hasNewSendFailed = (0, import_react430.useMemo)(() => {
       if (activityKeysOfSendFailed === prevActivityKeysOfSendFailed) {
         return false;
       }
@@ -173559,14 +174887,14 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     return null;
   };
   LiveRegionSendFailed.displayName = "LiveRegionSendFailed";
-  var SendFailed_default = (0, import_react429.memo)(LiveRegionSendFailed);
+  var SendFailed_default = (0, import_react430.memo)(LiveRegionSendFailed);
   var { useActiveTyping: useActiveTyping3 } = hook_exports;
   function arrayEquals(x, y) {
     return x.length === y.length && x.every((value, index2) => y[+index2] === value);
   }
   function useTypistNames() {
     const [activeTyping] = useActiveTyping3();
-    const prevTypistNamesStateRef = (0, import_react431.useRef)(
+    const prevTypistNamesStateRef = (0, import_react432.useRef)(
       Object.freeze([Object.freeze([])])
     );
     const activeTypingFromOthersValues = Object.values(activeTyping).filter(({ role }) => role !== "user");
@@ -173576,18 +174904,18 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     ]);
     const { current: prevTypistNamesState } = prevTypistNamesStateRef;
     const nextTypistNamesState = arrayEquals(typistNamesState[0], prevTypistNamesState[0]) ? prevTypistNamesState : typistNamesState;
-    (0, import_react431.useEffect)(() => {
+    (0, import_react432.useEffect)(() => {
       prevTypistNamesStateRef.current = nextTypistNamesState;
     }, [prevTypistNamesStateRef, nextTypistNamesState]);
     return nextTypistNamesState;
   }
-  var { useActivities: useActivities2, useGetKeyByActivity: useGetKeyByActivity6, useLocalizer: useLocalizer44 } = hook_exports;
+  var { useActivities: useActivities2, useGetKeyByActivity: useGetKeyByActivity6, useLocalizer: useLocalizer45 } = hook_exports;
   var LiveRegionTranscript = ({ activityElementMapRef }) => {
     const [accessKey] = useSuggestedActionsAccessKey();
     const [activities2] = useActivities2();
     const [typistNames] = useTypistNames();
     const getKeyByActivity = useGetKeyByActivity6();
-    const localize2 = useLocalizer44();
+    const localize2 = useLocalizer45();
     const localizeAccessKeyAsAccessibleName = useLocalizeAccessKey("accessible name");
     const queueStaticElement = useQueueStaticElement();
     const liveRegionInteractiveLabelAlt = localize2("TRANSCRIPT_LIVE_REGION_INTERACTIVE_LABEL_ALT");
@@ -173600,7 +174928,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       "TRANSCRIPT_LIVE_REGION_SUGGESTED_ACTIONS_WITH_ACCESS_KEY_LABEL_ALT",
       localizeAccessKeyAsAccessibleName(accessKey)
     ) : localize2("TRANSCRIPT_LIVE_REGION_SUGGESTED_ACTIONS_LABEL_ALT");
-    const keyedActivities = (0, import_react425.useMemo)(
+    const keyedActivities = (0, import_react426.useMemo)(
       () => Object.freeze(
         activities2.reduce((intermediate, activity) => {
           if (activity.type === "message") {
@@ -173611,8 +174939,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       ),
       [activities2, getKeyByActivity]
     );
-    const prevRenderingActivitiesRef = (0, import_react425.useRef)();
-    (0, import_react425.useEffect)(() => {
+    const prevRenderingActivitiesRef = (0, import_react426.useRef)();
+    (0, import_react426.useEffect)(() => {
       const { current: prevRenderingActivities } = prevRenderingActivitiesRef;
       const appendedActivities = [];
       for (const [key2, activity] of Array.from(keyedActivities.entries()).reverse()) {
@@ -173620,7 +174948,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           break;
         }
         appendedActivities.unshift({ activity, key: key2 });
-        isPresentational(activity) || queueStaticElement(/* @__PURE__ */ import_react425.default.createElement(LiveRegionActivity_default, { activity }));
+        isPresentational(activity) || queueStaticElement(/* @__PURE__ */ import_react426.default.createElement(LiveRegionActivity_default, { activity }));
       }
       const hasNewLink = appendedActivities.some(({ key: key2 }) => {
         var _a28;
@@ -173642,12 +174970,12 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       );
       if (hasNewLink || hasNewWidget) {
         queueStaticElement(
-          /* @__PURE__ */ import_react425.default.createElement("div", { className: "webchat__live-region-transcript__note", role: "note" }, hasNewLink ? liveRegionInteractiveWithLinkLabelAlt : liveRegionInteractiveLabelAlt)
+          /* @__PURE__ */ import_react426.default.createElement("div", { className: "webchat__live-region-transcript__note", role: "note" }, hasNewLink ? liveRegionInteractiveWithLinkLabelAlt : liveRegionInteractiveLabelAlt)
         );
       }
       if (hasSuggestedActions) {
         queueStaticElement(
-          /* @__PURE__ */ import_react425.default.createElement("div", { className: "webchat__live-region-transcript__note", role: "note" }, liveRegionSuggestedActionsLabelAlt)
+          /* @__PURE__ */ import_react426.default.createElement("div", { className: "webchat__live-region-transcript__note", role: "note" }, liveRegionSuggestedActionsLabelAlt)
         );
       }
       prevRenderingActivitiesRef.current = keyedActivities;
@@ -173660,11 +174988,11 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       queueStaticElement,
       keyedActivities
     ]);
-    (0, import_react425.useMemo)(() => typingIndicator && queueStaticElement(typingIndicator), [queueStaticElement, typingIndicator]);
-    return /* @__PURE__ */ import_react425.default.createElement(SendFailed_default, null);
+    (0, import_react426.useMemo)(() => typingIndicator && queueStaticElement(typingIndicator), [queueStaticElement, typingIndicator]);
+    return /* @__PURE__ */ import_react426.default.createElement(SendFailed_default, null);
   };
   LiveRegionTranscript.displayName = "LiveRegionTranscript";
-  var LiveRegionTranscript_default = (0, import_react425.memo)(LiveRegionTranscript);
+  var LiveRegionTranscript_default = (0, import_react426.memo)(LiveRegionTranscript);
   function mutableRefObject(baseSchema, message) {
     return pipe(
       any(),
@@ -173682,12 +175010,12 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   );
   function FocusRedirector(props) {
     const { className, onFocus, redirectRef } = validateProps2(focusRedirectorPropsSchema, props);
-    const handleFocus = (0, import_react432.useCallback)(() => {
+    const handleFocus = (0, import_react433.useCallback)(() => {
       var _a28;
       (_a28 = redirectRef == null ? void 0 : redirectRef.current) == null ? void 0 : _a28.focus();
       onFocus && onFocus();
     }, [onFocus, redirectRef]);
-    return /* @__PURE__ */ import_react432.default.createElement("div", { className, onFocus: handleFocus, tabIndex: 0 });
+    return /* @__PURE__ */ import_react433.default.createElement("div", { className, onFocus: handleFocus, tabIndex: 0 });
   }
   var FocusRedirector_default = FocusRedirector;
   var INPUTTABLE_KEY = {
@@ -173722,7 +175050,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
   function useRegisterFocusTranscript(callback) {
     const { focusTranscriptCallbacksRef } = useWebChatUIContext();
-    (0, import_react433.useEffect)(() => {
+    (0, import_react434.useEffect)(() => {
       if (callback) {
         const { current: focusTranscriptCallbacks } = focusTranscriptCallbacksRef;
         focusTranscriptCallbacks.push(callback);
@@ -173732,7 +175060,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
   function useRegisterScrollTo(callback) {
     const { scrollToCallbacksRef } = useWebChatUIContext();
-    (0, import_react434.useEffect)(() => {
+    (0, import_react435.useEffect)(() => {
       if (callback) {
         const { current: scrollToCallbacks } = scrollToCallbacksRef;
         scrollToCallbacks.push(callback);
@@ -173742,23 +175070,23 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
   function useRegisterScrollTo2(callback) {
     const { scrollToEndCallbacksRef } = useWebChatUIContext();
-    (0, import_react435.useEffect)(() => {
+    (0, import_react436.useEffect)(() => {
       const { current: scrollToEndCallbacks } = scrollToEndCallbacksRef;
       scrollToEndCallbacks.push(callback);
       return () => removeInline2(scrollToEndCallbacks, callback);
     }, [callback, scrollToEndCallbacksRef]);
   }
   var ChatHistoryDOMComposer = ({ children }) => {
-    const activityElementRef = (0, import_react436.useRef)(/* @__PURE__ */ new Map());
-    const context9 = (0, import_react436.useMemo)(() => ({ activityElementRef }), [activityElementRef]);
-    return /* @__PURE__ */ import_react436.default.createElement(ChatHistoryDOMContext_default.Provider, { value: context9 }, children);
+    const activityElementRef = (0, import_react437.useRef)(/* @__PURE__ */ new Map());
+    const context9 = (0, import_react437.useMemo)(() => ({ activityElementRef }), [activityElementRef]);
+    return /* @__PURE__ */ import_react437.default.createElement(ChatHistoryDOMContext_default.Provider, { value: context9 }, children);
   };
   ChatHistoryDOMComposer.displayName = "ChatHistoryDOMComposer";
-  var ChatHistoryDOMComposer_default = (0, import_react436.memo)(ChatHistoryDOMComposer);
+  var ChatHistoryDOMComposer_default = (0, import_react437.memo)(ChatHistoryDOMComposer);
   function useRenderingActivities() {
     return useContext47().renderingActivitiesState;
   }
-  var { useGetKeyByActivity: useGetKeyByActivity7, useGroupActivitiesByName, useStyleOptions: useStyleOptions242 } = hook_exports;
+  var { useGetKeyByActivity: useGetKeyByActivity7, useGroupActivitiesByName, useStyleOptions: useStyleOptions25 } = hook_exports;
   var groupedRenderingActivitiesComposerPropsSchema = pipe(
     object({
       children: optional(reactNode_default())
@@ -173767,15 +175095,15 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   );
   var GroupedRenderingActivitiesComposer = (props) => {
     const { children } = parse(groupedRenderingActivitiesComposerPropsSchema, props);
-    const [{ groupActivitiesBy }] = useStyleOptions242();
+    const [{ groupActivitiesBy }] = useStyleOptions25();
     const [activities2] = useRenderingActivities();
     const getKeyByActivity = useGetKeyByActivity7();
     const groupActivitiesByName = useGroupActivitiesByName();
-    const numRenderingActivitiesState = (0, import_react437.useMemo)(
+    const numRenderingActivitiesState = (0, import_react438.useMemo)(
       () => Object.freeze([activities2.length]),
       [activities2]
     );
-    const groupedRenderingActivitiesState = (0, import_react437.useMemo)(() => {
+    const groupedRenderingActivitiesState = (0, import_react438.useMemo)(() => {
       const run = (activities22, groups) => {
         const [name, ...nextNames] = groups;
         if (typeof name === "undefined") {
@@ -173801,17 +175129,17 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       };
       return Object.freeze([run(activities2, groupActivitiesBy)]);
     }, [activities2, getKeyByActivity, groupActivitiesBy, groupActivitiesByName]);
-    const context9 = (0, import_react437.useMemo)(
+    const context9 = (0, import_react438.useMemo)(
       () => Object.freeze({
         groupedRenderingActivitiesState,
         numRenderingActivitiesState
       }),
       [groupedRenderingActivitiesState, numRenderingActivitiesState]
     );
-    return /* @__PURE__ */ import_react437.default.createElement(GroupedRenderingActivitiesContext_default.Provider, { value: context9 }, children);
+    return /* @__PURE__ */ import_react438.default.createElement(GroupedRenderingActivitiesContext_default.Provider, { value: context9 }, children);
   };
   GroupedRenderingActivitiesComposer.displayName = "GroupedRenderingActivitiesComposer";
-  var GroupedRenderingActivitiesComposer_default = (0, import_react437.memo)(GroupedRenderingActivitiesComposer);
+  var GroupedRenderingActivitiesComposer_default = (0, import_react438.memo)(GroupedRenderingActivitiesComposer);
   function useNumRenderingActivities() {
     return useContext65().numRenderingActivitiesState;
   }
@@ -173821,7 +175149,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const activityKeys = useActivityKeys2();
     const getActivitiesByKey = useGetActivitiesByKey2();
     const getKeyByActivity = useGetKeyByActivity8();
-    const activitiesOfLatestRevision = (0, import_react438.useMemo)(() => {
+    const activitiesOfLatestRevision = (0, import_react439.useMemo)(() => {
       const activitiesOfLatestRevision2 = [];
       if (!activityKeys) {
         return activities2;
@@ -173835,7 +175163,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const renderActivity = useBuildRenderActivityCallback();
     const activityRendererMap = useReduceMemo_default(
       activitiesOfLatestRevision,
-      (0, import_react438.useCallback)(
+      (0, import_react439.useCallback)(
         (activityRendererMap2, activity) => {
           const renderer = renderActivity({ activity });
           return renderer ? Object.freeze(new Map(activityRendererMap2).set(activity, renderer)) : activityRendererMap2;
@@ -173844,22 +175172,22 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       ),
       /* @__PURE__ */ new Map()
     );
-    const activityRendererMapState = (0, import_react438.useMemo)(
+    const activityRendererMapState = (0, import_react439.useMemo)(
       () => Object.freeze([Object.freeze(activityRendererMap)]),
       [activityRendererMap]
     );
-    const renderingActivitiesState = (0, import_react438.useMemo)(
+    const renderingActivitiesState = (0, import_react439.useMemo)(
       () => Object.freeze([Object.freeze(Array.from(activityRendererMapState[0].keys()))]),
       [activityRendererMapState]
     );
-    const renderingActivityKeysState = (0, import_react438.useMemo)(() => {
+    const renderingActivityKeysState = (0, import_react439.useMemo)(() => {
       const keys3 = Object.freeze(renderingActivitiesState[0].map((activity) => getKeyByActivity(activity)));
       if (keys3.some((key2) => !key2)) {
         throw new Error("botframework-webchat internal: activityRendererMap[].activity must have activity key");
       }
       return Object.freeze([keys3]);
     }, [getKeyByActivity, renderingActivitiesState]);
-    const contextValue = (0, import_react438.useMemo)(
+    const contextValue = (0, import_react439.useMemo)(
       () => ({
         activityRendererMapState,
         renderingActivitiesState,
@@ -173867,14 +175195,14 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       }),
       [activityRendererMapState, renderingActivitiesState, renderingActivityKeysState]
     );
-    return /* @__PURE__ */ import_react438.default.createElement(RenderingActivitiesContext_default.Provider, { value: contextValue }, children);
+    return /* @__PURE__ */ import_react439.default.createElement(RenderingActivitiesContext_default.Provider, { value: contextValue }, children);
   };
   RenderingActivitiesComposer.displayName = "RenderingActivitiesComposer";
-  var RenderingActivitiesComposer_default = (0, import_react438.memo)(RenderingActivitiesComposer);
+  var RenderingActivitiesComposer_default = (0, import_react439.memo)(RenderingActivitiesComposer);
   function useStateRef2(initialValue) {
-    const [_2, forceRender] = (0, import_react440.useState)();
-    const valueRef = (0, import_react440.useRef)(initialValue);
-    const setter = (0, import_react440.useCallback)(
+    const [_2, forceRender] = (0, import_react441.useState)();
+    const valueRef = (0, import_react441.useRef)(initialValue);
+    const setter = (0, import_react441.useCallback)(
       (value) => {
         const { current: current2 } = valueRef;
         value = value instanceof Function ? value(current2) : value;
@@ -173908,16 +175236,16 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const getGroupBoundaries = useGetLogicalGroupBoundaries();
     const getGroupKeyByActivityKey = useGetLogicalGroupKey();
     const getGroupState = useGetGroupState();
-    const prefix2 = (0, import_react439.useMemo)(() => uniqueId4(3), []);
-    const getDescendantIdByActivityKey = (0, import_react439.useCallback)(
+    const prefix2 = (0, import_react440.useMemo)(() => uniqueId4(3), []);
+    const getDescendantIdByActivityKey = (0, import_react440.useCallback)(
       (activityKey) => activityKey && `webchat__transcript-focus-${prefix2}__activity-${activityKey}`,
       [prefix2]
     );
-    const getGroupDescendantIdByGroupKey = (0, import_react439.useCallback)(
+    const getGroupDescendantIdByGroupKey = (0, import_react440.useCallback)(
       (groupKey) => groupKey && `webchat__transcript-focus-${prefix2}__group-${groupKey}`,
       [prefix2]
     );
-    const getGroupDescendantIdByActivityKey = (0, import_react439.useCallback)(
+    const getGroupDescendantIdByActivityKey = (0, import_react440.useCallback)(
       (activityKey) => activityKey && getGroupDescendantIdByGroupKey(getGroupKeyByActivityKey(activityKey)),
       [getGroupDescendantIdByGroupKey, getGroupKeyByActivityKey]
     );
@@ -173927,20 +175255,20 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       rawFocusedActivityKeyRef.current = void 0;
     }
     const { current: rawFocusedActivityKey } = rawFocusedActivityKeyRef;
-    const focusedActivityKey = (0, import_react439.useMemo)(
+    const focusedActivityKey = (0, import_react440.useMemo)(
       () => renderingActivityKeys.includes(rawFocusedActivityKey) ? rawFocusedActivityKey : renderingActivityKeys.at(-1),
       [renderingActivityKeys, rawFocusedActivityKey]
     );
     const focusedActivityKeyRef = useValueRef2(focusedActivityKey);
-    const activeDescendantId = (0, import_react439.useMemo)(
+    const activeDescendantId = (0, import_react440.useMemo)(
       () => getDescendantIdByActivityKey(focusedActivityKey),
       [getDescendantIdByActivityKey, focusedActivityKey]
     );
-    const activeGroupDescendantId = (0, import_react439.useMemo)(
+    const activeGroupDescendantId = (0, import_react440.useMemo)(
       () => getGroupDescendantIdByGroupKey(rawFocusedActivityGroupKey),
       [getGroupDescendantIdByGroupKey, rawFocusedActivityGroupKey]
     );
-    const handleFocus = (0, import_react439.useCallback)(
+    const handleFocus = (0, import_react440.useCallback)(
       (activeDescendantId2) => {
         var _a29;
         (_a29 = containerRef.current) == null ? void 0 : _a29.focus();
@@ -173951,7 +175279,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       },
       [containerRef]
     );
-    const focusByGroupKey = (0, import_react439.useCallback)(
+    const focusByGroupKey = (0, import_react440.useCallback)(
       (groupKey, withFocus = true) => {
         if (!groupKey) {
           setRawFocusedActivityGroupKey(void 0);
@@ -173963,7 +175291,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       },
       [getGroupDescendantIdByGroupKey, handleFocus, setRawFocusedActivityGroupKey]
     );
-    const focusByActivityKey = (0, import_react439.useCallback)(
+    const focusByActivityKey = (0, import_react440.useCallback)(
       (activityKey, withFocus = true) => {
         if (activityKey === false) {
           setRawFocusedActivityKey(void 0);
@@ -174007,7 +175335,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         setRawFocusedActivityKey
       ]
     );
-    const getNextActivityLinear = (0, import_react439.useCallback)(
+    const getNextActivityLinear = (0, import_react440.useCallback)(
       (currentActivityKey, direction) => {
         const { current: orderedActivityKeys } = renderingActivityKeysRef;
         const currentIndex = orderedActivityKeys.indexOf(currentActivityKey);
@@ -174023,7 +175351,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       },
       [renderingActivityKeysRef]
     );
-    const handleHeaderTransition = (0, import_react439.useCallback)(
+    const handleHeaderTransition = (0, import_react440.useCallback)(
       (direction) => {
         const { current: currentGroupKey } = rawFocusedActivityGroupKeyRef;
         const { current: orderedActivityKeys } = renderingActivityKeysRef;
@@ -174071,7 +175399,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         renderingActivityKeysRef
       ]
     );
-    const handleGroupTransition = (0, import_react439.useCallback)(
+    const handleGroupTransition = (0, import_react440.useCallback)(
       (currentActivityKey, nextActivityKey, direction) => {
         const currentGroupKey = getGroupKeyByActivityKey(currentActivityKey);
         const nextGroupKey = getGroupKeyByActivityKey(nextActivityKey);
@@ -174092,7 +175420,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       },
       [focusByActivityKey, focusByGroupKey, getGroupBoundaries, getGroupKeyByActivityKey, getGroupState]
     );
-    const handleDeltaNavigation = (0, import_react439.useCallback)(
+    const handleDeltaNavigation = (0, import_react440.useCallback)(
       (delta) => {
         const { current: orderedActivityKeys } = renderingActivityKeysRef;
         const { current: focusedActivityKey2 } = focusedActivityKeyRef;
@@ -174116,7 +175444,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       },
       [focusByActivityKey, focusedActivityKeyRef, renderingActivityKeysRef]
     );
-    const focusRelativeActivity = (0, import_react439.useCallback)(
+    const focusRelativeActivity = (0, import_react440.useCallback)(
       (delta) => {
         const { current: orderedActivityKeys } = renderingActivityKeysRef;
         const { current: rawFocusedActivityGroupKey2 } = rawFocusedActivityGroupKeyRef;
@@ -174178,7 +175506,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         renderingActivityKeysRef
       ]
     );
-    const contextValue = (0, import_react439.useMemo)(
+    const contextValue = (0, import_react440.useMemo)(
       () => ({
         activeDescendantIdState: Object.freeze([activeDescendantId]),
         activeGroupDescendantIdState: Object.freeze([activeGroupDescendantId]),
@@ -174204,7 +175532,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         rawFocusedActivityKey
       ]
     );
-    return /* @__PURE__ */ import_react439.default.createElement(Context_default7.Provider, { value: contextValue }, children);
+    return /* @__PURE__ */ import_react440.default.createElement(Context_default7.Provider, { value: contextValue }, children);
   };
   TranscriptFocusComposer.displayName = "TranscriptFocusComposer";
   TranscriptFocusComposer.propTypes = {
@@ -174214,7 +175542,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       current: import_prop_types45.default.instanceOf(HTMLElement)
     }).isRequired
   };
-  var TranscriptFocusComposer_default = (0, import_react439.memo)(TranscriptFocusComposer);
+  var TranscriptFocusComposer_default = (0, import_react440.memo)(TranscriptFocusComposer);
   function useFocusRelativeActivity() {
     return useTranscriptFocusContext().focusRelativeActivity;
   }
@@ -174231,10 +175559,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     useGetActivityByKey: useGetActivityByKey3,
     useGetKeyByActivityId: useGetKeyByActivityId2,
     useLastAcknowledgedActivityKey: useLastAcknowledgedActivityKey2,
-    useLocalizer: useLocalizer45,
+    useLocalizer: useLocalizer46,
     useMarkActivityKeyAsRead: useMarkActivityKeyAsRead22,
     useMarkAllAsAcknowledged: useMarkAllAsAcknowledged2,
-    useStyleOptions: useStyleOptions25
+    useStyleOptions: useStyleOptions26
   } = hook_exports;
   var ROOT_STYLE14 = {
     "&.webchat__basic-transcript": {
@@ -174262,8 +175590,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       }
     }
   };
-  var InternalTranscript = (0, import_react420.memo)(
-    (0, import_react420.forwardRef)(
+  var InternalTranscript = (0, import_react421.memo)(
+    (0, import_react421.forwardRef)(
       ({ className, terminatorRef }, ref) => {
         const [activeDescendantId] = useActiveDescendantId();
         const [direction] = useDirection12();
@@ -174275,12 +175603,12 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         const focusRelativeActivity = useFocusRelativeActivity();
         const getActivityByKey = useGetActivityByKey3();
         const getKeyByActivityId = useGetKeyByActivityId2();
-        const localize2 = useLocalizer45();
+        const localize2 = useLocalizer46();
         const rootClassName = useStyleToEmotionObject()(ROOT_STYLE14) + "";
-        const rootElementRef = (0, import_react420.useRef)(null);
+        const rootElementRef = (0, import_react421.useRef)(null);
         const focusedKeyRef = useValueRef2(focusedKey);
         const transcriptAriaLabel = localize2("TRANSCRIPT_ARIA_LABEL_ALT");
-        const callbackRef = (0, import_react420.useCallback)(
+        const callbackRef = (0, import_react421.useCallback)(
           (element3) => {
             if (typeof ref === "function") {
               ref(element3);
@@ -174294,7 +175622,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         const [numRenderingActivities] = useNumRenderingActivities();
         const scrollToBottomScrollTo = useScrollTo3();
         const scrollToBottomScrollToEnd = useScrollToEnd2();
-        const scrollTo2 = (0, import_react420.useCallback)(
+        const scrollTo2 = (0, import_react421.useCallback)(
           (position3, { behavior = "auto" } = {}) => {
             var _a28;
             if (!position3) {
@@ -174323,11 +175651,11 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           },
           [focusElementMapRef, getKeyByActivityId, rootElementRef, scrollToBottomScrollTo]
         );
-        const scrollToEnd2 = (0, import_react420.useCallback)(
+        const scrollToEnd2 = (0, import_react421.useCallback)(
           () => scrollToBottomScrollToEnd({ behavior: "smooth" }),
           [scrollToBottomScrollToEnd]
         );
-        const scrollRelative = (0, import_react420.useCallback)(
+        const scrollRelative = (0, import_react421.useCallback)(
           ({ direction: direction2, displacement }) => {
             const { current: rootElement } = rootElementRef;
             if (!rootElement) {
@@ -174354,7 +175682,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         useRegisterScrollRelativeTranscript(scrollRelative);
         const markActivityKeyAsRead = useMarkActivityKeyAsRead22();
         const dispatchScrollPositionWithActivityId = useDispatchScrollPosition();
-        const handleScrollPosition = (0, import_react420.useCallback)(
+        const handleScrollPosition = (0, import_react421.useCallback)(
           ({ scrollTop }) => {
             var _a28;
             const { current: rootElement } = rootElementRef;
@@ -174387,7 +175715,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           ]
         );
         useObserveScrollPosition2(handleScrollPosition);
-        const handleTranscriptKeyDown = (0, import_react420.useCallback)(
+        const handleTranscriptKeyDown = (0, import_react421.useCallback)(
           (event2) => {
             var _a28, _b4;
             const { target } = event2;
@@ -174431,7 +175759,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           },
           [focusElementMapRef, focus, focusedKeyRef, focusRelativeActivity, terminatorRef]
         );
-        const handleTranscriptKeyDownCapture = (0, import_react420.useCallback)(
+        const handleTranscriptKeyDownCapture = (0, import_react421.useCallback)(
           (event2) => {
             const { altKey, ctrlKey, key: key2, metaKey, target } = event2;
             if (altKey || ctrlKey && key2 !== "v" && key2 !== "V" || metaKey || !inputtableKey(key2) && key2 !== "Backspace") {
@@ -174444,25 +175772,25 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           },
           [focus, terminatorRef]
         );
-        useRegisterFocusTranscript((0, import_react420.useCallback)(() => focusByActivityKey(void 0), [focusByActivityKey]));
+        useRegisterFocusTranscript((0, import_react421.useCallback)(() => focusByActivityKey(void 0), [focusByActivityKey]));
         const dispatchTranscriptFocusByActivityKey = useDispatchTranscriptFocusByActivityKey();
-        (0, import_react420.useMemo)(
+        (0, import_react421.useMemo)(
           () => dispatchTranscriptFocusByActivityKey(focusedExplicitly ? focusedKey : void 0),
           [dispatchTranscriptFocusByActivityKey, focusedKey, focusedExplicitly]
         );
-        const handleFocus = (0, import_react420.useCallback)(
+        const handleFocus = (0, import_react421.useCallback)(
           // We call "focusByActivityKey" with activity key of "true".
           // It means, tries to focus on anything.
           ({ currentTarget, target }) => target === currentTarget && focusByActivityKey(true, false),
           [focusByActivityKey]
         );
-        const handleFocusFiller = (0, import_react420.useCallback)(() => focusByActivityKey(void 0), [focusByActivityKey]);
+        const handleFocusFiller = (0, import_react421.useCallback)(() => focusByActivityKey(void 0), [focusByActivityKey]);
         useObserveFocusVisible(
           rootElementRef,
-          (0, import_react420.useCallback)(() => focusByActivityKey(void 0), [focusByActivityKey])
+          (0, import_react421.useCallback)(() => focusByActivityKey(void 0), [focusByActivityKey])
         );
         const hasAnyChild = !!numRenderingActivities;
-        return /* @__PURE__ */ import_react420.default.createElement(
+        return /* @__PURE__ */ import_react421.default.createElement(
           TranscriptFocusArea_default,
           {
             "aria-activedescendant": android ? void 0 : activeDescendantId,
@@ -174476,10 +175804,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
             role: "group",
             tabIndex: 0
           },
-          /* @__PURE__ */ import_react420.default.createElement(LiveRegionTranscript_default, { activityElementMapRef: focusElementMapRef }),
-          hasAnyChild && /* @__PURE__ */ import_react420.default.createElement(FocusRedirector_default, { redirectRef: terminatorRef }),
-          /* @__PURE__ */ import_react420.default.createElement(InternalTranscriptScrollable, { onFocusFiller: handleFocusFiller }, hasAnyChild && /* @__PURE__ */ import_react420.default.createElement(ActivityTree_default, null)),
-          hasAnyChild && /* @__PURE__ */ import_react420.default.createElement(import_react420.Fragment, null, /* @__PURE__ */ import_react420.default.createElement(FocusRedirector_default, { redirectRef: rootElementRef }), /* @__PURE__ */ import_react420.default.createElement(TranscriptFocusTerminator_default, { ref: terminatorRef, role: "note", tabIndex: 0 }))
+          /* @__PURE__ */ import_react421.default.createElement(LiveRegionTranscript_default, { activityElementMapRef: focusElementMapRef }),
+          hasAnyChild && /* @__PURE__ */ import_react421.default.createElement(FocusRedirector_default, { redirectRef: terminatorRef }),
+          /* @__PURE__ */ import_react421.default.createElement(InternalTranscriptScrollable, { onFocusFiller: handleFocusFiller }, hasAnyChild && /* @__PURE__ */ import_react421.default.createElement(ActivityTree_default, null)),
+          hasAnyChild && /* @__PURE__ */ import_react421.default.createElement(import_react421.Fragment, null, /* @__PURE__ */ import_react421.default.createElement(FocusRedirector_default, { redirectRef: rootElementRef }), /* @__PURE__ */ import_react421.default.createElement(TranscriptFocusTerminator_default, { ref: terminatorRef, role: "note", tabIndex: 0 }))
         );
       }
     )
@@ -174488,20 +175816,20 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   var InternalTranscriptScrollable = ({ children, onFocusFiller }) => {
     const [{ activities: activitiesStyleSet }] = useStyleSet();
     const [sticky] = useSticky();
-    const localize2 = useLocalizer45();
+    const localize2 = useLocalizer46();
     const markAllAsAcknowledged = useMarkAllAsAcknowledged2();
     const prevSticky = usePrevious3(sticky);
     const transcriptRoleDescription = localize2("TRANSCRIPT_ARIA_ROLE_ALT");
     const stickyChangedToTrue = prevSticky !== sticky && sticky;
-    (0, import_react420.useMemo)(
+    (0, import_react421.useMemo)(
       () => stickyChangedToTrue && // TODO: [P2] Both `markActivityKeyAsRead` and `markAllAsAcknowledged` hook are setters of useState.
       //       This means, in a render loop, we will be calling setter and will cause another re-render.
       //       This is not trivial but we should think if there is a way to avoid this.
       markAllAsAcknowledged(),
       [markAllAsAcknowledged, stickyChangedToTrue]
     );
-    const hasAnyChild = !!children && !!import_react420.default.Children.count(children);
-    return /* @__PURE__ */ import_react420.default.createElement(import_react420.default.Fragment, null, /* @__PURE__ */ import_react420.default.createElement(Panel_default, { className: "webchat__basic-transcript__scrollable" }, /* @__PURE__ */ import_react420.default.createElement("div", { "aria-hidden": true, className: "webchat__basic-transcript__filler", onFocus: onFocusFiller }), hasAnyChild && /* @__PURE__ */ import_react420.default.createElement(
+    const hasAnyChild = !!children && !!import_react421.default.Children.count(children);
+    return /* @__PURE__ */ import_react421.default.createElement(import_react421.default.Fragment, null, /* @__PURE__ */ import_react421.default.createElement(Panel_default, { className: "webchat__basic-transcript__scrollable" }, /* @__PURE__ */ import_react421.default.createElement("div", { "aria-hidden": true, className: "webchat__basic-transcript__filler", onFocus: onFocusFiller }), hasAnyChild && /* @__PURE__ */ import_react421.default.createElement(
       TranscriptActivityList_default,
       {
         "aria-roledescription": transcriptRoleDescription,
@@ -174509,16 +175837,16 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         role: "feed"
       },
       children
-    ), /* @__PURE__ */ import_react420.default.createElement(BasicTypingIndicator_default, null)));
+    ), /* @__PURE__ */ import_react421.default.createElement(BasicTypingIndicator_default, null)));
   };
   var useScroller = (activityElementMapRef) => {
     const [activityKeys] = useActivityKeys22();
     const [lastAcknowledgedActivityKey] = useLastAcknowledgedActivityKey2();
-    const [styleOptions] = useStyleOptions25();
+    const [styleOptions] = useStyleOptions26();
     const activityKeysRef = useValueRef2(activityKeys);
     const lastAcknowledgedActivityKeyRef = useValueRef2(lastAcknowledgedActivityKey);
     const styleOptionsRef = useValueRef2(styleOptions);
-    return (0, import_react420.useCallback)(
+    return (0, import_react421.useCallback)(
       ({ offsetHeight, scrollTop }) => {
         const {
           current: {
@@ -174584,16 +175912,16 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     );
   };
   var BasicTranscript = ({ className = "" }) => {
-    const [{ stylesRoot }] = useStyleOptions25();
+    const [{ stylesRoot }] = useStyleOptions26();
     const [nonce] = useNonce();
     const activityElementMapRef = useActivityElementMapRef();
-    const containerRef = (0, import_react420.useRef)(null);
-    const terminatorRef = (0, import_react420.useRef)(null);
+    const containerRef = (0, import_react421.useRef)(null);
+    const terminatorRef = (0, import_react421.useRef)(null);
     const scroller = useScroller(activityElementMapRef);
-    const styleOptions = (0, import_react420.useMemo)(() => ({ stylesRoot }), [stylesRoot]);
-    return /* @__PURE__ */ import_react420.default.createElement(ChatHistoryBox_default, { className }, /* @__PURE__ */ import_react420.default.createElement(RenderingActivitiesComposer_default, null, /* @__PURE__ */ import_react420.default.createElement(TranscriptFocusComposer_default, { containerRef }, /* @__PURE__ */ import_react420.default.createElement(Composer_default5, { nonce, scroller, styleOptions }, /* @__PURE__ */ import_react420.default.createElement(ChatHistoryToolbar_default, null, /* @__PURE__ */ import_react420.default.createElement(ScrollToEndButton_default2, { terminatorRef })), /* @__PURE__ */ import_react420.default.createElement(GroupedRenderingActivitiesComposer_default, null, /* @__PURE__ */ import_react420.default.createElement(InternalTranscript, { ref: containerRef, terminatorRef }))))));
+    const styleOptions = (0, import_react421.useMemo)(() => ({ stylesRoot }), [stylesRoot]);
+    return /* @__PURE__ */ import_react421.default.createElement(ChatHistoryBox_default, { className }, /* @__PURE__ */ import_react421.default.createElement(RenderingActivitiesComposer_default, null, /* @__PURE__ */ import_react421.default.createElement(TranscriptFocusComposer_default, { containerRef }, /* @__PURE__ */ import_react421.default.createElement(Composer_default5, { nonce, scroller, styleOptions }, /* @__PURE__ */ import_react421.default.createElement(ChatHistoryToolbar_default, null, /* @__PURE__ */ import_react421.default.createElement(ScrollToEndButton_default2, { terminatorRef })), /* @__PURE__ */ import_react421.default.createElement(GroupedRenderingActivitiesComposer_default, null, /* @__PURE__ */ import_react421.default.createElement(InternalTranscript, { ref: containerRef, terminatorRef }))))));
   };
-  var BasicTranscript_default = wrapWith_default(ChatHistoryDOMComposer_default)((0, import_react420.memo)(BasicTranscript));
+  var BasicTranscript_default = wrapWith_default(ChatHistoryDOMComposer_default)((0, import_react421.memo)(BasicTranscript));
   var {
     navigator: { userAgent: userAgent3 }
   } = window;
@@ -174656,11 +175984,11 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     }),
     readonly()
   );
-  var Surface = (0, import_react441.forwardRef)((props, ref) => {
+  var Surface = (0, import_react442.forwardRef)((props, ref) => {
     const { children, className, role } = validateProps2(surfacePropsSchema, props);
     const [{ apple }] = useNavigatorPlatform();
-    const contextRef = (0, import_react441.useRef)({ focii: [] });
-    const handleKeyUp = (0, import_react441.useCallback)(
+    const contextRef = (0, import_react442.useRef)({ focii: [] });
+    const handleKeyUp = (0, import_react442.useCallback)(
       (event2) => {
         const { altKey, ctrlKey, key: key2, shiftKey } = event2;
         if (altKey && (apple ? ctrlKey : shiftKey)) {
@@ -174679,10 +176007,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       },
       [apple]
     );
-    return /* @__PURE__ */ import_react441.default.createElement(Context_default42.Provider, { value: contextRef.current }, /* @__PURE__ */ import_react441.default.createElement("div", { className, onKeyUp: handleKeyUp, ref, role }, children));
+    return /* @__PURE__ */ import_react442.default.createElement(Context_default42.Provider, { value: contextRef.current }, /* @__PURE__ */ import_react442.default.createElement("div", { className, onKeyUp: handleKeyUp, ref, role }, children));
   });
   var Surface_default = Surface;
-  var { useStyleOptions: useStyleOptions26 } = hook_exports;
+  var { useStyleOptions: useStyleOptions27 } = hook_exports;
   var ROOT_STYLE15 = {
     display: "flex",
     flexDirection: "column"
@@ -174710,30 +176038,30 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   );
   function BasicWebChat(props) {
     const { className, role } = validateProps2(basicWebChatPropsSchema, props, "strict");
-    const rootRef = (0, import_react407.useRef)(null);
+    const rootRef = (0, import_react408.useRef)(null);
     const [{ root: rootStyleSet }] = useStyleSet();
-    const [options] = useStyleOptions26();
+    const [options] = useStyleOptions27();
     const styleToEmotionObject = useStyleToEmotionObject();
     const connectivityStatusClassName = styleToEmotionObject(CONNECTIVITY_STATUS_STYLE) + "";
     const rootClassName = styleToEmotionObject(ROOT_STYLE15) + "";
     const sendBoxClassName = styleToEmotionObject(SEND_BOX_CSS) + "";
     const toasterClassName = styleToEmotionObject(TOASTER_STYLE) + "";
     const transcriptClassName = styleToEmotionObject(TRANSCRIPT_STYLE) + "";
-    return /* @__PURE__ */ import_react407.default.createElement(
+    return /* @__PURE__ */ import_react408.default.createElement(
       Surface_default,
       {
         className: (0, import_classnames83.default)("webchat__surface", rootClassName, rootStyleSet + "", className),
         ref: rootRef,
         role
       },
-      !options.hideToaster && /* @__PURE__ */ import_react407.default.createElement(BasicToaster_default, { className: toasterClassName }),
-      /* @__PURE__ */ import_react407.default.createElement(BasicTranscript_default, { className: transcriptClassName }),
-      /* @__PURE__ */ import_react407.default.createElement(BasicConnectivityStatus_default, { className: connectivityStatusClassName }),
-      /* @__PURE__ */ import_react407.default.createElement(SendBoxMiddlewareProxy, { className: sendBoxClassName, request: void 0 })
+      !options.hideToaster && /* @__PURE__ */ import_react408.default.createElement(BasicToaster_default, { className: toasterClassName }),
+      /* @__PURE__ */ import_react408.default.createElement(BasicTranscript_default, { className: transcriptClassName }),
+      /* @__PURE__ */ import_react408.default.createElement(BasicConnectivityStatus_default, { className: connectivityStatusClassName }),
+      /* @__PURE__ */ import_react408.default.createElement(SendBoxMiddlewareProxy, { className: sendBoxClassName, request: void 0 })
     );
   }
-  var BasicWebChat_default = (0, import_react407.memo)(BasicWebChat);
-  var ReactWebChat = ({ className, role, ...composerProps }) => /* @__PURE__ */ import_react406.default.createElement(Composer_default6, { ...composerProps }, /* @__PURE__ */ import_react406.default.createElement(BasicWebChat_default, { className, role }));
+  var BasicWebChat_default = (0, import_react408.memo)(BasicWebChat);
+  var ReactWebChat = ({ className, role, ...composerProps }) => /* @__PURE__ */ import_react407.default.createElement(Composer_default6, { ...composerProps }, /* @__PURE__ */ import_react407.default.createElement(BasicWebChat_default, { className, role }));
   ReactWebChat.defaultProps = {
     className: void 0,
     role: void 0,
@@ -174763,10 +176091,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     console.warn(
       "botframework-webchat: <Avatar> component is deprecated and will be removed on or after 2022-02-25. Please use `useRenderAvatar` hook instead."
     );
-    return /* @__PURE__ */ import_react442.default.createElement(DefaultAvatar_default, { "aria-hidden": ariaHidden, className, fromUser });
+    return /* @__PURE__ */ import_react443.default.createElement(DefaultAvatar_default, { "aria-hidden": ariaHidden, className, fromUser });
   }
-  var Avatar_default = (0, import_react442.memo)(Avatar);
-  var { useLocalizer: useLocalizer46, useTrackException: useTrackException22 } = hook_exports;
+  var Avatar_default = (0, import_react443.memo)(Avatar);
+  var { useLocalizer: useLocalizer47, useTrackException: useTrackException22 } = hook_exports;
   var errorBoxPropsSchema = pipe(
     object({
       error: unknown(),
@@ -174777,9 +176105,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function ErrorBox(props) {
     const { error: error2, type = "" } = validateProps2(errorBoxPropsSchema, props);
     const [{ errorBox: errorBoxStyleSet }] = useStyleSet();
-    const localize2 = useLocalizer46();
+    const localize2 = useLocalizer47();
     const trackException = useTrackException22();
-    (0, import_react443.useEffect)(() => {
+    (0, import_react444.useEffect)(() => {
       let rectifiedError;
       if (error2 instanceof Error) {
         rectifiedError = error2;
@@ -174789,12 +176117,12 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       }
       trackException(rectifiedError, false);
     }, [error2, trackException]);
-    return /* @__PURE__ */ import_react443.default.createElement(import_react443.Fragment, null, /* @__PURE__ */ import_react443.default.createElement(ScreenReaderText_default, { text: localize2("ACTIVITY_ERROR_BOX_TITLE") }), /* @__PURE__ */ import_react443.default.createElement("div", { className: errorBoxStyleSet }, /* @__PURE__ */ import_react443.default.createElement("div", null, type), error2 instanceof Error ? /* @__PURE__ */ import_react443.default.createElement("details", null, /* @__PURE__ */ import_react443.default.createElement("summary", null, error2.message), /* @__PURE__ */ import_react443.default.createElement("pre", null, error2.stack)) : (
+    return /* @__PURE__ */ import_react444.default.createElement(import_react444.Fragment, null, /* @__PURE__ */ import_react444.default.createElement(ScreenReaderText_default, { text: localize2("ACTIVITY_ERROR_BOX_TITLE") }), /* @__PURE__ */ import_react444.default.createElement("div", { className: errorBoxStyleSet }, /* @__PURE__ */ import_react444.default.createElement("div", null, type), error2 instanceof Error ? /* @__PURE__ */ import_react444.default.createElement("details", null, /* @__PURE__ */ import_react444.default.createElement("summary", null, error2.message), /* @__PURE__ */ import_react444.default.createElement("pre", null, error2.stack)) : (
       // eslint-disable-next-line no-magic-numbers
-      /* @__PURE__ */ import_react443.default.createElement("pre", null, JSON.stringify(error2, null, 2))
+      /* @__PURE__ */ import_react444.default.createElement("pre", null, JSON.stringify(error2, null, 2))
     )));
   }
-  var ErrorBox_default = (0, import_react443.memo)(ErrorBox);
+  var ErrorBox_default = (0, import_react444.memo)(ErrorBox);
   var themeProviderPropsSchema = pipe(
     object({
       children: optional(reactNode_default()),
@@ -174853,63 +176181,63 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       toastMiddleware,
       typingIndicatorMiddleware
     } = validateProps2(themeProviderPropsSchema, props);
-    const existingContext = (0, import_react444.useContext)(Context_default62);
-    const mergedActivityMiddleware = (0, import_react444.useMemo)(
+    const existingContext = (0, import_react445.useContext)(Context_default62);
+    const mergedActivityMiddleware = (0, import_react445.useMemo)(
       () => Object.freeze([...activityMiddleware || [], ...existingContext.activityMiddleware]),
       [activityMiddleware, existingContext.activityMiddleware]
     );
-    const mergedActivityStatusMiddleware = (0, import_react444.useMemo)(
+    const mergedActivityStatusMiddleware = (0, import_react445.useMemo)(
       () => Object.freeze([...activityStatusMiddleware || EMPTY_ARRAY42, ...existingContext.activityStatusMiddleware]),
       [activityStatusMiddleware, existingContext.activityStatusMiddleware]
     );
-    const mergedAttachmentForScreenReaderMiddleware = (0, import_react444.useMemo)(
+    const mergedAttachmentForScreenReaderMiddleware = (0, import_react445.useMemo)(
       () => Object.freeze([
         ...attachmentForScreenReaderMiddleware || EMPTY_ARRAY42,
         ...existingContext.attachmentForScreenReaderMiddleware
       ]),
       [attachmentForScreenReaderMiddleware, existingContext.attachmentForScreenReaderMiddleware]
     );
-    const mergedAttachmentMiddleware = (0, import_react444.useMemo)(
+    const mergedAttachmentMiddleware = (0, import_react445.useMemo)(
       () => Object.freeze([...attachmentMiddleware || EMPTY_ARRAY42, ...existingContext.attachmentMiddleware]),
       [attachmentMiddleware, existingContext.attachmentMiddleware]
     );
-    const mergedAvatarMiddleware = (0, import_react444.useMemo)(
+    const mergedAvatarMiddleware = (0, import_react445.useMemo)(
       () => Object.freeze([...avatarMiddleware || EMPTY_ARRAY42, ...existingContext.avatarMiddleware]),
       [avatarMiddleware, existingContext.avatarMiddleware]
     );
-    const mergedCardActionMiddleware = (0, import_react444.useMemo)(
+    const mergedCardActionMiddleware = (0, import_react445.useMemo)(
       () => Object.freeze([...cardActionMiddleware || EMPTY_ARRAY42, ...existingContext.cardActionMiddleware]),
       [cardActionMiddleware, existingContext.cardActionMiddleware]
     );
-    const mergedGroupActivitiesMiddleware = (0, import_react444.useMemo)(
+    const mergedGroupActivitiesMiddleware = (0, import_react445.useMemo)(
       () => Object.freeze([...groupActivitiesMiddleware || EMPTY_ARRAY42, ...existingContext.groupActivitiesMiddleware]),
       [groupActivitiesMiddleware, existingContext.groupActivitiesMiddleware]
     );
-    const mergedPolymiddleware = (0, import_react444.useMemo)(
+    const mergedPolymiddleware = (0, import_react445.useMemo)(
       () => Object.freeze([...polymiddleware || EMPTY_ARRAY42, ...existingContext.polymiddleware]),
       [polymiddleware, existingContext.polymiddleware]
     );
-    const mergedScrollToEndButtonMiddleware = (0, import_react444.useMemo)(
+    const mergedScrollToEndButtonMiddleware = (0, import_react445.useMemo)(
       () => Object.freeze([...scrollToEndButtonMiddleware || EMPTY_ARRAY42, ...existingContext.scrollToEndButtonMiddleware]),
       [scrollToEndButtonMiddleware, existingContext.scrollToEndButtonMiddleware]
     );
-    const mergedSendBoxMiddleware = (0, import_react444.useMemo)(
+    const mergedSendBoxMiddleware = (0, import_react445.useMemo)(
       () => Object.freeze([...sendBoxMiddleware || EMPTY_ARRAY42, ...existingContext.sendBoxMiddleware]),
       [sendBoxMiddleware, existingContext.sendBoxMiddleware]
     );
-    const mergedSendBoxToolbarMiddleware = (0, import_react444.useMemo)(
+    const mergedSendBoxToolbarMiddleware = (0, import_react445.useMemo)(
       () => Object.freeze([...sendBoxToolbarMiddleware || EMPTY_ARRAY42, ...existingContext.sendBoxToolbarMiddleware]),
       [sendBoxToolbarMiddleware, existingContext.sendBoxToolbarMiddleware]
     );
-    const mergedToastMiddleware = (0, import_react444.useMemo)(
+    const mergedToastMiddleware = (0, import_react445.useMemo)(
       () => Object.freeze([...toastMiddleware || EMPTY_ARRAY42, ...existingContext.toastMiddleware]),
       [toastMiddleware, existingContext.toastMiddleware]
     );
-    const mergedTypingIndicatorMiddleware = (0, import_react444.useMemo)(
+    const mergedTypingIndicatorMiddleware = (0, import_react445.useMemo)(
       () => Object.freeze([...typingIndicatorMiddleware || EMPTY_ARRAY42, ...existingContext.typingIndicatorMiddleware]),
       [typingIndicatorMiddleware, existingContext.typingIndicatorMiddleware]
     );
-    const context9 = (0, import_react444.useMemo)(
+    const context9 = (0, import_react445.useMemo)(
       () => ({
         activityMiddleware: mergedActivityMiddleware,
         activityStatusMiddleware: mergedActivityStatusMiddleware,
@@ -174941,12 +176269,12 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         mergedTypingIndicatorMiddleware
       ]
     );
-    return /* @__PURE__ */ import_react444.default.createElement(StyleOptionsComposer_default, { styleOptions }, /* @__PURE__ */ import_react444.default.createElement(Context_default62.Provider, { value: context9 }, children));
+    return /* @__PURE__ */ import_react445.default.createElement(StyleOptionsComposer_default, { styleOptions }, /* @__PURE__ */ import_react445.default.createElement(Context_default62.Provider, { value: context9 }, children));
   };
   ThemeProvider.displayName = "ThemeProvider";
-  var ThemeProvider_default = (0, import_react444.memo)(ThemeProvider);
+  var ThemeProvider_default = (0, import_react445.memo)(ThemeProvider);
 
-  // ../component/dist/chunk-DSATACOL.mjs
+  // ../component/dist/chunk-3B3V262S.mjs
   var hook_exports2 = {};
   __export2(hook_exports2, {
     useActiveTyping: () => useActiveTyping_default,
@@ -175211,10 +176539,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
 
   // src/renderWebChat.tsx
-  var import_react445 = __toESM(require_react());
+  var import_react446 = __toESM(require_react());
   var import_react_dom4 = __toESM(require_react_dom());
   function renderWebChat(ReactWebChat2, props, element3) {
-    import_react_dom4.default.render(/* @__PURE__ */ import_react445.default.createElement(ReactWebChat2, { ...props }), element3);
+    import_react_dom4.default.render(/* @__PURE__ */ import_react446.default.createElement(ReactWebChat2, { ...props }), element3);
   }
 
   // src/boot/actual/renderWebChat/minimal.ts
@@ -175240,11 +176568,11 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   });
 
   // ../component/dist/botframework-webchat-component.decorator.mjs
-  var import_react446 = __toESM(require_react(), 1);
   var import_react447 = __toESM(require_react(), 1);
   var import_react448 = __toESM(require_react(), 1);
-  var import_classnames95 = __toESM(require_classnames(), 1);
   var import_react449 = __toESM(require_react(), 1);
+  var import_classnames95 = __toESM(require_classnames(), 1);
+  var import_react450 = __toESM(require_react(), 1);
   var decoratorStyleContent = '/* unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/component/src/decorator/private/BorderFlair.module_built.css */\n@property --webchat-decorator-borderFlair-animated-angle { syntax: "<number>"; inherits: true; initial-value: 0; }\n@property --webchat-decorator-borderFlair-animated-color1 { syntax: "<color>"; inherits: true; initial-value: #0000; }\n@property --webchat-decorator-borderFlair-animated-color2 { syntax: "<color>"; inherits: true; initial-value: #0000; }\n@property --webchat-decorator-borderFlair-animated-color3 { syntax: "<color>"; inherits: true; initial-value: #0000; }\n@keyframes borderAnimation-angle {\n  0% {\n    --webchat-decorator-borderFlair-animated-angle: .75;\n  }\n  100% {\n    --webchat-decorator-borderFlair-animated-angle: 2.75;\n  }\n}\n@keyframes borderAnimation-color1 {\n  0% {\n    --webchat-decorator-borderFlair-animated-color1: var(--webchat-decorator-borderFlair-color1Fade);\n  }\n  33% {\n    --webchat-decorator-borderFlair-animated-color1: var(--webchat-decorator-borderFlair-color1);\n  }\n  83% {\n    --webchat-decorator-borderFlair-animated-color1: var(--webchat-decorator-borderFlair-color1);\n  }\n  100% {\n    --webchat-decorator-borderFlair-animated-color1: var(--webchat-decorator-borderFlair-color1Fade);\n  }\n}\n@keyframes borderAnimation-color2 {\n  0% {\n    --webchat-decorator-borderFlair-animated-color2: var(--webchat-decorator-borderFlair-color2Fade);\n  }\n  33% {\n    --webchat-decorator-borderFlair-animated-color2: var(--webchat-decorator-borderFlair-color2);\n  }\n  83% {\n    --webchat-decorator-borderFlair-animated-color2: var(--webchat-decorator-borderFlair-color2);\n  }\n  100% {\n    --webchat-decorator-borderFlair-animated-color2: var(--webchat-decorator-borderFlair-color2Fade);\n  }\n}\n@keyframes borderAnimation-color3 {\n  0% {\n    --webchat-decorator-borderFlair-animated-color3: var(--webchat-decorator-borderFlair-color3Fade);\n  }\n  33% {\n    --webchat-decorator-borderFlair-animated-color3: var(--webchat-decorator-borderFlair-color3);\n  }\n  83% {\n    --webchat-decorator-borderFlair-animated-color3: var(--webchat-decorator-borderFlair-color3);\n  }\n  100% {\n    --webchat-decorator-borderFlair-animated-color3: var(--webchat-decorator-borderFlair-color3Fade);\n  }\n}\n.webchat .wEa7pCG_border-flair {\n  --webchat-decorator-borderFlair-color1: var(--webchat-borderFlair-color1, var(--webchat__border-animation--color-1));\n  --webchat-decorator-borderFlair-color2: var(--webchat-borderFlair-color2, var(--webchat__border-animation--color-2));\n  --webchat-decorator-borderFlair-color3: var(--webchat-borderFlair-color3, var(--webchat__border-animation--color-3));\n  --webchat-decorator-borderFlair-color1Fade: var(--webchat-borderFlair-color1Fade, transparent);\n  --webchat-decorator-borderFlair-color2Fade: var(--webchat-borderFlair-color2Fade, transparent);\n  --webchat-decorator-borderFlair-color3Fade: var(--webchat-borderFlair-color1Fade, transparent);\n  --webchat-decorator-borderFlair-borderSize: var(--webchat-borderFlair-borderSize, 2px);\n  --webchat-decorator-borderFlair-backgroundSize: calc(100% + (2 * var(--webchat-decorator-borderFlair-borderSize)));\n  --webchat-decorator-borderFlair-borderGradient:\n    linear-gradient(\n      calc(var(--webchat-decorator-borderFlair-animated-angle) * 180deg + 45deg),\n      var(--webchat-decorator-borderFlair-animated-color1),\n      var(--webchat-decorator-borderFlair-animated-color2),\n      var(--webchat-decorator-borderFlair-animated-color3));\n  --webchat-decorator-borderFlair-borderMask: linear-gradient(#fff0, #fff0) padding-box, linear-gradient(#fff, #fff) border-box;\n  background: var(--webchat-decorator-borderFlair-borderGradient) center center / var(--webchat-decorator-borderFlair-backgroundSize) var(--webchat-decorator-borderFlair-backgroundSize);\n  border: var(--webchat-decorator-borderFlair-borderSize) solid transparent;\n  border-radius: inherit;\n  isolation: isolate;\n  -webkit-mask: var(--webchat-decorator-borderFlair-borderMask);\n  -webkit-mask-composite: clear;\n  mask: var(--webchat-decorator-borderFlair-borderMask);\n  pointer-events: none;\n  animation:\n    2s linear forwards borderAnimation-angle,\n    1.2s linear forwards borderAnimation-color1,\n    1.2s linear .2s forwards borderAnimation-color2,\n    1.2s linear .4s forwards borderAnimation-color3;\n  position: absolute;\n  inset: 0;\n  mask-composite: intersect;\n}\n.webchat .wEa7pCG_border-flair--complete {\n  animation-play-state: paused;\n}\n@supports ((-moz-appearance: none)) {\n  @keyframes borderFlair-animation {\n    0% {\n      --webchat-decorator-borderFlair-animated: 0;\n    }\n    1% {\n      --webchat-decorator-borderFlair-animated: .01;\n    }\n    2% {\n      --webchat-decorator-borderFlair-animated: .02;\n    }\n    3% {\n      --webchat-decorator-borderFlair-animated: .03;\n    }\n    4% {\n      --webchat-decorator-borderFlair-animated: .04;\n    }\n    5% {\n      --webchat-decorator-borderFlair-animated: .05;\n    }\n    6% {\n      --webchat-decorator-borderFlair-animated: .06;\n    }\n    7% {\n      --webchat-decorator-borderFlair-animated: .07;\n    }\n    8% {\n      --webchat-decorator-borderFlair-animated: .08;\n    }\n    9% {\n      --webchat-decorator-borderFlair-animated: .09;\n    }\n    10% {\n      --webchat-decorator-borderFlair-animated: .1;\n    }\n    11% {\n      --webchat-decorator-borderFlair-animated: .11;\n    }\n    12% {\n      --webchat-decorator-borderFlair-animated: .12;\n    }\n    13% {\n      --webchat-decorator-borderFlair-animated: .13;\n    }\n    14% {\n      --webchat-decorator-borderFlair-animated: .14;\n    }\n    15% {\n      --webchat-decorator-borderFlair-animated: .15;\n    }\n    16% {\n      --webchat-decorator-borderFlair-animated: .16;\n    }\n    17% {\n      --webchat-decorator-borderFlair-animated: .17;\n    }\n    18% {\n      --webchat-decorator-borderFlair-animated: .18;\n    }\n    19% {\n      --webchat-decorator-borderFlair-animated: .19;\n    }\n    20% {\n      --webchat-decorator-borderFlair-animated: .2;\n    }\n    21% {\n      --webchat-decorator-borderFlair-animated: .21;\n    }\n    22% {\n      --webchat-decorator-borderFlair-animated: .22;\n    }\n    23% {\n      --webchat-decorator-borderFlair-animated: .23;\n    }\n    24% {\n      --webchat-decorator-borderFlair-animated: .24;\n    }\n    25% {\n      --webchat-decorator-borderFlair-animated: .25;\n    }\n    26% {\n      --webchat-decorator-borderFlair-animated: .26;\n    }\n    27% {\n      --webchat-decorator-borderFlair-animated: .27;\n    }\n    28% {\n      --webchat-decorator-borderFlair-animated: .28;\n    }\n    29% {\n      --webchat-decorator-borderFlair-animated: .29;\n    }\n    30% {\n      --webchat-decorator-borderFlair-animated: .3;\n    }\n    31% {\n      --webchat-decorator-borderFlair-animated: .31;\n    }\n    32% {\n      --webchat-decorator-borderFlair-animated: .32;\n    }\n    33% {\n      --webchat-decorator-borderFlair-animated: .33;\n    }\n    34% {\n      --webchat-decorator-borderFlair-animated: .34;\n    }\n    35% {\n      --webchat-decorator-borderFlair-animated: .35;\n    }\n    36% {\n      --webchat-decorator-borderFlair-animated: .36;\n    }\n    37% {\n      --webchat-decorator-borderFlair-animated: .37;\n    }\n    38% {\n      --webchat-decorator-borderFlair-animated: .38;\n    }\n    39% {\n      --webchat-decorator-borderFlair-animated: .39;\n    }\n    40% {\n      --webchat-decorator-borderFlair-animated: .4;\n    }\n    41% {\n      --webchat-decorator-borderFlair-animated: .41;\n    }\n    42% {\n      --webchat-decorator-borderFlair-animated: .42;\n    }\n    43% {\n      --webchat-decorator-borderFlair-animated: .43;\n    }\n    44% {\n      --webchat-decorator-borderFlair-animated: .44;\n    }\n    45% {\n      --webchat-decorator-borderFlair-animated: .45;\n    }\n    46% {\n      --webchat-decorator-borderFlair-animated: .46;\n    }\n    47% {\n      --webchat-decorator-borderFlair-animated: .47;\n    }\n    48% {\n      --webchat-decorator-borderFlair-animated: .48;\n    }\n    49% {\n      --webchat-decorator-borderFlair-animated: .49;\n    }\n    50% {\n      --webchat-decorator-borderFlair-animated: .5;\n    }\n    51% {\n      --webchat-decorator-borderFlair-animated: .51;\n    }\n    52% {\n      --webchat-decorator-borderFlair-animated: .52;\n    }\n    53% {\n      --webchat-decorator-borderFlair-animated: .53;\n    }\n    54% {\n      --webchat-decorator-borderFlair-animated: .54;\n    }\n    55% {\n      --webchat-decorator-borderFlair-animated: .55;\n    }\n    56% {\n      --webchat-decorator-borderFlair-animated: .56;\n    }\n    57% {\n      --webchat-decorator-borderFlair-animated: .57;\n    }\n    58% {\n      --webchat-decorator-borderFlair-animated: .58;\n    }\n    59% {\n      --webchat-decorator-borderFlair-animated: .59;\n    }\n    60% {\n      --webchat-decorator-borderFlair-animated: .6;\n    }\n    61% {\n      --webchat-decorator-borderFlair-animated: .61;\n    }\n    62% {\n      --webchat-decorator-borderFlair-animated: .62;\n    }\n    63% {\n      --webchat-decorator-borderFlair-animated: .63;\n    }\n    64% {\n      --webchat-decorator-borderFlair-animated: .64;\n    }\n    65% {\n      --webchat-decorator-borderFlair-animated: .65;\n    }\n    66% {\n      --webchat-decorator-borderFlair-animated: .66;\n    }\n    67% {\n      --webchat-decorator-borderFlair-animated: .67;\n    }\n    68% {\n      --webchat-decorator-borderFlair-animated: .68;\n    }\n    69% {\n      --webchat-decorator-borderFlair-animated: .69;\n    }\n    70% {\n      --webchat-decorator-borderFlair-animated: .7;\n    }\n    71% {\n      --webchat-decorator-borderFlair-animated: .71;\n    }\n    72% {\n      --webchat-decorator-borderFlair-animated: .72;\n    }\n    73% {\n      --webchat-decorator-borderFlair-animated: .73;\n    }\n    74% {\n      --webchat-decorator-borderFlair-animated: .74;\n    }\n    75% {\n      --webchat-decorator-borderFlair-animated: .75;\n    }\n    76% {\n      --webchat-decorator-borderFlair-animated: .76;\n    }\n    77% {\n      --webchat-decorator-borderFlair-animated: .77;\n    }\n    78% {\n      --webchat-decorator-borderFlair-animated: .78;\n    }\n    79% {\n      --webchat-decorator-borderFlair-animated: .79;\n    }\n    80% {\n      --webchat-decorator-borderFlair-animated: .8;\n    }\n    81% {\n      --webchat-decorator-borderFlair-animated: .81;\n    }\n    82% {\n      --webchat-decorator-borderFlair-animated: .82;\n    }\n    83% {\n      --webchat-decorator-borderFlair-animated: .83;\n    }\n    84% {\n      --webchat-decorator-borderFlair-animated: .84;\n    }\n    85% {\n      --webchat-decorator-borderFlair-animated: .85;\n    }\n    86% {\n      --webchat-decorator-borderFlair-animated: .86;\n    }\n    87% {\n      --webchat-decorator-borderFlair-animated: .87;\n    }\n    88% {\n      --webchat-decorator-borderFlair-animated: .88;\n    }\n    89% {\n      --webchat-decorator-borderFlair-animated: .89;\n    }\n    90% {\n      --webchat-decorator-borderFlair-animated: .9;\n    }\n    91% {\n      --webchat-decorator-borderFlair-animated: .91;\n    }\n    92% {\n      --webchat-decorator-borderFlair-animated: .92;\n    }\n    93% {\n      --webchat-decorator-borderFlair-animated: .93;\n    }\n    94% {\n      --webchat-decorator-borderFlair-animated: .94;\n    }\n    95% {\n      --webchat-decorator-borderFlair-animated: .95;\n    }\n    96% {\n      --webchat-decorator-borderFlair-animated: .96;\n    }\n    97% {\n      --webchat-decorator-borderFlair-animated: .97;\n    }\n    98% {\n      --webchat-decorator-borderFlair-animated: .98;\n    }\n    99% {\n      --webchat-decorator-borderFlair-animated: .99;\n    }\n    100% {\n      --webchat-decorator-borderFlair-animated: 1;\n    }\n  }\n  .webchat .wEa7pCG_border-flair {\n    --webchat-decorator-borderFlair-animated-angle: calc(.75 + 2 * var(--webchat-decorator-borderFlair-animated));\n    --webchat-decorator-borderFlair-animated-color1: color-mix(in srgb, var(--webchat-decorator-borderFlair-color1) calc((1 - abs(var(--webchat-decorator-borderFlair-animated) * 3 - 1.5)) * 100%), var(--webchat-decorator-borderFlair-color1Fade));\n    --webchat-decorator-borderFlair-animated-color2: color-mix(in srgb, var(--webchat-decorator-borderFlair-color2) calc((1 - abs(var(--webchat-decorator-borderFlair-animated) * 3 - 1.75)) * 100%), var(--webchat-decorator-borderFlair-color2Fade));\n    --webchat-decorator-borderFlair-animated-color3: color-mix(in srgb, var(--webchat-decorator-borderFlair-color3) calc((1 - abs(var(--webchat-decorator-borderFlair-animated) * 3 - 2)) * 100%), var(--webchat-decorator-borderFlair-color3Fade));\n    animation: 2s linear forwards borderFlair-animation;\n  }\n}\n\n/* unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/component/src/decorator/private/BorderLoader.module_built.css */\n@keyframes borderAnimation-position {\n  0% {\n    width: 33%;\n    left: -33%;\n  }\n  100% {\n    width: 33%;\n    left: 100%;\n  }\n}\n.webchat .wO9qNnq_border-loader__track {\n  --webchat-decorator-borderLoader-borderSize: var(--webchat-borderLoader-borderSize, 4px);\n  background-color: var(--webchat-colorNeutralBackground6, #e6e6e6);\n  height: var(--webchat-decorator-borderLoader-borderSize);\n  width: 100%;\n  position: relative;\n}\n.webchat .wO9qNnq_border-loader__loader {\n  --webchat-decorator-borderLoader-color1: var(--webchat-borderLoader-color1, var(--webchat__border-animation--color-1));\n  --webchat-decorator-borderLoader-color2: var(--webchat-borderLoader-color2, var(--webchat__border-animation--color-2));\n  --webchat-decorator-borderLoader-color3: var(--webchat-borderLoader-color3, var(--webchat__border-animation--color-3));\n  --webchat-decorator-borderLoader-color1Fade: var(--webchat-borderLoader-color1Fade, transparent);\n  --webchat-decorator-borderLoader-color3Fade: var(--webchat-borderLoader-color1Fade, transparent);\n  background:\n    linear-gradient(\n      90deg,\n      var(--webchat-decorator-borderLoader-color1Fade) 0%,\n      var(--webchat-decorator-borderLoader-color1) 35%,\n      var(--webchat-decorator-borderLoader-color2) 70%,\n      var(--webchat-decorator-borderLoader-color3) 92%,\n      var(--webchat-decorator-borderLoader-color3Fade)) no-repeat;\n  height: var(--webchat-decorator-borderLoader-borderSize);\n  isolation: isolate;\n  width: 100%;\n  animation: 3s linear infinite borderAnimation-position;\n  position: absolute;\n  inset: 0;\n}\n';
   var createDecoratorStyleElements = makeCreateStyles(decoratorStyleContent);
   var createDecoratorStyleElements_default = createDecoratorStyleElements;
@@ -175259,10 +176587,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function DecoratorStylesheet(props) {
     const { nonce } = validateProps2(decoratorStylesheetPropsSchema, props);
     const [{ stylesRoot }] = useStyleOptions();
-    return /* @__PURE__ */ import_react447.default.createElement(InjectStyleElements_default, { at: stylesRoot, nonce, styleElements: styleElements2 });
+    return /* @__PURE__ */ import_react448.default.createElement(InjectStyleElements_default, { at: stylesRoot, nonce, styleElements: styleElements2 });
   }
   DecoratorStylesheet.displayName = "DecoratorStylesheet";
-  var DecoratorStylesheet_default = (0, import_react447.memo)(DecoratorStylesheet);
+  var DecoratorStylesheet_default = (0, import_react448.memo)(DecoratorStylesheet);
   var classes19 = { "border-flair": "wEa7pCG_border-flair", "border-flair--complete": "wEa7pCG_border-flair--complete" };
   var BorderFlair_module_default = classes19;
   var _border_flair0 = classes19["border-flair"];
@@ -175272,15 +176600,15 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     showFlair = true
   }) {
     const classNames31 = useStyles_default(BorderFlair_module_default);
-    const [isComplete, setComplete] = (0, import_react448.useState)(false);
-    const handleAnimationEnd = (0, import_react448.useCallback)(
+    const [isComplete, setComplete] = (0, import_react449.useState)(false);
+    const handleAnimationEnd = (0, import_react449.useCallback)(
       (event2) => (event2.animationName === BorderFlair_module_default["borderAnimation-angle"] || event2.animationName === BorderFlair_module_default["borderFlair-animation"]) && setComplete(true),
       []
     );
     if (!showFlair && isComplete) {
       setComplete(false);
     }
-    return /* @__PURE__ */ import_react448.default.createElement(import_react448.Fragment, null, children, showFlair && /* @__PURE__ */ import_react448.default.createElement(
+    return /* @__PURE__ */ import_react449.default.createElement(import_react449.Fragment, null, children, showFlair && /* @__PURE__ */ import_react449.default.createElement(
       "div",
       {
         className: (0, import_classnames95.default)(classNames31["border-flair"], isComplete && classNames31["border-flair--complete"]),
@@ -175288,33 +176616,33 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       }
     ));
   }
-  var BorderFlair_default = (0, import_react448.memo)(BorderFlair);
-  var classes25 = { "border-loader__loader": "wO9qNnq_border-loader__loader", "border-loader__track": "wO9qNnq_border-loader__track" };
+  var BorderFlair_default = (0, import_react449.memo)(BorderFlair);
+  var classes25 = { "border-loader__track": "wO9qNnq_border-loader__track", "border-loader__loader": "wO9qNnq_border-loader__loader" };
   var BorderLoader_module_default = classes25;
-  var _border_loader__loader0 = classes25["border-loader__loader"];
   var _border_loader__track0 = classes25["border-loader__track"];
+  var _border_loader__loader0 = classes25["border-loader__loader"];
   function BorderLoader({
     children,
     showLoader = true
   }) {
     const classNames31 = useStyles_default(BorderLoader_module_default);
-    return /* @__PURE__ */ import_react449.default.createElement(import_react449.Fragment, null, children, showLoader && /* @__PURE__ */ import_react449.default.createElement("div", { className: classNames31["border-loader__track"] }, /* @__PURE__ */ import_react449.default.createElement("div", { className: classNames31["border-loader__loader"] })));
+    return /* @__PURE__ */ import_react450.default.createElement(import_react450.Fragment, null, children, showLoader && /* @__PURE__ */ import_react450.default.createElement("div", { className: classNames31["border-loader__track"] }, /* @__PURE__ */ import_react450.default.createElement("div", { className: classNames31["border-loader__loader"] })));
   }
-  var BorderLoader_default = (0, import_react449.memo)(BorderLoader);
+  var BorderLoader_default = (0, import_react450.memo)(BorderLoader);
   var middleware3 = Object.freeze([
     createActivityBorderMiddleware(function FluentBorderFlair({ request, Next, ...props }) {
       if (request.modality.has("audio") && request.from === "bot") {
-        return /* @__PURE__ */ import_react446.default.createElement(BorderFlair_default, { showFlair: true }, /* @__PURE__ */ import_react446.default.createElement(Next, { ...props }));
+        return /* @__PURE__ */ import_react447.default.createElement(BorderFlair_default, { showFlair: true }, /* @__PURE__ */ import_react447.default.createElement(Next, { ...props }));
       }
-      return /* @__PURE__ */ import_react446.default.createElement(Next, { ...props });
+      return /* @__PURE__ */ import_react447.default.createElement(Next, { ...props });
     }),
     createActivityBorderMiddleware(function BorderFlairDecorator({ request, Next, ...props }) {
       var _a28;
-      return /* @__PURE__ */ import_react446.default.createElement(BorderFlair_default, { showFlair: (_a28 = props.showFlair) != null ? _a28 : request.livestreamingState === "completing" }, /* @__PURE__ */ import_react446.default.createElement(Next, { ...props, showFlair: false }));
+      return /* @__PURE__ */ import_react447.default.createElement(BorderFlair_default, { showFlair: (_a28 = props.showFlair) != null ? _a28 : request.livestreamingState === "completing" }, /* @__PURE__ */ import_react447.default.createElement(Next, { ...props, showFlair: false }));
     }),
     createActivityBorderMiddleware(function BorderLoaderDecorator({ request, Next, ...props }) {
       var _a28;
-      return /* @__PURE__ */ import_react446.default.createElement(BorderLoader_default, { showLoader: (_a28 = props.showLoader) != null ? _a28 : request.livestreamingState === "preparing" }, /* @__PURE__ */ import_react446.default.createElement(Next, { ...props, showLoader: false }));
+      return /* @__PURE__ */ import_react447.default.createElement(BorderLoader_default, { showLoader: (_a28 = props.showLoader) != null ? _a28 : request.livestreamingState === "preparing" }, /* @__PURE__ */ import_react447.default.createElement(Next, { ...props, showLoader: false }));
     })
   ]);
   var webChatDecoratorPropsSchema = pipe(
@@ -175326,9 +176654,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   );
   function WebChatDecorator(props) {
     const { children, nonce } = validateProps2(webChatDecoratorPropsSchema, props);
-    return /* @__PURE__ */ import_react446.default.createElement(import_react446.Fragment, null, /* @__PURE__ */ import_react446.default.createElement(DecoratorStylesheet_default, { nonce }), /* @__PURE__ */ import_react446.default.createElement(DecoratorComposer_default, { middleware: middleware3 }, children));
+    return /* @__PURE__ */ import_react447.default.createElement(import_react447.Fragment, null, /* @__PURE__ */ import_react447.default.createElement(DecoratorStylesheet_default, { nonce }), /* @__PURE__ */ import_react447.default.createElement(DecoratorComposer_default, { middleware: middleware3 }, children));
   }
-  var WebChatDecorator_default = (0, import_react446.memo)(WebChatDecorator);
+  var WebChatDecorator_default = (0, import_react447.memo)(WebChatDecorator);
 
   // src/boot/actual/hook/minimal.ts
   var minimal_exports2 = {};
@@ -175670,22 +176998,22 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
 
   // src/adaptiveCards/Attachment/AdaptiveCardContent.tsx
-  var import_react468 = __toESM(require_react());
+  var import_react469 = __toESM(require_react());
 
   // src/adaptiveCards/hooks/internal/useParseAdaptiveCardJSON.ts
-  var import_react452 = __toESM(require_react());
+  var import_react453 = __toESM(require_react());
 
   // src/adaptiveCards/hooks/internal/useAdaptiveCardsContext.ts
-  var import_react451 = __toESM(require_react());
+  var import_react452 = __toESM(require_react());
 
   // src/adaptiveCards/AdaptiveCardsContext.ts
-  var import_react450 = __toESM(require_react());
-  var AdaptiveCardsContext = (0, import_react450.createContext)(void 0);
+  var import_react451 = __toESM(require_react());
+  var AdaptiveCardsContext = (0, import_react451.createContext)(void 0);
   var AdaptiveCardsContext_default = AdaptiveCardsContext;
 
   // src/adaptiveCards/hooks/internal/useAdaptiveCardsContext.ts
   function useAdaptiveCardsContext() {
-    const context9 = (0, import_react451.useContext)(AdaptiveCardsContext_default);
+    const context9 = (0, import_react452.useContext)(AdaptiveCardsContext_default);
     if (!context9) {
       throw new Error("This hook can only be used on component that is decendants of <ComposerWithAdaptiveCards>");
     }
@@ -175699,7 +177027,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
 
   // src/hooks/useStyleOptions.ts
-  function useStyleOptions19() {
+  function useStyleOptions20() {
     const [styleOptions] = hook_exports2.useStyleOptions();
     return [styleOptions];
   }
@@ -175721,9 +177049,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function useParseAdaptiveCardJSON() {
     const [adaptiveCardsPackage] = useAdaptiveCardsPackage();
     const [direction] = useDirection13();
-    const [{ adaptiveCardsParserMaxVersion }] = useStyleOptions19();
+    const [{ adaptiveCardsParserMaxVersion }] = useStyleOptions20();
     const { AdaptiveCard: AdaptiveCard2, SerializationContext: SerializationContext2, Version: Version2 } = adaptiveCardsPackage;
-    const maxVersion = (0, import_react452.useMemo)(() => {
+    const maxVersion = (0, import_react453.useMemo)(() => {
       const maxVersion2 = Version2.parse(adaptiveCardsParserMaxVersion, new SerializationContext2());
       if (maxVersion2 && !maxVersion2.isValid) {
         console.warn('botframework-webchat: "adaptiveCardsParserMaxVersion" specified is not a valid version.');
@@ -175731,7 +177059,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       }
       return maxVersion2;
     }, [adaptiveCardsParserMaxVersion, SerializationContext2, Version2]);
-    return (0, import_react452.useCallback)(
+    return (0, import_react453.useCallback)(
       (content3, { ignoreErrors = false } = {}) => {
         if (!content3) {
           return;
@@ -175756,8 +177084,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
 
   // ../styles/dist/botframework-webchat-styles.react.mjs
-  var import_react453 = __toESM(require_react(), 1);
   var import_react454 = __toESM(require_react(), 1);
+  var import_react455 = __toESM(require_react(), 1);
   var __create11 = Object.create;
   var __defProp12 = Object.defineProperty;
   var __getOwnPropDesc11 = Object.getOwnPropertyDescriptor;
@@ -176504,6 +177832,180 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           }
         }
       };
+    }
+  });
+  var require_add_to_unscopables14 = __commonJS10({
+    "node_modules/core-js-pure/internals/add-to-unscopables.js"(exports2, module) {
+      "use strict";
+      module.exports = function() {
+      };
+    }
+  });
+  var require_does_not_exceed_safe_integer10 = __commonJS10({
+    "node_modules/core-js-pure/internals/does-not-exceed-safe-integer.js"(exports2, module) {
+      "use strict";
+      var $TypeError = TypeError;
+      var MAX_SAFE_INTEGER = 9007199254740991;
+      module.exports = function(it) {
+        if (it > MAX_SAFE_INTEGER) throw $TypeError("Maximum allowed index exceeded");
+        return it;
+      };
+    }
+  });
+  var require_math_trunc13 = __commonJS10({
+    "node_modules/core-js-pure/internals/math-trunc.js"(exports2, module) {
+      "use strict";
+      var ceil = Math.ceil;
+      var floor2 = Math.floor;
+      module.exports = Math.trunc || function trunc(x) {
+        var n3 = +x;
+        return (n3 > 0 ? floor2 : ceil)(n3);
+      };
+    }
+  });
+  var require_to_integer_or_infinity14 = __commonJS10({
+    "node_modules/core-js-pure/internals/to-integer-or-infinity.js"(exports2, module) {
+      "use strict";
+      var trunc = require_math_trunc13();
+      module.exports = function(argument) {
+        var number3 = +argument;
+        return number3 !== number3 || number3 === 0 ? 0 : trunc(number3);
+      };
+    }
+  });
+  var require_to_length15 = __commonJS10({
+    "node_modules/core-js-pure/internals/to-length.js"(exports2, module) {
+      "use strict";
+      var toIntegerOrInfinity4 = require_to_integer_or_infinity14();
+      var min2 = Math.min;
+      module.exports = function(argument) {
+        var len = toIntegerOrInfinity4(argument);
+        return len > 0 ? min2(len, 9007199254740991) : 0;
+      };
+    }
+  });
+  var require_length_of_array_like14 = __commonJS10({
+    "node_modules/core-js-pure/internals/length-of-array-like.js"(exports2, module) {
+      "use strict";
+      var toLength2 = require_to_length15();
+      module.exports = function(obj) {
+        return toLength2(obj.length);
+      };
+    }
+  });
+  var require_to_absolute_index15 = __commonJS10({
+    "node_modules/core-js-pure/internals/to-absolute-index.js"(exports2, module) {
+      "use strict";
+      var toIntegerOrInfinity4 = require_to_integer_or_infinity14();
+      var max2 = Math.max;
+      var min2 = Math.min;
+      module.exports = function(index2, length2) {
+        var integer2 = toIntegerOrInfinity4(index2);
+        return integer2 < 0 ? max2(integer2 + length2, 0) : min2(integer2, length2);
+      };
+    }
+  });
+  var require_create_property13 = __commonJS10({
+    "node_modules/core-js-pure/internals/create-property.js"(exports2, module) {
+      "use strict";
+      var DESCRIPTORS2 = require_descriptors15();
+      var definePropertyModule = require_object_define_property15();
+      var createPropertyDescriptor = require_create_property_descriptor15();
+      module.exports = function(object22, key2, value) {
+        if (DESCRIPTORS2) definePropertyModule.f(object22, key2, createPropertyDescriptor(0, value));
+        else object22[key2] = value;
+      };
+    }
+  });
+  var require_es_array_to_spliced8 = __commonJS10({
+    "node_modules/core-js-pure/modules/es.array.to-spliced.js"() {
+      "use strict";
+      var $3 = require_export15();
+      var addToUnscopables = require_add_to_unscopables14();
+      var doesNotExceedSafeInteger = require_does_not_exceed_safe_integer10();
+      var lengthOfArrayLike = require_length_of_array_like14();
+      var toAbsoluteIndex = require_to_absolute_index15();
+      var toIndexedObject = require_to_indexed_object15();
+      var toIntegerOrInfinity4 = require_to_integer_or_infinity14();
+      var createProperty = require_create_property13();
+      var $Array = Array;
+      var max2 = Math.max;
+      var min2 = Math.min;
+      $3({ target: "Array", proto: true }, {
+        toSpliced: function toSpliced2(start, deleteCount) {
+          var O = toIndexedObject(this);
+          var len = lengthOfArrayLike(O);
+          var actualStart = toAbsoluteIndex(start, len);
+          var argumentsLength = arguments.length;
+          var k = 0;
+          var insertCount, actualDeleteCount, newLen, A;
+          if (argumentsLength === 0) {
+            insertCount = actualDeleteCount = 0;
+          } else if (argumentsLength === 1) {
+            insertCount = 0;
+            actualDeleteCount = len - actualStart;
+          } else {
+            insertCount = argumentsLength - 2;
+            actualDeleteCount = min2(max2(toIntegerOrInfinity4(deleteCount), 0), len - actualStart);
+          }
+          newLen = doesNotExceedSafeInteger(len + insertCount - actualDeleteCount);
+          A = $Array(newLen);
+          for (; k < actualStart; k++) createProperty(A, k, O[k]);
+          for (; k < actualStart + insertCount; k++) createProperty(A, k, arguments[k - actualStart + 2]);
+          for (; k < newLen; k++) createProperty(A, k, O[k + actualDeleteCount - insertCount]);
+          return A;
+        }
+      });
+      addToUnscopables("toSpliced");
+    }
+  });
+  var require_entry_unbind12 = __commonJS10({
+    "node_modules/core-js-pure/internals/entry-unbind.js"(exports2, module) {
+      "use strict";
+      var getBuiltIn = require_get_built_in15();
+      module.exports = getBuiltIn;
+    }
+  });
+  var require_to_spliced12 = __commonJS10({
+    "node_modules/core-js-pure/es/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      require_es_array_to_spliced8();
+      var entryUnbind = require_entry_unbind12();
+      module.exports = entryUnbind("Array", "toSpliced");
+    }
+  });
+  var require_to_spliced28 = __commonJS10({
+    "node_modules/core-js-pure/stable/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      var parent = require_to_spliced12();
+      module.exports = parent;
+    }
+  });
+  var require_esnext_array_to_spliced8 = __commonJS10({
+    "node_modules/core-js-pure/modules/esnext.array.to-spliced.js"() {
+      "use strict";
+      require_es_array_to_spliced8();
+    }
+  });
+  var require_to_spliced38 = __commonJS10({
+    "node_modules/core-js-pure/actual/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      var parent = require_to_spliced28();
+      require_esnext_array_to_spliced8();
+      module.exports = parent;
+    }
+  });
+  var require_to_spliced48 = __commonJS10({
+    "node_modules/core-js-pure/full/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      var parent = require_to_spliced38();
+      module.exports = parent;
+    }
+  });
+  var require_to_spliced58 = __commonJS10({
+    "node_modules/core-js-pure/features/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      module.exports = require_to_spliced48();
     }
   });
   var require_environment13 = __commonJS10({
@@ -177532,47 +179034,6 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       };
     }
   });
-  var require_math_trunc13 = __commonJS10({
-    "node_modules/core-js-pure/internals/math-trunc.js"(exports2, module) {
-      "use strict";
-      var ceil = Math.ceil;
-      var floor2 = Math.floor;
-      module.exports = Math.trunc || function trunc(x) {
-        var n3 = +x;
-        return (n3 > 0 ? floor2 : ceil)(n3);
-      };
-    }
-  });
-  var require_to_integer_or_infinity14 = __commonJS10({
-    "node_modules/core-js-pure/internals/to-integer-or-infinity.js"(exports2, module) {
-      "use strict";
-      var trunc = require_math_trunc13();
-      module.exports = function(argument) {
-        var number3 = +argument;
-        return number3 !== number3 || number3 === 0 ? 0 : trunc(number3);
-      };
-    }
-  });
-  var require_to_length15 = __commonJS10({
-    "node_modules/core-js-pure/internals/to-length.js"(exports2, module) {
-      "use strict";
-      var toIntegerOrInfinity4 = require_to_integer_or_infinity14();
-      var min2 = Math.min;
-      module.exports = function(argument) {
-        var len = toIntegerOrInfinity4(argument);
-        return len > 0 ? min2(len, 9007199254740991) : 0;
-      };
-    }
-  });
-  var require_length_of_array_like14 = __commonJS10({
-    "node_modules/core-js-pure/internals/length-of-array-like.js"(exports2, module) {
-      "use strict";
-      var toLength2 = require_to_length15();
-      module.exports = function(obj) {
-        return toLength2(obj.length);
-      };
-    }
-  });
   var require_get_iterator_method20 = __commonJS10({
     "node_modules/core-js-pure/internals/get-iterator-method.js"(exports2, module) {
       "use strict";
@@ -178011,11 +179472,12 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     )
   );
   var EMPTY_ARRAY12 = Object.freeze([]);
+  var import_to_spliced8 = __toESM10(require_to_spliced58());
   var import_with_resolvers11 = __toESM10(require_with_resolvers58());
   var EMOJI_REGEX3 = new RegExp("^(?:[\\u{1F1E6}-\\u{1F1FF}]{2}|\\u{1F3F4}[\\u{E0061}-\\u{E007A}]{2}[\\u{E0030}-\\u{E0039}\\u{E0061}-\\u{E007A}]{1,3}\\u{E007F}|(?:\\p{Emoji}\\uFE0F\\u20E3?|\\p{Emoji_Modifier_Base}\\p{Emoji_Modifier}?|(?![\\p{Emoji_Modifier_Base}\\u{1F1E6}-\\u{1F1FF}])\\p{Emoji_Presentation})(?:\\u200D(?:\\p{Emoji}\\uFE0F\\u20E3?|\\p{Emoji_Modifier_Base}\\p{Emoji_Modifier}?|(?![\\p{Emoji_Modifier_Base}\\u{1F1E6}-\\u{1F1FF}])\\p{Emoji_Presentation}))*)+$", "u");
   var warnNonce2 = warnOnce5('The elements passing to <InjectStyleElements> should not have "nonce" attribute set');
   function useStyles2(styles2) {
-    return (0, import_react454.useMemo)(
+    return (0, import_react455.useMemo)(
       () => Object.freeze(
         Object.fromEntries(
           Object.entries(styles2).map(([baseClassName, resultClassName]) => [
@@ -178030,11 +179492,11 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   var useStyles_default2 = useStyles2;
 
   // src/adaptiveCards/Attachment/AdaptiveCardRenderer.tsx
-  var import_react467 = __toESM(require_react());
+  var import_react468 = __toESM(require_react());
 
   // node_modules/use-ref-from/dist/use-ref-from.mjs
-  var import_react455 = __toESM(require_react(), 1);
-  var { useMemo: useMemo68, useRef: useRef36 } = import_react455.default;
+  var import_react456 = __toESM(require_react(), 1);
+  var { useMemo: useMemo68, useRef: useRef36 } = import_react456.default;
   function useRefFrom5(value) {
     const ref = useRef36();
     const readOnlyRef = useMemo68(() => Object.create({}, { current: { get: () => ref.current } }), [ref]);
@@ -178043,7 +179505,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
 
   // src/adaptiveCards/hooks/useAdaptiveCardsHostConfig.ts
-  var import_react456 = __toESM(require_react());
+  var import_react457 = __toESM(require_react());
 
   // src/adaptiveCards/Styles/adaptiveCardHostConfig.ts
   function createAdaptiveCardsHostConfig(styleOptions) {
@@ -178183,8 +179645,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   // src/adaptiveCards/hooks/useAdaptiveCardsHostConfig.ts
   function useAdaptiveCardsHostConfig() {
     const { hostConfigFromProps } = useAdaptiveCardsContext();
-    const [styleOptions] = useStyleOptions19();
-    const patchedHostConfig = (0, import_react456.useMemo)(
+    const [styleOptions] = useStyleOptions20();
+    const patchedHostConfig = (0, import_react457.useMemo)(
       () => hostConfigFromProps || createAdaptiveCardsHostConfig(styleOptions),
       [hostConfigFromProps, styleOptions]
     );
@@ -178192,15 +179654,15 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
 
   // src/adaptiveCards/Attachment/AdaptiveCardHacks/private/useValueRef.ts
-  var import_react457 = __toESM(require_react());
+  var import_react458 = __toESM(require_react());
   function useValueRef3(value) {
-    const ref = (0, import_react457.useRef)(value);
+    const ref = (0, import_react458.useRef)(value);
     ref.current = value;
     return ref;
   }
 
   // src/adaptiveCards/Attachment/AdaptiveCardHacks/useActionShouldBePushButtonModEffect.ts
-  var import_react461 = __toESM(require_react());
+  var import_react462 = __toESM(require_react());
 
   // src/adaptiveCards/DOMManipulationWithUndo/private/noOp.ts
   var noOp = () => {
@@ -178310,13 +179772,13 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
 
   // src/adaptiveCards/Attachment/AdaptiveCardHacks/private/useAdaptiveCardModEffect.ts
-  var import_react459 = __toESM(require_react());
+  var import_react460 = __toESM(require_react());
 
   // src/adaptiveCards/Attachment/AdaptiveCardHacks/private/useLazyRef.ts
-  var import_react458 = __toESM(require_react());
+  var import_react459 = __toESM(require_react());
   var UNINITIALIZED2 = /* @__PURE__ */ Symbol();
   function useLazyRef(refInit) {
-    const ref = (0, import_react458.useRef)(UNINITIALIZED2);
+    const ref = (0, import_react459.useRef)(UNINITIALIZED2);
     if (ref.current === UNINITIALIZED2) {
       ref.current = refInit();
     }
@@ -178348,21 +179810,21 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   _undo = new WeakMap();
   function useAdaptiveCardModEffect(modder, adaptiveCard) {
     const adaptiveCardRef = useValueRef3(adaptiveCard);
-    const mod = (0, import_react459.useMemo)(() => new Mod(modder), [modder]);
-    const reapplyRef = (0, import_react459.useRef)();
+    const mod = (0, import_react460.useMemo)(() => new Mod(modder), [modder]);
+    const reapplyRef = (0, import_react460.useRef)();
     const observerRef = useLazyRef(
       () => new MutationObserver(() => {
         var _a28;
         (_a28 = reapplyRef.current) == null ? void 0 : _a28.call(reapplyRef);
       })
     );
-    (0, import_react459.useEffect)(
+    (0, import_react460.useEffect)(
       () => () => {
         observerRef.current.disconnect();
       },
       [observerRef]
     );
-    const handleApply = (0, import_react459.useCallback)(
+    const handleApply = (0, import_react460.useCallback)(
       (cardElement, ...args) => {
         if (adaptiveCardRef.current && cardElement) {
           (reapplyRef.current = () => mod.apply(adaptiveCardRef.current, cardElement, ...args))();
@@ -178373,21 +179835,21 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       },
       [adaptiveCardRef, observerRef, mod]
     );
-    const handleUndo = (0, import_react459.useCallback)(() => {
+    const handleUndo = (0, import_react460.useCallback)(() => {
       mod.undo();
       reapplyRef.current = void 0;
     }, [mod, reapplyRef]);
-    return (0, import_react459.useMemo)(
+    return (0, import_react460.useMemo)(
       () => Object.freeze([handleApply, handleUndo]),
       [handleApply, handleUndo]
     );
   }
 
   // src/adaptiveCards/Attachment/AdaptiveCardHacks/private/usePrevious.ts
-  var import_react460 = __toESM(require_react());
+  var import_react461 = __toESM(require_react());
   function usePrevious4(value) {
-    const ref = (0, import_react460.useRef)();
-    (0, import_react460.useEffect)(() => {
+    const ref = (0, import_react461.useRef)();
+    (0, import_react461.useEffect)(() => {
       ref.current = value;
     });
     return ref.current;
@@ -178396,9 +179858,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   // src/adaptiveCards/Attachment/AdaptiveCardHacks/useActionShouldBePushButtonModEffect.ts
   function useActionShouldBePushButtonModEffect(adaptiveCard) {
     const prevAdaptiveCard = usePrevious4(adaptiveCard);
-    const pushedCardObjectsRef = (0, import_react461.useRef)(/* @__PURE__ */ new Set());
+    const pushedCardObjectsRef = (0, import_react462.useRef)(/* @__PURE__ */ new Set());
     prevAdaptiveCard === adaptiveCard || pushedCardObjectsRef.current.clear();
-    const modder = (0, import_react461.useMemo)(
+    const modder = (0, import_react462.useMemo)(
       () => (adaptiveCard2, cardElement, actionPerformedClassName) => {
         const undoStack = [];
         Array.from(cardElement.querySelectorAll("button.ac-pushButton")).forEach(
@@ -178452,14 +179914,14 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
 
   // src/adaptiveCards/Attachment/AdaptiveCardHacks/useActiveElementModEffect.ts
-  var import_react462 = __toESM(require_react());
+  var import_react463 = __toESM(require_react());
   function useActiveElementModEffect(adaptiveCard) {
-    const activeCardObjectRef = (0, import_react462.useRef)();
+    const activeCardObjectRef = (0, import_react463.useRef)();
     const prevAdaptiveCard = usePrevious4(adaptiveCard);
     if (prevAdaptiveCard !== adaptiveCard) {
       activeCardObjectRef.current = void 0;
     }
-    const modder = (0, import_react462.useMemo)(
+    const modder = (0, import_react463.useMemo)(
       () => (adaptiveCard2) => {
         var _a28, _b4, _c3;
         (_c3 = (_b4 = (_a28 = activeCardObjectRef.current) == null ? void 0 : _a28.renderedElement) == null ? void 0 : _b4.focus) == null ? void 0 : _c3.call(_b4);
@@ -178473,7 +179935,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
 
   // src/adaptiveCards/Attachment/AdaptiveCardHacks/useDisabledModEffect.ts
-  var import_react463 = __toESM(require_react());
+  var import_react464 = __toESM(require_react());
 
   // src/adaptiveCards/DOMManipulationWithUndo/durableDisableInputElementAccessiblyWithUndo.ts
   function disabledHandler(event2) {
@@ -178524,7 +179986,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   };
   var INPUT_ELEMENT_SELECTOR = "button:not([aria-expanded]), input, select, textarea";
   function useDisabledModEffect(adaptiveCard) {
-    const modder = (0, import_react463.useMemo)(
+    const modder = (0, import_react464.useMemo)(
       () => (_2, cardElement, disabled) => {
         if (!disabled) {
           return NO_OP;
@@ -178540,7 +180002,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
 
   // src/adaptiveCards/Attachment/AdaptiveCardHacks/usePersistValuesModEffect.ts
-  var import_react464 = __toESM(require_react());
+  var import_react465 = __toESM(require_react());
   function getUserValues(element3) {
     if (!element3) {
       return /* @__PURE__ */ new Set();
@@ -178587,9 +180049,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
   function usePersistValuesModEffect(adaptiveCard) {
     const prevAdaptiveCard = usePrevious4(adaptiveCard);
-    const valuesMapRef = (0, import_react464.useRef)(/* @__PURE__ */ new Map());
+    const valuesMapRef = (0, import_react465.useRef)(/* @__PURE__ */ new Map());
     prevAdaptiveCard === adaptiveCard || valuesMapRef.current.clear();
-    const modder = (0, import_react464.useMemo)(
+    const modder = (0, import_react465.useMemo)(
       () => (adaptiveCard2) => {
         const { current: valuesMap } = valuesMapRef;
         adaptiveCard2.getAllInputs().forEach((cardObject) => {
@@ -178608,9 +180070,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
 
   // src/adaptiveCards/Attachment/AdaptiveCardHacks/useRoleModEffect.ts
-  var import_react465 = __toESM(require_react());
+  var import_react466 = __toESM(require_react());
   function useRoleModEffect(adaptiveCard) {
-    const modder = (0, import_react465.useMemo)(
+    const modder = (0, import_react466.useMemo)(
       () => (_2, cardElement) => setOrRemoveAttributeIfFalseWithUndo(
         cardElement,
         "role",
@@ -178787,7 +180249,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   var _adaptive_card_renderer0 = classes20["adaptive-card-renderer"];
 
   // src/adaptiveCards/Attachment/AdaptiveCardRenderer.tsx
-  var { useLocalizer: useLocalizer47, usePerformCardAction: usePerformCardAction3, useRenderMarkdownAsHTML: useRenderMarkdownAsHTML2, useScrollToEnd: useScrollToEnd3, useUIState: useUIState6 } = hook_exports2;
+  var { useLocalizer: useLocalizer48, usePerformCardAction: usePerformCardAction3, useRenderMarkdownAsHTML: useRenderMarkdownAsHTML2, useScrollToEnd: useScrollToEnd3, useUIState: useUIState6 } = hook_exports2;
   var adaptiveCardRendererPropsSchema = pipe(
     object({
       actionPerformedClassName: optional(string()),
@@ -178807,8 +180269,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const [{ GlobalSettings: GlobalSettings2, HostConfig: HostConfig2 }] = useAdaptiveCardsPackage();
     const [adaptiveCardsHostConfig] = useAdaptiveCardsHostConfig();
     const [uiState] = useUIState6();
-    const contentRef = (0, import_react467.useRef)();
-    const localize2 = useLocalizer47();
+    const contentRef = (0, import_react468.useRef)();
+    const localize2 = useLocalizer48();
     const performCardAction = usePerformCardAction3();
     const renderMarkdownAsHTML = useRenderMarkdownAsHTML2("adaptive cards");
     const scrollToEnd2 = useScrollToEnd3();
@@ -178816,7 +180278,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const disabled = uiState === "disabled" || disabledFromProps;
     const tapActionRef = useValueRef3(tapAction);
     const disabledRef = useValueRef3(disabled);
-    const handleClickAndKeyPress = (0, import_react467.useCallback)(
+    const handleClickAndKeyPress = (0, import_react468.useCallback)(
       (event2) => {
         const { key: key2, type } = event2;
         const target = event2.target;
@@ -178845,7 +180307,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       [contentRef, performCardAction, scrollToEnd2, tapActionRef]
     );
     const handleClickAndKeyPressForTapAction = !disabled && tapAction ? handleClickAndKeyPress : void 0;
-    const handleExecuteAction = (0, import_react467.useCallback)(
+    const handleExecuteAction = (0, import_react468.useCallback)(
       (action2) => {
         if (disabledRef.current) {
           return;
@@ -178895,7 +180357,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const [applyDisabledMod, undoDisabledMod] = useDisabledModEffect(adaptiveCard);
     const [applyPersistValuesMod, undoPersistValuesMod] = usePersistValuesModEffect(adaptiveCard);
     const [applyRoleMod, undoRoleMod] = useRoleModEffect(adaptiveCard);
-    const { element: element3, errors: errors2 } = (0, import_react467.useMemo)(() => {
+    const { element: element3, errors: errors2 } = (0, import_react468.useMemo)(() => {
       undoActionShouldBePushButtonMod();
       undoActiveElementMod();
       undoDisabledMod();
@@ -178920,19 +180382,19 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       undoPersistValuesMod,
       undoRoleMod
     ]);
-    (0, import_react467.useMemo)(() => {
+    (0, import_react468.useMemo)(() => {
       adaptiveCard.onExecuteAction = handleExecuteAction;
     }, [adaptiveCard, handleExecuteAction]);
-    (0, import_react467.useLayoutEffect)(() => {
+    (0, import_react468.useLayoutEffect)(() => {
       var _a28;
       (_a28 = contentRef.current) == null ? void 0 : _a28.replaceChildren(element3);
     }, [contentRef, element3]);
     const elementRef = useRefFrom5(element3);
-    (0, import_react467.useEffect)(() => () => {
+    (0, import_react468.useEffect)(() => () => {
       var _a28;
       return (_a28 = elementRef.current) == null ? void 0 : _a28.remove();
     }, [elementRef]);
-    (0, import_react467.useLayoutEffect)(() => {
+    (0, import_react468.useLayoutEffect)(() => {
       if (element3) {
         applyActionShouldBePushButtonMod(element3, actionPerformedClassName);
         applyActiveElementMod(element3);
@@ -178951,7 +180413,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       element3
     ]);
     (errors2 == null ? void 0 : errors2.length) && console.warn("botframework-webchat: Failed to render Adaptive Cards.", errors2);
-    return (errors2 == null ? void 0 : errors2.length) ? /* @__PURE__ */ import_react467.default.createElement(ErrorBoxPolymiddlewareProxy, { error: errors2[0], where: localize2("ADAPTIVE_CARD_ERROR_BOX_TITLE_RENDER") }) : /* @__PURE__ */ import_react467.default.createElement(
+    return (errors2 == null ? void 0 : errors2.length) ? /* @__PURE__ */ import_react468.default.createElement(ErrorBoxPolymiddlewareProxy, { error: errors2[0], where: localize2("ADAPTIVE_CARD_ERROR_BOX_TITLE_RENDER") }) : /* @__PURE__ */ import_react468.default.createElement(
       "div",
       {
         className: classNames31["adaptive-card-renderer"],
@@ -178961,7 +180423,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       }
     );
   }
-  var AdaptiveCardRenderer_default2 = (0, import_react467.memo)(AdaptiveCardRenderer);
+  var AdaptiveCardRenderer_default2 = (0, import_react468.memo)(AdaptiveCardRenderer);
 
   // src/adaptiveCards/Attachment/AdaptiveCardContent.tsx
   function stripSubmitAction(card) {
@@ -178982,7 +180444,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function AdaptiveCardContent(props) {
     const { actionPerformedClassName, content: content3, disabled } = validateProps7(adaptiveCardContentPropsSchema, props);
     const parseAdaptiveCardJSON = useParseAdaptiveCardJSON();
-    const card = (0, import_react468.useMemo)(
+    const card = (0, import_react469.useMemo)(
       () => parseAdaptiveCardJSON(
         stripSubmitAction({
           version: "1.0",
@@ -178992,7 +180454,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       ),
       [content3, parseAdaptiveCardJSON]
     );
-    return !!card && /* @__PURE__ */ import_react468.default.createElement(
+    return !!card && /* @__PURE__ */ import_react469.default.createElement(
       AdaptiveCardRenderer_default2,
       {
         actionPerformedClassName,
@@ -179001,14 +180463,14 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       }
     );
   }
-  var AdaptiveCardContent_default = (0, import_react468.memo)(AdaptiveCardContent);
+  var AdaptiveCardContent_default = (0, import_react469.memo)(AdaptiveCardContent);
 
   // src/adaptiveCards/Attachment/AnimationCardContent.tsx
-  var import_react471 = __toESM(require_react());
+  var import_react472 = __toESM(require_react());
 
   // src/adaptiveCards/Attachment/CommonCard.js
   var import_prop_types46 = __toESM(require_prop_types());
-  var import_react469 = __toESM(require_react());
+  var import_react470 = __toESM(require_react());
 
   // ../../node_modules/adaptivecards/lib/adaptivecards.js
   var adaptivecards_exports = {};
@@ -196623,15 +198085,15 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   var CommonCard = ({ actionPerformedClassName, content: content3, disabled }) => {
     const [adaptiveCardsPackage] = useAdaptiveCardsPackage();
     const [direction] = useDirection14();
-    const [styleOptions] = useStyleOptions19();
-    const builtCard = (0, import_react469.useMemo)(() => {
+    const [styleOptions] = useStyleOptions20();
+    const builtCard = (0, import_react470.useMemo)(() => {
       if (content3) {
         const builder = new AdaptiveCardBuilder(adaptiveCardsPackage, styleOptions, direction);
         builder.addCommon(content3);
         return builder.card;
       }
     }, [adaptiveCardsPackage, content3, direction, styleOptions]);
-    return /* @__PURE__ */ import_react469.default.createElement(
+    return /* @__PURE__ */ import_react470.default.createElement(
       AdaptiveCardRenderer_default2,
       {
         actionPerformedClassName,
@@ -196673,12 +198135,12 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const { actionPerformedClassName, content: content3, disabled } = validateProps7(animationCardContentPropsSchema, props);
     const { media = [] } = content3;
     const classNames31 = useStyles_default2(AnimationCardContent_module_default);
-    return /* @__PURE__ */ import_react471.default.createElement("div", { className: classNames31["animation-card-attachment"] }, /* @__PURE__ */ import_react471.default.createElement("ul", { className: "media-list" }, media.map(({ profile = "", url: url2 }, index2) => /* @__PURE__ */ import_react471.default.createElement("li", { key: index2 }, /\.gif$/iu.test(url2) ? /* @__PURE__ */ import_react471.default.createElement(ImageContent2, { alt: profile, src: url2 }) : /* @__PURE__ */ import_react471.default.createElement(VideoContent2, { alt: profile, src: url2 })))), /* @__PURE__ */ import_react471.default.createElement(CommonCard_default, { actionPerformedClassName, content: content3, disabled }));
+    return /* @__PURE__ */ import_react472.default.createElement("div", { className: classNames31["animation-card-attachment"] }, /* @__PURE__ */ import_react472.default.createElement("ul", { className: "media-list" }, media.map(({ profile = "", url: url2 }, index2) => /* @__PURE__ */ import_react472.default.createElement("li", { key: index2 }, /\.gif$/iu.test(url2) ? /* @__PURE__ */ import_react472.default.createElement(ImageContent2, { alt: profile, src: url2 }) : /* @__PURE__ */ import_react472.default.createElement(VideoContent2, { alt: profile, src: url2 })))), /* @__PURE__ */ import_react472.default.createElement(CommonCard_default, { actionPerformedClassName, content: content3, disabled }));
   }
-  var AnimationCardContent_default = (0, import_react471.memo)(AnimationCardContent);
+  var AnimationCardContent_default = (0, import_react472.memo)(AnimationCardContent);
 
   // src/adaptiveCards/Attachment/AudioCardContent.tsx
-  var import_react473 = __toESM(require_react());
+  var import_react474 = __toESM(require_react());
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/bundle/src/adaptiveCards/Attachment/AudioCardContent.module.css?css_module
   var classes27 = { "audio-card-attachment": "wsuNaRW_audio-card-attachment" };
@@ -196699,12 +198161,12 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const { actionPerformedClassName, content: content3, disabled } = validateProps7(audioCardContentPropsSchema, props);
     const { autostart = false, autoloop = false, image: { url: imageURL = "" } = {}, media = [] } = content3;
     const classNames31 = useStyles_default2(AudioCardContent_module_default);
-    return /* @__PURE__ */ import_react473.default.createElement("div", { className: classNames31["audio-card-attachment"] }, /* @__PURE__ */ import_react473.default.createElement("ul", { className: "media-list" }, media.map(({ url: url2 }, index2) => /* @__PURE__ */ import_react473.default.createElement("li", { key: index2 }, /* @__PURE__ */ import_react473.default.createElement(AudioContent3, { autoPlay: autostart, loop: autoloop, poster: imageURL, src: url2 })))), /* @__PURE__ */ import_react473.default.createElement(CommonCard_default, { actionPerformedClassName, content: content3, disabled }));
+    return /* @__PURE__ */ import_react474.default.createElement("div", { className: classNames31["audio-card-attachment"] }, /* @__PURE__ */ import_react474.default.createElement("ul", { className: "media-list" }, media.map(({ url: url2 }, index2) => /* @__PURE__ */ import_react474.default.createElement("li", { key: index2 }, /* @__PURE__ */ import_react474.default.createElement(AudioContent3, { autoPlay: autostart, loop: autoloop, poster: imageURL, src: url2 })))), /* @__PURE__ */ import_react474.default.createElement(CommonCard_default, { actionPerformedClassName, content: content3, disabled }));
   }
-  var AudioCardContent_default = (0, import_react473.memo)(AudioCardContent);
+  var AudioCardContent_default = (0, import_react474.memo)(AudioCardContent);
 
   // src/adaptiveCards/Attachment/HeroCardContent.tsx
-  var import_react474 = __toESM(require_react());
+  var import_react475 = __toESM(require_react());
   var { useDirection: useDirection15 } = hook_exports2;
   var heroCardContentPropsSchema = pipe(
     object({
@@ -196717,9 +198179,9 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function HeroCardContent(props) {
     const { actionPerformedClassName, content: content3, disabled } = validateProps7(heroCardContentPropsSchema, props);
     const [adaptiveCardsPackage] = useAdaptiveCardsPackage();
-    const [styleOptions] = useStyleOptions19();
+    const [styleOptions] = useStyleOptions20();
     const [direction] = useDirection15();
-    const builtCard = (0, import_react474.useMemo)(() => {
+    const builtCard = (0, import_react475.useMemo)(() => {
       const builder = new AdaptiveCardBuilder(adaptiveCardsPackage, styleOptions, direction);
       if (content3) {
         (content3.images || []).forEach(
@@ -196729,7 +198191,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         return builder.card;
       }
     }, [adaptiveCardsPackage, content3, direction, styleOptions]);
-    return /* @__PURE__ */ import_react474.default.createElement(
+    return /* @__PURE__ */ import_react475.default.createElement(
       AdaptiveCardRenderer_default2,
       {
         actionPerformedClassName,
@@ -196739,10 +198201,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       }
     );
   }
-  var HeroCardContent_default = (0, import_react474.memo)(HeroCardContent);
+  var HeroCardContent_default = (0, import_react475.memo)(HeroCardContent);
 
   // src/adaptiveCards/Attachment/OAuthCardContent.tsx
-  var import_react475 = __toESM(require_react());
+  var import_react476 = __toESM(require_react());
   var { useDirection: useDirection16 } = hook_exports2;
   var oauthCardContentPropsSchema = pipe(
     object({
@@ -196756,8 +198218,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const { actionPerformedClassName, content: content3, disabled } = validateProps7(oauthCardContentPropsSchema, props);
     const [adaptiveCardsPackage] = useAdaptiveCardsPackage();
     const [direction] = useDirection16();
-    const [styleOptions] = useStyleOptions19();
-    const builtCard = (0, import_react475.useMemo)(() => {
+    const [styleOptions] = useStyleOptions20();
+    const builtCard = (0, import_react476.useMemo)(() => {
       if (content3) {
         const builder = new AdaptiveCardBuilder(adaptiveCardsPackage, styleOptions, direction);
         builder.addCommonHeaders(content3);
@@ -196765,7 +198227,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         return builder.card;
       }
     }, [adaptiveCardsPackage, content3, direction, styleOptions]);
-    return /* @__PURE__ */ import_react475.default.createElement(
+    return /* @__PURE__ */ import_react476.default.createElement(
       AdaptiveCardRenderer_default2,
       {
         actionPerformedClassName,
@@ -196774,11 +198236,11 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       }
     );
   }
-  var OAuthCardContent_default = (0, import_react475.memo)(OAuthCardContent);
+  var OAuthCardContent_default = (0, import_react476.memo)(OAuthCardContent);
 
   // src/adaptiveCards/Attachment/ReceiptCardContent.tsx
-  var import_react476 = __toESM(require_react());
-  var { useDirection: useDirection17, useLocalizer: useLocalizer48 } = hook_exports2;
+  var import_react477 = __toESM(require_react());
+  var { useDirection: useDirection17, useLocalizer: useLocalizer49 } = hook_exports2;
   function nullOrUndefined(obj) {
     return obj === null || typeof obj === "undefined";
   }
@@ -196794,12 +198256,12 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const { actionPerformedClassName, content: content3, disabled } = validateProps7(receiptCardContentPropsSchema, props);
     const [adaptiveCardsPackage] = useAdaptiveCardsPackage();
     const [direction] = useDirection17();
-    const [styleOptions] = useStyleOptions19();
-    const localize2 = useLocalizer48();
+    const [styleOptions] = useStyleOptions20();
+    const localize2 = useLocalizer49();
     const taxText = localize2("RECEIPT_CARD_TAX");
     const totalText = localize2("RECEIPT_CARD_TOTAL");
     const vatText = localize2("RECEIPT_CARD_VAT");
-    const builtCard = (0, import_react476.useMemo)(() => {
+    const builtCard = (0, import_react477.useMemo)(() => {
       const builder = new AdaptiveCardBuilder(adaptiveCardsPackage, styleOptions, direction);
       const { HorizontalAlignment: HorizontalAlignment2, TextSize: TextSize2, TextWeight: TextWeight2 } = adaptiveCardsPackage;
       const { buttons, facts, items, tax, title, total, vat } = content3;
@@ -196861,7 +198323,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         return builder.card;
       }
     }, [adaptiveCardsPackage, content3, direction, styleOptions, taxText, totalText, vatText]);
-    return /* @__PURE__ */ import_react476.default.createElement(
+    return /* @__PURE__ */ import_react477.default.createElement(
       AdaptiveCardRenderer_default2,
       {
         actionPerformedClassName,
@@ -196871,10 +198333,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       }
     );
   }
-  var ReceiptCardContent_default = (0, import_react476.memo)(ReceiptCardContent);
+  var ReceiptCardContent_default = (0, import_react477.memo)(ReceiptCardContent);
 
   // src/adaptiveCards/Attachment/SignInCardContent.tsx
-  var import_react478 = __toESM(require_react());
+  var import_react479 = __toESM(require_react());
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/bundle/src/adaptiveCards/Attachment/SignInCardContent.module.css?css_module
   var classes28 = { "sign-in-card-attachment": "wDXAKka_sign-in-card-attachment" };
@@ -196893,12 +198355,12 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   function SignInCardContent(props) {
     const { actionPerformedClassName, content: content3, disabled } = validateProps7(signInCardContentPropsSchema, props);
     const classNames31 = useStyles_default2(SignInCardContent_module_default);
-    return /* @__PURE__ */ import_react478.default.createElement("div", { className: classNames31["sign-in-card-attachment"] }, /* @__PURE__ */ import_react478.default.createElement(CommonCard_default, { actionPerformedClassName, content: content3, disabled }));
+    return /* @__PURE__ */ import_react479.default.createElement("div", { className: classNames31["sign-in-card-attachment"] }, /* @__PURE__ */ import_react479.default.createElement(CommonCard_default, { actionPerformedClassName, content: content3, disabled }));
   }
-  var SignInCardContent_default = (0, import_react478.memo)(SignInCardContent);
+  var SignInCardContent_default = (0, import_react479.memo)(SignInCardContent);
 
   // src/adaptiveCards/Attachment/ThumbnailCardContent.tsx
-  var import_react479 = __toESM(require_react());
+  var import_react480 = __toESM(require_react());
   var { useDirection: useDirection18 } = hook_exports2;
   var thumbnailCardContentPropsSchema = pipe(
     object({
@@ -196912,8 +198374,8 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const { actionPerformedClassName, content: content3, disabled } = parse(thumbnailCardContentPropsSchema, props);
     const [adaptiveCardsPackage] = useAdaptiveCardsPackage();
     const [direction] = useDirection18();
-    const [styleOptions] = useStyleOptions19();
-    const builtCard = (0, import_react479.useMemo)(() => {
+    const [styleOptions] = useStyleOptions20();
+    const builtCard = (0, import_react480.useMemo)(() => {
       if (content3) {
         const builder = new AdaptiveCardBuilder(adaptiveCardsPackage, styleOptions, direction);
         const { TextSize: TextSize2, TextWeight: TextWeight2 } = adaptiveCardsPackage;
@@ -196937,7 +198399,7 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
         return builder.card;
       }
     }, [adaptiveCardsPackage, direction, content3, styleOptions]);
-    return /* @__PURE__ */ import_react479.default.createElement(
+    return /* @__PURE__ */ import_react480.default.createElement(
       AdaptiveCardRenderer_default2,
       {
         actionPerformedClassName,
@@ -196947,10 +198409,10 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       }
     );
   }
-  var ThumbnailCardContent_default = (0, import_react479.memo)(ThumbnailCardContent);
+  var ThumbnailCardContent_default = (0, import_react480.memo)(ThumbnailCardContent);
 
   // src/adaptiveCards/Attachment/VideoCardContent.tsx
-  var import_react481 = __toESM(require_react());
+  var import_react482 = __toESM(require_react());
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/bundle/src/adaptiveCards/Attachment/VideoCardContent.module.css?css_module
   var classes29 = { "video-card-attachment": "wvhPRLq_video-card-attachment" };
@@ -196971,16 +198433,16 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     const { actionPerformedClassName, content: content3, disabled } = parse(videoCardContentPropsSchema, props);
     const { autoloop, autostart, image: { url: imageURL } = { url: void 0 }, media } = content3;
     const classNames31 = useStyles_default2(VideoCardContent_module_default);
-    return /* @__PURE__ */ import_react481.default.createElement("div", { className: classNames31["video-card-attachment"] }, /* @__PURE__ */ import_react481.default.createElement("ul", { className: "media-list" }, media.map(({ url: url2 }, index2) => /* @__PURE__ */ import_react481.default.createElement("li", { key: index2 }, /* @__PURE__ */ import_react481.default.createElement(VideoContent3, { autoPlay: autostart, loop: autoloop, poster: imageURL, src: url2 })))), /* @__PURE__ */ import_react481.default.createElement(CommonCard_default, { actionPerformedClassName, content: content3, disabled }));
+    return /* @__PURE__ */ import_react482.default.createElement("div", { className: classNames31["video-card-attachment"] }, /* @__PURE__ */ import_react482.default.createElement("ul", { className: "media-list" }, media.map(({ url: url2 }, index2) => /* @__PURE__ */ import_react482.default.createElement("li", { key: index2 }, /* @__PURE__ */ import_react482.default.createElement(VideoContent3, { autoPlay: autostart, loop: autoloop, poster: imageURL, src: url2 })))), /* @__PURE__ */ import_react482.default.createElement(CommonCard_default, { actionPerformedClassName, content: content3, disabled }));
   }
-  var VideoCardContent_default = (0, import_react481.memo)(VideoCardContent);
+  var VideoCardContent_default = (0, import_react482.memo)(VideoCardContent);
 
   // src/FullReactWebChat.tsx
-  var import_react503 = __toESM(require_react());
+  var import_react504 = __toESM(require_react());
 
   // ../react-hooks/dist/botframework-webchat-react-hooks.mjs
-  var import_react482 = __toESM(require_react(), 1);
   var import_react483 = __toESM(require_react(), 1);
+  var import_react484 = __toESM(require_react(), 1);
   var __create12 = Object.create;
   var __defProp13 = Object.defineProperty;
   var __getOwnPropDesc12 = Object.getOwnPropertyDescriptor;
@@ -197727,6 +199189,180 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
           }
         }
       };
+    }
+  });
+  var require_add_to_unscopables15 = __commonJS11({
+    "node_modules/core-js-pure/internals/add-to-unscopables.js"(exports2, module) {
+      "use strict";
+      module.exports = function() {
+      };
+    }
+  });
+  var require_does_not_exceed_safe_integer11 = __commonJS11({
+    "node_modules/core-js-pure/internals/does-not-exceed-safe-integer.js"(exports2, module) {
+      "use strict";
+      var $TypeError = TypeError;
+      var MAX_SAFE_INTEGER = 9007199254740991;
+      module.exports = function(it) {
+        if (it > MAX_SAFE_INTEGER) throw $TypeError("Maximum allowed index exceeded");
+        return it;
+      };
+    }
+  });
+  var require_math_trunc14 = __commonJS11({
+    "node_modules/core-js-pure/internals/math-trunc.js"(exports2, module) {
+      "use strict";
+      var ceil = Math.ceil;
+      var floor2 = Math.floor;
+      module.exports = Math.trunc || function trunc(x) {
+        var n3 = +x;
+        return (n3 > 0 ? floor2 : ceil)(n3);
+      };
+    }
+  });
+  var require_to_integer_or_infinity15 = __commonJS11({
+    "node_modules/core-js-pure/internals/to-integer-or-infinity.js"(exports2, module) {
+      "use strict";
+      var trunc = require_math_trunc14();
+      module.exports = function(argument) {
+        var number3 = +argument;
+        return number3 !== number3 || number3 === 0 ? 0 : trunc(number3);
+      };
+    }
+  });
+  var require_to_length16 = __commonJS11({
+    "node_modules/core-js-pure/internals/to-length.js"(exports2, module) {
+      "use strict";
+      var toIntegerOrInfinity4 = require_to_integer_or_infinity15();
+      var min2 = Math.min;
+      module.exports = function(argument) {
+        var len = toIntegerOrInfinity4(argument);
+        return len > 0 ? min2(len, 9007199254740991) : 0;
+      };
+    }
+  });
+  var require_length_of_array_like15 = __commonJS11({
+    "node_modules/core-js-pure/internals/length-of-array-like.js"(exports2, module) {
+      "use strict";
+      var toLength2 = require_to_length16();
+      module.exports = function(obj) {
+        return toLength2(obj.length);
+      };
+    }
+  });
+  var require_to_absolute_index16 = __commonJS11({
+    "node_modules/core-js-pure/internals/to-absolute-index.js"(exports2, module) {
+      "use strict";
+      var toIntegerOrInfinity4 = require_to_integer_or_infinity15();
+      var max2 = Math.max;
+      var min2 = Math.min;
+      module.exports = function(index2, length2) {
+        var integer2 = toIntegerOrInfinity4(index2);
+        return integer2 < 0 ? max2(integer2 + length2, 0) : min2(integer2, length2);
+      };
+    }
+  });
+  var require_create_property14 = __commonJS11({
+    "node_modules/core-js-pure/internals/create-property.js"(exports2, module) {
+      "use strict";
+      var DESCRIPTORS2 = require_descriptors16();
+      var definePropertyModule = require_object_define_property16();
+      var createPropertyDescriptor = require_create_property_descriptor16();
+      module.exports = function(object3, key2, value) {
+        if (DESCRIPTORS2) definePropertyModule.f(object3, key2, createPropertyDescriptor(0, value));
+        else object3[key2] = value;
+      };
+    }
+  });
+  var require_es_array_to_spliced9 = __commonJS11({
+    "node_modules/core-js-pure/modules/es.array.to-spliced.js"() {
+      "use strict";
+      var $3 = require_export16();
+      var addToUnscopables = require_add_to_unscopables15();
+      var doesNotExceedSafeInteger = require_does_not_exceed_safe_integer11();
+      var lengthOfArrayLike = require_length_of_array_like15();
+      var toAbsoluteIndex = require_to_absolute_index16();
+      var toIndexedObject = require_to_indexed_object16();
+      var toIntegerOrInfinity4 = require_to_integer_or_infinity15();
+      var createProperty = require_create_property14();
+      var $Array = Array;
+      var max2 = Math.max;
+      var min2 = Math.min;
+      $3({ target: "Array", proto: true }, {
+        toSpliced: function toSpliced2(start, deleteCount) {
+          var O = toIndexedObject(this);
+          var len = lengthOfArrayLike(O);
+          var actualStart = toAbsoluteIndex(start, len);
+          var argumentsLength = arguments.length;
+          var k = 0;
+          var insertCount, actualDeleteCount, newLen, A;
+          if (argumentsLength === 0) {
+            insertCount = actualDeleteCount = 0;
+          } else if (argumentsLength === 1) {
+            insertCount = 0;
+            actualDeleteCount = len - actualStart;
+          } else {
+            insertCount = argumentsLength - 2;
+            actualDeleteCount = min2(max2(toIntegerOrInfinity4(deleteCount), 0), len - actualStart);
+          }
+          newLen = doesNotExceedSafeInteger(len + insertCount - actualDeleteCount);
+          A = $Array(newLen);
+          for (; k < actualStart; k++) createProperty(A, k, O[k]);
+          for (; k < actualStart + insertCount; k++) createProperty(A, k, arguments[k - actualStart + 2]);
+          for (; k < newLen; k++) createProperty(A, k, O[k + actualDeleteCount - insertCount]);
+          return A;
+        }
+      });
+      addToUnscopables("toSpliced");
+    }
+  });
+  var require_entry_unbind13 = __commonJS11({
+    "node_modules/core-js-pure/internals/entry-unbind.js"(exports2, module) {
+      "use strict";
+      var getBuiltIn = require_get_built_in16();
+      module.exports = getBuiltIn;
+    }
+  });
+  var require_to_spliced13 = __commonJS11({
+    "node_modules/core-js-pure/es/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      require_es_array_to_spliced9();
+      var entryUnbind = require_entry_unbind13();
+      module.exports = entryUnbind("Array", "toSpliced");
+    }
+  });
+  var require_to_spliced29 = __commonJS11({
+    "node_modules/core-js-pure/stable/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      var parent = require_to_spliced13();
+      module.exports = parent;
+    }
+  });
+  var require_esnext_array_to_spliced9 = __commonJS11({
+    "node_modules/core-js-pure/modules/esnext.array.to-spliced.js"() {
+      "use strict";
+      require_es_array_to_spliced9();
+    }
+  });
+  var require_to_spliced39 = __commonJS11({
+    "node_modules/core-js-pure/actual/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      var parent = require_to_spliced29();
+      require_esnext_array_to_spliced9();
+      module.exports = parent;
+    }
+  });
+  var require_to_spliced49 = __commonJS11({
+    "node_modules/core-js-pure/full/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      var parent = require_to_spliced39();
+      module.exports = parent;
+    }
+  });
+  var require_to_spliced59 = __commonJS11({
+    "node_modules/core-js-pure/features/array/to-spliced.js"(exports2, module) {
+      "use strict";
+      module.exports = require_to_spliced49();
     }
   });
   var require_environment14 = __commonJS11({
@@ -198755,47 +200391,6 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
       };
     }
   });
-  var require_math_trunc14 = __commonJS11({
-    "node_modules/core-js-pure/internals/math-trunc.js"(exports2, module) {
-      "use strict";
-      var ceil = Math.ceil;
-      var floor2 = Math.floor;
-      module.exports = Math.trunc || function trunc(x) {
-        var n3 = +x;
-        return (n3 > 0 ? floor2 : ceil)(n3);
-      };
-    }
-  });
-  var require_to_integer_or_infinity15 = __commonJS11({
-    "node_modules/core-js-pure/internals/to-integer-or-infinity.js"(exports2, module) {
-      "use strict";
-      var trunc = require_math_trunc14();
-      module.exports = function(argument) {
-        var number3 = +argument;
-        return number3 !== number3 || number3 === 0 ? 0 : trunc(number3);
-      };
-    }
-  });
-  var require_to_length16 = __commonJS11({
-    "node_modules/core-js-pure/internals/to-length.js"(exports2, module) {
-      "use strict";
-      var toIntegerOrInfinity4 = require_to_integer_or_infinity15();
-      var min2 = Math.min;
-      module.exports = function(argument) {
-        var len = toIntegerOrInfinity4(argument);
-        return len > 0 ? min2(len, 9007199254740991) : 0;
-      };
-    }
-  });
-  var require_length_of_array_like15 = __commonJS11({
-    "node_modules/core-js-pure/internals/length-of-array-like.js"(exports2, module) {
-      "use strict";
-      var toLength2 = require_to_length16();
-      module.exports = function(obj) {
-        return toLength2(obj.length);
-      };
-    }
-  });
   var require_get_iterator_method21 = __commonJS11({
     "node_modules/core-js-pure/internals/get-iterator-method.js"(exports2, module) {
       "use strict";
@@ -199242,11 +200837,12 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
     return false;
   }
   var EMPTY_ARRAY13 = Object.freeze([]);
+  var import_to_spliced9 = __toESM11(require_to_spliced59());
   var import_with_resolvers12 = __toESM11(require_with_resolvers59());
   function useMemoWithPrevious5(factory, deps) {
-    const prevValueRef = (0, import_react483.useRef)();
-    const value = (0, import_react483.useMemo)(() => factory(prevValueRef.current), deps);
-    (0, import_react483.useEffect)(() => {
+    const prevValueRef = (0, import_react484.useRef)();
+    const value = (0, import_react484.useMemo)(() => factory(prevValueRef.current), deps);
+    (0, import_react484.useEffect)(() => {
       prevValueRef.current = value;
     });
     return value;
@@ -199259,32 +200855,32 @@ ${(_b5 = getEntryDescription(entry)) != null ? _b5 : ""}`.trim(),
   }
 
   // src/AddFullBundle.tsx
-  var import_react502 = __toESM(require_react());
+  var import_react503 = __toESM(require_react());
 
   // src/adaptiveCards/AdaptiveCardsComposer.tsx
-  var import_react484 = __toESM(require_react());
+  var import_react485 = __toESM(require_react());
   var AdaptiveCardsComposer = ({
     adaptiveCardsHostConfig,
     adaptiveCardsPackage,
     children
   }) => {
-    const patchedAdaptiveCardsPackage = (0, import_react484.useMemo)(
+    const patchedAdaptiveCardsPackage = (0, import_react485.useMemo)(
       () => adaptiveCardsPackage || adaptivecards_exports,
       [adaptiveCardsPackage]
     );
-    const adaptiveCardsContext = (0, import_react484.useMemo)(
+    const adaptiveCardsContext = (0, import_react485.useMemo)(
       () => ({
         adaptiveCardsPackage: patchedAdaptiveCardsPackage,
         hostConfigFromProps: adaptiveCardsHostConfig
       }),
       [adaptiveCardsHostConfig, patchedAdaptiveCardsPackage]
     );
-    return /* @__PURE__ */ import_react484.default.createElement(AdaptiveCardsContext_default.Provider, { value: adaptiveCardsContext }, children);
+    return /* @__PURE__ */ import_react485.default.createElement(AdaptiveCardsContext_default.Provider, { value: adaptiveCardsContext }, children);
   };
   var AdaptiveCardsComposer_default = AdaptiveCardsComposer;
 
   // src/codeHighlighter/ShikiComposer.tsx
-  var import_react485 = __toESM(require_react());
+  var import_react486 = __toESM(require_react());
 
   // ../../node_modules/@shikijs/types/dist/index.mjs
   var ShikiError = class extends Error {
@@ -210871,8 +212467,8 @@ XID_Start XIDS`.split(/\s/)
     theme: options.theme
   });
   function ShikiComposer({ children }) {
-    const [highlightProps, setHighlightProps] = (0, import_react485.useState)();
-    (0, import_react485.useEffect)(() => {
+    const [highlightProps, setHighlightProps] = (0, import_react486.useState)();
+    (0, import_react486.useEffect)(() => {
       let isMounted = true;
       (async () => isMounted && setHighlightProps(
         Object.freeze({
@@ -210883,12 +212479,12 @@ XID_Start XIDS`.split(/\s/)
         isMounted = false;
       };
     }, []);
-    return /* @__PURE__ */ import_react485.default.createElement(CodeHighlighterComposer, { ...highlightProps }, children);
+    return /* @__PURE__ */ import_react486.default.createElement(CodeHighlighterComposer, { ...highlightProps }, children);
   }
-  var ShikiComposer_default = (0, import_react485.memo)(ShikiComposer);
+  var ShikiComposer_default = (0, import_react486.memo)(ShikiComposer);
 
   // src/stylesheet/BundleStylesheet.tsx
-  var import_react486 = __toESM(require_react());
+  var import_react487 = __toESM(require_react());
 
   // ../styles/dist/botframework-webchat-styles.mjs
   function createStyle2(content3, origin) {
@@ -210926,32 +212522,32 @@ XID_Start XIDS`.split(/\s/)
   function BundleStylesheet(props) {
     const { nonce, at } = validateProps7(bundleStylesheetPropsSchema, props);
     const [{ stylesRoot }] = useStyleOptions();
-    return /* @__PURE__ */ import_react486.default.createElement(InjectStyleElements_default, { at: at != null ? at : stylesRoot, nonce, styleElements: styleElements3 });
+    return /* @__PURE__ */ import_react487.default.createElement(InjectStyleElements_default, { at: at != null ? at : stylesRoot, nonce, styleElements: styleElements3 });
   }
   BundleStylesheet.displayName = "BundleStylesheet";
-  var BundleStylesheet_default = (0, import_react486.memo)(BundleStylesheet);
+  var BundleStylesheet_default = (0, import_react487.memo)(BundleStylesheet);
 
   // src/useComposerProps.ts
-  var import_react501 = __toESM(require_react());
+  var import_react502 = __toESM(require_react());
 
   // src/adaptiveCards/createAdaptiveCardsAttachmentForScreenReaderMiddleware.tsx
-  var import_react490 = __toESM(require_react());
+  var import_react491 = __toESM(require_react());
 
   // src/adaptiveCards/AttachmentForScreenReader/AdaptiveCardAttachment.js
   var import_prop_types47 = __toESM(require_prop_types());
-  var import_react488 = __toESM(require_react());
+  var import_react489 = __toESM(require_react());
 
   // src/adaptiveCards/hooks/internal/useUniqueId.ts
-  var import_react487 = __toESM(require_react());
+  var import_react488 = __toESM(require_react());
   var import_math_random19 = __toESM(require_browser());
   function useUniqueId2(prefix2) {
-    const id = (0, import_react487.useMemo)(() => (0, import_math_random19.default)().toString(36).substr(2, 5), []);
+    const id = (0, import_react488.useMemo)(() => (0, import_math_random19.default)().toString(36).substr(2, 5), []);
     prefix2 = prefix2 ? `${prefix2}--` : "";
     return `${prefix2}${id}`;
   }
 
   // src/adaptiveCards/AttachmentForScreenReader/AdaptiveCardAttachment.js
-  var { useLocalizer: useLocalizer49 } = hook_exports2;
+  var { useLocalizer: useLocalizer50 } = hook_exports2;
   function walkAllItems(node3, fn) {
     fn(node3);
     if (node3.getItemAt && node3.getItemCount) {
@@ -210968,7 +212564,7 @@ XID_Start XIDS`.split(/\s/)
   var AdaptiveCardChoiceSetInput = ({ input: { choices, defaultValue, label } }) => {
     const labelId = useUniqueId2("webchat__id");
     const defaultChoice = choices.find(({ value }) => defaultValue === value || !defaultValue && !value);
-    return /* @__PURE__ */ import_react488.default.createElement("div", null, /* @__PURE__ */ import_react488.default.createElement(
+    return /* @__PURE__ */ import_react489.default.createElement("div", null, /* @__PURE__ */ import_react489.default.createElement(
       "select",
       {
         "aria-label": label,
@@ -210976,7 +212572,7 @@ XID_Start XIDS`.split(/\s/)
         defaultValue,
         tabIndex: -1
       },
-      choices.map((choice) => /* @__PURE__ */ import_react488.default.createElement("option", { id: !label && choice === defaultChoice ? labelId : void 0, key: choice.value, value: choice.value }, choice.title))
+      choices.map((choice) => /* @__PURE__ */ import_react489.default.createElement("option", { id: !label && choice === defaultChoice ? labelId : void 0, key: choice.value, value: choice.value }, choice.title))
     ));
   };
   AdaptiveCardChoiceSetInput.propTypes = {
@@ -210993,7 +212589,7 @@ XID_Start XIDS`.split(/\s/)
     }).isRequired
   };
   var AdaptiveCardAttachment = ({ content: content3 }) => {
-    const localize2 = useLocalizer49();
+    const localize2 = useLocalizer50();
     const parseAdaptiveCardJSON = useParseAdaptiveCardJSON();
     const [
       {
@@ -211008,8 +212604,8 @@ XID_Start XIDS`.split(/\s/)
         ToggleInput: ToggleInput2
       }
     ] = useAdaptiveCardsPackage();
-    const card = (0, import_react488.useMemo)(() => parseAdaptiveCardJSON(content3, { ignoreErrors: true }), [content3, parseAdaptiveCardJSON]);
-    const inputs = (0, import_react488.useMemo)(() => {
+    const card = (0, import_react489.useMemo)(() => parseAdaptiveCardJSON(content3, { ignoreErrors: true }), [content3, parseAdaptiveCardJSON]);
+    const inputs = (0, import_react489.useMemo)(() => {
       const inputs2 = [];
       walkAllItems(card, (node3) => {
         if (node3 instanceof ChoiceSetInput2 || node3 instanceof DateInput2 || node3 instanceof NumberInput2 || node3 instanceof OpenUrlAction2 || node3 instanceof ShowCardAction2 || node3 instanceof SubmitAction2 || node3 instanceof TextInput2 || node3 instanceof TimeInput2 || node3 instanceof ToggleInput2) {
@@ -211030,8 +212626,8 @@ XID_Start XIDS`.split(/\s/)
       ToggleInput2
     ]);
     const cardLabel = localize2("ATTACHMENT_CARD", card.speak || "", "", "");
-    return /* @__PURE__ */ import_react488.default.createElement("article", null, /* @__PURE__ */ import_react488.default.createElement("div", null, cardLabel), inputs.map(
-      (input, index2) => input instanceof ChoiceSetInput2 ? /* @__PURE__ */ import_react488.default.createElement(AdaptiveCardChoiceSetInput, { input, key: index2 }) : input instanceof DateInput2 ? /* @__PURE__ */ import_react488.default.createElement("label", { key: index2 }, input.title, /* @__PURE__ */ import_react488.default.createElement("input", { placeholder: input.placeholder, tabIndex: -1, type: "date" })) : input instanceof NumberInput2 ? /* @__PURE__ */ import_react488.default.createElement("label", { key: index2 }, input.title, /* @__PURE__ */ import_react488.default.createElement("input", { placeholder: input.placeholder, tabIndex: -1, type: "number" })) : input instanceof OpenUrlAction2 || input instanceof ShowCardAction2 || input instanceof SubmitAction2 ? /* @__PURE__ */ import_react488.default.createElement("div", { key: index2 }, /* @__PURE__ */ import_react488.default.createElement("button", { tabIndex: -1, type: "button" }, input.title)) : input instanceof TextInput2 ? /* @__PURE__ */ import_react488.default.createElement("label", { key: index2 }, input.title, /* @__PURE__ */ import_react488.default.createElement("input", { placeholder: input.placeholder, tabIndex: -1, type: "text" })) : input instanceof TimeInput2 ? /* @__PURE__ */ import_react488.default.createElement("label", { key: index2 }, input.title, /* @__PURE__ */ import_react488.default.createElement("input", { placeholder: input.placeholder, tabIndex: -1, type: "time" })) : input instanceof ToggleInput2 ? /* @__PURE__ */ import_react488.default.createElement("label", { key: index2 }, input.title, /* @__PURE__ */ import_react488.default.createElement("input", { defaultChecked: input.value === input.valueOn, tabIndex: -1, type: "checkbox" })) : false
+    return /* @__PURE__ */ import_react489.default.createElement("article", null, /* @__PURE__ */ import_react489.default.createElement("div", null, cardLabel), inputs.map(
+      (input, index2) => input instanceof ChoiceSetInput2 ? /* @__PURE__ */ import_react489.default.createElement(AdaptiveCardChoiceSetInput, { input, key: index2 }) : input instanceof DateInput2 ? /* @__PURE__ */ import_react489.default.createElement("label", { key: index2 }, input.title, /* @__PURE__ */ import_react489.default.createElement("input", { placeholder: input.placeholder, tabIndex: -1, type: "date" })) : input instanceof NumberInput2 ? /* @__PURE__ */ import_react489.default.createElement("label", { key: index2 }, input.title, /* @__PURE__ */ import_react489.default.createElement("input", { placeholder: input.placeholder, tabIndex: -1, type: "number" })) : input instanceof OpenUrlAction2 || input instanceof ShowCardAction2 || input instanceof SubmitAction2 ? /* @__PURE__ */ import_react489.default.createElement("div", { key: index2 }, /* @__PURE__ */ import_react489.default.createElement("button", { tabIndex: -1, type: "button" }, input.title)) : input instanceof TextInput2 ? /* @__PURE__ */ import_react489.default.createElement("label", { key: index2 }, input.title, /* @__PURE__ */ import_react489.default.createElement("input", { placeholder: input.placeholder, tabIndex: -1, type: "text" })) : input instanceof TimeInput2 ? /* @__PURE__ */ import_react489.default.createElement("label", { key: index2 }, input.title, /* @__PURE__ */ import_react489.default.createElement("input", { placeholder: input.placeholder, tabIndex: -1, type: "time" })) : input instanceof ToggleInput2 ? /* @__PURE__ */ import_react489.default.createElement("label", { key: index2 }, input.title, /* @__PURE__ */ import_react489.default.createElement("input", { defaultChecked: input.value === input.valueOn, tabIndex: -1, type: "checkbox" })) : false
     ));
   };
   AdaptiveCardAttachment.propTypes = {
@@ -211041,16 +212637,16 @@ XID_Start XIDS`.split(/\s/)
 
   // src/adaptiveCards/AttachmentForScreenReader/RichCardAttachment.js
   var import_prop_types48 = __toESM(require_prop_types());
-  var import_react489 = __toESM(require_react());
-  var { useLocalizer: useLocalizer50 } = hook_exports2;
+  var import_react490 = __toESM(require_react());
+  var { useLocalizer: useLocalizer51 } = hook_exports2;
   var RichCardAttachment = ({ content: content3 = {} }) => {
-    const localize2 = useLocalizer50();
+    const localize2 = useLocalizer51();
     const { buttons, facts, image, images, items, subtitle, tax, text: text6, title, total, vat } = content3;
     const taxLabel = localize2("RECEIPT_CARD_TAX");
     const totalLabel = localize2("RECEIPT_CARD_TOTAL");
     const vatLabel = localize2("RECEIPT_CARD_VAT");
     const cardLabel = localize2("ATTACHMENT_CARD", title || "", subtitle || "", text6 || "");
-    return /* @__PURE__ */ import_react489.default.createElement("article", null, /* @__PURE__ */ import_react489.default.createElement("div", null, cardLabel), !!image && !!image.alt && /* @__PURE__ */ import_react489.default.createElement("img", { alt: image.alt }), !!images && !!images.length && images.map(({ alt }, index2) => /* @__PURE__ */ import_react489.default.createElement("img", { alt, key: index2 })), !!facts && !!facts.length && /* @__PURE__ */ import_react489.default.createElement("dl", null, facts.map(({ key: key2, value }, index2) => /* @__PURE__ */ import_react489.default.createElement(import_react489.default.Fragment, { key: index2 }, /* @__PURE__ */ import_react489.default.createElement("dt", null, key2), /* @__PURE__ */ import_react489.default.createElement("dd", null, value)))), !!items && !!items.length && /* @__PURE__ */ import_react489.default.createElement("ul", null, items.map(({ image: image2, price, quantity, subtitle: subtitle2, text: text7, title: title2 }, index2) => /* @__PURE__ */ import_react489.default.createElement("li", { key: index2 }, !!image2 && !!image2.alt && /* @__PURE__ */ import_react489.default.createElement("img", { alt: image2.alt }), !!title2 && /* @__PURE__ */ import_react489.default.createElement("p", null, title2), !!subtitle2 && /* @__PURE__ */ import_react489.default.createElement("p", null, subtitle2), !!text7 && /* @__PURE__ */ import_react489.default.createElement("p", null, text7), !!quantity && /* @__PURE__ */ import_react489.default.createElement("p", null, quantity), !!price && /* @__PURE__ */ import_react489.default.createElement("p", null, price)))), !!vat && /* @__PURE__ */ import_react489.default.createElement("p", null, vatLabel, " ", vat), !!tax && /* @__PURE__ */ import_react489.default.createElement("p", null, taxLabel, " ", tax), !!total && /* @__PURE__ */ import_react489.default.createElement("p", null, totalLabel, " ", total), !!buttons && !!buttons.length && /* @__PURE__ */ import_react489.default.createElement("div", null, buttons.map(({ title: title2 }, index2) => /* @__PURE__ */ import_react489.default.createElement("button", { key: index2, tabIndex: -1, type: "button" }, title2))));
+    return /* @__PURE__ */ import_react490.default.createElement("article", null, /* @__PURE__ */ import_react490.default.createElement("div", null, cardLabel), !!image && !!image.alt && /* @__PURE__ */ import_react490.default.createElement("img", { alt: image.alt }), !!images && !!images.length && images.map(({ alt }, index2) => /* @__PURE__ */ import_react490.default.createElement("img", { alt, key: index2 })), !!facts && !!facts.length && /* @__PURE__ */ import_react490.default.createElement("dl", null, facts.map(({ key: key2, value }, index2) => /* @__PURE__ */ import_react490.default.createElement(import_react490.default.Fragment, { key: index2 }, /* @__PURE__ */ import_react490.default.createElement("dt", null, key2), /* @__PURE__ */ import_react490.default.createElement("dd", null, value)))), !!items && !!items.length && /* @__PURE__ */ import_react490.default.createElement("ul", null, items.map(({ image: image2, price, quantity, subtitle: subtitle2, text: text7, title: title2 }, index2) => /* @__PURE__ */ import_react490.default.createElement("li", { key: index2 }, !!image2 && !!image2.alt && /* @__PURE__ */ import_react490.default.createElement("img", { alt: image2.alt }), !!title2 && /* @__PURE__ */ import_react490.default.createElement("p", null, title2), !!subtitle2 && /* @__PURE__ */ import_react490.default.createElement("p", null, subtitle2), !!text7 && /* @__PURE__ */ import_react490.default.createElement("p", null, text7), !!quantity && /* @__PURE__ */ import_react490.default.createElement("p", null, quantity), !!price && /* @__PURE__ */ import_react490.default.createElement("p", null, price)))), !!vat && /* @__PURE__ */ import_react490.default.createElement("p", null, vatLabel, " ", vat), !!tax && /* @__PURE__ */ import_react490.default.createElement("p", null, taxLabel, " ", tax), !!total && /* @__PURE__ */ import_react490.default.createElement("p", null, totalLabel, " ", total), !!buttons && !!buttons.length && /* @__PURE__ */ import_react490.default.createElement("div", null, buttons.map(({ title: title2 }, index2) => /* @__PURE__ */ import_react490.default.createElement("button", { key: index2, tabIndex: -1, type: "button" }, title2))));
   };
   RichCardAttachment.propTypes = {
     content: import_prop_types48.default.any.isRequired
@@ -211075,15 +212671,15 @@ XID_Start XIDS`.split(/\s/)
           attachment: { content: content3, contentType }
         }
       ] = args;
-      return content3 && RICH_CARD_CONTENT_TYPES.includes(contentType) ? () => /* @__PURE__ */ import_react490.default.createElement(RichCardAttachment_default, { content: content3 }) : content3 && contentType === "application/vnd.microsoft.card.adaptive" ? () => /* @__PURE__ */ import_react490.default.createElement(AdaptiveCardAttachment_default, { content: content3 }) : next2(...args);
+      return content3 && RICH_CARD_CONTENT_TYPES.includes(contentType) ? () => /* @__PURE__ */ import_react491.default.createElement(RichCardAttachment_default, { content: content3 }) : content3 && contentType === "application/vnd.microsoft.card.adaptive" ? () => /* @__PURE__ */ import_react491.default.createElement(AdaptiveCardAttachment_default, { content: content3 }) : next2(...args);
     };
   }
 
   // src/adaptiveCards/createAdaptiveCardsAttachmentMiddleware.tsx
-  var import_react500 = __toESM(require_react());
+  var import_react501 = __toESM(require_react());
 
   // src/adaptiveCards/Attachment/AdaptiveCardAttachment.tsx
-  var import_react491 = __toESM(require_react());
+  var import_react492 = __toESM(require_react());
   var adaptiveCardAttachmentPropsSchema = pipe(
     object({
       attachment: pipe(
@@ -211101,14 +212697,14 @@ XID_Start XIDS`.split(/\s/)
       attachment: { content: content3 },
       disabled
     } = validateProps7(adaptiveCardAttachmentPropsSchema, props);
-    return /* @__PURE__ */ import_react491.default.createElement(AdaptiveCardContent_default, { content: content3, disabled });
+    return /* @__PURE__ */ import_react492.default.createElement(AdaptiveCardContent_default, { content: content3, disabled });
   }
-  var AdaptiveCardAttachment_default2 = (0, import_react491.memo)(AdaptiveCardAttachment2);
+  var AdaptiveCardAttachment_default2 = (0, import_react492.memo)(AdaptiveCardAttachment2);
 
   // src/adaptiveCards/Attachment/AnimationCardAttachment.js
   var import_prop_types49 = __toESM(require_prop_types());
-  var import_react492 = __toESM(require_react());
-  var AnimationCardAttachment2 = ({ attachment: { content: content3 }, disabled }) => /* @__PURE__ */ import_react492.default.createElement(AnimationCardContent_default, { content: content3, disabled });
+  var import_react493 = __toESM(require_react());
+  var AnimationCardAttachment2 = ({ attachment: { content: content3 }, disabled }) => /* @__PURE__ */ import_react493.default.createElement(AnimationCardContent_default, { content: content3, disabled });
   AnimationCardAttachment2.defaultProps = {
     disabled: void 0
   };
@@ -211129,8 +212725,8 @@ XID_Start XIDS`.split(/\s/)
 
   // src/adaptiveCards/Attachment/AudioCardAttachment.js
   var import_prop_types50 = __toESM(require_prop_types());
-  var import_react493 = __toESM(require_react());
-  var AudioCardAttachment2 = ({ attachment: { content: content3 }, disabled }) => /* @__PURE__ */ import_react493.default.createElement(AudioCardContent_default, { content: content3, disabled });
+  var import_react494 = __toESM(require_react());
+  var AudioCardAttachment2 = ({ attachment: { content: content3 }, disabled }) => /* @__PURE__ */ import_react494.default.createElement(AudioCardContent_default, { content: content3, disabled });
   AudioCardAttachment2.defaultProps = {
     disabled: void 0
   };
@@ -211155,8 +212751,8 @@ XID_Start XIDS`.split(/\s/)
 
   // src/adaptiveCards/Attachment/HeroCardAttachment.js
   var import_prop_types51 = __toESM(require_prop_types());
-  var import_react494 = __toESM(require_react());
-  var HeroCardAttachment = ({ attachment: { content: content3 } = {}, disabled }) => !!content3 && /* @__PURE__ */ import_react494.default.createElement(HeroCardContent_default, { content: content3, disabled });
+  var import_react495 = __toESM(require_react());
+  var HeroCardAttachment = ({ attachment: { content: content3 } = {}, disabled }) => !!content3 && /* @__PURE__ */ import_react495.default.createElement(HeroCardContent_default, { content: content3, disabled });
   HeroCardAttachment.defaultProps = {
     disabled: void 0
   };
@@ -211183,8 +212779,8 @@ XID_Start XIDS`.split(/\s/)
 
   // src/adaptiveCards/Attachment/OAuthCardAttachment.js
   var import_prop_types52 = __toESM(require_prop_types());
-  var import_react495 = __toESM(require_react());
-  var OAuthCardAttachment = ({ attachment: { content: content3 } = {}, disabled }) => /* @__PURE__ */ import_react495.default.createElement(OAuthCardContent_default, { content: content3, disabled });
+  var import_react496 = __toESM(require_react());
+  var OAuthCardAttachment = ({ attachment: { content: content3 } = {}, disabled }) => /* @__PURE__ */ import_react496.default.createElement(OAuthCardContent_default, { content: content3, disabled });
   OAuthCardAttachment.defaultProps = {
     disabled: void 0
   };
@@ -211200,8 +212796,8 @@ XID_Start XIDS`.split(/\s/)
 
   // src/adaptiveCards/Attachment/ReceiptCardAttachment.js
   var import_prop_types53 = __toESM(require_prop_types());
-  var import_react496 = __toESM(require_react());
-  var ReceiptCardAttachment = ({ attachment: { content: content3 }, disabled }) => /* @__PURE__ */ import_react496.default.createElement(ReceiptCardContent_default, { content: content3, disabled });
+  var import_react497 = __toESM(require_react());
+  var ReceiptCardAttachment = ({ attachment: { content: content3 }, disabled }) => /* @__PURE__ */ import_react497.default.createElement(ReceiptCardContent_default, { content: content3, disabled });
   ReceiptCardAttachment.defaultProps = {
     disabled: void 0
   };
@@ -211243,8 +212839,8 @@ XID_Start XIDS`.split(/\s/)
 
   // src/adaptiveCards/Attachment/SignInCardAttachment.js
   var import_prop_types54 = __toESM(require_prop_types());
-  var import_react497 = __toESM(require_react());
-  var SignInCardAttachment = ({ attachment: { content: content3 }, disabled }) => /* @__PURE__ */ import_react497.default.createElement(SignInCardContent_default, { content: content3, disabled });
+  var import_react498 = __toESM(require_react());
+  var SignInCardAttachment = ({ attachment: { content: content3 }, disabled }) => /* @__PURE__ */ import_react498.default.createElement(SignInCardContent_default, { content: content3, disabled });
   SignInCardAttachment.defaultProps = {
     disabled: void 0
   };
@@ -211258,8 +212854,8 @@ XID_Start XIDS`.split(/\s/)
 
   // src/adaptiveCards/Attachment/ThumbnailCardAttachment.js
   var import_prop_types55 = __toESM(require_prop_types());
-  var import_react498 = __toESM(require_react());
-  var ThumbnailCardAttachment = ({ attachment: { content: content3 }, disabled }) => /* @__PURE__ */ import_react498.default.createElement(ThumbnailCardContent_default, { content: content3, disabled });
+  var import_react499 = __toESM(require_react());
+  var ThumbnailCardAttachment = ({ attachment: { content: content3 }, disabled }) => /* @__PURE__ */ import_react499.default.createElement(ThumbnailCardContent_default, { content: content3, disabled });
   ThumbnailCardAttachment.defaultProps = {
     disabled: void 0
   };
@@ -211286,8 +212882,8 @@ XID_Start XIDS`.split(/\s/)
 
   // src/adaptiveCards/Attachment/VideoCardAttachment.js
   var import_prop_types56 = __toESM(require_prop_types());
-  var import_react499 = __toESM(require_react());
-  var VideoCardAttachment = ({ attachment: { content: content3 }, disabled }) => /* @__PURE__ */ import_react499.default.createElement(VideoCardContent_default, { content: content3, disabled });
+  var import_react500 = __toESM(require_react());
+  var VideoCardAttachment = ({ attachment: { content: content3 }, disabled }) => /* @__PURE__ */ import_react500.default.createElement(VideoCardContent_default, { content: content3, disabled });
   VideoCardAttachment.defaultProps = {
     disabled: void 0
   };
@@ -211315,7 +212911,7 @@ XID_Start XIDS`.split(/\s/)
   function createAdaptiveCardsAttachmentMiddleware2() {
     return () => (next2) => (...args) => {
       const [{ attachment }] = args;
-      return attachment.contentType === "application/vnd.microsoft.card.hero" ? /* @__PURE__ */ import_react500.default.createElement(HeroCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.adaptive" ? /* @__PURE__ */ import_react500.default.createElement(AdaptiveCardAttachment_default2, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.animation" ? /* @__PURE__ */ import_react500.default.createElement(AnimationCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.audio" ? /* @__PURE__ */ import_react500.default.createElement(AudioCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.oauth" ? /* @__PURE__ */ import_react500.default.createElement(OAuthCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.receipt" ? /* @__PURE__ */ import_react500.default.createElement(ReceiptCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.signin" ? /* @__PURE__ */ import_react500.default.createElement(SignInCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.thumbnail" ? /* @__PURE__ */ import_react500.default.createElement(ThumbnailCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.video" ? /* @__PURE__ */ import_react500.default.createElement(VideoCardAttachment_default, { attachment }) : next2(...args);
+      return attachment.contentType === "application/vnd.microsoft.card.hero" ? /* @__PURE__ */ import_react501.default.createElement(HeroCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.adaptive" ? /* @__PURE__ */ import_react501.default.createElement(AdaptiveCardAttachment_default2, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.animation" ? /* @__PURE__ */ import_react501.default.createElement(AnimationCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.audio" ? /* @__PURE__ */ import_react501.default.createElement(AudioCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.oauth" ? /* @__PURE__ */ import_react501.default.createElement(OAuthCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.receipt" ? /* @__PURE__ */ import_react501.default.createElement(ReceiptCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.signin" ? /* @__PURE__ */ import_react501.default.createElement(SignInCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.thumbnail" ? /* @__PURE__ */ import_react501.default.createElement(ThumbnailCardAttachment_default, { attachment }) : attachment.contentType === "application/vnd.microsoft.card.video" ? /* @__PURE__ */ import_react501.default.createElement(VideoCardAttachment_default, { attachment }) : next2(...args);
     };
   }
 
@@ -227641,16 +229237,50 @@ XID_Start XIDS`.split(/\s/)
     return documentFragment;
   }
 
-  // src/markdown/private/iterateLinkDefinitions.ts
-  function isDefinition(node3) {
-    return node3.type === "definition";
-  }
-  function* iterateLinkDefinitions(markdown) {
-    for (const topLevelNode of fromMarkdown(markdown).children) {
-      if (isDefinition(topLevelNode)) {
-        yield topLevelNode;
+  // src/markdown/private/extractDefinitionsFromEvents.ts
+  function extractDefinitionsFromEvents(events2) {
+    const definitions = [];
+    let inDefinition = false;
+    let label = "";
+    let title = "";
+    let url2 = "";
+    for (const [action2, token3, context9] of events2) {
+      if (action2 === "enter" && token3.type === "definition") {
+        inDefinition = true;
+        label = "";
+        title = "";
+        url2 = "";
+        continue;
+      }
+      if (!inDefinition || action2 !== "exit") {
+        continue;
+      }
+      switch (token3.type) {
+        case "definitionLabelString":
+          label = context9.sliceSerialize(token3);
+          break;
+        case "definitionDestinationString":
+          url2 = context9.sliceSerialize(token3);
+          break;
+        case "definitionTitleString":
+          title = context9.sliceSerialize(token3);
+          break;
+        case "definition":
+          definitions.push(
+            Object.freeze({
+              identifier: normalizeIdentifier(label),
+              label,
+              title,
+              url: url2
+            })
+          );
+          inDefinition = false;
+          break;
+        default:
+          break;
       }
     }
+    return Object.freeze(definitions);
   }
 
   // src/markdown/private/respectCRLF.ts
@@ -227660,20 +229290,18 @@ XID_Start XIDS`.split(/\s/)
     markdown.replace(/\n\r|\r\n/g, (carriageReturn) => carriageReturn === "\n\r" ? "\r\n" : "\n\r")
   );
 
-  // src/markdown/renderMarkdown.ts
+  // src/markdown/private/createDecorate.ts
   var ALLOWED_SCHEMES2 = ["data", "http", "https", "ftp", "mailto", "sip", "tel"];
-  function render5(markdown, { markdownRespectCRLF, markdownRenderHTML }, { externalLinkAlt: externalLinkAlt2 }) {
-    const linkDefinitions2 = Array.from(iterateLinkDefinitions(markdown)).map(
+  function createDecorate(definitions, externalLinkAlt2) {
+    const linkDefinitions2 = definitions.map(
       (definition2) => Object.freeze({
         ...definition2,
         markupUrl: sanitizeUri(definition2.url),
         parsedUrl: onErrorResumeNext(() => new URL(definition2.url))
       })
     );
-    if (markdownRespectCRLF) {
-      markdown = pre(markdown);
-    }
-    const decorate = (href, textContent) => {
+    const allowedSchemas = ALLOWED_SCHEMES2.map((scheme) => `${scheme}:`);
+    return (href, textContent) => {
       var _a28;
       const decoration = {
         rel: "noopener noreferrer",
@@ -227689,7 +229317,7 @@ XID_Start XIDS`.split(/\s/)
         linkDefinition.label === textContent && classes30.add("render-markdown__pure-identifier");
       }
       if (protocol !== "javascript:") {
-        if (!ALLOWED_SCHEMES2.map((scheme) => `${scheme}:`).includes(protocol)) {
+        if (!allowedSchemas.includes(protocol)) {
           decoration.asButton = true;
           classes30.add("render-markdown__citation");
         } else if (protocol === "http:" || protocol === "https:") {
@@ -227705,6 +229333,302 @@ XID_Start XIDS`.split(/\s/)
       decoration.title = false;
       return decoration;
     };
+  }
+
+  // src/markdown/createStreamingRenderer.ts
+  var STREAMING_ERROR = /* @__PURE__ */ Symbol("markdown streaming error");
+  var TOP_LEVEL_BLOCK_TYPES = /* @__PURE__ */ new Set([
+    "atxHeading",
+    "blockQuote",
+    "codeFenced",
+    "codeIndented",
+    "content",
+    "htmlFlow",
+    "listOrdered",
+    "listUnordered",
+    "setextHeading",
+    "table",
+    "thematicBreak",
+    "math"
+  ]);
+  function findTopLevelBlocks(events2) {
+    const blocks = [];
+    let depth = 0;
+    for (const [action2, token3] of events2) {
+      if (!TOP_LEVEL_BLOCK_TYPES.has(token3.type)) {
+        continue;
+      }
+      if (action2 === "enter") {
+        if (!depth) {
+          blocks.push({ endOffset: -1, startOffset: token3.start.offset, type: token3.type });
+        }
+        depth++;
+      } else {
+        depth--;
+        if (!depth && blocks.length) {
+          blocks.at(-1).endOffset = token3.end.offset;
+        }
+      }
+    }
+    return blocks;
+  }
+  function createStreamingRenderer({ markdownRenderHTML, markdownRespectCRLF }, { externalLinkAlt: externalLinkAlt2 }) {
+    const micromarkOptions = {
+      allowDangerousHtml: markdownRenderHTML != null ? markdownRenderHTML : true,
+      allowDangerousProtocol: true,
+      extensions: [gfm(), math2()],
+      htmlExtensions: [
+        gfmHtml(),
+        mathHtml({
+          renderMath: (content3, isDisplay) => katex.renderToString(content3, {
+            displayMode: isDisplay,
+            output: "mathml"
+          })
+        })
+      ]
+    };
+    const domParser = new DOMParser();
+    let previousMarkdown = "";
+    const emptyDefinitions = Object.freeze([]);
+    let wrapperDiv = null;
+    let activeSentinel = null;
+    function parseEvents(source) {
+      return postprocess(
+        parse4(micromarkOptions).document().write(preprocess()(source, void 0, true))
+      );
+    }
+    function applyTransform(fragment, transformFragment) {
+      return transformFragment ? transformFragment(fragment) : fragment;
+    }
+    function ensureWrapper(container, containerClassName) {
+      if (wrapperDiv && container.contains(wrapperDiv)) {
+        wrapperDiv.className = containerClassName || "";
+        return wrapperDiv;
+      }
+      const wrapper = document.createElement("div");
+      wrapper.className = containerClassName || "";
+      container.textContent = "";
+      container.appendChild(wrapper);
+      wrapperDiv = wrapper;
+      activeSentinel = null;
+      return wrapper;
+    }
+    function setError(error2, wrapper) {
+      wrapper.dataset.renderError = String(error2 instanceof Error ? error2.message : error2);
+      wrapper.dataset.renderErrorCount = String(Number(wrapper.dataset.renderErrorCount || "0") + 1);
+      wrapper[STREAMING_ERROR] = error2;
+    }
+    const knownDefinitions = /* @__PURE__ */ new Set();
+    function extractDefinitions(events2) {
+      for (const [action2, token3, ctx] of events2) {
+        token3.type === "definition" && action2 === "exit" && knownDefinitions.add(ctx.sliceSerialize(token3) + "\n");
+      }
+    }
+    let lastStepDefinitionOffset = 0;
+    let lastCommittedBlockEndOffset = 0;
+    let stepEvents = [];
+    function step3(markdown) {
+      var _a28;
+      const markdownTail = markdown.slice(lastCommittedBlockEndOffset);
+      const doc = parse4(micromarkOptions).document();
+      const prep = preprocess();
+      if (knownDefinitions.size) {
+        for (const definition2 of knownDefinitions) {
+          doc.write(prep(definition2, void 0, false));
+        }
+        const lastDefinitionTokenOffset = (_a28 = doc.events.at(-1)) == null ? void 0 : _a28[1].end.offset;
+        if (typeof lastDefinitionTokenOffset !== "number") {
+          throw new Error("Failed to extract definition token offset");
+        }
+        lastStepDefinitionOffset = lastDefinitionTokenOffset;
+      } else {
+        lastStepDefinitionOffset = 0;
+      }
+      const tailEvents = doc.write(prep(markdownTail, void 0, true));
+      stepEvents = postprocess(tailEvents);
+      return stepEvents;
+    }
+    function commit(block) {
+      const compiler2 = compile2(micromarkOptions);
+      extractDefinitions(stepEvents);
+      if (knownDefinitions.size) {
+        const doc = parse4(micromarkOptions).document();
+        const prep = preprocess();
+        for (const definition2 of knownDefinitions) {
+          doc.write(prep(definition2, void 0, false));
+        }
+        compiler2(postprocess(doc.write(prep("", void 0, true))));
+      }
+      const newCommittedOffset = block.startOffset;
+      const newCommittedEvents = stepEvents.filter(([, token3]) => token3.start.offset < newCommittedOffset);
+      lastCommittedBlockEndOffset += newCommittedOffset - lastStepDefinitionOffset;
+      return compiler2(newCommittedEvents);
+    }
+    function revert() {
+      lastStepDefinitionOffset = 0;
+      stepEvents = [];
+    }
+    function cleanup() {
+      revert();
+      activeSentinel = null;
+      lastCommittedBlockEndOffset = 0;
+      knownDefinitions.clear();
+    }
+    function renderNext(chunk, options) {
+      const isAppend = !!previousMarkdown;
+      previousMarkdown += chunk;
+      if (!previousMarkdown) {
+        cleanup();
+        const wrapper2 = ensureWrapper(options.container, options.containerClassName);
+        wrapper2.replaceChildren();
+        return;
+      }
+      let processedMarkdown = previousMarkdown;
+      if (markdownRespectCRLF) {
+        processedMarkdown = pre(processedMarkdown);
+      }
+      try {
+        if (isAppend) {
+          const wrapper2 = ensureWrapper(options.container, options.containerClassName);
+          if (activeSentinel && wrapper2.contains(activeSentinel)) {
+            const tailEvents = step3(processedMarkdown);
+            const tailBlocks = findTopLevelBlocks(tailEvents);
+            const decorate2 = createDecorate(emptyDefinitions, externalLinkAlt2);
+            if (tailBlocks.length <= 1) {
+              const tailHTML = compile2(micromarkOptions)(tailEvents);
+              const activeDoc = domParser.parseFromString(tailHTML.trim(), "text/html");
+              const activeFragment = activeDoc.createDocumentFragment();
+              activeFragment.append(...Array.from(activeDoc.body.childNodes));
+              betterLinkDocumentMod(activeFragment, decorate2);
+              const activeRange = document.createRange();
+              activeRange.setStartAfter(activeSentinel);
+              activeRange.setEndAfter(wrapper2.lastChild);
+              activeRange.deleteContents();
+              wrapper2.append(applyTransform(activeFragment, options.transformFragment));
+            } else {
+              const committedTailHTML = commit(tailBlocks.at(-1));
+              const committedDoc = domParser.parseFromString(committedTailHTML, "text/html");
+              const committedFragment = committedDoc.createDocumentFragment();
+              const activeEvents = step3(processedMarkdown);
+              const activeHTML = compile2(micromarkOptions)(activeEvents);
+              const activeDoc = domParser.parseFromString(activeHTML.trim(), "text/html");
+              const activeFragment = activeDoc.createDocumentFragment();
+              committedFragment.append(...Array.from(committedDoc.body.childNodes));
+              betterLinkDocumentMod(committedFragment, decorate2);
+              activeFragment.append(...Array.from(activeDoc.body.childNodes));
+              betterLinkDocumentMod(activeFragment, decorate2);
+              const tailRange = document.createRange();
+              tailRange.setStartBefore(activeSentinel);
+              tailRange.setEndAfter(wrapper2.lastChild);
+              tailRange.deleteContents();
+              activeSentinel = document.createComment("");
+              wrapper2.append(
+                applyTransform(committedFragment, options.transformFragment),
+                activeSentinel,
+                applyTransform(activeFragment, options.transformFragment)
+              );
+            }
+            return;
+          }
+        }
+      } catch (error2) {
+        setError(error2, ensureWrapper(options.container, options.containerClassName));
+      }
+      cleanup();
+      const fullEvents = step3(processedMarkdown);
+      const blocks = findTopLevelBlocks(fullEvents);
+      const wrapper = ensureWrapper(options.container, options.containerClassName);
+      const decorate = createDecorate(emptyDefinitions, externalLinkAlt2);
+      try {
+        if (blocks.length >= 2) {
+          const committedHTML = commit(blocks.at(-1));
+          const committedDoc = domParser.parseFromString(committedHTML, "text/html");
+          const committedFragment = committedDoc.createDocumentFragment();
+          const activeEvents = step3(processedMarkdown);
+          const activeHTML = compile2(micromarkOptions)(activeEvents);
+          const activeDoc = domParser.parseFromString(activeHTML.trim(), "text/html");
+          const activeFragment = activeDoc.createDocumentFragment();
+          committedFragment.append(...Array.from(committedDoc.body.childNodes));
+          betterLinkDocumentMod(committedFragment, decorate);
+          activeFragment.append(...Array.from(activeDoc.body.childNodes));
+          betterLinkDocumentMod(activeFragment, decorate);
+          activeSentinel = document.createComment("");
+          wrapper.replaceChildren(
+            applyTransform(committedFragment, options.transformFragment),
+            activeSentinel,
+            applyTransform(activeFragment, options.transformFragment)
+          );
+          return;
+        }
+      } catch (error2) {
+        setError(error2, ensureWrapper(options.container, options.containerClassName));
+        cleanup();
+      }
+      activeSentinel = null;
+      const rawHTML = compile2(micromarkOptions)(fullEvents);
+      const parsedDocument = domParser.parseFromString(rawHTML.trim(), "text/html");
+      const fragment = parsedDocument.createDocumentFragment();
+      fragment.append(...Array.from(parsedDocument.body.childNodes));
+      betterLinkDocumentMod(fragment, decorate);
+      wrapper.replaceChildren(applyTransform(fragment, options.transformFragment));
+    }
+    return Object.freeze({
+      finalize(options) {
+        if (!previousMarkdown) {
+          const wrapper2 = ensureWrapper(options.container, options.containerClassName);
+          wrapper2.replaceChildren();
+          return Object.freeze({ definitions: Object.freeze([]) });
+        }
+        let processedMarkdown = previousMarkdown;
+        if (markdownRespectCRLF) {
+          processedMarkdown = pre(processedMarkdown);
+        }
+        const fullEvents = parseEvents(processedMarkdown);
+        const rawHTML = compile2(micromarkOptions)(fullEvents);
+        const finalDoc = domParser.parseFromString(rawHTML.trim(), "text/html");
+        const fragment = finalDoc.createDocumentFragment();
+        const definitions = extractDefinitionsFromEvents(fullEvents);
+        const wrapper = ensureWrapper(options.container, options.containerClassName);
+        const decorate = createDecorate(definitions, externalLinkAlt2);
+        fragment.append(...Array.from(finalDoc.body.childNodes));
+        betterLinkDocumentMod(fragment, decorate);
+        activeSentinel = null;
+        wrapper.replaceChildren(applyTransform(fragment, options.transformFragment));
+        return Object.freeze({ definitions });
+      },
+      next(chunk, options) {
+        try {
+          renderNext(chunk, options);
+        } finally {
+          revert();
+        }
+      },
+      reset() {
+        previousMarkdown = "";
+        cleanup();
+      }
+    });
+  }
+
+  // src/markdown/private/iterateLinkDefinitions.ts
+  function isDefinition(node3) {
+    return node3.type === "definition";
+  }
+  function* iterateLinkDefinitions(markdown) {
+    for (const topLevelNode of fromMarkdown(markdown).children) {
+      if (isDefinition(topLevelNode)) {
+        yield topLevelNode;
+      }
+    }
+  }
+
+  // src/markdown/renderMarkdown.ts
+  function render5(markdown, { markdownRespectCRLF, markdownRenderHTML }, { externalLinkAlt: externalLinkAlt2 }) {
+    const linkDefinitions2 = Array.from(iterateLinkDefinitions(markdown));
+    if (markdownRespectCRLF) {
+      markdown = pre(markdown);
+    }
+    const decorate = createDecorate(linkDefinitions2, externalLinkAlt2);
     const htmlAfterMarkdown = micromark(markdown, {
       allowDangerousHtml: markdownRenderHTML != null ? markdownRenderHTML : true,
       // We need to handle links like cite:1 or other URL handlers.
@@ -227723,8 +229647,9 @@ XID_Start XIDS`.split(/\s/)
     });
     const documentFragmentAfterMarkdown = parseDocumentFragmentFromString(htmlAfterMarkdown);
     betterLinkDocumentMod(documentFragmentAfterMarkdown, decorate);
-    return serializeDocumentFragmentIntoString(documentFragmentAfterMarkdown);
+    return serializeDocumentFragmentIntoString(documentFragmentAfterMarkdown).trim();
   }
+  render5.createStreamingRenderer = createStreamingRenderer;
 
   // src/useComposerProps.ts
   function useComposerProps({
@@ -227735,23 +229660,23 @@ XID_Start XIDS`.split(/\s/)
     styleOptions,
     styleSet
   }) {
-    const patchedAttachmentMiddleware = (0, import_react501.useMemo)(
+    const patchedAttachmentMiddleware = (0, import_react502.useMemo)(
       () => [...attachmentMiddleware != null ? attachmentMiddleware : [], createAdaptiveCardsAttachmentMiddleware2()],
       [attachmentMiddleware]
     );
-    const patchedAttachmentForScreenReaderMiddleware = (0, import_react501.useMemo)(
+    const patchedAttachmentForScreenReaderMiddleware = (0, import_react502.useMemo)(
       () => [...attachmentForScreenReaderMiddleware != null ? attachmentForScreenReaderMiddleware : [], createAdaptiveCardsAttachmentMiddleware()],
       [attachmentForScreenReaderMiddleware]
     );
-    const extraStyleSet = (0, import_react501.useMemo)(
+    const extraStyleSet = (0, import_react502.useMemo)(
       () => styleSet ? void 0 : createAdaptiveCardsStyleSet(styleOptions),
       [styleOptions, styleSet]
     );
-    const patchedRenderMarkdown = (0, import_react501.useMemo)(
+    const patchedRenderMarkdown = (0, import_react502.useMemo)(
       () => typeof renderMarkdown === "undefined" ? render5 : renderMarkdown,
       [renderMarkdown]
     );
-    const patchedHTMLContentTransformMiddleware = (0, import_react501.useMemo)(
+    const patchedHTMLContentTransformMiddleware = (0, import_react502.useMemo)(
       () => Object.freeze([...htmlContentTransformMiddleware || [], ...createHTMLContentTransformMiddleware()]),
       [htmlContentTransformMiddleware]
     );
@@ -227798,27 +229723,27 @@ XID_Start XIDS`.split(/\s/)
       styleOptions,
       styleSet
     });
-    return /* @__PURE__ */ import_react502.default.createElement(ShikiComposer_default, null, /* @__PURE__ */ import_react502.default.createElement(
+    return /* @__PURE__ */ import_react503.default.createElement(ShikiComposer_default, null, /* @__PURE__ */ import_react503.default.createElement(
       AdaptiveCardsComposer_default,
       {
         adaptiveCardsHostConfig: adaptiveCardHostConfig || adaptiveCardsHostConfig,
         adaptiveCardsPackage
       },
-      /* @__PURE__ */ import_react502.default.createElement(BundleStylesheet_default, { at: styleOptions == null ? void 0 : styleOptions.stylesRoot, nonce }),
+      /* @__PURE__ */ import_react503.default.createElement(BundleStylesheet_default, { at: styleOptions == null ? void 0 : styleOptions.stylesRoot, nonce }),
       children(patchedProps)
     ));
   }
-  var AddFullBundle_default = (0, import_react502.memo)(AddFullBundle);
+  var AddFullBundle_default = (0, import_react503.memo)(AddFullBundle);
 
   // src/FullReactWebChat.tsx
-  var FullReactWebChat = (props) => /* @__PURE__ */ import_react503.default.createElement(AddFullBundle_default, { ...props }, (extraProps) => /* @__PURE__ */ import_react503.default.createElement(ReactWebChat_default, { ...props, ...extraProps }));
+  var FullReactWebChat = (props) => /* @__PURE__ */ import_react504.default.createElement(AddFullBundle_default, { ...props }, (extraProps) => /* @__PURE__ */ import_react504.default.createElement(ReactWebChat_default, { ...props, ...extraProps }));
   var FullReactWebChat_default = FullReactWebChat;
 
   // src/FullComposer.tsx
   var import_prop_types57 = __toESM(require_prop_types());
-  var import_react504 = __toESM(require_react());
+  var import_react505 = __toESM(require_react());
   var { Composer: Composer8 } = component_exports;
-  var FullComposer = (props) => /* @__PURE__ */ import_react504.default.createElement(AddFullBundle_default, { ...props }, (extraProps) => /* @__PURE__ */ import_react504.default.createElement(Composer8, { ...props, ...extraProps }, props.children));
+  var FullComposer = (props) => /* @__PURE__ */ import_react505.default.createElement(AddFullBundle_default, { ...props }, (extraProps) => /* @__PURE__ */ import_react505.default.createElement(Composer8, { ...props, ...extraProps }, props.children));
   FullComposer.defaultProps = {
     ...Composer8.defaultProps,
     adaptiveCardsHostConfig: void 0,
@@ -232229,7 +234154,7 @@ XID_Start XIDS`.split(/\s/)
     useStartVoice: () => useStartVoice,
     useStopDictate: () => useStopDictate,
     useStopVoice: () => useStopVoice,
-    useStyleOptions: () => useStyleOptions19,
+    useStyleOptions: () => useStyleOptions20,
     useStyleSet: () => useStyleSet2,
     useSubmitSendBox: () => useSubmitSendBox,
     useSuggestedActions: () => useSuggestedActions,

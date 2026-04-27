@@ -13971,9 +13971,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/interopRequireDefault.js
+  // ../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/interopRequireDefault.js
   var require_interopRequireDefault = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/interopRequireDefault.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/interopRequireDefault.js"(exports, module) {
       function _interopRequireDefault(e2) {
         return e2 && e2.__esModule ? e2 : {
           "default": e2
@@ -13983,9 +13983,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/typeof.js
+  // ../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/typeof.js
   var require_typeof = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/typeof.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/typeof.js"(exports, module) {
       function _typeof(o2) {
         "@babel/helpers - typeof";
         return module.exports = _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o3) {
@@ -13998,9 +13998,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/objectWithoutPropertiesLoose.js
+  // ../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/objectWithoutPropertiesLoose.js
   var require_objectWithoutPropertiesLoose = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/objectWithoutPropertiesLoose.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/objectWithoutPropertiesLoose.js"(exports, module) {
       function _objectWithoutPropertiesLoose2(r5, e2) {
         if (null == r5) return {};
         var t2 = {};
@@ -14014,9 +14014,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/objectWithoutProperties.js
+  // ../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/objectWithoutProperties.js
   var require_objectWithoutProperties = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/objectWithoutProperties.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/objectWithoutProperties.js"(exports, module) {
       var objectWithoutPropertiesLoose = require_objectWithoutPropertiesLoose();
       function _objectWithoutProperties(e2, t2) {
         if (null == e2) return {};
@@ -14031,9 +14031,319 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/classCallCheck.js
+  // ../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/regeneratorRuntime.js
+  var require_regeneratorRuntime = __commonJS({
+    "../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/regeneratorRuntime.js"(exports, module) {
+      var _typeof = require_typeof()["default"];
+      function _regeneratorRuntime() {
+        "use strict";
+        module.exports = _regeneratorRuntime = function _regeneratorRuntime2() {
+          return e2;
+        }, module.exports.__esModule = true, module.exports["default"] = module.exports;
+        var t2, e2 = {}, r5 = Object.prototype, n2 = r5.hasOwnProperty, o2 = Object.defineProperty || function(t3, e3, r6) {
+          t3[e3] = r6.value;
+        }, i2 = "function" == typeof Symbol ? Symbol : {}, a = i2.iterator || "@@iterator", c = i2.asyncIterator || "@@asyncIterator", u = i2.toStringTag || "@@toStringTag";
+        function define2(t3, e3, r6) {
+          return Object.defineProperty(t3, e3, {
+            value: r6,
+            enumerable: true,
+            configurable: true,
+            writable: true
+          }), t3[e3];
+        }
+        try {
+          define2({}, "");
+        } catch (t3) {
+          define2 = function define3(t4, e3, r6) {
+            return t4[e3] = r6;
+          };
+        }
+        function wrap(t3, e3, r6, n3) {
+          var i3 = e3 && e3.prototype instanceof Generator ? e3 : Generator, a2 = Object.create(i3.prototype), c2 = new Context4(n3 || []);
+          return o2(a2, "_invoke", {
+            value: makeInvokeMethod(t3, r6, c2)
+          }), a2;
+        }
+        function tryCatch(t3, e3, r6) {
+          try {
+            return {
+              type: "normal",
+              arg: t3.call(e3, r6)
+            };
+          } catch (t4) {
+            return {
+              type: "throw",
+              arg: t4
+            };
+          }
+        }
+        e2.wrap = wrap;
+        var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {};
+        function Generator() {
+        }
+        function GeneratorFunction() {
+        }
+        function GeneratorFunctionPrototype() {
+        }
+        var p2 = {};
+        define2(p2, a, function() {
+          return this;
+        });
+        var d = Object.getPrototypeOf, v = d && d(d(values([])));
+        v && v !== r5 && n2.call(v, a) && (p2 = v);
+        var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p2);
+        function defineIteratorMethods(t3) {
+          ["next", "throw", "return"].forEach(function(e3) {
+            define2(t3, e3, function(t4) {
+              return this._invoke(e3, t4);
+            });
+          });
+        }
+        function AsyncIterator(t3, e3) {
+          function invoke(r7, o3, i3, a2) {
+            var c2 = tryCatch(t3[r7], t3, o3);
+            if ("throw" !== c2.type) {
+              var u2 = c2.arg, h2 = u2.value;
+              return h2 && "object" == _typeof(h2) && n2.call(h2, "__await") ? e3.resolve(h2.__await).then(function(t4) {
+                invoke("next", t4, i3, a2);
+              }, function(t4) {
+                invoke("throw", t4, i3, a2);
+              }) : e3.resolve(h2).then(function(t4) {
+                u2.value = t4, i3(u2);
+              }, function(t4) {
+                return invoke("throw", t4, i3, a2);
+              });
+            }
+            a2(c2.arg);
+          }
+          var r6;
+          o2(this, "_invoke", {
+            value: function value(t4, n3) {
+              function callInvokeWithMethodAndArg() {
+                return new e3(function(e4, r7) {
+                  invoke(t4, n3, e4, r7);
+                });
+              }
+              return r6 = r6 ? r6.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg();
+            }
+          });
+        }
+        function makeInvokeMethod(e3, r6, n3) {
+          var o3 = h;
+          return function(i3, a2) {
+            if (o3 === f) throw Error("Generator is already running");
+            if (o3 === s) {
+              if ("throw" === i3) throw a2;
+              return {
+                value: t2,
+                done: true
+              };
+            }
+            for (n3.method = i3, n3.arg = a2; ; ) {
+              var c2 = n3.delegate;
+              if (c2) {
+                var u2 = maybeInvokeDelegate(c2, n3);
+                if (u2) {
+                  if (u2 === y) continue;
+                  return u2;
+                }
+              }
+              if ("next" === n3.method) n3.sent = n3._sent = n3.arg;
+              else if ("throw" === n3.method) {
+                if (o3 === h) throw o3 = s, n3.arg;
+                n3.dispatchException(n3.arg);
+              } else "return" === n3.method && n3.abrupt("return", n3.arg);
+              o3 = f;
+              var p3 = tryCatch(e3, r6, n3);
+              if ("normal" === p3.type) {
+                if (o3 = n3.done ? s : l, p3.arg === y) continue;
+                return {
+                  value: p3.arg,
+                  done: n3.done
+                };
+              }
+              "throw" === p3.type && (o3 = s, n3.method = "throw", n3.arg = p3.arg);
+            }
+          };
+        }
+        function maybeInvokeDelegate(e3, r6) {
+          var n3 = r6.method, o3 = e3.iterator[n3];
+          if (o3 === t2) return r6.delegate = null, "throw" === n3 && e3.iterator["return"] && (r6.method = "return", r6.arg = t2, maybeInvokeDelegate(e3, r6), "throw" === r6.method) || "return" !== n3 && (r6.method = "throw", r6.arg = new TypeError("The iterator does not provide a '" + n3 + "' method")), y;
+          var i3 = tryCatch(o3, e3.iterator, r6.arg);
+          if ("throw" === i3.type) return r6.method = "throw", r6.arg = i3.arg, r6.delegate = null, y;
+          var a2 = i3.arg;
+          return a2 ? a2.done ? (r6[e3.resultName] = a2.value, r6.next = e3.nextLoc, "return" !== r6.method && (r6.method = "next", r6.arg = t2), r6.delegate = null, y) : a2 : (r6.method = "throw", r6.arg = new TypeError("iterator result is not an object"), r6.delegate = null, y);
+        }
+        function pushTryEntry(t3) {
+          var e3 = {
+            tryLoc: t3[0]
+          };
+          1 in t3 && (e3.catchLoc = t3[1]), 2 in t3 && (e3.finallyLoc = t3[2], e3.afterLoc = t3[3]), this.tryEntries.push(e3);
+        }
+        function resetTryEntry(t3) {
+          var e3 = t3.completion || {};
+          e3.type = "normal", delete e3.arg, t3.completion = e3;
+        }
+        function Context4(t3) {
+          this.tryEntries = [{
+            tryLoc: "root"
+          }], t3.forEach(pushTryEntry, this), this.reset(true);
+        }
+        function values(e3) {
+          if (e3 || "" === e3) {
+            var r6 = e3[a];
+            if (r6) return r6.call(e3);
+            if ("function" == typeof e3.next) return e3;
+            if (!isNaN(e3.length)) {
+              var o3 = -1, i3 = function next() {
+                for (; ++o3 < e3.length; ) if (n2.call(e3, o3)) return next.value = e3[o3], next.done = false, next;
+                return next.value = t2, next.done = true, next;
+              };
+              return i3.next = i3;
+            }
+          }
+          throw new TypeError(_typeof(e3) + " is not iterable");
+        }
+        return GeneratorFunction.prototype = GeneratorFunctionPrototype, o2(g, "constructor", {
+          value: GeneratorFunctionPrototype,
+          configurable: true
+        }), o2(GeneratorFunctionPrototype, "constructor", {
+          value: GeneratorFunction,
+          configurable: true
+        }), GeneratorFunction.displayName = define2(GeneratorFunctionPrototype, u, "GeneratorFunction"), e2.isGeneratorFunction = function(t3) {
+          var e3 = "function" == typeof t3 && t3.constructor;
+          return !!e3 && (e3 === GeneratorFunction || "GeneratorFunction" === (e3.displayName || e3.name));
+        }, e2.mark = function(t3) {
+          return Object.setPrototypeOf ? Object.setPrototypeOf(t3, GeneratorFunctionPrototype) : (t3.__proto__ = GeneratorFunctionPrototype, define2(t3, u, "GeneratorFunction")), t3.prototype = Object.create(g), t3;
+        }, e2.awrap = function(t3) {
+          return {
+            __await: t3
+          };
+        }, defineIteratorMethods(AsyncIterator.prototype), define2(AsyncIterator.prototype, c, function() {
+          return this;
+        }), e2.AsyncIterator = AsyncIterator, e2.async = function(t3, r6, n3, o3, i3) {
+          void 0 === i3 && (i3 = Promise);
+          var a2 = new AsyncIterator(wrap(t3, r6, n3, o3), i3);
+          return e2.isGeneratorFunction(r6) ? a2 : a2.next().then(function(t4) {
+            return t4.done ? t4.value : a2.next();
+          });
+        }, defineIteratorMethods(g), define2(g, u, "Generator"), define2(g, a, function() {
+          return this;
+        }), define2(g, "toString", function() {
+          return "[object Generator]";
+        }), e2.keys = function(t3) {
+          var e3 = Object(t3), r6 = [];
+          for (var n3 in e3) r6.push(n3);
+          return r6.reverse(), function next() {
+            for (; r6.length; ) {
+              var t4 = r6.pop();
+              if (t4 in e3) return next.value = t4, next.done = false, next;
+            }
+            return next.done = true, next;
+          };
+        }, e2.values = values, Context4.prototype = {
+          constructor: Context4,
+          reset: function reset(e3) {
+            if (this.prev = 0, this.next = 0, this.sent = this._sent = t2, this.done = false, this.delegate = null, this.method = "next", this.arg = t2, this.tryEntries.forEach(resetTryEntry), !e3) for (var r6 in this) "t" === r6.charAt(0) && n2.call(this, r6) && !isNaN(+r6.slice(1)) && (this[r6] = t2);
+          },
+          stop: function stop() {
+            this.done = true;
+            var t3 = this.tryEntries[0].completion;
+            if ("throw" === t3.type) throw t3.arg;
+            return this.rval;
+          },
+          dispatchException: function dispatchException(e3) {
+            if (this.done) throw e3;
+            var r6 = this;
+            function handle2(n3, o4) {
+              return a2.type = "throw", a2.arg = e3, r6.next = n3, o4 && (r6.method = "next", r6.arg = t2), !!o4;
+            }
+            for (var o3 = this.tryEntries.length - 1; o3 >= 0; --o3) {
+              var i3 = this.tryEntries[o3], a2 = i3.completion;
+              if ("root" === i3.tryLoc) return handle2("end");
+              if (i3.tryLoc <= this.prev) {
+                var c2 = n2.call(i3, "catchLoc"), u2 = n2.call(i3, "finallyLoc");
+                if (c2 && u2) {
+                  if (this.prev < i3.catchLoc) return handle2(i3.catchLoc, true);
+                  if (this.prev < i3.finallyLoc) return handle2(i3.finallyLoc);
+                } else if (c2) {
+                  if (this.prev < i3.catchLoc) return handle2(i3.catchLoc, true);
+                } else {
+                  if (!u2) throw Error("try statement without catch or finally");
+                  if (this.prev < i3.finallyLoc) return handle2(i3.finallyLoc);
+                }
+              }
+            }
+          },
+          abrupt: function abrupt(t3, e3) {
+            for (var r6 = this.tryEntries.length - 1; r6 >= 0; --r6) {
+              var o3 = this.tryEntries[r6];
+              if (o3.tryLoc <= this.prev && n2.call(o3, "finallyLoc") && this.prev < o3.finallyLoc) {
+                var i3 = o3;
+                break;
+              }
+            }
+            i3 && ("break" === t3 || "continue" === t3) && i3.tryLoc <= e3 && e3 <= i3.finallyLoc && (i3 = null);
+            var a2 = i3 ? i3.completion : {};
+            return a2.type = t3, a2.arg = e3, i3 ? (this.method = "next", this.next = i3.finallyLoc, y) : this.complete(a2);
+          },
+          complete: function complete(t3, e3) {
+            if ("throw" === t3.type) throw t3.arg;
+            return "break" === t3.type || "continue" === t3.type ? this.next = t3.arg : "return" === t3.type ? (this.rval = this.arg = t3.arg, this.method = "return", this.next = "end") : "normal" === t3.type && e3 && (this.next = e3), y;
+          },
+          finish: function finish(t3) {
+            for (var e3 = this.tryEntries.length - 1; e3 >= 0; --e3) {
+              var r6 = this.tryEntries[e3];
+              if (r6.finallyLoc === t3) return this.complete(r6.completion, r6.afterLoc), resetTryEntry(r6), y;
+            }
+          },
+          "catch": function _catch(t3) {
+            for (var e3 = this.tryEntries.length - 1; e3 >= 0; --e3) {
+              var r6 = this.tryEntries[e3];
+              if (r6.tryLoc === t3) {
+                var n3 = r6.completion;
+                if ("throw" === n3.type) {
+                  var o3 = n3.arg;
+                  resetTryEntry(r6);
+                }
+                return o3;
+              }
+            }
+            throw Error("illegal catch attempt");
+          },
+          delegateYield: function delegateYield(e3, r6, n3) {
+            return this.delegate = {
+              iterator: values(e3),
+              resultName: r6,
+              nextLoc: n3
+            }, "next" === this.method && (this.arg = t2), y;
+          }
+        }, e2;
+      }
+      module.exports = _regeneratorRuntime, module.exports.__esModule = true, module.exports["default"] = module.exports;
+    }
+  });
+
+  // ../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/regenerator/index.js
+  var require_regenerator = __commonJS({
+    "../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/regenerator/index.js"(exports, module) {
+      var runtime = require_regeneratorRuntime()();
+      module.exports = runtime;
+      try {
+        regeneratorRuntime = runtime;
+      } catch (accidentalStrictMode) {
+        if (typeof globalThis === "object") {
+          globalThis.regeneratorRuntime = runtime;
+        } else {
+          Function("r", "regeneratorRuntime = r")(runtime);
+        }
+      }
+    }
+  });
+
+  // ../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/classCallCheck.js
   var require_classCallCheck = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/classCallCheck.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/classCallCheck.js"(exports, module) {
       function _classCallCheck(a, n2) {
         if (!(a instanceof n2)) throw new TypeError("Cannot call a class as a function");
       }
@@ -14041,9 +14351,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/toPrimitive.js
+  // ../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/toPrimitive.js
   var require_toPrimitive = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/toPrimitive.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/toPrimitive.js"(exports, module) {
       var _typeof = require_typeof()["default"];
       function toPrimitive(t2, r5) {
         if ("object" != _typeof(t2) || !t2) return t2;
@@ -14059,9 +14369,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/toPropertyKey.js
+  // ../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/toPropertyKey.js
   var require_toPropertyKey = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/toPropertyKey.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/toPropertyKey.js"(exports, module) {
       var _typeof = require_typeof()["default"];
       var toPrimitive = require_toPrimitive();
       function toPropertyKey(t2) {
@@ -14072,9 +14382,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/createClass.js
+  // ../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/createClass.js
   var require_createClass = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/createClass.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/createClass.js"(exports, module) {
       var toPropertyKey = require_toPropertyKey();
       function _defineProperties(e2, r5) {
         for (var t2 = 0; t2 < r5.length; t2++) {
@@ -14091,9 +14401,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/defineProperty.js
+  // ../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/defineProperty.js
   var require_defineProperty = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/defineProperty.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/defineProperty.js"(exports, module) {
       var toPropertyKey = require_toPropertyKey();
       function _defineProperty(e2, r5, t2) {
         return (r5 = toPropertyKey(r5)) in e2 ? Object.defineProperty(e2, r5, {
@@ -14107,9 +14417,39 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/global.js
+  // ../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/asyncToGenerator.js
+  var require_asyncToGenerator = __commonJS({
+    "../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/asyncToGenerator.js"(exports, module) {
+      function asyncGeneratorStep(n2, t2, e2, r5, o2, a, c) {
+        try {
+          var i2 = n2[a](c), u = i2.value;
+        } catch (n3) {
+          return void e2(n3);
+        }
+        i2.done ? t2(u) : Promise.resolve(u).then(r5, o2);
+      }
+      function _asyncToGenerator(n2) {
+        return function() {
+          var t2 = this, e2 = arguments;
+          return new Promise(function(r5, o2) {
+            var a = n2.apply(t2, e2);
+            function _next(n3) {
+              asyncGeneratorStep(a, r5, o2, _next, _throw, "next", n3);
+            }
+            function _throw(n3) {
+              asyncGeneratorStep(a, r5, o2, _next, _throw, "throw", n3);
+            }
+            _next(void 0);
+          });
+        };
+      }
+      module.exports = _asyncToGenerator, module.exports.__esModule = true, module.exports["default"] = module.exports;
+    }
+  });
+
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/global.js
   var require_global = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/global.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/global.js"(exports, module) {
       var check2 = function(it) {
         return it && it.Math == Math && it;
       };
@@ -14122,9 +14462,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/fails.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/fails.js
   var require_fails4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/fails.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/fails.js"(exports, module) {
       module.exports = function(exec2) {
         try {
           return !!exec2();
@@ -14135,9 +14475,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/descriptors.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/descriptors.js
   var require_descriptors4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/descriptors.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/descriptors.js"(exports, module) {
       var fails = require_fails4();
       module.exports = !fails(function() {
         return Object.defineProperty({}, 1, { get: function() {
@@ -14147,9 +14487,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/object-property-is-enumerable.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/object-property-is-enumerable.js
   var require_object_property_is_enumerable4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/object-property-is-enumerable.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/object-property-is-enumerable.js"(exports) {
       "use strict";
       var $propertyIsEnumerable = {}.propertyIsEnumerable;
       var getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
@@ -14161,9 +14501,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/create-property-descriptor.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/create-property-descriptor.js
   var require_create_property_descriptor4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/create-property-descriptor.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/create-property-descriptor.js"(exports, module) {
       module.exports = function(bitmap, value) {
         return {
           enumerable: !(bitmap & 1),
@@ -14175,9 +14515,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/classof-raw.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/classof-raw.js
   var require_classof_raw4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/classof-raw.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/classof-raw.js"(exports, module) {
       var toString4 = {}.toString;
       module.exports = function(it) {
         return toString4.call(it).slice(8, -1);
@@ -14185,9 +14525,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/indexed-object.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/indexed-object.js
   var require_indexed_object4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/indexed-object.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/indexed-object.js"(exports, module) {
       var fails = require_fails4();
       var classof = require_classof_raw4();
       var split = "".split;
@@ -14199,9 +14539,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/require-object-coercible.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/require-object-coercible.js
   var require_require_object_coercible4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/require-object-coercible.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/require-object-coercible.js"(exports, module) {
       module.exports = function(it) {
         if (it == void 0) throw TypeError("Can't call method on " + it);
         return it;
@@ -14209,9 +14549,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/to-indexed-object.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/to-indexed-object.js
   var require_to_indexed_object4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/to-indexed-object.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/to-indexed-object.js"(exports, module) {
       var IndexedObject = require_indexed_object4();
       var requireObjectCoercible = require_require_object_coercible4();
       module.exports = function(it) {
@@ -14220,18 +14560,18 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/is-object.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/is-object.js
   var require_is_object4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/is-object.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/is-object.js"(exports, module) {
       module.exports = function(it) {
         return typeof it === "object" ? it !== null : typeof it === "function";
       };
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/to-primitive.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/to-primitive.js
   var require_to_primitive4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/to-primitive.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/to-primitive.js"(exports, module) {
       var isObject3 = require_is_object4();
       module.exports = function(input, PREFERRED_STRING) {
         if (!isObject3(input)) return input;
@@ -14244,9 +14584,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/to-object.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/to-object.js
   var require_to_object4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/to-object.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/to-object.js"(exports, module) {
       var requireObjectCoercible = require_require_object_coercible4();
       module.exports = function(argument) {
         return Object(requireObjectCoercible(argument));
@@ -14254,9 +14594,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/has.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/has.js
   var require_has2 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/has.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/has.js"(exports, module) {
       var toObject = require_to_object4();
       var hasOwnProperty3 = {}.hasOwnProperty;
       module.exports = Object.hasOwn || function hasOwn(it, key2) {
@@ -14265,9 +14605,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/document-create-element.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/document-create-element.js
   var require_document_create_element4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/document-create-element.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/document-create-element.js"(exports, module) {
       var global2 = require_global();
       var isObject3 = require_is_object4();
       var document4 = global2.document;
@@ -14278,9 +14618,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/ie8-dom-define.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/ie8-dom-define.js
   var require_ie8_dom_define4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/ie8-dom-define.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/ie8-dom-define.js"(exports, module) {
       var DESCRIPTORS = require_descriptors4();
       var fails = require_fails4();
       var createElement2 = require_document_create_element4();
@@ -14294,9 +14634,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/object-get-own-property-descriptor.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/object-get-own-property-descriptor.js
   var require_object_get_own_property_descriptor4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/object-get-own-property-descriptor.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/object-get-own-property-descriptor.js"(exports) {
       var DESCRIPTORS = require_descriptors4();
       var propertyIsEnumerableModule = require_object_property_is_enumerable4();
       var createPropertyDescriptor = require_create_property_descriptor4();
@@ -14317,9 +14657,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/an-object.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/an-object.js
   var require_an_object4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/an-object.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/an-object.js"(exports, module) {
       var isObject3 = require_is_object4();
       module.exports = function(it) {
         if (!isObject3(it)) {
@@ -14330,9 +14670,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/object-define-property.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/object-define-property.js
   var require_object_define_property4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/object-define-property.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/object-define-property.js"(exports) {
       var DESCRIPTORS = require_descriptors4();
       var IE8_DOM_DEFINE = require_ie8_dom_define4();
       var anObject = require_an_object4();
@@ -14353,9 +14693,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/create-non-enumerable-property.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/create-non-enumerable-property.js
   var require_create_non_enumerable_property4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/create-non-enumerable-property.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/create-non-enumerable-property.js"(exports, module) {
       var DESCRIPTORS = require_descriptors4();
       var definePropertyModule = require_object_define_property4();
       var createPropertyDescriptor = require_create_property_descriptor4();
@@ -14368,9 +14708,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/set-global.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/set-global.js
   var require_set_global = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/set-global.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/set-global.js"(exports, module) {
       var global2 = require_global();
       var createNonEnumerableProperty = require_create_non_enumerable_property4();
       module.exports = function(key2, value) {
@@ -14384,9 +14724,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/shared-store.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/shared-store.js
   var require_shared_store4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/shared-store.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/shared-store.js"(exports, module) {
       var global2 = require_global();
       var setGlobal = require_set_global();
       var SHARED = "__core-js_shared__";
@@ -14395,9 +14735,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/inspect-source.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/inspect-source.js
   var require_inspect_source4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/inspect-source.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/inspect-source.js"(exports, module) {
       var store = require_shared_store4();
       var functionToString = Function.toString;
       if (typeof store.inspectSource != "function") {
@@ -14409,9 +14749,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/native-weak-map.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/native-weak-map.js
   var require_native_weak_map = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/native-weak-map.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/native-weak-map.js"(exports, module) {
       var global2 = require_global();
       var inspectSource = require_inspect_source4();
       var WeakMap2 = global2.WeakMap;
@@ -14419,16 +14759,16 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/is-pure.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/is-pure.js
   var require_is_pure4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/is-pure.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/is-pure.js"(exports, module) {
       module.exports = false;
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/shared.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/shared.js
   var require_shared4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/shared.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/shared.js"(exports, module) {
       var IS_PURE = require_is_pure4();
       var store = require_shared_store4();
       (module.exports = function(key2, value) {
@@ -14441,9 +14781,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/uid.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/uid.js
   var require_uid4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/uid.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/uid.js"(exports, module) {
       var id = 0;
       var postfix = Math.random();
       module.exports = function(key2) {
@@ -14452,9 +14792,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/shared-key.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/shared-key.js
   var require_shared_key4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/shared-key.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/shared-key.js"(exports, module) {
       var shared = require_shared4();
       var uid = require_uid4();
       var keys3 = shared("keys");
@@ -14464,16 +14804,16 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/hidden-keys.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/hidden-keys.js
   var require_hidden_keys4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/hidden-keys.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/hidden-keys.js"(exports, module) {
       module.exports = {};
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/internal-state.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/internal-state.js
   var require_internal_state4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/internal-state.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/internal-state.js"(exports, module) {
       var NATIVE_WEAK_MAP = require_native_weak_map();
       var global2 = require_global();
       var isObject3 = require_is_object4();
@@ -14547,9 +14887,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/redefine.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/redefine.js
   var require_redefine = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/redefine.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/redefine.js"(exports, module) {
       var global2 = require_global();
       var createNonEnumerableProperty = require_create_non_enumerable_property4();
       var has = require_has2();
@@ -14590,17 +14930,17 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/path.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/path.js
   var require_path5 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/path.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/path.js"(exports, module) {
       var global2 = require_global();
       module.exports = global2;
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/get-built-in.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/get-built-in.js
   var require_get_built_in4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/get-built-in.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/get-built-in.js"(exports, module) {
       var path3 = require_path5();
       var global2 = require_global();
       var aFunction = function(variable) {
@@ -14612,9 +14952,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/to-integer.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/to-integer.js
   var require_to_integer = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/to-integer.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/to-integer.js"(exports, module) {
       var ceil = Math.ceil;
       var floor = Math.floor;
       module.exports = function(argument) {
@@ -14623,9 +14963,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/to-length.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/to-length.js
   var require_to_length4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/to-length.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/to-length.js"(exports, module) {
       var toInteger = require_to_integer();
       var min = Math.min;
       module.exports = function(argument) {
@@ -14634,9 +14974,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/to-absolute-index.js
-  var require_to_absolute_index2 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/to-absolute-index.js"(exports, module) {
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/to-absolute-index.js
+  var require_to_absolute_index4 = __commonJS({
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/to-absolute-index.js"(exports, module) {
       var toInteger = require_to_integer();
       var max = Math.max;
       var min = Math.min;
@@ -14647,12 +14987,12 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/array-includes.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/array-includes.js
   var require_array_includes2 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/array-includes.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/array-includes.js"(exports, module) {
       var toIndexedObject = require_to_indexed_object4();
       var toLength = require_to_length4();
-      var toAbsoluteIndex = require_to_absolute_index2();
+      var toAbsoluteIndex = require_to_absolute_index4();
       var createMethod = function(IS_INCLUDES) {
         return function($this, el, fromIndex) {
           var O = toIndexedObject($this);
@@ -14680,9 +15020,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/object-keys-internal.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/object-keys-internal.js
   var require_object_keys_internal2 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/object-keys-internal.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/object-keys-internal.js"(exports, module) {
       var has = require_has2();
       var toIndexedObject = require_to_indexed_object4();
       var indexOf = require_array_includes2().indexOf;
@@ -14701,9 +15041,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/enum-bug-keys.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/enum-bug-keys.js
   var require_enum_bug_keys2 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/enum-bug-keys.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/enum-bug-keys.js"(exports, module) {
       module.exports = [
         "constructor",
         "hasOwnProperty",
@@ -14716,9 +15056,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/object-get-own-property-names.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/object-get-own-property-names.js
   var require_object_get_own_property_names = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/object-get-own-property-names.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/object-get-own-property-names.js"(exports) {
       var internalObjectKeys = require_object_keys_internal2();
       var enumBugKeys = require_enum_bug_keys2();
       var hiddenKeys = enumBugKeys.concat("length", "prototype");
@@ -14728,16 +15068,16 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/object-get-own-property-symbols.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/object-get-own-property-symbols.js
   var require_object_get_own_property_symbols = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/object-get-own-property-symbols.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/object-get-own-property-symbols.js"(exports) {
       exports.f = Object.getOwnPropertySymbols;
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/own-keys.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/own-keys.js
   var require_own_keys = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/own-keys.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/own-keys.js"(exports, module) {
       var getBuiltIn = require_get_built_in4();
       var getOwnPropertyNamesModule = require_object_get_own_property_names();
       var getOwnPropertySymbolsModule = require_object_get_own_property_symbols();
@@ -14750,9 +15090,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/copy-constructor-properties.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/copy-constructor-properties.js
   var require_copy_constructor_properties = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/copy-constructor-properties.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/copy-constructor-properties.js"(exports, module) {
       var has = require_has2();
       var ownKeys = require_own_keys();
       var getOwnPropertyDescriptorModule = require_object_get_own_property_descriptor4();
@@ -14769,9 +15109,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/is-forced.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/is-forced.js
   var require_is_forced4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/is-forced.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/is-forced.js"(exports, module) {
       var fails = require_fails4();
       var replacement = /#|\.prototype\./;
       var isForced = function(feature, detection) {
@@ -14788,9 +15128,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/export.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/export.js
   var require_export4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/export.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/export.js"(exports, module) {
       var global2 = require_global();
       var getOwnPropertyDescriptor = require_object_get_own_property_descriptor4().f;
       var createNonEnumerableProperty = require_create_non_enumerable_property4();
@@ -14830,9 +15170,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/correct-prototype-getter.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/correct-prototype-getter.js
   var require_correct_prototype_getter2 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/correct-prototype-getter.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/correct-prototype-getter.js"(exports, module) {
       var fails = require_fails4();
       module.exports = !fails(function() {
         function F() {
@@ -14843,9 +15183,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/object-get-prototype-of.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/object-get-prototype-of.js
   var require_object_get_prototype_of2 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/object-get-prototype-of.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/object-get-prototype-of.js"(exports, module) {
       var has = require_has2();
       var toObject = require_to_object4();
       var sharedKey = require_shared_key4();
@@ -14863,9 +15203,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/a-possible-prototype.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/a-possible-prototype.js
   var require_a_possible_prototype4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/a-possible-prototype.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/a-possible-prototype.js"(exports, module) {
       var isObject3 = require_is_object4();
       module.exports = function(it) {
         if (!isObject3(it) && it !== null) {
@@ -14876,9 +15216,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/object-set-prototype-of.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/object-set-prototype-of.js
   var require_object_set_prototype_of4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/object-set-prototype-of.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/object-set-prototype-of.js"(exports, module) {
       var anObject = require_an_object4();
       var aPossiblePrototype = require_a_possible_prototype4();
       module.exports = Object.setPrototypeOf || ("__proto__" in {} ? (function() {
@@ -14902,9 +15242,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/object-keys.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/object-keys.js
   var require_object_keys2 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/object-keys.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/object-keys.js"(exports, module) {
       var internalObjectKeys = require_object_keys_internal2();
       var enumBugKeys = require_enum_bug_keys2();
       module.exports = Object.keys || function keys3(O) {
@@ -14913,9 +15253,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/object-define-properties.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/object-define-properties.js
   var require_object_define_properties2 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/object-define-properties.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/object-define-properties.js"(exports, module) {
       var DESCRIPTORS = require_descriptors4();
       var definePropertyModule = require_object_define_property4();
       var anObject = require_an_object4();
@@ -14932,17 +15272,17 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/html.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/html.js
   var require_html4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/html.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/html.js"(exports, module) {
       var getBuiltIn = require_get_built_in4();
       module.exports = getBuiltIn("document", "documentElement");
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/object-create.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/object-create.js
   var require_object_create2 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/object-create.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/object-create.js"(exports, module) {
       var anObject = require_an_object4();
       var defineProperties = require_object_define_properties2();
       var enumBugKeys = require_enum_bug_keys2();
@@ -15005,17 +15345,17 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/engine-user-agent.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/engine-user-agent.js
   var require_engine_user_agent = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/engine-user-agent.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/engine-user-agent.js"(exports, module) {
       var getBuiltIn = require_get_built_in4();
       module.exports = getBuiltIn("navigator", "userAgent") || "";
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/engine-v8-version.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/engine-v8-version.js
   var require_engine_v8_version = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/engine-v8-version.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/engine-v8-version.js"(exports, module) {
       var global2 = require_global();
       var userAgent = require_engine_user_agent();
       var process2 = global2.process;
@@ -15037,9 +15377,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/native-symbol.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/native-symbol.js
   var require_native_symbol = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/native-symbol.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/native-symbol.js"(exports, module) {
       var V8_VERSION = require_engine_v8_version();
       var fails = require_fails4();
       module.exports = !!Object.getOwnPropertySymbols && !fails(function() {
@@ -15050,17 +15390,17 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/use-symbol-as-uid.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/use-symbol-as-uid.js
   var require_use_symbol_as_uid4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/use-symbol-as-uid.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/use-symbol-as-uid.js"(exports, module) {
       var NATIVE_SYMBOL = require_native_symbol();
       module.exports = NATIVE_SYMBOL && !Symbol.sham && typeof Symbol.iterator == "symbol";
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/well-known-symbol.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/well-known-symbol.js
   var require_well_known_symbol4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/well-known-symbol.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/well-known-symbol.js"(exports, module) {
       var global2 = require_global();
       var shared = require_shared4();
       var has = require_has2();
@@ -15083,16 +15423,16 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/iterators.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/iterators.js
   var require_iterators4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/iterators.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/iterators.js"(exports, module) {
       module.exports = {};
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/is-array-iterator-method.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/is-array-iterator-method.js
   var require_is_array_iterator_method4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/is-array-iterator-method.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/is-array-iterator-method.js"(exports, module) {
       var wellKnownSymbol = require_well_known_symbol4();
       var Iterators = require_iterators4();
       var ITERATOR = wellKnownSymbol("iterator");
@@ -15103,9 +15443,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/a-function.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/a-function.js
   var require_a_function = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/a-function.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/a-function.js"(exports, module) {
       module.exports = function(it) {
         if (typeof it != "function") {
           throw TypeError(String(it) + " is not a function");
@@ -15115,9 +15455,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/function-bind-context.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/function-bind-context.js
   var require_function_bind_context4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/function-bind-context.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/function-bind-context.js"(exports, module) {
       var aFunction = require_a_function();
       module.exports = function(fn, that, length) {
         aFunction(fn);
@@ -15147,9 +15487,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/to-string-tag-support.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/to-string-tag-support.js
   var require_to_string_tag_support4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/to-string-tag-support.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/to-string-tag-support.js"(exports, module) {
       var wellKnownSymbol = require_well_known_symbol4();
       var TO_STRING_TAG = wellKnownSymbol("toStringTag");
       var test = {};
@@ -15158,9 +15498,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/classof.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/classof.js
   var require_classof4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/classof.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/classof.js"(exports, module) {
       var TO_STRING_TAG_SUPPORT = require_to_string_tag_support4();
       var classofRaw = require_classof_raw4();
       var wellKnownSymbol = require_well_known_symbol4();
@@ -15181,9 +15521,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/get-iterator-method.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/get-iterator-method.js
   var require_get_iterator_method4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/get-iterator-method.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/get-iterator-method.js"(exports, module) {
       var classof = require_classof4();
       var Iterators = require_iterators4();
       var wellKnownSymbol = require_well_known_symbol4();
@@ -15194,9 +15534,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/iterator-close.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/iterator-close.js
   var require_iterator_close4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/iterator-close.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/iterator-close.js"(exports, module) {
       var anObject = require_an_object4();
       module.exports = function(iterator3) {
         var returnMethod = iterator3["return"];
@@ -15207,9 +15547,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/iterate.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/iterate.js
   var require_iterate4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/iterate.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/iterate.js"(exports, module) {
       var anObject = require_an_object4();
       var isArrayIteratorMethod = require_is_array_iterator_method4();
       var toLength = require_to_length4();
@@ -15267,9 +15607,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/modules/es.aggregate-error.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/modules/es.aggregate-error.js
   var require_es_aggregate_error = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/modules/es.aggregate-error.js"() {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/modules/es.aggregate-error.js"() {
       "use strict";
       var $3 = require_export4();
       var getPrototypeOf = require_object_get_prototype_of2();
@@ -15301,9 +15641,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/object-to-string.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/object-to-string.js
   var require_object_to_string4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/object-to-string.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/object-to-string.js"(exports, module) {
       "use strict";
       var TO_STRING_TAG_SUPPORT = require_to_string_tag_support4();
       var classof = require_classof4();
@@ -15313,9 +15653,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/modules/es.object.to-string.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/modules/es.object.to-string.js
   var require_es_object_to_string2 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/modules/es.object.to-string.js"() {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/modules/es.object.to-string.js"() {
       var TO_STRING_TAG_SUPPORT = require_to_string_tag_support4();
       var redefine = require_redefine();
       var toString4 = require_object_to_string4();
@@ -15325,17 +15665,17 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/native-promise-constructor.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/native-promise-constructor.js
   var require_native_promise_constructor = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/native-promise-constructor.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/native-promise-constructor.js"(exports, module) {
       var global2 = require_global();
       module.exports = global2.Promise;
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/redefine-all.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/redefine-all.js
   var require_redefine_all = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/redefine-all.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/redefine-all.js"(exports, module) {
       var redefine = require_redefine();
       module.exports = function(target, src, options) {
         for (var key2 in src) redefine(target, key2, src[key2], options);
@@ -15344,9 +15684,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/set-to-string-tag.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/set-to-string-tag.js
   var require_set_to_string_tag4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/set-to-string-tag.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/set-to-string-tag.js"(exports, module) {
       var defineProperty = require_object_define_property4().f;
       var has = require_has2();
       var wellKnownSymbol = require_well_known_symbol4();
@@ -15359,9 +15699,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/set-species.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/set-species.js
   var require_set_species4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/set-species.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/set-species.js"(exports, module) {
       "use strict";
       var getBuiltIn = require_get_built_in4();
       var definePropertyModule = require_object_define_property4();
@@ -15383,9 +15723,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/an-instance.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/an-instance.js
   var require_an_instance4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/an-instance.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/an-instance.js"(exports, module) {
       module.exports = function(it, Constructor, name) {
         if (!(it instanceof Constructor)) {
           throw TypeError("Incorrect " + (name ? name + " " : "") + "invocation");
@@ -15395,9 +15735,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/check-correctness-of-iteration.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/check-correctness-of-iteration.js
   var require_check_correctness_of_iteration4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/check-correctness-of-iteration.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/check-correctness-of-iteration.js"(exports, module) {
       var wellKnownSymbol = require_well_known_symbol4();
       var ITERATOR = wellKnownSymbol("iterator");
       var SAFE_CLOSING = false;
@@ -15441,9 +15781,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/species-constructor.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/species-constructor.js
   var require_species_constructor4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/species-constructor.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/species-constructor.js"(exports, module) {
       var anObject = require_an_object4();
       var aFunction = require_a_function();
       var wellKnownSymbol = require_well_known_symbol4();
@@ -15456,26 +15796,26 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/engine-is-ios.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/engine-is-ios.js
   var require_engine_is_ios = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/engine-is-ios.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/engine-is-ios.js"(exports, module) {
       var userAgent = require_engine_user_agent();
       module.exports = /(?:iphone|ipod|ipad).*applewebkit/i.test(userAgent);
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/engine-is-node.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/engine-is-node.js
   var require_engine_is_node = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/engine-is-node.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/engine-is-node.js"(exports, module) {
       var classof = require_classof_raw4();
       var global2 = require_global();
       module.exports = classof(global2.process) == "process";
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/task.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/task.js
   var require_task4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/task.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/task.js"(exports, module) {
       var global2 = require_global();
       var fails = require_fails4();
       var bind = require_function_bind_context4();
@@ -15563,17 +15903,17 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/engine-is-webos-webkit.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/engine-is-webos-webkit.js
   var require_engine_is_webos_webkit = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/engine-is-webos-webkit.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/engine-is-webos-webkit.js"(exports, module) {
       var userAgent = require_engine_user_agent();
       module.exports = /web0s(?!.*chrome)/i.test(userAgent);
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/microtask.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/microtask.js
   var require_microtask4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/microtask.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/microtask.js"(exports, module) {
       var global2 = require_global();
       var getOwnPropertyDescriptor = require_object_get_own_property_descriptor4().f;
       var macrotask = require_task4().set;
@@ -15648,9 +15988,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/new-promise-capability.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/new-promise-capability.js
   var require_new_promise_capability4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/new-promise-capability.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/new-promise-capability.js"(exports, module) {
       "use strict";
       var aFunction = require_a_function();
       var PromiseCapability = function(C) {
@@ -15669,9 +16009,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/promise-resolve.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/promise-resolve.js
   var require_promise_resolve4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/promise-resolve.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/promise-resolve.js"(exports, module) {
       var anObject = require_an_object4();
       var isObject3 = require_is_object4();
       var newPromiseCapability = require_new_promise_capability4();
@@ -15686,9 +16026,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/host-report-errors.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/host-report-errors.js
   var require_host_report_errors4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/host-report-errors.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/host-report-errors.js"(exports, module) {
       var global2 = require_global();
       module.exports = function(a, b) {
         var console2 = global2.console;
@@ -15699,9 +16039,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/perform.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/perform.js
   var require_perform4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/perform.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/perform.js"(exports, module) {
       module.exports = function(exec2) {
         try {
           return { error: false, value: exec2() };
@@ -15712,16 +16052,16 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/engine-is-browser.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/engine-is-browser.js
   var require_engine_is_browser = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/engine-is-browser.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/engine-is-browser.js"(exports, module) {
       module.exports = typeof window == "object";
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/modules/es.promise.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/modules/es.promise.js
   var require_es_promise4 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/modules/es.promise.js"() {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/modules/es.promise.js"() {
       "use strict";
       var $3 = require_export4();
       var IS_PURE = require_is_pure4();
@@ -16082,9 +16422,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/modules/es.promise.all-settled.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/modules/es.promise.all-settled.js
   var require_es_promise_all_settled = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/modules/es.promise.all-settled.js"() {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/modules/es.promise.all-settled.js"() {
       "use strict";
       var $3 = require_export4();
       var aFunction = require_a_function();
@@ -16128,9 +16468,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/modules/es.promise.any.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/modules/es.promise.any.js
   var require_es_promise_any = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/modules/es.promise.any.js"() {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/modules/es.promise.any.js"() {
       "use strict";
       var $3 = require_export4();
       var aFunction = require_a_function();
@@ -16176,9 +16516,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/modules/es.promise.finally.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/modules/es.promise.finally.js
   var require_es_promise_finally = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/modules/es.promise.finally.js"() {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/modules/es.promise.finally.js"() {
       "use strict";
       var $3 = require_export4();
       var IS_PURE = require_is_pure4();
@@ -16221,9 +16561,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/string-multibyte.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/string-multibyte.js
   var require_string_multibyte2 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/string-multibyte.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/string-multibyte.js"(exports, module) {
       var toInteger = require_to_integer();
       var requireObjectCoercible = require_require_object_coercible4();
       var createMethod = function(CONVERT_TO_STRING) {
@@ -16248,9 +16588,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/iterators-core.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/iterators-core.js
   var require_iterators_core2 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/iterators-core.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/iterators-core.js"(exports, module) {
       "use strict";
       var fails = require_fails4();
       var getPrototypeOf = require_object_get_prototype_of2();
@@ -16289,9 +16629,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/create-iterator-constructor.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/create-iterator-constructor.js
   var require_create_iterator_constructor = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/create-iterator-constructor.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/create-iterator-constructor.js"(exports, module) {
       "use strict";
       var IteratorPrototype = require_iterators_core2().IteratorPrototype;
       var create3 = require_object_create2();
@@ -16311,9 +16651,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/define-iterator.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/define-iterator.js
   var require_define_iterator = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/define-iterator.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/define-iterator.js"(exports, module) {
       "use strict";
       var $3 = require_export4();
       var createIteratorConstructor = require_create_iterator_constructor();
@@ -16407,9 +16747,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/modules/es.string.iterator.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/modules/es.string.iterator.js
   var require_es_string_iterator2 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/modules/es.string.iterator.js"() {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/modules/es.string.iterator.js"() {
       "use strict";
       var charAt = require_string_multibyte2().charAt;
       var InternalStateModule = require_internal_state4();
@@ -16436,9 +16776,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/dom-iterables.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/dom-iterables.js
   var require_dom_iterables2 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/dom-iterables.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/dom-iterables.js"(exports, module) {
       module.exports = {
         CSSRuleList: 0,
         CSSStyleDeclaration: 0,
@@ -16475,9 +16815,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/internals/add-to-unscopables.js
-  var require_add_to_unscopables2 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/internals/add-to-unscopables.js"(exports, module) {
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/internals/add-to-unscopables.js
+  var require_add_to_unscopables4 = __commonJS({
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/internals/add-to-unscopables.js"(exports, module) {
       var wellKnownSymbol = require_well_known_symbol4();
       var create3 = require_object_create2();
       var definePropertyModule = require_object_define_property4();
@@ -16495,12 +16835,12 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/modules/es.array.iterator.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/modules/es.array.iterator.js
   var require_es_array_iterator2 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/modules/es.array.iterator.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/modules/es.array.iterator.js"(exports, module) {
       "use strict";
       var toIndexedObject = require_to_indexed_object4();
-      var addToUnscopables = require_add_to_unscopables2();
+      var addToUnscopables = require_add_to_unscopables4();
       var Iterators = require_iterators4();
       var InternalStateModule = require_internal_state4();
       var defineIterator = require_define_iterator();
@@ -16537,9 +16877,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/modules/web.dom-collections.iterator.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/modules/web.dom-collections.iterator.js
   var require_web_dom_collections_iterator2 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/modules/web.dom-collections.iterator.js"() {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/modules/web.dom-collections.iterator.js"() {
       var global2 = require_global();
       var DOMIterables = require_dom_iterables2();
       var ArrayIteratorMethods = require_es_array_iterator2();
@@ -16576,9 +16916,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/es/promise/index.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/es/promise/index.js
   var require_promise = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/es/promise/index.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/es/promise/index.js"(exports, module) {
       require_es_aggregate_error();
       require_es_object_to_string2();
       require_es_promise4();
@@ -16592,23 +16932,23 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/modules/esnext.aggregate-error.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/modules/esnext.aggregate-error.js
   var require_esnext_aggregate_error = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/modules/esnext.aggregate-error.js"() {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/modules/esnext.aggregate-error.js"() {
       require_es_aggregate_error();
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/modules/esnext.promise.all-settled.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/modules/esnext.promise.all-settled.js
   var require_esnext_promise_all_settled = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/modules/esnext.promise.all-settled.js"() {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/modules/esnext.promise.all-settled.js"() {
       require_es_promise_all_settled();
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/modules/esnext.promise.try.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/modules/esnext.promise.try.js
   var require_esnext_promise_try = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/modules/esnext.promise.try.js"() {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/modules/esnext.promise.try.js"() {
       "use strict";
       var $3 = require_export4();
       var newPromiseCapabilityModule = require_new_promise_capability4();
@@ -16624,16 +16964,16 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/modules/esnext.promise.any.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/modules/esnext.promise.any.js
   var require_esnext_promise_any = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/modules/esnext.promise.any.js"() {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/modules/esnext.promise.any.js"() {
       require_es_promise_any();
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/core-js/features/promise/index.js
+  // ../../../BotFramework-DirectLineJS/node_modules/core-js/features/promise/index.js
   var require_promise2 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/core-js/features/promise/index.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/core-js/features/promise/index.js"(exports, module) {
       var parent = require_promise();
       require_esnext_aggregate_error();
       require_esnext_promise_all_settled();
@@ -16643,9 +16983,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/url-search-params-polyfill/index.js
+  // ../../../BotFramework-DirectLineJS/node_modules/url-search-params-polyfill/index.js
   var require_url_search_params_polyfill = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/url-search-params-polyfill/index.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/url-search-params-polyfill/index.js"(exports) {
       (function(self2) {
         "use strict";
         var nativeURLSearchParams = (function() {
@@ -16855,9 +17195,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/util/root.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/util/root.js
   var require_root2 = __commonJS({
-    "../../node_modules/rxjs/util/root.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/util/root.js"(exports) {
       "use strict";
       var __window = typeof window !== "undefined" && window;
       var __self = typeof self !== "undefined" && typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope && self;
@@ -16872,9 +17212,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/util/isFunction.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/util/isFunction.js
   var require_isFunction = __commonJS({
-    "../../node_modules/rxjs/util/isFunction.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/util/isFunction.js"(exports) {
       "use strict";
       function isFunction(x) {
         return typeof x === "function";
@@ -16883,9 +17223,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/util/isArray.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/util/isArray.js
   var require_isArray = __commonJS({
-    "../../node_modules/rxjs/util/isArray.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/util/isArray.js"(exports) {
       "use strict";
       exports.isArray = Array.isArray || (function(x) {
         return x && typeof x.length === "number";
@@ -16893,9 +17233,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/util/isObject.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/util/isObject.js
   var require_isObject = __commonJS({
-    "../../node_modules/rxjs/util/isObject.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/util/isObject.js"(exports) {
       "use strict";
       function isObject3(x) {
         return x != null && typeof x === "object";
@@ -16904,17 +17244,17 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/util/errorObject.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/util/errorObject.js
   var require_errorObject = __commonJS({
-    "../../node_modules/rxjs/util/errorObject.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/util/errorObject.js"(exports) {
       "use strict";
       exports.errorObject = { e: {} };
     }
   });
 
-  // ../../node_modules/rxjs/util/tryCatch.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/util/tryCatch.js
   var require_tryCatch = __commonJS({
-    "../../node_modules/rxjs/util/tryCatch.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/util/tryCatch.js"(exports) {
       "use strict";
       var errorObject_1 = require_errorObject();
       var tryCatchTarget;
@@ -16934,9 +17274,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/util/UnsubscriptionError.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/util/UnsubscriptionError.js
   var require_UnsubscriptionError = __commonJS({
-    "../../node_modules/rxjs/util/UnsubscriptionError.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/util/UnsubscriptionError.js"(exports) {
       "use strict";
       var __extends = exports && exports.__extends || function(d, b) {
         for (var p2 in b) if (b.hasOwnProperty(p2)) d[p2] = b[p2];
@@ -16963,9 +17303,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/Subscription.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/Subscription.js
   var require_Subscription = __commonJS({
-    "../../node_modules/rxjs/Subscription.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/Subscription.js"(exports) {
       "use strict";
       var isArray_1 = require_isArray();
       var isObject_1 = require_isObject();
@@ -17096,9 +17436,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/Observer.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/Observer.js
   var require_Observer = __commonJS({
-    "../../node_modules/rxjs/Observer.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/Observer.js"(exports) {
       "use strict";
       exports.empty = {
         closed: true,
@@ -17113,9 +17453,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/symbol/rxSubscriber.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/symbol/rxSubscriber.js
   var require_rxSubscriber = __commonJS({
-    "../../node_modules/rxjs/symbol/rxSubscriber.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/symbol/rxSubscriber.js"(exports) {
       "use strict";
       var root_1 = require_root2();
       var Symbol2 = root_1.root.Symbol;
@@ -17124,9 +17464,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/Subscriber.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/Subscriber.js
   var require_Subscriber = __commonJS({
-    "../../node_modules/rxjs/Subscriber.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/Subscriber.js"(exports) {
       "use strict";
       var __extends = exports && exports.__extends || function(d, b) {
         for (var p2 in b) if (b.hasOwnProperty(p2)) d[p2] = b[p2];
@@ -17340,9 +17680,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/util/toSubscriber.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/util/toSubscriber.js
   var require_toSubscriber = __commonJS({
-    "../../node_modules/rxjs/util/toSubscriber.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/util/toSubscriber.js"(exports) {
       "use strict";
       var Subscriber_1 = require_Subscriber();
       var rxSubscriber_1 = require_rxSubscriber();
@@ -17365,9 +17705,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/symbol/observable.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/symbol/observable.js
   var require_observable4 = __commonJS({
-    "../../node_modules/rxjs/symbol/observable.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/symbol/observable.js"(exports) {
       "use strict";
       var root_1 = require_root2();
       function getSymbolObservable(context) {
@@ -17391,9 +17731,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/util/noop.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/util/noop.js
   var require_noop = __commonJS({
-    "../../node_modules/rxjs/util/noop.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/util/noop.js"(exports) {
       "use strict";
       function noop3() {
       }
@@ -17401,9 +17741,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/util/pipe.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/util/pipe.js
   var require_pipe = __commonJS({
-    "../../node_modules/rxjs/util/pipe.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/util/pipe.js"(exports) {
       "use strict";
       var noop_1 = require_noop();
       function pipe2() {
@@ -17431,9 +17771,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/Observable.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/Observable.js
   var require_Observable = __commonJS({
-    "../../node_modules/rxjs/Observable.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/Observable.js"(exports) {
       "use strict";
       var root_1 = require_root2();
       var toSubscriber_1 = require_toSubscriber();
@@ -17553,9 +17893,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/util/ObjectUnsubscribedError.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/util/ObjectUnsubscribedError.js
   var require_ObjectUnsubscribedError = __commonJS({
-    "../../node_modules/rxjs/util/ObjectUnsubscribedError.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/util/ObjectUnsubscribedError.js"(exports) {
       "use strict";
       var __extends = exports && exports.__extends || function(d, b) {
         for (var p2 in b) if (b.hasOwnProperty(p2)) d[p2] = b[p2];
@@ -17578,9 +17918,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/SubjectSubscription.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/SubjectSubscription.js
   var require_SubjectSubscription = __commonJS({
-    "../../node_modules/rxjs/SubjectSubscription.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/SubjectSubscription.js"(exports) {
       "use strict";
       var __extends = exports && exports.__extends || function(d, b) {
         for (var p2 in b) if (b.hasOwnProperty(p2)) d[p2] = b[p2];
@@ -17620,9 +17960,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/Subject.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/Subject.js
   var require_Subject = __commonJS({
-    "../../node_modules/rxjs/Subject.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/Subject.js"(exports) {
       "use strict";
       var __extends = exports && exports.__extends || function(d, b) {
         for (var p2 in b) if (b.hasOwnProperty(p2)) d[p2] = b[p2];
@@ -17781,9 +18121,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/BehaviorSubject.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/BehaviorSubject.js
   var require_BehaviorSubject = __commonJS({
-    "../../node_modules/rxjs/BehaviorSubject.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/BehaviorSubject.js"(exports) {
       "use strict";
       var __extends = exports && exports.__extends || function(d, b) {
         for (var p2 in b) if (b.hasOwnProperty(p2)) d[p2] = b[p2];
@@ -17832,9 +18172,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/scheduler/Action.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/scheduler/Action.js
   var require_Action = __commonJS({
-    "../../node_modules/rxjs/scheduler/Action.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/scheduler/Action.js"(exports) {
       "use strict";
       var __extends = exports && exports.__extends || function(d, b) {
         for (var p2 in b) if (b.hasOwnProperty(p2)) d[p2] = b[p2];
@@ -17861,9 +18201,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/scheduler/AsyncAction.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/scheduler/AsyncAction.js
   var require_AsyncAction = __commonJS({
-    "../../node_modules/rxjs/scheduler/AsyncAction.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/scheduler/AsyncAction.js"(exports) {
       "use strict";
       var __extends = exports && exports.__extends || function(d, b) {
         for (var p2 in b) if (b.hasOwnProperty(p2)) d[p2] = b[p2];
@@ -17964,9 +18304,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/Scheduler.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/Scheduler.js
   var require_Scheduler = __commonJS({
-    "../../node_modules/rxjs/Scheduler.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/Scheduler.js"(exports) {
       "use strict";
       var Scheduler = (function() {
         function Scheduler2(SchedulerAction, now2) {
@@ -17991,9 +18331,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/scheduler/AsyncScheduler.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/scheduler/AsyncScheduler.js
   var require_AsyncScheduler = __commonJS({
-    "../../node_modules/rxjs/scheduler/AsyncScheduler.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/scheduler/AsyncScheduler.js"(exports) {
       "use strict";
       var __extends = exports && exports.__extends || function(d, b) {
         for (var p2 in b) if (b.hasOwnProperty(p2)) d[p2] = b[p2];
@@ -18038,9 +18378,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/scheduler/async.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/scheduler/async.js
   var require_async = __commonJS({
-    "../../node_modules/rxjs/scheduler/async.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/scheduler/async.js"(exports) {
       "use strict";
       var AsyncAction_1 = require_AsyncAction();
       var AsyncScheduler_1 = require_AsyncScheduler();
@@ -18048,7 +18388,7 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/jwt-decode/build/jwt-decode.esm.js
+  // ../../../BotFramework-DirectLineJS/node_modules/jwt-decode/build/jwt-decode.esm.js
   var jwt_decode_esm_exports = {};
   __export(jwt_decode_esm_exports, {
     InvalidTokenError: () => n,
@@ -18096,7 +18436,7 @@ and ensure you are accounting for this risk.
   }
   var r4, jwt_decode_esm_default;
   var init_jwt_decode_esm = __esm({
-    "../../node_modules/botframework-directlinejs/node_modules/jwt-decode/build/jwt-decode.esm.js"() {
+    "../../../BotFramework-DirectLineJS/node_modules/jwt-decode/build/jwt-decode.esm.js"() {
       e.prototype = new Error(), e.prototype.name = "InvalidCharacterError";
       r4 = "undefined" != typeof window && window.atob && window.atob.bind(window) || function(r5) {
         var t2 = String(r5).replace(/=+$/, "");
@@ -18109,9 +18449,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/OuterSubscriber.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/OuterSubscriber.js
   var require_OuterSubscriber = __commonJS({
-    "../../node_modules/rxjs/OuterSubscriber.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/OuterSubscriber.js"(exports) {
       "use strict";
       var __extends = exports && exports.__extends || function(d, b) {
         for (var p2 in b) if (b.hasOwnProperty(p2)) d[p2] = b[p2];
@@ -18141,9 +18481,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/util/isArrayLike.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/util/isArrayLike.js
   var require_isArrayLike = __commonJS({
-    "../../node_modules/rxjs/util/isArrayLike.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/util/isArrayLike.js"(exports) {
       "use strict";
       exports.isArrayLike = (function(x) {
         return x && typeof x.length === "number";
@@ -18151,9 +18491,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/util/isPromise.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/util/isPromise.js
   var require_isPromise = __commonJS({
-    "../../node_modules/rxjs/util/isPromise.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/util/isPromise.js"(exports) {
       "use strict";
       function isPromise2(value) {
         return value && typeof value.subscribe !== "function" && typeof value.then === "function";
@@ -18162,9 +18502,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/symbol/iterator.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/symbol/iterator.js
   var require_iterator = __commonJS({
-    "../../node_modules/rxjs/symbol/iterator.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/symbol/iterator.js"(exports) {
       "use strict";
       var root_1 = require_root2();
       function symbolIteratorPonyfill(root2) {
@@ -18198,9 +18538,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/InnerSubscriber.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/InnerSubscriber.js
   var require_InnerSubscriber = __commonJS({
-    "../../node_modules/rxjs/InnerSubscriber.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/InnerSubscriber.js"(exports) {
       "use strict";
       var __extends = exports && exports.__extends || function(d, b) {
         for (var p2 in b) if (b.hasOwnProperty(p2)) d[p2] = b[p2];
@@ -18236,9 +18576,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/util/subscribeToResult.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/util/subscribeToResult.js
   var require_subscribeToResult = __commonJS({
-    "../../node_modules/rxjs/util/subscribeToResult.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/util/subscribeToResult.js"(exports) {
       "use strict";
       var root_1 = require_root2();
       var isArrayLike_1 = require_isArrayLike();
@@ -18314,9 +18654,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/operators/catchError.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/operators/catchError.js
   var require_catchError = __commonJS({
-    "../../node_modules/rxjs/operators/catchError.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/operators/catchError.js"(exports) {
       "use strict";
       var __extends = exports && exports.__extends || function(d, b) {
         for (var p2 in b) if (b.hasOwnProperty(p2)) d[p2] = b[p2];
@@ -18369,9 +18709,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/operator/catch.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/operator/catch.js
   var require_catch = __commonJS({
-    "../../node_modules/rxjs/operator/catch.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/operator/catch.js"(exports) {
       "use strict";
       var catchError_1 = require_catchError();
       function _catch(selector) {
@@ -18381,9 +18721,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/add/operator/catch.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/add/operator/catch.js
   var require_catch2 = __commonJS({
-    "../../node_modules/rxjs/add/operator/catch.js"() {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/add/operator/catch.js"() {
       "use strict";
       var Observable_1 = require_Observable();
       var catch_1 = require_catch();
@@ -18392,9 +18732,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/observable/ScalarObservable.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/observable/ScalarObservable.js
   var require_ScalarObservable = __commonJS({
-    "../../node_modules/rxjs/observable/ScalarObservable.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/observable/ScalarObservable.js"(exports) {
       "use strict";
       var __extends = exports && exports.__extends || function(d, b) {
         for (var p2 in b) if (b.hasOwnProperty(p2)) d[p2] = b[p2];
@@ -18453,9 +18793,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/observable/EmptyObservable.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/observable/EmptyObservable.js
   var require_EmptyObservable = __commonJS({
-    "../../node_modules/rxjs/observable/EmptyObservable.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/observable/EmptyObservable.js"(exports) {
       "use strict";
       var __extends = exports && exports.__extends || function(d, b) {
         for (var p2 in b) if (b.hasOwnProperty(p2)) d[p2] = b[p2];
@@ -18492,9 +18832,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/util/isScheduler.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/util/isScheduler.js
   var require_isScheduler = __commonJS({
-    "../../node_modules/rxjs/util/isScheduler.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/util/isScheduler.js"(exports) {
       "use strict";
       function isScheduler(value) {
         return value && typeof value.schedule === "function";
@@ -18503,9 +18843,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/observable/ArrayObservable.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/observable/ArrayObservable.js
   var require_ArrayObservable = __commonJS({
-    "../../node_modules/rxjs/observable/ArrayObservable.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/observable/ArrayObservable.js"(exports) {
       "use strict";
       var __extends = exports && exports.__extends || function(d, b) {
         for (var p2 in b) if (b.hasOwnProperty(p2)) d[p2] = b[p2];
@@ -18590,9 +18930,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/operators/combineLatest.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/operators/combineLatest.js
   var require_combineLatest = __commonJS({
-    "../../node_modules/rxjs/operators/combineLatest.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/operators/combineLatest.js"(exports) {
       "use strict";
       var __extends = exports && exports.__extends || function(d, b) {
         for (var p2 in b) if (b.hasOwnProperty(p2)) d[p2] = b[p2];
@@ -18694,9 +19034,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/operator/combineLatest.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/operator/combineLatest.js
   var require_combineLatest2 = __commonJS({
-    "../../node_modules/rxjs/operator/combineLatest.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/operator/combineLatest.js"(exports) {
       "use strict";
       var combineLatest_1 = require_combineLatest();
       function combineLatest() {
@@ -18710,9 +19050,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/add/operator/combineLatest.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/add/operator/combineLatest.js
   var require_combineLatest3 = __commonJS({
-    "../../node_modules/rxjs/add/operator/combineLatest.js"() {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/add/operator/combineLatest.js"() {
       "use strict";
       var Observable_1 = require_Observable();
       var combineLatest_1 = require_combineLatest2();
@@ -18720,9 +19060,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/operators/count.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/operators/count.js
   var require_count = __commonJS({
-    "../../node_modules/rxjs/operators/count.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/operators/count.js"(exports) {
       "use strict";
       var __extends = exports && exports.__extends || function(d, b) {
         for (var p2 in b) if (b.hasOwnProperty(p2)) d[p2] = b[p2];
@@ -18785,9 +19125,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/operator/count.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/operator/count.js
   var require_count2 = __commonJS({
-    "../../node_modules/rxjs/operator/count.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/operator/count.js"(exports) {
       "use strict";
       var count_1 = require_count();
       function count(predicate3) {
@@ -18797,9 +19137,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/add/operator/count.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/add/operator/count.js
   var require_count3 = __commonJS({
-    "../../node_modules/rxjs/add/operator/count.js"() {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/add/operator/count.js"() {
       "use strict";
       var Observable_1 = require_Observable();
       var count_1 = require_count2();
@@ -18807,9 +19147,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/util/isDate.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/util/isDate.js
   var require_isDate = __commonJS({
-    "../../node_modules/rxjs/util/isDate.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/util/isDate.js"(exports) {
       "use strict";
       function isDate(value) {
         return value instanceof Date && !isNaN(+value);
@@ -18818,9 +19158,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/Notification.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/Notification.js
   var require_Notification = __commonJS({
-    "../../node_modules/rxjs/Notification.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/Notification.js"(exports) {
       "use strict";
       var Observable_1 = require_Observable();
       var Notification = (function() {
@@ -18890,9 +19230,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/operators/delay.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/operators/delay.js
   var require_delay = __commonJS({
-    "../../node_modules/rxjs/operators/delay.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/operators/delay.js"(exports) {
       "use strict";
       var __extends = exports && exports.__extends || function(d, b) {
         for (var p2 in b) if (b.hasOwnProperty(p2)) d[p2] = b[p2];
@@ -18994,9 +19334,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/operator/delay.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/operator/delay.js
   var require_delay2 = __commonJS({
-    "../../node_modules/rxjs/operator/delay.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/operator/delay.js"(exports) {
       "use strict";
       var async_1 = require_async();
       var delay_1 = require_delay();
@@ -19010,9 +19350,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/add/operator/delay.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/add/operator/delay.js
   var require_delay3 = __commonJS({
-    "../../node_modules/rxjs/add/operator/delay.js"() {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/add/operator/delay.js"() {
       "use strict";
       var Observable_1 = require_Observable();
       var delay_1 = require_delay2();
@@ -19020,9 +19360,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/operators/tap.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/operators/tap.js
   var require_tap = __commonJS({
-    "../../node_modules/rxjs/operators/tap.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/operators/tap.js"(exports) {
       "use strict";
       var __extends = exports && exports.__extends || function(d, b) {
         for (var p2 in b) if (b.hasOwnProperty(p2)) d[p2] = b[p2];
@@ -19090,9 +19430,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/operator/do.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/operator/do.js
   var require_do = __commonJS({
-    "../../node_modules/rxjs/operator/do.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/operator/do.js"(exports) {
       "use strict";
       var tap_1 = require_tap();
       function _do(nextOrObserver, error, complete) {
@@ -19102,9 +19442,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/add/operator/do.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/add/operator/do.js
   var require_do2 = __commonJS({
-    "../../node_modules/rxjs/add/operator/do.js"() {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/add/operator/do.js"() {
       "use strict";
       var Observable_1 = require_Observable();
       var do_1 = require_do();
@@ -19113,9 +19453,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/operators/filter.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/operators/filter.js
   var require_filter = __commonJS({
-    "../../node_modules/rxjs/operators/filter.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/operators/filter.js"(exports) {
       "use strict";
       var __extends = exports && exports.__extends || function(d, b) {
         for (var p2 in b) if (b.hasOwnProperty(p2)) d[p2] = b[p2];
@@ -19166,9 +19506,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/operator/filter.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/operator/filter.js
   var require_filter2 = __commonJS({
-    "../../node_modules/rxjs/operator/filter.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/operator/filter.js"(exports) {
       "use strict";
       var filter_1 = require_filter();
       function filter(predicate3, thisArg) {
@@ -19178,9 +19518,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/add/operator/filter.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/add/operator/filter.js
   var require_filter3 = __commonJS({
-    "../../node_modules/rxjs/add/operator/filter.js"() {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/add/operator/filter.js"() {
       "use strict";
       var Observable_1 = require_Observable();
       var filter_1 = require_filter2();
@@ -19188,9 +19528,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/operators/map.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/operators/map.js
   var require_map = __commonJS({
-    "../../node_modules/rxjs/operators/map.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/operators/map.js"(exports) {
       "use strict";
       var __extends = exports && exports.__extends || function(d, b) {
         for (var p2 in b) if (b.hasOwnProperty(p2)) d[p2] = b[p2];
@@ -19243,9 +19583,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/operator/map.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/operator/map.js
   var require_map2 = __commonJS({
-    "../../node_modules/rxjs/operator/map.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/operator/map.js"(exports) {
       "use strict";
       var map_1 = require_map();
       function map2(project2, thisArg) {
@@ -19255,9 +19595,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/add/operator/map.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/add/operator/map.js
   var require_map3 = __commonJS({
-    "../../node_modules/rxjs/add/operator/map.js"() {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/add/operator/map.js"() {
       "use strict";
       var Observable_1 = require_Observable();
       var map_1 = require_map2();
@@ -19265,9 +19605,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/operators/mergeMap.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/operators/mergeMap.js
   var require_mergeMap = __commonJS({
-    "../../node_modules/rxjs/operators/mergeMap.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/operators/mergeMap.js"(exports) {
       "use strict";
       var __extends = exports && exports.__extends || function(d, b) {
         for (var p2 in b) if (b.hasOwnProperty(p2)) d[p2] = b[p2];
@@ -19382,9 +19722,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/operator/mergeMap.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/operator/mergeMap.js
   var require_mergeMap2 = __commonJS({
-    "../../node_modules/rxjs/operator/mergeMap.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/operator/mergeMap.js"(exports) {
       "use strict";
       var mergeMap_1 = require_mergeMap();
       function mergeMap(project2, resultSelector, concurrent) {
@@ -19397,9 +19737,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/add/operator/mergeMap.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/add/operator/mergeMap.js
   var require_mergeMap3 = __commonJS({
-    "../../node_modules/rxjs/add/operator/mergeMap.js"() {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/add/operator/mergeMap.js"() {
       "use strict";
       var Observable_1 = require_Observable();
       var mergeMap_1 = require_mergeMap2();
@@ -19408,9 +19748,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/operators/concatMap.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/operators/concatMap.js
   var require_concatMap = __commonJS({
-    "../../node_modules/rxjs/operators/concatMap.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/operators/concatMap.js"(exports) {
       "use strict";
       var mergeMap_1 = require_mergeMap();
       function concatMap(project2, resultSelector) {
@@ -19420,9 +19760,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/operator/concatMap.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/operator/concatMap.js
   var require_concatMap2 = __commonJS({
-    "../../node_modules/rxjs/operator/concatMap.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/operator/concatMap.js"(exports) {
       "use strict";
       var concatMap_1 = require_concatMap();
       function concatMap(project2, resultSelector) {
@@ -19432,9 +19772,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/add/operator/concatMap.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/add/operator/concatMap.js
   var require_concatMap3 = __commonJS({
-    "../../node_modules/rxjs/add/operator/concatMap.js"() {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/add/operator/concatMap.js"() {
       "use strict";
       var Observable_1 = require_Observable();
       var concatMap_1 = require_concatMap2();
@@ -19442,9 +19782,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/operators/retryWhen.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/operators/retryWhen.js
   var require_retryWhen = __commonJS({
-    "../../node_modules/rxjs/operators/retryWhen.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/operators/retryWhen.js"(exports) {
       "use strict";
       var __extends = exports && exports.__extends || function(d, b) {
         for (var p2 in b) if (b.hasOwnProperty(p2)) d[p2] = b[p2];
@@ -19532,9 +19872,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/operator/retryWhen.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/operator/retryWhen.js
   var require_retryWhen2 = __commonJS({
-    "../../node_modules/rxjs/operator/retryWhen.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/operator/retryWhen.js"(exports) {
       "use strict";
       var retryWhen_1 = require_retryWhen();
       function retryWhen(notifier) {
@@ -19544,9 +19884,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/add/operator/retryWhen.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/add/operator/retryWhen.js
   var require_retryWhen3 = __commonJS({
-    "../../node_modules/rxjs/add/operator/retryWhen.js"() {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/add/operator/retryWhen.js"() {
       "use strict";
       var Observable_1 = require_Observable();
       var retryWhen_1 = require_retryWhen2();
@@ -19554,9 +19894,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/operators/refCount.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/operators/refCount.js
   var require_refCount = __commonJS({
-    "../../node_modules/rxjs/operators/refCount.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/operators/refCount.js"(exports) {
       "use strict";
       var __extends = exports && exports.__extends || function(d, b) {
         for (var p2 in b) if (b.hasOwnProperty(p2)) d[p2] = b[p2];
@@ -19623,9 +19963,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/observable/ConnectableObservable.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/observable/ConnectableObservable.js
   var require_ConnectableObservable = __commonJS({
-    "../../node_modules/rxjs/observable/ConnectableObservable.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/observable/ConnectableObservable.js"(exports) {
       "use strict";
       var __extends = exports && exports.__extends || function(d, b) {
         for (var p2 in b) if (b.hasOwnProperty(p2)) d[p2] = b[p2];
@@ -19772,9 +20112,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/operators/multicast.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/operators/multicast.js
   var require_multicast = __commonJS({
-    "../../node_modules/rxjs/operators/multicast.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/operators/multicast.js"(exports) {
       "use strict";
       var ConnectableObservable_1 = require_ConnectableObservable();
       function multicast2(subjectOrSubjectFactory, selector) {
@@ -19815,9 +20155,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/operators/share.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/operators/share.js
   var require_share = __commonJS({
-    "../../node_modules/rxjs/operators/share.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/operators/share.js"(exports) {
       "use strict";
       var multicast_1 = require_multicast();
       var refCount_1 = require_refCount();
@@ -19834,9 +20174,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/operator/share.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/operator/share.js
   var require_share2 = __commonJS({
-    "../../node_modules/rxjs/operator/share.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/operator/share.js"(exports) {
       "use strict";
       var share_1 = require_share();
       function share() {
@@ -19846,9 +20186,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/add/operator/share.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/add/operator/share.js
   var require_share3 = __commonJS({
-    "../../node_modules/rxjs/add/operator/share.js"() {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/add/operator/share.js"() {
       "use strict";
       var Observable_1 = require_Observable();
       var share_1 = require_share2();
@@ -19856,9 +20196,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/util/ArgumentOutOfRangeError.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/util/ArgumentOutOfRangeError.js
   var require_ArgumentOutOfRangeError = __commonJS({
-    "../../node_modules/rxjs/util/ArgumentOutOfRangeError.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/util/ArgumentOutOfRangeError.js"(exports) {
       "use strict";
       var __extends = exports && exports.__extends || function(d, b) {
         for (var p2 in b) if (b.hasOwnProperty(p2)) d[p2] = b[p2];
@@ -19881,9 +20221,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/operators/take.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/operators/take.js
   var require_take = __commonJS({
-    "../../node_modules/rxjs/operators/take.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/operators/take.js"(exports) {
       "use strict";
       var __extends = exports && exports.__extends || function(d, b) {
         for (var p2 in b) if (b.hasOwnProperty(p2)) d[p2] = b[p2];
@@ -19940,9 +20280,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/operator/take.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/operator/take.js
   var require_take2 = __commonJS({
-    "../../node_modules/rxjs/operator/take.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/operator/take.js"(exports) {
       "use strict";
       var take_1 = require_take();
       function take2(count) {
@@ -19952,9 +20292,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/add/operator/take.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/add/operator/take.js
   var require_take3 = __commonJS({
-    "../../node_modules/rxjs/add/operator/take.js"() {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/add/operator/take.js"() {
       "use strict";
       var Observable_1 = require_Observable();
       var take_1 = require_take2();
@@ -19962,9 +20302,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/observable/dom/AjaxObservable.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/observable/dom/AjaxObservable.js
   var require_AjaxObservable = __commonJS({
-    "../../node_modules/rxjs/observable/dom/AjaxObservable.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/observable/dom/AjaxObservable.js"(exports) {
       "use strict";
       var __extends = exports && exports.__extends || function(d, b) {
         for (var p2 in b) if (b.hasOwnProperty(p2)) d[p2] = b[p2];
@@ -20308,18 +20648,18 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/observable/dom/ajax.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/observable/dom/ajax.js
   var require_ajax = __commonJS({
-    "../../node_modules/rxjs/observable/dom/ajax.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/observable/dom/ajax.js"(exports) {
       "use strict";
       var AjaxObservable_1 = require_AjaxObservable();
       exports.ajax = AjaxObservable_1.AjaxObservable.create;
     }
   });
 
-  // ../../node_modules/rxjs/add/observable/dom/ajax.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/add/observable/dom/ajax.js
   var require_ajax2 = __commonJS({
-    "../../node_modules/rxjs/add/observable/dom/ajax.js"() {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/add/observable/dom/ajax.js"() {
       "use strict";
       var Observable_1 = require_Observable();
       var ajax_1 = require_ajax();
@@ -20327,18 +20667,18 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/observable/empty.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/observable/empty.js
   var require_empty = __commonJS({
-    "../../node_modules/rxjs/observable/empty.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/observable/empty.js"(exports) {
       "use strict";
       var EmptyObservable_1 = require_EmptyObservable();
       exports.empty = EmptyObservable_1.EmptyObservable.create;
     }
   });
 
-  // ../../node_modules/rxjs/add/observable/empty.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/add/observable/empty.js
   var require_empty2 = __commonJS({
-    "../../node_modules/rxjs/add/observable/empty.js"() {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/add/observable/empty.js"() {
       "use strict";
       var Observable_1 = require_Observable();
       var empty_1 = require_empty();
@@ -20346,9 +20686,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/observable/PromiseObservable.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/observable/PromiseObservable.js
   var require_PromiseObservable = __commonJS({
-    "../../node_modules/rxjs/observable/PromiseObservable.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/observable/PromiseObservable.js"(exports) {
       "use strict";
       var __extends = exports && exports.__extends || function(d, b) {
         for (var p2 in b) if (b.hasOwnProperty(p2)) d[p2] = b[p2];
@@ -20440,9 +20780,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/observable/IteratorObservable.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/observable/IteratorObservable.js
   var require_IteratorObservable = __commonJS({
-    "../../node_modules/rxjs/observable/IteratorObservable.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/observable/IteratorObservable.js"(exports) {
       "use strict";
       var __extends = exports && exports.__extends || function(d, b) {
         for (var p2 in b) if (b.hasOwnProperty(p2)) d[p2] = b[p2];
@@ -20617,9 +20957,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/observable/ArrayLikeObservable.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/observable/ArrayLikeObservable.js
   var require_ArrayLikeObservable = __commonJS({
-    "../../node_modules/rxjs/observable/ArrayLikeObservable.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/observable/ArrayLikeObservable.js"(exports) {
       "use strict";
       var __extends = exports && exports.__extends || function(d, b) {
         for (var p2 in b) if (b.hasOwnProperty(p2)) d[p2] = b[p2];
@@ -20689,9 +21029,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/operators/observeOn.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/operators/observeOn.js
   var require_observeOn = __commonJS({
-    "../../node_modules/rxjs/operators/observeOn.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/operators/observeOn.js"(exports) {
       "use strict";
       var __extends = exports && exports.__extends || function(d, b) {
         for (var p2 in b) if (b.hasOwnProperty(p2)) d[p2] = b[p2];
@@ -20766,9 +21106,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/observable/FromObservable.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/observable/FromObservable.js
   var require_FromObservable = __commonJS({
-    "../../node_modules/rxjs/observable/FromObservable.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/observable/FromObservable.js"(exports) {
       "use strict";
       var __extends = exports && exports.__extends || function(d, b) {
         for (var p2 in b) if (b.hasOwnProperty(p2)) d[p2] = b[p2];
@@ -20829,18 +21169,18 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/observable/from.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/observable/from.js
   var require_from = __commonJS({
-    "../../node_modules/rxjs/observable/from.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/observable/from.js"(exports) {
       "use strict";
       var FromObservable_1 = require_FromObservable();
       exports.from = FromObservable_1.FromObservable.create;
     }
   });
 
-  // ../../node_modules/rxjs/add/observable/from.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/add/observable/from.js
   var require_from2 = __commonJS({
-    "../../node_modules/rxjs/add/observable/from.js"() {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/add/observable/from.js"() {
       "use strict";
       var Observable_1 = require_Observable();
       var from_1 = require_from();
@@ -20848,9 +21188,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/util/isNumeric.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/util/isNumeric.js
   var require_isNumeric = __commonJS({
-    "../../node_modules/rxjs/util/isNumeric.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/util/isNumeric.js"(exports) {
       "use strict";
       var isArray_1 = require_isArray();
       function isNumeric(val) {
@@ -20860,9 +21200,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/observable/IntervalObservable.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/observable/IntervalObservable.js
   var require_IntervalObservable = __commonJS({
-    "../../node_modules/rxjs/observable/IntervalObservable.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/observable/IntervalObservable.js"(exports) {
       "use strict";
       var __extends = exports && exports.__extends || function(d, b) {
         for (var p2 in b) if (b.hasOwnProperty(p2)) d[p2] = b[p2];
@@ -20927,18 +21267,18 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/observable/interval.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/observable/interval.js
   var require_interval = __commonJS({
-    "../../node_modules/rxjs/observable/interval.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/observable/interval.js"(exports) {
       "use strict";
       var IntervalObservable_1 = require_IntervalObservable();
       exports.interval = IntervalObservable_1.IntervalObservable.create;
     }
   });
 
-  // ../../node_modules/rxjs/add/observable/interval.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/add/observable/interval.js
   var require_interval2 = __commonJS({
-    "../../node_modules/rxjs/add/observable/interval.js"() {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/add/observable/interval.js"() {
       "use strict";
       var Observable_1 = require_Observable();
       var interval_1 = require_interval();
@@ -20946,18 +21286,18 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/observable/of.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/observable/of.js
   var require_of = __commonJS({
-    "../../node_modules/rxjs/observable/of.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/observable/of.js"(exports) {
       "use strict";
       var ArrayObservable_1 = require_ArrayObservable();
       exports.of = ArrayObservable_1.ArrayObservable.of;
     }
   });
 
-  // ../../node_modules/rxjs/add/observable/of.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/add/observable/of.js
   var require_of2 = __commonJS({
-    "../../node_modules/rxjs/add/observable/of.js"() {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/add/observable/of.js"() {
       "use strict";
       var Observable_1 = require_Observable();
       var of_1 = require_of();
@@ -20965,9 +21305,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/observable/ErrorObservable.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/observable/ErrorObservable.js
   var require_ErrorObservable = __commonJS({
-    "../../node_modules/rxjs/observable/ErrorObservable.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/observable/ErrorObservable.js"(exports) {
       "use strict";
       var __extends = exports && exports.__extends || function(d, b) {
         for (var p2 in b) if (b.hasOwnProperty(p2)) d[p2] = b[p2];
@@ -21010,18 +21350,18 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/rxjs/observable/throw.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/observable/throw.js
   var require_throw = __commonJS({
-    "../../node_modules/rxjs/observable/throw.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/observable/throw.js"(exports) {
       "use strict";
       var ErrorObservable_1 = require_ErrorObservable();
       exports._throw = ErrorObservable_1.ErrorObservable.create;
     }
   });
 
-  // ../../node_modules/rxjs/add/observable/throw.js
+  // ../../../BotFramework-DirectLineJS/node_modules/rxjs/add/observable/throw.js
   var require_throw2 = __commonJS({
-    "../../node_modules/rxjs/add/observable/throw.js"() {
+    "../../../BotFramework-DirectLineJS/node_modules/rxjs/add/observable/throw.js"() {
       "use strict";
       var Observable_1 = require_Observable();
       var throw_1 = require_throw();
@@ -21029,9 +21369,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/arrayWithHoles.js
+  // ../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/arrayWithHoles.js
   var require_arrayWithHoles = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/arrayWithHoles.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/arrayWithHoles.js"(exports, module) {
       function _arrayWithHoles(r5) {
         if (Array.isArray(r5)) return r5;
       }
@@ -21039,9 +21379,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/iterableToArray.js
+  // ../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/iterableToArray.js
   var require_iterableToArray = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/iterableToArray.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/iterableToArray.js"(exports, module) {
       function _iterableToArray(r5) {
         if ("undefined" != typeof Symbol && null != r5[Symbol.iterator] || null != r5["@@iterator"]) return Array.from(r5);
       }
@@ -21049,9 +21389,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/arrayLikeToArray.js
+  // ../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/arrayLikeToArray.js
   var require_arrayLikeToArray = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/arrayLikeToArray.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/arrayLikeToArray.js"(exports, module) {
       function _arrayLikeToArray(r5, a) {
         (null == a || a > r5.length) && (a = r5.length);
         for (var e2 = 0, n2 = Array(a); e2 < a; e2++) n2[e2] = r5[e2];
@@ -21061,9 +21401,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/unsupportedIterableToArray.js
+  // ../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/unsupportedIterableToArray.js
   var require_unsupportedIterableToArray = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/unsupportedIterableToArray.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/unsupportedIterableToArray.js"(exports, module) {
       var arrayLikeToArray = require_arrayLikeToArray();
       function _unsupportedIterableToArray(r5, a) {
         if (r5) {
@@ -21076,9 +21416,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/nonIterableRest.js
+  // ../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/nonIterableRest.js
   var require_nonIterableRest = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/nonIterableRest.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/nonIterableRest.js"(exports, module) {
       function _nonIterableRest() {
         throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
       }
@@ -21086,9 +21426,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/toArray.js
+  // ../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/toArray.js
   var require_toArray = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/toArray.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/toArray.js"(exports, module) {
       var arrayWithHoles = require_arrayWithHoles();
       var iterableToArray = require_iterableToArray();
       var unsupportedIterableToArray = require_unsupportedIterableToArray();
@@ -21100,9 +21440,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/lib/parseFilename.js
+  // ../../../BotFramework-DirectLineJS/lib/parseFilename.js
   var require_parseFilename = __commonJS({
-    "../../node_modules/botframework-directlinejs/lib/parseFilename.js"(exports) {
+    "../../../BotFramework-DirectLineJS/lib/parseFilename.js"(exports) {
       "use strict";
       var _interopRequireDefault = require_interopRequireDefault();
       Object.defineProperty(exports, "__esModule", {
@@ -21132,9 +21472,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/lib/dedupeFilenames.js
+  // ../../../BotFramework-DirectLineJS/lib/dedupeFilenames.js
   var require_dedupeFilenames = __commonJS({
-    "../../node_modules/botframework-directlinejs/lib/dedupeFilenames.js"(exports) {
+    "../../../BotFramework-DirectLineJS/lib/dedupeFilenames.js"(exports) {
       "use strict";
       var _interopRequireDefault = require_interopRequireDefault();
       Object.defineProperty(exports, "__esModule", {
@@ -21160,319 +21500,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/regeneratorRuntime.js
-  var require_regeneratorRuntime = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/regeneratorRuntime.js"(exports, module) {
-      var _typeof = require_typeof()["default"];
-      function _regeneratorRuntime() {
-        "use strict";
-        module.exports = _regeneratorRuntime = function _regeneratorRuntime2() {
-          return e2;
-        }, module.exports.__esModule = true, module.exports["default"] = module.exports;
-        var t2, e2 = {}, r5 = Object.prototype, n2 = r5.hasOwnProperty, o2 = Object.defineProperty || function(t3, e3, r6) {
-          t3[e3] = r6.value;
-        }, i2 = "function" == typeof Symbol ? Symbol : {}, a = i2.iterator || "@@iterator", c = i2.asyncIterator || "@@asyncIterator", u = i2.toStringTag || "@@toStringTag";
-        function define2(t3, e3, r6) {
-          return Object.defineProperty(t3, e3, {
-            value: r6,
-            enumerable: true,
-            configurable: true,
-            writable: true
-          }), t3[e3];
-        }
-        try {
-          define2({}, "");
-        } catch (t3) {
-          define2 = function define3(t4, e3, r6) {
-            return t4[e3] = r6;
-          };
-        }
-        function wrap(t3, e3, r6, n3) {
-          var i3 = e3 && e3.prototype instanceof Generator ? e3 : Generator, a2 = Object.create(i3.prototype), c2 = new Context4(n3 || []);
-          return o2(a2, "_invoke", {
-            value: makeInvokeMethod(t3, r6, c2)
-          }), a2;
-        }
-        function tryCatch(t3, e3, r6) {
-          try {
-            return {
-              type: "normal",
-              arg: t3.call(e3, r6)
-            };
-          } catch (t4) {
-            return {
-              type: "throw",
-              arg: t4
-            };
-          }
-        }
-        e2.wrap = wrap;
-        var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {};
-        function Generator() {
-        }
-        function GeneratorFunction() {
-        }
-        function GeneratorFunctionPrototype() {
-        }
-        var p2 = {};
-        define2(p2, a, function() {
-          return this;
-        });
-        var d = Object.getPrototypeOf, v = d && d(d(values([])));
-        v && v !== r5 && n2.call(v, a) && (p2 = v);
-        var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p2);
-        function defineIteratorMethods(t3) {
-          ["next", "throw", "return"].forEach(function(e3) {
-            define2(t3, e3, function(t4) {
-              return this._invoke(e3, t4);
-            });
-          });
-        }
-        function AsyncIterator(t3, e3) {
-          function invoke(r7, o3, i3, a2) {
-            var c2 = tryCatch(t3[r7], t3, o3);
-            if ("throw" !== c2.type) {
-              var u2 = c2.arg, h2 = u2.value;
-              return h2 && "object" == _typeof(h2) && n2.call(h2, "__await") ? e3.resolve(h2.__await).then(function(t4) {
-                invoke("next", t4, i3, a2);
-              }, function(t4) {
-                invoke("throw", t4, i3, a2);
-              }) : e3.resolve(h2).then(function(t4) {
-                u2.value = t4, i3(u2);
-              }, function(t4) {
-                return invoke("throw", t4, i3, a2);
-              });
-            }
-            a2(c2.arg);
-          }
-          var r6;
-          o2(this, "_invoke", {
-            value: function value(t4, n3) {
-              function callInvokeWithMethodAndArg() {
-                return new e3(function(e4, r7) {
-                  invoke(t4, n3, e4, r7);
-                });
-              }
-              return r6 = r6 ? r6.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg();
-            }
-          });
-        }
-        function makeInvokeMethod(e3, r6, n3) {
-          var o3 = h;
-          return function(i3, a2) {
-            if (o3 === f) throw Error("Generator is already running");
-            if (o3 === s) {
-              if ("throw" === i3) throw a2;
-              return {
-                value: t2,
-                done: true
-              };
-            }
-            for (n3.method = i3, n3.arg = a2; ; ) {
-              var c2 = n3.delegate;
-              if (c2) {
-                var u2 = maybeInvokeDelegate(c2, n3);
-                if (u2) {
-                  if (u2 === y) continue;
-                  return u2;
-                }
-              }
-              if ("next" === n3.method) n3.sent = n3._sent = n3.arg;
-              else if ("throw" === n3.method) {
-                if (o3 === h) throw o3 = s, n3.arg;
-                n3.dispatchException(n3.arg);
-              } else "return" === n3.method && n3.abrupt("return", n3.arg);
-              o3 = f;
-              var p3 = tryCatch(e3, r6, n3);
-              if ("normal" === p3.type) {
-                if (o3 = n3.done ? s : l, p3.arg === y) continue;
-                return {
-                  value: p3.arg,
-                  done: n3.done
-                };
-              }
-              "throw" === p3.type && (o3 = s, n3.method = "throw", n3.arg = p3.arg);
-            }
-          };
-        }
-        function maybeInvokeDelegate(e3, r6) {
-          var n3 = r6.method, o3 = e3.iterator[n3];
-          if (o3 === t2) return r6.delegate = null, "throw" === n3 && e3.iterator["return"] && (r6.method = "return", r6.arg = t2, maybeInvokeDelegate(e3, r6), "throw" === r6.method) || "return" !== n3 && (r6.method = "throw", r6.arg = new TypeError("The iterator does not provide a '" + n3 + "' method")), y;
-          var i3 = tryCatch(o3, e3.iterator, r6.arg);
-          if ("throw" === i3.type) return r6.method = "throw", r6.arg = i3.arg, r6.delegate = null, y;
-          var a2 = i3.arg;
-          return a2 ? a2.done ? (r6[e3.resultName] = a2.value, r6.next = e3.nextLoc, "return" !== r6.method && (r6.method = "next", r6.arg = t2), r6.delegate = null, y) : a2 : (r6.method = "throw", r6.arg = new TypeError("iterator result is not an object"), r6.delegate = null, y);
-        }
-        function pushTryEntry(t3) {
-          var e3 = {
-            tryLoc: t3[0]
-          };
-          1 in t3 && (e3.catchLoc = t3[1]), 2 in t3 && (e3.finallyLoc = t3[2], e3.afterLoc = t3[3]), this.tryEntries.push(e3);
-        }
-        function resetTryEntry(t3) {
-          var e3 = t3.completion || {};
-          e3.type = "normal", delete e3.arg, t3.completion = e3;
-        }
-        function Context4(t3) {
-          this.tryEntries = [{
-            tryLoc: "root"
-          }], t3.forEach(pushTryEntry, this), this.reset(true);
-        }
-        function values(e3) {
-          if (e3 || "" === e3) {
-            var r6 = e3[a];
-            if (r6) return r6.call(e3);
-            if ("function" == typeof e3.next) return e3;
-            if (!isNaN(e3.length)) {
-              var o3 = -1, i3 = function next() {
-                for (; ++o3 < e3.length; ) if (n2.call(e3, o3)) return next.value = e3[o3], next.done = false, next;
-                return next.value = t2, next.done = true, next;
-              };
-              return i3.next = i3;
-            }
-          }
-          throw new TypeError(_typeof(e3) + " is not iterable");
-        }
-        return GeneratorFunction.prototype = GeneratorFunctionPrototype, o2(g, "constructor", {
-          value: GeneratorFunctionPrototype,
-          configurable: true
-        }), o2(GeneratorFunctionPrototype, "constructor", {
-          value: GeneratorFunction,
-          configurable: true
-        }), GeneratorFunction.displayName = define2(GeneratorFunctionPrototype, u, "GeneratorFunction"), e2.isGeneratorFunction = function(t3) {
-          var e3 = "function" == typeof t3 && t3.constructor;
-          return !!e3 && (e3 === GeneratorFunction || "GeneratorFunction" === (e3.displayName || e3.name));
-        }, e2.mark = function(t3) {
-          return Object.setPrototypeOf ? Object.setPrototypeOf(t3, GeneratorFunctionPrototype) : (t3.__proto__ = GeneratorFunctionPrototype, define2(t3, u, "GeneratorFunction")), t3.prototype = Object.create(g), t3;
-        }, e2.awrap = function(t3) {
-          return {
-            __await: t3
-          };
-        }, defineIteratorMethods(AsyncIterator.prototype), define2(AsyncIterator.prototype, c, function() {
-          return this;
-        }), e2.AsyncIterator = AsyncIterator, e2.async = function(t3, r6, n3, o3, i3) {
-          void 0 === i3 && (i3 = Promise);
-          var a2 = new AsyncIterator(wrap(t3, r6, n3, o3), i3);
-          return e2.isGeneratorFunction(r6) ? a2 : a2.next().then(function(t4) {
-            return t4.done ? t4.value : a2.next();
-          });
-        }, defineIteratorMethods(g), define2(g, u, "Generator"), define2(g, a, function() {
-          return this;
-        }), define2(g, "toString", function() {
-          return "[object Generator]";
-        }), e2.keys = function(t3) {
-          var e3 = Object(t3), r6 = [];
-          for (var n3 in e3) r6.push(n3);
-          return r6.reverse(), function next() {
-            for (; r6.length; ) {
-              var t4 = r6.pop();
-              if (t4 in e3) return next.value = t4, next.done = false, next;
-            }
-            return next.done = true, next;
-          };
-        }, e2.values = values, Context4.prototype = {
-          constructor: Context4,
-          reset: function reset(e3) {
-            if (this.prev = 0, this.next = 0, this.sent = this._sent = t2, this.done = false, this.delegate = null, this.method = "next", this.arg = t2, this.tryEntries.forEach(resetTryEntry), !e3) for (var r6 in this) "t" === r6.charAt(0) && n2.call(this, r6) && !isNaN(+r6.slice(1)) && (this[r6] = t2);
-          },
-          stop: function stop() {
-            this.done = true;
-            var t3 = this.tryEntries[0].completion;
-            if ("throw" === t3.type) throw t3.arg;
-            return this.rval;
-          },
-          dispatchException: function dispatchException(e3) {
-            if (this.done) throw e3;
-            var r6 = this;
-            function handle2(n3, o4) {
-              return a2.type = "throw", a2.arg = e3, r6.next = n3, o4 && (r6.method = "next", r6.arg = t2), !!o4;
-            }
-            for (var o3 = this.tryEntries.length - 1; o3 >= 0; --o3) {
-              var i3 = this.tryEntries[o3], a2 = i3.completion;
-              if ("root" === i3.tryLoc) return handle2("end");
-              if (i3.tryLoc <= this.prev) {
-                var c2 = n2.call(i3, "catchLoc"), u2 = n2.call(i3, "finallyLoc");
-                if (c2 && u2) {
-                  if (this.prev < i3.catchLoc) return handle2(i3.catchLoc, true);
-                  if (this.prev < i3.finallyLoc) return handle2(i3.finallyLoc);
-                } else if (c2) {
-                  if (this.prev < i3.catchLoc) return handle2(i3.catchLoc, true);
-                } else {
-                  if (!u2) throw Error("try statement without catch or finally");
-                  if (this.prev < i3.finallyLoc) return handle2(i3.finallyLoc);
-                }
-              }
-            }
-          },
-          abrupt: function abrupt(t3, e3) {
-            for (var r6 = this.tryEntries.length - 1; r6 >= 0; --r6) {
-              var o3 = this.tryEntries[r6];
-              if (o3.tryLoc <= this.prev && n2.call(o3, "finallyLoc") && this.prev < o3.finallyLoc) {
-                var i3 = o3;
-                break;
-              }
-            }
-            i3 && ("break" === t3 || "continue" === t3) && i3.tryLoc <= e3 && e3 <= i3.finallyLoc && (i3 = null);
-            var a2 = i3 ? i3.completion : {};
-            return a2.type = t3, a2.arg = e3, i3 ? (this.method = "next", this.next = i3.finallyLoc, y) : this.complete(a2);
-          },
-          complete: function complete(t3, e3) {
-            if ("throw" === t3.type) throw t3.arg;
-            return "break" === t3.type || "continue" === t3.type ? this.next = t3.arg : "return" === t3.type ? (this.rval = this.arg = t3.arg, this.method = "return", this.next = "end") : "normal" === t3.type && e3 && (this.next = e3), y;
-          },
-          finish: function finish(t3) {
-            for (var e3 = this.tryEntries.length - 1; e3 >= 0; --e3) {
-              var r6 = this.tryEntries[e3];
-              if (r6.finallyLoc === t3) return this.complete(r6.completion, r6.afterLoc), resetTryEntry(r6), y;
-            }
-          },
-          "catch": function _catch(t3) {
-            for (var e3 = this.tryEntries.length - 1; e3 >= 0; --e3) {
-              var r6 = this.tryEntries[e3];
-              if (r6.tryLoc === t3) {
-                var n3 = r6.completion;
-                if ("throw" === n3.type) {
-                  var o3 = n3.arg;
-                  resetTryEntry(r6);
-                }
-                return o3;
-              }
-            }
-            throw Error("illegal catch attempt");
-          },
-          delegateYield: function delegateYield(e3, r6, n3) {
-            return this.delegate = {
-              iterator: values(e3),
-              resultName: r6,
-              nextLoc: n3
-            }, "next" === this.method && (this.arg = t2), y;
-          }
-        }, e2;
-      }
-      module.exports = _regeneratorRuntime, module.exports.__esModule = true, module.exports["default"] = module.exports;
-    }
-  });
-
-  // ../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/regenerator/index.js
-  var require_regenerator = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/regenerator/index.js"(exports, module) {
-      var runtime = require_regeneratorRuntime()();
-      module.exports = runtime;
-      try {
-        regeneratorRuntime = runtime;
-      } catch (accidentalStrictMode) {
-        if (typeof globalThis === "object") {
-          globalThis.regeneratorRuntime = runtime;
-        } else {
-          Function("r", "regeneratorRuntime = r")(runtime);
-        }
-      }
-    }
-  });
-
-  // ../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/classApplyDescriptorGet.js
+  // ../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/classApplyDescriptorGet.js
   var require_classApplyDescriptorGet = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/classApplyDescriptorGet.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/classApplyDescriptorGet.js"(exports, module) {
       function _classApplyDescriptorGet(e2, t2) {
         return t2.get ? t2.get.call(e2) : t2.value;
       }
@@ -21480,9 +21510,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/assertClassBrand.js
+  // ../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/assertClassBrand.js
   var require_assertClassBrand = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/assertClassBrand.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/assertClassBrand.js"(exports, module) {
       function _assertClassBrand(e2, t2, n2) {
         if ("function" == typeof e2 ? e2 === t2 : e2.has(t2)) return arguments.length < 3 ? t2 : n2;
         throw new TypeError("Private element is not present on this object");
@@ -21491,9 +21521,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/classPrivateFieldGet2.js
+  // ../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/classPrivateFieldGet2.js
   var require_classPrivateFieldGet2 = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/classPrivateFieldGet2.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/classPrivateFieldGet2.js"(exports, module) {
       var assertClassBrand = require_assertClassBrand();
       function _classPrivateFieldGet2(s, a) {
         return s.get(assertClassBrand(s, a));
@@ -21502,9 +21532,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/classPrivateFieldGet.js
+  // ../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/classPrivateFieldGet.js
   var require_classPrivateFieldGet = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/classPrivateFieldGet.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/classPrivateFieldGet.js"(exports, module) {
       var classApplyDescriptorGet = require_classApplyDescriptorGet();
       var classPrivateFieldGet2 = require_classPrivateFieldGet2();
       function _classPrivateFieldGet(e2, t2) {
@@ -21515,9 +21545,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/classApplyDescriptorSet.js
+  // ../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/classApplyDescriptorSet.js
   var require_classApplyDescriptorSet = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/classApplyDescriptorSet.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/classApplyDescriptorSet.js"(exports, module) {
       function _classApplyDescriptorSet(e2, t2, l) {
         if (t2.set) t2.set.call(e2, l);
         else {
@@ -21529,9 +21559,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/classPrivateFieldSet.js
+  // ../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/classPrivateFieldSet.js
   var require_classPrivateFieldSet = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/classPrivateFieldSet.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/classPrivateFieldSet.js"(exports, module) {
       var classApplyDescriptorSet = require_classApplyDescriptorSet();
       var classPrivateFieldGet2 = require_classPrivateFieldGet2();
       function _classPrivateFieldSet(e2, t2, r5) {
@@ -21542,9 +21572,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/arrayWithoutHoles.js
+  // ../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/arrayWithoutHoles.js
   var require_arrayWithoutHoles = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/arrayWithoutHoles.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/arrayWithoutHoles.js"(exports, module) {
       var arrayLikeToArray = require_arrayLikeToArray();
       function _arrayWithoutHoles(r5) {
         if (Array.isArray(r5)) return arrayLikeToArray(r5);
@@ -21553,9 +21583,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/nonIterableSpread.js
+  // ../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/nonIterableSpread.js
   var require_nonIterableSpread = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/nonIterableSpread.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/nonIterableSpread.js"(exports, module) {
       function _nonIterableSpread() {
         throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
       }
@@ -21563,9 +21593,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/toConsumableArray.js
+  // ../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/toConsumableArray.js
   var require_toConsumableArray = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/toConsumableArray.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/toConsumableArray.js"(exports, module) {
       var arrayWithoutHoles = require_arrayWithoutHoles();
       var iterableToArray = require_iterableToArray();
       var unsupportedIterableToArray = require_unsupportedIterableToArray();
@@ -21577,39 +21607,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/asyncToGenerator.js
-  var require_asyncToGenerator = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/asyncToGenerator.js"(exports, module) {
-      function asyncGeneratorStep(n2, t2, e2, r5, o2, a, c) {
-        try {
-          var i2 = n2[a](c), u = i2.value;
-        } catch (n3) {
-          return void e2(n3);
-        }
-        i2.done ? t2(u) : Promise.resolve(u).then(r5, o2);
-      }
-      function _asyncToGenerator(n2) {
-        return function() {
-          var t2 = this, e2 = arguments;
-          return new Promise(function(r5, o2) {
-            var a = n2.apply(t2, e2);
-            function _next(n3) {
-              asyncGeneratorStep(a, r5, o2, _next, _throw, "next", n3);
-            }
-            function _throw(n3) {
-              asyncGeneratorStep(a, r5, o2, _next, _throw, "throw", n3);
-            }
-            _next(void 0);
-          });
-        };
-      }
-      module.exports = _asyncToGenerator, module.exports.__esModule = true, module.exports["default"] = module.exports;
-    }
-  });
-
-  // ../../node_modules/base64-js/index.js
+  // ../../../BotFramework-DirectLineJS/node_modules/base64-js/index.js
   var require_base64_js = __commonJS({
-    "../../node_modules/base64-js/index.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/base64-js/index.js"(exports) {
       "use strict";
       exports.byteLength = byteLength;
       exports.toByteArray = toByteArray;
@@ -21708,9 +21708,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/ieee754/index.js
+  // ../../../BotFramework-DirectLineJS/node_modules/ieee754/index.js
   var require_ieee754 = __commonJS({
-    "../../node_modules/ieee754/index.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/ieee754/index.js"(exports) {
       exports.read = function(buffer, offset, isLE, mLen, nBytes) {
         var e2, m;
         var eLen = nBytes * 8 - mLen - 1;
@@ -21791,9 +21791,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/buffer/index.js
+  // ../../../BotFramework-DirectLineJS/node_modules/buffer/index.js
   var require_buffer = __commonJS({
-    "../../node_modules/buffer/index.js"(exports) {
+    "../../../BotFramework-DirectLineJS/node_modules/buffer/index.js"(exports) {
       "use strict";
       var base64 = require_base64_js();
       var ieee754 = require_ieee754();
@@ -23383,9 +23383,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-streaming/lib/index-browser.js
+  // ../../../BotFramework-DirectLineJS/node_modules/botframework-streaming/lib/index-browser.js
   var require_index_browser = __commonJS({
-    "../../node_modules/botframework-streaming/lib/index-browser.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/botframework-streaming/lib/index-browser.js"(exports, module) {
       (function(f) {
         if (typeof exports === "object" && typeof module !== "undefined") {
           module.exports = f();
@@ -31667,9 +31667,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/lib/createDeferred.js
+  // ../../../BotFramework-DirectLineJS/lib/createDeferred.js
   var require_createDeferred = __commonJS({
-    "../../node_modules/botframework-directlinejs/lib/createDeferred.js"(exports) {
+    "../../../BotFramework-DirectLineJS/lib/createDeferred.js"(exports) {
       "use strict";
       Object.defineProperty(exports, "__esModule", {
         value: true
@@ -31688,9 +31688,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/cross-fetch/dist/browser-ponyfill.js
+  // ../../../BotFramework-DirectLineJS/node_modules/cross-fetch/dist/browser-ponyfill.js
   var require_browser_ponyfill = __commonJS({
-    "../../node_modules/cross-fetch/dist/browser-ponyfill.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/cross-fetch/dist/browser-ponyfill.js"(exports, module) {
       var global2 = typeof self !== "undefined" ? self : exports;
       var __self__ = (function() {
         function F() {
@@ -32151,9 +32151,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/assertThisInitialized.js
+  // ../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/assertThisInitialized.js
   var require_assertThisInitialized = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/assertThisInitialized.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/assertThisInitialized.js"(exports, module) {
       function _assertThisInitialized(e2) {
         if (void 0 === e2) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
         return e2;
@@ -32162,9 +32162,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/getPrototypeOf.js
+  // ../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/getPrototypeOf.js
   var require_getPrototypeOf = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/getPrototypeOf.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/getPrototypeOf.js"(exports, module) {
       function _getPrototypeOf(t2) {
         return module.exports = _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function(t3) {
           return t3.__proto__ || Object.getPrototypeOf(t3);
@@ -32174,9 +32174,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/superPropBase.js
+  // ../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/superPropBase.js
   var require_superPropBase = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/superPropBase.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/superPropBase.js"(exports, module) {
       var getPrototypeOf = require_getPrototypeOf();
       function _superPropBase(t2, o2) {
         for (; !{}.hasOwnProperty.call(t2, o2) && null !== (t2 = getPrototypeOf(t2)); ) ;
@@ -32186,9 +32186,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/get.js
+  // ../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/get.js
   var require_get = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/get.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/get.js"(exports, module) {
       var superPropBase = require_superPropBase();
       function _get() {
         return module.exports = _get = "undefined" != typeof Reflect && Reflect.get ? Reflect.get.bind() : function(e2, t2, r5) {
@@ -32203,9 +32203,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/setPrototypeOf.js
+  // ../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/setPrototypeOf.js
   var require_setPrototypeOf = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/setPrototypeOf.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/setPrototypeOf.js"(exports, module) {
       function _setPrototypeOf(t2, e2) {
         return module.exports = _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function(t3, e3) {
           return t3.__proto__ = e3, t3;
@@ -32215,9 +32215,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/inherits.js
+  // ../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/inherits.js
   var require_inherits = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/inherits.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/inherits.js"(exports, module) {
       var setPrototypeOf = require_setPrototypeOf();
       function _inherits(t2, e2) {
         if ("function" != typeof e2 && null !== e2) throw new TypeError("Super expression must either be null or a function");
@@ -32235,9 +32235,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/possibleConstructorReturn.js
+  // ../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/possibleConstructorReturn.js
   var require_possibleConstructorReturn = __commonJS({
-    "../../node_modules/botframework-directlinejs/node_modules/@babel/runtime/helpers/possibleConstructorReturn.js"(exports, module) {
+    "../../../BotFramework-DirectLineJS/node_modules/@babel/runtime/helpers/possibleConstructorReturn.js"(exports, module) {
       var _typeof = require_typeof()["default"];
       var assertThisInitialized = require_assertThisInitialized();
       function _possibleConstructorReturn(t2, e2) {
@@ -32249,9 +32249,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/lib/streaming/WebSocketClientWithNetworkInformation.js
+  // ../../../BotFramework-DirectLineJS/lib/streaming/WebSocketClientWithNetworkInformation.js
   var require_WebSocketClientWithNetworkInformation = __commonJS({
-    "../../node_modules/botframework-directlinejs/lib/streaming/WebSocketClientWithNetworkInformation.js"(exports) {
+    "../../../BotFramework-DirectLineJS/lib/streaming/WebSocketClientWithNetworkInformation.js"(exports) {
       "use strict";
       var _interopRequireDefault = require_interopRequireDefault();
       Object.defineProperty(exports, "__esModule", {
@@ -32369,9 +32369,9 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/lib/directLineStreaming.js
+  // ../../../BotFramework-DirectLineJS/lib/directLineStreaming.js
   var require_directLineStreaming = __commonJS({
-    "../../node_modules/botframework-directlinejs/lib/directLineStreaming.js"(exports) {
+    "../../../BotFramework-DirectLineJS/lib/directLineStreaming.js"(exports) {
       "use strict";
       var _interopRequireDefault = require_interopRequireDefault();
       var _typeof = require_typeof();
@@ -33110,12 +33110,12 @@ and ensure you are accounting for this risk.
     }
   });
 
-  // ../../node_modules/botframework-directlinejs/lib/directLine.js
+  // ../../../BotFramework-DirectLineJS/lib/directLine.js
   var require_directLine = __commonJS({
-    "../../node_modules/botframework-directlinejs/lib/directLine.js"(exports) {
+    "../../../BotFramework-DirectLineJS/lib/directLine.js"(exports) {
       "use strict";
       var _interopRequireDefault = require_interopRequireDefault();
-      var _typeof = require_typeof();
+      var _typeof3 = require_typeof();
       Object.defineProperty(exports, "__esModule", {
         value: true
       });
@@ -33126,10 +33126,13 @@ and ensure you are accounting for this risk.
         }
       });
       exports.DirectLine = exports.ConnectionStatus = void 0;
+      var _typeof2 = _interopRequireDefault(require_typeof());
       var _objectWithoutProperties2 = _interopRequireDefault(require_objectWithoutProperties());
+      var _regenerator = _interopRequireDefault(require_regenerator());
       var _classCallCheck2 = _interopRequireDefault(require_classCallCheck());
       var _createClass2 = _interopRequireDefault(require_createClass());
       var _defineProperty2 = _interopRequireDefault(require_defineProperty());
+      var _asyncToGenerator2 = _interopRequireDefault(require_asyncToGenerator());
       require_promise2();
       require_url_search_params_polyfill();
       var _BehaviorSubject = require_BehaviorSubject();
@@ -33169,7 +33172,7 @@ and ensure you are accounting for this risk.
         if (!nodeInterop && obj && obj.__esModule) {
           return obj;
         }
-        if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") {
+        if (obj === null || _typeof3(obj) !== "object" && typeof obj !== "function") {
           return { "default": obj };
         }
         var cache = _getRequireWildcardCache(nodeInterop);
@@ -33193,6 +33196,56 @@ and ensure you are accounting for this risk.
           cache.set(obj, newObj);
         }
         return newObj;
+      }
+      function _createForOfIteratorHelper(o2, allowArrayLike) {
+        var it = typeof Symbol !== "undefined" && o2[Symbol.iterator] || o2["@@iterator"];
+        if (!it) {
+          if (Array.isArray(o2) || (it = _unsupportedIterableToArray(o2)) || allowArrayLike && o2 && typeof o2.length === "number") {
+            if (it) o2 = it;
+            var i2 = 0;
+            var F = function F2() {
+            };
+            return { s: F, n: function n2() {
+              if (i2 >= o2.length) return { done: true };
+              return { done: false, value: o2[i2++] };
+            }, e: function e2(_e) {
+              throw _e;
+            }, f: F };
+          }
+          throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+        }
+        var normalCompletion = true, didErr = false, err;
+        return { s: function s() {
+          it = it.call(o2);
+        }, n: function n2() {
+          var step = it.next();
+          normalCompletion = step.done;
+          return step;
+        }, e: function e2(_e2) {
+          didErr = true;
+          err = _e2;
+        }, f: function f() {
+          try {
+            if (!normalCompletion && it["return"] != null) it["return"]();
+          } finally {
+            if (didErr) throw err;
+          }
+        } };
+      }
+      function _unsupportedIterableToArray(o2, minLen) {
+        if (!o2) return;
+        if (typeof o2 === "string") return _arrayLikeToArray(o2, minLen);
+        var n2 = Object.prototype.toString.call(o2).slice(8, -1);
+        if (n2 === "Object" && o2.constructor) n2 = o2.constructor.name;
+        if (n2 === "Map" || n2 === "Set") return Array.from(o2);
+        if (n2 === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n2)) return _arrayLikeToArray(o2, minLen);
+      }
+      function _arrayLikeToArray(arr, len) {
+        if (len == null || len > arr.length) len = arr.length;
+        for (var i2 = 0, arr2 = new Array(len); i2 < len; i2++) {
+          arr2[i2] = arr[i2];
+        }
+        return arr2;
       }
       function ownKeys(object2, enumerableOnly) {
         var keys3 = Object.keys(object2);
@@ -33301,6 +33354,73 @@ and ensure you are accounting for this risk.
           if (typeof window !== "undefined" && window["botchatDebug"] && message) (_console = console).log.apply(_console, [message].concat(optionalParams));
         }
       };
+      var isInIframe = function isInIframe2() {
+        try {
+          return typeof window !== "undefined" && window.self !== window.top;
+        } catch (e2) {
+          return true;
+        }
+      };
+      var hasIframeMicrophonePermission = /* @__PURE__ */ (function() {
+        var _ref = (0, _asyncToGenerator2["default"])(/* @__PURE__ */ _regenerator["default"].mark(function _callee() {
+          var doc, result;
+          return _regenerator["default"].wrap(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  if (!(typeof window === "undefined" || typeof document === "undefined")) {
+                    _context.next = 2;
+                    break;
+                  }
+                  return _context.abrupt("return", false);
+                case 2:
+                  _context.prev = 2;
+                  doc = document;
+                  if (!(doc.permissionsPolicy && typeof doc.permissionsPolicy.allowsFeature === "function")) {
+                    _context.next = 7;
+                    break;
+                  }
+                  console.log("Checking microphone permission via Permissions Policy API");
+                  return _context.abrupt("return", doc.permissionsPolicy.allowsFeature("microphone"));
+                case 7:
+                  if (!(doc.featurePolicy && typeof doc.featurePolicy.allowsFeature === "function")) {
+                    _context.next = 10;
+                    break;
+                  }
+                  console.log("Checking microphone permission via Feature Policy API");
+                  return _context.abrupt("return", doc.featurePolicy.allowsFeature("microphone"));
+                case 10:
+                  if (!(typeof navigator !== "undefined" && navigator.permissions)) {
+                    _context.next = 16;
+                    break;
+                  }
+                  console.log("Checking microphone permission via mic API");
+                  _context.next = 14;
+                  return navigator.permissions.query({
+                    name: "microphone"
+                  });
+                case 14:
+                  result = _context.sent;
+                  return _context.abrupt("return", result.state !== "denied");
+                case 16:
+                  _context.next = 20;
+                  break;
+                case 18:
+                  _context.prev = 18;
+                  _context.t0 = _context["catch"](2);
+                case 20:
+                  return _context.abrupt("return", false);
+                case 21:
+                case "end":
+                  return _context.stop();
+              }
+            }
+          }, _callee, null, [[2, 18]]);
+        }));
+        return function hasIframeMicrophonePermission2() {
+          return _ref.apply(this, arguments);
+        };
+      })();
       var DirectLine2 = /* @__PURE__ */ (function() {
         function DirectLine3(options) {
           (0, _classCallCheck2["default"])(this, DirectLine3);
@@ -33309,13 +33429,17 @@ and ensure you are accounting for this risk.
           (0, _defineProperty2["default"])(this, "watermark", "");
           (0, _defineProperty2["default"])(this, "_botAgent", "");
           (0, _defineProperty2["default"])(this, "timeout", 20 * 1e3);
+          (0, _defineProperty2["default"])(this, "webSocketConnection", null);
           (0, _defineProperty2["default"])(this, "pollingInterval", 1e3);
+          (0, _defineProperty2["default"])(this, "voiceModeEnabled", false);
+          (0, _defineProperty2["default"])(this, "eventTarget", new EventTarget());
           this.secret = options.secret;
           this.token = options.secret || options.token;
           this.webSocket = (options.webSocket === void 0 ? true : options.webSocket) && typeof WebSocket !== "undefined" && WebSocket !== void 0;
           if (options.streaming) {
             this.streaming = options.streaming;
           }
+          this.initializeVoiceMode(options.enableVoiceMode);
           if (options.conversationStartProperties && options.conversationStartProperties.locale) {
             if (Object.prototype.toString.call(options.conversationStartProperties.locale) === "[object String]") {
               this.localeOnStartConversation = options.conversationStartProperties.locale;
@@ -33552,6 +33676,27 @@ and ensure you are accounting for this risk.
               activity.from.id = this.userIdOnStartConversation;
             }
             if (activity.type === "message" && activity.attachments && activity.attachments.length > 0) return this.postMessageWithAttachments(activity);
+            if (this.voiceModeEnabled) {
+              if (!this.webSocket) {
+                return _Observable.Observable["throw"](new Error("Voice mode requires WebSocket to be enabled"), this.services.scheduler);
+              }
+              return this.checkConnection(true).flatMap(function(_) {
+                return _Observable.Observable.create(function(subscriber) {
+                  try {
+                    if (!_this6.webSocketConnection || _this6.webSocketConnection.readyState !== WebSocket.OPEN) {
+                      throw new Error("WebSocket connection not ready for voice activities");
+                    }
+                    _this6.webSocketConnection.send(JSON.stringify(activity));
+                    subscriber.next(activity);
+                    subscriber.complete();
+                  } catch (e2) {
+                    subscriber.error(e2);
+                  }
+                });
+              })["catch"](function(error) {
+                return _this6.catchExpiredToken(error);
+              });
+            }
             konsole.log("postActivity", activity);
             return this.checkConnection(true).flatMap(function(_) {
               return _this6.services.ajax({
@@ -33589,8 +33734,8 @@ and ensure you are accounting for this risk.
               formData = new FormData();
               formData.append("activity", new Blob([JSON.stringify(_objectSpread(_objectSpread({}, message), {}, {
                 // Removing contentUrl from attachment, we will send it via multipart
-                attachments: cleansedAttachments.map(function(_ref) {
-                  var string8 = _ref.contentUrl, others = (0, _objectWithoutProperties2["default"])(_ref, _excluded);
+                attachments: cleansedAttachments.map(function(_ref2) {
+                  var string8 = _ref2.contentUrl, others = (0, _objectWithoutProperties2["default"])(_ref2, _excluded);
                   return _objectSpread({}, others);
                 })
               }))], {
@@ -33721,37 +33866,42 @@ and ensure you are accounting for this risk.
           value: function observableWebSocket() {
             var _this10 = this;
             return _Observable.Observable.create(function(subscriber) {
-              konsole.log("creating WebSocket", _this10.streamUrl);
-              var ws = new _this10.services.WebSocket(_this10.streamUrl);
+              var streamUrl = _this10.getMultimodalStreamUrl(_this10.streamUrl);
+              konsole.log("creating WebSocket", streamUrl);
+              _this10.webSocketConnection = new _this10.services.WebSocket(streamUrl);
               var sub2;
               var closed;
-              ws.onopen = function(open2) {
+              _this10.webSocketConnection.onopen = function(open2) {
                 konsole.log("WebSocket open", open2);
                 sub2 = _Observable.Observable.interval(_this10.timeout, _this10.services.scheduler).subscribe(function(_) {
                   try {
-                    ws.send("");
+                    _this10.webSocketConnection.send("");
                   } catch (e2) {
                     konsole.log("Ping error", e2);
                   }
                 });
               };
-              ws.onclose = function(close2) {
+              _this10.webSocketConnection.onclose = function(close2) {
                 konsole.log("WebSocket close", close2);
                 if (sub2) sub2.unsubscribe();
                 closed || subscriber.error(close2);
                 closed = true;
               };
-              ws.onerror = function(error) {
+              _this10.webSocketConnection.onerror = function(error) {
                 konsole.log("WebSocket error", error);
                 if (sub2) sub2.unsubscribe();
                 closed || subscriber.error(error);
                 closed = true;
               };
-              ws.onmessage = function(message) {
-                return message.data && subscriber.next(JSON.parse(message.data));
+              _this10.webSocketConnection.onmessage = function(message) {
+                if (message.data) {
+                  var data = JSON.parse(message.data);
+                  _this10.handleIncomingActivity(data);
+                  subscriber.next(data);
+                }
               };
               return function() {
-                if (ws.readyState === 0 || ws.readyState === 1) ws.close();
+                if (_this10.webSocketConnection.readyState === 0 || _this10.webSocketConnection.readyState === 1) _this10.webSocketConnection.close();
               };
             });
           }
@@ -33800,7 +33950,7 @@ and ensure you are accounting for this risk.
             if (customAgent) {
               clientAgent += "; ".concat(customAgent);
             }
-            return "".concat(DIRECT_LINE_VERSION, " (").concat(clientAgent, " ").concat("0.15.8", ")");
+            return "".concat(DIRECT_LINE_VERSION, " (").concat(clientAgent, " ").concat("0.15.10", ")");
           }
         }, {
           key: "setUserId",
@@ -33817,11 +33967,56 @@ and ensure you are accounting for this risk.
             }
             this.userIdOnStartConversation = userId;
           }
+          /**
+           * Returns voice configuration from server's agent.capabilities event, or undefined if server doesn't support audio.
+           * Use this to configure microphone settings. Only available after server confirms audio support.
+           */
+        }, {
+          key: "getVoiceConfiguration",
+          value: function getVoiceConfiguration() {
+            return this.voiceConfiguration;
+          }
+          /**
+           * Returns true if multimodal experience is requested (client-side), false otherwise.
+           * Does NOT guarantee server supports voice - use getVoiceConfiguration() for that.
+           * Use this to determine if activities are sent via WebSocket (no echo-back wait needed).
+           */
+        }, {
+          key: "getIsVoiceModeEnabled",
+          value: function getIsVoiceModeEnabled() {
+            return !!this.voiceModeEnabled;
+          }
+          /**
+           * Returns the current WebSocket stream URL (with /multimodal suffix if voice mode is enabled).
+           * Useful for debugging and testing.
+           */
+        }, {
+          key: "getStreamUrl",
+          value: function getStreamUrl() {
+            return this.streamUrl ? this.getMultimodalStreamUrl(this.streamUrl) : void 0;
+          }
+          /**
+          * Adds an event listener for adapter events (e.g., 'capabilitieschanged').
+          * Used by consumer to subscribe to capability updates.
+          */
+        }, {
+          key: "addEventListener",
+          value: function addEventListener(type, listener, options) {
+            this.eventTarget.addEventListener(type, listener, options);
+          }
+          /**
+           * Removes an event listener for adapter events.
+           */
+        }, {
+          key: "removeEventListener",
+          value: function removeEventListener(type, listener, options) {
+            this.eventTarget.removeEventListener(type, listener, options);
+          }
         }, {
           key: "parseToken",
           value: function parseToken(token2) {
             try {
-              var _ref2 = (0, _jwtDecode["default"])(token2), user = _ref2.user;
+              var _ref3 = (0, _jwtDecode["default"])(token2), user = _ref3.user;
               return user;
             } catch (e2) {
               if (e2 instanceof _jwtDecode.InvalidTokenError) {
@@ -33829,10 +34024,86 @@ and ensure you are accounting for this risk.
               }
             }
           }
+          /**
+           * Initialize voice mode.
+           * - Explicit true/false: set synchronously (no race condition)
+           * - Undefined: auto-detect for iframes with microphone permission (async, best effort)
+           */
+        }, {
+          key: "initializeVoiceMode",
+          value: function initializeVoiceMode(enableVoiceMode) {
+            var _this12 = this;
+            if (enableVoiceMode === true) {
+              this.voiceModeEnabled = true;
+              this.eventTarget.dispatchEvent(new Event("capabilitieschanged"));
+              return;
+            }
+            if (enableVoiceMode === false) {
+              return;
+            }
+            if (isInIframe()) {
+              hasIframeMicrophonePermission().then(function(hasMic) {
+                if (hasMic) {
+                  _this12.voiceModeEnabled = true;
+                  _this12.eventTarget.dispatchEvent(new Event("capabilitieschanged"));
+                }
+              });
+            }
+          }
+          /**
+           * Handles incoming activity group to check for agent.capabilities event.
+           * Sets voice configuration if server supports audio modality.
+           */
+        }, {
+          key: "handleIncomingActivity",
+          value: function handleIncomingActivity(data) {
+            var activities = data === null || data === void 0 ? void 0 : data.activities;
+            if (!Array.isArray(activities)) {
+              return;
+            }
+            var _iterator = _createForOfIteratorHelper(activities), _step;
+            try {
+              for (_iterator.s(); !(_step = _iterator.n()).done; ) {
+                var _activity = _step.value;
+                if ((_activity === null || _activity === void 0 ? void 0 : _activity.type) === "event" && (_activity === null || _activity === void 0 ? void 0 : _activity.name) === "agent.capabilities") {
+                  var _activity$value;
+                  var modalities = _activity === null || _activity === void 0 ? void 0 : (_activity$value = _activity.value) === null || _activity$value === void 0 ? void 0 : _activity$value.modalities;
+                  var hasAudio = (modalities === null || modalities === void 0 ? void 0 : modalities.audio) && (0, _typeof2["default"])(modalities.audio) === "object" && Object.keys(modalities.audio).length > 0;
+                  if (hasAudio) {
+                    this.voiceConfiguration = {
+                      sampleRate: DirectLine3.VOICE_SAMPLE_RATE,
+                      chunkIntervalMs: DirectLine3.VOICE_CHUNK_INTERVAL_MS
+                    };
+                    this.eventTarget.dispatchEvent(new Event("capabilitieschanged"));
+                  }
+                }
+              }
+            } catch (err) {
+              _iterator.e(err);
+            } finally {
+              _iterator.f();
+            }
+          }
+          /**
+           * Modifies stream URL for voice mode: replaces /stream with /stream/multimodal
+           */
+        }, {
+          key: "getMultimodalStreamUrl",
+          value: function getMultimodalStreamUrl(url2) {
+            if (!this.voiceModeEnabled || !url2) {
+              return url2;
+            }
+            if (!url2.includes("/stream/multimodal")) {
+              return url2.replace("/stream", "/stream/multimodal");
+            }
+            return url2;
+          }
         }]);
         return DirectLine3;
       })();
       exports.DirectLine = DirectLine2;
+      (0, _defineProperty2["default"])(DirectLine2, "VOICE_SAMPLE_RATE", 24e3);
+      (0, _defineProperty2["default"])(DirectLine2, "VOICE_CHUNK_INTERVAL_MS", 100);
     }
   });
 
@@ -51077,7 +51348,7 @@ and ensure you are accounting for this risk.
   });
 
   // ../../node_modules/core-js/internals/to-absolute-index.js
-  var require_to_absolute_index3 = __commonJS({
+  var require_to_absolute_index5 = __commonJS({
     "../../node_modules/core-js/internals/to-absolute-index.js"(exports, module) {
       "use strict";
       var toIntegerOrInfinity2 = require_to_integer_or_infinity4();
@@ -51119,7 +51390,7 @@ and ensure you are accounting for this risk.
     "../../node_modules/core-js/internals/array-includes.js"(exports, module) {
       "use strict";
       var toIndexedObject = require_to_indexed_object5();
-      var toAbsoluteIndex = require_to_absolute_index3();
+      var toAbsoluteIndex = require_to_absolute_index5();
       var lengthOfArrayLike = require_length_of_array_like4();
       var createMethod = function(IS_INCLUDES) {
         return function($this, el, fromIndex) {
@@ -74704,7 +74975,7 @@ and ensure you are accounting for this risk.
   });
 
   // ../../node_modules/core-js/internals/add-to-unscopables.js
-  var require_add_to_unscopables3 = __commonJS({
+  var require_add_to_unscopables5 = __commonJS({
     "../../node_modules/core-js/internals/add-to-unscopables.js"(exports, module) {
       "use strict";
       var wellKnownSymbol = require_well_known_symbol5();
@@ -74729,7 +75000,7 @@ and ensure you are accounting for this risk.
     "../../node_modules/core-js/modules/es.array.iterator.js"(exports, module) {
       "use strict";
       var toIndexedObject = require_to_indexed_object5();
-      var addToUnscopables = require_add_to_unscopables3();
+      var addToUnscopables = require_add_to_unscopables5();
       var Iterators = require_iterators5();
       var InternalStateModule = require_internal_state5();
       var defineProperty = require_object_define_property5().f;
@@ -76413,7 +76684,7 @@ and ensure you are accounting for this risk.
     mod
   ));
 
-  // ../bundle/dist/chunk-APPUJ2CC.mjs
+  // ../bundle/dist/chunk-KKNO6MMM.mjs
   var import_component = __toESM(require_component(), 1);
   var import_react5 = __toESM(require_react(), 1);
   var import_botframework_webchat_component2 = __toESM(require_botframework_webchat_component(), 1);
@@ -76434,7 +76705,7 @@ and ensure you are accounting for this risk.
     return readOnlyRef;
   }
 
-  // ../bundle/dist/chunk-APPUJ2CC.mjs
+  // ../bundle/dist/chunk-KKNO6MMM.mjs
   var import_react10 = __toESM(require_react(), 1);
   var import_react11 = __toESM(require_react(), 1);
   var import_react12 = __toESM(require_react(), 1);
@@ -97321,6 +97592,180 @@ and ensure you are accounting for this risk.
       };
     }
   });
+  var require_add_to_unscopables2 = __commonJS3({
+    "node_modules/core-js-pure/internals/add-to-unscopables.js"(exports, module) {
+      "use strict";
+      module.exports = function() {
+      };
+    }
+  });
+  var require_does_not_exceed_safe_integer = __commonJS3({
+    "node_modules/core-js-pure/internals/does-not-exceed-safe-integer.js"(exports, module) {
+      "use strict";
+      var $TypeError = TypeError;
+      var MAX_SAFE_INTEGER = 9007199254740991;
+      module.exports = function(it) {
+        if (it > MAX_SAFE_INTEGER) throw $TypeError("Maximum allowed index exceeded");
+        return it;
+      };
+    }
+  });
+  var require_math_trunc2 = __commonJS3({
+    "node_modules/core-js-pure/internals/math-trunc.js"(exports, module) {
+      "use strict";
+      var ceil = Math.ceil;
+      var floor = Math.floor;
+      module.exports = Math.trunc || function trunc(x) {
+        var n2 = +x;
+        return (n2 > 0 ? floor : ceil)(n2);
+      };
+    }
+  });
+  var require_to_integer_or_infinity2 = __commonJS3({
+    "node_modules/core-js-pure/internals/to-integer-or-infinity.js"(exports, module) {
+      "use strict";
+      var trunc = require_math_trunc2();
+      module.exports = function(argument) {
+        var number4 = +argument;
+        return number4 !== number4 || number4 === 0 ? 0 : trunc(number4);
+      };
+    }
+  });
+  var require_to_length2 = __commonJS3({
+    "node_modules/core-js-pure/internals/to-length.js"(exports, module) {
+      "use strict";
+      var toIntegerOrInfinity2 = require_to_integer_or_infinity2();
+      var min = Math.min;
+      module.exports = function(argument) {
+        var len = toIntegerOrInfinity2(argument);
+        return len > 0 ? min(len, 9007199254740991) : 0;
+      };
+    }
+  });
+  var require_length_of_array_like2 = __commonJS3({
+    "node_modules/core-js-pure/internals/length-of-array-like.js"(exports, module) {
+      "use strict";
+      var toLength = require_to_length2();
+      module.exports = function(obj) {
+        return toLength(obj.length);
+      };
+    }
+  });
+  var require_to_absolute_index2 = __commonJS3({
+    "node_modules/core-js-pure/internals/to-absolute-index.js"(exports, module) {
+      "use strict";
+      var toIntegerOrInfinity2 = require_to_integer_or_infinity2();
+      var max = Math.max;
+      var min = Math.min;
+      module.exports = function(index2, length) {
+        var integer2 = toIntegerOrInfinity2(index2);
+        return integer2 < 0 ? max(integer2 + length, 0) : min(integer2, length);
+      };
+    }
+  });
+  var require_create_property2 = __commonJS3({
+    "node_modules/core-js-pure/internals/create-property.js"(exports, module) {
+      "use strict";
+      var DESCRIPTORS = require_descriptors2();
+      var definePropertyModule = require_object_define_property2();
+      var createPropertyDescriptor = require_create_property_descriptor2();
+      module.exports = function(object10, key2, value) {
+        if (DESCRIPTORS) definePropertyModule.f(object10, key2, createPropertyDescriptor(0, value));
+        else object10[key2] = value;
+      };
+    }
+  });
+  var require_es_array_to_spliced = __commonJS3({
+    "node_modules/core-js-pure/modules/es.array.to-spliced.js"() {
+      "use strict";
+      var $3 = require_export2();
+      var addToUnscopables = require_add_to_unscopables2();
+      var doesNotExceedSafeInteger = require_does_not_exceed_safe_integer();
+      var lengthOfArrayLike = require_length_of_array_like2();
+      var toAbsoluteIndex = require_to_absolute_index2();
+      var toIndexedObject = require_to_indexed_object2();
+      var toIntegerOrInfinity2 = require_to_integer_or_infinity2();
+      var createProperty = require_create_property2();
+      var $Array = Array;
+      var max = Math.max;
+      var min = Math.min;
+      $3({ target: "Array", proto: true }, {
+        toSpliced: function toSpliced2(start, deleteCount) {
+          var O = toIndexedObject(this);
+          var len = lengthOfArrayLike(O);
+          var actualStart = toAbsoluteIndex(start, len);
+          var argumentsLength = arguments.length;
+          var k = 0;
+          var insertCount, actualDeleteCount, newLen, A;
+          if (argumentsLength === 0) {
+            insertCount = actualDeleteCount = 0;
+          } else if (argumentsLength === 1) {
+            insertCount = 0;
+            actualDeleteCount = len - actualStart;
+          } else {
+            insertCount = argumentsLength - 2;
+            actualDeleteCount = min(max(toIntegerOrInfinity2(deleteCount), 0), len - actualStart);
+          }
+          newLen = doesNotExceedSafeInteger(len + insertCount - actualDeleteCount);
+          A = $Array(newLen);
+          for (; k < actualStart; k++) createProperty(A, k, O[k]);
+          for (; k < actualStart + insertCount; k++) createProperty(A, k, arguments[k - actualStart + 2]);
+          for (; k < newLen; k++) createProperty(A, k, O[k + actualDeleteCount - insertCount]);
+          return A;
+        }
+      });
+      addToUnscopables("toSpliced");
+    }
+  });
+  var require_entry_unbind2 = __commonJS3({
+    "node_modules/core-js-pure/internals/entry-unbind.js"(exports, module) {
+      "use strict";
+      var getBuiltIn = require_get_built_in2();
+      module.exports = getBuiltIn;
+    }
+  });
+  var require_to_spliced = __commonJS3({
+    "node_modules/core-js-pure/es/array/to-spliced.js"(exports, module) {
+      "use strict";
+      require_es_array_to_spliced();
+      var entryUnbind = require_entry_unbind2();
+      module.exports = entryUnbind("Array", "toSpliced");
+    }
+  });
+  var require_to_spliced2 = __commonJS3({
+    "node_modules/core-js-pure/stable/array/to-spliced.js"(exports, module) {
+      "use strict";
+      var parent = require_to_spliced();
+      module.exports = parent;
+    }
+  });
+  var require_esnext_array_to_spliced = __commonJS3({
+    "node_modules/core-js-pure/modules/esnext.array.to-spliced.js"() {
+      "use strict";
+      require_es_array_to_spliced();
+    }
+  });
+  var require_to_spliced3 = __commonJS3({
+    "node_modules/core-js-pure/actual/array/to-spliced.js"(exports, module) {
+      "use strict";
+      var parent = require_to_spliced2();
+      require_esnext_array_to_spliced();
+      module.exports = parent;
+    }
+  });
+  var require_to_spliced4 = __commonJS3({
+    "node_modules/core-js-pure/full/array/to-spliced.js"(exports, module) {
+      "use strict";
+      var parent = require_to_spliced3();
+      module.exports = parent;
+    }
+  });
+  var require_to_spliced5 = __commonJS3({
+    "node_modules/core-js-pure/features/array/to-spliced.js"(exports, module) {
+      "use strict";
+      module.exports = require_to_spliced4();
+    }
+  });
   var require_environment2 = __commonJS3({
     "node_modules/core-js-pure/internals/environment.js"(exports, module) {
       "use strict";
@@ -98347,47 +98792,6 @@ and ensure you are accounting for this risk.
       };
     }
   });
-  var require_math_trunc2 = __commonJS3({
-    "node_modules/core-js-pure/internals/math-trunc.js"(exports, module) {
-      "use strict";
-      var ceil = Math.ceil;
-      var floor = Math.floor;
-      module.exports = Math.trunc || function trunc(x) {
-        var n2 = +x;
-        return (n2 > 0 ? floor : ceil)(n2);
-      };
-    }
-  });
-  var require_to_integer_or_infinity2 = __commonJS3({
-    "node_modules/core-js-pure/internals/to-integer-or-infinity.js"(exports, module) {
-      "use strict";
-      var trunc = require_math_trunc2();
-      module.exports = function(argument) {
-        var number4 = +argument;
-        return number4 !== number4 || number4 === 0 ? 0 : trunc(number4);
-      };
-    }
-  });
-  var require_to_length2 = __commonJS3({
-    "node_modules/core-js-pure/internals/to-length.js"(exports, module) {
-      "use strict";
-      var toIntegerOrInfinity2 = require_to_integer_or_infinity2();
-      var min = Math.min;
-      module.exports = function(argument) {
-        var len = toIntegerOrInfinity2(argument);
-        return len > 0 ? min(len, 9007199254740991) : 0;
-      };
-    }
-  });
-  var require_length_of_array_like2 = __commonJS3({
-    "node_modules/core-js-pure/internals/length-of-array-like.js"(exports, module) {
-      "use strict";
-      var toLength = require_to_length2();
-      module.exports = function(obj) {
-        return toLength(obj.length);
-      };
-    }
-  });
   var require_get_iterator_method2 = __commonJS3({
     "node_modules/core-js-pure/internals/get-iterator-method.js"(exports, module) {
       "use strict";
@@ -98879,6 +99283,7 @@ and ensure you are accounting for this risk.
     return FORBIDDEN_PROPERTY_NAMES.includes(propertyName);
   }
   var EMPTY_ARRAY = Object.freeze([]);
+  var import_to_spliced = __toESM3(require_to_spliced5());
   var import_with_resolvers2 = __toESM3(require_with_resolvers52());
   function withResolvers2() {
     return (0, import_with_resolvers2.default)();
@@ -99225,7 +99630,7 @@ and ensure you are accounting for this risk.
   var buildInfo_default = buildInfo;
   var { object: buildInfoObject, version } = buildInfo_default;
 
-  // ../bundle/dist/chunk-APPUJ2CC.mjs
+  // ../bundle/dist/chunk-KKNO6MMM.mjs
   var import_botframework_webchat_component6 = __toESM(require_botframework_webchat_component(), 1);
   var import_react21 = __toESM(require_react(), 1);
   var import_botframework_webchat_component7 = __toESM(require_botframework_webchat_component(), 1);
@@ -120716,7 +121121,7 @@ and ensure you are accounting for this risk.
     }
   }
 
-  // ../bundle/dist/chunk-APPUJ2CC.mjs
+  // ../bundle/dist/chunk-KKNO6MMM.mjs
   var import_botframework_webchat_component14 = __toESM(require_botframework_webchat_component(), 1);
   var import_react42 = __toESM(require_react(), 1);
   var import_react43 = __toESM(require_react(), 1);
@@ -121481,6 +121886,180 @@ and ensure you are accounting for this risk.
           }
         }
       };
+    }
+  });
+  var require_add_to_unscopables3 = __commonJS4({
+    "node_modules/core-js-pure/internals/add-to-unscopables.js"(exports, module) {
+      "use strict";
+      module.exports = function() {
+      };
+    }
+  });
+  var require_does_not_exceed_safe_integer2 = __commonJS4({
+    "node_modules/core-js-pure/internals/does-not-exceed-safe-integer.js"(exports, module) {
+      "use strict";
+      var $TypeError = TypeError;
+      var MAX_SAFE_INTEGER = 9007199254740991;
+      module.exports = function(it) {
+        if (it > MAX_SAFE_INTEGER) throw $TypeError("Maximum allowed index exceeded");
+        return it;
+      };
+    }
+  });
+  var require_math_trunc3 = __commonJS4({
+    "node_modules/core-js-pure/internals/math-trunc.js"(exports, module) {
+      "use strict";
+      var ceil = Math.ceil;
+      var floor = Math.floor;
+      module.exports = Math.trunc || function trunc(x) {
+        var n2 = +x;
+        return (n2 > 0 ? floor : ceil)(n2);
+      };
+    }
+  });
+  var require_to_integer_or_infinity3 = __commonJS4({
+    "node_modules/core-js-pure/internals/to-integer-or-infinity.js"(exports, module) {
+      "use strict";
+      var trunc = require_math_trunc3();
+      module.exports = function(argument) {
+        var number3 = +argument;
+        return number3 !== number3 || number3 === 0 ? 0 : trunc(number3);
+      };
+    }
+  });
+  var require_to_length3 = __commonJS4({
+    "node_modules/core-js-pure/internals/to-length.js"(exports, module) {
+      "use strict";
+      var toIntegerOrInfinity2 = require_to_integer_or_infinity3();
+      var min = Math.min;
+      module.exports = function(argument) {
+        var len = toIntegerOrInfinity2(argument);
+        return len > 0 ? min(len, 9007199254740991) : 0;
+      };
+    }
+  });
+  var require_length_of_array_like3 = __commonJS4({
+    "node_modules/core-js-pure/internals/length-of-array-like.js"(exports, module) {
+      "use strict";
+      var toLength = require_to_length3();
+      module.exports = function(obj) {
+        return toLength(obj.length);
+      };
+    }
+  });
+  var require_to_absolute_index3 = __commonJS4({
+    "node_modules/core-js-pure/internals/to-absolute-index.js"(exports, module) {
+      "use strict";
+      var toIntegerOrInfinity2 = require_to_integer_or_infinity3();
+      var max = Math.max;
+      var min = Math.min;
+      module.exports = function(index2, length) {
+        var integer2 = toIntegerOrInfinity2(index2);
+        return integer2 < 0 ? max(integer2 + length, 0) : min(integer2, length);
+      };
+    }
+  });
+  var require_create_property3 = __commonJS4({
+    "node_modules/core-js-pure/internals/create-property.js"(exports, module) {
+      "use strict";
+      var DESCRIPTORS = require_descriptors3();
+      var definePropertyModule = require_object_define_property3();
+      var createPropertyDescriptor = require_create_property_descriptor3();
+      module.exports = function(object14, key2, value) {
+        if (DESCRIPTORS) definePropertyModule.f(object14, key2, createPropertyDescriptor(0, value));
+        else object14[key2] = value;
+      };
+    }
+  });
+  var require_es_array_to_spliced2 = __commonJS4({
+    "node_modules/core-js-pure/modules/es.array.to-spliced.js"() {
+      "use strict";
+      var $3 = require_export3();
+      var addToUnscopables = require_add_to_unscopables3();
+      var doesNotExceedSafeInteger = require_does_not_exceed_safe_integer2();
+      var lengthOfArrayLike = require_length_of_array_like3();
+      var toAbsoluteIndex = require_to_absolute_index3();
+      var toIndexedObject = require_to_indexed_object3();
+      var toIntegerOrInfinity2 = require_to_integer_or_infinity3();
+      var createProperty = require_create_property3();
+      var $Array = Array;
+      var max = Math.max;
+      var min = Math.min;
+      $3({ target: "Array", proto: true }, {
+        toSpliced: function toSpliced2(start, deleteCount) {
+          var O = toIndexedObject(this);
+          var len = lengthOfArrayLike(O);
+          var actualStart = toAbsoluteIndex(start, len);
+          var argumentsLength = arguments.length;
+          var k = 0;
+          var insertCount, actualDeleteCount, newLen, A;
+          if (argumentsLength === 0) {
+            insertCount = actualDeleteCount = 0;
+          } else if (argumentsLength === 1) {
+            insertCount = 0;
+            actualDeleteCount = len - actualStart;
+          } else {
+            insertCount = argumentsLength - 2;
+            actualDeleteCount = min(max(toIntegerOrInfinity2(deleteCount), 0), len - actualStart);
+          }
+          newLen = doesNotExceedSafeInteger(len + insertCount - actualDeleteCount);
+          A = $Array(newLen);
+          for (; k < actualStart; k++) createProperty(A, k, O[k]);
+          for (; k < actualStart + insertCount; k++) createProperty(A, k, arguments[k - actualStart + 2]);
+          for (; k < newLen; k++) createProperty(A, k, O[k + actualDeleteCount - insertCount]);
+          return A;
+        }
+      });
+      addToUnscopables("toSpliced");
+    }
+  });
+  var require_entry_unbind3 = __commonJS4({
+    "node_modules/core-js-pure/internals/entry-unbind.js"(exports, module) {
+      "use strict";
+      var getBuiltIn = require_get_built_in3();
+      module.exports = getBuiltIn;
+    }
+  });
+  var require_to_spliced6 = __commonJS4({
+    "node_modules/core-js-pure/es/array/to-spliced.js"(exports, module) {
+      "use strict";
+      require_es_array_to_spliced2();
+      var entryUnbind = require_entry_unbind3();
+      module.exports = entryUnbind("Array", "toSpliced");
+    }
+  });
+  var require_to_spliced22 = __commonJS4({
+    "node_modules/core-js-pure/stable/array/to-spliced.js"(exports, module) {
+      "use strict";
+      var parent = require_to_spliced6();
+      module.exports = parent;
+    }
+  });
+  var require_esnext_array_to_spliced2 = __commonJS4({
+    "node_modules/core-js-pure/modules/esnext.array.to-spliced.js"() {
+      "use strict";
+      require_es_array_to_spliced2();
+    }
+  });
+  var require_to_spliced32 = __commonJS4({
+    "node_modules/core-js-pure/actual/array/to-spliced.js"(exports, module) {
+      "use strict";
+      var parent = require_to_spliced22();
+      require_esnext_array_to_spliced2();
+      module.exports = parent;
+    }
+  });
+  var require_to_spliced42 = __commonJS4({
+    "node_modules/core-js-pure/full/array/to-spliced.js"(exports, module) {
+      "use strict";
+      var parent = require_to_spliced32();
+      module.exports = parent;
+    }
+  });
+  var require_to_spliced52 = __commonJS4({
+    "node_modules/core-js-pure/features/array/to-spliced.js"(exports, module) {
+      "use strict";
+      module.exports = require_to_spliced42();
     }
   });
   var require_environment3 = __commonJS4({
@@ -122509,47 +123088,6 @@ and ensure you are accounting for this risk.
       };
     }
   });
-  var require_math_trunc3 = __commonJS4({
-    "node_modules/core-js-pure/internals/math-trunc.js"(exports, module) {
-      "use strict";
-      var ceil = Math.ceil;
-      var floor = Math.floor;
-      module.exports = Math.trunc || function trunc(x) {
-        var n2 = +x;
-        return (n2 > 0 ? floor : ceil)(n2);
-      };
-    }
-  });
-  var require_to_integer_or_infinity3 = __commonJS4({
-    "node_modules/core-js-pure/internals/to-integer-or-infinity.js"(exports, module) {
-      "use strict";
-      var trunc = require_math_trunc3();
-      module.exports = function(argument) {
-        var number3 = +argument;
-        return number3 !== number3 || number3 === 0 ? 0 : trunc(number3);
-      };
-    }
-  });
-  var require_to_length3 = __commonJS4({
-    "node_modules/core-js-pure/internals/to-length.js"(exports, module) {
-      "use strict";
-      var toIntegerOrInfinity2 = require_to_integer_or_infinity3();
-      var min = Math.min;
-      module.exports = function(argument) {
-        var len = toIntegerOrInfinity2(argument);
-        return len > 0 ? min(len, 9007199254740991) : 0;
-      };
-    }
-  });
-  var require_length_of_array_like3 = __commonJS4({
-    "node_modules/core-js-pure/internals/length-of-array-like.js"(exports, module) {
-      "use strict";
-      var toLength = require_to_length3();
-      module.exports = function(obj) {
-        return toLength(obj.length);
-      };
-    }
-  });
   var require_get_iterator_method3 = __commonJS4({
     "node_modules/core-js-pure/internals/get-iterator-method.js"(exports, module) {
       "use strict";
@@ -123078,6 +123616,7 @@ and ensure you are accounting for this risk.
   function singleToArray(singleOrArray) {
     return typeof singleOrArray === "undefined" ? EMPTY_ARRAY4 : Object.freeze(Array.isArray(singleOrArray) ? [...singleOrArray] : [singleOrArray]);
   }
+  var import_to_spliced2 = __toESM4(require_to_spliced52());
   var import_with_resolvers3 = __toESM4(require_with_resolvers53());
   function validateProps2(propsSchema, props, isolationMode) {
     if (typeof props === "undefined") {
@@ -123893,6 +124432,180 @@ and ensure you are accounting for this risk.
           }
         }
       };
+    }
+  });
+  var require_add_to_unscopables22 = __commonJS22({
+    "node_modules/core-js-pure/internals/add-to-unscopables.js"(exports, module) {
+      "use strict";
+      module.exports = function() {
+      };
+    }
+  });
+  var require_does_not_exceed_safe_integer22 = __commonJS22({
+    "node_modules/core-js-pure/internals/does-not-exceed-safe-integer.js"(exports, module) {
+      "use strict";
+      var $TypeError = TypeError;
+      var MAX_SAFE_INTEGER = 9007199254740991;
+      module.exports = function(it) {
+        if (it > MAX_SAFE_INTEGER) throw $TypeError("Maximum allowed index exceeded");
+        return it;
+      };
+    }
+  });
+  var require_math_trunc22 = __commonJS22({
+    "node_modules/core-js-pure/internals/math-trunc.js"(exports, module) {
+      "use strict";
+      var ceil = Math.ceil;
+      var floor = Math.floor;
+      module.exports = Math.trunc || function trunc(x) {
+        var n2 = +x;
+        return (n2 > 0 ? floor : ceil)(n2);
+      };
+    }
+  });
+  var require_to_integer_or_infinity22 = __commonJS22({
+    "node_modules/core-js-pure/internals/to-integer-or-infinity.js"(exports, module) {
+      "use strict";
+      var trunc = require_math_trunc22();
+      module.exports = function(argument) {
+        var number3 = +argument;
+        return number3 !== number3 || number3 === 0 ? 0 : trunc(number3);
+      };
+    }
+  });
+  var require_to_length22 = __commonJS22({
+    "node_modules/core-js-pure/internals/to-length.js"(exports, module) {
+      "use strict";
+      var toIntegerOrInfinity2 = require_to_integer_or_infinity22();
+      var min = Math.min;
+      module.exports = function(argument) {
+        var len = toIntegerOrInfinity2(argument);
+        return len > 0 ? min(len, 9007199254740991) : 0;
+      };
+    }
+  });
+  var require_length_of_array_like22 = __commonJS22({
+    "node_modules/core-js-pure/internals/length-of-array-like.js"(exports, module) {
+      "use strict";
+      var toLength = require_to_length22();
+      module.exports = function(obj) {
+        return toLength(obj.length);
+      };
+    }
+  });
+  var require_to_absolute_index22 = __commonJS22({
+    "node_modules/core-js-pure/internals/to-absolute-index.js"(exports, module) {
+      "use strict";
+      var toIntegerOrInfinity2 = require_to_integer_or_infinity22();
+      var max = Math.max;
+      var min = Math.min;
+      module.exports = function(index2, length) {
+        var integer2 = toIntegerOrInfinity2(index2);
+        return integer2 < 0 ? max(integer2 + length, 0) : min(integer2, length);
+      };
+    }
+  });
+  var require_create_property22 = __commonJS22({
+    "node_modules/core-js-pure/internals/create-property.js"(exports, module) {
+      "use strict";
+      var DESCRIPTORS = require_descriptors22();
+      var definePropertyModule = require_object_define_property22();
+      var createPropertyDescriptor = require_create_property_descriptor22();
+      module.exports = function(object22, key2, value) {
+        if (DESCRIPTORS) definePropertyModule.f(object22, key2, createPropertyDescriptor(0, value));
+        else object22[key2] = value;
+      };
+    }
+  });
+  var require_es_array_to_spliced22 = __commonJS22({
+    "node_modules/core-js-pure/modules/es.array.to-spliced.js"() {
+      "use strict";
+      var $3 = require_export22();
+      var addToUnscopables = require_add_to_unscopables22();
+      var doesNotExceedSafeInteger = require_does_not_exceed_safe_integer22();
+      var lengthOfArrayLike = require_length_of_array_like22();
+      var toAbsoluteIndex = require_to_absolute_index22();
+      var toIndexedObject = require_to_indexed_object22();
+      var toIntegerOrInfinity2 = require_to_integer_or_infinity22();
+      var createProperty = require_create_property22();
+      var $Array = Array;
+      var max = Math.max;
+      var min = Math.min;
+      $3({ target: "Array", proto: true }, {
+        toSpliced: function toSpliced2(start, deleteCount) {
+          var O = toIndexedObject(this);
+          var len = lengthOfArrayLike(O);
+          var actualStart = toAbsoluteIndex(start, len);
+          var argumentsLength = arguments.length;
+          var k = 0;
+          var insertCount, actualDeleteCount, newLen, A;
+          if (argumentsLength === 0) {
+            insertCount = actualDeleteCount = 0;
+          } else if (argumentsLength === 1) {
+            insertCount = 0;
+            actualDeleteCount = len - actualStart;
+          } else {
+            insertCount = argumentsLength - 2;
+            actualDeleteCount = min(max(toIntegerOrInfinity2(deleteCount), 0), len - actualStart);
+          }
+          newLen = doesNotExceedSafeInteger(len + insertCount - actualDeleteCount);
+          A = $Array(newLen);
+          for (; k < actualStart; k++) createProperty(A, k, O[k]);
+          for (; k < actualStart + insertCount; k++) createProperty(A, k, arguments[k - actualStart + 2]);
+          for (; k < newLen; k++) createProperty(A, k, O[k + actualDeleteCount - insertCount]);
+          return A;
+        }
+      });
+      addToUnscopables("toSpliced");
+    }
+  });
+  var require_entry_unbind22 = __commonJS22({
+    "node_modules/core-js-pure/internals/entry-unbind.js"(exports, module) {
+      "use strict";
+      var getBuiltIn = require_get_built_in22();
+      module.exports = getBuiltIn;
+    }
+  });
+  var require_to_spliced62 = __commonJS22({
+    "node_modules/core-js-pure/es/array/to-spliced.js"(exports, module) {
+      "use strict";
+      require_es_array_to_spliced22();
+      var entryUnbind = require_entry_unbind22();
+      module.exports = entryUnbind("Array", "toSpliced");
+    }
+  });
+  var require_to_spliced222 = __commonJS22({
+    "node_modules/core-js-pure/stable/array/to-spliced.js"(exports, module) {
+      "use strict";
+      var parent = require_to_spliced62();
+      module.exports = parent;
+    }
+  });
+  var require_esnext_array_to_spliced22 = __commonJS22({
+    "node_modules/core-js-pure/modules/esnext.array.to-spliced.js"() {
+      "use strict";
+      require_es_array_to_spliced22();
+    }
+  });
+  var require_to_spliced322 = __commonJS22({
+    "node_modules/core-js-pure/actual/array/to-spliced.js"(exports, module) {
+      "use strict";
+      var parent = require_to_spliced222();
+      require_esnext_array_to_spliced22();
+      module.exports = parent;
+    }
+  });
+  var require_to_spliced422 = __commonJS22({
+    "node_modules/core-js-pure/full/array/to-spliced.js"(exports, module) {
+      "use strict";
+      var parent = require_to_spliced322();
+      module.exports = parent;
+    }
+  });
+  var require_to_spliced522 = __commonJS22({
+    "node_modules/core-js-pure/features/array/to-spliced.js"(exports, module) {
+      "use strict";
+      module.exports = require_to_spliced422();
     }
   });
   var require_environment22 = __commonJS22({
@@ -124921,47 +125634,6 @@ and ensure you are accounting for this risk.
       };
     }
   });
-  var require_math_trunc22 = __commonJS22({
-    "node_modules/core-js-pure/internals/math-trunc.js"(exports, module) {
-      "use strict";
-      var ceil = Math.ceil;
-      var floor = Math.floor;
-      module.exports = Math.trunc || function trunc(x) {
-        var n2 = +x;
-        return (n2 > 0 ? floor : ceil)(n2);
-      };
-    }
-  });
-  var require_to_integer_or_infinity22 = __commonJS22({
-    "node_modules/core-js-pure/internals/to-integer-or-infinity.js"(exports, module) {
-      "use strict";
-      var trunc = require_math_trunc22();
-      module.exports = function(argument) {
-        var number3 = +argument;
-        return number3 !== number3 || number3 === 0 ? 0 : trunc(number3);
-      };
-    }
-  });
-  var require_to_length22 = __commonJS22({
-    "node_modules/core-js-pure/internals/to-length.js"(exports, module) {
-      "use strict";
-      var toIntegerOrInfinity2 = require_to_integer_or_infinity22();
-      var min = Math.min;
-      module.exports = function(argument) {
-        var len = toIntegerOrInfinity2(argument);
-        return len > 0 ? min(len, 9007199254740991) : 0;
-      };
-    }
-  });
-  var require_length_of_array_like22 = __commonJS22({
-    "node_modules/core-js-pure/internals/length-of-array-like.js"(exports, module) {
-      "use strict";
-      var toLength = require_to_length22();
-      module.exports = function(obj) {
-        return toLength(obj.length);
-      };
-    }
-  });
   var require_get_iterator_method22 = __commonJS22({
     "node_modules/core-js-pure/internals/get-iterator-method.js"(exports, module) {
       "use strict";
@@ -125400,6 +126072,7 @@ and ensure you are accounting for this risk.
     )
   );
   var EMPTY_ARRAY22 = Object.freeze([]);
+  var import_to_spliced22 = __toESM22(require_to_spliced522());
   var import_with_resolvers22 = __toESM22(require_with_resolvers522());
   var EMOJI_REGEX2 = new RegExp("^(?:[\\u{1F1E6}-\\u{1F1FF}]{2}|\\u{1F3F4}[\\u{E0061}-\\u{E007A}]{2}[\\u{E0030}-\\u{E0039}\\u{E0061}-\\u{E007A}]{1,3}\\u{E007F}|(?:\\p{Emoji}\\uFE0F\\u20E3?|\\p{Emoji_Modifier_Base}\\p{Emoji_Modifier}?|(?![\\p{Emoji_Modifier_Base}\\u{1F1E6}-\\u{1F1FF}])\\p{Emoji_Presentation})(?:\\u200D(?:\\p{Emoji}\\uFE0F\\u20E3?|\\p{Emoji_Modifier_Base}\\p{Emoji_Modifier}?|(?![\\p{Emoji_Modifier_Base}\\u{1F1E6}-\\u{1F1FF}])\\p{Emoji_Presentation}))*)+$", "u");
   var warnNonce = warnOnce2('The elements passing to <InjectStyleElements> should not have "nonce" attribute set');
@@ -127106,15 +127779,52 @@ and ensure you are accounting for this risk.
     }
     return documentFragment;
   }
-  function isDefinition(node2) {
-    return node2.type === "definition";
+  function normalizeIdentifier2(value) {
+    return value.replace(/[\t\n\r ]+/g, " ").replace(/^ | $/g, "").toLowerCase().toUpperCase();
   }
-  function* iterateLinkDefinitions(markdown) {
-    for (const topLevelNode of fromMarkdown(markdown).children) {
-      if (isDefinition(topLevelNode)) {
-        yield topLevelNode;
+  function extractDefinitionsFromEvents(events2) {
+    const definitions = [];
+    let inDefinition = false;
+    let label = "";
+    let title = "";
+    let url2 = "";
+    for (const [action2, token2, context] of events2) {
+      if (action2 === "enter" && token2.type === "definition") {
+        inDefinition = true;
+        label = "";
+        title = "";
+        url2 = "";
+        continue;
+      }
+      if (!inDefinition || action2 !== "exit") {
+        continue;
+      }
+      switch (token2.type) {
+        case "definitionLabelString":
+          label = context.sliceSerialize(token2);
+          break;
+        case "definitionDestinationString":
+          url2 = context.sliceSerialize(token2);
+          break;
+        case "definitionTitleString":
+          title = context.sliceSerialize(token2);
+          break;
+        case "definition":
+          definitions.push(
+            Object.freeze({
+              identifier: normalizeIdentifier2(label),
+              label,
+              title,
+              url: url2
+            })
+          );
+          inDefinition = false;
+          break;
+        default:
+          break;
       }
     }
+    return Object.freeze(definitions);
   }
   var pre = (markdown) => (
     // IE11 does not support "u" flag and Babel could not remove it. We intentionally omitting the "u" flag here.
@@ -127122,18 +127832,16 @@ and ensure you are accounting for this risk.
     markdown.replace(/\n\r|\r\n/g, (carriageReturn) => carriageReturn === "\n\r" ? "\r\n" : "\n\r")
   );
   var ALLOWED_SCHEMES = ["data", "http", "https", "ftp", "mailto", "sip", "tel"];
-  function render3(markdown, { markdownRespectCRLF, markdownRenderHTML }, { externalLinkAlt }) {
-    const linkDefinitions = Array.from(iterateLinkDefinitions(markdown)).map(
+  function createDecorate(definitions, externalLinkAlt) {
+    const linkDefinitions = definitions.map(
       (definition2) => Object.freeze({
         ...definition2,
         markupUrl: sanitizeUri(definition2.url),
         parsedUrl: onErrorResumeNext(() => new URL(definition2.url))
       })
     );
-    if (markdownRespectCRLF) {
-      markdown = pre(markdown);
-    }
-    const decorate = (href, textContent) => {
+    const allowedSchemas = ALLOWED_SCHEMES.map((scheme) => `${scheme}:`);
+    return (href, textContent) => {
       const decoration = {
         rel: "noopener noreferrer",
         target: "_blank",
@@ -127148,7 +127856,7 @@ and ensure you are accounting for this risk.
         linkDefinition.label === textContent && classes62.add("render-markdown__pure-identifier");
       }
       if (protocol !== "javascript:") {
-        if (!ALLOWED_SCHEMES.map((scheme) => `${scheme}:`).includes(protocol)) {
+        if (!allowedSchemas.includes(protocol)) {
           decoration.asButton = true;
           classes62.add("render-markdown__citation");
         } else if (protocol === "http:" || protocol === "https:") {
@@ -127164,6 +127872,295 @@ and ensure you are accounting for this risk.
       decoration.title = false;
       return decoration;
     };
+  }
+  var STREAMING_ERROR = /* @__PURE__ */ Symbol("markdown streaming error");
+  var TOP_LEVEL_BLOCK_TYPES = /* @__PURE__ */ new Set([
+    "atxHeading",
+    "blockQuote",
+    "codeFenced",
+    "codeIndented",
+    "content",
+    "htmlFlow",
+    "listOrdered",
+    "listUnordered",
+    "setextHeading",
+    "table",
+    "thematicBreak",
+    "math"
+  ]);
+  function findTopLevelBlocks(events2) {
+    const blocks = [];
+    let depth = 0;
+    for (const [action2, token2] of events2) {
+      if (!TOP_LEVEL_BLOCK_TYPES.has(token2.type)) {
+        continue;
+      }
+      if (action2 === "enter") {
+        if (!depth) {
+          blocks.push({ endOffset: -1, startOffset: token2.start.offset, type: token2.type });
+        }
+        depth++;
+      } else {
+        depth--;
+        if (!depth && blocks.length) {
+          blocks.at(-1).endOffset = token2.end.offset;
+        }
+      }
+    }
+    return blocks;
+  }
+  function createStreamingRenderer({ markdownRenderHTML, markdownRespectCRLF }, { externalLinkAlt }) {
+    const micromarkOptions = {
+      allowDangerousHtml: markdownRenderHTML ?? true,
+      allowDangerousProtocol: true,
+      extensions: [gfm(), math2()],
+      htmlExtensions: [
+        gfmHtml(),
+        mathHtml({
+          renderMath: (content3, isDisplay) => katex.renderToString(content3, {
+            displayMode: isDisplay,
+            output: "mathml"
+          })
+        })
+      ]
+    };
+    const domParser = new DOMParser();
+    let previousMarkdown = "";
+    const emptyDefinitions = Object.freeze([]);
+    let wrapperDiv = null;
+    let activeSentinel = null;
+    function parseEvents(source) {
+      return postprocess(
+        parse2(micromarkOptions).document().write(preprocess()(source, void 0, true))
+      );
+    }
+    function applyTransform(fragment, transformFragment) {
+      return transformFragment ? transformFragment(fragment) : fragment;
+    }
+    function ensureWrapper(container, containerClassName) {
+      if (wrapperDiv && container.contains(wrapperDiv)) {
+        wrapperDiv.className = containerClassName || "";
+        return wrapperDiv;
+      }
+      const wrapper = document.createElement("div");
+      wrapper.className = containerClassName || "";
+      container.textContent = "";
+      container.appendChild(wrapper);
+      wrapperDiv = wrapper;
+      activeSentinel = null;
+      return wrapper;
+    }
+    function setError(error, wrapper) {
+      wrapper.dataset.renderError = String(error instanceof Error ? error.message : error);
+      wrapper.dataset.renderErrorCount = String(Number(wrapper.dataset.renderErrorCount || "0") + 1);
+      wrapper[STREAMING_ERROR] = error;
+    }
+    const knownDefinitions = /* @__PURE__ */ new Set();
+    function extractDefinitions(events2) {
+      for (const [action2, token2, ctx] of events2) {
+        token2.type === "definition" && action2 === "exit" && knownDefinitions.add(ctx.sliceSerialize(token2) + "\n");
+      }
+    }
+    let lastStepDefinitionOffset = 0;
+    let lastCommittedBlockEndOffset = 0;
+    let stepEvents = [];
+    function step(markdown) {
+      const markdownTail = markdown.slice(lastCommittedBlockEndOffset);
+      const doc = parse2(micromarkOptions).document();
+      const prep = preprocess();
+      if (knownDefinitions.size) {
+        for (const definition2 of knownDefinitions) {
+          doc.write(prep(definition2, void 0, false));
+        }
+        const lastDefinitionTokenOffset = doc.events.at(-1)?.[1].end.offset;
+        if (typeof lastDefinitionTokenOffset !== "number") {
+          throw new Error("Failed to extract definition token offset");
+        }
+        lastStepDefinitionOffset = lastDefinitionTokenOffset;
+      } else {
+        lastStepDefinitionOffset = 0;
+      }
+      const tailEvents = doc.write(prep(markdownTail, void 0, true));
+      stepEvents = postprocess(tailEvents);
+      return stepEvents;
+    }
+    function commit(block) {
+      const compiler2 = compile(micromarkOptions);
+      extractDefinitions(stepEvents);
+      if (knownDefinitions.size) {
+        const doc = parse2(micromarkOptions).document();
+        const prep = preprocess();
+        for (const definition2 of knownDefinitions) {
+          doc.write(prep(definition2, void 0, false));
+        }
+        compiler2(postprocess(doc.write(prep("", void 0, true))));
+      }
+      const newCommittedOffset = block.startOffset;
+      const newCommittedEvents = stepEvents.filter(([, token2]) => token2.start.offset < newCommittedOffset);
+      lastCommittedBlockEndOffset += newCommittedOffset - lastStepDefinitionOffset;
+      return compiler2(newCommittedEvents);
+    }
+    function revert() {
+      lastStepDefinitionOffset = 0;
+      stepEvents = [];
+    }
+    function cleanup() {
+      revert();
+      activeSentinel = null;
+      lastCommittedBlockEndOffset = 0;
+      knownDefinitions.clear();
+    }
+    function renderNext(chunk, options) {
+      const isAppend = !!previousMarkdown;
+      previousMarkdown += chunk;
+      if (!previousMarkdown) {
+        cleanup();
+        const wrapper2 = ensureWrapper(options.container, options.containerClassName);
+        wrapper2.replaceChildren();
+        return;
+      }
+      let processedMarkdown = previousMarkdown;
+      if (markdownRespectCRLF) {
+        processedMarkdown = pre(processedMarkdown);
+      }
+      try {
+        if (isAppend) {
+          const wrapper2 = ensureWrapper(options.container, options.containerClassName);
+          if (activeSentinel && wrapper2.contains(activeSentinel)) {
+            const tailEvents = step(processedMarkdown);
+            const tailBlocks = findTopLevelBlocks(tailEvents);
+            const decorate2 = createDecorate(emptyDefinitions, externalLinkAlt);
+            if (tailBlocks.length <= 1) {
+              const tailHTML = compile(micromarkOptions)(tailEvents);
+              const activeDoc = domParser.parseFromString(tailHTML.trim(), "text/html");
+              const activeFragment = activeDoc.createDocumentFragment();
+              activeFragment.append(...Array.from(activeDoc.body.childNodes));
+              betterLinkDocumentMod(activeFragment, decorate2);
+              const activeRange = document.createRange();
+              activeRange.setStartAfter(activeSentinel);
+              activeRange.setEndAfter(wrapper2.lastChild);
+              activeRange.deleteContents();
+              wrapper2.append(applyTransform(activeFragment, options.transformFragment));
+            } else {
+              const committedTailHTML = commit(tailBlocks.at(-1));
+              const committedDoc = domParser.parseFromString(committedTailHTML, "text/html");
+              const committedFragment = committedDoc.createDocumentFragment();
+              const activeEvents = step(processedMarkdown);
+              const activeHTML = compile(micromarkOptions)(activeEvents);
+              const activeDoc = domParser.parseFromString(activeHTML.trim(), "text/html");
+              const activeFragment = activeDoc.createDocumentFragment();
+              committedFragment.append(...Array.from(committedDoc.body.childNodes));
+              betterLinkDocumentMod(committedFragment, decorate2);
+              activeFragment.append(...Array.from(activeDoc.body.childNodes));
+              betterLinkDocumentMod(activeFragment, decorate2);
+              const tailRange = document.createRange();
+              tailRange.setStartBefore(activeSentinel);
+              tailRange.setEndAfter(wrapper2.lastChild);
+              tailRange.deleteContents();
+              activeSentinel = document.createComment("");
+              wrapper2.append(
+                applyTransform(committedFragment, options.transformFragment),
+                activeSentinel,
+                applyTransform(activeFragment, options.transformFragment)
+              );
+            }
+            return;
+          }
+        }
+      } catch (error) {
+        setError(error, ensureWrapper(options.container, options.containerClassName));
+      }
+      cleanup();
+      const fullEvents = step(processedMarkdown);
+      const blocks = findTopLevelBlocks(fullEvents);
+      const wrapper = ensureWrapper(options.container, options.containerClassName);
+      const decorate = createDecorate(emptyDefinitions, externalLinkAlt);
+      try {
+        if (blocks.length >= 2) {
+          const committedHTML = commit(blocks.at(-1));
+          const committedDoc = domParser.parseFromString(committedHTML, "text/html");
+          const committedFragment = committedDoc.createDocumentFragment();
+          const activeEvents = step(processedMarkdown);
+          const activeHTML = compile(micromarkOptions)(activeEvents);
+          const activeDoc = domParser.parseFromString(activeHTML.trim(), "text/html");
+          const activeFragment = activeDoc.createDocumentFragment();
+          committedFragment.append(...Array.from(committedDoc.body.childNodes));
+          betterLinkDocumentMod(committedFragment, decorate);
+          activeFragment.append(...Array.from(activeDoc.body.childNodes));
+          betterLinkDocumentMod(activeFragment, decorate);
+          activeSentinel = document.createComment("");
+          wrapper.replaceChildren(
+            applyTransform(committedFragment, options.transformFragment),
+            activeSentinel,
+            applyTransform(activeFragment, options.transformFragment)
+          );
+          return;
+        }
+      } catch (error) {
+        setError(error, ensureWrapper(options.container, options.containerClassName));
+        cleanup();
+      }
+      activeSentinel = null;
+      const rawHTML = compile(micromarkOptions)(fullEvents);
+      const parsedDocument = domParser.parseFromString(rawHTML.trim(), "text/html");
+      const fragment = parsedDocument.createDocumentFragment();
+      fragment.append(...Array.from(parsedDocument.body.childNodes));
+      betterLinkDocumentMod(fragment, decorate);
+      wrapper.replaceChildren(applyTransform(fragment, options.transformFragment));
+    }
+    return Object.freeze({
+      finalize(options) {
+        if (!previousMarkdown) {
+          const wrapper2 = ensureWrapper(options.container, options.containerClassName);
+          wrapper2.replaceChildren();
+          return Object.freeze({ definitions: Object.freeze([]) });
+        }
+        let processedMarkdown = previousMarkdown;
+        if (markdownRespectCRLF) {
+          processedMarkdown = pre(processedMarkdown);
+        }
+        const fullEvents = parseEvents(processedMarkdown);
+        const rawHTML = compile(micromarkOptions)(fullEvents);
+        const finalDoc = domParser.parseFromString(rawHTML.trim(), "text/html");
+        const fragment = finalDoc.createDocumentFragment();
+        const definitions = extractDefinitionsFromEvents(fullEvents);
+        const wrapper = ensureWrapper(options.container, options.containerClassName);
+        const decorate = createDecorate(definitions, externalLinkAlt);
+        fragment.append(...Array.from(finalDoc.body.childNodes));
+        betterLinkDocumentMod(fragment, decorate);
+        activeSentinel = null;
+        wrapper.replaceChildren(applyTransform(fragment, options.transformFragment));
+        return Object.freeze({ definitions });
+      },
+      next(chunk, options) {
+        try {
+          renderNext(chunk, options);
+        } finally {
+          revert();
+        }
+      },
+      reset() {
+        previousMarkdown = "";
+        cleanup();
+      }
+    });
+  }
+  function isDefinition(node2) {
+    return node2.type === "definition";
+  }
+  function* iterateLinkDefinitions(markdown) {
+    for (const topLevelNode of fromMarkdown(markdown).children) {
+      if (isDefinition(topLevelNode)) {
+        yield topLevelNode;
+      }
+    }
+  }
+  function render3(markdown, { markdownRespectCRLF, markdownRenderHTML }, { externalLinkAlt }) {
+    const linkDefinitions = Array.from(iterateLinkDefinitions(markdown));
+    if (markdownRespectCRLF) {
+      markdown = pre(markdown);
+    }
+    const decorate = createDecorate(linkDefinitions, externalLinkAlt);
     const htmlAfterMarkdown = micromark(markdown, {
       allowDangerousHtml: markdownRenderHTML ?? true,
       // We need to handle links like cite:1 or other URL handlers.
@@ -127182,8 +128179,9 @@ and ensure you are accounting for this risk.
     });
     const documentFragmentAfterMarkdown = (0, import_internal.parseDocumentFragmentFromString)(htmlAfterMarkdown);
     betterLinkDocumentMod(documentFragmentAfterMarkdown, decorate);
-    return (0, import_internal.serializeDocumentFragmentIntoString)(documentFragmentAfterMarkdown);
+    return (0, import_internal.serializeDocumentFragmentIntoString)(documentFragmentAfterMarkdown).trim();
   }
+  render3.createStreamingRenderer = createStreamingRenderer;
   var __create32 = Object.create;
   var __defProp32 = Object.defineProperty;
   var __getOwnPropDesc32 = Object.getOwnPropertyDescriptor;
@@ -127930,6 +128928,180 @@ and ensure you are accounting for this risk.
           }
         }
       };
+    }
+  });
+  var require_add_to_unscopables32 = __commonJS32({
+    "node_modules/core-js-pure/internals/add-to-unscopables.js"(exports, module) {
+      "use strict";
+      module.exports = function() {
+      };
+    }
+  });
+  var require_does_not_exceed_safe_integer3 = __commonJS32({
+    "node_modules/core-js-pure/internals/does-not-exceed-safe-integer.js"(exports, module) {
+      "use strict";
+      var $TypeError = TypeError;
+      var MAX_SAFE_INTEGER = 9007199254740991;
+      module.exports = function(it) {
+        if (it > MAX_SAFE_INTEGER) throw $TypeError("Maximum allowed index exceeded");
+        return it;
+      };
+    }
+  });
+  var require_math_trunc32 = __commonJS32({
+    "node_modules/core-js-pure/internals/math-trunc.js"(exports, module) {
+      "use strict";
+      var ceil = Math.ceil;
+      var floor = Math.floor;
+      module.exports = Math.trunc || function trunc(x) {
+        var n2 = +x;
+        return (n2 > 0 ? floor : ceil)(n2);
+      };
+    }
+  });
+  var require_to_integer_or_infinity32 = __commonJS32({
+    "node_modules/core-js-pure/internals/to-integer-or-infinity.js"(exports, module) {
+      "use strict";
+      var trunc = require_math_trunc32();
+      module.exports = function(argument) {
+        var number3 = +argument;
+        return number3 !== number3 || number3 === 0 ? 0 : trunc(number3);
+      };
+    }
+  });
+  var require_to_length32 = __commonJS32({
+    "node_modules/core-js-pure/internals/to-length.js"(exports, module) {
+      "use strict";
+      var toIntegerOrInfinity2 = require_to_integer_or_infinity32();
+      var min = Math.min;
+      module.exports = function(argument) {
+        var len = toIntegerOrInfinity2(argument);
+        return len > 0 ? min(len, 9007199254740991) : 0;
+      };
+    }
+  });
+  var require_length_of_array_like32 = __commonJS32({
+    "node_modules/core-js-pure/internals/length-of-array-like.js"(exports, module) {
+      "use strict";
+      var toLength = require_to_length32();
+      module.exports = function(obj) {
+        return toLength(obj.length);
+      };
+    }
+  });
+  var require_to_absolute_index32 = __commonJS32({
+    "node_modules/core-js-pure/internals/to-absolute-index.js"(exports, module) {
+      "use strict";
+      var toIntegerOrInfinity2 = require_to_integer_or_infinity32();
+      var max = Math.max;
+      var min = Math.min;
+      module.exports = function(index2, length) {
+        var integer2 = toIntegerOrInfinity2(index2);
+        return integer2 < 0 ? max(integer2 + length, 0) : min(integer2, length);
+      };
+    }
+  });
+  var require_create_property32 = __commonJS32({
+    "node_modules/core-js-pure/internals/create-property.js"(exports, module) {
+      "use strict";
+      var DESCRIPTORS = require_descriptors32();
+      var definePropertyModule = require_object_define_property32();
+      var createPropertyDescriptor = require_create_property_descriptor32();
+      module.exports = function(object14, key2, value) {
+        if (DESCRIPTORS) definePropertyModule.f(object14, key2, createPropertyDescriptor(0, value));
+        else object14[key2] = value;
+      };
+    }
+  });
+  var require_es_array_to_spliced3 = __commonJS32({
+    "node_modules/core-js-pure/modules/es.array.to-spliced.js"() {
+      "use strict";
+      var $3 = require_export32();
+      var addToUnscopables = require_add_to_unscopables32();
+      var doesNotExceedSafeInteger = require_does_not_exceed_safe_integer3();
+      var lengthOfArrayLike = require_length_of_array_like32();
+      var toAbsoluteIndex = require_to_absolute_index32();
+      var toIndexedObject = require_to_indexed_object32();
+      var toIntegerOrInfinity2 = require_to_integer_or_infinity32();
+      var createProperty = require_create_property32();
+      var $Array = Array;
+      var max = Math.max;
+      var min = Math.min;
+      $3({ target: "Array", proto: true }, {
+        toSpliced: function toSpliced2(start, deleteCount) {
+          var O = toIndexedObject(this);
+          var len = lengthOfArrayLike(O);
+          var actualStart = toAbsoluteIndex(start, len);
+          var argumentsLength = arguments.length;
+          var k = 0;
+          var insertCount, actualDeleteCount, newLen, A;
+          if (argumentsLength === 0) {
+            insertCount = actualDeleteCount = 0;
+          } else if (argumentsLength === 1) {
+            insertCount = 0;
+            actualDeleteCount = len - actualStart;
+          } else {
+            insertCount = argumentsLength - 2;
+            actualDeleteCount = min(max(toIntegerOrInfinity2(deleteCount), 0), len - actualStart);
+          }
+          newLen = doesNotExceedSafeInteger(len + insertCount - actualDeleteCount);
+          A = $Array(newLen);
+          for (; k < actualStart; k++) createProperty(A, k, O[k]);
+          for (; k < actualStart + insertCount; k++) createProperty(A, k, arguments[k - actualStart + 2]);
+          for (; k < newLen; k++) createProperty(A, k, O[k + actualDeleteCount - insertCount]);
+          return A;
+        }
+      });
+      addToUnscopables("toSpliced");
+    }
+  });
+  var require_entry_unbind32 = __commonJS32({
+    "node_modules/core-js-pure/internals/entry-unbind.js"(exports, module) {
+      "use strict";
+      var getBuiltIn = require_get_built_in32();
+      module.exports = getBuiltIn;
+    }
+  });
+  var require_to_spliced7 = __commonJS32({
+    "node_modules/core-js-pure/es/array/to-spliced.js"(exports, module) {
+      "use strict";
+      require_es_array_to_spliced3();
+      var entryUnbind = require_entry_unbind32();
+      module.exports = entryUnbind("Array", "toSpliced");
+    }
+  });
+  var require_to_spliced23 = __commonJS32({
+    "node_modules/core-js-pure/stable/array/to-spliced.js"(exports, module) {
+      "use strict";
+      var parent = require_to_spliced7();
+      module.exports = parent;
+    }
+  });
+  var require_esnext_array_to_spliced3 = __commonJS32({
+    "node_modules/core-js-pure/modules/esnext.array.to-spliced.js"() {
+      "use strict";
+      require_es_array_to_spliced3();
+    }
+  });
+  var require_to_spliced33 = __commonJS32({
+    "node_modules/core-js-pure/actual/array/to-spliced.js"(exports, module) {
+      "use strict";
+      var parent = require_to_spliced23();
+      require_esnext_array_to_spliced3();
+      module.exports = parent;
+    }
+  });
+  var require_to_spliced43 = __commonJS32({
+    "node_modules/core-js-pure/full/array/to-spliced.js"(exports, module) {
+      "use strict";
+      var parent = require_to_spliced33();
+      module.exports = parent;
+    }
+  });
+  var require_to_spliced53 = __commonJS32({
+    "node_modules/core-js-pure/features/array/to-spliced.js"(exports, module) {
+      "use strict";
+      module.exports = require_to_spliced43();
     }
   });
   var require_environment32 = __commonJS32({
@@ -128958,47 +130130,6 @@ and ensure you are accounting for this risk.
       };
     }
   });
-  var require_math_trunc32 = __commonJS32({
-    "node_modules/core-js-pure/internals/math-trunc.js"(exports, module) {
-      "use strict";
-      var ceil = Math.ceil;
-      var floor = Math.floor;
-      module.exports = Math.trunc || function trunc(x) {
-        var n2 = +x;
-        return (n2 > 0 ? floor : ceil)(n2);
-      };
-    }
-  });
-  var require_to_integer_or_infinity32 = __commonJS32({
-    "node_modules/core-js-pure/internals/to-integer-or-infinity.js"(exports, module) {
-      "use strict";
-      var trunc = require_math_trunc32();
-      module.exports = function(argument) {
-        var number3 = +argument;
-        return number3 !== number3 || number3 === 0 ? 0 : trunc(number3);
-      };
-    }
-  });
-  var require_to_length32 = __commonJS32({
-    "node_modules/core-js-pure/internals/to-length.js"(exports, module) {
-      "use strict";
-      var toIntegerOrInfinity2 = require_to_integer_or_infinity32();
-      var min = Math.min;
-      module.exports = function(argument) {
-        var len = toIntegerOrInfinity2(argument);
-        return len > 0 ? min(len, 9007199254740991) : 0;
-      };
-    }
-  });
-  var require_length_of_array_like32 = __commonJS32({
-    "node_modules/core-js-pure/internals/length-of-array-like.js"(exports, module) {
-      "use strict";
-      var toLength = require_to_length32();
-      module.exports = function(obj) {
-        return toLength(obj.length);
-      };
-    }
-  });
   var require_get_iterator_method32 = __commonJS32({
     "node_modules/core-js-pure/internals/get-iterator-method.js"(exports, module) {
       "use strict";
@@ -129445,6 +130576,7 @@ and ensure you are accounting for this risk.
     return false;
   }
   var EMPTY_ARRAY32 = Object.freeze([]);
+  var import_to_spliced3 = __toESM32(require_to_spliced53());
   var import_with_resolvers32 = __toESM32(require_with_resolvers532());
   function useMemoWithPrevious(factory, deps) {
     const prevValueRef = (0, import_react44.useRef)();
@@ -136949,7 +138081,7 @@ XID_Start XIDS`.split(/\s/)
     grapheme: "grapheme",
     newline: "newline"
   };
-  function parse4({ tokens, flags, rules }, options) {
+  function parse5({ tokens, flags, rules }, options) {
     const opts = {
       skipBackrefValidation: false,
       skipLookbehindValidation: false,
@@ -138169,7 +139301,7 @@ XID_Start XIDS`.split(/\s/)
     return /^[$_\p{IDS}][$\u200C\u200D\p{IDC}]*$/u.test(name);
   }
   function parseFragment(pattern, options) {
-    const ast = parse4(tokenize(pattern), options);
+    const ast = parse5(tokenize(pattern), options);
     const alts = ast.pattern.alternatives;
     if (alts.length > 1 || alts[0].elements.length > 1) {
       return adoptAndSwapKids(createGroup(), alts);
@@ -138887,7 +140019,7 @@ XID_Start XIDS`.split(/\s/)
       captureGroup: opts.rules.captureGroup,
       singleline: opts.rules.singleline
     });
-    const onigurumaAst = parse4(tokenized, {
+    const onigurumaAst = parse5(tokenized, {
       skipBackrefValidation: opts.rules.allowOrphanBackrefs,
       verbose: opts.verbose
     });
@@ -165789,6 +166921,180 @@ XID_Start XIDS`.split(/\s/)
       };
     }
   });
+  var require_add_to_unscopables6 = __commonJS5({
+    "node_modules/core-js-pure/internals/add-to-unscopables.js"(exports, module) {
+      "use strict";
+      module.exports = function() {
+      };
+    }
+  });
+  var require_does_not_exceed_safe_integer4 = __commonJS5({
+    "node_modules/core-js-pure/internals/does-not-exceed-safe-integer.js"(exports, module) {
+      "use strict";
+      var $TypeError = TypeError;
+      var MAX_SAFE_INTEGER = 9007199254740991;
+      module.exports = function(it) {
+        if (it > MAX_SAFE_INTEGER) throw $TypeError("Maximum allowed index exceeded");
+        return it;
+      };
+    }
+  });
+  var require_math_trunc5 = __commonJS5({
+    "node_modules/core-js-pure/internals/math-trunc.js"(exports, module) {
+      "use strict";
+      var ceil = Math.ceil;
+      var floor = Math.floor;
+      module.exports = Math.trunc || function trunc(x) {
+        var n2 = +x;
+        return (n2 > 0 ? floor : ceil)(n2);
+      };
+    }
+  });
+  var require_to_integer_or_infinity5 = __commonJS5({
+    "node_modules/core-js-pure/internals/to-integer-or-infinity.js"(exports, module) {
+      "use strict";
+      var trunc = require_math_trunc5();
+      module.exports = function(argument) {
+        var number3 = +argument;
+        return number3 !== number3 || number3 === 0 ? 0 : trunc(number3);
+      };
+    }
+  });
+  var require_to_length6 = __commonJS5({
+    "node_modules/core-js-pure/internals/to-length.js"(exports, module) {
+      "use strict";
+      var toIntegerOrInfinity2 = require_to_integer_or_infinity5();
+      var min = Math.min;
+      module.exports = function(argument) {
+        var len = toIntegerOrInfinity2(argument);
+        return len > 0 ? min(len, 9007199254740991) : 0;
+      };
+    }
+  });
+  var require_length_of_array_like5 = __commonJS5({
+    "node_modules/core-js-pure/internals/length-of-array-like.js"(exports, module) {
+      "use strict";
+      var toLength = require_to_length6();
+      module.exports = function(obj) {
+        return toLength(obj.length);
+      };
+    }
+  });
+  var require_to_absolute_index6 = __commonJS5({
+    "node_modules/core-js-pure/internals/to-absolute-index.js"(exports, module) {
+      "use strict";
+      var toIntegerOrInfinity2 = require_to_integer_or_infinity5();
+      var max = Math.max;
+      var min = Math.min;
+      module.exports = function(index2, length) {
+        var integer2 = toIntegerOrInfinity2(index2);
+        return integer2 < 0 ? max(integer2 + length, 0) : min(integer2, length);
+      };
+    }
+  });
+  var require_create_property4 = __commonJS5({
+    "node_modules/core-js-pure/internals/create-property.js"(exports, module) {
+      "use strict";
+      var DESCRIPTORS = require_descriptors6();
+      var definePropertyModule = require_object_define_property6();
+      var createPropertyDescriptor = require_create_property_descriptor6();
+      module.exports = function(object2, key2, value) {
+        if (DESCRIPTORS) definePropertyModule.f(object2, key2, createPropertyDescriptor(0, value));
+        else object2[key2] = value;
+      };
+    }
+  });
+  var require_es_array_to_spliced4 = __commonJS5({
+    "node_modules/core-js-pure/modules/es.array.to-spliced.js"() {
+      "use strict";
+      var $3 = require_export6();
+      var addToUnscopables = require_add_to_unscopables6();
+      var doesNotExceedSafeInteger = require_does_not_exceed_safe_integer4();
+      var lengthOfArrayLike = require_length_of_array_like5();
+      var toAbsoluteIndex = require_to_absolute_index6();
+      var toIndexedObject = require_to_indexed_object6();
+      var toIntegerOrInfinity2 = require_to_integer_or_infinity5();
+      var createProperty = require_create_property4();
+      var $Array = Array;
+      var max = Math.max;
+      var min = Math.min;
+      $3({ target: "Array", proto: true }, {
+        toSpliced: function toSpliced2(start, deleteCount) {
+          var O = toIndexedObject(this);
+          var len = lengthOfArrayLike(O);
+          var actualStart = toAbsoluteIndex(start, len);
+          var argumentsLength = arguments.length;
+          var k = 0;
+          var insertCount, actualDeleteCount, newLen, A;
+          if (argumentsLength === 0) {
+            insertCount = actualDeleteCount = 0;
+          } else if (argumentsLength === 1) {
+            insertCount = 0;
+            actualDeleteCount = len - actualStart;
+          } else {
+            insertCount = argumentsLength - 2;
+            actualDeleteCount = min(max(toIntegerOrInfinity2(deleteCount), 0), len - actualStart);
+          }
+          newLen = doesNotExceedSafeInteger(len + insertCount - actualDeleteCount);
+          A = $Array(newLen);
+          for (; k < actualStart; k++) createProperty(A, k, O[k]);
+          for (; k < actualStart + insertCount; k++) createProperty(A, k, arguments[k - actualStart + 2]);
+          for (; k < newLen; k++) createProperty(A, k, O[k + actualDeleteCount - insertCount]);
+          return A;
+        }
+      });
+      addToUnscopables("toSpliced");
+    }
+  });
+  var require_entry_unbind4 = __commonJS5({
+    "node_modules/core-js-pure/internals/entry-unbind.js"(exports, module) {
+      "use strict";
+      var getBuiltIn = require_get_built_in6();
+      module.exports = getBuiltIn;
+    }
+  });
+  var require_to_spliced8 = __commonJS5({
+    "node_modules/core-js-pure/es/array/to-spliced.js"(exports, module) {
+      "use strict";
+      require_es_array_to_spliced4();
+      var entryUnbind = require_entry_unbind4();
+      module.exports = entryUnbind("Array", "toSpliced");
+    }
+  });
+  var require_to_spliced24 = __commonJS5({
+    "node_modules/core-js-pure/stable/array/to-spliced.js"(exports, module) {
+      "use strict";
+      var parent = require_to_spliced8();
+      module.exports = parent;
+    }
+  });
+  var require_esnext_array_to_spliced4 = __commonJS5({
+    "node_modules/core-js-pure/modules/esnext.array.to-spliced.js"() {
+      "use strict";
+      require_es_array_to_spliced4();
+    }
+  });
+  var require_to_spliced34 = __commonJS5({
+    "node_modules/core-js-pure/actual/array/to-spliced.js"(exports, module) {
+      "use strict";
+      var parent = require_to_spliced24();
+      require_esnext_array_to_spliced4();
+      module.exports = parent;
+    }
+  });
+  var require_to_spliced44 = __commonJS5({
+    "node_modules/core-js-pure/full/array/to-spliced.js"(exports, module) {
+      "use strict";
+      var parent = require_to_spliced34();
+      module.exports = parent;
+    }
+  });
+  var require_to_spliced54 = __commonJS5({
+    "node_modules/core-js-pure/features/array/to-spliced.js"(exports, module) {
+      "use strict";
+      module.exports = require_to_spliced44();
+    }
+  });
   var require_environment4 = __commonJS5({
     "node_modules/core-js-pure/internals/environment.js"(exports, module) {
       "use strict";
@@ -166815,47 +168121,6 @@ XID_Start XIDS`.split(/\s/)
       };
     }
   });
-  var require_math_trunc5 = __commonJS5({
-    "node_modules/core-js-pure/internals/math-trunc.js"(exports, module) {
-      "use strict";
-      var ceil = Math.ceil;
-      var floor = Math.floor;
-      module.exports = Math.trunc || function trunc(x) {
-        var n2 = +x;
-        return (n2 > 0 ? floor : ceil)(n2);
-      };
-    }
-  });
-  var require_to_integer_or_infinity5 = __commonJS5({
-    "node_modules/core-js-pure/internals/to-integer-or-infinity.js"(exports, module) {
-      "use strict";
-      var trunc = require_math_trunc5();
-      module.exports = function(argument) {
-        var number3 = +argument;
-        return number3 !== number3 || number3 === 0 ? 0 : trunc(number3);
-      };
-    }
-  });
-  var require_to_length6 = __commonJS5({
-    "node_modules/core-js-pure/internals/to-length.js"(exports, module) {
-      "use strict";
-      var toIntegerOrInfinity2 = require_to_integer_or_infinity5();
-      var min = Math.min;
-      module.exports = function(argument) {
-        var len = toIntegerOrInfinity2(argument);
-        return len > 0 ? min(len, 9007199254740991) : 0;
-      };
-    }
-  });
-  var require_length_of_array_like5 = __commonJS5({
-    "node_modules/core-js-pure/internals/length-of-array-like.js"(exports, module) {
-      "use strict";
-      var toLength = require_to_length6();
-      module.exports = function(obj) {
-        return toLength(obj.length);
-      };
-    }
-  });
   var require_get_iterator_method6 = __commonJS5({
     "node_modules/core-js-pure/internals/get-iterator-method.js"(exports, module) {
       "use strict";
@@ -167294,6 +168559,7 @@ XID_Start XIDS`.split(/\s/)
     )
   );
   var EMPTY_ARRAY5 = Object.freeze([]);
+  var import_to_spliced4 = __toESM5(require_to_spliced54());
   var import_with_resolvers4 = __toESM5(require_with_resolvers54());
   var EMOJI_REGEX3 = new RegExp("^(?:[\\u{1F1E6}-\\u{1F1FF}]{2}|\\u{1F3F4}[\\u{E0061}-\\u{E007A}]{2}[\\u{E0030}-\\u{E0039}\\u{E0061}-\\u{E007A}]{1,3}\\u{E007F}|(?:\\p{Emoji}\\uFE0F\\u20E3?|\\p{Emoji_Modifier_Base}\\p{Emoji_Modifier}?|(?![\\p{Emoji_Modifier_Base}\\u{1F1E6}-\\u{1F1FF}])\\p{Emoji_Presentation})(?:\\u200D(?:\\p{Emoji}\\uFE0F\\u20E3?|\\p{Emoji_Modifier_Base}\\p{Emoji_Modifier}?|(?![\\p{Emoji_Modifier_Base}\\u{1F1E6}-\\u{1F1FF}])\\p{Emoji_Presentation}))*)+$", "u");
   var warnNonce2 = warnOnce3('The elements passing to <InjectStyleElements> should not have "nonce" attribute set');
@@ -167370,12 +168636,12 @@ XID_Start XIDS`.split(/\s/)
   }
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/fluent-theme/src/components/activity/CopilotMessageHeader.module.css?css_module
-  var classes6 = { "copilot-message-header": "wdb2Xqa_copilot-message-header", "copilot-message-header__title": "wdb2Xqa_copilot-message-header__title", "copilot-message-header__ai-generated-content": "wdb2Xqa_copilot-message-header__ai-generated-content", "copilot-message-header__avatar": "wdb2Xqa_copilot-message-header__avatar" };
+  var classes6 = { "copilot-message-header__avatar": "wdb2Xqa_copilot-message-header__avatar", "copilot-message-header__ai-generated-content": "wdb2Xqa_copilot-message-header__ai-generated-content", "copilot-message-header__title": "wdb2Xqa_copilot-message-header__title", "copilot-message-header": "wdb2Xqa_copilot-message-header" };
   var CopilotMessageHeader_module_default = classes6;
-  var _copilot_message_header0 = classes6["copilot-message-header"];
-  var _copilot_message_header__title0 = classes6["copilot-message-header__title"];
-  var _copilot_message_header__ai_generated_content0 = classes6["copilot-message-header__ai-generated-content"];
   var _copilot_message_header__avatar0 = classes6["copilot-message-header__avatar"];
+  var _copilot_message_header__ai_generated_content0 = classes6["copilot-message-header__ai-generated-content"];
+  var _copilot_message_header__title0 = classes6["copilot-message-header__title"];
+  var _copilot_message_header0 = classes6["copilot-message-header"];
 
   // src/components/activity/private/isAIGeneratedActivity.ts
   function isAIGeneratedActivity(activity) {
@@ -167451,14 +168717,14 @@ XID_Start XIDS`.split(/\s/)
   var import_react62 = __toESM(require_react());
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/fluent-theme/src/components/activity/PartGroupingDecorator.module.css?css_module
-  var classes7 = { "part-grouping-decorator--group": "w_p-PcW_part-grouping-decorator--group", "variant-fluent": "w_p-PcW_variant-fluent", "part-grouping-decorator--from-bot": "w_p-PcW_part-grouping-decorator--from-bot", "variant-copilot": "w_p-PcW_variant-copilot", "part-grouping-decorator": "w_p-PcW_part-grouping-decorator", "part-grouping-decorator--from-user": "w_p-PcW_part-grouping-decorator--from-user" };
+  var classes7 = { "variant-copilot": "w_p-PcW_variant-copilot", "part-grouping-decorator--group": "w_p-PcW_part-grouping-decorator--group", "part-grouping-decorator": "w_p-PcW_part-grouping-decorator", "part-grouping-decorator--from-user": "w_p-PcW_part-grouping-decorator--from-user", "part-grouping-decorator--from-bot": "w_p-PcW_part-grouping-decorator--from-bot", "variant-fluent": "w_p-PcW_variant-fluent" };
   var PartGroupingDecorator_module_default = classes7;
-  var _part_grouping_decorator__group0 = classes7["part-grouping-decorator--group"];
-  var _variant_fluent0 = classes7["variant-fluent"];
-  var _part_grouping_decorator__from_bot0 = classes7["part-grouping-decorator--from-bot"];
   var _variant_copilot0 = classes7["variant-copilot"];
+  var _part_grouping_decorator__group0 = classes7["part-grouping-decorator--group"];
   var _part_grouping_decorator0 = classes7["part-grouping-decorator"];
   var _part_grouping_decorator__from_user0 = classes7["part-grouping-decorator--from-user"];
+  var _part_grouping_decorator__from_bot0 = classes7["part-grouping-decorator--from-bot"];
+  var _variant_fluent0 = classes7["variant-fluent"];
 
   // src/components/activity/PartGroupingDecorator.tsx
   var partGroupingDecoratorPropsSchema = pipe(
@@ -167509,10 +168775,10 @@ XID_Start XIDS`.split(/\s/)
   var import_react63 = __toESM(require_react());
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/fluent-theme/src/components/activityStatus/VoiceTranscriptActivityStatus.module.css?css_module
-  var classes8 = { "voice-transcript-activity-status__agent-label": "wFFhf6W_voice-transcript-activity-status__agent-label", "voice-transcript-activity-status__divider": "wFFhf6W_voice-transcript-activity-status__divider", "voice-transcript-activity-status": "wFFhf6W_voice-transcript-activity-status" };
+  var classes8 = { "voice-transcript-activity-status__divider": "wFFhf6W_voice-transcript-activity-status__divider", "voice-transcript-activity-status__agent-label": "wFFhf6W_voice-transcript-activity-status__agent-label", "voice-transcript-activity-status": "wFFhf6W_voice-transcript-activity-status" };
   var VoiceTranscriptActivityStatus_module_default = classes8;
-  var _voice_transcript_activity_status__agent_label0 = classes8["voice-transcript-activity-status__agent-label"];
   var _voice_transcript_activity_status__divider0 = classes8["voice-transcript-activity-status__divider"];
+  var _voice_transcript_activity_status__agent_label0 = classes8["voice-transcript-activity-status__agent-label"];
   var _voice_transcript_activity_status0 = classes8["voice-transcript-activity-status"];
 
   // src/components/activityStatus/VoiceTranscriptActivityStatus.tsx
@@ -167581,11 +168847,11 @@ XID_Start XIDS`.split(/\s/)
   var SlidingDots_default = (0, import_react66.memo)(SlidingDots);
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/fluent-theme/src/components/activity/ActivityLoader.module.css?css_module
-  var classes9 = { "variant-copilot": "wmWxp_q_variant-copilot", "variant-fluent": "wmWxp_q_variant-fluent", "activity-loader": "wmWxp_q_activity-loader" };
+  var classes9 = { "activity-loader": "wmWxp_q_activity-loader", "variant-fluent": "wmWxp_q_variant-fluent", "variant-copilot": "wmWxp_q_variant-copilot" };
   var ActivityLoader_module_default = classes9;
-  var _variant_copilot02 = classes9["variant-copilot"];
-  var _variant_fluent02 = classes9["variant-fluent"];
   var _activity_loader0 = classes9["activity-loader"];
+  var _variant_fluent02 = classes9["variant-fluent"];
+  var _variant_copilot02 = classes9["variant-copilot"];
 
   // src/components/activity/ActivityLoader.tsx
   var fluentActivityLoaderPropsSchema = pipe(
@@ -167649,10 +168915,10 @@ XID_Start XIDS`.split(/\s/)
   var import_react70 = __toESM(require_react());
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/fluent-theme/src/components/linerActivity/private/LinerMessageActivity.module.css?css_module
-  var classes10 = { "liner-message-activity__text": "wk40DyW_liner-message-activity__text", "liner-message-activity": "wk40DyW_liner-message-activity" };
+  var classes10 = { "liner-message-activity": "wk40DyW_liner-message-activity", "liner-message-activity__text": "wk40DyW_liner-message-activity__text" };
   var LinerMessageActivity_module_default = classes10;
-  var _liner_message_activity__text0 = classes10["liner-message-activity__text"];
   var _liner_message_activity0 = classes10["liner-message-activity"];
+  var _liner_message_activity__text0 = classes10["liner-message-activity__text"];
 
   // src/components/linerActivity/private/LinerActivity.tsx
   var LinerMessageActivity = ({ activity }) => {
@@ -167672,15 +168938,15 @@ XID_Start XIDS`.split(/\s/)
   var import_react76 = __toESM(require_react());
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/fluent-theme/src/components/preChatActivity/PreChatMessageActivity.module.css?css_module
-  var classes11 = { "pre-chat-message-activity__body-avatar": "wphlDQa_pre-chat-message-activity__body-avatar", "pre-chat-message-activity__body-title": "wphlDQa_pre-chat-message-activity__body-title", "pre-chat-message-activity": "wphlDQa_pre-chat-message-activity", "pre-chat-message-activity__body": "wphlDQa_pre-chat-message-activity__body", "pre-chat-message-activity__body-subtitle": "wphlDQa_pre-chat-message-activity__body-subtitle", "pre-chat-message-activity__toolbar": "wphlDQa_pre-chat-message-activity__toolbar", "pre-chat-message-activity__body--blueprint": "wphlDQa_pre-chat-message-activity__body--blueprint" };
+  var classes11 = { "pre-chat-message-activity__body--blueprint": "wphlDQa_pre-chat-message-activity__body--blueprint", "pre-chat-message-activity__body-subtitle": "wphlDQa_pre-chat-message-activity__body-subtitle", "pre-chat-message-activity__body": "wphlDQa_pre-chat-message-activity__body", "pre-chat-message-activity__toolbar": "wphlDQa_pre-chat-message-activity__toolbar", "pre-chat-message-activity__body-avatar": "wphlDQa_pre-chat-message-activity__body-avatar", "pre-chat-message-activity": "wphlDQa_pre-chat-message-activity", "pre-chat-message-activity__body-title": "wphlDQa_pre-chat-message-activity__body-title" };
   var PreChatMessageActivity_module_default = classes11;
-  var _pre_chat_message_activity__body_avatar0 = classes11["pre-chat-message-activity__body-avatar"];
-  var _pre_chat_message_activity__body_title0 = classes11["pre-chat-message-activity__body-title"];
-  var _pre_chat_message_activity0 = classes11["pre-chat-message-activity"];
-  var _pre_chat_message_activity__body0 = classes11["pre-chat-message-activity__body"];
-  var _pre_chat_message_activity__body_subtitle0 = classes11["pre-chat-message-activity__body-subtitle"];
-  var _pre_chat_message_activity__toolbar0 = classes11["pre-chat-message-activity__toolbar"];
   var _pre_chat_message_activity__body__blueprint0 = classes11["pre-chat-message-activity__body--blueprint"];
+  var _pre_chat_message_activity__body_subtitle0 = classes11["pre-chat-message-activity__body-subtitle"];
+  var _pre_chat_message_activity__body0 = classes11["pre-chat-message-activity__body"];
+  var _pre_chat_message_activity__toolbar0 = classes11["pre-chat-message-activity__toolbar"];
+  var _pre_chat_message_activity__body_avatar0 = classes11["pre-chat-message-activity__body-avatar"];
+  var _pre_chat_message_activity0 = classes11["pre-chat-message-activity"];
+  var _pre_chat_message_activity__body_title0 = classes11["pre-chat-message-activity__body-title"];
 
   // src/components/preChatActivity/StarterPromptsToolbar.tsx
   var import_classnames6 = __toESM(require_classnames());
@@ -167705,17 +168971,17 @@ XID_Start XIDS`.split(/\s/)
   var import_react73 = __toESM(require_react());
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/fluent-theme/src/components/icon/FluentIcon.module.css?css_module
-  var classes12 = { "appearance--text": "wjSiFGW_appearance--text", "icon--attachment": "wjSiFGW_icon--attachment", "icon--keypad": "wjSiFGW_icon--keypad", "icon--audio-playing": "wjSiFGW_icon--audio-playing", "icon--add-document": "wjSiFGW_icon--add-document", "icon--info-16": "wjSiFGW_icon--info-16", "icon--microphone": "wjSiFGW_icon--microphone", "icon--send": "wjSiFGW_icon--send", "fluent-icon": "wjSiFGW_fluent-icon" };
+  var classes12 = { "icon--keypad": "wjSiFGW_icon--keypad", "icon--attachment": "wjSiFGW_icon--attachment", "icon--send": "wjSiFGW_icon--send", "icon--info-16": "wjSiFGW_icon--info-16", "icon--audio-playing": "wjSiFGW_icon--audio-playing", "appearance--text": "wjSiFGW_appearance--text", "icon--microphone": "wjSiFGW_icon--microphone", "fluent-icon": "wjSiFGW_fluent-icon", "icon--add-document": "wjSiFGW_icon--add-document" };
   var FluentIcon_module_default = classes12;
-  var _appearance__text0 = classes12["appearance--text"];
-  var _icon__attachment0 = classes12["icon--attachment"];
   var _icon__keypad0 = classes12["icon--keypad"];
-  var _icon__audio_playing0 = classes12["icon--audio-playing"];
-  var _icon__add_document0 = classes12["icon--add-document"];
-  var _icon__info_160 = classes12["icon--info-16"];
-  var _icon__microphone0 = classes12["icon--microphone"];
+  var _icon__attachment0 = classes12["icon--attachment"];
   var _icon__send0 = classes12["icon--send"];
+  var _icon__info_160 = classes12["icon--info-16"];
+  var _icon__audio_playing0 = classes12["icon--audio-playing"];
+  var _appearance__text0 = classes12["appearance--text"];
+  var _icon__microphone0 = classes12["icon--microphone"];
   var _fluent_icon0 = classes12["fluent-icon"];
+  var _icon__add_document0 = classes12["icon--add-document"];
 
   // src/components/icon/FluentIcon.tsx
   var baseFluentIconPropsSchema = pipe(
@@ -167744,11 +169010,11 @@ XID_Start XIDS`.split(/\s/)
   var FluentIcon_default = (0, import_react73.memo)(FluentIcon);
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/fluent-theme/src/components/preChatActivity/StarterPromptsCardAction.module.css?css_module
-  var classes13 = { "pre-chat-message-activity__card-action-subtitle": "wiJW91q_pre-chat-message-activity__card-action-subtitle", "pre-chat-message-activity__card-action-title": "wiJW91q_pre-chat-message-activity__card-action-title", "pre-chat-message-activity__card-action-image": "wiJW91q_pre-chat-message-activity__card-action-image", "pre-chat-message-activity__card-action-box": "wiJW91q_pre-chat-message-activity__card-action-box" };
+  var classes13 = { "pre-chat-message-activity__card-action-image": "wiJW91q_pre-chat-message-activity__card-action-image", "pre-chat-message-activity__card-action-subtitle": "wiJW91q_pre-chat-message-activity__card-action-subtitle", "pre-chat-message-activity__card-action-title": "wiJW91q_pre-chat-message-activity__card-action-title", "pre-chat-message-activity__card-action-box": "wiJW91q_pre-chat-message-activity__card-action-box" };
   var StarterPromptsCardAction_module_default = classes13;
+  var _pre_chat_message_activity__card_action_image0 = classes13["pre-chat-message-activity__card-action-image"];
   var _pre_chat_message_activity__card_action_subtitle0 = classes13["pre-chat-message-activity__card-action-subtitle"];
   var _pre_chat_message_activity__card_action_title0 = classes13["pre-chat-message-activity__card-action-title"];
-  var _pre_chat_message_activity__card_action_image0 = classes13["pre-chat-message-activity__card-action-image"];
   var _pre_chat_message_activity__card_action_box0 = classes13["pre-chat-message-activity__card-action-box"];
 
   // src/components/preChatActivity/StarterPromptsCardAction.tsx
@@ -167809,10 +169075,10 @@ XID_Start XIDS`.split(/\s/)
   var StarterPromptsCardAction_default = (0, import_react74.memo)(StarterPromptsCardAction);
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/fluent-theme/src/components/preChatActivity/StarterPromptsToolbar.module.css?css_module
-  var classes14 = { "pre-chat-message-activity__card-action-toolbar-grid": "ws7K9xW_pre-chat-message-activity__card-action-toolbar-grid", "pre-chat-message-activity__card-action-toolbar": "ws7K9xW_pre-chat-message-activity__card-action-toolbar" };
+  var classes14 = { "pre-chat-message-activity__card-action-toolbar": "ws7K9xW_pre-chat-message-activity__card-action-toolbar", "pre-chat-message-activity__card-action-toolbar-grid": "ws7K9xW_pre-chat-message-activity__card-action-toolbar-grid" };
   var StarterPromptsToolbar_module_default = classes14;
-  var _pre_chat_message_activity__card_action_toolbar_grid0 = classes14["pre-chat-message-activity__card-action-toolbar-grid"];
   var _pre_chat_message_activity__card_action_toolbar0 = classes14["pre-chat-message-activity__card-action-toolbar"];
+  var _pre_chat_message_activity__card_action_toolbar_grid0 = classes14["pre-chat-message-activity__card-action-toolbar-grid"];
 
   // src/components/preChatActivity/StarterPromptsToolbar.tsx
   var { useUIState: useUIState4 } = deprecatedHooks;
@@ -167880,11 +169146,11 @@ XID_Start XIDS`.split(/\s/)
   var import_react77 = __toESM(require_react());
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/fluent-theme/src/components/dropZone/DropZone.module.css?css_module
-  var classes15 = { "sendbox__attachment-drop-zone--droppable": "wV_OFCq_sendbox__attachment-drop-zone--droppable", "sendbox__attachment-drop-zone-icon": "wV_OFCq_sendbox__attachment-drop-zone-icon", "sendbox__attachment-drop-zone": "wV_OFCq_sendbox__attachment-drop-zone" };
+  var classes15 = { "sendbox__attachment-drop-zone": "wV_OFCq_sendbox__attachment-drop-zone", "sendbox__attachment-drop-zone--droppable": "wV_OFCq_sendbox__attachment-drop-zone--droppable", "sendbox__attachment-drop-zone-icon": "wV_OFCq_sendbox__attachment-drop-zone-icon" };
   var DropZone_module_default = classes15;
+  var _sendbox__attachment_drop_zone0 = classes15["sendbox__attachment-drop-zone"];
   var _sendbox__attachment_drop_zone__droppable0 = classes15["sendbox__attachment-drop-zone--droppable"];
   var _sendbox__attachment_drop_zone_icon0 = classes15["sendbox__attachment-drop-zone-icon"];
-  var _sendbox__attachment_drop_zone0 = classes15["sendbox__attachment-drop-zone"];
 
   // src/components/dropZone/DropZone.tsx
   var { useLocalizer: useLocalizer10 } = deprecatedHooks;
@@ -168137,10 +169403,10 @@ XID_Start XIDS`.split(/\s/)
   var AccessibleButton_default = (0, import_react79.memo)(AccessibleButton);
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/fluent-theme/src/components/suggestedActions/SuggestedAction.module.css?css_module
-  var classes16 = { "suggested-action__image": "wCuJx0q_suggested-action__image", "suggested-action": "wCuJx0q_suggested-action" };
+  var classes16 = { "suggested-action": "wCuJx0q_suggested-action", "suggested-action__image": "wCuJx0q_suggested-action__image" };
   var SuggestedAction_module_default = classes16;
-  var _suggested_action__image0 = classes16["suggested-action__image"];
   var _suggested_action0 = classes16["suggested-action"];
+  var _suggested_action__image0 = classes16["suggested-action__image"];
 
   // src/components/suggestedActions/SuggestedAction.tsx
   var { useFocus: useFocus3, usePerformCardAction: usePerformCardAction3, useScrollToEnd: useScrollToEnd3, useStyleSet: useStyleSet3, useSuggestedActionsHooks: useSuggestedActionsHooks2, useUIState: useUIState6 } = deprecatedHooks;
@@ -168191,11 +169457,11 @@ XID_Start XIDS`.split(/\s/)
   var SuggestedAction_default = (0, import_react80.memo)(SuggestedAction);
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/fluent-theme/src/components/suggestedActions/SuggestedActions.module.css?css_module
-  var classes17 = { "suggested-actions": "w0fpQOa_suggested-actions", "suggested-actions--stacked": "w0fpQOa_suggested-actions--stacked", "suggested-actions--flow": "w0fpQOa_suggested-actions--flow" };
+  var classes17 = { "suggested-actions--flow": "w0fpQOa_suggested-actions--flow", "suggested-actions--stacked": "w0fpQOa_suggested-actions--stacked", "suggested-actions": "w0fpQOa_suggested-actions" };
   var SuggestedActions_module_default = classes17;
-  var _suggested_actions0 = classes17["suggested-actions"];
-  var _suggested_actions__stacked0 = classes17["suggested-actions--stacked"];
   var _suggested_actions__flow0 = classes17["suggested-actions--flow"];
+  var _suggested_actions__stacked0 = classes17["suggested-actions--stacked"];
+  var _suggested_actions0 = classes17["suggested-actions"];
 
   // src/components/suggestedActions/SuggestedActions.tsx
   var { useFocus: useFocus4, useLocalizer: useLocalizer11, useStyleOptions: useStyleOptions4, useStyleSet: useStyleSet4, useSuggestedActionsHooks: useSuggestedActionsHooks3, useUIState: useUIState7 } = deprecatedHooks;
@@ -168309,12 +169575,12 @@ XID_Start XIDS`.split(/\s/)
   var import_react85 = __toESM(require_react());
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/fluent-theme/src/components/telephoneKeypad/private/Button.module.css?css_module
-  var classes18 = { "telephone-keypad__button__text": "wK3YvoG_telephone-keypad__button__text", "telephone-keypad__button": "wK3YvoG_telephone-keypad__button", "telephone-keypad--horizontal": "wK3YvoG_telephone-keypad--horizontal", "telephone-keypad__button__ruby": "wK3YvoG_telephone-keypad__button__ruby" };
+  var classes18 = { "telephone-keypad__button__ruby": "wK3YvoG_telephone-keypad__button__ruby", "telephone-keypad__button__text": "wK3YvoG_telephone-keypad__button__text", "telephone-keypad--horizontal": "wK3YvoG_telephone-keypad--horizontal", "telephone-keypad__button": "wK3YvoG_telephone-keypad__button" };
   var Button_module_default = classes18;
-  var _telephone_keypad__button__text0 = classes18["telephone-keypad__button__text"];
-  var _telephone_keypad__button0 = classes18["telephone-keypad__button"];
-  var _telephone_keypad__horizontal0 = classes18["telephone-keypad--horizontal"];
   var _telephone_keypad__button__ruby0 = classes18["telephone-keypad__button__ruby"];
+  var _telephone_keypad__button__text0 = classes18["telephone-keypad__button__text"];
+  var _telephone_keypad__horizontal0 = classes18["telephone-keypad--horizontal"];
+  var _telephone_keypad__button0 = classes18["telephone-keypad__button"];
 
   // src/components/telephoneKeypad/private/Button.tsx
   var Button = (0, import_react85.memo)(
@@ -168340,12 +169606,12 @@ XID_Start XIDS`.split(/\s/)
   var Button_default = Button;
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/fluent-theme/src/components/telephoneKeypad/private/TelephoneKeypad.module.css?css_module
-  var classes19 = { "telephone-keypad__info-message-link": "wmGJ1DG_telephone-keypad__info-message-link", "telephone-keypad": "wmGJ1DG_telephone-keypad", "telephone-keypad__info-message": "wmGJ1DG_telephone-keypad__info-message", "telephone-keypad__box": "wmGJ1DG_telephone-keypad__box" };
+  var classes19 = { "telephone-keypad__box": "wmGJ1DG_telephone-keypad__box", "telephone-keypad__info-message": "wmGJ1DG_telephone-keypad__info-message", "telephone-keypad": "wmGJ1DG_telephone-keypad", "telephone-keypad__info-message-link": "wmGJ1DG_telephone-keypad__info-message-link" };
   var TelephoneKeypad_module_default = classes19;
-  var _telephone_keypad__info_message_link0 = classes19["telephone-keypad__info-message-link"];
-  var _telephone_keypad0 = classes19["telephone-keypad"];
-  var _telephone_keypad__info_message0 = classes19["telephone-keypad__info-message"];
   var _telephone_keypad__box0 = classes19["telephone-keypad__box"];
+  var _telephone_keypad__info_message0 = classes19["telephone-keypad__info-message"];
+  var _telephone_keypad0 = classes19["telephone-keypad"];
+  var _telephone_keypad__info_message_link0 = classes19["telephone-keypad__info-message-link"];
 
   // src/components/telephoneKeypad/private/TelephoneKeypad.tsx
   var { LocalizedString: LocalizedString2 } = deprecatedComponents;
@@ -168480,25 +169746,25 @@ XID_Start XIDS`.split(/\s/)
   var import_react89 = __toESM(require_react());
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/fluent-theme/src/components/sendBox/AddAttachmentButton.module.css?css_module
-  var classes20 = { "sendbox__add-attachment-input": "wB20XGG_sendbox__add-attachment-input", "sendbox__add-attachment": "wB20XGG_sendbox__add-attachment" };
+  var classes20 = { "sendbox__add-attachment": "wB20XGG_sendbox__add-attachment", "sendbox__add-attachment-input": "wB20XGG_sendbox__add-attachment-input" };
   var AddAttachmentButton_module_default = classes20;
-  var _sendbox__add_attachment_input0 = classes20["sendbox__add-attachment-input"];
   var _sendbox__add_attachment0 = classes20["sendbox__add-attachment"];
+  var _sendbox__add_attachment_input0 = classes20["sendbox__add-attachment-input"];
 
   // src/components/sendBox/Toolbar.tsx
   var import_classnames12 = __toESM(require_classnames());
   var import_react88 = __toESM(require_react());
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/fluent-theme/src/components/sendBox/Toolbar.module.css?css_module
-  var classes21 = { "sendbox__toolbar-button--with-pulse": "wVoeCLW_sendbox__toolbar-button--with-pulse", "sendbox__toolbar-button--active": "wVoeCLW_sendbox__toolbar-button--active", "sendbox__toolbar-button--with-gradient": "wVoeCLW_sendbox__toolbar-button--with-gradient", "sendbox__toolbar": "wVoeCLW_sendbox__toolbar", "sendbox__toolbar-button": "wVoeCLW_sendbox__toolbar-button", "sendbox__toolbar-separator": "wVoeCLW_sendbox__toolbar-separator", "sendbox__toolbar-button--selected": "wVoeCLW_sendbox__toolbar-button--selected" };
+  var classes21 = { "sendbox__toolbar-button--with-pulse": "wVoeCLW_sendbox__toolbar-button--with-pulse", "sendbox__toolbar-button": "wVoeCLW_sendbox__toolbar-button", "sendbox__toolbar-button--with-gradient": "wVoeCLW_sendbox__toolbar-button--with-gradient", "sendbox__toolbar-button--active": "wVoeCLW_sendbox__toolbar-button--active", "sendbox__toolbar-button--selected": "wVoeCLW_sendbox__toolbar-button--selected", "sendbox__toolbar": "wVoeCLW_sendbox__toolbar", "sendbox__toolbar-separator": "wVoeCLW_sendbox__toolbar-separator" };
   var Toolbar_module_default = classes21;
   var _sendbox__toolbar_button__with_pulse0 = classes21["sendbox__toolbar-button--with-pulse"];
-  var _sendbox__toolbar_button__active0 = classes21["sendbox__toolbar-button--active"];
-  var _sendbox__toolbar_button__with_gradient0 = classes21["sendbox__toolbar-button--with-gradient"];
-  var _sendbox__toolbar0 = classes21["sendbox__toolbar"];
   var _sendbox__toolbar_button0 = classes21["sendbox__toolbar-button"];
-  var _sendbox__toolbar_separator0 = classes21["sendbox__toolbar-separator"];
+  var _sendbox__toolbar_button__with_gradient0 = classes21["sendbox__toolbar-button--with-gradient"];
+  var _sendbox__toolbar_button__active0 = classes21["sendbox__toolbar-button--active"];
   var _sendbox__toolbar_button__selected0 = classes21["sendbox__toolbar-button--selected"];
+  var _sendbox__toolbar0 = classes21["sendbox__toolbar"];
+  var _sendbox__toolbar_separator0 = classes21["sendbox__toolbar-separator"];
 
   // src/components/sendBox/Toolbar.tsx
   var { useUIState: useUIState8 } = deprecatedHooks;
@@ -168722,20 +169988,20 @@ XID_Start XIDS`.split(/\s/)
   }
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/fluent-theme/src/components/sendBox/SendBox.module.css?css_module
-  var classes24 = { "sendbox__attachment-bar": "wL7PKRG_sendbox__attachment-bar", "sendbox__telephone-keypad--in-grid": "wL7PKRG_sendbox__telephone-keypad--in-grid", "sendbox__text-counter": "wL7PKRG_sendbox__text-counter", "sendbox__sendbox": "wL7PKRG_sendbox__sendbox", "sendbox__text-counter--error": "wL7PKRG_sendbox__text-counter--error", "sendbox__sendbox-controls--in-grid": "wL7PKRG_sendbox__sendbox-controls--in-grid", "sendbox": "wL7PKRG_sendbox", "sendbox__sendbox-controls": "wL7PKRG_sendbox__sendbox-controls", "sendbox__text-area--in-grid": "wL7PKRG_sendbox__text-area--in-grid", "variant-copilot": "wL7PKRG_variant-copilot", "sendbox__attachment-bar--in-grid": "wL7PKRG_sendbox__attachment-bar--in-grid", "sendbox__sendbox-text-area": "wL7PKRG_sendbox__sendbox-text-area" };
+  var classes24 = { "variant-copilot": "wL7PKRG_variant-copilot", "sendbox__sendbox": "wL7PKRG_sendbox__sendbox", "sendbox__text-area--in-grid": "wL7PKRG_sendbox__text-area--in-grid", "sendbox__telephone-keypad--in-grid": "wL7PKRG_sendbox__telephone-keypad--in-grid", "sendbox__attachment-bar": "wL7PKRG_sendbox__attachment-bar", "sendbox__sendbox-text-area": "wL7PKRG_sendbox__sendbox-text-area", "sendbox__text-counter": "wL7PKRG_sendbox__text-counter", "sendbox": "wL7PKRG_sendbox", "sendbox__text-counter--error": "wL7PKRG_sendbox__text-counter--error", "sendbox__sendbox-controls": "wL7PKRG_sendbox__sendbox-controls", "sendbox__attachment-bar--in-grid": "wL7PKRG_sendbox__attachment-bar--in-grid", "sendbox__sendbox-controls--in-grid": "wL7PKRG_sendbox__sendbox-controls--in-grid" };
   var SendBox_module_default = classes24;
-  var _sendbox__attachment_bar0 = classes24["sendbox__attachment-bar"];
-  var _sendbox__telephone_keypad__in_grid0 = classes24["sendbox__telephone-keypad--in-grid"];
-  var _sendbox__text_counter0 = classes24["sendbox__text-counter"];
-  var _sendbox__sendbox0 = classes24["sendbox__sendbox"];
-  var _sendbox__text_counter__error0 = classes24["sendbox__text-counter--error"];
-  var _sendbox__sendbox_controls__in_grid0 = classes24["sendbox__sendbox-controls--in-grid"];
-  var _sendbox0 = classes24["sendbox"];
-  var _sendbox__sendbox_controls0 = classes24["sendbox__sendbox-controls"];
-  var _sendbox__text_area__in_grid0 = classes24["sendbox__text-area--in-grid"];
   var _variant_copilot03 = classes24["variant-copilot"];
-  var _sendbox__attachment_bar__in_grid0 = classes24["sendbox__attachment-bar--in-grid"];
+  var _sendbox__sendbox0 = classes24["sendbox__sendbox"];
+  var _sendbox__text_area__in_grid0 = classes24["sendbox__text-area--in-grid"];
+  var _sendbox__telephone_keypad__in_grid0 = classes24["sendbox__telephone-keypad--in-grid"];
+  var _sendbox__attachment_bar0 = classes24["sendbox__attachment-bar"];
   var _sendbox__sendbox_text_area0 = classes24["sendbox__sendbox-text-area"];
+  var _sendbox__text_counter0 = classes24["sendbox__text-counter"];
+  var _sendbox0 = classes24["sendbox"];
+  var _sendbox__text_counter__error0 = classes24["sendbox__text-counter--error"];
+  var _sendbox__sendbox_controls0 = classes24["sendbox__sendbox-controls"];
+  var _sendbox__attachment_bar__in_grid0 = classes24["sendbox__attachment-bar--in-grid"];
+  var _sendbox__sendbox_controls__in_grid0 = classes24["sendbox__sendbox-controls--in-grid"];
 
   // src/components/sendBox/TelephoneKeypadToolbarButton.tsx
   var import_react95 = __toESM(require_react());
@@ -168809,7 +170075,6 @@ XID_Start XIDS`.split(/\s/)
     useSendBoxAttachments: useSendBoxAttachments2,
     useSendBoxValue: useSendBoxValue3,
     useSendMessage: useSendMessage2,
-    useStopVoice: useStopVoice3,
     useStyleOptions: useStyleOptions6,
     useUIState: useUIState9,
     useVoiceState: useVoiceState4
@@ -168834,7 +170099,6 @@ XID_Start XIDS`.split(/\s/)
     const setFocus = useFocus5();
     const showMicrophoneButton = (0, import_internal5.useShouldShowMicrophoneButton)();
     const speechStateMessage = useSpeechPlaceholder();
-    const stopVoice = useStopVoice3();
     const message = props.isPrimary ? globalMessage : localMessage;
     const recording = voiceState !== "idle";
     const setMessage = props.isPrimary ? setGlobalMessage : setLocalMessage;
@@ -168890,15 +170154,7 @@ XID_Start XIDS`.split(/\s/)
       },
       [attachmentsRef, makeThumbnail, setAttachments]
     );
-    const handleTextAreaClick = (0, import_react97.useCallback)(
-      ({ currentTarget }) => {
-        currentTarget.removeAttribute("inputmode");
-        if (isVoiceRecording) {
-          stopVoice();
-        }
-      },
-      [isVoiceRecording, stopVoice]
-    );
+    const handleClick = (0, import_react97.useCallback)(({ currentTarget }) => currentTarget.removeAttribute("inputmode"), []);
     const handleFormSubmit = (0, import_react97.useCallback)(
       (event2) => {
         event2.preventDefault();
@@ -168970,7 +170226,7 @@ XID_Start XIDS`.split(/\s/)
             completion: props.completion,
             "data-testid": testIds_default.sendBoxTextBox,
             hidden: shouldShowTelephoneKeypad,
-            onClick: handleTextAreaClick,
+            onClick: handleClick,
             onInput: handleMessageChange,
             placeholder: props.placeholder ?? (isVoiceRecording ? speechStateMessage : localize("TEXT_INPUT_PLACEHOLDER")),
             readOnly: isVoiceRecording,
@@ -169055,10 +170311,10 @@ XID_Start XIDS`.split(/\s/)
   var import_react100 = __toESM(require_react());
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/fluent-theme/src/components/typingIndicator/SlidingDotsTypingIndicator.module.css?css_module
-  var classes26 = { "sliding-dots-typing-indicator": "wsKecCW_sliding-dots-typing-indicator", "sliding-dots-typing-indicator__image": "wsKecCW_sliding-dots-typing-indicator__image" };
+  var classes26 = { "sliding-dots-typing-indicator__image": "wsKecCW_sliding-dots-typing-indicator__image", "sliding-dots-typing-indicator": "wsKecCW_sliding-dots-typing-indicator" };
   var SlidingDotsTypingIndicator_module_default = classes26;
-  var _sliding_dots_typing_indicator0 = classes26["sliding-dots-typing-indicator"];
   var _sliding_dots_typing_indicator__image0 = classes26["sliding-dots-typing-indicator__image"];
+  var _sliding_dots_typing_indicator0 = classes26["sliding-dots-typing-indicator"];
 
   // src/components/typingIndicator/SlidingDotsTypingIndicator.tsx
   function SlidingDotsTypingIndicator() {
@@ -169929,6 +171185,180 @@ XID_Start XIDS`.split(/\s/)
           }
         }
       };
+    }
+  });
+  var require_add_to_unscopables7 = __commonJS6({
+    "node_modules/core-js-pure/internals/add-to-unscopables.js"(exports, module) {
+      "use strict";
+      module.exports = function() {
+      };
+    }
+  });
+  var require_does_not_exceed_safe_integer5 = __commonJS6({
+    "node_modules/core-js-pure/internals/does-not-exceed-safe-integer.js"(exports, module) {
+      "use strict";
+      var $TypeError = TypeError;
+      var MAX_SAFE_INTEGER = 9007199254740991;
+      module.exports = function(it) {
+        if (it > MAX_SAFE_INTEGER) throw $TypeError("Maximum allowed index exceeded");
+        return it;
+      };
+    }
+  });
+  var require_math_trunc6 = __commonJS6({
+    "node_modules/core-js-pure/internals/math-trunc.js"(exports, module) {
+      "use strict";
+      var ceil = Math.ceil;
+      var floor = Math.floor;
+      module.exports = Math.trunc || function trunc(x) {
+        var n2 = +x;
+        return (n2 > 0 ? floor : ceil)(n2);
+      };
+    }
+  });
+  var require_to_integer_or_infinity6 = __commonJS6({
+    "node_modules/core-js-pure/internals/to-integer-or-infinity.js"(exports, module) {
+      "use strict";
+      var trunc = require_math_trunc6();
+      module.exports = function(argument) {
+        var number3 = +argument;
+        return number3 !== number3 || number3 === 0 ? 0 : trunc(number3);
+      };
+    }
+  });
+  var require_to_length7 = __commonJS6({
+    "node_modules/core-js-pure/internals/to-length.js"(exports, module) {
+      "use strict";
+      var toIntegerOrInfinity2 = require_to_integer_or_infinity6();
+      var min = Math.min;
+      module.exports = function(argument) {
+        var len = toIntegerOrInfinity2(argument);
+        return len > 0 ? min(len, 9007199254740991) : 0;
+      };
+    }
+  });
+  var require_length_of_array_like6 = __commonJS6({
+    "node_modules/core-js-pure/internals/length-of-array-like.js"(exports, module) {
+      "use strict";
+      var toLength = require_to_length7();
+      module.exports = function(obj) {
+        return toLength(obj.length);
+      };
+    }
+  });
+  var require_to_absolute_index7 = __commonJS6({
+    "node_modules/core-js-pure/internals/to-absolute-index.js"(exports, module) {
+      "use strict";
+      var toIntegerOrInfinity2 = require_to_integer_or_infinity6();
+      var max = Math.max;
+      var min = Math.min;
+      module.exports = function(index2, length) {
+        var integer2 = toIntegerOrInfinity2(index2);
+        return integer2 < 0 ? max(integer2 + length, 0) : min(integer2, length);
+      };
+    }
+  });
+  var require_create_property5 = __commonJS6({
+    "node_modules/core-js-pure/internals/create-property.js"(exports, module) {
+      "use strict";
+      var DESCRIPTORS = require_descriptors7();
+      var definePropertyModule = require_object_define_property7();
+      var createPropertyDescriptor = require_create_property_descriptor7();
+      module.exports = function(object2, key2, value) {
+        if (DESCRIPTORS) definePropertyModule.f(object2, key2, createPropertyDescriptor(0, value));
+        else object2[key2] = value;
+      };
+    }
+  });
+  var require_es_array_to_spliced5 = __commonJS6({
+    "node_modules/core-js-pure/modules/es.array.to-spliced.js"() {
+      "use strict";
+      var $3 = require_export7();
+      var addToUnscopables = require_add_to_unscopables7();
+      var doesNotExceedSafeInteger = require_does_not_exceed_safe_integer5();
+      var lengthOfArrayLike = require_length_of_array_like6();
+      var toAbsoluteIndex = require_to_absolute_index7();
+      var toIndexedObject = require_to_indexed_object7();
+      var toIntegerOrInfinity2 = require_to_integer_or_infinity6();
+      var createProperty = require_create_property5();
+      var $Array = Array;
+      var max = Math.max;
+      var min = Math.min;
+      $3({ target: "Array", proto: true }, {
+        toSpliced: function toSpliced2(start, deleteCount) {
+          var O = toIndexedObject(this);
+          var len = lengthOfArrayLike(O);
+          var actualStart = toAbsoluteIndex(start, len);
+          var argumentsLength = arguments.length;
+          var k = 0;
+          var insertCount, actualDeleteCount, newLen, A;
+          if (argumentsLength === 0) {
+            insertCount = actualDeleteCount = 0;
+          } else if (argumentsLength === 1) {
+            insertCount = 0;
+            actualDeleteCount = len - actualStart;
+          } else {
+            insertCount = argumentsLength - 2;
+            actualDeleteCount = min(max(toIntegerOrInfinity2(deleteCount), 0), len - actualStart);
+          }
+          newLen = doesNotExceedSafeInteger(len + insertCount - actualDeleteCount);
+          A = $Array(newLen);
+          for (; k < actualStart; k++) createProperty(A, k, O[k]);
+          for (; k < actualStart + insertCount; k++) createProperty(A, k, arguments[k - actualStart + 2]);
+          for (; k < newLen; k++) createProperty(A, k, O[k + actualDeleteCount - insertCount]);
+          return A;
+        }
+      });
+      addToUnscopables("toSpliced");
+    }
+  });
+  var require_entry_unbind5 = __commonJS6({
+    "node_modules/core-js-pure/internals/entry-unbind.js"(exports, module) {
+      "use strict";
+      var getBuiltIn = require_get_built_in7();
+      module.exports = getBuiltIn;
+    }
+  });
+  var require_to_spliced9 = __commonJS6({
+    "node_modules/core-js-pure/es/array/to-spliced.js"(exports, module) {
+      "use strict";
+      require_es_array_to_spliced5();
+      var entryUnbind = require_entry_unbind5();
+      module.exports = entryUnbind("Array", "toSpliced");
+    }
+  });
+  var require_to_spliced25 = __commonJS6({
+    "node_modules/core-js-pure/stable/array/to-spliced.js"(exports, module) {
+      "use strict";
+      var parent = require_to_spliced9();
+      module.exports = parent;
+    }
+  });
+  var require_esnext_array_to_spliced5 = __commonJS6({
+    "node_modules/core-js-pure/modules/esnext.array.to-spliced.js"() {
+      "use strict";
+      require_es_array_to_spliced5();
+    }
+  });
+  var require_to_spliced35 = __commonJS6({
+    "node_modules/core-js-pure/actual/array/to-spliced.js"(exports, module) {
+      "use strict";
+      var parent = require_to_spliced25();
+      require_esnext_array_to_spliced5();
+      module.exports = parent;
+    }
+  });
+  var require_to_spliced45 = __commonJS6({
+    "node_modules/core-js-pure/full/array/to-spliced.js"(exports, module) {
+      "use strict";
+      var parent = require_to_spliced35();
+      module.exports = parent;
+    }
+  });
+  var require_to_spliced55 = __commonJS6({
+    "node_modules/core-js-pure/features/array/to-spliced.js"(exports, module) {
+      "use strict";
+      module.exports = require_to_spliced45();
     }
   });
   var require_environment5 = __commonJS6({
@@ -170957,47 +172387,6 @@ XID_Start XIDS`.split(/\s/)
       };
     }
   });
-  var require_math_trunc6 = __commonJS6({
-    "node_modules/core-js-pure/internals/math-trunc.js"(exports, module) {
-      "use strict";
-      var ceil = Math.ceil;
-      var floor = Math.floor;
-      module.exports = Math.trunc || function trunc(x) {
-        var n2 = +x;
-        return (n2 > 0 ? floor : ceil)(n2);
-      };
-    }
-  });
-  var require_to_integer_or_infinity6 = __commonJS6({
-    "node_modules/core-js-pure/internals/to-integer-or-infinity.js"(exports, module) {
-      "use strict";
-      var trunc = require_math_trunc6();
-      module.exports = function(argument) {
-        var number3 = +argument;
-        return number3 !== number3 || number3 === 0 ? 0 : trunc(number3);
-      };
-    }
-  });
-  var require_to_length7 = __commonJS6({
-    "node_modules/core-js-pure/internals/to-length.js"(exports, module) {
-      "use strict";
-      var toIntegerOrInfinity2 = require_to_integer_or_infinity6();
-      var min = Math.min;
-      module.exports = function(argument) {
-        var len = toIntegerOrInfinity2(argument);
-        return len > 0 ? min(len, 9007199254740991) : 0;
-      };
-    }
-  });
-  var require_length_of_array_like6 = __commonJS6({
-    "node_modules/core-js-pure/internals/length-of-array-like.js"(exports, module) {
-      "use strict";
-      var toLength = require_to_length7();
-      module.exports = function(obj) {
-        return toLength(obj.length);
-      };
-    }
-  });
   var require_get_iterator_method7 = __commonJS6({
     "node_modules/core-js-pure/internals/get-iterator-method.js"(exports, module) {
       "use strict";
@@ -171486,6 +172875,7 @@ XID_Start XIDS`.split(/\s/)
     )
   );
   var EMPTY_ARRAY6 = Object.freeze([]);
+  var import_to_spliced5 = __toESM6(require_to_spliced55());
   var import_with_resolvers5 = __toESM6(require_with_resolvers55());
 
   // src/buildInfo.ts
