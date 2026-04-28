@@ -57021,7 +57021,7 @@
                 if ((_activity === null || _activity === void 0 ? void 0 : _activity.type) === "event" && (_activity === null || _activity === void 0 ? void 0 : _activity.name) === "agent.capabilities") {
                   var _activity$value;
                   var modalities = _activity === null || _activity === void 0 ? void 0 : (_activity$value = _activity.value) === null || _activity$value === void 0 ? void 0 : _activity$value.modalities;
-                  var hasAudio = (modalities === null || modalities === void 0 ? void 0 : modalities.audio) && (0, _typeof2["default"])(modalities.audio) === "object" && Object.keys(modalities.audio).length > 0;
+                  var hasAudio = (modalities === null || modalities === void 0 ? void 0 : modalities.audio) && (0, _typeof2["default"])(modalities.audio) === "object";
                   if (hasAudio) {
                     this.voiceConfiguration = {
                       sampleRate: DirectLine3.VOICE_SAMPLE_RATE,
