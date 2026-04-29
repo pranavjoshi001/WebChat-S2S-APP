@@ -503,9 +503,10 @@
           const { ReactWebChat, FluentThemeProvider } = window.WebChat;
           
           const styleOptions = {
-            // disableFileUpload: true,
             hideTelephoneKeypadButton: true,
             typingAnimationDuration: 20000,
+            // voiceProcessingSound: false, // https://media.geeksforgeeks.org/wp-content/uploads/20241009180552641558/sample-12s.mp3
+            // voiceProcessingSoundVolume: 1
           };
           
           webChatStore = window.WebChat.createStore(
@@ -517,7 +518,7 @@
           const webChatProps = {
             directLine,
             styleOptions,
-            store: webChatStore,
+            // store: webChatStore,
           };
 
           window.ReactDOM.render(
