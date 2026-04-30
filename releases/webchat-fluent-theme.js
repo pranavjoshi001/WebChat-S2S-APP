@@ -168654,12 +168654,12 @@ XID_Start XIDS`.split(/\s/)
   }
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/fluent-theme/src/components/activity/CopilotMessageHeader.module.css?css_module
-  var classes6 = { "copilot-message-header__avatar": "wdb2Xqa_copilot-message-header__avatar", "copilot-message-header__ai-generated-content": "wdb2Xqa_copilot-message-header__ai-generated-content", "copilot-message-header": "wdb2Xqa_copilot-message-header", "copilot-message-header__title": "wdb2Xqa_copilot-message-header__title" };
+  var classes6 = { "copilot-message-header__avatar": "wdb2Xqa_copilot-message-header__avatar", "copilot-message-header__title": "wdb2Xqa_copilot-message-header__title", "copilot-message-header": "wdb2Xqa_copilot-message-header", "copilot-message-header__ai-generated-content": "wdb2Xqa_copilot-message-header__ai-generated-content" };
   var CopilotMessageHeader_module_default = classes6;
   var _copilot_message_header__avatar0 = classes6["copilot-message-header__avatar"];
-  var _copilot_message_header__ai_generated_content0 = classes6["copilot-message-header__ai-generated-content"];
-  var _copilot_message_header0 = classes6["copilot-message-header"];
   var _copilot_message_header__title0 = classes6["copilot-message-header__title"];
+  var _copilot_message_header0 = classes6["copilot-message-header"];
+  var _copilot_message_header__ai_generated_content0 = classes6["copilot-message-header__ai-generated-content"];
 
   // src/components/activity/private/isAIGeneratedActivity.ts
   function isAIGeneratedActivity(activity) {
@@ -168735,14 +168735,14 @@ XID_Start XIDS`.split(/\s/)
   var import_react62 = __toESM(require_react());
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/fluent-theme/src/components/activity/PartGroupingDecorator.module.css?css_module
-  var classes7 = { "variant-fluent": "w_p-PcW_variant-fluent", "part-grouping-decorator": "w_p-PcW_part-grouping-decorator", "variant-copilot": "w_p-PcW_variant-copilot", "part-grouping-decorator--from-user": "w_p-PcW_part-grouping-decorator--from-user", "part-grouping-decorator--from-bot": "w_p-PcW_part-grouping-decorator--from-bot", "part-grouping-decorator--group": "w_p-PcW_part-grouping-decorator--group" };
+  var classes7 = { "part-grouping-decorator--group": "w_p-PcW_part-grouping-decorator--group", "variant-fluent": "w_p-PcW_variant-fluent", "variant-copilot": "w_p-PcW_variant-copilot", "part-grouping-decorator--from-user": "w_p-PcW_part-grouping-decorator--from-user", "part-grouping-decorator--from-bot": "w_p-PcW_part-grouping-decorator--from-bot", "part-grouping-decorator": "w_p-PcW_part-grouping-decorator" };
   var PartGroupingDecorator_module_default = classes7;
+  var _part_grouping_decorator__group0 = classes7["part-grouping-decorator--group"];
   var _variant_fluent0 = classes7["variant-fluent"];
-  var _part_grouping_decorator0 = classes7["part-grouping-decorator"];
   var _variant_copilot0 = classes7["variant-copilot"];
   var _part_grouping_decorator__from_user0 = classes7["part-grouping-decorator--from-user"];
   var _part_grouping_decorator__from_bot0 = classes7["part-grouping-decorator--from-bot"];
-  var _part_grouping_decorator__group0 = classes7["part-grouping-decorator--group"];
+  var _part_grouping_decorator0 = classes7["part-grouping-decorator"];
 
   // src/components/activity/PartGroupingDecorator.tsx
   var partGroupingDecoratorPropsSchema = pipe(
@@ -168797,18 +168797,18 @@ XID_Start XIDS`.split(/\s/)
   var import_react64 = __toESM(require_react());
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/fluent-theme/src/components/icon/FluentIcon.module.css?css_module
-  var classes8 = { "icon--attachment": "wjSiFGW_icon--attachment", "appearance--text": "wjSiFGW_appearance--text", "icon--send": "wjSiFGW_icon--send", "icon--microphone-regular": "wjSiFGW_icon--microphone-regular", "icon--keypad": "wjSiFGW_icon--keypad", "icon--microphone-filled": "wjSiFGW_icon--microphone-filled", "icon--add-document": "wjSiFGW_icon--add-document", "fluent-icon": "wjSiFGW_fluent-icon", "icon--info-16": "wjSiFGW_icon--info-16", "icon--audio-playing": "wjSiFGW_icon--audio-playing" };
+  var classes8 = { "icon--audio-playing": "wjSiFGW_icon--audio-playing", "fluent-icon": "wjSiFGW_fluent-icon", "icon--attachment": "wjSiFGW_icon--attachment", "icon--microphone-filled": "wjSiFGW_icon--microphone-filled", "icon--keypad": "wjSiFGW_icon--keypad", "appearance--text": "wjSiFGW_appearance--text", "icon--add-document": "wjSiFGW_icon--add-document", "icon--info-16": "wjSiFGW_icon--info-16", "icon--send": "wjSiFGW_icon--send", "icon--microphone-regular": "wjSiFGW_icon--microphone-regular" };
   var FluentIcon_module_default = classes8;
+  var _icon__audio_playing0 = classes8["icon--audio-playing"];
+  var _fluent_icon0 = classes8["fluent-icon"];
   var _icon__attachment0 = classes8["icon--attachment"];
+  var _icon__microphone_filled0 = classes8["icon--microphone-filled"];
+  var _icon__keypad0 = classes8["icon--keypad"];
   var _appearance__text0 = classes8["appearance--text"];
+  var _icon__add_document0 = classes8["icon--add-document"];
+  var _icon__info_160 = classes8["icon--info-16"];
   var _icon__send0 = classes8["icon--send"];
   var _icon__microphone_regular0 = classes8["icon--microphone-regular"];
-  var _icon__keypad0 = classes8["icon--keypad"];
-  var _icon__microphone_filled0 = classes8["icon--microphone-filled"];
-  var _icon__add_document0 = classes8["icon--add-document"];
-  var _fluent_icon0 = classes8["fluent-icon"];
-  var _icon__info_160 = classes8["icon--info-16"];
-  var _icon__audio_playing0 = classes8["icon--audio-playing"];
 
   // src/components/icon/FluentIcon.tsx
   var baseFluentIconPropsSchema = pipe(
@@ -168837,10 +168837,10 @@ XID_Start XIDS`.split(/\s/)
   var FluentIcon_default = (0, import_react64.memo)(FluentIcon);
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/fluent-theme/src/components/activityStatus/VoiceTranscriptActivityStatus.module.css?css_module
-  var classes9 = { "voice-transcript-activity-status": "wFFhf6W_voice-transcript-activity-status", "voice-transcript-activity-status__divider": "wFFhf6W_voice-transcript-activity-status__divider", "voice-transcript-activity-status__icon": "wFFhf6W_voice-transcript-activity-status__icon" };
+  var classes9 = { "voice-transcript-activity-status__divider": "wFFhf6W_voice-transcript-activity-status__divider", "voice-transcript-activity-status": "wFFhf6W_voice-transcript-activity-status", "voice-transcript-activity-status__icon": "wFFhf6W_voice-transcript-activity-status__icon" };
   var VoiceTranscriptActivityStatus_module_default = classes9;
-  var _voice_transcript_activity_status0 = classes9["voice-transcript-activity-status"];
   var _voice_transcript_activity_status__divider0 = classes9["voice-transcript-activity-status__divider"];
+  var _voice_transcript_activity_status0 = classes9["voice-transcript-activity-status"];
   var _voice_transcript_activity_status__icon0 = classes9["voice-transcript-activity-status__icon"];
 
   // src/components/activityStatus/VoiceTranscriptActivityStatus.tsx
@@ -168905,11 +168905,11 @@ XID_Start XIDS`.split(/\s/)
   var SlidingDots_default = (0, import_react68.memo)(SlidingDots);
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/fluent-theme/src/components/activity/ActivityLoader.module.css?css_module
-  var classes10 = { "variant-fluent": "wmWxp_q_variant-fluent", "variant-copilot": "wmWxp_q_variant-copilot", "activity-loader": "wmWxp_q_activity-loader" };
+  var classes10 = { "activity-loader": "wmWxp_q_activity-loader", "variant-fluent": "wmWxp_q_variant-fluent", "variant-copilot": "wmWxp_q_variant-copilot" };
   var ActivityLoader_module_default = classes10;
+  var _activity_loader0 = classes10["activity-loader"];
   var _variant_fluent02 = classes10["variant-fluent"];
   var _variant_copilot02 = classes10["variant-copilot"];
-  var _activity_loader0 = classes10["activity-loader"];
 
   // src/components/activity/ActivityLoader.tsx
   var fluentActivityLoaderPropsSchema = pipe(
@@ -168996,15 +168996,15 @@ XID_Start XIDS`.split(/\s/)
   var import_react76 = __toESM(require_react());
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/fluent-theme/src/components/preChatActivity/PreChatMessageActivity.module.css?css_module
-  var classes12 = { "pre-chat-message-activity__body-title": "wphlDQa_pre-chat-message-activity__body-title", "pre-chat-message-activity__body--blueprint": "wphlDQa_pre-chat-message-activity__body--blueprint", "pre-chat-message-activity__toolbar": "wphlDQa_pre-chat-message-activity__toolbar", "pre-chat-message-activity__body-subtitle": "wphlDQa_pre-chat-message-activity__body-subtitle", "pre-chat-message-activity__body": "wphlDQa_pre-chat-message-activity__body", "pre-chat-message-activity__body-avatar": "wphlDQa_pre-chat-message-activity__body-avatar", "pre-chat-message-activity": "wphlDQa_pre-chat-message-activity" };
+  var classes12 = { "pre-chat-message-activity__body--blueprint": "wphlDQa_pre-chat-message-activity__body--blueprint", "pre-chat-message-activity__body": "wphlDQa_pre-chat-message-activity__body", "pre-chat-message-activity": "wphlDQa_pre-chat-message-activity", "pre-chat-message-activity__body-title": "wphlDQa_pre-chat-message-activity__body-title", "pre-chat-message-activity__body-subtitle": "wphlDQa_pre-chat-message-activity__body-subtitle", "pre-chat-message-activity__body-avatar": "wphlDQa_pre-chat-message-activity__body-avatar", "pre-chat-message-activity__toolbar": "wphlDQa_pre-chat-message-activity__toolbar" };
   var PreChatMessageActivity_module_default = classes12;
-  var _pre_chat_message_activity__body_title0 = classes12["pre-chat-message-activity__body-title"];
   var _pre_chat_message_activity__body__blueprint0 = classes12["pre-chat-message-activity__body--blueprint"];
-  var _pre_chat_message_activity__toolbar0 = classes12["pre-chat-message-activity__toolbar"];
-  var _pre_chat_message_activity__body_subtitle0 = classes12["pre-chat-message-activity__body-subtitle"];
   var _pre_chat_message_activity__body0 = classes12["pre-chat-message-activity__body"];
-  var _pre_chat_message_activity__body_avatar0 = classes12["pre-chat-message-activity__body-avatar"];
   var _pre_chat_message_activity0 = classes12["pre-chat-message-activity"];
+  var _pre_chat_message_activity__body_title0 = classes12["pre-chat-message-activity__body-title"];
+  var _pre_chat_message_activity__body_subtitle0 = classes12["pre-chat-message-activity__body-subtitle"];
+  var _pre_chat_message_activity__body_avatar0 = classes12["pre-chat-message-activity__body-avatar"];
+  var _pre_chat_message_activity__toolbar0 = classes12["pre-chat-message-activity__toolbar"];
 
   // src/components/preChatActivity/StarterPromptsToolbar.tsx
   var import_classnames6 = __toESM(require_classnames());
@@ -169025,12 +169025,12 @@ XID_Start XIDS`.split(/\s/)
   }
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/fluent-theme/src/components/preChatActivity/StarterPromptsCardAction.module.css?css_module
-  var classes13 = { "pre-chat-message-activity__card-action-title": "wiJW91q_pre-chat-message-activity__card-action-title", "pre-chat-message-activity__card-action-box": "wiJW91q_pre-chat-message-activity__card-action-box", "pre-chat-message-activity__card-action-image": "wiJW91q_pre-chat-message-activity__card-action-image", "pre-chat-message-activity__card-action-subtitle": "wiJW91q_pre-chat-message-activity__card-action-subtitle" };
+  var classes13 = { "pre-chat-message-activity__card-action-subtitle": "wiJW91q_pre-chat-message-activity__card-action-subtitle", "pre-chat-message-activity__card-action-image": "wiJW91q_pre-chat-message-activity__card-action-image", "pre-chat-message-activity__card-action-title": "wiJW91q_pre-chat-message-activity__card-action-title", "pre-chat-message-activity__card-action-box": "wiJW91q_pre-chat-message-activity__card-action-box" };
   var StarterPromptsCardAction_module_default = classes13;
+  var _pre_chat_message_activity__card_action_subtitle0 = classes13["pre-chat-message-activity__card-action-subtitle"];
+  var _pre_chat_message_activity__card_action_image0 = classes13["pre-chat-message-activity__card-action-image"];
   var _pre_chat_message_activity__card_action_title0 = classes13["pre-chat-message-activity__card-action-title"];
   var _pre_chat_message_activity__card_action_box0 = classes13["pre-chat-message-activity__card-action-box"];
-  var _pre_chat_message_activity__card_action_image0 = classes13["pre-chat-message-activity__card-action-image"];
-  var _pre_chat_message_activity__card_action_subtitle0 = classes13["pre-chat-message-activity__card-action-subtitle"];
 
   // src/components/preChatActivity/StarterPromptsCardAction.tsx
   var { useFocus: useFocus2, useRenderMarkdownAsHTML: useRenderMarkdownAsHTML3, useSendBoxValue: useSendBoxValue2, useUIState: useUIState3 } = deprecatedHooks;
@@ -169161,11 +169161,11 @@ XID_Start XIDS`.split(/\s/)
   var import_react77 = __toESM(require_react());
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/fluent-theme/src/components/dropZone/DropZone.module.css?css_module
-  var classes15 = { "sendbox__attachment-drop-zone-icon": "wV_OFCq_sendbox__attachment-drop-zone-icon", "sendbox__attachment-drop-zone": "wV_OFCq_sendbox__attachment-drop-zone", "sendbox__attachment-drop-zone--droppable": "wV_OFCq_sendbox__attachment-drop-zone--droppable" };
+  var classes15 = { "sendbox__attachment-drop-zone": "wV_OFCq_sendbox__attachment-drop-zone", "sendbox__attachment-drop-zone--droppable": "wV_OFCq_sendbox__attachment-drop-zone--droppable", "sendbox__attachment-drop-zone-icon": "wV_OFCq_sendbox__attachment-drop-zone-icon" };
   var DropZone_module_default = classes15;
-  var _sendbox__attachment_drop_zone_icon0 = classes15["sendbox__attachment-drop-zone-icon"];
   var _sendbox__attachment_drop_zone0 = classes15["sendbox__attachment-drop-zone"];
   var _sendbox__attachment_drop_zone__droppable0 = classes15["sendbox__attachment-drop-zone--droppable"];
+  var _sendbox__attachment_drop_zone_icon0 = classes15["sendbox__attachment-drop-zone-icon"];
 
   // src/components/dropZone/DropZone.tsx
   var { useLocalizer: useLocalizer9 } = deprecatedHooks;
@@ -169418,10 +169418,10 @@ XID_Start XIDS`.split(/\s/)
   var AccessibleButton_default = (0, import_react79.memo)(AccessibleButton);
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/fluent-theme/src/components/suggestedActions/SuggestedAction.module.css?css_module
-  var classes16 = { "suggested-action": "wCuJx0q_suggested-action", "suggested-action__image": "wCuJx0q_suggested-action__image" };
+  var classes16 = { "suggested-action__image": "wCuJx0q_suggested-action__image", "suggested-action": "wCuJx0q_suggested-action" };
   var SuggestedAction_module_default = classes16;
-  var _suggested_action0 = classes16["suggested-action"];
   var _suggested_action__image0 = classes16["suggested-action__image"];
+  var _suggested_action0 = classes16["suggested-action"];
 
   // src/components/suggestedActions/SuggestedAction.tsx
   var { useFocus: useFocus3, usePerformCardAction: usePerformCardAction3, useScrollToEnd: useScrollToEnd3, useStyleSet: useStyleSet3, useSuggestedActionsHooks: useSuggestedActionsHooks2, useUIState: useUIState6 } = deprecatedHooks;
@@ -169472,11 +169472,11 @@ XID_Start XIDS`.split(/\s/)
   var SuggestedAction_default = (0, import_react80.memo)(SuggestedAction);
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/fluent-theme/src/components/suggestedActions/SuggestedActions.module.css?css_module
-  var classes17 = { "suggested-actions--stacked": "w0fpQOa_suggested-actions--stacked", "suggested-actions": "w0fpQOa_suggested-actions", "suggested-actions--flow": "w0fpQOa_suggested-actions--flow" };
+  var classes17 = { "suggested-actions": "w0fpQOa_suggested-actions", "suggested-actions--flow": "w0fpQOa_suggested-actions--flow", "suggested-actions--stacked": "w0fpQOa_suggested-actions--stacked" };
   var SuggestedActions_module_default = classes17;
-  var _suggested_actions__stacked0 = classes17["suggested-actions--stacked"];
   var _suggested_actions0 = classes17["suggested-actions"];
   var _suggested_actions__flow0 = classes17["suggested-actions--flow"];
+  var _suggested_actions__stacked0 = classes17["suggested-actions--stacked"];
 
   // src/components/suggestedActions/SuggestedActions.tsx
   var { useFocus: useFocus4, useLocalizer: useLocalizer10, useStyleOptions: useStyleOptions4, useStyleSet: useStyleSet4, useSuggestedActionsHooks: useSuggestedActionsHooks3, useUIState: useUIState7 } = deprecatedHooks;
@@ -169590,12 +169590,12 @@ XID_Start XIDS`.split(/\s/)
   var import_react85 = __toESM(require_react());
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/fluent-theme/src/components/telephoneKeypad/private/Button.module.css?css_module
-  var classes18 = { "telephone-keypad__button": "wK3YvoG_telephone-keypad__button", "telephone-keypad__button__ruby": "wK3YvoG_telephone-keypad__button__ruby", "telephone-keypad--horizontal": "wK3YvoG_telephone-keypad--horizontal", "telephone-keypad__button__text": "wK3YvoG_telephone-keypad__button__text" };
+  var classes18 = { "telephone-keypad--horizontal": "wK3YvoG_telephone-keypad--horizontal", "telephone-keypad__button__text": "wK3YvoG_telephone-keypad__button__text", "telephone-keypad__button": "wK3YvoG_telephone-keypad__button", "telephone-keypad__button__ruby": "wK3YvoG_telephone-keypad__button__ruby" };
   var Button_module_default = classes18;
-  var _telephone_keypad__button0 = classes18["telephone-keypad__button"];
-  var _telephone_keypad__button__ruby0 = classes18["telephone-keypad__button__ruby"];
   var _telephone_keypad__horizontal0 = classes18["telephone-keypad--horizontal"];
   var _telephone_keypad__button__text0 = classes18["telephone-keypad__button__text"];
+  var _telephone_keypad__button0 = classes18["telephone-keypad__button"];
+  var _telephone_keypad__button__ruby0 = classes18["telephone-keypad__button__ruby"];
 
   // src/components/telephoneKeypad/private/Button.tsx
   var Button = (0, import_react85.memo)(
@@ -169621,10 +169621,10 @@ XID_Start XIDS`.split(/\s/)
   var Button_default = Button;
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/fluent-theme/src/components/telephoneKeypad/private/TelephoneKeypad.module.css?css_module
-  var classes19 = { "telephone-keypad__info-message": "wmGJ1DG_telephone-keypad__info-message", "telephone-keypad": "wmGJ1DG_telephone-keypad", "telephone-keypad__box": "wmGJ1DG_telephone-keypad__box", "telephone-keypad__info-message-link": "wmGJ1DG_telephone-keypad__info-message-link" };
+  var classes19 = { "telephone-keypad": "wmGJ1DG_telephone-keypad", "telephone-keypad__info-message": "wmGJ1DG_telephone-keypad__info-message", "telephone-keypad__box": "wmGJ1DG_telephone-keypad__box", "telephone-keypad__info-message-link": "wmGJ1DG_telephone-keypad__info-message-link" };
   var TelephoneKeypad_module_default = classes19;
-  var _telephone_keypad__info_message0 = classes19["telephone-keypad__info-message"];
   var _telephone_keypad0 = classes19["telephone-keypad"];
+  var _telephone_keypad__info_message0 = classes19["telephone-keypad__info-message"];
   var _telephone_keypad__box0 = classes19["telephone-keypad__box"];
   var _telephone_keypad__info_message_link0 = classes19["telephone-keypad__info-message-link"];
 
@@ -169761,24 +169761,24 @@ XID_Start XIDS`.split(/\s/)
   var import_react89 = __toESM(require_react());
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/fluent-theme/src/components/sendBox/AddAttachmentButton.module.css?css_module
-  var classes20 = { "sendbox__add-attachment-input": "wB20XGG_sendbox__add-attachment-input", "sendbox__add-attachment": "wB20XGG_sendbox__add-attachment" };
+  var classes20 = { "sendbox__add-attachment": "wB20XGG_sendbox__add-attachment", "sendbox__add-attachment-input": "wB20XGG_sendbox__add-attachment-input" };
   var AddAttachmentButton_module_default = classes20;
-  var _sendbox__add_attachment_input0 = classes20["sendbox__add-attachment-input"];
   var _sendbox__add_attachment0 = classes20["sendbox__add-attachment"];
+  var _sendbox__add_attachment_input0 = classes20["sendbox__add-attachment-input"];
 
   // src/components/sendBox/Toolbar.tsx
   var import_classnames12 = __toESM(require_classnames());
   var import_react88 = __toESM(require_react());
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/fluent-theme/src/components/sendBox/Toolbar.module.css?css_module
-  var classes21 = { "sendbox__toolbar-button--with-pulse": "wVoeCLW_sendbox__toolbar-button--with-pulse", "sendbox__toolbar": "wVoeCLW_sendbox__toolbar", "sendbox__toolbar-separator": "wVoeCLW_sendbox__toolbar-separator", "sendbox__toolbar-button--active": "wVoeCLW_sendbox__toolbar-button--active", "sendbox__toolbar-button": "wVoeCLW_sendbox__toolbar-button", "sendbox__toolbar-button--selected": "wVoeCLW_sendbox__toolbar-button--selected", "sendbox__toolbar-button--with-gradient": "wVoeCLW_sendbox__toolbar-button--with-gradient" };
+  var classes21 = { "sendbox__toolbar-separator": "wVoeCLW_sendbox__toolbar-separator", "sendbox__toolbar-button--selected": "wVoeCLW_sendbox__toolbar-button--selected", "sendbox__toolbar-button": "wVoeCLW_sendbox__toolbar-button", "sendbox__toolbar-button--active": "wVoeCLW_sendbox__toolbar-button--active", "sendbox__toolbar-button--with-pulse": "wVoeCLW_sendbox__toolbar-button--with-pulse", "sendbox__toolbar": "wVoeCLW_sendbox__toolbar", "sendbox__toolbar-button--with-gradient": "wVoeCLW_sendbox__toolbar-button--with-gradient" };
   var Toolbar_module_default = classes21;
+  var _sendbox__toolbar_separator0 = classes21["sendbox__toolbar-separator"];
+  var _sendbox__toolbar_button__selected0 = classes21["sendbox__toolbar-button--selected"];
+  var _sendbox__toolbar_button0 = classes21["sendbox__toolbar-button"];
+  var _sendbox__toolbar_button__active0 = classes21["sendbox__toolbar-button--active"];
   var _sendbox__toolbar_button__with_pulse0 = classes21["sendbox__toolbar-button--with-pulse"];
   var _sendbox__toolbar0 = classes21["sendbox__toolbar"];
-  var _sendbox__toolbar_separator0 = classes21["sendbox__toolbar-separator"];
-  var _sendbox__toolbar_button__active0 = classes21["sendbox__toolbar-button--active"];
-  var _sendbox__toolbar_button0 = classes21["sendbox__toolbar-button"];
-  var _sendbox__toolbar_button__selected0 = classes21["sendbox__toolbar-button--selected"];
   var _sendbox__toolbar_button__with_gradient0 = classes21["sendbox__toolbar-button--with-gradient"];
 
   // src/components/sendBox/Toolbar.tsx
@@ -170003,20 +170003,20 @@ XID_Start XIDS`.split(/\s/)
   }
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/fluent-theme/src/components/sendBox/SendBox.module.css?css_module
-  var classes24 = { "sendbox__sendbox-controls--in-grid": "wL7PKRG_sendbox__sendbox-controls--in-grid", "sendbox__text-area--in-grid": "wL7PKRG_sendbox__text-area--in-grid", "sendbox": "wL7PKRG_sendbox", "sendbox__attachment-bar": "wL7PKRG_sendbox__attachment-bar", "sendbox__sendbox": "wL7PKRG_sendbox__sendbox", "sendbox__attachment-bar--in-grid": "wL7PKRG_sendbox__attachment-bar--in-grid", "sendbox__sendbox-controls": "wL7PKRG_sendbox__sendbox-controls", "sendbox__telephone-keypad--in-grid": "wL7PKRG_sendbox__telephone-keypad--in-grid", "sendbox__text-counter--error": "wL7PKRG_sendbox__text-counter--error", "sendbox__sendbox-text-area": "wL7PKRG_sendbox__sendbox-text-area", "sendbox__text-counter": "wL7PKRG_sendbox__text-counter", "variant-copilot": "wL7PKRG_variant-copilot" };
+  var classes24 = { "sendbox__text-area--in-grid": "wL7PKRG_sendbox__text-area--in-grid", "sendbox__sendbox-controls": "wL7PKRG_sendbox__sendbox-controls", "variant-copilot": "wL7PKRG_variant-copilot", "sendbox__telephone-keypad--in-grid": "wL7PKRG_sendbox__telephone-keypad--in-grid", "sendbox__attachment-bar": "wL7PKRG_sendbox__attachment-bar", "sendbox__attachment-bar--in-grid": "wL7PKRG_sendbox__attachment-bar--in-grid", "sendbox__sendbox-controls--in-grid": "wL7PKRG_sendbox__sendbox-controls--in-grid", "sendbox__sendbox": "wL7PKRG_sendbox__sendbox", "sendbox__sendbox-text-area": "wL7PKRG_sendbox__sendbox-text-area", "sendbox": "wL7PKRG_sendbox", "sendbox__text-counter": "wL7PKRG_sendbox__text-counter", "sendbox__text-counter--error": "wL7PKRG_sendbox__text-counter--error" };
   var SendBox_module_default = classes24;
-  var _sendbox__sendbox_controls__in_grid0 = classes24["sendbox__sendbox-controls--in-grid"];
   var _sendbox__text_area__in_grid0 = classes24["sendbox__text-area--in-grid"];
-  var _sendbox0 = classes24["sendbox"];
-  var _sendbox__attachment_bar0 = classes24["sendbox__attachment-bar"];
-  var _sendbox__sendbox0 = classes24["sendbox__sendbox"];
-  var _sendbox__attachment_bar__in_grid0 = classes24["sendbox__attachment-bar--in-grid"];
   var _sendbox__sendbox_controls0 = classes24["sendbox__sendbox-controls"];
-  var _sendbox__telephone_keypad__in_grid0 = classes24["sendbox__telephone-keypad--in-grid"];
-  var _sendbox__text_counter__error0 = classes24["sendbox__text-counter--error"];
-  var _sendbox__sendbox_text_area0 = classes24["sendbox__sendbox-text-area"];
-  var _sendbox__text_counter0 = classes24["sendbox__text-counter"];
   var _variant_copilot03 = classes24["variant-copilot"];
+  var _sendbox__telephone_keypad__in_grid0 = classes24["sendbox__telephone-keypad--in-grid"];
+  var _sendbox__attachment_bar0 = classes24["sendbox__attachment-bar"];
+  var _sendbox__attachment_bar__in_grid0 = classes24["sendbox__attachment-bar--in-grid"];
+  var _sendbox__sendbox_controls__in_grid0 = classes24["sendbox__sendbox-controls--in-grid"];
+  var _sendbox__sendbox0 = classes24["sendbox__sendbox"];
+  var _sendbox__sendbox_text_area0 = classes24["sendbox__sendbox-text-area"];
+  var _sendbox0 = classes24["sendbox"];
+  var _sendbox__text_counter0 = classes24["sendbox__text-counter"];
+  var _sendbox__text_counter__error0 = classes24["sendbox__text-counter--error"];
 
   // src/components/sendBox/TelephoneKeypadToolbarButton.tsx
   var import_react95 = __toESM(require_react());
@@ -170306,10 +170306,10 @@ XID_Start XIDS`.split(/\s/)
   var import_react98 = __toESM(require_react());
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/fluent-theme/src/components/theme/Theme.module.css?css_module
-  var classes25 = { "theme": "wwjODIa_theme", "variant-copilot": "wwjODIa_variant-copilot" };
+  var classes25 = { "variant-copilot": "wwjODIa_variant-copilot", "theme": "wwjODIa_theme" };
   var Theme_module_default = classes25;
-  var _theme0 = classes25["theme"];
   var _variant_copilot04 = classes25["variant-copilot"];
+  var _theme0 = classes25["theme"];
 
   // src/components/theme/Theme.tsx
   var rootClassName = "webchat-fluent";
@@ -170332,10 +170332,10 @@ XID_Start XIDS`.split(/\s/)
   var import_react100 = __toESM(require_react());
 
   // unplugin-lightningcss:/home/pranavjoshi/BotFramework-WebChat/packages/fluent-theme/src/components/typingIndicator/SlidingDotsTypingIndicator.module.css?css_module
-  var classes26 = { "sliding-dots-typing-indicator__image": "wsKecCW_sliding-dots-typing-indicator__image", "sliding-dots-typing-indicator": "wsKecCW_sliding-dots-typing-indicator" };
+  var classes26 = { "sliding-dots-typing-indicator": "wsKecCW_sliding-dots-typing-indicator", "sliding-dots-typing-indicator__image": "wsKecCW_sliding-dots-typing-indicator__image" };
   var SlidingDotsTypingIndicator_module_default = classes26;
-  var _sliding_dots_typing_indicator__image0 = classes26["sliding-dots-typing-indicator__image"];
   var _sliding_dots_typing_indicator0 = classes26["sliding-dots-typing-indicator"];
+  var _sliding_dots_typing_indicator__image0 = classes26["sliding-dots-typing-indicator__image"];
 
   // src/components/typingIndicator/SlidingDotsTypingIndicator.tsx
   function SlidingDotsTypingIndicator() {
